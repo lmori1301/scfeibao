@@ -1,36 +1,26 @@
 /**
- * 新闻相关接口
+ * 新闻相关API接口
  */
-import { http } from '@/utils/http'
-import type { NewsListParams, NewsItem, NewsListResponse } from '@/types/news'
+import http from '@/utils/http'
+import type { NewsItem, NewsListParams } from '@/types/news'
 
 /**
  * 获取新闻列表
  */
 export function getNewsList(params: NewsListParams) {
-  return http.get<NewsListResponse>('/api/news/list', { params })
+  return http.get('/news/list', { params })
 }
 
 /**
  * 获取新闻详情
  */
-export function getNewsDetail(id: number) {
-  return http.get<NewsItem>(`/api/news/${id}`)
+export function getNewsDetail(id: string | number) {
+  return http.get<{ data: NewsItem }>(`/news/${id}`)
 }
 
 /**
- * 获取新闻分类
+ * 获取最新新闻
  */
-export function getNewsCategories() {
-  return http.get<{
-    value: string
-    label: string
-  }[]>('/api/news/categories')
-}
-
-/**
- * 获取相关新闻
- */
-export function getRelatedNews(id: number, params?: { limit?: number }) {
-  return http.get<NewsItem[]>(`/api/news/${id}/related`, { params })
+export function getLatestNews(limit: number = 5) {
+  return http.get('/news/latest', { params: { limit } })
 }

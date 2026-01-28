@@ -1,8 +1,18 @@
 /**
- * API 统一导出
+ * API接口统一导出
  */
-export * from './home'
+
+// 党建相关
+export * from './party'
+
+// 新闻相关
 export * from './news'
-export * from './party-building'
-export * from './team-building'
-export * from './query'
+
+// 队伍建设相关
+export * from './team'
+
+// 信息公开相关
+export * from './info'
+
+// 政策法规相关
+export * from './policy'

@@ -1,77 +1,65 @@
 /**
- * 党建类型定义
+ * 党建相关类型定义
  */
-import type { PageParams, PageResponse } from './common'
+import type { PageParams } from './common'
 
-/**
- * 党建内容分类
- */
-export enum PartyCategory {
-  PARTY_WORK = 'party_work', // 党建工作
-  TEAM_WORK = 'team_work', // 团建工作
-  PARTY_MEMBER = 'party_member', // 党员先锋
-  STUDY = 'study' // 党员学"习"
-}
-
-/**
- * 党建工作列表参数
- */
-export interface PartyWorkListParams extends PageParams {
-  category?: PartyCategory
-  keyword?: string
-  year?: string
-  month?: string
-}
-
-/**
- * 党建工作项
- */
+// 党建工作
 export interface PartyWorkItem {
   id: number
   title: string
-  summary?: string
+  summary: string
   content: string
-  coverImage?: string
-  images?: string[]
-  category: PartyCategory
-  categoryName?: string
   publishDate: string
-  author?: string
-  views?: number
-  createdAt: string
-  updatedAt: string
+  author: string
+  category?: string
 }
 
-/**
- * 党员先锋信息
- */
-export interface PartyMember {
-  id: number
-  name: string
-  photo?: string
-  position?: string
-  department?: string
-  story: string
-  honors?: string[]
-  createdAt: string
+export interface PartyWorkListParams extends PageParams {
+  keyword?: string
+  category?: string
 }
 
-/**
- * 学习资料
- */
-export interface StudyMaterial {
+// 团建工作
+export interface TeamWorkItem {
   id: number
   title: string
-  type: 'document' | 'video' | 'audio'
-  url: string
-  coverImage?: string
-  size?: number
-  duration?: number
+  summary: string
+  content: string
   publishDate: string
-  description?: string
+  author: string
 }
 
-/**
- * 党建列表响应
- */
-export type PartyListResponse = PageResponse<PartyWorkItem>
+export interface TeamWorkListParams extends PageParams {
+  keyword?: string
+}
+
+// 党员先锋
+export interface MemberItem {
+  id: number
+  name: string
+  position: string
+  department: string
+  avatar?: string
+  introduction: string
+  achievements?: string[]
+}
+
+export interface MemberListParams extends PageParams {
+  keyword?: string
+  department?: string
+}
+
+// 党员学习
+export interface StudyItem {
+  id: number
+  title: string
+  summary: string
+  content: string
+  publishDate: string
+  source?: string
+  videoUrl?: string
+}
+
+export interface StudyListParams extends PageParams {
+  keyword?: string
+}
