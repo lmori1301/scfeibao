@@ -2383,7 +2383,7 @@
     bottom: 25.59%;
 }
 .Pixso-paragraph-1_161 {
-    font-size: 28px;
+    font-size: 25px;
     font-family: "FZDaHei-B02S-Regular";
     font-weight: 400;
     line-height: 28px;
@@ -2409,7 +2409,7 @@
     bottom: 74.92%;
 }
 .Pixso-paragraph-1_163 {
-    font-size: 28px;
+    font-size: 25px;
     font-family: "FZDaHei-B02S-Regular";
     font-weight: 400;
     line-height: 28px;
@@ -2461,7 +2461,7 @@
     bottom: 14.35%;
 }
 .Pixso-paragraph-1_167 {
-    font-size: 28px;
+    font-size: 25px;
     font-family: "FZDaHei-B02S-Regular";
     font-weight: 400;
     line-height: 28px;
