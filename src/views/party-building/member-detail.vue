@@ -12,7 +12,7 @@
             </p>
             <div id="1_1298" class="Pixso-vector-1_1298"></div>
             <p id="1_1299" class="Pixso-paragraph-1_1299">
-                {{ "当前位置：首页 > 党建专栏> 党建工作详情" }}
+                {{ "当前位置：首页 > 党建专栏> 党员先锋详情" }}
             </p>
             <p id="1_1300" class="Pixso-paragraph-1_1300">
                 {{
