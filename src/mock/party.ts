@@ -1,8 +1,8 @@
 /**
  * Mock数据 - 党建相关
- * 用于开发和测试
  */
 import type { PartyWorkItem } from '@/types/party'
+import type { TeamWorkItem } from '@/types/party'
 
 // 党建工作Mock数据
 export const mockPartyWorkList: PartyWorkItem[] = [
@@ -44,6 +44,42 @@ export const mockPartyWorkList: PartyWorkItem[] = [
   }
 ]
 
+// 团建工作Mock数据
+export const mockTeamWorkList: TeamWorkItem[] = [
+  {
+    id: 1,
+    title: '"我是党员，我在岗位" | 李辉："干一行、爱一行、精一行"',
+    summary: '李辉，男，汉族，1985年7月出生，2010年7月加入中国共产党，现任救援一队队长...',
+    content: '李辉，男，汉族，1985年7月出生，2010年7月加入中国共产党，现任救援一队队长。自入党以来，他始终牢记党员身份，在工作中发挥先锋模范作用，带领队员圆满完成各项救援任务。他的口头禅是："干一行、爱一行、精一行"...',
+    publishDate: '2025-12-06',
+    author: '党建专栏'
+  },
+  {
+    id: 2,
+    title: '"我是党员，我在岗位" | 张建设："村民舒心了，我们就开心"',
+    summary: '张建设，男，汉族，1988年3月出生，2012年8月加入中国共产党，现任救援二队指导员...',
+    content: '张建设，男，汉族，1988年3月出生，2012年8月加入中国共产党，现任救援二队指导员。他始终把人民群众的利益放在第一位，在多次救援行动中冲锋在前，用实际行动践行党员的初心使命。他说："村民舒心了，我们就开心"...',
+    publishDate: '2025-12-06',
+    author: '党建专栏'
+  },
+  {
+    id: 3,
+    title: '"我是党员，我在岗位" | 黄国东："帮农民端稳"金饭碗"，很有成就感！"',
+    summary: '黄国东，男，汉族，1990年11月出生，2015年11月加入中国共产党，现任后勤保障部主任...',
+    content: '黄国东，男，汉族，1990年11月出生，2015年11月加入中国共产党，现任后勤保障部主任。他始终牢记党的根本宗旨，全心全意为人民服务，在后勤保障工作中兢兢业业、任劳任怨。他说："帮农民端稳"金饭碗"，很有成就感！"...',
+    publishDate: '2025-12-05',
+    author: '党建专栏'
+  },
+  {
+    id: 4,
+    title: '"我是党员，我在岗位" | 陈蓉："确保各方平安，一切都值得"',
+    summary: '陈蓉，女，汉族，1992年5月出生，2016年5月加入中国共产党，现任宣传科科长...',
+    content: '陈蓉，女，汉族，1992年5月出生，2016年5月加入中国共产党，现任宣传科科长。她立足岗位实际，积极创新宣传方式，用群众喜闻乐见的形式宣传消防安全知识。她说："确保各方平安，一切都值得"...',
+    publishDate: '2025-12-05',
+    author: '党建专栏'
+  }
+]
+
 // 获取Mock党建工作列表
 export function getMockPartyWorkList(page: number = 1, pageSize: number = 10) {
   const start = (page - 1) * pageSize
@@ -65,6 +101,43 @@ export function getMockPartyWorkList(page: number = 1, pageSize: number = 10) {
 // 获取Mock党建工作详情
 export function getMockPartyWorkDetail(id: string | number) {
   const item = mockPartyWorkList.find(item => item.id === Number(id))
+
+  if (!item) {
+    return {
+      code: 404,
+      message: '数据不存在',
+      data: null
+    }
+  }
+
+  return {
+    code: 200,
+    message: 'success',
+    data: item
+  }
+}
+
+// 获取Mock团建工作列表
+export function getMockTeamWorkList(page: number = 1, pageSize: number = 10) {
+  const start = (page - 1) * pageSize
+  const end = start + pageSize
+  const list = mockTeamWorkList.slice(start, end)
+
+  return {
+    code: 200,
+    message: 'success',
+    data: {
+      list,
+      total: mockTeamWorkList.length,
+      page,
+      pageSize
+    }
+  }
+}
+
+// 获取Mock团建工作详情
+export function getMockTeamWorkDetail(id: string | number) {
+  const item = mockTeamWorkList.find(item => item.id === Number(id))
 
   if (!item) {
     return {
