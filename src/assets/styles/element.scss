@@ -1,0 +1,72 @@
+/**
+ * Element Plus 样式覆盖
+ */
+
+// 覆盖 Element Plus 变量
+:root {
+  --el-color-primary: #1a73e8;
+  --el-color-success: #67c23a;
+  --el-color-warning: #e6a23c;
+  --el-color-danger: #f56c6c;
+  --el-color-error: #f56c6c;
+  --el-color-info: #909399;
+}
+
+// 菜单样式优化
+.el-menu {
+  border-right: none !important;
+}
+
+.el-menu--horizontal {
+  border-bottom: none !important;
+}
+
+// 按钮样式优化
+.el-button {
+  font-weight: 400;
+}
+
+// 卡片样式优化
+.el-card {
+  border-radius: 8px;
+  border: none;
+  box-shadow: 0 2px 12px 0 rgba(0, 0, 0, 0.1);
+}
+
+// 对话框样式优化
+.el-dialog {
+  border-radius: 8px;
+}
+
+// 分页样式优化
+.el-pagination {
+  justify-content: center;
+  margin-top: 20px;
+}
+
+// 表格样式优化
+.el-table {
+  font-size: 14px;
+
+  th {
+    background-color: #f5f7fa;
+    color: #303133;
+    font-weight: 600;
+  }
+}
+
+// 消息提示样式优化
+.el-message {
+  border-radius: 8px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+}
+
+// Loading 样式优化
+.el-loading-mask {
+  background-color: rgba(255, 255, 255, 0.9);
+}
+
+// 面包屑样式优化
+.el-breadcrumb {
+  font-size: 14px;
+}
