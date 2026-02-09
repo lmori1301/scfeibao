@@ -22,7 +22,7 @@
                 {{ "Copyright®2025 sc.119.gov.cn All rights reserved" }}
             </p>
             <p id="1_900" class="Pixso-paragraph-1_900">
-                {{ "当前位置：首页 > 队伍建设 > 队伍风采" }}
+                当前位置：<router-link to="/" class="team-breadcrumb-link">首页</router-link> > <router-link to="/team-building" class="team-breadcrumb-link">队伍建设</router-link> > <span class="team-breadcrumb-current">队伍风采</span>
             </p>
             <div id="1_901" class="Pixso-vector-1_901"></div>
             <div id="1_908" class="Pixso-vector-1_908"></div>
@@ -30,7 +30,7 @@
             <div id="1_910" class="Pixso-vector-1_910"></div>
             <p id="1_911" class="Pixso-paragraph-1_911">{{ "TBDEV" }}</p>
             <p id="1_912" class="Pixso-paragraph-1_912">{{ "队伍建设" }}</p>
-            <p id="1_913" class="Pixso-paragraph-1_913">{{ "关于队伍" }}</p>
+            <p id="1_913" class="Pixso-paragraph-1_913 team-nav-item" role="button" tabindex="0" @click="goToAbout" @keydown.enter="goToAbout">关于队伍</p>
             <div id="1_914" class="Pixso-vector-1_914"></div>
             <p id="1_915" class="Pixso-paragraph-1_915">
                 {{ "队伍风采                          >" }}
@@ -40,74 +40,79 @@
             <div id="1_918" class="Pixso-vector-1_918"></div>
             <div id="17_3" class="Pixso-vector-17_3"></div>
             <p id="1_923" class="Pixso-paragraph-1_923">{{ "党建专栏" }}</p>
-            <p id="1_924" class="Pixso-paragraph-1_924">{{ "信息公开" }}</p>
-            <p id="1_925" class="Pixso-paragraph-1_925">{{ "动态要闻" }}</p>
-            <p id="1_926" class="Pixso-paragraph-1_926">{{ "政策法规" }}</p>
-            <p id="1_927" class="Pixso-paragraph-1_927">{{ "查询系统" }}</p>
-            <p id="1_928" class="Pixso-paragraph-1_928">{{ "概况信息" }}</p>
-            <p id="1_929" class="Pixso-paragraph-1_929">{{ "队伍建设" }}</p>
+            <router-link id="1_928" to="/overview-info" class="Pixso-paragraph-1_928 main-nav-link">概况信息</router-link>
+            <router-link id="1_929" to="/team-building" class="Pixso-paragraph-1_929 main-nav-link">队伍建设</router-link>
+            <router-link id="1_927" to="/party-building" class="Pixso-paragraph-1_927 main-nav-link">党建专栏</router-link>
+            <router-link id="1_924" to="/info-public" class="Pixso-paragraph-1_924 main-nav-link">信息公开</router-link>
+            <router-link id="1_925" to="/dynamic-news" class="Pixso-paragraph-1_925 main-nav-link">动态要闻</router-link>
+            <router-link id="1_926" to="/policy-regulations" class="Pixso-paragraph-1_926 main-nav-link">政策法规</router-link>
+            <router-link id="1_927_query" to="/query-system" class="Pixso-paragraph-1_927 main-nav-link">查询系统</router-link>
             <div id="1_930" class="Pixso-vector-1_930"></div>
-            <p id="1_931" class="Pixso-paragraph-1_931">{{ "救援案例" }}</p>
-            <div id="1_932" class="Pixso-vector-1_932"></div>
-            <div id="1_1011" class="Pixso-vector-1_1011"></div>
-            <div id="1_1014" class="Pixso-vector-1_1014"></div>
-            <div id="1_1017" class="Pixso-vector-1_1017"></div>
-            <div id="1_1020" class="Pixso-vector-1_1020"></div>
-            <div id="1_1023" class="Pixso-vector-1_1023"></div>
-            <div id="1_1024" class="Pixso-vector-1_1024"></div>
-            <div id="1_1025" class="Pixso-vector-1_1025"></div>
-            <div id="1_1026" class="Pixso-vector-1_1026"></div>
-            <div id="1_1027" class="Pixso-vector-1_1027"></div>
-            <p id="1_1028" class="Pixso-paragraph-1_1028">{{ "2025-12" }}</p>
-            <p id="1_1029" class="Pixso-paragraph-1_1029">{{ "06" }}</p>
-            <div id="1_1030" class="Pixso-vector-1_1030"></div>
-            <p id="1_1031" class="Pixso-paragraph-1_1031">{{ "2025-12" }}</p>
-            <p id="1_1032" class="Pixso-paragraph-1_1032">{{ "06" }}</p>
-            <div id="1_1033" class="Pixso-vector-1_1033"></div>
-            <p id="1_1034" class="Pixso-paragraph-1_1034">{{ "2025-12" }}</p>
-            <p id="1_1035" class="Pixso-paragraph-1_1035">{{ "06" }}</p>
-            <div id="1_1036" class="Pixso-vector-1_1036"></div>
-            <p id="1_1037" class="Pixso-paragraph-1_1037">{{ "2025-12" }}</p>
-            <p id="1_1038" class="Pixso-paragraph-1_1038">{{ "06" }}</p>
-            <p id="1_1039" class="Pixso-paragraph-1_1039">
-                {{
-                    "认真践行习近平总书记关于党的自我革命的重要思想李炎溪，党的十八大以来，习近平总书记站在事关党的长期..."
-                }}
-            </p>
-            <p id="1_1040" class="Pixso-paragraph-1_1040">
-                {{
-                    "28日下午，洪峰再次过境榕江，四川飞豹救援峨眉山大队队员们沿着低洼街巷开展排查，确保居民及时转移……"
-                }}
-            </p>
-            <p id="1_1041" class="Pixso-paragraph-1_1041">
-                {{
-                    "搜救犬穿梭 嗅闻可能的幸存者 “西岭”一次又一次确认,现场的挖掘救援工作不断开展、深入 这100人和5只搜救犬..."
-                }}
-            </p>
-            <p id="1_1042" class="Pixso-paragraph-1_1042">
-                {{
-                    "“以学铸魂，就是要做好学习贯彻新时代中国特色社会主义思想的深化、内化、转化工作，从思想上正本清源、固..."
-                }}
-            </p>
-            <p id="1_1043" class="Pixso-paragraph-1_1043">
-                {{ "四川飞豹救援特勤大队" }}
-            </p>
-            <p id="1_1044" class="Pixso-paragraph-1_1044">
-                {{ "四川飞豹救援峨眉山直属大队" }}
-            </p>
-            <p id="1_1045" class="Pixso-paragraph-1_1045">
-                {{ "四川飞豹救援搜救犬大队" }}
-            </p>
-            <p id="1_1046" class="Pixso-paragraph-1_1046">
-                {{ "四川飞豹救援天府支队" }}
-            </p>
+            <p id="1_931" class="Pixso-paragraph-1_931 team-nav-item" role="button" tabindex="0" @click="goToCases" @keydown.enter="goToCases">救援案例</p>
+
+            <!-- 左侧大图区域 - 根据currentIndex动态显示 -->
+            <div
+                v-for="(item, index) in showcaseItems"
+                :key="`image_${index}`"
+                v-show="index === currentIndex"
+                class="Pixso-vector-1_932 showcase-image"
+                :style="{ backgroundImage: `url(${item.image})`, top: item.imageTop }"
+            ></div>
+
+            <!-- 右侧内容区域 - 根据currentIndex动态显示 -->
+            <template v-for="(item, index) in showcaseItems" :key="`content_${index}`">
+                <!-- 背景容器 -->
+                <div
+                    v-show="index === currentIndex"
+                    class="Pixso-vector-1_1023 showcase-content-bg"
+                    :style="{ top: item.contentTop }"
+                ></div>
+
+                <!-- 日期显示 -->
+                <p v-show="index === currentIndex" class="Pixso-paragraph-1_1028 showcase-date-year" :style="{ top: item.dateYearTop }">
+                    {{ item.dateYear }}
+                </p>
+                <p v-show="index === currentIndex" class="Pixso-paragraph-1_1029 showcase-date-day" :style="{ top: item.dateDayTop }">
+                    {{ item.dateDay }}
+                </p>
+
+                <!-- 分隔线 -->
+                <div v-show="index === currentIndex" class="Pixso-vector-1_1027 showcase-divider" :style="{ top: item.dividerTop }"></div>
+
+                <!-- 内容摘要 -->
+                <p v-show="index === currentIndex" class="Pixso-paragraph-1_1039 showcase-summary" :style="{ top: item.summaryTop }">
+                    {{ item.summary }}
+                </p>
+
+                <!-- 标题 -->
+                <p v-show="index === currentIndex" class="Pixso-paragraph-1_1043 showcase-title" :style="{ top: item.titleTop }">
+                    {{ item.title }}
+                </p>
+            </template>
+
+            <!-- 其他内容项的容器(保持原有布局) -->
             <div id="1_1047" class="Pixso-vector-1_1047"></div>
             <div id="6_398" class="Pixso-group-6_398">
                 <div id="6_399" class="Pixso-vector-6_399"></div>
                 <p id="6_473" class="Pixso-paragraph-6_473">
-                    {{ "共计 10 条" }}
+                    {{ `共计 ${showcaseItems.length} 条` }}
                 </p>
             </div>
+
+            <!-- 圆点指示器 - 可点击切换 -->
+            <div class="dots-indicator">
+                <div
+                    v-for="(item, index) in showcaseItems"
+                    :key="`dot_${index}`"
+                    class="dot-item"
+                    :class="{ 'dot-active': index === currentIndex }"
+                    @click="switchToItem(index)"
+                    role="button"
+                    tabindex="0"
+                    @keydown.enter="switchToItem(index)"
+                ></div>
+            </div>
+
             <div id="33_138" class="Pixso-group-33_138">
                 <div id="33_139" class="Pixso-vector-33_139"></div>
                 <p id="33_140" class="Pixso-paragraph-33_140">
@@ -118,7 +123,241 @@
         </div>
     </div>
 </template>
-<script lang="ts" setup></script>
+<script lang="ts" setup>
+import { ref } from 'vue'
+import { useRouter } from 'vue-router'
+
+const router = useRouter()
+
+function goToAbout() {
+    router.push('/team-building/about')
+}
+
+function goToCases() {
+    router.push('/team-building/cases')
+}
+
+// 当前显示的索引
+const currentIndex = ref(0)
+
+// 队伍风采数据
+const showcaseItems = ref([
+    {
+        title: "四川飞豹救援特勤大队",
+        dateYear: "2025-12",
+        dateDay: "06",
+        summary: "认真践行习近平总书记关于党的自我革命的重要思想李炎溪，党的十八大以来，习近平总书记站在事关党的长期...",
+        image: new URL('@/assets/images/Vector_1_1011.png', import.meta.url).href,
+        // 位置信息(基于原有CSS)
+        imageTop: "18.2%",
+        contentTop: "18.2%",
+        dateYearTop: "25.97%",
+        dateDayTop: "23.26%",
+        dividerTop: "21.87%",
+        summaryTop: "26.24%",
+        titleTop: "21.87%"
+    },
+    {
+        title: "四川飞豹救援峨眉山直属大队",
+        dateYear: "2025-12",
+        dateDay: "06",
+        summary: "28日下午，洪峰再次过境榕江，四川飞豹救援峨眉山大队队员们沿着低洼街巷开展排查，确保居民及时转移……",
+        image: new URL('@/assets/images/Vector_1_1014.png', import.meta.url).href,
+        imageTop: "33.37%",
+        contentTop: "33.37%",
+        dateYearTop: "41.14%",
+        dateDayTop: "38.42%",
+        dividerTop: "37.04%",
+        summaryTop: "41.41%",
+        titleTop: "37.04%"
+    },
+    {
+        title: "四川飞豹救援搜救犬大队",
+        dateYear: "2025-12",
+        dateDay: "06",
+        summary: '搜救犬穿梭 嗅闻可能的幸存者 "西岭"一次又一次确认,现场的挖掘救援工作不断开展、深入 这100人和5只搜救犬...',
+        image: new URL('@/assets/images/Vector_1_1017.png', import.meta.url).href,
+        imageTop: "48.54%",
+        contentTop: "48.54%",
+        dateYearTop: "56.31%",
+        dateDayTop: "53.59%",
+        dividerTop: "52.21%",
+        summaryTop: "56.57%",
+        titleTop: "52%"
+    },
+    {
+        title: "四川飞豹救援天府支队",
+        dateYear: "2025-12",
+        dateDay: "06",
+        summary: '"以学铸魂，就是要做好学习贯彻新时代中国特色社会主义思想的深化、内化、转化工作，从思想上正本清源、固...',
+        image: new URL('@/assets/images/Vector_1_1020.png', import.meta.url).href,
+        imageTop: "63.7%",
+        contentTop: "63.7%",
+        dateYearTop: "71.47%",
+        dateDayTop: "68.76%",
+        dividerTop: "67.38%",
+        summaryTop: "71.74%",
+        titleTop: "67.38%"
+    }
+])
+
+// 切换到指定项
+function switchToItem(index: number) {
+    currentIndex.value = index
+}
+</script>
+<style scoped>
+.team-nav-item {
+    cursor: pointer;
+}
+.team-breadcrumb-link {
+    color: #848484;
+    text-decoration: none;
+}
+.team-breadcrumb-link:hover {
+    color: #848484;
+    opacity: 0.9;
+}
+.team-breadcrumb-link:active,
+.team-breadcrumb-link:visited {
+    text-decoration: underline;
+}
+.team-breadcrumb-current {
+    color: inherit;
+}
+.main-nav-link {
+    color: #fff;
+    text-decoration: none;
+    cursor: pointer;
+}
+.main-nav-link:hover {
+    opacity: 0.9;
+}
+
+/* 圆点指示器样式 */
+.dots-indicator {
+    position: absolute;
+    left: 85%;
+    right: 8%;
+    top: 75%;
+    display: flex;
+    gap: 12px;
+    align-items: center;
+    z-index: 10;
+}
+
+.dot-item {
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+    background-color: rgba(255, 255, 255, 1);
+    border: 2px solid rgba(200, 200, 200, 0.5);
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.dot-item:hover {
+    background-color: rgba(180, 180, 180, 0.8);
+    transform: scale(1.1);
+}
+
+.dot-item.dot-active {
+    background-color: rgba(0, 88, 160, 1);
+    border-color: rgba(0, 88, 160, 1);
+    width: 12px;
+    height: 12px;
+}
+
+.dot-item:focus {
+    outline: 2px solid rgba(0, 88, 160, 0.5);
+    outline-offset: 2px;
+}
+
+/* 动态内容元素样式 */
+.showcase-image {
+    width: 22.03%;
+    height: 13.84%;
+    background-size: 100% 100%;
+    background-repeat: no-repeat;
+    position: absolute;
+    left: 25.89%;
+    right: 52.08%;
+}
+
+.showcase-content-bg {
+    width: 46.25%;
+    height: 13.84%;
+    background-image: url(@/assets/images/Vector_1_1023.png);
+    background-size: 100% 100%;
+    background-repeat: no-repeat;
+    position: absolute;
+    left: 47.97%;
+    right: 5.78%;
+}
+
+.showcase-date-year {
+    font-size: 20px;
+    font-family: "DINCondensedC-Regular";
+    font-weight: 400;
+    text-align: center;
+    line-height: 20px;
+    color: rgba(132, 132, 132, 1);
+    width: auto;
+    height: auto;
+    position: absolute;
+    left: 49.45%;
+    right: 47.58%;
+}
+
+.showcase-date-day {
+    font-size: 50px;
+    font-family: "DINCondensedC-Regular";
+    font-weight: 400;
+    line-height: 50px;
+    color: rgba(41, 41, 41, 1);
+    width: 4.38%;
+    height: auto;
+    position: absolute;
+    left: 49.79%;
+}
+
+.showcase-divider {
+    width: 0%;
+    height: 6.55%;
+    background-image: url(@/assets/images/Vector_1_1027.png);
+    background-size: 100% 100%;
+    background-repeat: no-repeat;
+    position: absolute;
+    left: 54.17%;
+    right: 45.83%;
+}
+
+.showcase-summary {
+    font-size: 18px;
+    font-family: "Alibaba PuHuiTi-Regular";
+    font-weight: 400;
+    line-height: 30px;
+    color: rgba(132, 132, 132, 1);
+    width: 33.64%;
+    height: 3.19%;
+    position: absolute;
+    left: 55.89%;
+    right: 10.47%;
+}
+
+.showcase-title {
+    font-size: 30px;
+    font-family: "FZHei-B01S-Regular";
+    font-weight: 400;
+    line-height: 40px;
+    color: rgba(56, 56, 56, 1);
+    width: auto;
+    height: auto;
+    position: absolute;
+    left: 55.83%;
+    right: 28.54%;
+}
+</style>
 <style>
 .scroll-container-1_876 {
     height: 100%;
@@ -392,24 +631,25 @@
     font-weight: 400;
     line-height: 20px;
     color: rgba(255, 255, 255, 1);
-    white-space: pre-wrap;
-    width: 11.77%;
-    height: 1.07%;
+    white-space: pre;
+    width: auto;
+    height: auto;
     position: absolute;
-    left: 8.39%;
-    right: 79.84%;
+    left: 8.7%;
+    right: 79.01%;
     top: 41.51%;
     bottom: 57.42%;
+    flex-grow: 0;
 }
 .Pixso-vector-1_916 {
-    width: 0.05%;
+    width: 0.2%;
     height: 1.22%;
     background-image: url(@/assets/images/Vector_1_916.png);
     background-size: 100% 100%;
     background-repeat: no-repeat;
     position: absolute;
     left: 7.71%;
-    right: 92.24%;
+    right: 92.09%;
     top: 41.46%;
     bottom: 57.32%;
 }
