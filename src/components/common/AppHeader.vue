@@ -6,21 +6,33 @@
         <span class="logo-text">四川飞豹救援</span>
       </div>
       <nav class="header-nav">
-        <a href="#home">首页</a>
-        <a href="#overview-info">概况信息</a>
-        <a href="#party-building">党建专栏</a>
-        <a href="#dynamic-news">动态要闻</a>
-        <a href="#team-building">队伍建设</a>
-        <a href="#info-public">信息公开</a>
-        <a href="#policy-regulations">政策法规</a>
-        <a href="#query-system">查询系统</a>
+        <router-link to="/" :class="{ active: isActive('/') }">首页</router-link>
+        <router-link to="/overview-info" :class="{ active: isActive('/overview-info') }">概况信息</router-link>
+        <router-link to="/party-building" :class="{ active: isActive('/party-building') }">党建专栏</router-link>
+        <router-link to="/dynamic-news" :class="{ active: isActive('/dynamic-news') }">动态要闻</router-link>
+        <router-link to="/team-building" :class="{ active: isActive('/team-building') }">队伍建设</router-link>
+        <router-link to="/info-public" :class="{ active: isActive('/info-public') }">信息公开</router-link>
+        <router-link to="/policy-regulations" :class="{ active: isActive('/policy-regulations') }">政策法规</router-link>
+        <router-link to="/query-system" :class="{ active: isActive('/query-system') }">查询系统</router-link>
       </nav>
     </div>
   </header>
 </template>
 
 <script setup lang="ts">
-// 简单头部导航
+import { useRoute } from 'vue-router'
+import { computed } from 'vue'
+
+const route = useRoute()
+
+const isActive = (path: string) => {
+  return computed(() => {
+    if (path === '/') {
+      return route.path === '/'
+    }
+    return route.path.startsWith(path)
+  }).value
+}
 </script>
 
 <style scoped lang="scss">
@@ -67,10 +79,17 @@
     text-decoration: none;
     color: #606266;
     font-size: 16px;
-    transition: color 0.3s;
+    padding: 8px 16px;
+    border-radius: 4px;
+    transition: all 0.3s;
 
     &:hover {
       color: #1a73e8;
+    }
+
+    &.active {
+      background-color: #1a73e8;
+      color: #ffffff;
     }
   }
 }
