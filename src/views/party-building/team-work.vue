@@ -1,5 +1,4 @@
-<
-template>
+<template>
   <div class="scroll-container-1_1324">
       <div id="1_1324" class="Pixso-frame-1_1324">
           <div id="1_1325" class="Pixso-vector-1_1325"></div>

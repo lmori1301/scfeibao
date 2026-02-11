@@ -23,7 +23,7 @@
       <p id="1_221" class="Pixso-paragraph-1_221">{{ "领导信息                          >" }}</p>
       <p id="1_222" class="Pixso-paragraph-1_222">{{ "组织机构" }}</p>
       <p id="1_223" class="Pixso-paragraph-1_223">{{ "地理位置             " }}</p>
-      <p id="1_224" class="Pixso-paragraph-1_224">{{ "当前位置：首页 > 概况信息 > 领导信息" }}</p>
+      <p id="1_224" class="Pixso-paragraph-1_224">当前位置：<router-link to="/" style="color: inherit; text-decoration: none;">首页</router-link> > <router-link to="/overview-info" style="color: inherit; text-decoration: none;">概况信息</router-link> > 领导信息</p>
       
       <!-- 领导信息列表（优化为循环渲染） -->
       <div class="leader-list-container">

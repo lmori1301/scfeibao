@@ -31,7 +31,7 @@
             <p id="1_666" class="Pixso-paragraph-1_666">{{ "查询系统" }}</p>
             <p id="1_667" class="Pixso-paragraph-1_667">{{ "概况信息" }}</p>
             <p id="1_668" class="Pixso-paragraph-1_668">
-                {{ "当前位置：首页 > 队伍建设 > 关于队伍" }}
+                当前位置：<router-link to="/" style="color: inherit; text-decoration: none;">首页</router-link> > <router-link to="/team-building" style="color: inherit; text-decoration: none;">队伍建设</router-link> > 关于队伍
             </p>
             <p id="1_669" class="Pixso-paragraph-1_669">{{ "队伍建设" }}</p>
             <div id="1_670" class="Pixso-vector-1_670"></div>

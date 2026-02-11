@@ -12,7 +12,7 @@
           </p>
           <div id="1_2125" class="Pixso-vector-1_2125"></div>
           <p id="1_2126" class="Pixso-paragraph-1_2126">
-              {{ "当前位置：首页 > 动态要闻" }}
+              当前位置：<router-link to="/" style="color: inherit; text-decoration: none;">首页</router-link> > 动态要闻
           </p>
           <div id="1_2127" class="Pixso-text-1_2127">
               <p id="1_2127_0" class="Pixso-paragraph-1_2127_0">

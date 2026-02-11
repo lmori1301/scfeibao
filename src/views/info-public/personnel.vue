@@ -12,18 +12,18 @@
             </p>
             <div id="1_1854" class="Pixso-vector-1_1854"></div>
             <p id="1_1861" class="Pixso-paragraph-1_1861">
-                {{ "当前位置：首页 > 信息公开 > 人事任免" }}
+                当前位置：<router-link to="/" style="color: inherit; text-decoration: none;">首页</router-link> > <router-link to="/info-public" style="color: inherit; text-decoration: none;">信息公开</router-link> > 人事任免
             </p>
             <div id="1_1862" class="Pixso-vector-1_1862"></div>
             <div id="33_383" class="Pixso-vector-33_383"></div>
             <div id="17_5" class="Pixso-vector-17_5"></div>
-            <p id="1_1868" class="Pixso-paragraph-1_1868">{{ "概况信息" }}</p>
-            <p id="1_1869" class="Pixso-paragraph-1_1869">{{ "队伍建设" }}</p>
-            <p id="1_1870" class="Pixso-paragraph-1_1870">{{ "信息公开" }}</p>
-            <p id="1_1871" class="Pixso-paragraph-1_1871">{{ "动态要闻" }}</p>
-            <p id="1_1872" class="Pixso-paragraph-1_1872">{{ "政策法规" }}</p>
-            <p id="1_1873" class="Pixso-paragraph-1_1873">{{ "查询系统" }}</p>
-            <p id="1_1874" class="Pixso-paragraph-1_1874">{{ "党建专栏" }}</p>
+            <router-link id="1_1868" to="/overview-info" class="Pixso-paragraph-1_1868 main-nav-link">概况信息</router-link>
+            <router-link id="1_1869" to="/team-building" class="Pixso-paragraph-1_1869 main-nav-link">队伍建设</router-link>
+            <router-link id="1_1870" to="/info-public" class="Pixso-paragraph-1_1870 main-nav-link">信息公开</router-link>
+            <router-link id="1_1871" to="/dynamic-news" class="Pixso-paragraph-1_1871 main-nav-link">动态要闻</router-link>
+            <router-link id="1_1872" to="/policy-regulations" class="Pixso-paragraph-1_1872 main-nav-link">政策法规</router-link>
+            <router-link id="1_1873" to="/query-system" class="Pixso-paragraph-1_1873 main-nav-link">查询系统</router-link>
+            <router-link id="1_1874" to="/party-building" class="Pixso-paragraph-1_1874 main-nav-link">党建专栏</router-link>
             <div id="1_1875" class="Pixso-vector-1_1875"></div>
             <div id="1_1876" class="Pixso-vector-1_1876"></div>
             <div id="1_1877" class="Pixso-vector-1_1877"></div>
@@ -268,7 +268,7 @@
     flex-grow: 0;
 }
 .Pixso-paragraph-1_1870 {
-    font-size: 25px;
+    font-size: 20px;
     font-family: "FZDaHei-B02S-Regular";
     font-weight: 400;
     text-align: center;

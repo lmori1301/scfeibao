@@ -14,7 +14,7 @@
             <div id="17_11" class="Pixso-vector-17_11"></div>
             <div id="1_2273" class="Pixso-vector-1_2273"></div>
             <p id="1_2282" class="Pixso-paragraph-1_2282">
-                {{ "当前位置：首页 > 政策法规 > 法律法规" }}
+                当前位置：<router-link to="/" style="color: inherit; text-decoration: none;">首页</router-link> > <router-link to="/policy-regulations" style="color: inherit; text-decoration: none;">政策法规</router-link> > 法律法规
             </p>
             <div id="6_17" class="Pixso-group-6_17">
                 <div id="1_2284" class="Pixso-vector-1_2284"></div>

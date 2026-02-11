@@ -39,7 +39,12 @@
 
       <!-- 面包屑导航 -->
       <div class="breadcrumb">
-        {{ getBreadcrumbText }}
+        <template v-if="currentView === 'list' || currentView === 'detail'">
+          当前位置：<router-link to="/" style="color: inherit; text-decoration: none;">首页</router-link> > <router-link to="/query-system" style="color: inherit; text-decoration: none;">查询系统</router-link> > 证书查询系统
+        </template>
+        <template v-else>
+          当前位置：<router-link to="/" style="color: inherit; text-decoration: none;">首页</router-link> > 查询系统
+        </template>
       </div>
 
       <!-- 动态切换区域 -->

@@ -11,7 +11,7 @@
 
     <!-- 面包屑导航 -->
     <div class="breadcrumb">
-      当前位置：首页 > 党建专栏 > 党建工作
+      当前位置：<router-link to="/" style="color: inherit; text-decoration: none;">首页</router-link> > <router-link to="/party-building" style="color: inherit; text-decoration: none;">党建专栏</router-link> > 党建工作
     </div>
 
     <!-- 内容区域 -->
