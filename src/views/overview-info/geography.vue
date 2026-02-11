@@ -32,25 +32,25 @@
                 {{ "领导信息                         " }}
             </router-link>
             <div id="1_601" class="Pixso-vector-1_601"></div>
-            <p id="1_602" class="Pixso-paragraph-1_602">{{ "四川飞豹救援" }}</p>
+            <p id="1_602" class="Pixso-paragraph-1_602">{{ currentUnit.name }}</p>
             <p id="1_603" class="Pixso-paragraph-1_603">{{ "     " }}</p>
             <p id="1_604" class="Pixso-paragraph-1_604">
-                {{ "四川省成都市温江区四川飞豹应急救援指挥中心" }}
+                {{ currentUnit.address }}
             </p>
-            <p id="1_605" class="Pixso-paragraph-1_605">{{ "028-87659119" }}</p>
-            <p id="1_606" class="Pixso-paragraph-1_606">{{ "总队指挥部" }}</p>
+            <p id="1_605" class="Pixso-paragraph-1_605">{{ currentUnit.phone }}</p>
+            <p id="1_606" class="Pixso-paragraph-1_606 unit-tab" :class="{ 'unit-tab-active': activeIndex === 0 }" role="button" tabindex="0" @click="switchUnit(0)" @keydown.enter="switchUnit(0)">{{ "总队指挥部" }}</p>
             <div id="1_607" class="Pixso-vector-1_607"></div>
-            <p id="1_608" class="Pixso-paragraph-1_608">{{ "特勤大队" }}</p>
-            <p id="1_609" class="Pixso-paragraph-1_609">
+            <p id="1_608" class="Pixso-paragraph-1_608 unit-tab" :class="{ 'unit-tab-active': activeIndex === 1 }" role="button" tabindex="0" @click="switchUnit(1)" @keydown.enter="switchUnit(1)">{{ "特勤大队" }}</p>
+            <p id="1_609" class="Pixso-paragraph-1_609 unit-tab" :class="{ 'unit-tab-active': activeIndex === 2 }" role="button" tabindex="0" @click="switchUnit(2)" @keydown.enter="switchUnit(2)">
                 {{ "训练与战勤保障大队" }}
             </p>
-            <p id="1_610" class="Pixso-paragraph-1_610">
+            <p id="1_610" class="Pixso-paragraph-1_610 unit-tab" :class="{ 'unit-tab-active': activeIndex === 3 }" role="button" tabindex="0" @click="switchUnit(3)" @keydown.enter="switchUnit(3)">
                 {{ "应急通信与车辆勤务大队" }}
             </p>
-            <p id="1_611" class="Pixso-paragraph-1_611">
+            <p id="1_611" class="Pixso-paragraph-1_611 unit-tab" :class="{ 'unit-tab-active': activeIndex === 4 }" role="button" tabindex="0" @click="switchUnit(4)" @keydown.enter="switchUnit(4)">
                 {{ "峨眉山直属大队" }}
             </p>
-            <p id="1_612" class="Pixso-paragraph-1_612">{{ "搜救犬大队" }}</p>
+            <p id="1_612" class="Pixso-paragraph-1_612 unit-tab" :class="{ 'unit-tab-active': activeIndex === 5 }" role="button" tabindex="0" @click="switchUnit(5)" @keydown.enter="switchUnit(5)">{{ "搜救犬大队" }}</p>
             <div id="1_613" class="Pixso-vector-1_613"></div>
             <div id="17_32" class="Pixso-vector-17_32"></div>
             <div id="1_618" class="Pixso-vector-1_618"></div>
@@ -72,8 +72,78 @@
         </div>
     </div>
 </template>
-<script lang="ts" setup></script>
+<script lang="ts" setup>
+import { ref, computed } from 'vue'
+
+// 当前选中的单位索引
+const activeIndex = ref(0)
+
+// 单位信息数据
+interface UnitInfo {
+  name: string
+  address: string
+  phone: string
+}
+
+const units: UnitInfo[] = [
+  {
+    name: '总队指挥部',
+    address: '四川省成都市温江区四川飞豹应急救援指挥中心',
+    phone: '028-87659119'
+  },
+  {
+    name: '特勤大队',
+    address: '四川省成都市武侯区特勤大队驻地',
+    phone: '028-87659120'
+  },
+  {
+    name: '训练与战勤保障大队',
+    address: '四川省成都市双流区训练基地',
+    phone: '028-87659121'
+  },
+  {
+    name: '应急通信与车辆勤务大队',
+    address: '四川省成都市龙泉驿区车辆勤务中心',
+    phone: '028-87659122'
+  },
+  {
+    name: '峨眉山直属大队',
+    address: '四川省乐山市峨眉山市救援站',
+    phone: '028-87659123'
+  },
+  {
+    name: '搜救犬大队',
+    address: '四川省成都市新都区搜救犬训练基地',
+    phone: '028-87659124'
+  }
+]
+
+// 当前选中的单位信息
+const currentUnit = computed(() => units[activeIndex.value])
+
+// 切换单位
+const switchUnit = (index: number) => {
+  activeIndex.value = index
+}
+</script>
 <style>
+/* 单位tab样式 */
+.unit-tab {
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.unit-tab:hover {
+    opacity: 0.8;
+}
+
+.unit-tab-active {
+    background-color: rgba(21, 112, 206, 1) !important;
+    color: rgba(255, 255, 255, 1) !important;
+    border-radius: 4px;
+    padding: 4px 8px;
+}
+
 .scroll-container-1_562 {
     height: 100%;
     width: 100%;
