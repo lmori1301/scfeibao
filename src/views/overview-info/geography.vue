@@ -187,7 +187,7 @@ const switchUnit = (index: number) => {
     background-image: url(@/assets/images/Vector_1_607.png);
     background-size: 100% 100%;
     background-repeat: no-repeat;
-    margin-top: 2px;
+    margin-top: 8px;
 }
 
 /* 单位tab样式 */
