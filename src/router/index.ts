@@ -48,10 +48,13 @@ const routes: RouteRecordRaw[] = [
   { path: '/policy-regulations/standards', name: 'Standards', component: () => import('@/views/policy-regulations/standards.vue') },
 
   // 查询系统
-  { path: '/query-system', name: 'QuerySystem', component: () => import('@/views/query-system/certificate.vue') },
-  { path: '/query-system/certificate', name: 'Certificate', component: () => import('@/views/query-system/certificate.vue') },
-  { path: '/query-system/personnel', name: 'QueryPersonnel', component: () => import('@/views/query-system/personnel.vue') },
-  { path: '/query-system/vehicle', name: 'Vehicle', component: () => import('@/views/query-system/vehicle.vue') }
+  { path: '/query-system', name: 'QuerySystem', component: () => import('@/views/query-system/certificate-index.vue') },
+  { path: '/query-system/certificate', name: 'Certificate', component: () => import('@/views/query-system/certificate-index.vue') },
+  { path: '/query-system/certificate/:id', name: 'CertificateDetail', component: () => import('@/views/query-system/certificate-detail.vue') },
+  { path: '/query-system/personnel', name: 'QueryPersonnel', component: () => import('@/views/query-system/personnel-index.vue') },
+  { path: '/query-system/personnel/:id', name: 'PersonnelDetail', component: () => import('@/views/query-system/personnel-detail.vue') },
+  { path: '/query-system/vehicle', name: 'Vehicle', component: () => import('@/views/query-system/vehicle-index.vue') },
+  { path: '/query-system/vehicle/:id', name: 'VehicleDetail', component: () => import('@/views/query-system/vehicle-detail.vue') }
 ]
 
 export const router = createRouter({
