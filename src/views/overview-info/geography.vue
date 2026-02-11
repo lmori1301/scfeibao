@@ -136,14 +136,28 @@ const switchUnit = (index: number) => {
   activeIndex.value = index
 }
 
-// 设置下划线宽度以匹配文字宽度
+// 设置下划线宽度以匹配文字宽度，并居中对齐
 const setUnderlineWidths = () => {
   unitTextRefs.value.forEach((textEl, index) => {
     if (textEl && underlineRefs.value[index]) {
-      const textWidth = textEl.offsetWidth
       const containerWidth = textEl.parentElement?.offsetWidth || 1920
-      const widthPercent = (textWidth / containerWidth) * 100
-      underlineRefs.value[index].style.width = `${widthPercent}%`
+
+      // 计算文字元素的宽度和位置
+      const textWidth = textEl.offsetWidth
+      const textLeft = textEl.offsetLeft
+
+      // 计算下划线宽度（与文字宽度一致）
+      const underlineWidth = textWidth
+      const underlineWidthPercent = (underlineWidth / containerWidth) * 100
+
+      // 计算下划线居中位置
+      const textCenter = textLeft + (textWidth / 2)
+      const underlineLeft = textCenter - (underlineWidth / 2)
+      const underlineLeftPercent = (underlineLeft / containerWidth) * 100
+
+      // 应用样式
+      underlineRefs.value[index].style.width = `${underlineWidthPercent}%`
+      underlineRefs.value[index].style.left = `${underlineLeftPercent}%`
     }
   })
 }
