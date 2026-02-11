@@ -1467,4 +1467,8 @@ const handleLeaderClick = (leader: Leader) => {
   position: absolute;
   left: 33.08%;
   right: 59.22%;
+  top: 45.2%;
+  bottom: 52.75%;
+}
+</style>
   top: 45
