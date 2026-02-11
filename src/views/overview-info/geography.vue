@@ -138,10 +138,9 @@ const switchUnit = (index: number) => {
 }
 
 .unit-tab-active {
-    background-color: rgba(21, 112, 206, 1) !important;
-    color: rgba(255, 255, 255, 1) !important;
-    border-radius: 4px;
-    padding: 4px 8px;
+    color: rgba(21, 112, 206, 1) !important;
+    font-weight: bold;
+    text-decoration: underline;
 }
 
 .scroll-container-1_562 {
