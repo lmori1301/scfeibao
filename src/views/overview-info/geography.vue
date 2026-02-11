@@ -501,7 +501,7 @@ const switchUnit = (index: number) => {
     font-family: "Alibaba PuHuiTi-Regular";
     font-weight: 400;
     line-height: 25px;
-    color: rgba(21, 112, 206, 1);
+    color: rgba(105, 105, 105, 1);
     width: 6.51%;
     height: 1.57%;
     position: absolute;
