@@ -30,11 +30,11 @@
             <div id="1_910" class="Pixso-vector-1_910"></div>
             <p id="1_911" class="Pixso-paragraph-1_911">{{ "TBDEV" }}</p>
             <p id="1_912" class="Pixso-paragraph-1_912">{{ "队伍建设" }}</p>
-            <p id="1_913" class="Pixso-paragraph-1_913 team-nav-item" role="button" tabindex="0" @click="goToAbout" @keydown.enter="goToAbout">关于队伍</p>
+            <router-link to="/team-building/about" id="1_913" class="Pixso-paragraph-1_913 team-nav-item">关于队伍</router-link>
             <div id="1_914" class="Pixso-vector-1_914"></div>
-            <p id="1_915" class="Pixso-paragraph-1_915">
+            <router-link to="/team-building/showcase" id="1_915" class="Pixso-paragraph-1_915">
                 {{ "队伍风采                          >" }}
-            </p>
+            </router-link>
             <div id="1_916" class="Pixso-vector-1_916"></div>
             <div id="1_917" class="Pixso-vector-1_917"></div>
             <div id="1_918" class="Pixso-vector-1_918"></div>
@@ -48,7 +48,7 @@
             <router-link id="1_926" to="/policy-regulations" class="Pixso-paragraph-1_926 main-nav-link">政策法规</router-link>
             <router-link id="1_927_query" to="/query-system" class="Pixso-paragraph-1_927 main-nav-link">查询系统</router-link>
             <div id="1_930" class="Pixso-vector-1_930"></div>
-            <p id="1_931" class="Pixso-paragraph-1_931 team-nav-item" role="button" tabindex="0" @click="goToCases" @keydown.enter="goToCases">救援案例</p>
+            <router-link to="/team-building/cases" id="1_931" class="Pixso-paragraph-1_931 team-nav-item">救援案例</router-link>
 
             <!-- 左侧大图区域 - 根据currentIndex动态显示 -->
             <div

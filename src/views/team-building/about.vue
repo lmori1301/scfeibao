@@ -42,11 +42,11 @@
             <div id="1_681" class="Pixso-vector-1_681"></div>
             <p id="1_682" class="Pixso-paragraph-1_682">{{ "TBDEV" }}</p>
             <p id="1_683" class="Pixso-paragraph-1_683">{{ "队伍建设" }}</p>
-            <p id="1_684" class="Pixso-paragraph-1_684">
+            <router-link to="/team-building/about" id="1_684" class="Pixso-paragraph-1_684">
                 {{ "关于队伍                          >" }}
-            </p>
-            <p id="1_685" class="Pixso-paragraph-1_685">{{ "救援案例" }}</p>
-            <p id="1_686" class="Pixso-paragraph-1_686">{{ "队伍风采" }}</p>
+            </router-link>
+            <router-link to="/team-building/cases" id="1_685" class="Pixso-paragraph-1_685">{{ "救援案例" }}</router-link>
+            <router-link to="/team-building/showcase" id="1_686" class="Pixso-paragraph-1_686">{{ "队伍风采" }}</router-link>
             <div id="1_687" class="Pixso-vector-1_687"></div>
             <div id="1_688" class="Pixso-vector-1_688"></div>
             <p id="1_689" class="Pixso-paragraph-1_689">

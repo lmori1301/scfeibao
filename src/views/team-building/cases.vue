@@ -31,13 +31,13 @@
             <div id="1_736" class="Pixso-vector-1_736"></div>
             <p id="1_737" class="Pixso-paragraph-1_737">{{ "TBDEV" }}</p>
             <p id="1_738" class="Pixso-paragraph-1_738">{{ "队伍建设" }}</p>
-            <p id="1_739" class="Pixso-paragraph-1_739">{{ "关于队伍" }}</p>
-            <p id="1_740" class="Pixso-paragraph-1_740">{{ "队伍风采" }}</p>
+            <router-link to="/team-building/about" id="1_739" class="Pixso-paragraph-1_739">{{ "关于队伍" }}</router-link>
+            <router-link to="/team-building/showcase" id="1_740" class="Pixso-paragraph-1_740">{{ "队伍风采" }}</router-link>
             <div id="1_741" class="Pixso-vector-1_741"></div>
             <div id="1_742" class="Pixso-vector-1_742"></div>
-            <p id="1_743" class="Pixso-paragraph-1_743">
+            <router-link to="/team-building/cases" id="1_743" class="Pixso-paragraph-1_743">
                 {{ "救援案例                          >" }}
-            </p>
+            </router-link>
             <div id="1_744" class="Pixso-vector-1_744"></div>
             <div id="1_745" class="Pixso-vector-1_745"></div>
             <div id="33_367" class="Pixso-vector-33_367"></div>
