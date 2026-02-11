@@ -14,23 +14,23 @@
             <div id="1_583" class="Pixso-vector-1_583"></div>
             <p id="1_584" class="Pixso-paragraph-1_584">{{ "OVERV" }}</p>
             <p id="1_585" class="Pixso-paragraph-1_585">{{ "概况信息" }}</p>
-            <p id="1_586" class="Pixso-paragraph-1_586">
+            <router-link to="/overview-info/geography" id="1_586" class="Pixso-paragraph-1_586">
                 {{ "地理位置                          >" }}
-            </p>
-            <p id="1_587" class="Pixso-paragraph-1_587">
+            </router-link>
+            <router-link to="/overview-info/organization" id="1_587" class="Pixso-paragraph-1_587">
                 {{ "组织机构                          " }}
-            </p>
+            </router-link>
             <div id="1_588" class="Pixso-vector-1_588"></div>
             <div id="1_589" class="Pixso-vector-1_589"></div>
             <div id="1_596" class="Pixso-vector-1_596"></div>
             <p id="1_597" class="Pixso-paragraph-1_597">
-                {{ "当前位置：首页 > 概况信息 > 地理信息" }}
+                当前位置：<router-link to="/" style="color: inherit; text-decoration: none;">首页</router-link> > <router-link to="/overview-info" style="color: inherit; text-decoration: none;">概况信息</router-link> > 地理信息
             </p>
             <div id="1_598" class="Pixso-vector-1_598"></div>
             <div id="1_599" class="Pixso-vector-1_599"></div>
-            <p id="1_600" class="Pixso-paragraph-1_600">
+            <router-link to="/overview-info/leadership" id="1_600" class="Pixso-paragraph-1_600">
                 {{ "领导信息                         " }}
-            </p>
+            </router-link>
             <div id="1_601" class="Pixso-vector-1_601"></div>
             <p id="1_602" class="Pixso-paragraph-1_602">{{ "四川飞豹救援" }}</p>
             <p id="1_603" class="Pixso-paragraph-1_603">{{ "     " }}</p>
