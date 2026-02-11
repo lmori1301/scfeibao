@@ -15,12 +15,8 @@
             <div id="1_489" class="Pixso-vector-1_489"></div>
             <p id="1_490" class="Pixso-paragraph-1_490">{{ "OVERV" }}</p>
             <p id="1_491" class="Pixso-paragraph-1_491">{{ "概况信息" }}</p>
-            <p id="1_492" class="Pixso-paragraph-1_492">
-                {{ "领导信息                         " }}
-            </p>
-            <p id="1_493" class="Pixso-paragraph-1_493">
-                {{ "地理位置                          " }}
-            </p>
+            <p id="1_492" class="Pixso-paragraph-1_492 overview-nav-item" role="button" tabindex="0" @click="goToLeadership" @keydown.enter="goToLeadership">领导信息</p>
+            <p id="1_493" class="Pixso-paragraph-1_493 overview-nav-item" role="button" tabindex="0" @click="goToGeography" @keydown.enter="goToGeography">地理位置</p>
             <div id="1_494" class="Pixso-vector-1_494"></div>
             <div id="1_498" class="Pixso-vector-1_498"></div>
             <div id="1_505" class="Pixso-vector-1_505"></div>
@@ -103,7 +99,7 @@
                 </div>
             </div>
             <p id="1_534" class="Pixso-paragraph-1_534">
-                {{ "当前位置：首页 > 概况信息 > 组织机构" }}
+                当前位置：<router-link to="/" class="breadcrumb-link">首页</router-link> > <router-link to="/overview-info" class="breadcrumb-link">概况信息</router-link> > <span class="breadcrumb-current">组织机构</span>
             </p>
             <p id="1_535" class="Pixso-paragraph-1_535">{{ "组织机构" }}</p>
             <div id="1_536" class="Pixso-vector-1_536"></div>
@@ -125,17 +121,57 @@
                 <div id="33_321" class="Pixso-vector-33_321"></div>
             </div>
             <div id="33_887" class="Pixso-vector-33_887"></div>
-            <p id="33_888" class="Pixso-paragraph-33_888">{{ "概况信息" }}</p>
-            <p id="33_889" class="Pixso-paragraph-33_889">{{ "队伍建设" }}</p>
-            <p id="33_890" class="Pixso-paragraph-33_890">{{ "党建专栏" }}</p>
-            <p id="33_891" class="Pixso-paragraph-33_891">{{ "信息公开" }}</p>
-            <p id="33_892" class="Pixso-paragraph-33_892">{{ "动态要闻" }}</p>
-            <p id="33_893" class="Pixso-paragraph-33_893">{{ "政策法规" }}</p>
-            <p id="33_894" class="Pixso-paragraph-33_894">{{ "查询系统" }}</p>
+            <router-link id="33_888" to="/overview-info" class="Pixso-paragraph-33_888 main-nav-link">概况信息</router-link>
+            <router-link id="33_889" to="/team-building" class="Pixso-paragraph-33_889 main-nav-link">队伍建设</router-link>
+            <router-link id="33_890" to="/party-building" class="Pixso-paragraph-33_890 main-nav-link">党建专栏</router-link>
+            <router-link id="33_891" to="/info-public" class="Pixso-paragraph-33_891 main-nav-link">信息公开</router-link>
+            <router-link id="33_892" to="/dynamic-news" class="Pixso-paragraph-33_892 main-nav-link">动态要闻</router-link>
+            <router-link id="33_893" to="/policy-regulations" class="Pixso-paragraph-33_893 main-nav-link">政策法规</router-link>
+            <router-link id="33_894" to="/query-system" class="Pixso-paragraph-33_894 main-nav-link">查询系统</router-link>
         </div>
     </div>
 </template>
-<script lang="ts" setup></script>
+<script lang="ts" setup>
+import { useRouter } from 'vue-router'
+
+const router = useRouter()
+
+function goToLeadership() {
+    router.push('/overview-info/leadership')
+}
+
+function goToGeography() {
+    router.push('/overview-info/geography')
+}
+</script>
+<style scoped>
+.overview-nav-item {
+    cursor: pointer;
+}
+.breadcrumb-link {
+    color: #848484;
+    text-decoration: none;
+}
+.breadcrumb-link:hover {
+    color: #848484;
+    opacity: 0.9;
+}
+.breadcrumb-link:active,
+.breadcrumb-link:visited {
+    text-decoration: underline;
+}
+.breadcrumb-current {
+    color: inherit;
+}
+.main-nav-link {
+    color: #fff;
+    text-decoration: none;
+    cursor: pointer;
+}
+.main-nav-link:hover {
+    opacity: 0.9;
+}
+</style>
 <style>
 .scroll-container-1_466 {
     height: 100%;
