@@ -38,29 +38,33 @@
                 {{ currentUnit.address }}
             </p>
             <p id="1_605" class="Pixso-paragraph-1_605">{{ currentUnit.phone }}</p>
-            <div class="unit-tab-container unit-tab-container-0" role="button" tabindex="0" @click="switchUnit(0)" @keydown.enter="switchUnit(0)">
-                <p class="unit-tab-text" :class="{ 'unit-tab-active': activeIndex === 0 }">{{ "总队指挥部" }}</p>
-                <div v-show="activeIndex === 0" class="unit-tab-underline"></div>
-            </div>
-            <div class="unit-tab-container unit-tab-container-1" role="button" tabindex="0" @click="switchUnit(1)" @keydown.enter="switchUnit(1)">
-                <p class="unit-tab-text" :class="{ 'unit-tab-active': activeIndex === 1 }">{{ "特勤大队" }}</p>
-                <div v-show="activeIndex === 1" class="unit-tab-underline"></div>
-            </div>
-            <div class="unit-tab-container unit-tab-container-2" role="button" tabindex="0" @click="switchUnit(2)" @keydown.enter="switchUnit(2)">
-                <p class="unit-tab-text" :class="{ 'unit-tab-active': activeIndex === 2 }">{{ "训练与战勤保障大队" }}</p>
-                <div v-show="activeIndex === 2" class="unit-tab-underline"></div>
-            </div>
-            <div class="unit-tab-container unit-tab-container-3" role="button" tabindex="0" @click="switchUnit(3)" @keydown.enter="switchUnit(3)">
-                <p class="unit-tab-text" :class="{ 'unit-tab-active': activeIndex === 3 }">{{ "应急通信与车辆勤务大队" }}</p>
-                <div v-show="activeIndex === 3" class="unit-tab-underline"></div>
-            </div>
-            <div class="unit-tab-container unit-tab-container-4" role="button" tabindex="0" @click="switchUnit(4)" @keydown.enter="switchUnit(4)">
-                <p class="unit-tab-text" :class="{ 'unit-tab-active': activeIndex === 4 }">{{ "峨眉山直属大队" }}</p>
-                <div v-show="activeIndex === 4" class="unit-tab-underline"></div>
-            </div>
-            <div class="unit-tab-container unit-tab-container-5" role="button" tabindex="0" @click="switchUnit(5)" @keydown.enter="switchUnit(5)">
-                <p class="unit-tab-text" :class="{ 'unit-tab-active': activeIndex === 5 }">{{ "搜救犬大队" }}</p>
-                <div v-show="activeIndex === 5" class="unit-tab-underline"></div>
+
+            <!-- 单位tab flex容器 - 均匀分布 -->
+            <div class="unit-tabs-flex-container">
+                <div class="unit-tab-container unit-tab-container-0" role="button" tabindex="0" @click="switchUnit(0)" @keydown.enter="switchUnit(0)">
+                    <p class="unit-tab-text" :class="{ 'unit-tab-active': activeIndex === 0 }">{{ "总队指挥部" }}</p>
+                    <div v-show="activeIndex === 0" class="unit-tab-underline"></div>
+                </div>
+                <div class="unit-tab-container unit-tab-container-1" role="button" tabindex="0" @click="switchUnit(1)" @keydown.enter="switchUnit(1)">
+                    <p class="unit-tab-text" :class="{ 'unit-tab-active': activeIndex === 1 }">{{ "特勤大队" }}</p>
+                    <div v-show="activeIndex === 1" class="unit-tab-underline"></div>
+                </div>
+                <div class="unit-tab-container unit-tab-container-2" role="button" tabindex="0" @click="switchUnit(2)" @keydown.enter="switchUnit(2)">
+                    <p class="unit-tab-text" :class="{ 'unit-tab-active': activeIndex === 2 }">{{ "训练与战勤保障大队" }}</p>
+                    <div v-show="activeIndex === 2" class="unit-tab-underline"></div>
+                </div>
+                <div class="unit-tab-container unit-tab-container-3" role="button" tabindex="0" @click="switchUnit(3)" @keydown.enter="switchUnit(3)">
+                    <p class="unit-tab-text" :class="{ 'unit-tab-active': activeIndex === 3 }">{{ "应急通信与车辆勤务大队" }}</p>
+                    <div v-show="activeIndex === 3" class="unit-tab-underline"></div>
+                </div>
+                <div class="unit-tab-container unit-tab-container-4" role="button" tabindex="0" @click="switchUnit(4)" @keydown.enter="switchUnit(4)">
+                    <p class="unit-tab-text" :class="{ 'unit-tab-active': activeIndex === 4 }">{{ "峨眉山直属大队" }}</p>
+                    <div v-show="activeIndex === 4" class="unit-tab-underline"></div>
+                </div>
+                <div class="unit-tab-container unit-tab-container-5" role="button" tabindex="0" @click="switchUnit(5)" @keydown.enter="switchUnit(5)">
+                    <p class="unit-tab-text" :class="{ 'unit-tab-active': activeIndex === 5 }">{{ "搜救犬大队" }}</p>
+                    <div v-show="activeIndex === 5" class="unit-tab-underline"></div>
+                </div>
             </div>
             <div id="1_613" class="Pixso-vector-1_613"></div>
             <div id="17_32" class="Pixso-vector-17_32"></div>
@@ -138,10 +142,20 @@ const switchUnit = (index: number) => {
 }
 </script>
 <style>
+/* 单位tabs flex容器 - 均匀分布 */
+.unit-tabs-flex-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    position: absolute;
+    left: 28%;
+    right: 10%;
+    top: 25.32%;
+}
+
 /* 单位tab容器样式 */
 .unit-tab-container {
     display: inline-block;
-    position: absolute;
     cursor: pointer;
     transition: all 0.3s ease;
 }
@@ -174,37 +188,6 @@ const switchUnit = (index: number) => {
     background-size: 100% 100%;
     background-repeat: no-repeat;
     margin-top: 2px;
-}
-
-/* 单位tab容器位置 */
-.unit-tab-container-0 {
-    left: 28.07%;
-    top: 25.32%;
-}
-
-.unit-tab-container-1 {
-    left: 65.94%;
-    top: 25.32%;
-}
-
-.unit-tab-container-2 {
-    left: 36.41%;
-    top: 25.32%;
-}
-
-.unit-tab-container-3 {
-    left: 49.9%;
-    top: 25.32%;
-}
-
-.unit-tab-container-4 {
-    left: 73.02%;
-    top: 25.32%;
-}
-
-.unit-tab-container-5 {
-    left: 83.96%;
-    top: 25.32%;
 }
 
 /* 单位tab样式 */
