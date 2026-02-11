@@ -24,16 +24,16 @@
             <p id="1_661" class="Pixso-paragraph-1_661">
                 {{ "Copyright®2025 sc.119.gov.cn All rights reserved" }}
             </p>
-            <p id="1_662" class="Pixso-paragraph-1_662">{{ "党建专栏" }}</p>
-            <p id="1_663" class="Pixso-paragraph-1_663">{{ "信息公开" }}</p>
-            <p id="1_664" class="Pixso-paragraph-1_664">{{ "动态要闻" }}</p>
-            <p id="1_665" class="Pixso-paragraph-1_665">{{ "政策法规" }}</p>
-            <p id="1_666" class="Pixso-paragraph-1_666">{{ "查询系统" }}</p>
-            <p id="1_667" class="Pixso-paragraph-1_667">{{ "概况信息" }}</p>
+            <router-link id="1_662" to="/party-building" class="Pixso-paragraph-1_662 main-nav-link">党建专栏</router-link>
+            <router-link id="1_663" to="/info-public" class="Pixso-paragraph-1_663 main-nav-link">信息公开</router-link>
+            <router-link id="1_664" to="/dynamic-news" class="Pixso-paragraph-1_664 main-nav-link">动态要闻</router-link>
+            <router-link id="1_665" to="/policy-regulations" class="Pixso-paragraph-1_665 main-nav-link">政策法规</router-link>
+            <router-link id="1_666" to="/query-system" class="Pixso-paragraph-1_666 main-nav-link">查询系统</router-link>
+            <router-link id="1_667" to="/overview-info" class="Pixso-paragraph-1_667 main-nav-link">概况信息</router-link>
             <p id="1_668" class="Pixso-paragraph-1_668">
                 当前位置：<router-link to="/" style="color: inherit; text-decoration: none;">首页</router-link> > <router-link to="/team-building" style="color: inherit; text-decoration: none;">队伍建设</router-link> > 关于队伍
             </p>
-            <p id="1_669" class="Pixso-paragraph-1_669">{{ "队伍建设" }}</p>
+            <router-link id="1_669" to="/team-building" class="Pixso-paragraph-1_669 main-nav-link">队伍建设</router-link>
             <div id="1_670" class="Pixso-vector-1_670"></div>
             <div id="1_677" class="Pixso-vector-1_677"></div>
             <div id="1_678" class="Pixso-vector-1_678"></div>

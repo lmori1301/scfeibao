@@ -76,13 +76,13 @@
         <div id="33_339" class="Pixso-vector-33_339"></div>
       </div>
       <div id="33_976" class="Pixso-vector-33_976"></div>
-      <p id="33_977" class="Pixso-paragraph-33_977">{{ "概况信息" }}</p>
-      <p id="33_978" class="Pixso-paragraph-33_978">{{ "队伍建设" }}</p>
-      <p id="33_979" class="Pixso-paragraph-33_979">{{ "党建专栏" }}</p>
-      <p id="33_980" class="Pixso-paragraph-33_980">{{ "信息公开" }}</p>
-      <p id="33_981" class="Pixso-paragraph-33_981">{{ "动态要闻" }}</p>
-      <p id="33_982" class="Pixso-paragraph-33_982">{{ "政策法规" }}</p>
-      <p id="33_983" class="Pixso-paragraph-33_983">{{ "查询系统" }}</p>
+      <router-link id="33_977" to="/overview-info" class="Pixso-paragraph-33_977 main-nav-link">概况信息</router-link>
+      <router-link id="33_978" to="/team-building" class="Pixso-paragraph-33_978 main-nav-link">队伍建设</router-link>
+      <router-link id="33_979" to="/party-building" class="Pixso-paragraph-33_979 main-nav-link">党建专栏</router-link>
+      <router-link id="33_980" to="/info-public" class="Pixso-paragraph-33_980 main-nav-link">信息公开</router-link>
+      <router-link id="33_981" to="/dynamic-news" class="Pixso-paragraph-33_981 main-nav-link">动态要闻</router-link>
+      <router-link id="33_982" to="/policy-regulations" class="Pixso-paragraph-33_982 main-nav-link">政策法规</router-link>
+      <router-link id="33_983" to="/query-system" class="Pixso-paragraph-33_983 main-nav-link">查询系统</router-link>
     </div>
 
     <!-- 领导信息详情弹窗（默认隐藏） -->

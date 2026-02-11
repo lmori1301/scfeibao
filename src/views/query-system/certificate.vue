@@ -13,14 +13,14 @@
       <nav class="nav-area">
         <div class="nav-line"></div>
         <div class="nav-menu">
-          <p class="nav-item">概况信息</p>
-          <p class="nav-item">队伍建设</p>
-          <p class="nav-item">党建专栏</p>
-          <p class="nav-item">信息公开</p>
-          <p class="nav-item">动态要闻</p>
-          <p class="nav-item">政策法规</p>
+          <router-link to="/overview-info" class="nav-item">概况信息</router-link>
+          <router-link to="/team-building" class="nav-item">队伍建设</router-link>
+          <router-link to="/party-building" class="nav-item">党建专栏</router-link>
+          <router-link to="/info-public" class="nav-item">信息公开</router-link>
+          <router-link to="/dynamic-news" class="nav-item">动态要闻</router-link>
+          <router-link to="/policy-regulations" class="nav-item">政策法规</router-link>
           <div class="query-nav-bg"></div>
-          <p class="nav-item query-nav">查询系统</p>
+          <router-link to="/query-system" class="nav-item query-nav">查询系统</router-link>
         </div>
       </nav>
 
