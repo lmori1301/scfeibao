@@ -39,18 +39,23 @@
             </p>
             <p id="1_605" class="Pixso-paragraph-1_605">{{ currentUnit.phone }}</p>
             <p id="1_606" class="Pixso-paragraph-1_606 unit-tab" :class="{ 'unit-tab-active': activeIndex === 0 }" role="button" tabindex="0" @click="switchUnit(0)" @keydown.enter="switchUnit(0)">{{ "总队指挥部" }}</p>
-            <div id="1_607" class="Pixso-vector-1_607"></div>
+            <div v-show="activeIndex === 0" id="1_607" class="Pixso-vector-1_607"></div>
             <p id="1_608" class="Pixso-paragraph-1_608 unit-tab" :class="{ 'unit-tab-active': activeIndex === 1 }" role="button" tabindex="0" @click="switchUnit(1)" @keydown.enter="switchUnit(1)">{{ "特勤大队" }}</p>
+            <div v-show="activeIndex === 1" class="Pixso-vector-1_607 unit-underline-1" style="left: 65.94%;"></div>
             <p id="1_609" class="Pixso-paragraph-1_609 unit-tab" :class="{ 'unit-tab-active': activeIndex === 2 }" role="button" tabindex="0" @click="switchUnit(2)" @keydown.enter="switchUnit(2)">
                 {{ "训练与战勤保障大队" }}
             </p>
+            <div v-show="activeIndex === 2" class="Pixso-vector-1_607 unit-underline-2" style="left: 36.41%;"></div>
             <p id="1_610" class="Pixso-paragraph-1_610 unit-tab" :class="{ 'unit-tab-active': activeIndex === 3 }" role="button" tabindex="0" @click="switchUnit(3)" @keydown.enter="switchUnit(3)">
                 {{ "应急通信与车辆勤务大队" }}
             </p>
+            <div v-show="activeIndex === 3" class="Pixso-vector-1_607 unit-underline-3" style="left: 49.9%;"></div>
             <p id="1_611" class="Pixso-paragraph-1_611 unit-tab" :class="{ 'unit-tab-active': activeIndex === 4 }" role="button" tabindex="0" @click="switchUnit(4)" @keydown.enter="switchUnit(4)">
                 {{ "峨眉山直属大队" }}
             </p>
+            <div v-show="activeIndex === 4" class="Pixso-vector-1_607 unit-underline-4" style="left: 73.02%;"></div>
             <p id="1_612" class="Pixso-paragraph-1_612 unit-tab" :class="{ 'unit-tab-active': activeIndex === 5 }" role="button" tabindex="0" @click="switchUnit(5)" @keydown.enter="switchUnit(5)">{{ "搜救犬大队" }}</p>
+            <div v-show="activeIndex === 5" class="Pixso-vector-1_607 unit-underline-5" style="left: 83.96%;"></div>
             <div id="1_613" class="Pixso-vector-1_613"></div>
             <div id="17_32" class="Pixso-vector-17_32"></div>
             <div id="1_618" class="Pixso-vector-1_618"></div>
@@ -138,7 +143,7 @@ const switchUnit = (index: number) => {
 }
 
 .unit-tab-active {
-    /* 选中状态样式已移除 */
+    color: rgba(21, 112, 206, 1) !important;
 }
 
 .scroll-container-1_562 {
