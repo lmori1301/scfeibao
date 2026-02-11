@@ -105,7 +105,6 @@
             @click="handleQuery"
             @keydown.enter="handleQuery"
           ></div>
-          <div id="1_3232" class="Pixso-vector-1_3232 nav-underline-hide"></div>
           <div id="33_228" class="Pixso-group-33_228">
               <div id="33_229" class="Pixso-vector-33_229"></div>
               <p id="33_230" class="Pixso-paragraph-33_230">
