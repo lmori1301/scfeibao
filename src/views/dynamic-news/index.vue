@@ -112,21 +112,36 @@
 
           <!-- 动态渲染当前 Tab 对应列表（标题 + 时间） -->
           <template v-for="(item, index) in currentList.left" :key="`left_${index}`">
-            <router-link
-              :to="item.link"
-              class="title-link"
+            <div
+              class="news-item-wrapper"
               :style="{
                 position: 'absolute',
                 left: item.left,
-                top: item.top,
-                fontSize: '20px',
-                fontFamily: 'Alibaba PuHuiTi-Regular',
-                color: 'rgba(39,39,39,1)',
-                textDecoration: 'none'
+                top: item.top
               }"
             >
-              {{ item.title }}
-            </router-link>
+              <router-link
+                :to="item.link"
+                class="title-link"
+                :style="{
+                  display: 'inline-block',
+                  fontSize: '20px',
+                  fontFamily: 'Alibaba PuHuiTi-Regular',
+                  color: 'rgba(39,39,39,1)',
+                  textDecoration: 'none'
+                }"
+              >
+                {{ item.title }}
+              </router-link>
+              <span
+                v-if="item.isNew"
+                class="news-new-badge"
+                :style="{
+                  display: 'inline-block',
+                  marginLeft: '8px'
+                }"
+              >NEW</span>
+            </div>
             <p
               :id="`time_left_${index}`"
               class="Pixso-paragraph-1_2164"
@@ -141,22 +156,37 @@
           </template>
 
           <template v-for="(item, index) in currentList.right" :key="`right_${index}`">
-            <router-link
-              :to="item.link"
-              class="title-link title-link-right"
+            <div
+              class="news-item-wrapper"
               :style="{
                 position: 'absolute',
                 left: item.left,
-                top: item.top,
-                fontSize: '20px',
-                fontFamily: 'Alibaba PuHuiTi-Regular',
-                fontWeight: 400,
-                color: 'rgba(39,39,39,1)',
-                textDecoration: 'none'
+                top: item.top
               }"
             >
-              {{ item.title }}
-            </router-link>
+              <router-link
+                :to="item.link"
+                class="title-link title-link-right"
+                :style="{
+                  display: 'inline-block',
+                  fontSize: '20px',
+                  fontFamily: 'Alibaba PuHuiTi-Regular',
+                  fontWeight: 400,
+                  color: 'rgba(39,39,39,1)',
+                  textDecoration: 'none'
+                }"
+              >
+                {{ item.title }}
+              </router-link>
+              <span
+                v-if="item.isNew"
+                class="news-new-badge"
+                :style="{
+                  display: 'inline-block',
+                  marginLeft: '8px'
+                }"
+              >NEW</span>
+            </div>
             <p
               :id="`time_right_${index}`"
               class="Pixso-paragraph-1_2170"
@@ -169,8 +199,6 @@
               }"
             >{{ item.time }}</p>
           </template>
-          <div id="1_2176" class="Pixso-vector-1_2176"></div>
-          <div id="1_2179" class="Pixso-vector-1_2179"></div>
           <div id="1_2182" class="Pixso-vector-1_2182"></div>
           <div id="17_31" class="Pixso-vector-17_31"></div>
           <div id="1_2187" class="Pixso-vector-1_2187"></div>
@@ -327,7 +355,7 @@ const tabData = {
   // 各地动态
   local: {
     left: [
-      { title: "建设高质量综合性消防救援队伍", time: "2020-11-11", left: "7.63%", top: "66.21%", timeLeft: "37.53%", link: "/dynamic-news/detail/3" },
+      { title: "建设高质量综合性消防救援队伍", time: "2020-11-11", left: "7.63%", top: "66.21%", timeLeft: "37.53%", link: "/dynamic-news/detail/3", isNew: true },
       { title: "四川消防面向全省招募消防志愿者", time: "2020-11-11", left: "7.58%", top: "69.16%", timeLeft: "37.47%", link: "/dynamic-news/detail/5" },
       { title: "全省政府专职消防救援队伍建设现场会在成都召开", time: "2020-11-11", left: "7.58%", top: "72.11%", timeLeft: "37.47%", link: "/dynamic-news/detail/7" },
       { title: "应急管理部召开「智慧应急」建设现场推进会", time: "2020-11-11", left: "7.63%", top: "75.06%", timeLeft: "37.53%", link: "/dynamic-news/detail/4" },
@@ -335,7 +363,7 @@ const tabData = {
       { title: "护航校园安全，省安全应急科普在行动", time: "2020-11-11", left: "7.58%", top: "80.95%", timeLeft: "37.47%", link: "/dynamic-news/detail/8" },
     ],
     right: [
-      { title: "中国消防救援力量到底强在哪里", time: "2020-11-11", left: "54.92%", top: "66.21%", timeLeft: "84.82%", link: "/dynamic-news/detail/9" },
+      { title: "中国消防救援力量到底强在哪里", time: "2020-11-11", left: "54.92%", top: "66.21%", timeLeft: "84.82%", link: "/dynamic-news/detail/9", isNew: true },
       { title: "《你好，火焰蓝》开机！当青春「火焰蓝」…", time: "2020-11-11", left: "54.87%", top: "69.16%", timeLeft: "84.77%", link: "/dynamic-news/detail/11" },
       { title: "琼色局长参加国新办国家综合性消防救援队伍改革…", time: "2020-11-11", left: "54.87%", top: "72.11%", timeLeft: "84.77%", link: "/dynamic-news/detail/13" },
       { title: "开赛啦！中国消防动漫形象创意设计大赛于…", time: "2020-11-11", left: "54.92%", top: "75.06%", timeLeft: "84.82%", link: "/dynamic-news/detail/10" },
@@ -346,7 +374,7 @@ const tabData = {
   // 救援行动
   rescue: {
     left: [
-      { title: "成都消防成功处置高层火灾救援", time: "2020-11-11", left: "7.63%", top: "66.21%", timeLeft: "37.53%", link: "/dynamic-news/detail/1" },
+      { title: "成都消防成功处置高层火灾救援", time: "2020-11-11", left: "7.63%", top: "66.21%", timeLeft: "37.53%", link: "/dynamic-news/detail/1", isNew: true },
       { title: "四川消防跨区域增援抗洪抢险", time: "2020-11-11", left: "7.58%", top: "69.16%", timeLeft: "37.47%", link: "/dynamic-news/detail/2" },
       { title: "消防救援演练进社区 提升应急能力", time: "2020-11-11", left: "7.58%", top: "72.11%", timeLeft: "37.47%", link: "/dynamic-news/detail/2" },
       { title: "森林消防支队扑灭川西林区火情", time: "2020-11-11", left: "7.63%", top: "75.06%", timeLeft: "37.53%", link: "/dynamic-news/detail/1" },
@@ -354,7 +382,7 @@ const tabData = {
       { title: "消防指战员寒夜救援落水人员", time: "2020-11-11", left: "7.58%", top: "80.95%", timeLeft: "37.47%", link: "/dynamic-news/detail/1" },
     ],
     right: [
-      { title: "全国消防救援技能比武竞赛举行", time: "2020-11-11", left: "54.92%", top: "66.21%", timeLeft: "84.82%", link: "/dynamic-news/detail/2" },
+      { title: "全国消防救援技能比武竞赛举行", time: "2020-11-11", left: "54.92%", top: "66.21%", timeLeft: "84.82%", link: "/dynamic-news/detail/2", isNew: true },
       { title: "无人机助力消防救援精准定位", time: "2020-11-11", left: "54.87%", top: "69.16%", timeLeft: "84.77%", link: "/dynamic-news/detail/1" },
       { title: "跨省联动救援机制实战检验", time: "2020-11-11", left: "54.87%", top: "72.11%", timeLeft: "84.77%", link: "/dynamic-news/detail/2" },
       { title: "新装备列装 提升救援效率", time: "2020-11-11", left: "54.92%", top: "75.06%", timeLeft: "84.82%", link: "/dynamic-news/detail/1" },
@@ -365,7 +393,7 @@ const tabData = {
   // 政策解读
   policy: {
     left: [
-      { title: "新《消防法》重点条款解读", time: "2020-11-11", left: "7.63%", top: "66.21%", timeLeft: "37.53%", link: "/dynamic-news/detail/3" },
+      { title: "新《消防法》重点条款解读", time: "2020-11-11", left: "7.63%", top: "66.21%", timeLeft: "37.53%", link: "/dynamic-news/detail/3", isNew: true },
       { title: "消防安全责任制实施细则解读", time: "2020-11-11", left: "7.58%", top: "69.16%", timeLeft: "37.47%", link: "/dynamic-news/detail/4" },
       { title: "消防救援队伍改革配套政策说明", time: "2020-11-11", left: "7.58%", top: "72.11%", timeLeft: "37.47%", link: "/dynamic-news/detail/3" },
       { title: "农村消防建设扶持政策解读", time: "2020-11-11", left: "7.63%", top: "75.06%", timeLeft: "37.53%", link: "/dynamic-news/detail/4" },
@@ -373,7 +401,7 @@ const tabData = {
       { title: "消防设施维保新规解读", time: "2020-11-11", left: "7.58%", top: "80.95%", timeLeft: "37.47%", link: "/dynamic-news/detail/4" },
     ],
     right: [
-      { title: "应急救援补贴政策落地实施", time: "2020-11-11", left: "54.92%", top: "66.21%", timeLeft: "84.82%", link: "/dynamic-news/detail/3" },
+      { title: "应急救援补贴政策落地实施", time: "2020-11-11", left: "54.92%", top: "66.21%", timeLeft: "84.82%", link: "/dynamic-news/detail/3", isNew: true },
       { title: "消防培训收费规范政策解读", time: "2020-11-11", left: "54.87%", top: "69.16%", timeLeft: "84.77%", link: "/dynamic-news/detail/4" },
       { title: "新能源汽车消防安全政策说明", time: "2020-11-11", left: "54.87%", top: "72.11%", timeLeft: "84.77%", link: "/dynamic-news/detail/3" },
       { title: "高层建筑消防管理新规解读", time: "2020-11-11", left: "54.92%", top: "75.06%", timeLeft: "84.82%", link: "/dynamic-news/detail/4" },
@@ -384,7 +412,7 @@ const tabData = {
   // 媒体播报
   media: {
     left: [
-      { title: "央视《新闻联播》报道四川消防工作", time: "2020-11-11", left: "7.63%", top: "66.21%", timeLeft: "37.53%", link: "/dynamic-news/detail/15" },
+      { title: "央视《新闻联播》报道四川消防工作", time: "2020-11-11", left: "7.63%", top: "66.21%", timeLeft: "37.53%", link: "/dynamic-news/detail/15", isNew: true },
       { title: "人民日报：消防救援队伍建设成效显著", time: "2020-11-11", left: "7.58%", top: "69.16%", timeLeft: "37.47%", link: "/dynamic-news/detail/16" },
       { title: "四川卫视专题报道「119」消防宣传月", time: "2020-11-11", left: "7.58%", top: "72.11%", timeLeft: "37.47%", link: "/dynamic-news/detail/15" },
       { title: "央广网专访消防救援总队总队长", time: "2020-11-11", left: "7.63%", top: "75.06%", timeLeft: "37.53%", link: "/dynamic-news/detail/16" },
@@ -392,7 +420,7 @@ const tabData = {
       { title: "消防主题纪录片登陆各大卫视", time: "2020-11-11", left: "7.58%", top: "80.95%", timeLeft: "37.47%", link: "/dynamic-news/detail/16" },
     ],
     right: [
-      { title: "新媒体平台消防科普内容破亿播放", time: "2020-11-11", left: "54.92%", top: "66.21%", timeLeft: "84.82%", link: "/dynamic-news/detail/15" },
+      { title: "新媒体平台消防科普内容破亿播放", time: "2020-11-11", left: "54.92%", top: "66.21%", timeLeft: "84.82%", link: "/dynamic-news/detail/15", isNew: true },
       { title: "网红消防员直播讲解消防安全知识", time: "2020-11-11", left: "54.87%", top: "69.16%", timeLeft: "84.77%", link: "/dynamic-news/detail/16" },
       { title: "海外媒体关注中国消防救援发展", time: "2020-11-11", left: "54.87%", top: "72.11%", timeLeft: "84.77%", link: "/dynamic-news/detail/15" },
       { title: "消防短视频大赛获奖作品展播", time: "2020-11-11", left: "54.92%", top: "75.06%", timeLeft: "84.82%", link: "/dynamic-news/detail/16" },
@@ -1151,30 +1179,6 @@ const currentList = computed(() => tabData[activeTab.value as keyof typeof tabDa
   top: 80.95%;
   bottom: 18.14%;
 }
-.Pixso-vector-1_2176 {
-  width: 1.46%;
-  height: 0.82%;
-  background-image: url(@/assets/images/Vector_1_2176.png);
-  background-size: 100% 100%;
-  background-repeat: no-repeat;
-  position: absolute;
-  left: 22.81%;
-  right: 75.73%;
-  top: 66.3%;
-  bottom: 32.88%;
-}
-.Pixso-vector-1_2179 {
-  width: 1.46%;
-  height: 0.82%;
-  background-image: url(@/assets/images/Vector_1_2179.png);
-  background-size: 100% 100%;
-  background-repeat: no-repeat;
-  position: absolute;
-  left: 70.1%;
-  right: 28.44%;
-  top: 66.3%;
-  bottom: 32.88%;
-}
 .Pixso-vector-1_2182 {
   width: 100%;
   height: 3.17%;
@@ -1453,5 +1457,18 @@ const currentList = computed(() => tabData[activeTab.value as keyof typeof tabDa
 
 .carousel-content-link:hover {
   opacity: 0.8;
+}
+
+/* NEW标识样式 */
+.news-new-badge {
+  font-size: 12px;
+  font-family: "Alibaba PuHuiTi-Regular";
+  font-weight: 400;
+  color: rgba(255, 255, 255, 1);
+  background-color: rgba(255, 77, 79, 1);
+  padding: 2px 6px;
+  border-radius: 3px;
+  vertical-align: middle;
+  line-height: 1;
 }
 </style>
