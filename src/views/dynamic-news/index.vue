@@ -16,40 +16,67 @@
           </p>
           <div id="1_2127" class="Pixso-text-1_2127">
               <p id="1_2127_0" class="Pixso-paragraph-1_2127_0">
-                  <span id="1_2127_0_1" class="Pixso-span-1_2127_0_1">{{
-                      "11月9日，2020年“119”消防宣传月启动仪式暨成都“飞系”消防救援专业队伍技能汇报演练在成都市成都市消防救援支队培训基地隆重举行，"
-                  }}</span>
+                  <span id="1_2127_0_1" class="Pixso-span-1_2127_0_1">
+                      11月9日，2020年"119"消防宣传月启动仪式暨成都"飞系"消防救援专业队伍技能汇报演练在成都市成都市消防救援支队培训基地隆重举行，
+                  </span>
               </p>
               <p id="1_2127_1" class="Pixso-paragraph-1_2127_1">
-                  <span id="1_2127_1_1" class="Pixso-span-1_2127_1_1">{{
-                      "开启了我省消防主题宣传系列活动，掀起全民消防、全民参与的新浪潮…[查看详情]"
-                  }}</span>
+                  <span id="1_2127_1_1" class="Pixso-span-1_2127_1_1">
+                      开启了我省消防主题宣传系列活动，掀起全民消防、全民参与的新浪潮…
+                  </span>
+                  <router-link to="/dynamic-news/1" class="detail-link">[查看详情]</router-link>
               </p>
           </div>
+          <!-- 大标题（固定不变） -->
           <p id="1_2128" class="Pixso-paragraph-1_2128">
-              {{ "2020年“119”消防宣传月启动仪式举行，“飞系”集结亮相！" }}
+              2020年"119"消防宣传月启动仪式举行，"飞系"集结亮相！
           </p>
-          <div id="1_2129" class="Pixso-vector-1_2129"></div>
-          <div id="1_2132" class="Pixso-vector-1_2132"></div>
-          <p id="1_2133" class="Pixso-paragraph-1_2133">
-              {{ "“应急使命·2025”演习总结会在京召开" }}
-          </p>
-          <div id="1_2134" class="Pixso-text-1_2134">
-              <p id="1_2134_0" class="Pixso-paragraph-1_2134_0">
-                  <span id="1_2134_0_1" class="Pixso-span-1_2134_0_1">{{
-                      "       10月31日，“应急使命·2025”演习总结会召开，此次演习由国家防灾减灾救灾委员会、国务院安全生产委员会主办，应急管理部、工业和信息化部、中央广电总台、黑龙江省人民政府联合承办。应急管理部党委委员、副部长徐加爱，黑龙江省委常委、常务副省长陈少波出席会议并讲话。"
-                  }}</span>
+
+          <!-- 轮播容器（支持鼠标悬停暂停） -->
+          <div class="carousel-wrapper" @mouseenter="handleMouseEnter" @mouseleave="handleMouseLeave">
+            <!-- 左侧图片（动态切换） -->
+            <div id="1_2129" class="Pixso-vector-1_2129"
+                 :style="{ backgroundImage: `url(${carouselData[currentIndex].leftImage})` }"></div>
+
+            <!-- 右侧图片区域（保持不变） -->
+            <div id="1_2132" class="Pixso-vector-1_2132"></div>
+
+            <!-- 右侧标题（动态切换，可点击） -->
+            <router-link :to="carouselData[currentIndex].link" class="carousel-title-link">
+              <p id="1_2133" class="Pixso-paragraph-1_2133">
+                  {{ carouselData[currentIndex].title }}
               </p>
-              <p id="1_2134_1" class="Pixso-paragraph-1_2134_1">
-                  <span id="1_2134_1_1" class="Pixso-span-1_2134_1_1">{{
-                      "       会议指出，各有关方面深入贯彻落实习近平总书记关于应急管理的重要论述，坚持底线思维、极限思维，聚焦极端性、专业性、实战性，突出新装备、新技术、新材料、新战法等新质救援能力运用，以案例找难题、以难题定需求、以需求广征集、以征集搞比测、以比测促攻关……"
-                  }}</span>
-              </p>
+            </router-link>
+
+            <!-- 右侧内容（动态切换，可点击） -->
+            <router-link :to="carouselData[currentIndex].link" class="carousel-content-link">
+              <div id="1_2134" class="Pixso-text-1_2134">
+                  <p id="1_2134_0" class="Pixso-paragraph-1_2134_0">
+                      <span id="1_2134_0_1" class="Pixso-span-1_2134_0_1">
+                          {{ carouselData[currentIndex].content }}
+                      </span>
+                  </p>
+                  <p id="1_2134_1" class="Pixso-paragraph-1_2134_1">
+                      <span id="1_2134_1_1" class="Pixso-span-1_2134_1_1">
+                          {{ carouselData[currentIndex].content2 }}
+                      </span>
+                  </p>
+              </div>
+            </router-link>
           </div>
-          <div id="1_2135" class="Pixso-vector-1_2135"></div>
-          <div id="1_2136" class="Pixso-vector-1_2136"></div>
-          <div id="1_2137" class="Pixso-vector-1_2137"></div>
-          <div id="1_2138" class="Pixso-vector-1_2138"></div>
+          <!-- 圆点指示器（4个，可点击切换） -->
+          <div id="1_2135" class="Pixso-vector-1_2135 carousel-dot"
+               :class="{ 'carousel-dot-active': currentIndex === 0 }"
+               @click="switchToIndex(0)"></div>
+          <div id="1_2136" class="Pixso-vector-1_2136 carousel-dot"
+               :class="{ 'carousel-dot-active': currentIndex === 1 }"
+               @click="switchToIndex(1)"></div>
+          <div id="1_2137" class="Pixso-vector-1_2137 carousel-dot"
+               :class="{ 'carousel-dot-active': currentIndex === 2 }"
+               @click="switchToIndex(2)"></div>
+          <div id="1_2138" class="Pixso-vector-1_2138 carousel-dot"
+               :class="{ 'carousel-dot-active': currentIndex === 3 }"
+               @click="switchToIndex(3)"></div>
           <div id="1_2139" class="Pixso-vector-1_2139"></div>
           <div id="1_2158" class="Pixso-vector-1_2158"></div>
           <div id="1_2159" class="Pixso-vector-1_2159" style="visibility: hidden;"></div>
@@ -165,7 +192,92 @@
   </div>
 </template>
 <script lang="ts" setup>
-import { ref, computed } from 'vue'
+import { ref, computed, onMounted, onUnmounted } from 'vue'
+import image1 from '@/assets/images/Vector_1_2129.png'
+
+// 轮播数据（4条）
+const carouselData = [
+  {
+    leftImage: image1,
+    title: '"应急使命·2025"演习总结会在京召开',
+    content: '10月31日，"应急使命·2025"演习总结会召开，此次演习由国家防灾减灾救灾委员会、国务院安全生产委员会主办，应急管理部、工业和信息化部、中央广电总台、黑龙江省人民政府联合承办。应急管理部党委委员、副部长徐加爱，黑龙江省委常委、常务副省长陈少波出席会议并讲话。',
+    content2: '会议指出，各有关方面深入贯彻落实习近平总书记关于应急管理的重要论述，坚持底线思维、极限思维，聚焦极端性、专业性、实战性，突出新装备、新技术、新材料、新战法等新质救援能力运用，以案例找难题、以难题定需求、以需求广征集、以征集搞比测、以比测促攻关……',
+    link: '/dynamic-news/17'
+  },
+  {
+    leftImage: image1,
+    title: '全国消防救援队伍改革发展成效显著',
+content: '10月31日，"应急使命·2025"演习总结会召开，此次演习由国家防灾减灾救灾委员会、国务院安全生产委员会主办，应急管理部、工业和信息化部、中央广电总台、黑龙江省人民政府联合承办。应急管理部党委委员、副部长徐加爱，黑龙江省委常委、常务副省长陈少波出席会议并讲话。',
+    content2: '会议指出，各有关方面深入贯彻落实习近平总书记关于应急管理的重要论述，坚持底线思维、极限思维，聚焦极端性、专业性、实战性，突出新装备、新技术、新材料、新战法等新质救援能力运用，以案例找难题、以难题定需求、以需求广征集、以征集搞比测、以比测促攻关……',
+    link: '/dynamic-news/18'
+  },
+  {
+    leftImage: image1,
+    title: '四川消防救援队伍建设取得新突破',
+content: '10月31日，"应急使命·2025"演习总结会召开，此次演习由国家防灾减灾救灾委员会、国务院安全生产委员会主办，应急管理部、工业和信息化部、中央广电总台、黑龙江省人民政府联合承办。应急管理部党委委员、副部长徐加爱，黑龙江省委常委、常务副省长陈少波出席会议并讲话。',
+    content2: '会议指出，各有关方面深入贯彻落实习近平总书记关于应急管理的重要论述，坚持底线思维、极限思维，聚焦极端性、专业性、实战性，突出新装备、新技术、新材料、新战法等新质救援能力运用，以案例找难题、以难题定需求、以需求广征集、以征集搞比测、以比测促攻关……',
+    link: '/dynamic-news/19'
+  },
+  {
+    leftImage: image1,
+    title: '消防救援装备现代化水平持续提升',
+content: '10月31日，"应急使命·2025"演习总结会召开，此次演习由国家防灾减灾救灾委员会、国务院安全生产委员会主办，应急管理部、工业和信息化部、中央广电总台、黑龙江省人民政府联合承办。应急管理部党委委员、副部长徐加爱，黑龙江省委常委、常务副省长陈少波出席会议并讲话。',
+    content2: '会议指出，各有关方面深入贯彻落实习近平总书记关于应急管理的重要论述，坚持底线思维、极限思维，聚焦极端性、专业性、实战性，突出新装备、新技术、新材料、新战法等新质救援能力运用，以案例找难题、以难题定需求、以需求广征集、以征集搞比测、以比测促攻关……',
+    link: '/dynamic-news/20'
+  }
+]
+
+// 当前轮播索引
+const currentIndex = ref(0)
+
+// 定时器
+let timer: number | null = null
+
+// 切换到指定索引
+const switchToIndex = (index: number) => {
+  currentIndex.value = index
+}
+
+// 切换到下一条
+const nextSlide = () => {
+  currentIndex.value = (currentIndex.value + 1) % carouselData.length
+}
+
+// 启动自动轮播
+const startAutoPlay = () => {
+  if (timer) clearInterval(timer)
+  timer = window.setInterval(() => {
+    nextSlide()
+  }, 3000)
+}
+
+// 停止自动轮播
+const stopAutoPlay = () => {
+  if (timer) {
+    clearInterval(timer)
+    timer = null
+  }
+}
+
+// 鼠标悬停暂停
+const handleMouseEnter = () => {
+  stopAutoPlay()
+}
+
+// 鼠标移开恢复
+const handleMouseLeave = () => {
+  startAutoPlay()
+}
+
+// 生命周期：组件挂载时启动自动轮播
+onMounted(() => {
+  startAutoPlay()
+})
+
+// 生命周期：组件卸载时清理定时器
+onUnmounted(() => {
+  stopAutoPlay()
+})
 
 // 核心1：定义选中的Tab（默认各地动态）
 const activeTab = ref('local')
@@ -1280,5 +1392,66 @@ const currentList = computed(() => tabData[activeTab.value as keyof typeof tabDa
 .title-link:hover {
   color: rgba(0, 88, 160, 1) !important;
   text-decoration: underline;
+}
+
+/* 圆点指示器样式 */
+.carousel-dot {
+  cursor: pointer;
+  transition: all 0.3s ease;
+  border-radius: 50%;
+  border: 2px solid rgba(255, 255, 255, 0.8);
+  background-color: transparent;
+  background-image: none !important;
+}
+
+.carousel-dot:hover {
+  border-color: rgba(255, 255, 255, 1);
+  transform: scale(1.15);
+}
+
+.carousel-dot-active {
+  background-color: rgba(0, 88, 160, 1) !important;
+  border-color: rgba(0, 88, 160, 1) !important;
+  transform: scale(1.1);
+}
+
+/* 主导航链接样式 - 去掉下划线 */
+.main-nav-link {
+  text-decoration: none !important;
+}
+
+/* 查看详情链接样式 */
+.detail-link {
+  color: rgba(20, 100, 166, 1);
+  text-decoration: none;
+  cursor: pointer;
+  margin-left: 4px;
+}
+
+.detail-link:hover {
+  text-decoration: underline;
+  color: rgba(0, 88, 160, 1);
+}
+
+/* 轮播标题链接样式 */
+.carousel-title-link {
+  text-decoration: none;
+  cursor: pointer;
+  display: block;
+}
+
+.carousel-title-link:hover p {
+  color: rgba(0, 88, 160, 1);
+}
+
+/* 轮播内容链接样式 */
+.carousel-content-link {
+  text-decoration: none;
+  cursor: pointer;
+  display: block;
+}
+
+.carousel-content-link:hover {
+  opacity: 0.8;
 }
 </style>
