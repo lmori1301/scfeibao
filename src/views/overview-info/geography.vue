@@ -45,11 +45,11 @@
             <p id="1_609" class="Pixso-paragraph-1_609 unit-tab" :class="{ 'unit-tab-active': activeIndex === 2 }" role="button" tabindex="0" @click="switchUnit(2)" @keydown.enter="switchUnit(2)">
                 {{ "训练与战勤保障大队" }}
             </p>
-            <div v-show="activeIndex === 2" class="Pixso-vector-1_607 unit-underline-2" style="left: 36.41%; width: 11.56%;"></div>
+            <div v-show="activeIndex === 2" class="Pixso-vector-1_607 unit-underline-2" style="left: 36.41%; width: 8.5%;"></div>
             <p id="1_610" class="Pixso-paragraph-1_610 unit-tab" :class="{ 'unit-tab-active': activeIndex === 3 }" role="button" tabindex="0" @click="switchUnit(3)" @keydown.enter="switchUnit(3)">
                 {{ "应急通信与车辆勤务大队" }}
             </p>
-            <div v-show="activeIndex === 3" class="Pixso-vector-1_607 unit-underline-3" style="left: 49.9%; width: 14.11%;"></div>
+            <div v-show="activeIndex === 3" class="Pixso-vector-1_607 unit-underline-3" style="left: 49.9%; width: 9.5%;"></div>
             <p id="1_611" class="Pixso-paragraph-1_611 unit-tab" :class="{ 'unit-tab-active': activeIndex === 4 }" role="button" tabindex="0" @click="switchUnit(4)" @keydown.enter="switchUnit(4)">
                 {{ "峨眉山直属大队" }}
             </p>
