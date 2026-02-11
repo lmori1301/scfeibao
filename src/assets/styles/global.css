@@ -4,6 +4,11 @@
   padding: 0;
 }
 
+/* 移除所有链接的下划线 */
+a {
+  text-decoration: none;
+}
+
 ol,ul,menu {
   padding-inline-start: 0;
   list-style: none;
