@@ -22,7 +22,7 @@
                 {{ "Copyright®2025 sc.119.gov.cn All rights reserved" }}
             </p>
             <p id="1_725" class="Pixso-paragraph-1_725">
-                {{ "当前位置：首页 > 队伍建设 > 救援案例" }}
+                当前位置：<router-link to="/" style="color: inherit; text-decoration: none;">首页</router-link> > <router-link to="/team-building" style="color: inherit; text-decoration: none;">队伍建设</router-link> > 救援案例
             </p>
             <div id="1_726" class="Pixso-vector-1_726"></div>
             <div id="1_733" class="Pixso-vector-1_733"></div>
@@ -43,13 +43,13 @@
             <div id="1_745" class="Pixso-vector-1_745"></div>
             <div id="33_367" class="Pixso-vector-33_367"></div>
             <div id="17_2" class="Pixso-vector-17_2"></div>
-            <p id="1_751" class="Pixso-paragraph-1_751">{{ "党建专栏" }}</p>
-            <p id="1_752" class="Pixso-paragraph-1_752">{{ "信息公开" }}</p>
-            <p id="1_753" class="Pixso-paragraph-1_753">{{ "动态要闻" }}</p>
-            <p id="1_754" class="Pixso-paragraph-1_754">{{ "政策法规" }}</p>
-            <p id="1_755" class="Pixso-paragraph-1_755">{{ "查询系统" }}</p>
-            <p id="1_756" class="Pixso-paragraph-1_756">{{ "概况信息" }}</p>
-            <p id="1_757" class="Pixso-paragraph-1_757">{{ "队伍建设" }}</p>
+            <router-link id="1_751" to="/party-building" class="Pixso-paragraph-1_751 main-nav-link">党建专栏</router-link>
+            <router-link id="1_752" to="/info-public" class="Pixso-paragraph-1_752 main-nav-link">信息公开</router-link>
+            <router-link id="1_753" to="/dynamic-news" class="Pixso-paragraph-1_753 main-nav-link">动态要闻</router-link>
+            <router-link id="1_754" to="/policy-regulations" class="Pixso-paragraph-1_754 main-nav-link">政策法规</router-link>
+            <router-link id="1_755" to="/query-system" class="Pixso-paragraph-1_755 main-nav-link">查询系统</router-link>
+            <router-link id="1_756" to="/overview-info" class="Pixso-paragraph-1_756 main-nav-link">概况信息</router-link>
+            <router-link id="1_757" to="/team-building" class="Pixso-paragraph-1_757 main-nav-link">队伍建设</router-link>
             <div id="1_834" class="Pixso-vector-1_834"></div>
             <div id="1_837" class="Pixso-vector-1_837"></div>
             <div id="1_840" class="Pixso-vector-1_840"></div>
