@@ -65,6 +65,50 @@
                     <p class="unit-tab-text" :class="{ 'unit-tab-active': activeIndex === 5 }">{{ "搜救犬大队" }}</p>
                     <div v-show="activeIndex === 5" class="unit-tab-underline"></div>
                 </div>
+                <div class="unit-tab-container unit-tab-container-6" role="button" tabindex="0" @click="switchUnit(6)" @keydown.enter="switchUnit(6)">
+                    <p class="unit-tab-text" :class="{ 'unit-tab-active': activeIndex === 6 }">{{ "崇州支队" }}</p>
+                    <div v-show="activeIndex === 6" class="unit-tab-underline"></div>
+                </div>
+                <div class="unit-tab-container unit-tab-container-7" role="button" tabindex="0" @click="switchUnit(7)" @keydown.enter="switchUnit(7)">
+                    <p class="unit-tab-text" :class="{ 'unit-tab-active': activeIndex === 7 }">{{ "南充支队" }}</p>
+                    <div v-show="activeIndex === 7" class="unit-tab-underline"></div>
+                </div>
+                <div class="unit-tab-container unit-tab-container-8" role="button" tabindex="0" @click="switchUnit(8)" @keydown.enter="switchUnit(8)">
+                    <p class="unit-tab-text" :class="{ 'unit-tab-active': activeIndex === 8 }">{{ "天府支队" }}</p>
+                    <div v-show="activeIndex === 8" class="unit-tab-underline"></div>
+                </div>
+                <div class="unit-tab-container unit-tab-container-9" role="button" tabindex="0" @click="switchUnit(9)" @keydown.enter="switchUnit(9)">
+                    <p class="unit-tab-text" :class="{ 'unit-tab-active': activeIndex === 9 }">{{ "雅安支队" }}</p>
+                    <div v-show="activeIndex === 9" class="unit-tab-underline"></div>
+                </div>
+                <div class="unit-tab-container unit-tab-container-10" role="button" tabindex="0" @click="switchUnit(10)" @keydown.enter="switchUnit(10)">
+                    <p class="unit-tab-text" :class="{ 'unit-tab-active': activeIndex === 10 }">{{ "德阳支队" }}</p>
+                    <div v-show="activeIndex === 10" class="unit-tab-underline"></div>
+                </div>
+                <div class="unit-tab-container unit-tab-container-11" role="button" tabindex="0" @click="switchUnit(11)" @keydown.enter="switchUnit(11)">
+                    <p class="unit-tab-text" :class="{ 'unit-tab-active': activeIndex === 11 }">{{ "达州支队" }}</p>
+                    <div v-show="activeIndex === 11" class="unit-tab-underline"></div>
+                </div>
+                <div class="unit-tab-container unit-tab-container-12" role="button" tabindex="0" @click="switchUnit(12)" @keydown.enter="switchUnit(12)">
+                    <p class="unit-tab-text" :class="{ 'unit-tab-active': activeIndex === 12 }">{{ "双流大队" }}</p>
+                    <div v-show="activeIndex === 12" class="unit-tab-underline"></div>
+                </div>
+                <div class="unit-tab-container unit-tab-container-13" role="button" tabindex="0" @click="switchUnit(13)" @keydown.enter="switchUnit(13)">
+                    <p class="unit-tab-text" :class="{ 'unit-tab-active': activeIndex === 13 }">{{ "青白江大队" }}</p>
+                    <div v-show="activeIndex === 13" class="unit-tab-underline"></div>
+                </div>
+                <div class="unit-tab-container unit-tab-container-14" role="button" tabindex="0" @click="switchUnit(14)" @keydown.enter="switchUnit(14)">
+                    <p class="unit-tab-text" :class="{ 'unit-tab-active': activeIndex === 14 }">{{ "龙泉驿大队" }}</p>
+                    <div v-show="activeIndex === 14" class="unit-tab-underline"></div>
+                </div>
+                <div class="unit-tab-container unit-tab-container-15" role="button" tabindex="0" @click="switchUnit(15)" @keydown.enter="switchUnit(15)">
+                    <p class="unit-tab-text" :class="{ 'unit-tab-active': activeIndex === 15 }">{{ "南部大队" }}</p>
+                    <div v-show="activeIndex === 15" class="unit-tab-underline"></div>
+                </div>
+                <div class="unit-tab-container unit-tab-container-16" role="button" tabindex="0" @click="switchUnit(16)" @keydown.enter="switchUnit(16)">
+                    <p class="unit-tab-text" :class="{ 'unit-tab-active': activeIndex === 16 }">{{ "营山大队" }}</p>
+                    <div v-show="activeIndex === 16" class="unit-tab-underline"></div>
+                </div>
             </div>
             <div id="1_613" class="Pixso-vector-1_613"></div>
             <div id="17_32" class="Pixso-vector-17_32"></div>
@@ -130,6 +174,61 @@ const units: UnitInfo[] = [
     name: '搜救犬大队',
     address: '四川省成都市新都区搜救犬训练基地',
     phone: '028-87659124'
+  },
+  {
+    name: '崇州支队',
+    address: '四川省成都市崇州市崇州支队驻地',
+    phone: '028-87659125'
+  },
+  {
+    name: '南充支队',
+    address: '四川省南充市顺庆区南充支队驻地',
+    phone: '028-87659126'
+  },
+  {
+    name: '天府支队',
+    address: '四川省成都市天府新区天府支队驻地',
+    phone: '028-87659127'
+  },
+  {
+    name: '雅安支队',
+    address: '四川省雅安市雨城区雅安支队驻地',
+    phone: '028-87659128'
+  },
+  {
+    name: '德阳支队',
+    address: '四川省德阳市旌阳区德阳支队驻地',
+    phone: '028-87659129'
+  },
+  {
+    name: '达州支队',
+    address: '四川省达州市通川区达州支队驻地',
+    phone: '028-87659130'
+  },
+  {
+    name: '双流大队',
+    address: '四川省成都市双流区双流大队驻地',
+    phone: '028-87659131'
+  },
+  {
+    name: '青白江大队',
+    address: '四川省成都市青白江区青白江大队驻地',
+    phone: '028-87659132'
+  },
+  {
+    name: '龙泉驿大队',
+    address: '四川省成都市龙泉驿区龙泉驿大队驻地',
+    phone: '028-87659133'
+  },
+  {
+    name: '南部大队',
+    address: '四川省南充市南部县南部大队驻地',
+    phone: '028-87659134'
+  },
+  {
+    name: '营山大队',
+    address: '四川省南充市营山县营山大队驻地',
+    phone: '028-87659135'
   }
 ]
 
@@ -142,15 +241,39 @@ const switchUnit = (index: number) => {
 }
 </script>
 <style>
-/* 单位tabs flex容器 - 均匀分布 */
+/* 单位tabs flex容器 - 横向滚动 */
 .unit-tabs-flex-container {
     display: flex;
-    justify-content: space-between;
+    justify-content: flex-start;
     align-items: flex-start;
+    gap: 40px;
     position: absolute;
     left: 28%;
     right: 10%;
     top: 25.32%;
+    overflow-x: auto;
+    overflow-y: hidden;
+    flex-wrap: nowrap;
+    padding-bottom: 10px;
+}
+
+/* 隐藏滚动条但保持滚动功能 */
+.unit-tabs-flex-container::-webkit-scrollbar {
+    height: 6px;
+}
+
+.unit-tabs-flex-container::-webkit-scrollbar-track {
+    background: rgba(0, 0, 0, 0.05);
+    border-radius: 3px;
+}
+
+.unit-tabs-flex-container::-webkit-scrollbar-thumb {
+    background: rgba(0, 0, 0, 0.2);
+    border-radius: 3px;
+}
+
+.unit-tabs-flex-container::-webkit-scrollbar-thumb:hover {
+    background: rgba(0, 0, 0, 0.3);
 }
 
 /* 单位tab容器样式 */
