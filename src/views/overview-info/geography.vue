@@ -486,6 +486,9 @@ onMounted(() => {
     right: 62.45%;
     top: 68.24%;
     bottom: 30.18%;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
 }
 .Pixso-paragraph-1_603 {
     font-size: 20px;
@@ -515,7 +518,9 @@ onMounted(() => {
     right: 48.8%;
     top: 71.02%;
     bottom: 27.71%;
-    white-space: pre;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
     flex-grow: 0;
 }
 .Pixso-paragraph-1_605 {
@@ -531,6 +536,9 @@ onMounted(() => {
     right: 63.18%;
     top: 73.48%;
     bottom: 25.25%;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
 }
 .Pixso-paragraph-1_606 {
     font-size: 20px;
