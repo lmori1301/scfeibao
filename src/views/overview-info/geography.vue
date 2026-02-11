@@ -479,16 +479,12 @@ onMounted(() => {
     font-weight: 400;
     line-height: 25px;
     color: rgba(10, 10, 10, 1);
-    width: 7.91%;
-    height: 1.58%;
+    width: auto;
+    height: auto;
     position: absolute;
     left: 29.64%;
-    right: 62.45%;
     top: 68.24%;
-    bottom: 30.18%;
     white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
 }
 .Pixso-paragraph-1_603 {
     font-size: 20px;
@@ -515,13 +511,8 @@ onMounted(() => {
     height: auto;
     position: absolute;
     left: 29.64%;
-    right: 48.8%;
     top: 71.02%;
-    bottom: 27.71%;
     white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    flex-grow: 0;
 }
 .Pixso-paragraph-1_605 {
     font-size: 20px;
@@ -529,16 +520,12 @@ onMounted(() => {
     font-weight: 400;
     line-height: 20px;
     color: rgba(59, 59, 59, 1);
-    width: 7.18%;
-    height: 1.27%;
+    width: auto;
+    height: auto;
     position: absolute;
     left: 29.64%;
-    right: 63.18%;
     top: 73.48%;
-    bottom: 25.25%;
     white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
 }
 .Pixso-paragraph-1_606 {
     font-size: 20px;
