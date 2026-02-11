@@ -15,8 +15,8 @@
             <div id="1_489" class="Pixso-vector-1_489"></div>
             <p id="1_490" class="Pixso-paragraph-1_490">{{ "OVERV" }}</p>
             <p id="1_491" class="Pixso-paragraph-1_491">{{ "概况信息" }}</p>
-            <p id="1_492" class="Pixso-paragraph-1_492 overview-nav-item" role="button" tabindex="0" @click="goToLeadership" @keydown.enter="goToLeadership">领导信息</p>
-            <p id="1_493" class="Pixso-paragraph-1_493 overview-nav-item" role="button" tabindex="0" @click="goToGeography" @keydown.enter="goToGeography">地理位置</p>
+            <router-link to="/overview-info/leadership" id="1_492" class="Pixso-paragraph-1_492 overview-nav-item">领导信息</router-link>
+            <router-link to="/overview-info/geography" id="1_493" class="Pixso-paragraph-1_493 overview-nav-item">地理位置</router-link>
             <div id="1_494" class="Pixso-vector-1_494"></div>
             <div id="1_498" class="Pixso-vector-1_498"></div>
             <div id="1_505" class="Pixso-vector-1_505"></div>
@@ -131,19 +131,7 @@
         </div>
     </div>
 </template>
-<script lang="ts" setup>
-import { useRouter } from 'vue-router'
-
-const router = useRouter()
-
-function goToLeadership() {
-    router.push('/overview-info/leadership')
-}
-
-function goToGeography() {
-    router.push('/overview-info/geography')
-}
-</script>
+<script lang="ts" setup></script>
 <style scoped>
 .overview-nav-item {
     cursor: pointer;

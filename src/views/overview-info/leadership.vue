@@ -18,11 +18,11 @@
             <div id="1_218" class="Pixso-vector-1_218"></div>
             <p id="1_219" class="Pixso-paragraph-1_219">{{ "OVERV" }}</p>
             <p id="1_220" class="Pixso-paragraph-1_220">{{ "概况信息" }}</p>
-            <p id="1_221" class="Pixso-paragraph-1_221">
+            <router-link to="/overview-info/leadership" id="1_221" class="Pixso-paragraph-1_221">
                 {{ "领导信息                          >" }}
-            </p>
-            <p id="1_222" class="Pixso-paragraph-1_222 overview-nav-item" role="button" tabindex="0" @click="goToOrganization" @keydown.enter="goToOrganization">组织机构</p>
-            <p id="1_223" class="Pixso-paragraph-1_223 overview-nav-item" role="button" tabindex="0" @click="goToGeography" @keydown.enter="goToGeography">地理位置</p>
+            </router-link>
+            <router-link to="/overview-info/organization" id="1_222" class="Pixso-paragraph-1_222 overview-nav-item">组织机构</router-link>
+            <router-link to="/overview-info/geography" id="1_223" class="Pixso-paragraph-1_223 overview-nav-item">地理位置</router-link>
             <p id="1_224" class="Pixso-paragraph-1_224">
                 当前位置：<router-link to="/" class="breadcrumb-link">首页</router-link> > <router-link to="/overview-info" class="breadcrumb-link">概况信息</router-link> > <span class="breadcrumb-current">领导信息</span>
             </p>
