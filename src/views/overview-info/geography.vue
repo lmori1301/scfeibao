@@ -138,9 +138,7 @@ const switchUnit = (index: number) => {
 }
 
 .unit-tab-active {
-    color: rgba(21, 112, 206, 1) !important;
-    font-weight: bold;
-    text-decoration: underline;
+    /* 选中状态样式已移除 */
 }
 
 .scroll-container-1_562 {
