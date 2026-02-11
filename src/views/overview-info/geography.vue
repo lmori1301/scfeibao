@@ -366,7 +366,7 @@
     bottom: 23.67%;
 }
 .Pixso-paragraph-1_602 {
-    font-size: 25px;
+    font-size: 20px;
     font-family: "FZHei-B01S-Regular";
     font-weight: 400;
     line-height: 25px;
@@ -380,7 +380,7 @@
     bottom: 30.18%;
 }
 .Pixso-paragraph-1_603 {
-    font-size: 25px;
+    font-size: 20px;
     font-family: "FZHei-B01S-Regular";
     font-weight: 400;
     line-height: 25px;
@@ -425,7 +425,7 @@
     bottom: 25.25%;
 }
 .Pixso-paragraph-1_606 {
-    font-size: 25px;
+    font-size: 20px;
     font-family: "Alibaba PuHuiTi-Regular";
     font-weight: 400;
     line-height: 25px;
@@ -451,7 +451,7 @@
     bottom: 71.84%;
 }
 .Pixso-paragraph-1_608 {
-    font-size: 25px;
+    font-size: 20px;
     font-family: "Alibaba PuHuiTi-Regular";
     font-weight: 400;
     line-height: 25px;
@@ -465,7 +465,7 @@
     bottom: 73.11%;
 }
 .Pixso-paragraph-1_609 {
-    font-size: 25px;
+    font-size: 20px;
     font-family: "Alibaba PuHuiTi-Regular";
     font-weight: 400;
     line-height: 25px;
@@ -481,7 +481,7 @@
     flex-grow: 0;
 }
 .Pixso-paragraph-1_610 {
-    font-size: 25px;
+    font-size: 20px;
     font-family: "Alibaba PuHuiTi-Regular";
     font-weight: 400;
     line-height: 25px;
@@ -497,7 +497,7 @@
     flex-grow: 0;
 }
 .Pixso-paragraph-1_611 {
-    font-size: 25px;
+    font-size: 20px;
     font-family: "Alibaba PuHuiTi-Regular";
     font-weight: 400;
     line-height: 25px;
@@ -511,7 +511,7 @@
     bottom: 73.11%;
 }
 .Pixso-paragraph-1_612 {
-    font-size: 25px;
+    font-size: 20px;
     font-family: "Alibaba PuHuiTi-Regular";
     font-weight: 400;
     line-height: 25px;
