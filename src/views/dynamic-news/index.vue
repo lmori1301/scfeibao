@@ -928,10 +928,10 @@ const currentList = computed(() => tabData[activeTab.value as keyof typeof tabDa
   bottom: 36.05%;
 }
 .Pixso-paragraph-1_2160 {
-  font-size: 28px;
+  font-size: 25px;
   font-family: "FZHei-B01S-Regular";
   font-weight: 400;
-  line-height: 28px;
+  line-height: 25px;
   color: rgba(255, 255, 255, 1);
   width: 5.93%;
   height: 1.27%;
@@ -942,10 +942,10 @@ const currentList = computed(() => tabData[activeTab.value as keyof typeof tabDa
   bottom: 37.1%;
 }
 .Pixso-paragraph-1_2161 {
-  font-size: 28px;
+  font-size: 25px;
   font-family: "FZHei-B01S-Regular";
   font-weight: 400;
-  line-height: 28px;
+  line-height: 25px;
   color: rgba(142, 142, 142, 1);
   width: 5.94%;
   height: 1.27%;
@@ -956,10 +956,10 @@ const currentList = computed(() => tabData[activeTab.value as keyof typeof tabDa
   bottom: 37.1%;
 }
 .Pixso-paragraph-1_2162 {
-  font-size: 28px;
+  font-size: 25px;
   font-family: "FZHei-B01S-Regular";
   font-weight: 400;
-  line-height: 28px;
+  line-height: 25px;
   color: rgba(142, 142, 142, 1);
   width: 5.94%;
   height: 1.27%;
@@ -970,10 +970,10 @@ const currentList = computed(() => tabData[activeTab.value as keyof typeof tabDa
   bottom: 37.1%;
 }
 .Pixso-paragraph-1_2163 {
-  font-size: 28px;
+  font-size: 25px;
   font-family: "FZHei-B01S-Regular";
   font-weight: 400;
-  line-height: 28px;
+  line-height: 25px;
   color: rgba(142, 142, 142, 1);
   width: 5.94%;
   height: 1.27%;
