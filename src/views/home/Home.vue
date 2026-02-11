@@ -329,13 +329,13 @@
             <div id="1_166" class="Pixso-vector-1_166"></div>
             <p id="1_167" class="Pixso-paragraph-1_167">{{ "救援行动" }}</p>
             <div id="1_168" class="Pixso-vector-1_168"></div>
-            <p id="1_169" class="Pixso-paragraph-1_169">{{ "概况信息" }}</p>
-            <p id="1_170" class="Pixso-paragraph-1_170">{{ "队伍建设" }}</p>
-            <p id="1_171" class="Pixso-paragraph-1_171">{{ "党建专栏" }}</p>
-            <p id="1_172" class="Pixso-paragraph-1_172">{{ "信息公开" }}</p>
-            <p id="1_173" class="Pixso-paragraph-1_173">{{ "动态要闻" }}</p>
-            <p id="1_174" class="Pixso-paragraph-1_174">{{ "政策法规" }}</p>
-            <p id="1_175" class="Pixso-paragraph-1_175">{{ "查询系统" }}</p>
+            <router-link id="1_169" to="/overview-info" class="Pixso-paragraph-1_169 main-nav-link">概况信息</router-link>
+            <router-link id="1_170" to="/team-building" class="Pixso-paragraph-1_170 main-nav-link">队伍建设</router-link>
+            <router-link id="1_171" to="/party-building" class="Pixso-paragraph-1_171 main-nav-link">党建专栏</router-link>
+            <router-link id="1_172" to="/info-public" class="Pixso-paragraph-1_172 main-nav-link">信息公开</router-link>
+            <router-link id="1_173" to="/dynamic-news" class="Pixso-paragraph-1_173 main-nav-link">动态要闻</router-link>
+            <router-link id="1_174" to="/policy-regulations" class="Pixso-paragraph-1_174 main-nav-link">政策法规</router-link>
+            <router-link id="1_175" to="/query-system" class="Pixso-paragraph-1_175 main-nav-link">查询系统</router-link>
             <div id="1_176" class="Pixso-vector-1_176"></div>
             <div id="32_6" class="Pixso-group-32_6">
                 <p id="32_4" class="Pixso-paragraph-32_4">{{ "MORE >" }}</p>
