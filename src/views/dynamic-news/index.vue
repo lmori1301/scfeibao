@@ -736,8 +736,8 @@ const doSearch = () => {
   flex-shrink: 0;
 }
 .Pixso-vector-1_2135 {
-  width: 1.3%;
-  height: 1.13%;
+  width: 20px;
+  height: 20px;
   background-image: url(@/assets/images/Vector_1_2135.png);
   background-size: 100% 100%;
   background-repeat: no-repeat;
@@ -748,8 +748,8 @@ const doSearch = () => {
   bottom: 43.27%;
 }
 .Pixso-vector-1_2136 {
-  width: 1.31%;
-  height: 1.13%;
+  width: 20px;
+  height: 20px;
   background-image: url(@/assets/images/Vector_1_2136.png);
   background-size: 100% 100%;
   background-repeat: no-repeat;
@@ -760,8 +760,8 @@ const doSearch = () => {
   bottom: 43.27%;
 }
 .Pixso-vector-1_2137 {
-  width: 1.3%;
-  height: 1.13%;
+  width: 20px;
+  height: 20px;
   background-image: url(@/assets/images/Vector_1_2137.png);
   background-size: 100% 100%;
   background-repeat: no-repeat;
@@ -772,8 +772,8 @@ const doSearch = () => {
   bottom: 43.27%;
 }
 .Pixso-vector-1_2138 {
-  width: 1.3%;
-  height: 1.13%;
+  width: 20px;
+  height: 20px;
   background-image: url(@/assets/images/Vector_1_2138.png);
   background-size: 100% 100%;
   background-repeat: no-repeat;
