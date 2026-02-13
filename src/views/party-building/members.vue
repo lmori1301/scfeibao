@@ -1058,7 +1058,7 @@ const doSearch = () => {
     font-weight: 400;
     line-height: 20px;
     color: rgba(255, 255, 255, 1);
-    white-space: pre-wrap;
+    white-space: pre;
     width: 11.77%;
     height: 1.06%;
     position: absolute;
@@ -1068,7 +1068,7 @@ const doSearch = () => {
     bottom: 57.45%;
 }
 .Pixso-vector-1_1659 {
-    width: 0.05%;
+    width: 0.2%;
     height: 1.21%;
     background-image: url(@/assets/images/Vector_1_1659.png);
     background-size: 100% 100%;

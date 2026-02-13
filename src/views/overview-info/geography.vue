@@ -625,7 +625,7 @@ const doSearch = () => {
     bottom: 59.6%;
 }
 .Pixso-vector-1_588 {
-    width: 0.05%;
+    width: 0.2%;
     height: 1.45%;
     background-image: url(@/assets/images/Vector_1_588.png);
     background-size: 100% 100%;

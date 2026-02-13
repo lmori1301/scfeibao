@@ -63,7 +63,7 @@
             <router-link id="1_1812" to="/party-building/party-work" class="Pixso-paragraph-1_1812 party-sidebar-link">{{ "党建工作" }}</router-link>
             <div id="1_1813" class="Pixso-vector-1_1813"></div>
             <router-link id="1_1814" to="/party-building/study" class="Pixso-paragraph-1_1814 party-sidebar-link">
-                党员学"习"                  >
+                党员学"习"                        >
             </router-link>
             <div id="1_1815" class="Pixso-vector-1_1815"></div>
             <div id="1_1816" class="Pixso-vector-1_1816"></div>
@@ -850,7 +850,7 @@ const doSearch = () => {
     font-weight: 400;
     line-height: 20px;
     color: rgba(255, 255, 255, 1);
-    white-space: pre-wrap;
+    white-space: pre;
     width: 11.67%;
     height: 1.06%;
     position: absolute;
@@ -860,7 +860,7 @@ const doSearch = () => {
     bottom: 51.37%;
 }
 .Pixso-vector-1_1815 {
-    width: 0.05%;
+    width: 0.2%;
     height: 1.21%;
     background-image: url(@/assets/images/Vector_1_1815.png);
     background-size: 100% 100%;

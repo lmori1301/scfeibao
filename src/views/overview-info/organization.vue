@@ -103,10 +103,13 @@
             </p>
             <p id="1_535" class="Pixso-paragraph-1_535">{{ "组织机构" }}</p>
             <div id="1_536" class="Pixso-vector-1_536"></div>
+            <div class="blue-vertical-line blue-line-1"></div>
             <p id="1_537" class="Pixso-paragraph-1_537">{{ "机关内设机构" }}</p>
             <div id="1_538" class="Pixso-vector-1_538"></div>
+            <div class="blue-vertical-line blue-line-2"></div>
             <p id="1_539" class="Pixso-paragraph-1_539">{{ "总队直属单位" }}</p>
             <div id="1_540" class="Pixso-vector-1_540"></div>
+            <div class="blue-vertical-line blue-line-3"></div>
             <p id="1_541" class="Pixso-paragraph-1_541">{{ "支、大队" }}</p>
             <div id="1_542" class="Pixso-vector-1_542"></div>
             <div id="1_543" class="Pixso-vector-1_543"></div>
@@ -1250,5 +1253,28 @@ const doSearch = () => {
   border: none;
   outline: none;
   background: transparent;
+}
+
+/* 蓝色竖线样式 */
+.blue-vertical-line {
+  width: 0.2%;
+  height: 1.5%;
+  background-color: rgba(21, 112, 206, 1);
+  position: absolute;
+}
+
+.blue-line-1 {
+  left: 28.5%;
+  top: 22.81%;
+}
+
+.blue-line-2 {
+  left: 28.5%;
+  top: 48.37%;
+}
+
+.blue-line-3 {
+  left: 28.5%;
+  top: 63.73%;
 }
 </style>
