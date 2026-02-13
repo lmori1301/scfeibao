@@ -33,54 +33,48 @@
                 {{ "人事任免                          >" }}
             </p>
             <div id="1_1881" class="Pixso-vector-1_1881"></div>
-            <p id="1_1882" class="Pixso-paragraph-1_1882">
-                {{ "四川飞豹救援关于李XX等6名同志任职的通知" }}
-            </p>
-            <p id="1_1883" class="Pixso-paragraph-1_1883">
-                {{ "四川飞豹救援关于李XX等6名同志任职的通知" }}
-            </p>
-            <p id="1_1884" class="Pixso-paragraph-1_1884">
-                {{ "四川飞豹救援关于李XX等6名同志任职的通知" }}
-            </p>
-            <div id="1_1961" class="Pixso-vector-1_1961"></div>
-            <div id="1_1962" class="Pixso-vector-1_1962"></div>
-            <div id="1_1963" class="Pixso-vector-1_1963"></div>
-            <p id="1_1964" class="Pixso-paragraph-1_1964">
-                {{ "四川飞豹救援关于李XX等6名同志任职的通知" }}
-            </p>
-            <p id="1_1965" class="Pixso-paragraph-1_1965">
-                {{ "四川飞豹救援关于李XX等6名同志任免职的通知" }}
-            </p>
-            <p id="1_1966" class="Pixso-paragraph-1_1966">
-                {{ "四川飞豹救援关于李XX等6名同志任免职的通知" }}
-            </p>
-            <p id="1_1967" class="Pixso-paragraph-1_1967">
-                {{
-                    "文号：应急 川 〔2025〕18 号     发布日期：2024-03-15     生效日期：2024-05-01     发布部门：四川飞豹救援"
-                }}
-            </p>
-            <p id="1_1968" class="Pixso-paragraph-1_1968">
-                {{
-                    "文号：应急 川 〔2025〕18 号     发布日期：2024-03-15     生效日期：2024-05-01     发布部门：四川飞豹救援"
-                }}
-            </p>
-            <p id="1_1969" class="Pixso-paragraph-1_1969">
-                {{
-                    "文号：应急 川 〔2025〕18 号     发布日期：2024-03-15     生效日期：2024-05-01     发布部门：四川飞豹救援"
-                }}
-            </p>
-            <div id="1_1970" class="Pixso-vector-1_1970"></div>
-            <p id="1_1971" class="Pixso-paragraph-1_1971">{{ "下载文件" }}</p>
-            <div id="1_1972" class="Pixso-vector-1_1972"></div>
-            <p id="1_1973" class="Pixso-paragraph-1_1973">{{ "下载文件" }}</p>
-            <div id="1_1974" class="Pixso-vector-1_1974"></div>
-            <p id="1_1975" class="Pixso-paragraph-1_1975">{{ "下载文件" }}</p>
-            <div id="1_1976" class="Pixso-vector-1_1976"></div>
-            <div id="6_322" class="Pixso-group-6_322">
-                <div id="6_323" class="Pixso-vector-6_323"></div>
-                <p id="6_397" class="Pixso-paragraph-6_397">
-                    {{ "共计 10 条" }}
+
+            <!-- 动态渲染人事任免列表 -->
+            <template v-for="(item, index) in paginatedPersonnel" :key="item.id">
+                <!-- 背景卡片 -->
+                <div :id="`1_${1961 + index}`" :class="`Pixso-vector-1_${1961 + index}`"></div>
+
+                <!-- 标题 -->
+                <p :id="`1_${1964 + index}`" :class="`Pixso-paragraph-1_${1964 + index}`">
+                    {{ item.title }}
                 </p>
+
+                <!-- 文档信息 -->
+                <p :id="`1_${1967 + index}`" :class="`Pixso-paragraph-1_${1967 + index}`">
+                    {{ `文号：${item.docNumber}     发布日期：${item.publishDate}     生效日期：${item.effectiveDate}     发布部门：${item.department}` }}
+                </p>
+
+                <!-- 下载按钮 -->
+                <div
+                    :id="`1_${1970 + index * 2}`"
+                    :class="`Pixso-vector-1_${1970 + index * 2}`"
+                    @click="downloadFile(item.fileUrl, `${item.docNumber}.pdf`)"
+                    style="cursor: pointer;"
+                ></div>
+                <p
+                    :id="`1_${1971 + index * 2}`"
+                    :class="`Pixso-paragraph-1_${1971 + index * 2}`"
+                    @click="downloadFile(item.fileUrl, `${item.docNumber}.pdf`)"
+                    style="cursor: pointer;"
+                >{{ "下载文件" }}</p>
+            </template>
+
+            <div id="1_1976" class="Pixso-vector-1_1976"></div>
+
+            <!-- 分页组件 -->
+            <div style="position: absolute; right: 5.57%; top: 74.63%; height: 2.83%;">
+                <Pagination
+                    :total="totalPersonnel"
+                    v-model:current-page="currentPage"
+                    v-model:page-size="pageSize"
+                    :page-size-options="[3, 6, 9]"
+                    @page-change="handlePageChange"
+                />
             </div>
             <div id="33_156" class="Pixso-group-33_156" @click.stop>
             <div id="33_157" class="Pixso-vector-33_157"></div>
@@ -103,10 +97,141 @@
     </div>
 </template>
 <script lang="ts" setup>
-import { ref } from 'vue'
+import { ref, computed } from 'vue'
 import { useRouter } from 'vue-router'
+import Pagination from '@/components/common/Pagination.vue'
 
 const router = useRouter()
+
+// 分页状态
+const currentPage = ref(1)
+const pageSize = ref(3)
+
+// 人事任免数据
+const personnelList = ref([
+  {
+    id: 1,
+    title: '四川飞豹救援关于李XX等6名同志任职的通知',
+    docNumber: '应急川〔2025〕18号',
+    publishDate: '2024-03-15',
+    effectiveDate: '2024-05-01',
+    department: '四川飞豹救援',
+    fileUrl: '/files/personnel/2025-18.pdf'  // 文件附件URL，后续由后台管理系统维护
+  },
+  {
+    id: 2,
+    title: '四川飞豹救援关于王XX等5名同志任免职的通知',
+    docNumber: '应急川〔2025〕17号',
+    publishDate: '2024-03-10',
+    effectiveDate: '2024-04-15',
+    department: '四川飞豹救援',
+    fileUrl: '/files/personnel/2025-17.pdf'
+  },
+  {
+    id: 3,
+    title: '四川飞豹救援关于张XX等4名同志任职的通知',
+    docNumber: '应急川〔2025〕16号',
+    publishDate: '2024-03-05',
+    effectiveDate: '2024-04-10',
+    department: '四川飞豹救援',
+    fileUrl: '/files/personnel/2025-16.pdf'
+  },
+  {
+    id: 4,
+    title: '四川飞豹救援关于刘XX等3名同志任免职的通知',
+    docNumber: '应急川〔2025〕15号',
+    publishDate: '2024-02-28',
+    effectiveDate: '2024-04-01',
+    department: '四川飞豹救援',
+    fileUrl: '/files/personnel/2025-15.pdf'
+  },
+  {
+    id: 5,
+    title: '四川飞豹救援关于陈XX等7名同志任职的通知',
+    docNumber: '应急川〔2025〕14号',
+    publishDate: '2024-02-20',
+    effectiveDate: '2024-03-25',
+    department: '四川飞豹救援',
+    fileUrl: '/files/personnel/2025-14.pdf'
+  },
+  {
+    id: 6,
+    title: '四川飞豹救援关于赵XX等5名同志任免职的通知',
+    docNumber: '应急川〔2025〕13号',
+    publishDate: '2024-02-15',
+    effectiveDate: '2024-03-20',
+    department: '四川飞豹救援',
+    fileUrl: '/files/personnel/2025-13.pdf'
+  },
+  {
+    id: 7,
+    title: '四川飞豹救援关于周XX等6名同志任职的通知',
+    docNumber: '应急川〔2025〕12号',
+    publishDate: '2024-02-10',
+    effectiveDate: '2024-03-15',
+    department: '四川飞豹救援',
+    fileUrl: '/files/personnel/2025-12.pdf'
+  },
+  {
+    id: 8,
+    title: '四川飞豹救援关于吴XX等4名同志任免职的通知',
+    docNumber: '应急川〔2025〕11号',
+    publishDate: '2024-02-05',
+    effectiveDate: '2024-03-10',
+    department: '四川飞豹救援',
+    fileUrl: '/files/personnel/2025-11.pdf'
+  },
+  {
+    id: 9,
+    title: '四川飞豹救援关于郑XX等5名同志任职的通知',
+    docNumber: '应急川〔2025〕10号',
+    publishDate: '2024-01-30',
+    effectiveDate: '2024-03-05',
+    department: '四川飞豹救援',
+    fileUrl: '/files/personnel/2025-10.pdf'
+  },
+  {
+    id: 10,
+    title: '四川飞豹救援关于孙XX等3名同志任免职的通知',
+    docNumber: '应急川〔2025〕09号',
+    publishDate: '2024-01-25',
+    effectiveDate: '2024-03-01',
+    department: '四川飞豹救援',
+    fileUrl: '/files/personnel/2025-09.pdf'
+  }
+])
+
+// 计算总数
+const totalPersonnel = computed(() => personnelList.value.length)
+
+// 计算当前页显示的数据
+const paginatedPersonnel = computed(() => {
+  const start = (currentPage.value - 1) * pageSize.value
+  const end = start + pageSize.value
+  return personnelList.value.slice(start, end)
+})
+
+// 页码改变处理
+function handlePageChange() {
+  window.scrollTo({ top: 0, behavior: 'smooth' })
+}
+
+// 下载文件
+function downloadFile(fileUrl: string, fileName: string) {
+  if (!fileUrl) {
+    console.warn('文件URL为空，无法下载')
+    return
+  }
+
+  // 创建临时a标签触发下载
+  const link = document.createElement('a')
+  link.href = fileUrl
+  link.download = fileName
+  link.style.display = 'none'
+  document.body.appendChild(link)
+  link.click()
+  document.body.removeChild(link)
+}
 
 // 搜索
 const searchKey = ref('')
