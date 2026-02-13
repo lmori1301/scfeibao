@@ -42,7 +42,6 @@ const routes: RouteRecordRaw[] = [
   // 信息公开
   { path: '/info-public', name: 'InfoPublic', component: () => import('@/views/info-public/personnel.vue') },
   { path: '/info-public/personnel', name: 'Personnel', component: () => import('@/views/info-public/personnel.vue') },
-  { path: '/info-public/personnel/:id', name: 'PersonnelDetail', component: () => import('@/views/info-public/personnel-detail.vue') },
 
   // 政策法规
   { path: '/policy-regulations', name: 'PolicyRegulations', component: () => import('@/views/policy-regulations/laws.vue') },
