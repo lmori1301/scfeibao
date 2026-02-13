@@ -16,54 +16,43 @@
             <p id="1_1704" class="Pixso-paragraph-1_1704">
                 {{ "当前位置：首页 > 党建专栏> 党员学“习”" }}
             </p>
-            <div id="1_1705" class="Pixso-vector-1_1705"></div>
-            <div id="1_1706" class="Pixso-vector-1_1706"></div>
-            <div id="1_1707" class="Pixso-vector-1_1707"></div>
-            <div id="1_1708" class="Pixso-vector-1_1708"></div>
-            <div id="1_1709" class="Pixso-vector-1_1709"></div>
-            <p id="1_1710" class="Pixso-paragraph-1_1710">{{ "2025-12" }}</p>
-            <p id="1_1711" class="Pixso-paragraph-1_1711">{{ "06" }}</p>
-            <div id="1_1712" class="Pixso-vector-1_1712"></div>
-            <p id="1_1713" class="Pixso-paragraph-1_1713">{{ "2025-12" }}</p>
-            <p id="1_1714" class="Pixso-paragraph-1_1714">{{ "06" }}</p>
-            <div id="1_1715" class="Pixso-vector-1_1715"></div>
-            <p id="1_1716" class="Pixso-paragraph-1_1716">{{ "2025-12" }}</p>
-            <p id="1_1717" class="Pixso-paragraph-1_1717">{{ "06" }}</p>
-            <div id="1_1718" class="Pixso-vector-1_1718"></div>
-            <p id="1_1719" class="Pixso-paragraph-1_1719">{{ "2025-12" }}</p>
-            <p id="1_1720" class="Pixso-paragraph-1_1720">{{ "06" }}</p>
-            <p id="1_1721" class="Pixso-paragraph-1_1721">
-                {{
-                    "认真践行习近平总书记关于党的自我革命的重要思想李炎溪，党的十八大以来，习近平总书记站在事关党的长期..."
-                }}
-            </p>
-            <p id="1_1722" class="Pixso-paragraph-1_1722">
-                {{
-                    "协同推进科学立法、严格执法、公正司法、全民守法沈春耀，法治是治国理政的基本方式。党的二十届四中全会..."
-                }}
-            </p>
-            <p id="1_1723" class="Pixso-paragraph-1_1723">
-                {{
-                    "“就业是家事，更是国事。”11月1日出版的第21期《求是》杂志刊发习近平总书记重要文章《促进高质量..."
-                }}
-            </p>
-            <p id="1_1724" class="Pixso-paragraph-1_1724">
-                {{
-                    "“以学铸魂，就是要做好学习贯彻新时代中国特色社会主义思想的深化、内化、转化工作，从思想上正本清源、固..."
-                }}
-            </p>
-            <p id="1_1725" class="Pixso-paragraph-1_1725">
-                {{ "认真践行习近平总书记关于党的自我革命的重要思想" }}
-            </p>
-            <p id="1_1726" class="Pixso-paragraph-1_1726">
-                {{ "协同推进科学立法、严格执法、公正司法、全民守法" }}
-            </p>
-            <p id="1_1727" class="Pixso-paragraph-1_1727">
-                {{ "习近平总书记深刻阐释新时代新征程就业工作的新定位、新使命" }}
-            </p>
-            <p id="1_1728" class="Pixso-paragraph-1_1728">
-                {{ "以学铸魂，站稳人民立场" }}
-            </p>
+            <!-- 动态文章列表 -->
+            <template v-if="paginatedStudy.length > 0">
+                <!-- 第一条 -->
+                <div v-if="paginatedStudy[0]" id="1_1705" class="Pixso-vector-1_1705" @click="goToDetail(paginatedStudy[0].id)" style="cursor: pointer;"></div>
+                <div v-if="paginatedStudy[0]" id="1_1709" class="Pixso-vector-1_1709"></div>
+                <p v-if="paginatedStudy[0]" id="1_1710" class="Pixso-paragraph-1_1710">{{ formatDate(paginatedStudy[0].publishDate).year }}</p>
+                <p v-if="paginatedStudy[0]" id="1_1711" class="Pixso-paragraph-1_1711">{{ formatDate(paginatedStudy[0].publishDate).day }}</p>
+                <p v-if="paginatedStudy[0]" id="1_1725" class="Pixso-paragraph-1_1725">{{ paginatedStudy[0].title }}</p>
+                <p v-if="paginatedStudy[0]" id="1_1721" class="Pixso-paragraph-1_1721">{{ paginatedStudy[0].summary }}</p>
+
+                <!-- 第二条 -->
+                <div v-if="paginatedStudy[1]" id="1_1706" class="Pixso-vector-1_1706" @click="goToDetail(paginatedStudy[1].id)" style="cursor: pointer;"></div>
+                <div v-if="paginatedStudy[1]" id="1_1712" class="Pixso-vector-1_1712"></div>
+                <p v-if="paginatedStudy[1]" id="1_1713" class="Pixso-paragraph-1_1713">{{ formatDate(paginatedStudy[1].publishDate).year }}</p>
+                <p v-if="paginatedStudy[1]" id="1_1714" class="Pixso-paragraph-1_1714">{{ formatDate(paginatedStudy[1].publishDate).day }}</p>
+                <p v-if="paginatedStudy[1]" id="1_1726" class="Pixso-paragraph-1_1726">{{ paginatedStudy[1].title }}</p>
+                <p v-if="paginatedStudy[1]" id="1_1722" class="Pixso-paragraph-1_1722">{{ paginatedStudy[1].summary }}</p>
+
+                <!-- 第三条 -->
+                <div v-if="paginatedStudy[2]" id="1_1707" class="Pixso-vector-1_1707" @click="goToDetail(paginatedStudy[2].id)" style="cursor: pointer;"></div>
+                <div v-if="paginatedStudy[2]" id="1_1715" class="Pixso-vector-1_1715"></div>
+                <p v-if="paginatedStudy[2]" id="1_1716" class="Pixso-paragraph-1_1716">{{ formatDate(paginatedStudy[2].publishDate).year }}</p>
+                <p v-if="paginatedStudy[2]" id="1_1717" class="Pixso-paragraph-1_1717">{{ formatDate(paginatedStudy[2].publishDate).day }}</p>
+                <p v-if="paginatedStudy[2]" id="1_1727" class="Pixso-paragraph-1_1727">{{ paginatedStudy[2].title }}</p>
+                <p v-if="paginatedStudy[2]" id="1_1723" class="Pixso-paragraph-1_1723">{{ paginatedStudy[2].summary }}</p>
+
+                <!-- 第四条 -->
+                <div v-if="paginatedStudy[3]" id="1_1708" class="Pixso-vector-1_1708" @click="goToDetail(paginatedStudy[3].id)" style="cursor: pointer;"></div>
+                <div v-if="paginatedStudy[3]" id="1_1718" class="Pixso-vector-1_1718"></div>
+                <p v-if="paginatedStudy[3]" id="1_1719" class="Pixso-paragraph-1_1719">{{ formatDate(paginatedStudy[3].publishDate).year }}</p>
+                <p v-if="paginatedStudy[3]" id="1_1720" class="Pixso-paragraph-1_1720">{{ formatDate(paginatedStudy[3].publishDate).day }}</p>
+                <p v-if="paginatedStudy[3]" id="1_1728" class="Pixso-paragraph-1_1728">{{ paginatedStudy[3].title }}</p>
+                <p v-if="paginatedStudy[3]" id="1_1724" class="Pixso-paragraph-1_1724">{{ paginatedStudy[3].summary }}</p>
+            </template>
+            <template v-else>
+                <div style="position: absolute; left: 26.15%; top: 18.18%; width: 68.08%; text-align: center; padding: 60px 0; color: #999;">暂无数据</div>
+            </template>
             <div id="1_1805" class="Pixso-vector-1_1805"></div>
             <div id="1_1806" class="Pixso-vector-1_1806"></div>
             <div id="1_1807" class="Pixso-vector-1_1807"></div>
@@ -79,14 +68,20 @@
             <div id="1_1815" class="Pixso-vector-1_1815"></div>
             <div id="1_1816" class="Pixso-vector-1_1816"></div>
             <router-link id="1_1817" to="/party-building/members" class="Pixso-paragraph-1_1817 party-sidebar-link">{{ "党员先锋" }}</router-link>
-            <div id="1_1818" class="Pixso-vector-1_1818"></div>
-            <div id="1_1821" class="Pixso-vector-1_1821"></div>
-            <div id="1_1824" class="Pixso-vector-1_1824"></div>
-            <div id="1_1827" class="Pixso-vector-1_1827"></div>
+            <div v-if="paginatedStudy[0]" id="1_1818" class="Pixso-vector-1_1818"></div>
+            <div v-if="paginatedStudy[1]" id="1_1821" class="Pixso-vector-1_1821"></div>
+            <div v-if="paginatedStudy[2]" id="1_1824" class="Pixso-vector-1_1824"></div>
+            <div v-if="paginatedStudy[3]" id="1_1827" class="Pixso-vector-1_1827"></div>
             <div id="1_1830" class="Pixso-vector-1_1830"></div>
-            <div id="6_18" class="Pixso-group-6_18">
-                <div id="6_19" class="Pixso-vector-6_19"></div>
-                <p id="6_93" class="Pixso-paragraph-6_93">{{ "共计 10 条" }}</p>
+            <!-- 分页组件 -->
+            <div style="position: absolute; right: 5.52%; top: 79.33%; height: 2.22%;">
+                <Pagination
+                    :total="totalStudy"
+                    v-model:current-page="currentPage"
+                    v-model:page-size="pageSize"
+                    :page-size-options="[4, 8, 12]"
+                    @page-change="handlePageChange"
+                />
             </div>
             <div id="33_192" class="Pixso-group-33_192" @click.stop>
             <div id="33_193" class="Pixso-vector-33_193"></div>
@@ -117,10 +112,123 @@
     </div>
 </template>
 <script lang="ts" setup>
-import { ref } from 'vue'
+import { ref, computed } from 'vue'
 import { useRouter } from 'vue-router'
+import Pagination from '@/components/common/Pagination.vue'
 
 const router = useRouter()
+
+// 分页状态
+const currentPage = ref(1)
+const pageSize = ref(4)
+
+// 党员学"习"数据
+const studyList = ref([
+  {
+    id: 1,
+    title: '深入学习贯彻习近平新时代中国特色社会主义思想',
+    summary: '认真践行习近平总书记关于党的自我革命的重要思想，党的十八大以来，习近平总书记站在事关党的长期...',
+    publishDate: '2025-12-06'
+  },
+  {
+    id: 2,
+    title: '学习贯彻党的二十届四中全会精神',
+    summary: '协同推进科学立法、严格执法、公正司法、全民守法，法治是治国理政的基本方式。党的二十届四中全会...',
+    publishDate: '2025-12-06'
+  },
+  {
+    id: 3,
+    title: '促进高质量充分就业 - 学习习近平总书记重要文章',
+    summary: '"就业是家事，更是国事。"11月1日出版的第21期《求是》杂志刊发习近平总书记重要文章《促进高质量...',
+    publishDate: '2025-12-06'
+  },
+  {
+    id: 4,
+    title: '以学铸魂 - 深化新时代中国特色社会主义思想学习',
+    summary: '"以学铸魂，就是要做好学习贯彻新时代中国特色社会主义思想的深化、内化、转化工作，从思想上正本清源、固...',
+    publishDate: '2025-12-06'
+  },
+  {
+    id: 5,
+    title: '党史学习教育：从百年党史中汲取智慧和力量',
+    summary: '通过系统学习党的百年奋斗历程，深刻理解党的初心使命，传承红色基因，赓续精神血脉...',
+    publishDate: '2025-11-28'
+  },
+  {
+    id: 6,
+    title: '理论学习：提升马克思主义理论素养',
+    summary: '深入学习马克思主义基本原理，掌握科学的世界观和方法论，提升理论思维能力...',
+    publishDate: '2025-11-20'
+  },
+  {
+    id: 7,
+    title: '政策学习：准确把握党的路线方针政策',
+    summary: '及时学习党中央的重大决策部署，准确理解政策精神，确保贯彻落实不走样...',
+    publishDate: '2025-11-15'
+  },
+  {
+    id: 8,
+    title: '业务学习：提升救援专业技能',
+    summary: '组织专业知识学习，不断提升救援技能和应急处置能力，为救援工作提供技术保障...',
+    publishDate: '2025-11-10'
+  },
+  {
+    id: 9,
+    title: '法律学习：增强法治意识和法律素养',
+    summary: '学习相关法律法规，增强法治观念，确保救援工作依法依规开展...',
+    publishDate: '2025-11-05'
+  },
+  {
+    id: 10,
+    title: '安全学习：筑牢安全防线',
+    summary: '加强安全知识学习，提升安全意识，确保救援行动安全有序进行...',
+    publishDate: '2025-10-30'
+  },
+  {
+    id: 11,
+    title: '经验学习：总结提炼救援工作经验',
+    summary: '通过案例分析和经验总结，不断提升救援工作的科学性和有效性...',
+    publishDate: '2025-10-25'
+  },
+  {
+    id: 12,
+    title: '创新学习：探索救援工作新模式',
+    summary: '学习借鉴先进经验，创新工作方法，推动救援工作高质量发展...',
+    publishDate: '2025-10-20'
+  }
+])
+
+// 计算总数
+const totalStudy = computed(() => studyList.value.length)
+
+// 计算当前页显示的数据
+const paginatedStudy = computed(() => {
+  const start = (currentPage.value - 1) * pageSize.value
+  const end = start + pageSize.value
+  return studyList.value.slice(start, end)
+})
+
+// 格式化日期
+const formatDate = (dateStr: string) => {
+  const date = new Date(dateStr)
+  const year = date.getFullYear()
+  const month = String(date.getMonth() + 1).padStart(2, '0')
+  const day = String(date.getDate()).padStart(2, '0')
+  return {
+    year: `${year}-${month}`,
+    day
+  }
+}
+
+// 页码改变处理
+function handlePageChange() {
+  window.scrollTo({ top: 0, behavior: 'smooth' })
+}
+
+// 跳转到详情页
+function goToDetail(id: number) {
+  router.push(`/party-building/study/${id}`)
+}
 
 // 搜索
 const searchKey = ref('')

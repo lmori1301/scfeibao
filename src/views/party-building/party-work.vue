@@ -37,7 +37,7 @@
           <template v-else-if="articleList.length > 0">
               <!-- 第一条：左侧日期 + 右侧内容 -->
               <div v-if="articleList[0]" id="1_1149" class="Pixso-vector-1_1149" @click="goToDetail(articleList[0].id)" style="cursor: pointer;"></div>
-              <div id="1_1375" class="Pixso-vector-1_1375"></div>
+              <div v-if="articleList[0]" id="1_1161" class="Pixso-vector-1_1161"></div>
               <p v-if="articleList[0]" id="1_1166" class="Pixso-paragraph-1_1166">{{ formatDate(articleList[0].publishDate).year }}</p>
               <p v-if="articleList[0]" id="1_1167" class="Pixso-paragraph-1_1167">{{ formatDate(articleList[0].publishDate).day }}</p>
               <p v-if="articleList[0]" id="1_1181" class="Pixso-paragraph-1_1181">{{ articleList[0].title }}</p>
@@ -45,7 +45,7 @@
               
               <!-- 第二条 -->
               <div v-if="articleList[1]" id="1_1152" class="Pixso-vector-1_1152" @click="goToDetail(articleList[1].id)" style="cursor: pointer;"></div>
-              <div id="1_1376" class="Pixso-vector-1_1376"></div>
+              <div v-if="articleList[1]" id="1_1162" class="Pixso-vector-1_1162"></div>
               <p v-if="articleList[1]" id="1_1169" class="Pixso-paragraph-1_1169">{{ formatDate(articleList[1].publishDate).year }}</p>
               <p v-if="articleList[1]" id="1_1170" class="Pixso-paragraph-1_1170">{{ formatDate(articleList[1].publishDate).day }}</p>
               <p v-if="articleList[1]" id="1_1182" class="Pixso-paragraph-1_1182">{{ articleList[1].title }}</p>
@@ -53,7 +53,7 @@
               
               <!-- 第三条 -->
               <div v-if="articleList[2]" id="1_1155" class="Pixso-vector-1_1155" @click="goToDetail(articleList[2].id)" style="cursor: pointer;"></div>
-              <div id="1_1377" class="Pixso-vector-1_1377"></div>
+              <div v-if="articleList[2]" id="1_1163" class="Pixso-vector-1_1163"></div>
               <p v-if="articleList[2]" id="1_1172" class="Pixso-paragraph-1_1172">{{ formatDate(articleList[2].publishDate).year }}</p>
               <p v-if="articleList[2]" id="1_1173" class="Pixso-paragraph-1_1173">{{ formatDate(articleList[2].publishDate).day }}</p>
               <p v-if="articleList[2]" id="1_1183" class="Pixso-paragraph-1_1183">{{ articleList[2].title }}</p>
@@ -61,7 +61,7 @@
               
               <!-- 第四条 -->
               <div v-if="articleList[3]" id="1_1158" class="Pixso-vector-1_1158" @click="goToDetail(articleList[3].id)" style="cursor: pointer;"></div>
-              <div id="1_1378" class="Pixso-vector-1_1378"></div>
+              <div v-if="articleList[3]" id="1_1164" class="Pixso-vector-1_1164"></div>
               <p v-if="articleList[3]" id="1_1175" class="Pixso-paragraph-1_1175">{{ formatDate(articleList[3].publishDate).year }}</p>
               <p v-if="articleList[3]" id="1_1176" class="Pixso-paragraph-1_1176">{{ formatDate(articleList[3].publishDate).day }}</p>
               <p v-if="articleList[3]" id="1_1184" class="Pixso-paragraph-1_1184">{{ articleList[3].title }}</p>
@@ -86,12 +86,17 @@
           <router-link id="1_1272" to="/party-building/study" class="Pixso-paragraph-1_1272 party-sidebar-link">党员学"习"</router-link>
           <div id="1_1273" class="Pixso-vector-1_1273"></div>
           <div id="1_1274" class="Pixso-vector-1_1274"></div>
-          <div id="6_246" class="Pixso-group-6_246">
-              <div id="6_247" class="Pixso-vector-6_247"></div>
-              <p id="6_321" class="Pixso-paragraph-6_321">
-                  {{ `共计 ${total} 条` }}
-              </p>
-        </div>
+          <!-- 分页组件 -->
+          <div style="position: absolute; right: 5.52%; top: 79.33%; height: 2.22%;">
+              <Pagination
+                  :total="total"
+                  v-model:current-page="currentPage"
+                  v-model:page-size="pageSize"
+                  :page-size-options="[4, 8, 12]"
+                  @page-change="handlePageChange"
+                  @size-change="handleSizeChange"
+              />
+          </div>
           <div id="33_165" class="Pixso-group-33_165" @click.stop>
               <div id="33_166" class="Pixso-vector-33_166"></div>
               <!-- 输入框 -->
@@ -119,6 +124,7 @@ import { useRouter } from 'vue-router'
 import { getPartyWorkList } from '@/api/party-building'
 import { getMockPartyWorkList } from '@/mock/party'
 import type { PartyWorkItem } from '@/types/party'
+import Pagination from '@/components/common/Pagination.vue'
 
 const router = useRouter()
 
@@ -128,7 +134,7 @@ const loadFailed = ref(false) // 接口失败时展示友好提示，避免仅�
 const articleList = ref<PartyWorkItem[]>([])
 const total = ref(0)
 const currentPage = ref(1)
-const pageSize = ref(10)
+const pageSize = ref(4)
 const searchKeyword = ref('')
 const jumpPage = ref(1)
 
@@ -274,8 +280,16 @@ const handleSearch = () => {
   fetchArticleList()
 }
 
+// 页码改变处理
+const handlePageChange = (page: number) => {
+  currentPage.value = page
+  fetchArticleList()
+  window.scrollTo({ top: 0, behavior: 'smooth' })
+}
+
 // 改变每页显示数量
-const handlePageSizeChange = () => {
+const handleSizeChange = (size: number) => {
+  pageSize.value = size
   currentPage.value = 1
   fetchArticleList()
 }

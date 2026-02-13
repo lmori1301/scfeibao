@@ -24,60 +24,43 @@
             <p id="1_1532" class="Pixso-paragraph-1_1532">
                 {{ "当前位置：首页 > 党建专栏> 党员先锋" }}
             </p>
-            <div id="1_1533" class="Pixso-vector-1_1533"></div>
-            <div id="1_1536" class="Pixso-vector-1_1536"></div>
-            <div id="1_1539" class="Pixso-vector-1_1539"></div>
-            <div id="1_1542" class="Pixso-vector-1_1542"></div>
-            <div id="1_1545" class="Pixso-vector-1_1545"></div>
-            <div id="1_1546" class="Pixso-vector-1_1546"></div>
-            <div id="1_1547" class="Pixso-vector-1_1547"></div>
-            <div id="1_1548" class="Pixso-vector-1_1548"></div>
-            <div id="1_1549" class="Pixso-vector-1_1549"></div>
-            <div id="1_1554" class="Pixso-vector-1_1554"></div>
-            <p id="1_1555" class="Pixso-paragraph-1_1555">{{ "2025-12" }}</p>
-            <p id="6_736" class="Pixso-paragraph-6_736">{{ "2025-12" }}</p>
-            <p id="1_1556" class="Pixso-paragraph-1_1556">{{ "06" }}</p>
-            <p id="6_737" class="Pixso-paragraph-6_737">{{ "06" }}</p>
-            <div id="1_1557" class="Pixso-vector-1_1557"></div>
-            <p id="1_1558" class="Pixso-paragraph-1_1558">{{ "2025-12" }}</p>
-            <p id="1_1559" class="Pixso-paragraph-1_1559">{{ "06" }}</p>
-            <div id="1_1560" class="Pixso-vector-1_1560"></div>
-            <p id="1_1561" class="Pixso-paragraph-1_1561">{{ "2025-12" }}</p>
-            <p id="1_1562" class="Pixso-paragraph-1_1562">{{ "06" }}</p>
-            <p id="1_1563" class="Pixso-paragraph-1_1563">
-                {{
-                    "认真践行习近平总书记关于党的自我革命的重要思想李炎溪，党的十八大以来，习近平总书记站在事关党的长期..."
-                }}
-            </p>
-            <p id="1_1564" class="Pixso-paragraph-1_1564">
-                {{
-                    "协同推进科学立法、严格执法、公正司法、全民守法沈春耀，法治是治国理政的基本方式。党的二十届四中全会..."
-                }}
-            </p>
-            <p id="1_1565" class="Pixso-paragraph-1_1565">
-                {{
-                    "“就业是家事，更是国事。”11月1日出版的第21期《求是》杂志刊发习近平总书记重要文章《促进高质量..."
-                }}
-            </p>
-            <p id="1_1566" class="Pixso-paragraph-1_1566">
-                {{
-                    "“以学铸魂，就是要做好学习贯彻新时代中国特色社会主义思想的深化、内化、转化工作，从思想上正本清源、固..."
-                }}
-            </p>
-            <p id="1_1567" class="Pixso-paragraph-1_1567">
-                {{ "“我是党员，我在岗位” | 李辉：“干一行、爱一行、精一行”" }}
-            </p>
-            <p id="1_1568" class="Pixso-paragraph-1_1568">
-                {{ "我是党员，我在岗位” | 张建设：“村民舒心了，我们就开心”" }}
-            </p>
-            <p id="1_1569" class="Pixso-paragraph-1_1569">
-                {{
-                    "“我是党员，我在岗位” | 黄国东：“帮农民端稳‘金饭碗’，很有成就感！”"
-                }}
-            </p>
-            <p id="1_1570" class="Pixso-paragraph-1_1570">
-                {{ "“我是党员，我在岗位” | 陈蓉：“确保各方平安，一切都值得”" }}
-            </p>
+            <!-- 动态文章列表 -->
+            <template v-if="paginatedMembers.length > 0">
+                <!-- 第一条 -->
+                <div v-if="paginatedMembers[0]" id="1_1533" class="Pixso-vector-1_1533" @click="goToDetail(paginatedMembers[0].id)" style="cursor: pointer;"></div>
+                <div v-if="paginatedMembers[0]" id="1_1545" class="Pixso-vector-1_1545"></div>
+                <p v-if="paginatedMembers[0]" id="6_736" class="Pixso-paragraph-6_736">{{ formatDate(paginatedMembers[0].publishDate).year }}</p>
+                <p v-if="paginatedMembers[0]" id="6_737" class="Pixso-paragraph-6_737">{{ formatDate(paginatedMembers[0].publishDate).day }}</p>
+                <p v-if="paginatedMembers[0]" id="1_1567" class="Pixso-paragraph-1_1567">{{ paginatedMembers[0].title }}</p>
+                <p v-if="paginatedMembers[0]" id="1_1563" class="Pixso-paragraph-1_1563">{{ paginatedMembers[0].summary }}</p>
+
+                <!-- 第二条 -->
+                <div v-if="paginatedMembers[1]" id="1_1536" class="Pixso-vector-1_1536" @click="goToDetail(paginatedMembers[1].id)" style="cursor: pointer;"></div>
+                <div v-if="paginatedMembers[1]" id="1_1546" class="Pixso-vector-1_1546"></div>
+                <p v-if="paginatedMembers[1]" id="1_1555" class="Pixso-paragraph-1_1555">{{ formatDate(paginatedMembers[1].publishDate).year }}</p>
+                <p v-if="paginatedMembers[1]" id="1_1556" class="Pixso-paragraph-1_1556">{{ formatDate(paginatedMembers[1].publishDate).day }}</p>
+                <p v-if="paginatedMembers[1]" id="1_1568" class="Pixso-paragraph-1_1568">{{ paginatedMembers[1].title }}</p>
+                <p v-if="paginatedMembers[1]" id="1_1564" class="Pixso-paragraph-1_1564">{{ paginatedMembers[1].summary }}</p>
+
+                <!-- 第三条 -->
+                <div v-if="paginatedMembers[2]" id="1_1539" class="Pixso-vector-1_1539" @click="goToDetail(paginatedMembers[2].id)" style="cursor: pointer;"></div>
+                <div v-if="paginatedMembers[2]" id="1_1547" class="Pixso-vector-1_1547"></div>
+                <p v-if="paginatedMembers[2]" id="1_1558" class="Pixso-paragraph-1_1558">{{ formatDate(paginatedMembers[2].publishDate).year }}</p>
+                <p v-if="paginatedMembers[2]" id="1_1559" class="Pixso-paragraph-1_1559">{{ formatDate(paginatedMembers[2].publishDate).day }}</p>
+                <p v-if="paginatedMembers[2]" id="1_1569" class="Pixso-paragraph-1_1569">{{ paginatedMembers[2].title }}</p>
+                <p v-if="paginatedMembers[2]" id="1_1565" class="Pixso-paragraph-1_1565">{{ paginatedMembers[2].summary }}</p>
+
+                <!-- 第四条 -->
+                <div v-if="paginatedMembers[3]" id="1_1542" class="Pixso-vector-1_1542" @click="goToDetail(paginatedMembers[3].id)" style="cursor: pointer;"></div>
+                <div v-if="paginatedMembers[3]" id="1_1548" class="Pixso-vector-1_1548"></div>
+                <p v-if="paginatedMembers[3]" id="1_1561" class="Pixso-paragraph-1_1561">{{ formatDate(paginatedMembers[3].publishDate).year }}</p>
+                <p v-if="paginatedMembers[3]" id="1_1562" class="Pixso-paragraph-1_1562">{{ formatDate(paginatedMembers[3].publishDate).day }}</p>
+                <p v-if="paginatedMembers[3]" id="1_1570" class="Pixso-paragraph-1_1570">{{ paginatedMembers[3].title }}</p>
+                <p v-if="paginatedMembers[3]" id="1_1566" class="Pixso-paragraph-1_1566">{{ paginatedMembers[3].summary }}</p>
+            </template>
+            <template v-else>
+                <div style="position: absolute; left: 26.15%; top: 18.18%; width: 68.08%; text-align: center; padding: 60px 0; color: #999;">暂无数据</div>
+            </template>
             <div id="1_1647" class="Pixso-vector-1_1647"></div>
             <div id="1_1648" class="Pixso-vector-1_1648"></div>
             <div id="1_1649" class="Pixso-vector-1_1649"></div>
@@ -111,20 +94,137 @@
                 @click="doSearch"
             ></div>
         </div>
-            <div id="34_4" class="Pixso-group-34_4">
-                <div id="34_5" class="Pixso-vector-34_5"></div>
-                <p id="34_79" class="Pixso-paragraph-34_79">
-                    {{ "共计 10 条" }}
-                </p>
+            <!-- 分页组件 -->
+            <div style="position: absolute; right: 5.52%; top: 79.33%; height: 2.22%;">
+                <Pagination
+                    :total="totalMembers"
+                    v-model:current-page="currentPage"
+                    v-model:page-size="pageSize"
+                    :page-size-options="[4, 8, 12]"
+                    @page-change="handlePageChange"
+                />
             </div>
         </div>
     </div>
 </template>
 <script lang="ts" setup>
-import { ref } from 'vue'
+import { ref, computed } from 'vue'
 import { useRouter } from 'vue-router'
+import Pagination from '@/components/common/Pagination.vue'
 
 const router = useRouter()
+
+// 分页状态
+const currentPage = ref(1)
+const pageSize = ref(4)
+
+// 党员先锋数据
+const membersList = ref([
+  {
+    id: 1,
+    title: '优秀党员：张明 - 冲锋在前的救援先锋',
+    summary: '张明同志在多次重大救援任务中表现突出，始终冲锋在前，用实际行动践行共产党员的初心使命...',
+    publishDate: '2025-12-06'
+  },
+  {
+    id: 2,
+    title: '模范党员：李华 - 技术攻关的带头人',
+    summary: '李华同志在救援技术研究方面成果显著，带领团队攻克多项技术难题，为救援工作提供有力支撑...',
+    publishDate: '2025-12-06'
+  },
+  {
+    id: 3,
+    title: '先进党员：王强 - 无私奉献的志愿者',
+    summary: '王强同志长期参与志愿服务活动，用爱心和行动温暖他人，展现了共产党员的良好形象...',
+    publishDate: '2025-12-06'
+  },
+  {
+    id: 4,
+    title: '优秀党员：刘芳 - 细致入微的后勤保障',
+    summary: '刘芳同志在后勤保障工作中兢兢业业，确保每次救援任务的顺利进行，是队伍的坚强后盾...',
+    publishDate: '2025-12-06'
+  },
+  {
+    id: 5,
+    title: '党员标兵：陈军 - 勇于担当的队长',
+    summary: '陈军同志作为救援队队长，带领团队完成多次艰巨任务，展现了优秀的领导能力和担当精神...',
+    publishDate: '2025-11-28'
+  },
+  {
+    id: 6,
+    title: '先进个人：赵敏 - 医疗救护的专家',
+    summary: '赵敏同志在医疗救护方面经验丰富，多次在关键时刻挽救伤员生命，是队伍的医疗骨干...',
+    publishDate: '2025-11-20'
+  },
+  {
+    id: 7,
+    title: '优秀党员：孙伟 - 装备维护的能手',
+    summary: '孙伟同志负责救援装备的维护保养，确保装备始终处于最佳状态，为救援工作提供装备保障...',
+    publishDate: '2025-11-15'
+  },
+  {
+    id: 8,
+    title: '模范党员：周丽 - 宣传工作的排头兵',
+    summary: '周丽同志在宣传工作中表现出色，通过多种渠道传播正能量，提升了救援队的社会影响力...',
+    publishDate: '2025-11-10'
+  },
+  {
+    id: 9,
+    title: '先进党员：吴涛 - 培训教育的专家',
+    summary: '吴涛同志负责队员培训工作，设计科学的培训课程，不断提升队员的专业技能和综合素质...',
+    publishDate: '2025-11-05'
+  },
+  {
+    id: 10,
+    title: '优秀党员：郑红 - 协调沟通的桥梁',
+    summary: '郑红同志在对外协调工作中表现突出，建立了良好的合作关系，为救援工作创造有利条件...',
+    publishDate: '2025-10-30'
+  },
+  {
+    id: 11,
+    title: '党员楷模：黄勇 - 应急响应的快手',
+    summary: '黄勇同志在应急响应方面反应迅速，多次第一时间赶赴现场，为救援争取了宝贵时间...',
+    publishDate: '2025-10-25'
+  },
+  {
+    id: 12,
+    title: '先进个人：林静 - 心理疏导的专家',
+    summary: '林静同志在心理疏导方面经验丰富，帮助受灾群众和队员缓解心理压力，维护心理健康...',
+    publishDate: '2025-10-20'
+  }
+])
+
+// 计算总数
+const totalMembers = computed(() => membersList.value.length)
+
+// 计算当前页显示的数据
+const paginatedMembers = computed(() => {
+  const start = (currentPage.value - 1) * pageSize.value
+  const end = start + pageSize.value
+  return membersList.value.slice(start, end)
+})
+
+// 格式化日期
+const formatDate = (dateStr: string) => {
+  const date = new Date(dateStr)
+  const year = date.getFullYear()
+  const month = String(date.getMonth() + 1).padStart(2, '0')
+  const day = String(date.getDate()).padStart(2, '0')
+  return {
+    year: `${year}-${month}`,
+    day
+  }
+}
+
+// 页码改变处理
+function handlePageChange() {
+  window.scrollTo({ top: 0, behavior: 'smooth' })
+}
+
+// 跳转到详情页
+function goToDetail(id: number) {
+  router.push(`/party-building/members/${id}`)
+}
 
 // 搜索
 const searchKey = ref('')
