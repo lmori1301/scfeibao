@@ -805,7 +805,7 @@ function downloadFile(fileUrl: string, fileName: string) {
     bottom: 52.06%;
 }
 .Pixso-vector-1_2394 {
-    width: 0.05%;
+    width: 0.2%;
     height: 1.38%;
     background-image: url(@/assets/images/Vector_1_2394.png);
     background-size: 100% 100%;
