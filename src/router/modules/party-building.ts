@@ -39,6 +39,14 @@ export default {
       }
     },
     {
+      path: 'team-work/:id',
+      name: 'TeamWorkDetail',
+      component: () => import('@/views/party-building/team-work-detail.vue'),
+      meta: {
+        title: '团建工作详情'
+      }
+    },
+    {
       path: 'members',
       name: 'PartyMembers',
       component: () => import('@/views/party-building/members.vue'),
@@ -47,11 +55,27 @@ export default {
       }
     },
     {
+      path: 'members/:id',
+      name: 'PartyMembersDetail',
+      component: () => import('@/views/party-building/member-detail.vue'),
+      meta: {
+        title: '党员先锋详情'
+      }
+    },
+    {
       path: 'study',
       name: 'PartyStudy',
       component: () => import('@/views/party-building/study.vue'),
       meta: {
         title: '党员学"习"'
+      }
+    },
+    {
+      path: 'study/:id',
+      name: 'PartyStudyDetail',
+      component: () => import('@/views/party-building/study-detail.vue'),
+      meta: {
+        title: '党员学"习"详情'
       }
     }
   ]

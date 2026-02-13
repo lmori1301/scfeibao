@@ -35,7 +35,7 @@
               <div v-if="paginatedTeamWork[0]" id="1_1376" class="Pixso-vector-1_1376"></div>
               <p v-if="paginatedTeamWork[0]" id="1_1380" class="Pixso-paragraph-1_1380">{{ formatDate(paginatedTeamWork[0].publishDate).year }}</p>
               <p v-if="paginatedTeamWork[0]" id="1_1381" class="Pixso-paragraph-1_1381">{{ formatDate(paginatedTeamWork[0].publishDate).day }}</p>
-              <p v-if="paginatedTeamWork[0]" id="1_1395" class="Pixso-paragraph-1_1395">{{ paginatedTeamWork[0].title }}</p>
+              <p v-if="paginatedTeamWork[0]" id="1_1395" class="Pixso-paragraph-1_1395" @click="goToDetail(paginatedTeamWork[0].id)" style="cursor: pointer;">{{ paginatedTeamWork[0].title }}</p>
               <p v-if="paginatedTeamWork[0]" id="1_1391" class="Pixso-paragraph-1_1391">{{ paginatedTeamWork[0].summary }}</p>
 
               <!-- 第二条 -->
@@ -43,7 +43,7 @@
               <div v-if="paginatedTeamWork[1]" id="1_1382" class="Pixso-vector-1_1382"></div>
               <p v-if="paginatedTeamWork[1]" id="1_1383" class="Pixso-paragraph-1_1383">{{ formatDate(paginatedTeamWork[1].publishDate).year }}</p>
               <p v-if="paginatedTeamWork[1]" id="1_1384" class="Pixso-paragraph-1_1384">{{ formatDate(paginatedTeamWork[1].publishDate).day }}</p>
-              <p v-if="paginatedTeamWork[1]" id="1_1396" class="Pixso-paragraph-1_1396">{{ paginatedTeamWork[1].title }}</p>
+              <p v-if="paginatedTeamWork[1]" id="1_1396" class="Pixso-paragraph-1_1396" @click="goToDetail(paginatedTeamWork[1].id)" style="cursor: pointer;">{{ paginatedTeamWork[1].title }}</p>
               <p v-if="paginatedTeamWork[1]" id="1_1392" class="Pixso-paragraph-1_1392">{{ paginatedTeamWork[1].summary }}</p>
 
               <!-- 第三条 -->
@@ -51,7 +51,7 @@
               <div v-if="paginatedTeamWork[2]" id="1_1385" class="Pixso-vector-1_1385"></div>
               <p v-if="paginatedTeamWork[2]" id="1_1386" class="Pixso-paragraph-1_1386">{{ formatDate(paginatedTeamWork[2].publishDate).year }}</p>
               <p v-if="paginatedTeamWork[2]" id="1_1387" class="Pixso-paragraph-1_1387">{{ formatDate(paginatedTeamWork[2].publishDate).day }}</p>
-              <p v-if="paginatedTeamWork[2]" id="1_1397" class="Pixso-paragraph-1_1397">{{ paginatedTeamWork[2].title }}</p>
+              <p v-if="paginatedTeamWork[2]" id="1_1397" class="Pixso-paragraph-1_1397" @click="goToDetail(paginatedTeamWork[2].id)" style="cursor: pointer;">{{ paginatedTeamWork[2].title }}</p>
               <p v-if="paginatedTeamWork[2]" id="1_1393" class="Pixso-paragraph-1_1393">{{ paginatedTeamWork[2].summary }}</p>
 
               <!-- 第四条 -->
@@ -59,7 +59,7 @@
               <div v-if="paginatedTeamWork[3]" id="1_1388" class="Pixso-vector-1_1388"></div>
               <p v-if="paginatedTeamWork[3]" id="1_1389" class="Pixso-paragraph-1_1389">{{ formatDate(paginatedTeamWork[3].publishDate).year }}</p>
               <p v-if="paginatedTeamWork[3]" id="1_1390" class="Pixso-paragraph-1_1390">{{ formatDate(paginatedTeamWork[3].publishDate).day }}</p>
-              <p v-if="paginatedTeamWork[3]" id="1_1398" class="Pixso-paragraph-1_1398">{{ paginatedTeamWork[3].title }}</p>
+              <p v-if="paginatedTeamWork[3]" id="1_1398" class="Pixso-paragraph-1_1398" @click="goToDetail(paginatedTeamWork[3].id)" style="cursor: pointer;">{{ paginatedTeamWork[3].title }}</p>
               <p v-if="paginatedTeamWork[3]" id="1_1394" class="Pixso-paragraph-1_1394">{{ paginatedTeamWork[3].summary }}</p>
           </template>
           <template v-else>
