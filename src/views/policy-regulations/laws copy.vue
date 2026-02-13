@@ -16,59 +16,66 @@
             <p id="1_2282" class="Pixso-paragraph-1_2282">
                 当前位置：<router-link to="/" style="color: inherit; text-decoration: none;">首页</router-link> > <router-link to="/policy-regulations" style="color: inherit; text-decoration: none;">政策法规</router-link> > 政策文件
             </p>
-
-            <!-- 动态渲染政策列表 -->
-            <template v-for="(item, index) in paginatedLaws" :key="item.id">
-                <!-- 背景框 -->
-                <div :id="`1_${2360 + index}`" :class="`Pixso-vector-1_${2360 + index}`"></div>
-
-                <!-- 标题 -->
-                <p :id="`1_${2363 + index}`" :class="`Pixso-paragraph-1_${2363 + index}`">
-                    {{ item.title }}
+            <div id="6_17" class="Pixso-group-6_17">
+                <div id="1_2284" class="Pixso-vector-1_2284"></div>
+                <p id="1_2359" class="Pixso-paragraph-1_2359">
+                    {{ "共计 10 条" }}
                 </p>
-
-                <!-- 文档信息 -->
-                <p :id="`1_${2366 + index}`" :class="`Pixso-paragraph-1_${2366 + index}`">
-                    {{ `文号：${item.docNumber}     发布日期：${item.publishDate}     生效日期：${item.effectiveDate}     发布部门：${item.department}` }}
-                </p>
-
-                <!-- 内容摘要 -->
-                <p :id="`1_${2369 + index}`" :class="`Pixso-paragraph-1_${2369 + index}`">
-                    {{ item.summary }}
-                </p>
-
-                <!-- 下载按钮 -->
-                <div
-                    :id="`1_${2372 + index * 2}`"
-                    :class="`Pixso-vector-1_${2372 + index * 2}`"
-                    @click="downloadFile(item.fileUrl, `${item.title}.pdf`)"
-                    style="cursor: pointer;"
-                ></div>
-                <p
-                    :id="`1_${2373 + index * 2}`"
-                    :class="`Pixso-paragraph-1_${2373 + index * 2}`"
-                    @click="downloadFile(item.fileUrl, `${item.title}.pdf`)"
-                    style="cursor: pointer;"
-                >{{ "下载文件" }}</p>
-            </template>
-
-            <!-- 分页组件 -->
-            <div style="position: absolute; right: 5.57%; top: 76.24%; height: 2.51%;">
-                <Pagination
-                    :total="totalLaws"
-                    v-model:current-page="currentPage"
-                    v-model:page-size="pageSize"
-                    :page-size-options="[3, 6, 9]"
-                    @page-change="handlePageChange"
-                />
             </div>
-
-            <div id="1_2378" class="Pixso-vector-1_2378" v-if="paginatedLaws.length >= 1"></div>
-            <p id="1_2379" class="Pixso-paragraph-1_2379" v-if="paginatedLaws.length >= 1">{{ "法律法规" }}</p>
-            <div id="1_2380" class="Pixso-vector-1_2380" v-if="paginatedLaws.length >= 2"></div>
-            <p id="1_2381" class="Pixso-paragraph-1_2381" v-if="paginatedLaws.length >= 2">{{ "部门规章" }}</p>
-            <div id="1_2382" class="Pixso-vector-1_2382" v-if="paginatedLaws.length >= 3"></div>
-            <p id="1_2383" class="Pixso-paragraph-1_2383" v-if="paginatedLaws.length >= 3">{{ "行业标准" }}</p>
+            <div id="1_2360" class="Pixso-vector-1_2360"></div>
+            <div id="1_2361" class="Pixso-vector-1_2361"></div>
+            <div id="1_2362" class="Pixso-vector-1_2362"></div>
+            <p id="1_2363" class="Pixso-paragraph-1_2363">
+                {{ "国家应急救援队伍建设管理办法" }}
+            </p>
+            <p id="1_2364" class="Pixso-paragraph-1_2364">
+                {{ "应急救援人员培训考核规定" }}
+            </p>
+            <p id="1_2365" class="Pixso-paragraph-1_2365">
+                {{ "地震救援队伍建设标准" }}
+            </p>
+            <p id="1_2366" class="Pixso-paragraph-1_2366">
+                {{
+                    "文号：应急管理部令第15号     发布日期：2024-03-15     生效日期：2024-05-01     发布部门：应急管理部"
+                }}
+            </p>
+            <p id="1_2367" class="Pixso-paragraph-1_2367">
+                {{
+                    "文号：应急管理部令第15号     发布日期：2024-03-15     生效日期：2024-05-01     发布部门：四川飞豹救援"
+                }}
+            </p>
+            <p id="1_2368" class="Pixso-paragraph-1_2368">
+                {{
+                    "文号：应急管理部令第15号     发布日期：2024-03-15     生效日期：2024-05-01     发布部门：应急管理部"
+                }}
+            </p>
+            <p id="1_2369" class="Pixso-paragraph-1_2369">
+                {{
+                    "为了规范应急救援队伍建设，提高救援能力，保障人民群众生命财产安全，根据《中华人民共和国突发事件应对法》等法律法规，制定本办法。"
+                }}
+            </p>
+            <p id="1_2370" class="Pixso-paragraph-1_2370">
+                {{
+                    "为了规范应急救援人员的培训考核工作，提高救援人员专业素质，制定本规定。"
+                }}
+            </p>
+            <p id="1_2371" class="Pixso-paragraph-1_2371">
+                {{
+                    "规定了地震救援队伍的组织架构、人员配置、装备要求和训练标准。"
+                }}
+            </p>
+            <div id="1_2372" class="Pixso-vector-1_2372" @click="downloadFile('/files/laws/law-001.pdf', '国家应急救援队伍建设管理办法.pdf')" style="cursor: pointer;"></div>
+            <p id="1_2373" class="Pixso-paragraph-1_2373" @click="downloadFile('/files/laws/law-001.pdf', '国家应急救援队伍建设管理办法.pdf')" style="cursor: pointer;">{{ "下载文件" }}</p>
+            <div id="1_2374" class="Pixso-vector-1_2374" @click="downloadFile('/files/laws/law-002.pdf', '应急救援人员培训考核规定.pdf')" style="cursor: pointer;"></div>
+            <p id="1_2375" class="Pixso-paragraph-1_2375" @click="downloadFile('/files/laws/law-002.pdf', '应急救援人员培训考核规定.pdf')" style="cursor: pointer;">{{ "下载文件" }}</p>
+            <div id="1_2376" class="Pixso-vector-1_2376" @click="downloadFile('/files/laws/law-003.pdf', '地震救援队伍建设标准.pdf')" style="cursor: pointer;"></div>
+            <p id="1_2377" class="Pixso-paragraph-1_2377" @click="downloadFile('/files/laws/law-003.pdf', '地震救援队伍建设标准.pdf')" style="cursor: pointer;">{{ "下载文件" }}</p>
+            <div id="1_2378" class="Pixso-vector-1_2378"></div>
+            <p id="1_2379" class="Pixso-paragraph-1_2379">{{ "法律法规" }}</p>
+            <div id="1_2380" class="Pixso-vector-1_2380"></div>
+            <p id="1_2381" class="Pixso-paragraph-1_2381">{{ "部门规章" }}</p>
+            <div id="1_2382" class="Pixso-vector-1_2382"></div>
+            <p id="1_2383" class="Pixso-paragraph-1_2383">{{ "行业标准" }}</p>
             <div id="1_2384" class="Pixso-vector-1_2384"></div>
             <div id="1_2385" class="Pixso-vector-1_2385"></div>
             <div id="1_2388" class="Pixso-vector-1_2388"></div>
@@ -109,134 +116,10 @@
     </div>
 </template>
 <script lang="ts" setup>
-import { ref, computed } from 'vue'
+import { ref } from 'vue'
 import { useRouter } from 'vue-router'
-import Pagination from '@/components/common/Pagination.vue'
 
 const router = useRouter()
-
-// 分页状态
-const currentPage = ref(1)
-const pageSize = ref(3)
-
-// 政策法规数据
-const lawsList = ref([
-  {
-    id: 1,
-    title: '国家应急救援队伍建设管理办法',
-    docNumber: '应急管理部令第15号',
-    publishDate: '2024-03-15',
-    effectiveDate: '2024-05-01',
-    department: '应急管理部',
-    summary: '为了规范应急救援队伍建设，提高救援能力，保障人民群众生命财产安全，根据《中华人民共和国突发事件应对法》等法律法规，制定本办法。',
-    fileUrl: '/files/laws/law-001.pdf'
-  },
-  {
-    id: 2,
-    title: '应急救援人员培训考核规定',
-    docNumber: '应急管理部令第15号',
-    publishDate: '2024-03-15',
-    effectiveDate: '2024-05-01',
-    department: '四川飞豹救援',
-    summary: '为了规范应急救援人员的培训考核工作，提高救援人员专业素质，制定本规定。',
-    fileUrl: '/files/laws/law-002.pdf'
-  },
-  {
-    id: 3,
-    title: '地震救援队伍建设标准',
-    docNumber: '应急管理部令第15号',
-    publishDate: '2024-03-15',
-    effectiveDate: '2024-05-01',
-    department: '应急管理部',
-    summary: '规定了地震救援队伍的组织架构、人员配置、装备要求和训练标准。',
-    fileUrl: '/files/laws/law-003.pdf'
-  },
-  {
-    id: 4,
-    title: '森林火灾应急救援预案',
-    docNumber: '应急管理部令第16号',
-    publishDate: '2024-04-10',
-    effectiveDate: '2024-06-01',
-    department: '应急管理部',
-    summary: '为有效应对森林火灾，保护人民生命财产安全和森林资源，制定本预案。',
-    fileUrl: '/files/laws/law-004.pdf'
-  },
-  {
-    id: 5,
-    title: '水域救援技术规范',
-    docNumber: '应急管理部令第17号',
-    publishDate: '2024-05-20',
-    effectiveDate: '2024-07-01',
-    department: '应急管理部',
-    summary: '规范水域救援技术操作流程，提高水域救援效率和安全性。',
-    fileUrl: '/files/laws/law-005.pdf'
-  },
-  {
-    id: 6,
-    title: '危险化学品事故应急处置办法',
-    docNumber: '应急管理部令第18号',
-    publishDate: '2024-06-15',
-    effectiveDate: '2024-08-01',
-    department: '应急管理部',
-    summary: '规范危险化学品事故应急处置程序，最大限度减少事故损失。',
-    fileUrl: '/files/laws/law-006.pdf'
-  },
-  {
-    id: 7,
-    title: '城市地下空间应急救援指南',
-    docNumber: '应急管理部令第19号',
-    publishDate: '2024-07-10',
-    effectiveDate: '2024-09-01',
-    department: '应急管理部',
-    summary: '指导城市地下空间应急救援工作，提升地下空间事故应对能力。',
-    fileUrl: '/files/laws/law-007.pdf'
-  },
-  {
-    id: 8,
-    title: '高层建筑火灾救援技术规程',
-    docNumber: '应急管理部令第20号',
-    publishDate: '2024-08-05',
-    effectiveDate: '2024-10-01',
-    department: '应急管理部',
-    summary: '规范高层建筑火灾救援技术操作，提高高层建筑火灾救援成功率。',
-    fileUrl: '/files/laws/law-008.pdf'
-  },
-  {
-    id: 9,
-    title: '矿山事故应急救援管理办法',
-    docNumber: '应急管理部令第21号',
-    publishDate: '2024-09-12',
-    effectiveDate: '2024-11-01',
-    department: '应急管理部',
-    summary: '加强矿山事故应急救援管理，保障矿山从业人员生命安全。',
-    fileUrl: '/files/laws/law-009.pdf'
-  },
-  {
-    id: 10,
-    title: '应急救援装备配置标准',
-    docNumber: '应急管理部令第22号',
-    publishDate: '2024-10-18',
-    effectiveDate: '2024-12-01',
-    department: '应急管理部',
-    summary: '规定应急救援队伍装备配置标准，提升应急救援装备水平。',
-    fileUrl: '/files/laws/law-010.pdf'
-  }
-])
-
-// 计算总数
-const totalLaws = computed(() => lawsList.value.length)
-
-// 计算当前页显示的数据
-const paginatedLaws = computed(() => {
-  const start = (currentPage.value - 1) * pageSize.value
-  const end = start + pageSize.value
-  return lawsList.value.slice(start, end)
-})
-
-// 页码改变处理
-function handlePageChange() {
-  window.scrollTo({ top: 0, behavior: 'smooth' })
-}
 
 // 搜索
 const searchKey = ref('')
@@ -500,46 +383,43 @@ function downloadFile(fileUrl: string, fileName: string) {
     font-size: 28px;
     font-family: "FZHei-B01S-Regular";
     font-weight: 400;
-    line-height: 32px;
+    line-height: 20px;
     color: rgba(68, 68, 68, 1);
-    width: 30%;
+    width: 20.52%;
+    height: 1.2%;
     position: absolute;
     left: 28.07%;
-    right: 41.93%;
+    right: 51.41%;
     top: 22.62%;
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
+    bottom: 76.18%;
 }
 .Pixso-paragraph-1_2364 {
     font-size: 28px;
     font-family: "FZHei-B01S-Regular";
     font-weight: 400;
-    line-height: 32px;
+    line-height: 20px;
     color: rgba(68, 68, 68, 1);
-    width: 30%;
+    width: 17.61%;
+    height: 1.2%;
     position: absolute;
     left: 28.07%;
-    right: 41.93%;
+    right: 54.32%;
     top: 40.81%;
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
+    bottom: 57.99%;
 }
 .Pixso-paragraph-1_2365 {
     font-size: 28px;
     font-family: "FZHei-B01S-Regular";
     font-weight: 400;
-    line-height: 32px;
+    line-height: 20px;
     color: rgba(68, 68, 68, 1);
-    width: 30%;
+    width: 14.69%;
+    height: 1.19%;
     position: absolute;
     left: 28.07%;
-    right: 41.93%;
+    right: 57.24%;
     top: 59.01%;
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
+    bottom: 39.8%;
 }
 .Pixso-paragraph-1_2366 {
     font-size: 20px;
