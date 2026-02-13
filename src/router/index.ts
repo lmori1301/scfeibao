@@ -8,6 +8,9 @@ const routes: RouteRecordRaw[] = [
   // 首页
   { path: '/', name: 'Home', component: () => import('@/views/home/Home.vue') },
 
+  // 搜索结果页
+  { path: '/search-result', name: 'SearchResult', component: () => import('@/views/SearchResult.vue') },
+
   // 概况信息
   { path: '/overview-info', name: 'OverviewInfo', component: () => import('@/views/overview-info/leadership.vue') },
   { path: '/overview-info/leadership', name: 'Leadership', component: () => import('@/views/overview-info/leadership.vue') },

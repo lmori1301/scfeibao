@@ -39,10 +39,9 @@
             <div id="1_917" class="Pixso-vector-1_917"></div>
             <div id="1_918" class="Pixso-vector-1_918"></div>
             <div id="17_3" class="Pixso-vector-17_3"></div>
-            <p id="1_923" class="Pixso-paragraph-1_923">{{ "党建专栏" }}</p>
+            <router-link id="1_923" to="/party-building" class="Pixso-paragraph-1_923 main-nav-link">党建专栏</router-link>
             <router-link id="1_928" to="/overview-info" class="Pixso-paragraph-1_928 main-nav-link">概况信息</router-link>
             <router-link id="1_929" to="/team-building" class="Pixso-paragraph-1_929 main-nav-link">队伍建设</router-link>
-            <router-link id="1_927" to="/party-building" class="Pixso-paragraph-1_927 main-nav-link">党建专栏</router-link>
             <router-link id="1_924" to="/info-public" class="Pixso-paragraph-1_924 main-nav-link">信息公开</router-link>
             <router-link id="1_925" to="/dynamic-news" class="Pixso-paragraph-1_925 main-nav-link">动态要闻</router-link>
             <router-link id="1_926" to="/policy-regulations" class="Pixso-paragraph-1_926 main-nav-link">政策法规</router-link>
@@ -50,84 +49,90 @@
             <div id="1_930" class="Pixso-vector-1_930"></div>
             <router-link to="/team-building/cases" id="1_931" class="Pixso-paragraph-1_931 team-nav-item">救援案例</router-link>
 
-            <!-- 左侧大图区域 - 根据currentIndex动态显示 -->
+            <!-- 左侧大图区域 -->
             <div
-                v-for="(item, index) in showcaseItems"
+                v-for="(item, index) in paginatedShowcaseItems"
                 :key="`image_${index}`"
-                v-show="index === currentIndex"
-                class="Pixso-vector-1_932 showcase-image"
+                class="Pixso-vector-1_932 showcase-image showcase-clickable"
                 :style="{ backgroundImage: `url(${item.image})`, top: item.imageTop }"
+                @click="goToDetail((currentPage - 1) * pageSize + index)"
             ></div>
 
-            <!-- 右侧内容区域 - 根据currentIndex动态显示 -->
-            <template v-for="(item, index) in showcaseItems" :key="`content_${index}`">
+            <!-- 右侧内容区域 -->
+            <template v-for="(item, index) in paginatedShowcaseItems" :key="`content_${index}`">
                 <!-- 背景容器 -->
                 <div
-                    v-show="index === currentIndex"
-                    class="Pixso-vector-1_1023 showcase-content-bg"
+                    class="Pixso-vector-1_1023 showcase-content-bg showcase-clickable"
                     :style="{ top: item.contentTop }"
+                    @click="goToDetail(index)"
                 ></div>
 
                 <!-- 日期显示 -->
-                <p v-show="index === currentIndex" class="Pixso-paragraph-1_1028 showcase-date-year" :style="{ top: item.dateYearTop }">
+                <p class="Pixso-paragraph-1_1028 showcase-date-year showcase-clickable" :style="{ top: item.dateYearTop }" @click="goToDetail(index)">
                     {{ item.dateYear }}
                 </p>
-                <p v-show="index === currentIndex" class="Pixso-paragraph-1_1029 showcase-date-day" :style="{ top: item.dateDayTop }">
+                <p class="Pixso-paragraph-1_1029 showcase-date-day showcase-clickable" :style="{ top: item.dateDayTop }" @click="goToDetail(index)">
                     {{ item.dateDay }}
                 </p>
 
                 <!-- 分隔线 -->
-                <div v-show="index === currentIndex" class="Pixso-vector-1_1027 showcase-divider" :style="{ top: item.dividerTop }"></div>
+                <div class="Pixso-vector-1_1027 showcase-divider" :style="{ top: item.dividerTop }"></div>
 
                 <!-- 内容摘要 -->
-                <p v-show="index === currentIndex" class="Pixso-paragraph-1_1039 showcase-summary" :style="{ top: item.summaryTop }">
+                <p class="Pixso-paragraph-1_1039 showcase-summary showcase-clickable" :style="{ top: item.summaryTop }" @click="goToDetail(index)">
                     {{ item.summary }}
                 </p>
 
                 <!-- 标题 -->
-                <p v-show="index === currentIndex" class="Pixso-paragraph-1_1043 showcase-title" :style="{ top: item.titleTop }">
+                <p class="Pixso-paragraph-1_1043 showcase-title showcase-clickable" :style="{ top: item.titleTop }" @click="goToDetail(index)">
                     {{ item.title }}
                 </p>
             </template>
 
             <!-- 其他内容项的容器(保持原有布局) -->
             <div id="1_1047" class="Pixso-vector-1_1047"></div>
-            <div id="6_398" class="Pixso-group-6_398">
-                <div id="6_399" class="Pixso-vector-6_399"></div>
-                <p id="6_473" class="Pixso-paragraph-6_473">
-                    {{ `共计 ${showcaseItems.length} 条` }}
-                </p>
+
+            <!-- 分页组件 -->
+            <div style="position: absolute; right: 6.5%; top: 80%; height: 2.2%;">
+                <Pagination
+                    :total="totalShowcases"
+                    v-model:current-page="currentPage"
+                    v-model:page-size="pageSize"
+                    :page-size-options="[4, 8, 12]"
+                    @page-change="handlePageChange"
+                />
             </div>
 
-            <!-- 圆点指示器 - 可点击切换 -->
-            <div class="dots-indicator">
-                <div
-                    v-for="(item, index) in showcaseItems"
-                    :key="`dot_${index}`"
-                    class="dot-item"
-                    :class="{ 'dot-active': index === currentIndex }"
-                    @click="switchToItem(index)"
-                    role="button"
-                    tabindex="0"
-                    @keydown.enter="switchToItem(index)"
-                ></div>
-            </div>
-
-            <div id="33_138" class="Pixso-group-33_138">
+            <div id="33_138" class="Pixso-group-33_138" @click.stop>
                 <div id="33_139" class="Pixso-vector-33_139"></div>
-                <p id="33_140" class="Pixso-paragraph-33_140">
-                    {{ "请输入您要搜索的内容" }}
-                </p>
-                <div id="33_141" class="Pixso-vector-33_141"></div>
+                <!-- 输入框 -->
+                <input
+                    v-model="searchKey"
+                    @keyup.enter="doSearch"
+                    placeholder="请输入您要搜索的内容"
+                    class="search-input"
+                />
+                <!-- 搜索图标点击 -->
+                <div
+                    id="33_141"
+                    class="Pixso-vector-33_141"
+                    style="cursor: pointer"
+                    @click="doSearch"
+                ></div>
             </div>
         </div>
     </div>
 </template>
 <script lang="ts" setup>
-import { ref } from 'vue'
+import { ref, computed } from 'vue'
 import { useRouter } from 'vue-router'
+import Pagination from '@/components/common/Pagination.vue'
 
 const router = useRouter()
+
+// 分页状态
+const currentPage = ref(1)
+const pageSize = ref(4)
 
 function goToAbout() {
     router.push('/team-building/about')
@@ -137,8 +142,51 @@ function goToCases() {
     router.push('/team-building/cases')
 }
 
-// 当前显示的索引
-const currentIndex = ref(0)
+function goToDetail(index: number) {
+    router.push(`/team-building/showcase/${index}`)
+}
+
+// 搜索
+const searchKey = ref('')
+
+// 7个模块路由
+const searchModules = [
+  { name: '概况信息', path: '/overview-info' },
+  { name: '队伍建设', path: '/team-building' },
+  { name: '党建专栏', path: '/party-building' },
+  { name: '信息公开', path: '/info-public' },
+  { name: '动态要闻', path: '/dynamic-news' },
+  { name: '政策法规', path: '/policy-regulations' },
+  { name: '查询系统', path: '/query-system' },
+]
+
+// 执行搜索
+const doSearch = () => {
+  const key = searchKey.value?.trim()
+  if (!key) return
+
+  // 模糊匹配模块
+  const target = searchModules.find(m =>
+    m.name.includes(key) || key.includes(m.name)
+  )
+
+  if (target) {
+    // 跳转到对应模块页面，并带上关键词
+    router.push({
+      path: target.path,
+      query: { keyword: key }
+    })
+  } else {
+    // 没匹配到，统一去搜索结果页
+    router.push({
+      path: '/search-result',
+      query: { keyword: key }
+    })
+  }
+
+  // 清空搜索框（可选）
+  // searchKey.value = ''
+}
 
 // 队伍风采数据
 const showcaseItems = ref([
@@ -148,7 +196,6 @@ const showcaseItems = ref([
         dateDay: "06",
         summary: "认真践行习近平总书记关于党的自我革命的重要思想李炎溪，党的十八大以来，习近平总书记站在事关党的长期...",
         image: new URL('@/assets/images/Vector_1_1011.png', import.meta.url).href,
-        // 位置信息(基于原有CSS)
         imageTop: "18.2%",
         contentTop: "18.2%",
         dateYearTop: "25.97%",
@@ -198,17 +245,191 @@ const showcaseItems = ref([
         dividerTop: "67.38%",
         summaryTop: "71.74%",
         titleTop: "67.38%"
+    },
+    {
+        title: "四川飞豹救援成都支队",
+        dateYear: "2025-11",
+        dateDay: "28",
+        summary: "成都支队积极开展应急救援演练，提升队伍实战能力，确保在关键时刻能够快速响应、高效救援...",
+        image: new URL('@/assets/images/Vector_1_1011.png', import.meta.url).href,
+        imageTop: "18.2%",
+        contentTop: "18.2%",
+        dateYearTop: "25.97%",
+        dateDayTop: "23.26%",
+        dividerTop: "21.87%",
+        summaryTop: "26.24%",
+        titleTop: "21.87%"
+    },
+    {
+        title: "四川飞豹救援绵阳支队",
+        dateYear: "2025-11",
+        dateDay: "25",
+        summary: "绵阳支队深入社区开展防灾减灾宣传活动，普及应急救援知识，提高群众自救互救能力...",
+        image: new URL('@/assets/images/Vector_1_1014.png', import.meta.url).href,
+        imageTop: "33.37%",
+        contentTop: "33.37%",
+        dateYearTop: "41.14%",
+        dateDayTop: "38.42%",
+        dividerTop: "37.04%",
+        summaryTop: "41.41%",
+        titleTop: "37.04%"
+    },
+    {
+        title: "四川飞豹救援德阳支队",
+        dateYear: "2025-11",
+        dateDay: "20",
+        summary: "德阳支队组织开展水域救援专项训练，强化队员水上救援技能，为汛期应急救援做好充分准备...",
+        image: new URL('@/assets/images/Vector_1_1017.png', import.meta.url).href,
+        imageTop: "48.54%",
+        contentTop: "48.54%",
+        dateYearTop: "56.31%",
+        dateDayTop: "53.59%",
+        dividerTop: "52.21%",
+        summaryTop: "56.57%",
+        titleTop: "52%"
+    },
+    {
+        title: "四川飞豹救援乐山支队",
+        dateYear: "2025-11",
+        dateDay: "15",
+        summary: "乐山支队参与地震救援演练，与多部门协同配合，检验应急响应机制，提升综合救援能力...",
+        image: new URL('@/assets/images/Vector_1_1020.png', import.meta.url).href,
+        imageTop: "63.7%",
+        contentTop: "63.7%",
+        dateYearTop: "71.47%",
+        dateDayTop: "68.76%",
+        dividerTop: "67.38%",
+        summaryTop: "71.74%",
+        titleTop: "67.38%"
+    },
+    {
+        title: "四川飞豹救援宜宾支队",
+        dateYear: "2025-11",
+        dateDay: "10",
+        summary: "宜宾支队开展山地救援技能培训，提升队员在复杂地形环境下的救援能力和安全意识...",
+        image: new URL('@/assets/images/Vector_1_1011.png', import.meta.url).href,
+        imageTop: "18.2%",
+        contentTop: "18.2%",
+        dateYearTop: "25.97%",
+        dateDayTop: "23.26%",
+        dividerTop: "21.87%",
+        summaryTop: "26.24%",
+        titleTop: "21.87%"
+    },
+    {
+        title: "四川飞豹救援泸州支队",
+        dateYear: "2025-11",
+        dateDay: "05",
+        summary: "泸州支队积极参与社会公益活动，为困难群众提供帮助，展现救援队伍的社会责任和担当...",
+        image: new URL('@/assets/images/Vector_1_1014.png', import.meta.url).href,
+        imageTop: "33.37%",
+        contentTop: "33.37%",
+        dateYearTop: "41.14%",
+        dateDayTop: "38.42%",
+        dividerTop: "37.04%",
+        summaryTop: "41.41%",
+        titleTop: "37.04%"
+    },
+    {
+        title: "四川飞豹救援南充支队",
+        dateYear: "2025-10",
+        dateDay: "30",
+        summary: "南充支队组织开展夜间救援演练，提升队员在低能见度环境下的救援能力和协同作战水平...",
+        image: new URL('@/assets/images/Vector_1_1017.png', import.meta.url).href,
+        imageTop: "48.54%",
+        contentTop: "48.54%",
+        dateYearTop: "56.31%",
+        dateDayTop: "53.59%",
+        dividerTop: "52.21%",
+        summaryTop: "56.57%",
+        titleTop: "52%"
+    },
+    {
+        title: "四川飞豹救援达州支队",
+        dateYear: "2025-10",
+        dateDay: "25",
+        summary: "达州支队深入学校开展应急救援知识讲座，培养青少年的安全意识和自救能力，传播救援文化...",
+        image: new URL('@/assets/images/Vector_1_1020.png', import.meta.url).href,
+        imageTop: "63.7%",
+        contentTop: "63.7%",
+        dateYearTop: "71.47%",
+        dateDayTop: "68.76%",
+        dividerTop: "67.38%",
+        summaryTop: "71.74%",
+        titleTop: "67.38%"
     }
 ])
 
-// 切换到指定项
-function switchToItem(index: number) {
-    currentIndex.value = index
+// 计算总数
+const totalShowcases = computed(() => showcaseItems.value.length)
+
+// 计算当前页显示的数据
+const paginatedShowcaseItems = computed(() => {
+    const start = (currentPage.value - 1) * pageSize.value
+    const end = start + pageSize.value
+    const items = showcaseItems.value.slice(start, end)
+
+    // 为每个项目分配位置（循环使用4个位置）
+    const positions = [
+        {
+            imageTop: "18.2%",
+            contentTop: "18.2%",
+            dateYearTop: "25.97%",
+            dateDayTop: "23.26%",
+            dividerTop: "21.87%",
+            summaryTop: "26.24%",
+            titleTop: "21.87%"
+        },
+        {
+            imageTop: "33.37%",
+            contentTop: "33.37%",
+            dateYearTop: "41.14%",
+            dateDayTop: "38.42%",
+            dividerTop: "37.04%",
+            summaryTop: "41.41%",
+            titleTop: "37.04%"
+        },
+        {
+            imageTop: "48.54%",
+            contentTop: "48.54%",
+            dateYearTop: "56.31%",
+            dateDayTop: "53.59%",
+            dividerTop: "52.21%",
+            summaryTop: "56.57%",
+            titleTop: "52%"
+        },
+        {
+            imageTop: "63.7%",
+            contentTop: "63.7%",
+            dateYearTop: "71.47%",
+            dateDayTop: "68.76%",
+            dividerTop: "67.38%",
+            summaryTop: "71.74%",
+            titleTop: "67.38%"
+        }
+    ]
+
+    return items.map((item, index) => ({
+        ...item,
+        ...positions[index % 4]
+    }))
+})
+
+// 页码改变处理
+function handlePageChange() {
+    window.scrollTo({ top: 0, behavior: 'smooth' })
 }
 </script>
 <style scoped>
 .team-nav-item {
     cursor: pointer;
+}
+.showcase-clickable {
+    cursor: pointer;
+    transition: opacity 0.3s ease;
+}
+.showcase-clickable:hover {
+    opacity: 0.8;
 }
 .team-breadcrumb-link {
     color: #848484;
@@ -232,45 +453,6 @@ function switchToItem(index: number) {
 }
 .main-nav-link:hover {
     opacity: 0.9;
-}
-
-/* 圆点指示器样式 */
-.dots-indicator {
-    position: absolute;
-    left: 85%;
-    right: 8%;
-    top: 75%;
-    display: flex;
-    gap: 12px;
-    align-items: center;
-    z-index: 10;
-}
-
-.dot-item {
-    width: 12px;
-    height: 12px;
-    border-radius: 50%;
-    background-color: rgba(255, 255, 255, 1);
-    border: 2px solid rgba(200, 200, 200, 0.5);
-    cursor: pointer;
-    transition: all 0.3s ease;
-}
-
-.dot-item:hover {
-    background-color: rgba(180, 180, 180, 0.8);
-    transform: scale(1.1);
-}
-
-.dot-item.dot-active {
-    background-color: rgba(0, 88, 160, 1);
-    border-color: rgba(0, 88, 160, 1);
-    width: 12px;
-    height: 12px;
-}
-
-.dot-item:focus {
-    outline: 2px solid rgba(0, 88, 160, 0.5);
-    outline-offset: 2px;
 }
 
 /* 动态内容元素样式 */
@@ -1324,5 +1506,22 @@ function switchToItem(index: number) {
     right: 7.4%;
     top: 50%;
     transform: translateY(calc(-50% + 0.5px));
+}
+
+/* 搜索框样式覆盖原有文字，保持样式不变 */
+.search-input {
+  position: absolute;
+  left: 4.73%;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 68.05%;
+  height: 20px;
+  line-height: 20px;
+  font-size: 16px;
+  font-family: "Alibaba PuHuiTi-Regular";
+  color: #333;
+  border: none;
+  outline: none;
+  background: transparent;
 }
 </style>

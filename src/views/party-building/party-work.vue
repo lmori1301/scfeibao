@@ -37,6 +37,7 @@
           <template v-else-if="articleList.length > 0">
               <!-- 第一条：左侧日期 + 右侧内容 -->
               <div v-if="articleList[0]" id="1_1149" class="Pixso-vector-1_1149" @click="goToDetail(articleList[0].id)" style="cursor: pointer;"></div>
+              <div id="1_1375" class="Pixso-vector-1_1375"></div>
               <p v-if="articleList[0]" id="1_1166" class="Pixso-paragraph-1_1166">{{ formatDate(articleList[0].publishDate).year }}</p>
               <p v-if="articleList[0]" id="1_1167" class="Pixso-paragraph-1_1167">{{ formatDate(articleList[0].publishDate).day }}</p>
               <p v-if="articleList[0]" id="1_1181" class="Pixso-paragraph-1_1181">{{ articleList[0].title }}</p>
@@ -44,6 +45,7 @@
               
               <!-- 第二条 -->
               <div v-if="articleList[1]" id="1_1152" class="Pixso-vector-1_1152" @click="goToDetail(articleList[1].id)" style="cursor: pointer;"></div>
+              <div id="1_1376" class="Pixso-vector-1_1376"></div>
               <p v-if="articleList[1]" id="1_1169" class="Pixso-paragraph-1_1169">{{ formatDate(articleList[1].publishDate).year }}</p>
               <p v-if="articleList[1]" id="1_1170" class="Pixso-paragraph-1_1170">{{ formatDate(articleList[1].publishDate).day }}</p>
               <p v-if="articleList[1]" id="1_1182" class="Pixso-paragraph-1_1182">{{ articleList[1].title }}</p>
@@ -51,6 +53,7 @@
               
               <!-- 第三条 -->
               <div v-if="articleList[2]" id="1_1155" class="Pixso-vector-1_1155" @click="goToDetail(articleList[2].id)" style="cursor: pointer;"></div>
+              <div id="1_1377" class="Pixso-vector-1_1377"></div>
               <p v-if="articleList[2]" id="1_1172" class="Pixso-paragraph-1_1172">{{ formatDate(articleList[2].publishDate).year }}</p>
               <p v-if="articleList[2]" id="1_1173" class="Pixso-paragraph-1_1173">{{ formatDate(articleList[2].publishDate).day }}</p>
               <p v-if="articleList[2]" id="1_1183" class="Pixso-paragraph-1_1183">{{ articleList[2].title }}</p>
@@ -58,6 +61,7 @@
               
               <!-- 第四条 -->
               <div v-if="articleList[3]" id="1_1158" class="Pixso-vector-1_1158" @click="goToDetail(articleList[3].id)" style="cursor: pointer;"></div>
+              <div id="1_1378" class="Pixso-vector-1_1378"></div>
               <p v-if="articleList[3]" id="1_1175" class="Pixso-paragraph-1_1175">{{ formatDate(articleList[3].publishDate).year }}</p>
               <p v-if="articleList[3]" id="1_1176" class="Pixso-paragraph-1_1176">{{ formatDate(articleList[3].publishDate).day }}</p>
               <p v-if="articleList[3]" id="1_1184" class="Pixso-paragraph-1_1184">{{ articleList[3].title }}</p>
@@ -74,9 +78,9 @@
           <div id="1_1266" class="Pixso-vector-1_1266"></div>
           <p id="1_1267" class="Pixso-paragraph-1_1267">{{ "PBCOL" }}</p>
           <p id="1_1268" class="Pixso-paragraph-1_1268">{{ "党建专栏" }}</p>
-          <p id="1_1269" class="Pixso-paragraph-1_1269">
+          <router-link id="1_1269" to="/party-building/party-work" class="Pixso-paragraph-1_1269 party-sidebar-link">
               {{ "党建工作                          >" }}
-          </p>
+          </router-link>
           <router-link id="1_1270" to="/party-building/team-work" class="Pixso-paragraph-1_1270 party-sidebar-link">团建工作</router-link>
           <router-link id="1_1271" to="/party-building/members" class="Pixso-paragraph-1_1271 party-sidebar-link">党员先锋</router-link>
           <router-link id="1_1272" to="/party-building/study" class="Pixso-paragraph-1_1272 party-sidebar-link">党员学"习"</router-link>
@@ -88,17 +92,22 @@
                   {{ `共计 ${total} 条` }}
               </p>
         </div>
-          <div id="33_165" class="Pixso-group-33_165">
+          <div id="33_165" class="Pixso-group-33_165" @click.stop>
               <div id="33_166" class="Pixso-vector-33_166"></div>
-          <input
-                  id="33_167" 
-            v-model="searchKeyword"
-            type="text"
-            placeholder="请输入您要搜索的内容"
-            @keyup.enter="handleSearch"
-                  style="position: absolute; left: 4.73%; width: 68.05%; height: 20px; border: none; background: transparent; font-size: 16px; color: rgba(88, 83, 83, 1); outline: none;"
-          />
-              <div id="33_168" class="Pixso-vector-33_168" @click="handleSearch" style="cursor: pointer;"></div>
+              <!-- 输入框 -->
+              <input
+                  v-model="searchKey"
+                  @keyup.enter="doSearch"
+                  placeholder="请输入您要搜索的内容"
+                  class="search-input"
+              />
+              <!-- 搜索图标点击 -->
+              <div
+                  id="33_168"
+                  class="Pixso-vector-33_168"
+                  style="cursor: pointer"
+                  @click="doSearch"
+              ></div>
         </div>
             </div>
   </div>
@@ -215,6 +224,48 @@ const fetchArticleList = async () => {
   } finally {
     loading.value = false
   }
+}
+
+// 搜索
+const searchKey = ref('')
+
+// 7个模块路由
+const searchModules = [
+  { name: '概况信息', path: '/overview-info' },
+  { name: '队伍建设', path: '/team-building' },
+  { name: '党建专栏', path: '/party-building' },
+  { name: '信息公开', path: '/info-public' },
+  { name: '动态要闻', path: '/dynamic-news' },
+  { name: '政策法规', path: '/policy-regulations' },
+  { name: '查询系统', path: '/query-system' },
+]
+
+// 执行搜索
+const doSearch = () => {
+  const key = searchKey.value?.trim()
+  if (!key) return
+
+  // 模糊匹配模块
+  const target = searchModules.find(m =>
+    m.name.includes(key) || key.includes(m.name)
+  )
+
+  if (target) {
+    // 跳转到对应模块页面，并带上关键词
+    router.push({
+      path: target.path,
+      query: { keyword: key }
+    })
+  } else {
+    // 没匹配到，统一去搜索结果页
+    router.push({
+      path: '/search-result',
+      query: { keyword: key }
+    })
+  }
+
+  // 清空搜索框（可选）
+  // searchKey.value = ''
 }
 
 // 搜索
@@ -1173,5 +1224,22 @@ onMounted(() => {
   right: 7.4%;
   top: 50%;
   transform: translateY(calc(-50% + 0.5px));
+}
+
+/* 搜索框样式覆盖原有文字，保持样式不变 */
+.search-input {
+  position: absolute;
+  left: 4.73%;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 68.05%;
+  height: 20px;
+  line-height: 20px;
+  font-size: 16px;
+  font-family: "Alibaba PuHuiTi-Regular";
+  color: #333;
+  border: none;
+  outline: none;
+  background: transparent;
 }
 </style>

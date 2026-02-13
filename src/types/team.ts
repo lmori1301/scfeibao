@@ -1,7 +1,7 @@
 /**
  * 队伍建设相关类型定义
  */
-import type { PageParams } from './common'
+import type { PageParams, PageResponse } from './common'
 
 // 救援案例
 export interface CaseItem {
@@ -23,6 +23,11 @@ export interface CaseListParams extends PageParams {
   location?: string
 }
 
+// 救援案例列表响应
+export interface RescueCase extends CaseItem {}
+export interface RescueCaseListParams extends CaseListParams {}
+export interface RescueCaseListResponse extends PageResponse<RescueCase> {}
+
 // 队伍风采
 export interface ShowcaseItem {
   id: number
@@ -38,6 +43,10 @@ export interface ShowcaseListParams extends PageParams {
   category?: string
   keyword?: string
 }
+
+// 队伍风采列表响应
+export interface TeamShowcaseListParams extends ShowcaseListParams {}
+export interface TeamShowcaseListResponse extends PageResponse<ShowcaseItem> {}
 
 // 关于队伍
 export interface TeamInfo {

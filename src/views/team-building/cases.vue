@@ -34,7 +34,6 @@
             <router-link to="/team-building/about" id="1_739" class="Pixso-paragraph-1_739">{{ "关于队伍" }}</router-link>
             <router-link to="/team-building/showcase" id="1_740" class="Pixso-paragraph-1_740">{{ "队伍风采" }}</router-link>
             <div id="1_741" class="Pixso-vector-1_741"></div>
-            <div id="1_914" class="Pixso-vector-1_914"></div>
             <div id="1_742" class="Pixso-vector-1_742"></div>
             <router-link to="/team-building/cases" id="1_743" class="Pixso-paragraph-1_743">
                 {{ "救援案例                          >" }}
@@ -50,48 +49,42 @@
             <router-link id="1_755" to="/query-system" class="Pixso-paragraph-1_755 main-nav-link">查询系统</router-link>
             <router-link id="1_756" to="/overview-info" class="Pixso-paragraph-1_756 main-nav-link">概况信息</router-link>
             <router-link id="1_757" to="/team-building" class="Pixso-paragraph-1_757 main-nav-link">队伍建设</router-link>
-            <div id="1_834" class="Pixso-vector-1_834"></div>
-            <div id="1_837" class="Pixso-vector-1_837"></div>
-            <div id="1_840" class="Pixso-vector-1_840"></div>
-            <div id="1_843" class="Pixso-vector-1_843"></div>
-            <div id="1_846" class="Pixso-vector-1_846"></div>
-            <div id="1_849" class="Pixso-vector-1_849"></div>
-            <div id="1_852" class="Pixso-vector-1_852"></div>
-            <div id="1_855" class="Pixso-vector-1_855"></div>
-            <div id="1_858" class="Pixso-vector-1_858"></div>
-            <p id="1_861" class="Pixso-paragraph-1_861">
-                {{ "6·3普洱6.4级地震" }}
-            </p>
-            <p id="1_862" class="Pixso-paragraph-1_862">
-                {{ "8·8九寨沟7.0级地震" }}
-            </p>
-            <p id="1_863" class="Pixso-paragraph-1_863">
-                {{ "8·7舟曲山体滑坡泥石流" }}
-            </p>
-            <p id="1_864" class="Pixso-paragraph-1_864">
-                {{ "5·12汶川8.0级地震" }}
-            </p>
-            <p id="1_865" class="Pixso-paragraph-1_865">
-                {{ "6·24茂县山体滑坡" }}
-            </p>
-            <p id="1_866" class="Pixso-paragraph-1_866">
-                {{ "4·20芦山7.0级地震" }}
-            </p>
-            <p id="1_867" class="Pixso-paragraph-1_867">
-                {{ "4·14玉树7.1级地震" }}
-            </p>
-            <p id="1_868" class="Pixso-paragraph-1_868">
-                {{ "7·20郑州特大暴雨" }}
-            </p>
-            <p id="1_869" class="Pixso-paragraph-1_869">
-                {{ "8·3鲁甸6.5级地震" }}
-            </p>
-            <div id="1_870" class="Pixso-vector-1_870"></div>
-            <div id="6_474" class="Pixso-group-6_474">
-                <div id="6_475" class="Pixso-vector-6_475"></div>
-                <p id="6_549" class="Pixso-paragraph-6_549">
-                    {{ "共计 10 条" }}
+            <!-- 动态案例列表 -->
+            <template v-for="(caseItem, index) in paginatedCases" :key="`case_${index}`">
+                <!-- 案例图片 -->
+                <div
+                    class="case-image"
+                    :style="{
+                        backgroundImage: `url(${caseItem.image})`,
+                        left: caseItem.left,
+                        top: caseItem.top
+                    }"
+                    @click="goToCaseDetail((currentPage - 1) * pageSize + index)"
+                ></div>
+
+                <!-- 案例标题 -->
+                <p
+                    class="case-title"
+                    :style="{
+                        left: caseItem.titleLeft,
+                        top: caseItem.titleTop
+                    }"
+                    @click="goToCaseDetail((currentPage - 1) * pageSize + index)"
+                >
+                    {{ caseItem.title }}
                 </p>
+            </template>
+            <div id="1_870" class="Pixso-vector-1_870"></div>
+
+            <!-- 分页组件 -->
+            <div style="position: absolute; right: 8.13%; top: 77%; height: 2.2%;">
+                <Pagination
+                    :total="totalCases"
+                    v-model:current-page="currentPage"
+                    v-model:page-size="pageSize"
+                    :page-size-options="[9, 18]"
+                    @page-change="handlePageChange"
+                />
             </div>
             <div id="32_14" class="Pixso-group-32_14">
                 <p id="32_15" class="Pixso-paragraph-32_15">
@@ -107,17 +100,229 @@
                     {{ "Copyright®2025 sc.feibao.com All rights reserved" }}
                 </p>
             </div>
-            <div id="33_129" class="Pixso-group-33_129">
+            <div id="33_129" class="Pixso-group-33_129" @click.stop>
                 <div id="33_130" class="Pixso-vector-33_130"></div>
-                <p id="33_131" class="Pixso-paragraph-33_131">
-                    {{ "请输入您要搜索的内容" }}
-                </p>
-                <div id="33_132" class="Pixso-vector-33_132"></div>
+                <!-- 输入框 -->
+                <input
+                    v-model="searchKey"
+                    @keyup.enter="doSearch"
+                    placeholder="请输入您要搜索的内容"
+                    class="search-input"
+                />
+                <!-- 搜索图标点击 -->
+                <div
+                    id="33_132"
+                    class="Pixso-vector-33_132"
+                    style="cursor: pointer"
+                    @click="doSearch"
+                ></div>
             </div>
         </div>
     </div>
 </template>
-<script lang="ts" setup></script>
+<script lang="ts" setup>
+import { ref, computed } from 'vue'
+import { useRouter } from 'vue-router'
+import Pagination from '@/components/common/Pagination.vue'
+
+const router = useRouter()
+
+// 分页状态
+const currentPage = ref(1)
+const pageSize = ref(9)
+
+// 救援案例数据
+const cases = ref([
+    {
+        title: "6·3普洱6.4级地震",
+        image: new URL('@/assets/images/Vector_1_834.png', import.meta.url).href,
+        date: "2014-06-03",
+        description: "2014年6月3日，云南省普洱市发生6.4级地震，四川飞豹救援队第一时间赶赴灾区开展救援工作..."
+    },
+    {
+        title: "8·7舟曲山体滑坡泥石流",
+        image: new URL('@/assets/images/Vector_1_840.png', import.meta.url).href,
+        date: "2010-08-07",
+        description: "2010年8月7日，甘肃省舟曲县发生特大山洪泥石流灾害，救援队紧急出动参与救援..."
+    },
+    {
+        title: "8·8九寨沟7.0级地震",
+        image: new URL('@/assets/images/Vector_1_837.png', import.meta.url).href,
+        date: "2017-08-08",
+        description: "2017年8月8日，四川省九寨沟县发生7.0级地震，救援队迅速响应，全力开展救援..."
+    },
+    {
+        title: "5·12汶川8.0级地震",
+        image: new URL('@/assets/images/Vector_1_843.png', import.meta.url).href,
+        date: "2008-05-12",
+        description: "2008年5月12日，四川省汶川县发生8.0级特大地震，救援队员冒着生命危险深入灾区..."
+    },
+    {
+        title: "4·20芦山7.0级地震",
+        image: new URL('@/assets/images/Vector_1_849.png', import.meta.url).href,
+        date: "2013-04-20",
+        description: "2013年4月20日，四川省雅安市芦山县发生7.0级地震，救援队快速集结投入救援..."
+    },
+    {
+        title: "6·24茂县山体滑坡",
+        image: new URL('@/assets/images/Vector_1_846.png', import.meta.url).href,
+        date: "2017-06-24",
+        description: "2017年6月24日，四川省阿坝州茂县发生山体滑坡，救援队全力搜救被困群众..."
+    },
+    {
+        title: "4·14玉树7.1级地震",
+        image: new URL('@/assets/images/Vector_1_852.png', import.meta.url).href,
+        date: "2010-04-14",
+        description: "2010年4月14日，青海省玉树县发生7.1级地震，救援队克服高原反应参与救援..."
+    },
+    {
+        title: "8·3鲁甸6.5级地震",
+        image: new URL('@/assets/images/Vector_1_858.png', import.meta.url).href,
+        date: "2014-08-03",
+        description: "2014年8月3日，云南省昭通市鲁甸县发生6.5级地震，救援队紧急驰援灾区..."
+    },
+    {
+        title: "7·20郑州特大暴雨",
+        image: new URL('@/assets/images/Vector_1_855.png', import.meta.url).href,
+        date: "2021-07-20",
+        description: "2021年7月20日，河南省郑州市遭遇特大暴雨，救援队参与抢险救援工作..."
+    },
+    {
+        title: "9·5泸定6.8级地震",
+        image: new URL('@/assets/images/Vector_1_834.png', import.meta.url).href,
+        date: "2022-09-05",
+        description: "2022年9月5日，四川省甘孜州泸定县发生6.8级地震，救援队迅速响应展开救援..."
+    },
+    {
+        title: "6·17长宁6.0级地震",
+        image: new URL('@/assets/images/Vector_1_840.png', import.meta.url).href,
+        date: "2019-06-17",
+        description: "2019年6月17日，四川省宜宾市长宁县发生6.0级地震，救援队第一时间赶赴现场..."
+    },
+    {
+        title: "10·11金沙江堰塞湖",
+        image: new URL('@/assets/images/Vector_1_837.png', import.meta.url).href,
+        date: "2018-10-11",
+        description: "2018年10月11日，金沙江发生山体滑坡形成堰塞湖，救援队参与应急处置..."
+    },
+    {
+        title: "8·13甘肃舟曲泥石流",
+        image: new URL('@/assets/images/Vector_1_843.png', import.meta.url).href,
+        date: "2010-08-13",
+        description: "2010年8月13日，甘肃省舟曲县再次发生泥石流灾害，救援队持续开展救援..."
+    },
+    {
+        title: "7·22定西6.6级地震",
+        image: new URL('@/assets/images/Vector_1_849.png', import.meta.url).href,
+        date: "2013-07-22",
+        description: "2013年7月22日，甘肃省定西市发生6.6级地震，救援队紧急出动参与救援..."
+    },
+    {
+        title: "5·30东方之星沉船",
+        image: new URL('@/assets/images/Vector_1_846.png', import.meta.url).href,
+        date: "2015-05-30",
+        description: "2015年5月30日，长江客轮东方之星翻沉，救援队参与水上搜救行动..."
+    },
+    {
+        title: "11·3金沙江白格堰塞湖",
+        image: new URL('@/assets/images/Vector_1_852.png', import.meta.url).href,
+        date: "2018-11-03",
+        description: "2018年11月3日，金沙江再次发生堰塞湖险情，救援队参与应急救援..."
+    },
+    {
+        title: "6·1重庆武隆山体滑坡",
+        image: new URL('@/assets/images/Vector_1_858.png', import.meta.url).href,
+        date: "2009-06-01",
+        description: "2009年6月1日，重庆市武隆县发生山体滑坡，救援队全力搜救被困人员..."
+    },
+    {
+        title: "8·12天津港爆炸事故",
+        image: new URL('@/assets/images/Vector_1_855.png', import.meta.url).href,
+        date: "2015-08-12",
+        description: "2015年8月12日，天津港发生特大爆炸事故，救援队参与应急救援和善后处置..."
+    }
+])
+
+// 计算总数
+const totalCases = computed(() => cases.value.length)
+
+// 计算当前页显示的案例
+const paginatedCases = computed(() => {
+    const start = (currentPage.value - 1) * pageSize.value
+    const end = start + pageSize.value
+    const items = cases.value.slice(start, end)
+
+    // 定义9个位置（3×3网格）
+    const positions = [
+        { left: "28.49%", top: "21.08%", titleLeft: "33.23%", titleTop: "35.24%" },  // 第1列第1行
+        { left: "28.49%", top: "38.91%", titleLeft: "32.86%", titleTop: "53.07%" },  // 第1列第2行
+        { left: "28.49%", top: "56.74%", titleLeft: "32.66%", titleTop: "70.9%" },   // 第1列第3行
+        { left: "50.26%", top: "21.08%", titleLeft: "55%", titleTop: "35.24%" },     // 第2列第1行
+        { left: "50.26%", top: "38.91%", titleLeft: "54.63%", titleTop: "53.07%" },  // 第2列第2行
+        { left: "50.26%", top: "56.74%", titleLeft: "54.43%", titleTop: "70.9%" },   // 第2列第3行
+        { left: "72.03%", top: "21.08%", titleLeft: "76.77%", titleTop: "35.24%" },  // 第3列第1行
+        { left: "72.03%", top: "38.91%", titleLeft: "76.4%", titleTop: "53.07%" },   // 第3列第2行
+        { left: "72.03%", top: "56.74%", titleLeft: "76.2%", titleTop: "70.9%" }     // 第3列第3行
+    ]
+
+    return items.map((item, index) => ({
+        ...item,
+        ...positions[index % 9]
+    }))
+})
+
+// 跳转到案例详情
+function goToCaseDetail(index: number) {
+    router.push(`/team-building/cases/${index}`)
+}
+
+// 页码改变处理
+function handlePageChange() {
+    window.scrollTo({ top: 0, behavior: 'smooth' })
+}
+
+// 搜索
+const searchKey = ref('')
+
+// 7个模块路由
+const searchModules = [
+  { name: '概况信息', path: '/overview-info' },
+  { name: '队伍建设', path: '/team-building' },
+  { name: '党建专栏', path: '/party-building' },
+  { name: '信息公开', path: '/info-public' },
+  { name: '动态要闻', path: '/dynamic-news' },
+  { name: '政策法规', path: '/policy-regulations' },
+  { name: '查询系统', path: '/query-system' },
+]
+
+// 执行搜索
+const doSearch = () => {
+  const key = searchKey.value?.trim()
+  if (!key) return
+
+  // 模糊匹配模块
+  const target = searchModules.find(m =>
+    m.name.includes(key) || key.includes(m.name)
+  )
+
+  if (target) {
+    // 跳转到对应模块页面，并带上关键词
+    router.push({
+      path: target.path,
+      query: { keyword: key }
+    })
+  } else {
+    // 没匹配到，统一去搜索结果页
+    router.push({
+      path: '/search-result',
+      query: { keyword: key }
+    })
+  }
+
+  // 清空搜索框（可选）
+  // searchKey.value = ''
+}
+</script>
 <style>
 .scroll-container-1_700 {
     height: 100%;
@@ -1018,5 +1223,56 @@
     right: 7.4%;
     top: 50%;
     transform: translateY(calc(-50% + 0.5px));
+}
+
+/* 搜索框样式覆盖原有文字，保持样式不变 */
+.search-input {
+  position: absolute;
+  left: 4.73%;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 68.05%;
+  height: 20px;
+  line-height: 20px;
+  font-size: 16px;
+  font-family: "Alibaba PuHuiTi-Regular";
+  color: #333;
+  border: none;
+  outline: none;
+  background: transparent;
+}
+
+/* 动态案例样式 */
+.case-image {
+  width: 19.84%;
+  height: 13%;
+  background-size: 100% 100%;
+  background-repeat: no-repeat;
+  position: absolute;
+  cursor: pointer;
+  transition: opacity 0.3s ease;
+}
+
+.case-image:hover {
+  opacity: 0.8;
+}
+
+.case-title {
+  font-size: 20px;
+  font-family: "Alibaba PuHuiTi-Regular";
+  font-weight: 400;
+  line-height: 25px;
+  color: rgba(93, 93, 93, 1);
+  width: auto;
+  height: auto;
+  position: absolute;
+  white-space: pre;
+  flex-grow: 0;
+  cursor: pointer;
+  transition: color 0.3s ease;
+}
+
+.case-title:hover {
+  color: rgba(53, 120, 248, 1);
 }
 </style>

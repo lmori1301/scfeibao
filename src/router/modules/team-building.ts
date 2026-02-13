@@ -45,6 +45,14 @@ export default {
       meta: {
         title: '队伍风采'
       }
+    },
+    {
+      path: 'showcase/:id',
+      name: 'TeamShowcaseDetail',
+      component: () => import('@/views/team-building/showcase-detail.vue'),
+      meta: {
+        title: '队伍风采详情'
+      }
     }
   ]
 }

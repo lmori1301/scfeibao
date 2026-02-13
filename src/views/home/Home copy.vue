@@ -14,22 +14,12 @@
                 {{ "Sichuan Feibao Rescue" }}
             </p>
             <div id="1_17" class="Pixso-vector-1_17"></div>
-            <div id="33_2" class="Pixso-group-33_2" @click.stop>
+            <div id="33_2" class="Pixso-group-33_2">
                 <div id="1_15" class="Pixso-vector-1_15"></div>
-                <!-- 输入框 -->
-                <input
-                    v-model="searchKey"
-                    @keyup.enter="doSearch"
-                    placeholder="请输入您要搜索的内容"
-                    class="search-input"
-                />
-                <!-- 搜索图标点击 -->
-                <div
-                    id="1_18"
-                    class="Pixso-vector-1_18"
-                    style="cursor: pointer"
-                    @click="doSearch"
-                ></div>
+                <p id="1_16" class="Pixso-paragraph-1_16">
+                    {{ "请输入您要搜索的内容" }}
+                </p>
+                <div id="1_18" class="Pixso-vector-1_18"></div>
             </div>
             <div id="1_24" class="Pixso-vector-1_24"></div>
             <div id="1_25" class="Pixso-vector-1_25"></div>
@@ -426,48 +416,6 @@ const navigateTo = (path: string) => {
 // 打开外部链接（新窗口）
 const openLink = (url: string) => {
   window.open(url, '_blank')
-}
-
-// 搜索
-const searchKey = ref('')
-
-// 7个模块路由
-const searchModules = [
-  { name: '概况信息', path: '/overview-info' },
-  { name: '队伍建设', path: '/team-building' },
-  { name: '党建专栏', path: '/party-building' },
-  { name: '信息公开', path: '/info-public' },
-  { name: '动态要闻', path: '/dynamic-news' },
-  { name: '政策法规', path: '/policy-regulations' },
-  { name: '查询系统', path: '/query-system' },
-]
-
-// 执行搜索
-const doSearch = () => {
-  const key = searchKey.value?.trim()
-  if (!key) return
-
-  // 模糊匹配模块
-  const target = searchModules.find(m =>
-    m.name.includes(key) || key.includes(m.name)
-  )
-
-  if (target) {
-    // 跳转到对应模块页面，并带上关键词
-    router.push({
-      path: target.path,
-      query: { keyword: key }
-    })
-  } else {
-    // 没匹配到，统一去搜索结果页（你可以自己改路径）
-    router.push({
-      path: '/search-result',
-      query: { keyword: key }
-    })
-  }
-
-  // 清空搜索框（可选）
-  // searchKey.value = ''
 }
 
 // Banner 轮播数据
@@ -3286,22 +3234,5 @@ onUnmounted(() => {
 .Pixso-text-1_55:hover,
 .Pixso-text-1_56:hover {
     color: rgba(0, 92, 190, 1) !important;
-}
-
-/* 搜索框样式覆盖原有文字，保持样式不变 */
-.search-input {
-  position: absolute;
-  left: 4.73%;
-  top: 50%;
-  transform: translateY(-50%);
-  width: 68.05%;
-  height: 20px;
-  line-height: 20px;
-  font-size: 16px;
-  font-family: "Alibaba PuHuiTi-Regular";
-  color: #333;
-  border: none;
-  outline: none;
-  background: transparent;
 }
 </style>

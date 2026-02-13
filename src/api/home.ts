@@ -1,7 +1,7 @@
 /**
  * 首页相关接口
  */
-import { http } from '@/utils/http'
+import http from '@/utils/http'
 import type { NewsItem } from '@/types/news'
 
 /**
@@ -15,14 +15,14 @@ export function getBannerList() {
     link?: string
     type: 'image' | 'video'
     videoUrl?: string
-  }[]>('/api/home/banner')
+  }[]>('/home/banner')
 }
 
 /**
  * 获取首页最新新闻
  */
 export function getHomeNews(params?: { limit?: number }) {
-  return http.get<NewsItem[]>('/api/home/news', { params })
+  return http.get<NewsItem[]>('/home/news', { params })
 }
 
 /**
@@ -34,7 +34,7 @@ export function getLocalDynamics(params?: { page?: number; pageSize?: number }) 
     region: string
     title: string
     publishDate: string
-  }[]>('/api/home/dynamics', { params })
+  }[]>('/home/dynamics', { params })
 }
 
 /**
@@ -48,7 +48,7 @@ export function getRescueActions(params?: { limit?: number }) {
     rescueDate: string
     summary: string
     image: string
-  }[]>('/api/home/actions', { params })
+  }[]>('/home/actions', { params })
 }
 
 /**
@@ -61,7 +61,7 @@ export function getPromotionalVideos(params?: { limit?: number }) {
     cover: string
     url: string
     duration: number
-  }[]>('/api/home/videos', { params })
+  }[]>('/home/videos', { params })
 }
 
 /**
@@ -73,7 +73,7 @@ export function getTeamShowcaseForHome(params?: { limit?: number }) {
     title: string
     image: string
     date: string
-  }[]>('/api/home/showcase', { params })
+  }[]>('/home/showcase', { params })
 }
 
 /**
@@ -85,5 +85,5 @@ export function getFriendLinks() {
     name: string
     logo: string
     url: string
-  }[]>('/api/home/links')
+  }[]>('/home/links')
 }

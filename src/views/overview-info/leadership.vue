@@ -172,47 +172,190 @@
             </div>
             <p id="1_237" class="Pixso-paragraph-1_237">{{ "领导信息" }}</p>
 
-            <p id="1_238" class="Pixso-paragraph-1_238">{{ "谢春明" }}</p>
-            <p id="1_239" class="Pixso-paragraph-1_239">{{ "蒲凯" }}</p>
-            <p id="1_240" class="Pixso-paragraph-1_240">{{ "余芝森" }}</p>
-            <p id="1_241" class="Pixso-paragraph-1_241">{{ "何先伟" }}</p>
-            <p id="1_242" class="Pixso-paragraph-1_242">{{ "丁涛" }}</p>
-            <p id="1_243" class="Pixso-paragraph-1_243">{{ "肖明和" }}</p>
-            <p id="1_244" class="Pixso-paragraph-1_244">{{ "陶琛" }}</p>
-            <p id="1_245" class="Pixso-paragraph-1_245">{{ "李四" }}</p>
-            <p id="1_246" class="Pixso-paragraph-1_246">{{ "李四" }}</p>
-            <p id="1_247" class="Pixso-paragraph-1_247">{{ "李四" }}</p>
-            <p id="1_248" class="Pixso-paragraph-1_248">{{ "李四" }}</p>
-            <p id="1_249" class="Pixso-paragraph-1_249">{{ "李四" }}</p>
+            <!-- 第1-12个领导（4×3网格布局） -->
+            <!-- 第1行 -->
+            <template v-if="paginatedLeaders[0]">
+                <div id="1_259" class="Pixso-vector-1_259" @click="openDetail((currentPage - 1) * pageSize + 0)" style="cursor: pointer;" :style="{ backgroundImage: `url(${paginatedLeaders[0].photoUrl})` }"></div>
+                <p id="1_238" class="Pixso-paragraph-1_238">{{ paginatedLeaders[0].name }}</p>
+            </template>
+
+            <template v-if="paginatedLeaders[1]">
+                <div id="1_253" class="Pixso-vector-1_253" @click="openDetail((currentPage - 1) * pageSize + 1)" style="cursor: pointer;" :style="{ backgroundImage: `url(${paginatedLeaders[1].photoUrl})` }"></div>
+                <p id="1_241" class="Pixso-paragraph-1_241">{{ paginatedLeaders[1].name }}</p>
+            </template>
+
+            <template v-if="paginatedLeaders[2]">
+                <div id="1_256" class="Pixso-vector-1_256" @click="openDetail((currentPage - 1) * pageSize + 2)" style="cursor: pointer;" :style="{ backgroundImage: `url(${paginatedLeaders[2].photoUrl})` }"></div>
+                <p id="1_243" class="Pixso-paragraph-1_243">{{ paginatedLeaders[2].name }}</p>
+            </template>
+
+            <template v-if="paginatedLeaders[3]">
+                <div id="1_275" class="Pixso-vector-1_275" @click="openDetail((currentPage - 1) * pageSize + 3)" style="cursor: pointer;" :style="{ backgroundImage: `url(${paginatedLeaders[3].photoUrl})` }"></div>
+                <p id="1_244" class="Pixso-paragraph-1_244">{{ paginatedLeaders[3].name }}</p>
+            </template>
+
+            <!-- 第2行 -->
+            <template v-if="paginatedLeaders[4]">
+                <div id="1_281" class="Pixso-vector-1_281" @click="openDetail((currentPage - 1) * pageSize + 4)" style="cursor: pointer;" :style="{ backgroundImage: `url(${paginatedLeaders[4].photoUrl})` }"></div>
+                <p id="1_239" class="Pixso-paragraph-1_239">{{ paginatedLeaders[4].name }}</p>
+            </template>
+
+            <template v-if="paginatedLeaders[5]">
+                <div id="1_262" class="Pixso-vector-1_262" @click="openDetail((currentPage - 1) * pageSize + 5)" style="cursor: pointer;" :style="{ backgroundImage: `url(${paginatedLeaders[5].photoUrl})` }"></div>
+                <p id="1_240" class="Pixso-paragraph-1_240">{{ paginatedLeaders[5].name }}</p>
+            </template>
+
+            <template v-if="paginatedLeaders[6]">
+                <div id="1_265" class="Pixso-vector-1_265" @click="openDetail((currentPage - 1) * pageSize + 6)" style="cursor: pointer;" :style="{ backgroundImage: `url(${paginatedLeaders[6].photoUrl})` }"></div>
+                <p id="1_242" class="Pixso-paragraph-1_242">{{ paginatedLeaders[6].name }}</p>
+            </template>
+
+            <template v-if="paginatedLeaders[7]">
+                <div id="1_276" class="Pixso-vector-1_276" @click="openDetail((currentPage - 1) * pageSize + 7)" style="cursor: pointer;" :style="{ backgroundImage: `url(${paginatedLeaders[7].photoUrl})` }"></div>
+                <p id="1_245" class="Pixso-paragraph-1_245">{{ paginatedLeaders[7].name }}</p>
+            </template>
+
+            <!-- 第3行 -->
+            <template v-if="paginatedLeaders[8]">
+                <div id="1_280" class="Pixso-vector-1_280" @click="openDetail((currentPage - 1) * pageSize + 8)" style="cursor: pointer;" :style="{ backgroundImage: `url(${paginatedLeaders[8].photoUrl})` }"></div>
+                <p id="1_249" class="Pixso-paragraph-1_249">{{ paginatedLeaders[8].name }}</p>
+            </template>
+
+            <template v-if="paginatedLeaders[9]">
+                <div id="1_279" class="Pixso-vector-1_279" @click="openDetail((currentPage - 1) * pageSize + 9)" style="cursor: pointer;" :style="{ backgroundImage: `url(${paginatedLeaders[9].photoUrl})` }"></div>
+                <p id="1_248" class="Pixso-paragraph-1_248">{{ paginatedLeaders[9].name }}</p>
+            </template>
+
+            <template v-if="paginatedLeaders[10]">
+                <div id="1_278" class="Pixso-vector-1_278" @click="openDetail((currentPage - 1) * pageSize + 10)" style="cursor: pointer;" :style="{ backgroundImage: `url(${paginatedLeaders[10].photoUrl})` }"></div>
+                <p id="1_247" class="Pixso-paragraph-1_247">{{ paginatedLeaders[10].name }}</p>
+            </template>
+
+            <template v-if="paginatedLeaders[11]">
+                <div id="1_277" class="Pixso-vector-1_277" @click="openDetail((currentPage - 1) * pageSize + 11)" style="cursor: pointer;" :style="{ backgroundImage: `url(${paginatedLeaders[11].photoUrl})` }"></div>
+                <p id="1_246" class="Pixso-paragraph-1_246">{{ paginatedLeaders[11].name }}</p>
+            </template>
+
             <div id="1_250" class="Pixso-vector-1_250"></div>
             <div id="1_251" class="Pixso-vector-1_251"></div>
             <div id="1_252" class="Pixso-vector-1_252"></div>
-            <div id="1_253" class="Pixso-vector-1_253 leader-photo-click" role="button" tabindex="0" @click="openDetail(3)" @keydown.enter="openDetail(3)"></div>
-            <div id="1_256" class="Pixso-vector-1_256 leader-photo-click" role="button" tabindex="0" @click="openDetail(5)" @keydown.enter="openDetail(5)"></div>
-            <div id="1_259" class="Pixso-vector-1_259 leader-photo-click" role="button" tabindex="0" @click="openDetail(0)" @keydown.enter="openDetail(0)"></div>
-            <div id="1_262" class="Pixso-vector-1_262 leader-photo-click" role="button" tabindex="0" @click="openDetail(2)" @keydown.enter="openDetail(2)"></div>
-            <div id="1_265" class="Pixso-vector-1_265 leader-photo-click" role="button" tabindex="0" @click="openDetail(6)" @keydown.enter="openDetail(6)"></div>
             <div id="1_268" class="Pixso-vector-1_268"></div>
-            <div id="1_275" class="Pixso-vector-1_275 leader-photo-click" role="button" tabindex="0" @click="openDetail(6)" @keydown.enter="openDetail(6)"></div>
-            <div id="1_276" class="Pixso-vector-1_276 leader-photo-click" role="button" tabindex="0" @click="openDetail(7)" @keydown.enter="openDetail(7)"></div>
-            <div id="1_277" class="Pixso-vector-1_277 leader-photo-click" role="button" tabindex="0" @click="openDetail(11)" @keydown.enter="openDetail(11)"></div>
-            <div id="1_278" class="Pixso-vector-1_278 leader-photo-click" role="button" tabindex="0" @click="openDetail(10)" @keydown.enter="openDetail(10)"></div>
-            <div id="1_279" class="Pixso-vector-1_279 leader-photo-click" role="button" tabindex="0" @click="openDetail(9)" @keydown.enter="openDetail(9)"></div>
-            <div id="1_280" class="Pixso-vector-1_280 leader-photo-click" role="button" tabindex="0" @click="openDetail(8)" @keydown.enter="openDetail(8)"></div>
-            <div id="1_281" class="Pixso-vector-1_281 leader-photo-click" role="button" tabindex="0" @click="openDetail(1)" @keydown.enter="openDetail(1)"></div>
             <div id="1_354" class="Pixso-vector-1_354"></div>
-            <div id="6_660" class="Pixso-group-6_660">
-                <div id="6_661" class="Pixso-vector-6_661"></div>
-                <p id="6_735" class="Pixso-paragraph-6_735">
-                    {{ "共计 10 条" }}
-                </p>
+
+            <!-- 分页组件 -->
+            <div class="pagination-wrapper">
+                <div class="pagination-container">
+                    <!-- 总条数 -->
+                    <div class="pagination-total">
+                        共计 {{ leaders.length }} 条
+                    </div>
+
+                    <!-- 分页控制 -->
+                    <div class="pagination-controls">
+                        <!-- 上一页 -->
+                        <button
+                            class="pagination-btn prev-btn"
+                            :disabled="currentPage === 1"
+                            @click="handlePageChange(currentPage - 1)"
+                        >
+                            &lt;
+                        </button>
+
+                        <!-- 第一页 -->
+                        <button
+                            v-if="totalPages > 0"
+                            class="pagination-btn page-btn"
+                            :class="{ active: currentPage === 1 }"
+                            @click="handlePageChange(1)"
+                        >
+                            1
+                        </button>
+
+                        <!-- 左侧省略号 -->
+                        <span v-if="showLeftEllipsis" class="pagination-ellipsis">...</span>
+
+                        <!-- 中间页码 -->
+                        <button
+                            v-for="page in visiblePages"
+                            :key="page"
+                            v-show="page !== 1 && page !== totalPages"
+                            class="pagination-btn page-btn"
+                            :class="{ active: currentPage === page }"
+                            @click="handlePageChange(page)"
+                        >
+                            {{ page }}
+                        </button>
+
+                        <!-- 右侧省略号 -->
+                        <span v-if="showRightEllipsis" class="pagination-ellipsis">...</span>
+
+                        <!-- 最后一页 -->
+                        <button
+                            v-if="totalPages > 1"
+                            class="pagination-btn page-btn"
+                            :class="{ active: currentPage === totalPages }"
+                            @click="handlePageChange(totalPages)"
+                        >
+                            {{ totalPages }}
+                        </button>
+
+                        <!-- 下一页 -->
+                        <button
+                            class="pagination-btn next-btn"
+                            :disabled="currentPage === totalPages"
+                            @click="handlePageChange(currentPage + 1)"
+                        >
+                            &gt;
+                        </button>
+                    </div>
+
+                    <!-- 每页条数选择 -->
+                    <div class="pagination-size">
+                        <select
+                            :value="pageSize"
+                            @change="handleSizeChange"
+                            class="pagination-select"
+                        >
+                            <option :value="12">12条/页</option>
+                            <option :value="24">24条/页</option>
+                        </select>
+                    </div>
+
+                    <!-- 跳页功能 -->
+                    <div class="pagination-jump">
+                        <input
+                            type="number"
+                            v-model.number="jumpPage"
+                            :min="1"
+                            :max="totalPages"
+                            class="pagination-input"
+                            @keyup.enter="handleJump"
+                        >
+                        <button
+                            class="pagination-btn jump-btn"
+                            @click="handleJump"
+                        >
+                            前往
+                        </button>
+                    </div>
+                </div>
             </div>
-            <div id="33_336" class="Pixso-group-33_336">
+            <div id="33_336" class="Pixso-group-33_336" @click.stop>
                 <div id="33_337" class="Pixso-vector-33_337"></div>
-                <p id="33_338" class="Pixso-paragraph-33_338">
-                    {{ "请输入您要搜索的内容" }}
-                </p>
-                <div id="33_339" class="Pixso-vector-33_339"></div>
+                <!-- 输入框 -->
+                <input
+                    v-model="searchKey"
+                    @keyup.enter="doSearch"
+                    placeholder="请输入您要搜索的内容"
+                    class="search-input"
+                />
+                <!-- 搜索图标点击 -->
+                <div
+                    id="33_339"
+                    class="Pixso-vector-33_339"
+                    style="cursor: pointer"
+                    @click="doSearch"
+                ></div>
             </div>
             <div id="33_976" class="Pixso-vector-33_976"></div>
             <router-link id="33_977" to="/overview-info" class="Pixso-paragraph-33_977 main-nav-link">概况信息</router-link>
@@ -286,21 +429,92 @@ interface LeaderItem {
 const leaders: LeaderItem[] = [
     { name: '谢春明', title: '四川飞豹救援总队长、队委会主任', duty: '全面负责救援队各项工作，制定发展战略和救援计划', bio: '男，汉族，1967年11月出生，大学学历，工学硕士，中共党员', experience: '15+年', actions: '120+次', photoUrl: img259 },
     { name: '蒲凯', title: '副总队长、队委会副主任', duty: '协助总队长开展日常工作，分管综合协调与对外联络', bio: '男，汉族，大学学历，中共党员', experience: '12+年', actions: '90+次', photoUrl: img281 },
-    { name: '余芝森', title: '作战训练处处长、队委会委员', duty: '负责作战训练、演练与考核工作', bio: '男，汉族，研究生学历，中共党员', experience: '10+年', actions: '80+次', photoUrl: img262 },
     { name: '何先伟', title: '副总队长、队委会副主任', duty: '协助总队长工作，分管后勤保障与装备管理', bio: '男，汉族，大学学历，中共党员', experience: '11+年', actions: '85+次', photoUrl: img253 },
-    { name: '丁涛', title: '信息通信处处长、队委会委员', duty: '负责信息通信、指挥调度系统建设与运维', bio: '男，汉族，大学学历，中共党员', experience: '9+年', actions: '70+次', photoUrl: img265 },
-    { name: '肖明和', title: '副总队长、队委会副主任', duty: '协助总队长工作，分管应急救援与预案管理', bio: '男，汉族，大学学历，中共党员', experience: '13+年', actions: '100+次', photoUrl: img256 },
     { name: '陶琛', title: '副总队长、队委会副主任', duty: '协助总队长工作，分管队伍建设与培训', bio: '男，汉族，大学学历，中共党员', experience: '10+年', actions: '75+次', photoUrl: img275 },
-    { name: '李四', title: '支队长、队委会主任', duty: '负责支队全面工作', bio: '男，汉族，大学学历，中共党员', experience: '8+年', actions: '60+次', photoUrl: img276 },
-    { name: '李四', title: '大队长、队委会副主任', duty: '负责大队日常管理与训练', bio: '男，汉族，大学学历，中共党员', experience: '7+年', actions: '50+次', photoUrl: img280 },
-    { name: '李四', title: '大队长、队委会主任', duty: '负责大队全面工作', bio: '男，汉族，大学学历，中共党员', experience: '7+年', actions: '52+次', photoUrl: img279 },
-    { name: '李四', title: '副支队长、队委会副主任', duty: '协助支队长开展工作', bio: '男，汉族，大学学历，中共党员', experience: '6+年', actions: '45+次', photoUrl: img278 },
-    { name: '李四', title: '副支队长、队委会副主任', duty: '协助支队长开展工作', bio: '男，汉族，大学学历，中共党员', experience: '6+年', actions: '44+次', photoUrl: img277 },
+    { name: '肖明和', title: '副总队长、队委会副主任', duty: '协助总队长工作，分管应急救援与预案管理', bio: '男，汉族，大学学历，中共党员', experience: '13+年', actions: '100+次', photoUrl: img256 },
+    { name: '余芝森', title: '作战训练处处长、队委会委员', duty: '负责作战训练、演练与考核工作', bio: '男，汉族，研究生学历，中共党员', experience: '10+年', actions: '80+次', photoUrl: img262 },
+    { name: '丁涛', title: '信息通信处处长、队委会委员', duty: '负责信息通信、指挥调度系统建设与运维', bio: '男，汉族，大学学历，中共党员', experience: '9+年', actions: '70+次', photoUrl: img265 },
+    { name: '王强', title: '支队长、队委会主任', duty: '负责支队全面工作', bio: '男，汉族，大学学历，中共党员', experience: '8+年', actions: '60+次', photoUrl: img276 },
+    { name: '张伟', title: '大队长、队委会副主任', duty: '负责大队日常管理与训练', bio: '男，汉族，大学学历，中共党员', experience: '7+年', actions: '50+次', photoUrl: img280 },
+    { name: '刘洋', title: '大队长、队委会主任', duty: '负责大队全面工作', bio: '男，汉族，大学学历，中共党员', experience: '7+年', actions: '52+次', photoUrl: img279 },
+    { name: '陈军', title: '副支队长、队委会副主任', duty: '协助支队长开展工作', bio: '男，汉族，大学学历，中共党员', experience: '6+年', actions: '45+次', photoUrl: img278 },
+    { name: '赵鹏', title: '副支队长、队委会副主任', duty: '协助支队长开展工作', bio: '男，汉族，大学学历，中共党员', experience: '6+年', actions: '44+次', photoUrl: img277 },
+    { name: '周杰', title: '副总队长、队委会副主任', duty: '协助总队长工作，分管安全管理', bio: '男，汉族，大学学历，中共党员', experience: '11+年', actions: '82+次', photoUrl: img259 },
+    { name: '吴磊', title: '政治处主任、队委会委员', duty: '负责政治思想工作和队伍管理', bio: '男，汉族，大学学历，中共党员', experience: '9+年', actions: '68+次', photoUrl: img281 },
+    { name: '郑浩', title: '后勤保障处处长、队委会委员', duty: '负责后勤保障和物资管理', bio: '男，汉族，大学学历，中共党员', experience: '10+年', actions: '75+次', photoUrl: img262 },
+    { name: '孙涛', title: '副支队长、队委会副主任', duty: '协助支队长工作，分管训练工作', bio: '男，汉族，大学学历，中共党员', experience: '8+年', actions: '62+次', photoUrl: img253 },
+    { name: '李明', title: '大队长、队委会主任', duty: '负责大队全面工作和日常管理', bio: '男，汉族，大学学历，中共党员', experience: '7+年', actions: '55+次', photoUrl: img265 },
+    { name: '黄勇', title: '副大队长、队委会副主任', duty: '协助大队长开展工作', bio: '男，汉族，大学学历，中共党员', experience: '6+年', actions: '48+次', photoUrl: img256 },
+    { name: '林峰', title: '中队长、队委会委员', duty: '负责中队日常训练和管理', bio: '男，汉族，大学学历，中共党员', experience: '5+年', actions: '40+次', photoUrl: img275 },
+    { name: '徐刚', title: '副中队长、队委会委员', duty: '协助中队长开展工作', bio: '男，汉族，大学学历，中共党员', experience: '5+年', actions: '38+次', photoUrl: img276 },
+    { name: '马超', title: '班长、队委会委员', duty: '负责班组日常工作', bio: '男，汉族，大学学历，中共党员', experience: '4+年', actions: '35+次', photoUrl: img280 },
+    { name: '胡斌', title: '副班长、队委会委员', duty: '协助班长开展工作', bio: '男，汉族，大学学历，中共党员', experience: '4+年', actions: '32+次', photoUrl: img279 },
+    { name: '高飞', title: '队员、队委会委员', duty: '参与救援行动和日常训练', bio: '男，汉族，大学学历，中共党员', experience: '3+年', actions: '28+次', photoUrl: img278 },
+    { name: '曹阳', title: '队员、队委会委员', duty: '参与救援行动和日常训练', bio: '男，汉族，大学学历，中共党员', experience: '3+年', actions: '25+次', photoUrl: img277 },
 ]
 
 const router = useRouter()
 const detailVisible = ref(false)
 const detailIndex = ref(0)
+
+// 分页状态
+const currentPage = ref(1)
+const pageSize = ref(12)
+const jumpPage = ref(1)
+
+// 计算总页数
+const totalPages = computed(() => Math.ceil(leaders.length / pageSize.value))
+
+// 计算当前页显示的领导列表
+const paginatedLeaders = computed(() => {
+  const start = (currentPage.value - 1) * pageSize.value
+  const end = start + pageSize.value
+  return leaders.slice(start, end)
+})
+
+// 计算显示的页码
+const visiblePages = computed(() => {
+  const pages: number[] = []
+  const total = totalPages.value
+  const current = currentPage.value
+
+  if (total <= 7) {
+    // 总页数<=7，显示所有页码
+    for (let i = 1; i <= total; i++) {
+      pages.push(i)
+    }
+  } else {
+    // 总页数>7，显示省略号
+    if (current <= 4) {
+      // 当前页在前面
+      for (let i = 1; i <= 5; i++) {
+        pages.push(i)
+      }
+    } else if (current >= total - 3) {
+      // 当前页在后面
+      for (let i = total - 4; i <= total; i++) {
+        pages.push(i)
+      }
+    } else {
+      // 当前页在中间
+      for (let i = current - 2; i <= current + 2; i++) {
+        pages.push(i)
+      }
+    }
+  }
+
+  return pages
+})
+
+// 是否显示左侧省略号
+const showLeftEllipsis = computed(() => {
+  return totalPages.value > 7 && currentPage.value > 4
+})
+
+// 是否显示右侧省略号
+const showRightEllipsis = computed(() => {
+  return totalPages.value > 7 && currentPage.value < totalPages.value - 3
+})
 
 const currentLeader = computed<LeaderItem | null>(() => leaders[detailIndex.value] ?? null)
 
@@ -313,12 +527,77 @@ function closeDetail() {
     detailVisible.value = false
 }
 
+// 分页处理函数
+function handlePageChange(page: number) {
+  if (page < 1 || page > totalPages.value || page === currentPage.value) return
+  currentPage.value = page
+  window.scrollTo({ top: 0, behavior: 'smooth' })
+}
+
+function handleSizeChange(event: Event) {
+  const target = event.target as HTMLSelectElement
+  pageSize.value = parseInt(target.value)
+  currentPage.value = 1
+  window.scrollTo({ top: 0, behavior: 'smooth' })
+}
+
+function handleJump() {
+  const page = Math.max(1, Math.min(jumpPage.value, totalPages.value))
+  if (page !== currentPage.value) {
+    currentPage.value = page
+    window.scrollTo({ top: 0, behavior: 'smooth' })
+  }
+  jumpPage.value = page
+}
+
 function goToOrganization() {
     router.push('/overview-info/organization')
 }
 
 function goToGeography() {
     router.push('/overview-info/geography')
+}
+
+// 搜索
+const searchKey = ref('')
+
+// 7个模块路由
+const searchModules = [
+  { name: '概况信息', path: '/overview-info' },
+  { name: '队伍建设', path: '/team-building' },
+  { name: '党建专栏', path: '/party-building' },
+  { name: '信息公开', path: '/info-public' },
+  { name: '动态要闻', path: '/dynamic-news' },
+  { name: '政策法规', path: '/policy-regulations' },
+  { name: '查询系统', path: '/query-system' },
+]
+
+// 执行搜索
+const doSearch = () => {
+  const key = searchKey.value?.trim()
+  if (!key) return
+
+  // 模糊匹配模块
+  const target = searchModules.find(m =>
+    m.name.includes(key) || key.includes(m.name)
+  )
+
+  if (target) {
+    // 跳转到对应模块页面，并带上关键词
+    router.push({
+      path: target.path,
+      query: { keyword: key }
+    })
+  } else {
+    // 没匹配到，统一去搜索结果页
+    router.push({
+      path: '/search-result',
+      query: { keyword: key }
+    })
+  }
+
+  // 清空搜索框（可选）
+  // searchKey.value = ''
 }
 </script>
 
@@ -1156,6 +1435,7 @@ function goToGeography() {
     right: 62.97%;
     top: 34.78%;
     bottom: 64.15%;
+    white-space: nowrap;
 }
 .Pixso-paragraph-1_239 {
     font-size: 25px;
@@ -1170,6 +1450,7 @@ function goToGeography() {
     right: 63.59%;
     top: 54.12%;
     bottom: 44.81%;
+    white-space: nowrap;
 }
 .Pixso-paragraph-1_240 {
     font-size: 25px;
@@ -1184,6 +1465,7 @@ function goToGeography() {
     right: 46.46%;
     top: 54.16%;
     bottom: 44.77%;
+    white-space: nowrap;
 }
 .Pixso-paragraph-1_241 {
     font-size: 25px;
@@ -1198,6 +1480,7 @@ function goToGeography() {
     right: 46.46%;
     top: 34.78%;
     bottom: 64.15%;
+    white-space: nowrap;
 }
 .Pixso-paragraph-1_242 {
     font-size: 25px;
@@ -1212,6 +1495,7 @@ function goToGeography() {
     right: 30.57%;
     top: 54.16%;
     bottom: 44.77%;
+    white-space: nowrap;
 }
 .Pixso-paragraph-1_243 {
     font-size: 25px;
@@ -1226,6 +1510,7 @@ function goToGeography() {
     right: 29.95%;
     top: 34.78%;
     bottom: 64.15%;
+    white-space: nowrap;
 }
 .Pixso-paragraph-1_244 {
     font-size: 25px;
@@ -1240,6 +1525,7 @@ function goToGeography() {
     right: 13.96%;
     top: 34.78%;
     bottom: 64.15%;
+    white-space: nowrap;
 }
 .Pixso-paragraph-1_245 {
     font-size: 25px;
@@ -1254,6 +1540,7 @@ function goToGeography() {
     right: 13.96%;
     top: 54.16%;
     bottom: 44.77%;
+    white-space: nowrap;
 }
 .Pixso-paragraph-1_246 {
     font-size: 25px;
@@ -1268,6 +1555,7 @@ function goToGeography() {
     right: 14.06%;
     top: 74.09%;
     bottom: 24.84%;
+    white-space: nowrap;
 }
 .Pixso-paragraph-1_247 {
     font-size: 25px;
@@ -1282,6 +1570,7 @@ function goToGeography() {
     right: 30.73%;
     top: 74.09%;
     bottom: 24.84%;
+    white-space: nowrap;
 }
 .Pixso-paragraph-1_248 {
     font-size: 25px;
@@ -1296,6 +1585,7 @@ function goToGeography() {
     right: 46.88%;
     top: 74.09%;
     bottom: 24.84%;
+    white-space: nowrap;
 }
 .Pixso-paragraph-1_249 {
     font-size: 25px;
@@ -1310,6 +1600,7 @@ function goToGeography() {
     right: 63.7%;
     top: 74.09%;
     bottom: 24.84%;
+    white-space: nowrap;
 }
 .Pixso-vector-1_250 {
     width: 3.96%;
@@ -1350,7 +1641,6 @@ function goToGeography() {
 .Pixso-vector-1_253 {
     width: 12.81%;
     height: 12.98%;
-    background-image: url(@/assets/images/Vector_1_253.png);
     background-size: 100% 100%;
     background-repeat: no-repeat;
     position: absolute;
@@ -1362,7 +1652,6 @@ function goToGeography() {
 .Pixso-vector-1_256 {
     width: 12.81%;
     height: 12.98%;
-    background-image: url(@/assets/images/Vector_1_256.png);
     background-size: 100% 100%;
     background-repeat: no-repeat;
     position: absolute;
@@ -1374,7 +1663,6 @@ function goToGeography() {
 .Pixso-vector-1_259 {
     width: 12.81%;
     height: 12.98%;
-    background-image: url(@/assets/images/Vector_1_259.png);
     background-size: 100% 100%;
     background-repeat: no-repeat;
     position: absolute;
@@ -1386,7 +1674,6 @@ function goToGeography() {
 .Pixso-vector-1_262 {
     width: 12.81%;
     height: 12.93%;
-    background-image: url(@/assets/images/Vector_1_262.png);
     background-size: 100% 100%;
     background-repeat: no-repeat;
     position: absolute;
@@ -1398,7 +1685,6 @@ function goToGeography() {
 .Pixso-vector-1_265 {
     width: 12.81%;
     height: 12.93%;
-    background-image: url(@/assets/images/Vector_1_265.png);
     background-size: 100% 100%;
     background-repeat: no-repeat;
     position: absolute;
@@ -1422,7 +1708,6 @@ function goToGeography() {
 .Pixso-vector-1_275 {
     width: 12.81%;
     height: 13.02%;
-    background-image: url(@/assets/images/Vector_1_275.png);
     background-size: 100% 100%;
     background-repeat: no-repeat;
     position: absolute;
@@ -1434,7 +1719,6 @@ function goToGeography() {
 .Pixso-vector-1_276 {
     width: 12.81%;
     height: 12.93%;
-    background-image: url(@/assets/images/Vector_1_276.png);
     background-size: 100% 100%;
     background-repeat: no-repeat;
     position: absolute;
@@ -1446,7 +1730,6 @@ function goToGeography() {
 .Pixso-vector-1_277 {
     width: 12.81%;
     height: 13.01%;
-    background-image: url(@/assets/images/Vector_1_277.png);
     background-size: 100% 100%;
     background-repeat: no-repeat;
     position: absolute;
@@ -1458,7 +1741,6 @@ function goToGeography() {
 .Pixso-vector-1_278 {
     width: 12.82%;
     height: 13.01%;
-    background-image: url(@/assets/images/Vector_1_278.png);
     background-size: 100% 100%;
     background-repeat: no-repeat;
     position: absolute;
@@ -1470,7 +1752,6 @@ function goToGeography() {
 .Pixso-vector-1_279 {
     width: 12.81%;
     height: 13.01%;
-    background-image: url(@/assets/images/Vector_1_279.png);
     background-size: 100% 100%;
     background-repeat: no-repeat;
     position: absolute;
@@ -1482,7 +1763,6 @@ function goToGeography() {
 .Pixso-vector-1_280 {
     width: 12.81%;
     height: 13.01%;
-    background-image: url(@/assets/images/Vector_1_280.png);
     background-size: 100% 100%;
     background-repeat: no-repeat;
     position: absolute;
@@ -1494,7 +1774,6 @@ function goToGeography() {
 .Pixso-vector-1_281 {
     width: 12.81%;
     height: 12.97%;
-    background-image: url(@/assets/images/Vector_1_281.png);
     background-size: 100% 100%;
     background-repeat: no-repeat;
     position: absolute;
@@ -1868,5 +2147,148 @@ function goToGeography() {
     font-weight: 700;
     font-family: "Alibaba PuHuiTi-Regular", "PingFang SC", sans-serif;
     color: #1a1a1a;
+}
+
+/* 搜索框样式覆盖原有文字，保持样式不变 */
+.search-input {
+  position: absolute;
+  left: 4.73%;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 68.05%;
+  height: 20px;
+  line-height: 20px;
+  font-size: 16px;
+  font-family: "Alibaba PuHuiTi-Regular";
+  color: #333;
+  border: none;
+  outline: none;
+  background: transparent;
+}
+
+/* 分页组件容器 */
+.pagination-wrapper {
+  position: absolute;
+  left: 68.58%;
+  right: 2%;
+  top: 82.29%;
+  bottom: 15.92%;
+  width: 29.42%;
+  height: 1.79%;
+}
+
+.pagination-container {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  height: 100%;
+}
+
+/* 总条数显示 */
+.pagination-total {
+  font-size: 14px;
+  font-family: inherit;
+  font-weight: 400;
+  text-align: center;
+  line-height: 22px;
+  color: #333;
+  white-space: nowrap;
+}
+
+/* 分页控制区域 */
+.pagination-controls {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+/* 分页按钮基础样式 */
+.pagination-btn {
+  min-width: 32px;
+  height: 32px;
+  padding: 0 8px;
+  border: 1px solid #d9d9d9;
+  border-radius: 2px;
+  background: #fff;
+  color: #333;
+  font-size: 14px;
+  cursor: pointer;
+  transition: all 0.3s;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.pagination-btn:hover:not(:disabled):not(.active) {
+  border-color: #3578F8;
+  color: #3578F8;
+}
+
+.pagination-btn:disabled {
+  color: #ccc;
+  cursor: not-allowed;
+  background: #f5f5f5;
+  border-color: #d9d9d9;
+}
+
+.pagination-btn.active {
+  background: #3578F8;
+  color: #fff;
+  border-color: #3578F8;
+}
+
+/* 省略号 */
+.pagination-ellipsis {
+  padding: 0 4px;
+  color: #999;
+  font-size: 14px;
+}
+
+/* 每页条数选择器 */
+.pagination-size {
+  display: flex;
+  align-items: center;
+}
+
+.pagination-select {
+  height: 32px;
+  padding: 0 8px;
+  border: 1px solid #d9d9d9;
+  border-radius: 2px;
+  background: #fff;
+  color: #333;
+  font-size: 14px;
+  cursor: pointer;
+  outline: none;
+}
+
+.pagination-select:hover {
+  border-color: #3578F8;
+}
+
+/* 跳页功能 */
+.pagination-jump {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.pagination-input {
+  width: 45px;
+  height: 32px;
+  padding: 0 8px;
+  border: 1px solid #d9d9d9;
+  border-radius: 2px;
+  text-align: center;
+  outline: none;
+  font-size: 14px;
+}
+
+.pagination-input:focus {
+  border-color: #3578F8;
+}
+
+.jump-btn {
+  padding: 0 10px;
 }
 </style>

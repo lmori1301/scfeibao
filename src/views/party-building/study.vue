@@ -69,16 +69,16 @@
             <div id="1_1807" class="Pixso-vector-1_1807"></div>
             <p id="1_1808" class="Pixso-paragraph-1_1808">{{ "PBCOL" }}</p>
             <p id="1_1809" class="Pixso-paragraph-1_1809">{{ "党建专栏" }}</p>
-            <p id="1_1810" class="Pixso-paragraph-1_1810">{{ "团建工作" }}</p>
+            <router-link id="1_1810" to="/party-building/team-work" class="Pixso-paragraph-1_1810 party-sidebar-link">{{ "团建工作" }}</router-link>
             <div id="1_1811" class="Pixso-vector-1_1811"></div>
-            <p id="1_1812" class="Pixso-paragraph-1_1812">{{ "党建工作" }}</p>
+            <router-link id="1_1812" to="/party-building/party-work" class="Pixso-paragraph-1_1812 party-sidebar-link">{{ "党建工作" }}</router-link>
             <div id="1_1813" class="Pixso-vector-1_1813"></div>
-            <p id="1_1814" class="Pixso-paragraph-1_1814">
-                {{ "党员学“习”                  >" }}
-            </p>
+            <router-link id="1_1814" to="/party-building/study" class="Pixso-paragraph-1_1814 party-sidebar-link">
+                党员学"习"                  >
+            </router-link>
             <div id="1_1815" class="Pixso-vector-1_1815"></div>
             <div id="1_1816" class="Pixso-vector-1_1816"></div>
-            <p id="1_1817" class="Pixso-paragraph-1_1817">{{ "党员先锋" }}</p>
+            <router-link id="1_1817" to="/party-building/members" class="Pixso-paragraph-1_1817 party-sidebar-link">{{ "党员先锋" }}</router-link>
             <div id="1_1818" class="Pixso-vector-1_1818"></div>
             <div id="1_1821" class="Pixso-vector-1_1821"></div>
             <div id="1_1824" class="Pixso-vector-1_1824"></div>
@@ -88,25 +88,83 @@
                 <div id="6_19" class="Pixso-vector-6_19"></div>
                 <p id="6_93" class="Pixso-paragraph-6_93">{{ "共计 10 条" }}</p>
             </div>
-            <div id="33_192" class="Pixso-group-33_192">
-                <div id="33_193" class="Pixso-vector-33_193"></div>
-                <p id="33_194" class="Pixso-paragraph-33_194">
-                    {{ "请输入您要搜索的内容" }}
-                </p>
-                <div id="33_195" class="Pixso-vector-33_195"></div>
-            </div>
+            <div id="33_192" class="Pixso-group-33_192" @click.stop>
+            <div id="33_193" class="Pixso-vector-33_193"></div>
+            <!-- 输入框 -->
+            <input
+                v-model="searchKey"
+                @keyup.enter="doSearch"
+                placeholder="请输入您要搜索的内容"
+                class="search-input"
+            />
+            <!-- 搜索图标点击 -->
+            <div
+                id="33_195"
+                class="Pixso-vector-33_195"
+                style="cursor: pointer"
+                @click="doSearch"
+            ></div>
+        </div>
             <div id="33_515" class="Pixso-vector-33_515"></div>
-            <p id="33_516" class="Pixso-paragraph-33_516">{{ "概况信息" }}</p>
-            <p id="33_517" class="Pixso-paragraph-33_517">{{ "队伍建设" }}</p>
-            <p id="33_518" class="Pixso-paragraph-33_518">{{ "信息公开" }}</p>
-            <p id="33_519" class="Pixso-paragraph-33_519">{{ "动态要闻" }}</p>
-            <p id="33_520" class="Pixso-paragraph-33_520">{{ "政策法规" }}</p>
-            <p id="33_521" class="Pixso-paragraph-33_521">{{ "查询系统" }}</p>
-            <p id="33_522" class="Pixso-paragraph-33_522">{{ "党建专栏" }}</p>
+            <router-link to="/overview-info" id="33_516" class="Pixso-paragraph-33_516">概况信息</router-link>
+            <router-link to="/team-building" id="33_517" class="Pixso-paragraph-33_517">队伍建设</router-link>
+            <router-link to="/info-public" id="33_518" class="Pixso-paragraph-33_518">信息公开</router-link>
+            <router-link to="/dynamic-news" id="33_519" class="Pixso-paragraph-33_519">动态要闻</router-link>
+            <router-link to="/policy-regulations" id="33_520" class="Pixso-paragraph-33_520">政策法规</router-link>
+            <router-link to="/query-system" id="33_521" class="Pixso-paragraph-33_521">查询系统</router-link>
+            <router-link to="/party-building" id="33_522" class="Pixso-paragraph-33_522">党建专栏</router-link>
         </div>
     </div>
 </template>
-<script lang="ts" setup></script>
+<script lang="ts" setup>
+import { ref } from 'vue'
+import { useRouter } from 'vue-router'
+
+const router = useRouter()
+
+// 搜索
+const searchKey = ref('')
+
+// 7个模块路由
+const searchModules = [
+  { name: '概况信息', path: '/overview-info' },
+  { name: '队伍建设', path: '/team-building' },
+  { name: '党建专栏', path: '/party-building' },
+  { name: '信息公开', path: '/info-public' },
+  { name: '动态要闻', path: '/dynamic-news' },
+  { name: '政策法规', path: '/policy-regulations' },
+  { name: '查询系统', path: '/query-system' },
+]
+
+// 执行搜索
+const doSearch = () => {
+  const key = searchKey.value?.trim()
+  if (!key) return
+
+  // 模糊匹配模块
+  const target = searchModules.find(m =>
+    m.name.includes(key) || key.includes(m.name)
+  )
+
+  if (target) {
+    // 跳转到对应模块页面，并带上关键词
+    router.push({
+      path: target.path,
+      query: { keyword: key }
+    })
+  } else {
+    // 没匹配到，统一去搜索结果页
+    router.push({
+      path: '/search-result',
+      query: { keyword: key }
+    })
+  }
+
+  // 清空搜索框（可选）
+  // searchKey.value = ''
+}
+
+</script>
 <style>
 .scroll-container-1_1666 {
     height: 100%;
@@ -1001,5 +1059,23 @@
     bottom: 87.21%;
     white-space: pre;
     flex-grow: 0;
+}
+
+
+/* 搜索框样式覆盖原有文字，保持样式不变 */
+.search-input {
+  position: absolute;
+  left: 4.73%;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 68.05%;
+  height: 20px;
+  line-height: 20px;
+  font-size: 16px;
+  font-family: "Alibaba PuHuiTi-Regular";
+  color: #333;
+  border: none;
+  outline: none;
+  background: transparent;
 }
 </style>

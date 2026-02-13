@@ -17,7 +17,7 @@
             <router-link to="/overview-info/geography" id="1_586" class="Pixso-paragraph-1_586">
                 {{ "地理位置                          >" }}
             </router-link>
-            <router-link to="/overview-info/organization" id="1_587" class="Pixso-paragraph-1_587">
+            <router-link to="/overview-info/organization" id="1_587" class="Pixso-paragraph-1_587 overview-nav-item">
                 {{ "组织机构                          " }}
             </router-link>
             <div id="1_588" class="Pixso-vector-1_588"></div>
@@ -28,7 +28,7 @@
             </p>
             <div id="1_598" class="Pixso-vector-1_598"></div>
             <div id="1_599" class="Pixso-vector-1_599"></div>
-            <router-link to="/overview-info/leadership" id="1_600" class="Pixso-paragraph-1_600">
+            <router-link to="/overview-info/leadership" id="1_600" class="Pixso-paragraph-1_600 overview-nav-item">
                 {{ "领导信息                         " }}
             </router-link>
             <div id="1_601" class="Pixso-vector-1_601"></div>
@@ -40,7 +40,7 @@
             <p id="1_605" class="Pixso-paragraph-1_605">{{ currentUnit.phone }}</p>
 
             <!-- 单位tab flex容器 - 均匀分布 -->
-            <div class="unit-tabs-flex-container">
+            <div ref="scrollContainerRef" class="unit-tabs-flex-container">
                 <div class="unit-tab-container unit-tab-container-0" role="button" tabindex="0" @click="switchUnit(0)" @keydown.enter="switchUnit(0)">
                     <p class="unit-tab-text" :class="{ 'unit-tab-active': activeIndex === 0 }">{{ "总队指挥部" }}</p>
                     <div v-show="activeIndex === 0" class="unit-tab-underline"></div>
@@ -113,29 +113,47 @@
             <div id="1_613" class="Pixso-vector-1_613"></div>
             <div id="17_32" class="Pixso-vector-17_32"></div>
             <div id="1_618" class="Pixso-vector-1_618"></div>
-            <p id="1_619" class="Pixso-paragraph-1_619">{{ "概况信息" }}</p>
-            <p id="1_620" class="Pixso-paragraph-1_620">{{ "队伍建设" }}</p>
-            <p id="1_621" class="Pixso-paragraph-1_621">{{ "党建专栏" }}</p>
-            <p id="1_622" class="Pixso-paragraph-1_622">{{ "信息公开" }}</p>
-            <p id="1_623" class="Pixso-paragraph-1_623">{{ "动态要闻" }}</p>
-            <p id="1_624" class="Pixso-paragraph-1_624">{{ "政策法规" }}</p>
-            <p id="6_776" class="Pixso-paragraph-6_776">{{ "查询系统" }}</p>
+            <router-link to="/overview-info" id="1_619" class="Pixso-paragraph-1_619 main-nav-link">{{ "概况信息" }}</router-link>
+            <router-link to="/team-building" id="1_620" class="Pixso-paragraph-1_620 main-nav-link">{{ "队伍建设" }}</router-link>
+            <router-link to="/party-building" id="1_621" class="Pixso-paragraph-1_621 main-nav-link">{{ "党建专栏" }}</router-link>
+            <router-link to="/info-public" id="1_622" class="Pixso-paragraph-1_622 main-nav-link">{{ "信息公开" }}</router-link>
+            <router-link to="/dynamic-news" id="1_623" class="Pixso-paragraph-1_623 main-nav-link">{{ "动态要闻" }}</router-link>
+            <router-link to="/policy-regulations" id="1_624" class="Pixso-paragraph-1_624 main-nav-link">{{ "政策法规" }}</router-link>
+            <router-link to="/query-system" id="6_776" class="Pixso-paragraph-6_776 main-nav-link">{{ "查询系统" }}</router-link>
             <div id="1_625" class="Pixso-vector-1_625"></div>
-            <div id="33_309" class="Pixso-group-33_309">
+            <div id="33_309" class="Pixso-group-33_309" @click.stop>
                 <div id="33_310" class="Pixso-vector-33_310"></div>
-                <p id="33_311" class="Pixso-paragraph-33_311">
-                    {{ "请输入您要搜索的内容" }}
-                </p>
-                <div id="33_312" class="Pixso-vector-33_312"></div>
+                <!-- 输入框 -->
+                <input
+                    v-model="searchKey"
+                    @keyup.enter="doSearch"
+                    placeholder="请输入您要搜索的内容"
+                    class="search-input"
+                />
+                <!-- 搜索图标点击 -->
+                <div
+                    id="33_312"
+                    class="Pixso-vector-33_312"
+                    style="cursor: pointer"
+                    @click="doSearch"
+                ></div>
             </div>
         </div>
     </div>
 </template>
 <script lang="ts" setup>
-import { ref, computed } from 'vue'
+import { ref, computed, onMounted, onUnmounted } from 'vue'
 
 // 当前选中的单位索引
 const activeIndex = ref(0)
+
+// 滚动容器引用
+const scrollContainerRef = ref<HTMLElement | null>(null)
+
+// 拖拽状态
+const isDragging = ref(false)
+const startX = ref(0)
+const scrollLeft = ref(0)
 
 // 单位信息数据
 interface UnitInfo {
@@ -239,14 +257,115 @@ const currentUnit = computed(() => units[activeIndex.value])
 const switchUnit = (index: number) => {
   activeIndex.value = index
 }
+
+// 鼠标按下事件
+const handleMouseDown = (e: MouseEvent) => {
+  if (!scrollContainerRef.value) return
+  isDragging.value = true
+  startX.value = e.pageX - scrollContainerRef.value.offsetLeft
+  scrollLeft.value = scrollContainerRef.value.scrollLeft
+  scrollContainerRef.value.style.cursor = 'grabbing'
+}
+
+// 鼠标移动事件
+const handleMouseMove = (e: MouseEvent) => {
+  if (!isDragging.value || !scrollContainerRef.value) return
+  e.preventDefault()
+  const x = e.pageX - scrollContainerRef.value.offsetLeft
+  const walk = (x - startX.value) * 2
+  scrollContainerRef.value.scrollLeft = scrollLeft.value - walk
+}
+
+// 鼠标松开事件
+const handleMouseUp = () => {
+  isDragging.value = false
+  if (scrollContainerRef.value) {
+    scrollContainerRef.value.style.cursor = 'grab'
+  }
+}
+
+// 鼠标离开事件
+const handleMouseLeave = () => {
+  isDragging.value = false
+  if (scrollContainerRef.value) {
+    scrollContainerRef.value.style.cursor = 'grab'
+  }
+}
+
+// 组件挂载时添加事件监听
+onMounted(() => {
+  if (scrollContainerRef.value) {
+    scrollContainerRef.value.addEventListener('mousedown', handleMouseDown)
+    scrollContainerRef.value.addEventListener('mousemove', handleMouseMove)
+    scrollContainerRef.value.addEventListener('mouseup', handleMouseUp)
+    scrollContainerRef.value.addEventListener('mouseleave', handleMouseLeave)
+  }
+})
+
+// 组件卸载时移除事件监听
+onUnmounted(() => {
+  if (scrollContainerRef.value) {
+    scrollContainerRef.value.removeEventListener('mousedown', handleMouseDown)
+    scrollContainerRef.value.removeEventListener('mousemove', handleMouseMove)
+    scrollContainerRef.value.removeEventListener('mouseup', handleMouseUp)
+    scrollContainerRef.value.removeEventListener('mouseleave', handleMouseLeave)
+  }
+})
+
+// 搜索
+const searchKey = ref('')
+
+// 7个模块路由
+const searchModules = [
+  { name: '概况信息', path: '/overview-info' },
+  { name: '队伍建设', path: '/team-building' },
+  { name: '党建专栏', path: '/party-building' },
+  { name: '信息公开', path: '/info-public' },
+  { name: '动态要闻', path: '/dynamic-news' },
+  { name: '政策法规', path: '/policy-regulations' },
+  { name: '查询系统', path: '/query-system' },
+]
+
+// 执行搜索
+const doSearch = () => {
+  const key = searchKey.value?.trim()
+  if (!key) return
+
+  // 模糊匹配模块
+  const target = searchModules.find(m =>
+    m.name.includes(key) || key.includes(m.name)
+  )
+
+  if (target) {
+    // 跳转到对应模块页面，并带上关键词
+    router.push({
+      path: target.path,
+      query: { keyword: key }
+    })
+  } else {
+    // 没匹配到，统一去搜索结果页
+    router.push({
+      path: '/search-result',
+      query: { keyword: key }
+    })
+  }
+
+  // 清空搜索框（可选）
+  // searchKey.value = ''
+}
 </script>
 <style>
+/* 概况信息导航项样式 */
+.overview-nav-item {
+    cursor: pointer;
+}
+
 /* 单位tabs flex容器 - 横向滚动 */
 .unit-tabs-flex-container {
     display: flex;
     justify-content: flex-start;
     align-items: flex-start;
-    gap: 40px;
+    gap: 50px;
     position: absolute;
     left: 28%;
     right: 10%;
@@ -255,25 +374,15 @@ const switchUnit = (index: number) => {
     overflow-y: hidden;
     flex-wrap: nowrap;
     padding-bottom: 10px;
+    scrollbar-width: none; /* Firefox */
+    -ms-overflow-style: none; /* IE and Edge */
+    cursor: grab;
+    user-select: none;
 }
 
 /* 隐藏滚动条但保持滚动功能 */
 .unit-tabs-flex-container::-webkit-scrollbar {
-    height: 6px;
-}
-
-.unit-tabs-flex-container::-webkit-scrollbar-track {
-    background: rgba(0, 0, 0, 0.05);
-    border-radius: 3px;
-}
-
-.unit-tabs-flex-container::-webkit-scrollbar-thumb {
-    background: rgba(0, 0, 0, 0.2);
-    border-radius: 3px;
-}
-
-.unit-tabs-flex-container::-webkit-scrollbar-thumb:hover {
-    background: rgba(0, 0, 0, 0.3);
+    display: none; /* Chrome, Safari, Opera */
 }
 
 /* 单位tab容器样式 */
@@ -974,5 +1083,22 @@ const switchUnit = (index: number) => {
     right: 7.4%;
     top: 50%;
     transform: translateY(calc(-50% + 0.5px));
+}
+
+/* 搜索框样式覆盖原有文字，保持样式不变 */
+.search-input {
+  position: absolute;
+  left: 4.73%;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 68.05%;
+  height: 20px;
+  line-height: 20px;
+  font-size: 16px;
+  font-family: "Alibaba PuHuiTi-Regular";
+  color: #333;
+  border: none;
+  outline: none;
+  background: transparent;
 }
 </style>

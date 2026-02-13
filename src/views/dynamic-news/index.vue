@@ -209,19 +209,32 @@
           <router-link id="1_2192" to="/dynamic-news" class="Pixso-paragraph-1_2192 main-nav-link">动态要闻</router-link>
           <router-link id="1_2193" to="/policy-regulations" class="Pixso-paragraph-1_2193 main-nav-link">政策法规</router-link>
           <router-link id="6_781" to="/query-system" class="Pixso-paragraph-6_781 main-nav-link">查询系统</router-link>
-          <div id="33_300" class="Pixso-group-33_300">
-              <div id="33_301" class="Pixso-vector-33_301"></div>
-              <p id="33_302" class="Pixso-paragraph-33_302">
-                  {{ "请输入您要搜索的内容" }}
-              </p>
-              <div id="33_303" class="Pixso-vector-33_303"></div>
-          </div>
+          <div id="33_300" class="Pixso-group-33_300" @click.stop>
+            <div id="33_301" class="Pixso-vector-33_301"></div>
+            <!-- 输入框 -->
+            <input
+                v-model="searchKey"
+                @keyup.enter="doSearch"
+                placeholder="请输入您要搜索的内容"
+                class="search-input"
+            />
+            <!-- 搜索图标点击 -->
+            <div
+                id="33_303"
+                class="Pixso-vector-33_303"
+                style="cursor: pointer"
+                @click="doSearch"
+            ></div>
+        </div>
       </div>
   </div>
 </template>
 <script lang="ts" setup>
 import { ref, computed, onMounted, onUnmounted } from 'vue'
+import { useRouter } from 'vue-router'
 import image1 from '@/assets/images/Vector_1_2129.png'
+
+const router = useRouter()
 
 // 轮播数据（4条）
 const carouselData = [
@@ -432,6 +445,49 @@ const tabData = {
 
 // 核心4：计算属性 - 根据选中的Tab返回对应列表
 const currentList = computed(() => tabData[activeTab.value as keyof typeof tabData])
+
+// 搜索
+const searchKey = ref('')
+
+// 7个模块路由
+const searchModules = [
+  { name: '概况信息', path: '/overview-info' },
+  { name: '队伍建设', path: '/team-building' },
+  { name: '党建专栏', path: '/party-building' },
+  { name: '信息公开', path: '/info-public' },
+  { name: '动态要闻', path: '/dynamic-news' },
+  { name: '政策法规', path: '/policy-regulations' },
+  { name: '查询系统', path: '/query-system' },
+]
+
+// 执行搜索
+const doSearch = () => {
+  const key = searchKey.value?.trim()
+  if (!key) return
+
+  // 模糊匹配模块
+  const target = searchModules.find(m =>
+    m.name.includes(key) || key.includes(m.name)
+  )
+
+  if (target) {
+    // 跳转到对应模块页面，并带上关键词
+    router.push({
+      path: target.path,
+      query: { keyword: key }
+    })
+  } else {
+    // 没匹配到，统一去搜索结果页
+    router.push({
+      path: '/search-result',
+      query: { keyword: key }
+    })
+  }
+
+  // 清空搜索框（可选）
+  // searchKey.value = ''
+}
+
 </script>
 <style>
 .scroll-container-1_2107 {
@@ -1470,5 +1526,23 @@ const currentList = computed(() => tabData[activeTab.value as keyof typeof tabDa
   border-radius: 3px;
   vertical-align: middle;
   line-height: 1;
+}
+
+
+/* 搜索框样式覆盖原有文字，保持样式不变 */
+.search-input {
+  position: absolute;
+  left: 4.73%;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 68.05%;
+  height: 20px;
+  line-height: 20px;
+  font-size: 16px;
+  font-family: "Alibaba PuHuiTi-Regular";
+  color: #333;
+  border: none;
+  outline: none;
+  background: transparent;
 }
 </style>

@@ -12,7 +12,10 @@
             </p>
             <div id="1_1071" class="Pixso-vector-1_1071"></div>
             <p id="1_1072" class="Pixso-paragraph-1_1072">
-                {{ "当前位置：首页 > 队伍建设 > 队伍风采详情" }}
+                当前位置：<router-link to="/" class="breadcrumb-link">首页</router-link> >
+                <router-link to="/team-building" class="breadcrumb-link">队伍建设</router-link> >
+                <router-link to="/team-building/showcase" class="breadcrumb-link">队伍风采</router-link> >
+                {{ currentItem.title }}
             </p>
             <p id="1_1073" class="Pixso-paragraph-1_1073">
                 {{
@@ -51,13 +54,13 @@
             <div id="1_1097" class="Pixso-vector-1_1097"></div>
             <div id="17_4" class="Pixso-vector-17_4"></div>
             <div id="1_1102" class="Pixso-vector-1_1102"></div>
-            <p id="1_1103" class="Pixso-paragraph-1_1103">{{ "概况信息" }}</p>
-            <p id="1_1104" class="Pixso-paragraph-1_1104">{{ "队伍建设" }}</p>
-            <p id="1_1105" class="Pixso-paragraph-1_1105">{{ "信息公开" }}</p>
-            <p id="1_1106" class="Pixso-paragraph-1_1106">{{ "党建专栏" }}</p>
-            <p id="1_1107" class="Pixso-paragraph-1_1107">{{ "动态要闻" }}</p>
-            <p id="1_1108" class="Pixso-paragraph-1_1108">{{ "政策法规" }}</p>
-            <p id="1_1109" class="Pixso-paragraph-1_1109">{{ "查询系统" }}</p>
+            <router-link to="/overview-info" id="1_1103" class="Pixso-paragraph-1_1103">概况信息</router-link>
+            <router-link to="/team-building" id="1_1104" class="Pixso-paragraph-1_1104">队伍建设</router-link>
+            <router-link to="/info-public" id="1_1105" class="Pixso-paragraph-1_1105">信息公开</router-link>
+            <router-link to="/party-building" id="1_1106" class="Pixso-paragraph-1_1106">党建专栏</router-link>
+            <router-link to="/dynamic-news" id="1_1107" class="Pixso-paragraph-1_1107">动态要闻</router-link>
+            <router-link to="/policy-regulations" id="1_1108" class="Pixso-paragraph-1_1108">政策法规</router-link>
+            <router-link to="/query-system" id="1_1109" class="Pixso-paragraph-1_1109">查询系统</router-link>
             <div id="32_24" class="Pixso-group-32_24">
                 <p id="32_25" class="Pixso-paragraph-32_25">
                     {{ "主办单位：四川飞豹救援" }}
@@ -72,17 +75,136 @@
                     {{ "Copyright®2025 sc.feibao.com All rights reserved" }}
                 </p>
             </div>
-            <div id="33_147" class="Pixso-group-33_147">
+            <div id="33_147" class="Pixso-group-33_147" @click.stop>
                 <div id="33_148" class="Pixso-vector-33_148"></div>
-                <p id="33_149" class="Pixso-paragraph-33_149">
-                    {{ "请输入您要搜索的内容" }}
-                </p>
-                <div id="33_150" class="Pixso-vector-33_150"></div>
+                <!-- 输入框 -->
+                <input
+                    v-model="searchKey"
+                    @keyup.enter="doSearch"
+                    placeholder="请输入您要搜索的内容"
+                    class="search-input"
+                />
+                <!-- 搜索图标点击 -->
+                <div
+                    id="33_150"
+                    class="Pixso-vector-33_150"
+                    style="cursor: pointer"
+                    @click="doSearch"
+                ></div>
             </div>
         </div>
     </div>
 </template>
-<script lang="ts" setup></script>
+<script lang="ts" setup>
+import { ref, computed } from 'vue'
+import { useRoute, useRouter } from 'vue-router'
+
+const route = useRoute()
+const router = useRouter()
+
+// 队伍风采数据
+const showcaseItems = ref([
+    {
+        title: "四川飞豹救援特勤大队",
+        dateYear: "2025-12",
+        dateDay: "06",
+        summary: "认真践行习近平总书记关于党的自我革命的重要思想...",
+        image: new URL('@/assets/images/Vector_1_1011.png', import.meta.url).href,
+        content: "四川飞豹救援特勤大队是我省消防救援队伍中的精锐力量..."
+    },
+    {
+        title: "四川飞豹救援峨眉山直属大队",
+        dateYear: "2025-12",
+        dateDay: "06",
+        summary: "28日下午，洪峰再次过境榕江，四川飞豹救援峨眉山大队队员们沿着低洼街巷开展排查...",
+        image: new URL('@/assets/images/Vector_1_1014.png', import.meta.url).href,
+        content: "四川飞豹救援峨眉山直属大队在抗洪救灾中发挥了重要作用..."
+    },
+    {
+        title: "四川飞豹救援搜救犬大队",
+        dateYear: "2025-12",
+        dateDay: "06",
+        summary: '搜救犬穿梭 嗅闻可能的幸存者 "西岭"一次又一次确认...',
+        image: new URL('@/assets/images/Vector_1_1017.png', import.meta.url).href,
+        content: "四川飞豹救援搜救犬大队是专业的搜救力量..."
+    },
+    {
+        title: "四川飞豹救援天府支队",
+        dateYear: "2025-12",
+        dateDay: "06",
+        summary: '"以学铸魂，就是要做好学习贯彻新时代中国特色社会主义思想的深化、内化、转化工作...',
+        image: new URL('@/assets/images/Vector_1_1020.png', import.meta.url).href,
+        content: "四川飞豹救援天府支队积极开展党建学习活动..."
+    }
+])
+
+// 获取当前展示的项目
+const currentIndex = computed(() => {
+    const id = route.params.id
+    return typeof id === 'string' ? parseInt(id) : 0
+})
+
+const currentItem = computed(() => {
+    const index = currentIndex.value
+    if (index >= 0 && index < showcaseItems.value.length) {
+        return showcaseItems.value[index]
+    }
+    return showcaseItems.value[0]
+})
+
+// 搜索
+const searchKey = ref('')
+
+// 7个模块路由
+const searchModules = [
+  { name: '概况信息', path: '/overview-info' },
+  { name: '队伍建设', path: '/team-building' },
+  { name: '党建专栏', path: '/party-building' },
+  { name: '信息公开', path: '/info-public' },
+  { name: '动态要闻', path: '/dynamic-news' },
+  { name: '政策法规', path: '/policy-regulations' },
+  { name: '查询系统', path: '/query-system' },
+]
+
+// 执行搜索
+const doSearch = () => {
+  const key = searchKey.value?.trim()
+  if (!key) return
+
+  // 模糊匹配模块
+  const target = searchModules.find(m =>
+    m.name.includes(key) || key.includes(m.name)
+  )
+
+  if (target) {
+    // 跳转到对应模块页面，并带上关键词
+    router.push({
+      path: target.path,
+      query: { keyword: key }
+    })
+  } else {
+    // 没匹配到，统一去搜索结果页
+    router.push({
+      path: '/search-result',
+      query: { keyword: key }
+    })
+  }
+
+  // 清空搜索框（可选）
+  // searchKey.value = ''
+}
+</script>
+<style scoped>
+.breadcrumb-link {
+    color: rgba(132, 132, 132, 1);
+    text-decoration: none;
+    cursor: pointer;
+}
+.breadcrumb-link:hover {
+    color: rgba(217, 38, 38, 1);
+    text-decoration: underline;
+}
+</style>
 <style>
 .scroll-container-1_1053 {
     height: 100%;
@@ -437,7 +559,7 @@
     flex-grow: 0;
 }
 .Pixso-paragraph-1_1106 {
-    font-size: 25px;
+    font-size: 20px;
     font-family: "FZDaHei-B02S-Regular";
     font-weight: 400;
     text-align: center;
@@ -620,5 +742,22 @@
     right: 7.4%;
     top: 50%;
     transform: translateY(calc(-50% + 0.5px));
+}
+
+/* 搜索框样式覆盖原有文字，保持样式不变 */
+.search-input {
+  position: absolute;
+  left: 4.73%;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 68.05%;
+  height: 20px;
+  line-height: 20px;
+  font-size: 16px;
+  font-family: "Alibaba PuHuiTi-Regular";
+  color: #333;
+  border: none;
+  outline: none;
+  background: transparent;
 }
 </style>
