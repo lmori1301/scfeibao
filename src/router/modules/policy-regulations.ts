@@ -21,22 +21,6 @@ export default {
       meta: {
         title: '法律法规'
       }
-    },
-    {
-      path: 'regulations',
-      name: 'DepartmentRegulations',
-      component: () => import('@/views/policy-regulations/regulations.vue'),
-      meta: {
-        title: '部门规章'
-      }
-    },
-    {
-      path: 'standards',
-      name: 'IndustryStandards',
-      component: () => import('@/views/policy-regulations/standards.vue'),
-      meta: {
-        title: '行业标准'
-      }
     }
   ]
 }

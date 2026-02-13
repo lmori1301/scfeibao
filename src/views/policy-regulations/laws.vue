@@ -14,7 +14,7 @@
             <div id="17_11" class="Pixso-vector-17_11"></div>
             <div id="1_2273" class="Pixso-vector-1_2273"></div>
             <p id="1_2282" class="Pixso-paragraph-1_2282">
-                当前位置：<router-link to="/" style="color: inherit; text-decoration: none;">首页</router-link> > <router-link to="/policy-regulations" style="color: inherit; text-decoration: none;">政策法规</router-link> > 法律法规
+                当前位置：<router-link to="/" style="color: inherit; text-decoration: none;">首页</router-link> > <router-link to="/policy-regulations" style="color: inherit; text-decoration: none;">政策法规</router-link> > 政策文件
             </p>
             <div id="6_17" class="Pixso-group-6_17">
                 <div id="1_2284" class="Pixso-vector-1_2284"></div>
@@ -41,7 +41,7 @@
             </p>
             <p id="1_2367" class="Pixso-paragraph-1_2367">
                 {{
-                    "文号：应急管理部令第15号     发布日期：2024-03-15     生效日期：2024-05-01     发布部门：应急管理部"
+                    "文号：应急管理部令第15号     发布日期：2024-03-15     生效日期：2024-05-01     发布部门：四川飞豹救援"
                 }}
             </p>
             <p id="1_2368" class="Pixso-paragraph-1_2368">
@@ -64,12 +64,12 @@
                     "规定了地震救援队伍的组织架构、人员配置、装备要求和训练标准。"
                 }}
             </p>
-            <div id="1_2372" class="Pixso-vector-1_2372"></div>
-            <p id="1_2373" class="Pixso-paragraph-1_2373">{{ "下载文件" }}</p>
-            <div id="1_2374" class="Pixso-vector-1_2374"></div>
-            <p id="1_2375" class="Pixso-paragraph-1_2375">{{ "下载文件" }}</p>
-            <div id="1_2376" class="Pixso-vector-1_2376"></div>
-            <p id="1_2377" class="Pixso-paragraph-1_2377">{{ "下载文件" }}</p>
+            <div id="1_2372" class="Pixso-vector-1_2372" @click="downloadFile('/files/laws/law-001.pdf', '国家应急救援队伍建设管理办法.pdf')" style="cursor: pointer;"></div>
+            <p id="1_2373" class="Pixso-paragraph-1_2373" @click="downloadFile('/files/laws/law-001.pdf', '国家应急救援队伍建设管理办法.pdf')" style="cursor: pointer;">{{ "下载文件" }}</p>
+            <div id="1_2374" class="Pixso-vector-1_2374" @click="downloadFile('/files/laws/law-002.pdf', '应急救援人员培训考核规定.pdf')" style="cursor: pointer;"></div>
+            <p id="1_2375" class="Pixso-paragraph-1_2375" @click="downloadFile('/files/laws/law-002.pdf', '应急救援人员培训考核规定.pdf')" style="cursor: pointer;">{{ "下载文件" }}</p>
+            <div id="1_2376" class="Pixso-vector-1_2376" @click="downloadFile('/files/laws/law-003.pdf', '地震救援队伍建设标准.pdf')" style="cursor: pointer;"></div>
+            <p id="1_2377" class="Pixso-paragraph-1_2377" @click="downloadFile('/files/laws/law-003.pdf', '地震救援队伍建设标准.pdf')" style="cursor: pointer;">{{ "下载文件" }}</p>
             <div id="1_2378" class="Pixso-vector-1_2378"></div>
             <p id="1_2379" class="Pixso-paragraph-1_2379">{{ "法律法规" }}</p>
             <div id="1_2380" class="Pixso-vector-1_2380"></div>
@@ -78,16 +78,13 @@
             <p id="1_2383" class="Pixso-paragraph-1_2383">{{ "行业标准" }}</p>
             <div id="1_2384" class="Pixso-vector-1_2384"></div>
             <div id="1_2385" class="Pixso-vector-1_2385"></div>
-            <div id="1_2386" class="Pixso-vector-1_2386"></div>
-            <div id="1_2387" class="Pixso-vector-1_2387"></div>
             <div id="1_2388" class="Pixso-vector-1_2388"></div>
             <p id="1_2389" class="Pixso-paragraph-1_2389">{{ "Policies" }}</p>
             <p id="1_2390" class="Pixso-paragraph-1_2390">{{ "政策法规" }}</p>
             <p id="1_2391" class="Pixso-paragraph-1_2391">
-                {{ "法律法规                          >" }}
+                {{ "政策文件                          >" }}
             </p>
-            <p id="1_2392" class="Pixso-paragraph-1_2392">{{ "部门规章" }}</p>
-            <p id="1_2393" class="Pixso-paragraph-1_2393">{{ "行业标准" }}</p>
+            <div id="separator-policy" class="separator-line-policy"></div>
             <div id="1_2394" class="Pixso-vector-1_2394"></div>
             <div id="1_2400" class="Pixso-vector-1_2400"></div>
             <div id="33_201" class="Pixso-group-33_201" @click.stop>
@@ -164,6 +161,23 @@ const doSearch = () => {
 
   // 清空搜索框（可选）
   // searchKey.value = ''
+}
+
+// 下载文件
+function downloadFile(fileUrl: string, fileName: string) {
+  if (!fileUrl) {
+    console.warn('文件URL为空，无法下载')
+    return
+  }
+
+  // 创建临时a标签触发下载
+  const link = document.createElement('a')
+  link.href = fileUrl
+  link.download = fileName
+  link.style.display = 'none'
+  document.body.appendChild(link)
+  link.click()
+  document.body.removeChild(link)
 }
 
 </script>
@@ -413,7 +427,7 @@ const doSearch = () => {
     font-weight: 400;
     line-height: 20px;
     color: rgba(132, 132, 132, 1);
-    white-space: pre-wrap;
+    white-space: pre;
     width: 48.54%;
     height: 1.2%;
     position: absolute;
@@ -428,7 +442,7 @@ const doSearch = () => {
     font-weight: 400;
     line-height: 20px;
     color: rgba(132, 132, 132, 1);
-    white-space: pre-wrap;
+    white-space: pre;
     width: 48.54%;
     height: 1.2%;
     position: absolute;
@@ -443,7 +457,7 @@ const doSearch = () => {
     font-weight: 400;
     line-height: 20px;
     color: rgba(132, 132, 132, 1);
-    white-space: pre-wrap;
+    white-space: pre;
     width: 48.54%;
     height: 1.19%;
     position: absolute;
@@ -706,15 +720,15 @@ const doSearch = () => {
 }
 .Pixso-vector-1_2388 {
     width: 18.38%;
-    height: 27.89%;
+    height: 42.89%;
     background-image: url(@/assets/images/Vector_1_2388.png);
     background-size: 100% 100%;
     background-repeat: no-repeat;
     position: absolute;
     left: 5.94%;
     right: 75.68%;
-    top: 50.87%;
-    bottom: 21.24%;
+    top: 36.92%;
+    bottom: 35.19%;
 }
 .Pixso-paragraph-1_2389 {
     font-size: 75px;
@@ -753,7 +767,7 @@ const doSearch = () => {
     font-weight: 400;
     line-height: 20px;
     color: rgba(255, 255, 255, 1);
-    white-space: pre-wrap;
+    white-space: pre;
     width: 11.77%;
     height: 1.2%;
     position: absolute;
@@ -1006,5 +1020,17 @@ const doSearch = () => {
   border: none;
   outline: none;
   background: transparent;
+}
+
+/* 白色分割线样式 */
+.separator-line-policy {
+  width: 18.38%;
+  height: 0.12%;
+  background-color: rgba(255, 255, 255, 1);
+  position: absolute;
+  left: 5.94%;
+  right: 75.68%;
+  top: 36.86%;
+  bottom: 63.08%;
 }
 </style>
