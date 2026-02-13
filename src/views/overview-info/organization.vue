@@ -1257,8 +1257,8 @@ const doSearch = () => {
 
 /* 蓝色竖线样式 */
 .blue-vertical-line {
-  width: 0.2%;
-  height: 1.5%;
+  width: 0.4%;
+  height: 1.2%;
   background-color: rgba(21, 112, 206, 1);
   position: absolute;
 }
