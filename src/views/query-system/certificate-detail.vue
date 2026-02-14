@@ -18,43 +18,43 @@
             <div id="1_2923" class="Pixso-vector-1_2923"></div>
             <div id="1_2938" class="Pixso-vector-1_2938"></div>
             <p id="1_2945" class="Pixso-paragraph-1_2945">
-                {{ "应急指挥专家" }}
+                {{ certificateData.certificateType }}
             </p>
             <div id="1_2946" class="Pixso-vector-1_2946"></div>
             <p id="1_2947" class="Pixso-paragraph-1_2947">{{ "证书编号：" }}</p>
             <p id="1_2948" class="Pixso-paragraph-1_2948">
-                {{ "SC2021209001" }}
+                {{ certificateData.certificateNumber }}
             </p>
             <p id="1_2949" class="Pixso-paragraph-1_2949">{{ "联系电话：" }}</p>
             <p id="1_2950" class="Pixso-paragraph-1_2950">
-                {{ "13800138000" }}
+                {{ certificateData.phone }}
             </p>
             <p id="1_2951" class="Pixso-paragraph-1_2951">
                 {{ "职       务：" }}
             </p>
-            <p id="1_2952" class="Pixso-paragraph-1_2952">{{ "总队长" }}</p>
+            <p id="1_2952" class="Pixso-paragraph-1_2952">{{ certificateData.position }}</p>
             <p id="1_2953" class="Pixso-paragraph-1_2953">{{ "有效期至：" }}</p>
-            <p id="1_2954" class="Pixso-paragraph-1_2954">{{ "2028-06-04" }}</p>
+            <p id="1_2954" class="Pixso-paragraph-1_2954">{{ certificateData.validUntil }}</p>
             <p id="1_2957" class="Pixso-paragraph-1_2957">
                 {{ "姓       名：" }}
             </p>
-            <p id="1_2958" class="Pixso-paragraph-1_2958">{{ "谢春明" }}</p>
+            <p id="1_2958" class="Pixso-paragraph-1_2958">{{ certificateData.name }}</p>
             <p id="1_2959" class="Pixso-paragraph-1_2959">{{ "工作单位：" }}</p>
             <p id="1_2960" class="Pixso-paragraph-1_2960">
-                {{ "四川飞豹救援队" }}
+                {{ certificateData.workUnit }}
             </p>
             <p id="1_2961" class="Pixso-paragraph-1_2961">{{ "证书类型：" }}</p>
             <p id="1_2962" class="Pixso-paragraph-1_2962">
-                {{ "应急指挥专家" }}
+                {{ certificateData.certificateType }}
             </p>
             <p id="1_2963" class="Pixso-paragraph-1_2963">{{ "所属部门：" }}</p>
-            <p id="1_2964" class="Pixso-paragraph-1_2964">{{ "指挥中心" }}</p>
+            <p id="1_2964" class="Pixso-paragraph-1_2964">{{ certificateData.department }}</p>
             <p id="1_2965" class="Pixso-paragraph-1_2965">{{ "发证日期：" }}</p>
-            <p id="1_2966" class="Pixso-paragraph-1_2966">{{ "2023-06-05" }}</p>
+            <p id="1_2966" class="Pixso-paragraph-1_2966">{{ certificateData.issueDate }}</p>
             <p id="1_2967" class="Pixso-paragraph-1_2967">{{ "当前状态：" }}</p>
             <p id="1_2968" class="Pixso-paragraph-1_2968">{{ "身份证号：" }}</p>
             <p id="1_2969" class="Pixso-paragraph-1_2969">
-                {{ "11010219880520XXXX" }}
+                {{ certificateData.idCard }}
             </p>
             <div id="1_2970" class="Pixso-vector-1_2970"></div>
             <div id="33_246" class="Pixso-group-33_246" @click.stop>
@@ -85,6 +85,76 @@
     </div>
 </template>
 <script lang="ts" setup>
+import { ref, computed } from 'vue'
+import { useRouter, useRoute } from 'vue-router'
+
+const router = useRouter()
+const route = useRoute()
+
+// 获取证书编号参数
+const certificateNo = computed(() => route.params.certificateNo as string)
+
+// 模拟证书详情数据（与 certificate-list.vue 中的数据保持一致）
+const certificateData = computed(() => {
+  // 这里应该根据 certificateNo 从后端获取数据
+  // 现在使用模拟数据
+  const mockCertificates = [
+    {
+      certificateNumber: 'SC20251209001',
+      certificateType: '应急指挥专家',
+      name: '张伟',
+      workUnit: '四川飞豹救援',
+      phone: '13800138001',
+      position: '总队长',
+      department: '指挥中心',
+      idCard: '510100198801011234',
+      issueDate: '2023-03-15',
+      validUntil: '2028-03-14',
+      status: '有效'
+    },
+    {
+      certificateNumber: 'SC20251209002',
+      certificateType: '绳索救援技术员',
+      name: '李明',
+      workUnit: '四川飞豹救援',
+      phone: '13800138002',
+      position: '技术员',
+      department: '特勤大队',
+      idCard: '510100198802021234',
+      issueDate: '2023-04-20',
+      validUntil: '2026-04-19',
+      status: '有效'
+    },
+    {
+      certificateNumber: 'SC20251209003',
+      certificateType: '潜水救援教练',
+      name: '王强',
+      workUnit: '四川飞豹救援',
+      phone: '13800138003',
+      position: '教练',
+      department: '水域救援队',
+      idCard: '510100198803031234',
+      issueDate: '2022-11-05',
+      validUntil: '2025-11-04',
+      status: '有效'
+    }
+  ]
+
+  return mockCertificates.find(cert => cert.certificateNumber === certificateNo.value) || {
+    certificateNumber: certificateNo.value,
+    certificateType: '未知',
+    name: '未找到',
+    workUnit: '未知',
+    phone: '未知',
+    position: '未知',
+    department: '未知',
+    idCard: '未知',
+    issueDate: '未知',
+    validUntil: '未知',
+    status: '未知'
+  }
+})
+
 // 搜索
 const searchKey = ref('')
 
