@@ -11,50 +11,50 @@
                 {{ "Sichuan Feibao Rescue" }}
             </p>
             <p id="1_2920" class="Pixso-paragraph-1_2920">
-                当前位置：<router-link to="/" class="query-breadcrumb-link">首页</router-link> > <router-link to="/query-system/certificate" class="query-breadcrumb-link">证书查询系统</router-link> > <span class="query-breadcrumb-current">证书详情</span>
+                当前位置：<router-link to="/" class="query-breadcrumb-link">首页</router-link> > <router-link to="/query-system/certificate" class="query-breadcrumb-link">证书查询系统</router-link> > <router-link to="/query-system/certificate/list" class="query-breadcrumb-link">证书列表</router-link> > <span class="query-breadcrumb-current">证书详情</span>
             </p>
             <div id="1_2921" class="Pixso-vector-1_2921"></div>
             <div id="1_2922" class="Pixso-text-1_2922">{{ "&nbsp;" }}</div>
             <div id="1_2923" class="Pixso-vector-1_2923"></div>
             <div id="1_2938" class="Pixso-vector-1_2938"></div>
             <p id="1_2945" class="Pixso-paragraph-1_2945">
-                {{ certificateData.certificateType }}
+                {{ certificateData?.certificateType || '应急指挥专家' }}
             </p>
             <div id="1_2946" class="Pixso-vector-1_2946"></div>
             <p id="1_2947" class="Pixso-paragraph-1_2947">{{ "证书编号：" }}</p>
             <p id="1_2948" class="Pixso-paragraph-1_2948">
-                {{ certificateData.certificateNumber }}
+                {{ certificateData?.certificateNo || 'SC2021209001' }}
             </p>
             <p id="1_2949" class="Pixso-paragraph-1_2949">{{ "联系电话：" }}</p>
             <p id="1_2950" class="Pixso-paragraph-1_2950">
-                {{ certificateData.phone }}
+                {{ certificateData?.phone || '13800138000' }}
             </p>
             <p id="1_2951" class="Pixso-paragraph-1_2951">
                 {{ "职       务：" }}
             </p>
-            <p id="1_2952" class="Pixso-paragraph-1_2952">{{ certificateData.position }}</p>
+            <p id="1_2952" class="Pixso-paragraph-1_2952">{{ certificateData?.position || '总队长' }}</p>
             <p id="1_2953" class="Pixso-paragraph-1_2953">{{ "有效期至：" }}</p>
-            <p id="1_2954" class="Pixso-paragraph-1_2954">{{ certificateData.validUntil }}</p>
+            <p id="1_2954" class="Pixso-paragraph-1_2954">{{ certificateData?.expiryDate || '2028-06-04' }}</p>
             <p id="1_2957" class="Pixso-paragraph-1_2957">
                 {{ "姓       名：" }}
             </p>
-            <p id="1_2958" class="Pixso-paragraph-1_2958">{{ certificateData.name }}</p>
+            <p id="1_2958" class="Pixso-paragraph-1_2958">{{ certificateData?.name || '谢春明' }}</p>
             <p id="1_2959" class="Pixso-paragraph-1_2959">{{ "工作单位：" }}</p>
             <p id="1_2960" class="Pixso-paragraph-1_2960">
-                {{ certificateData.workUnit }}
+                {{ certificateData?.workUnit || '四川飞豹救援队' }}
             </p>
             <p id="1_2961" class="Pixso-paragraph-1_2961">{{ "证书类型：" }}</p>
             <p id="1_2962" class="Pixso-paragraph-1_2962">
-                {{ certificateData.certificateType }}
+                {{ certificateData?.certificateType || '应急指挥专家' }}
             </p>
             <p id="1_2963" class="Pixso-paragraph-1_2963">{{ "所属部门：" }}</p>
-            <p id="1_2964" class="Pixso-paragraph-1_2964">{{ certificateData.department }}</p>
+            <p id="1_2964" class="Pixso-paragraph-1_2964">{{ certificateData?.department || '指挥中心' }}</p>
             <p id="1_2965" class="Pixso-paragraph-1_2965">{{ "发证日期：" }}</p>
-            <p id="1_2966" class="Pixso-paragraph-1_2966">{{ certificateData.issueDate }}</p>
+            <p id="1_2966" class="Pixso-paragraph-1_2966">{{ certificateData?.issueDate || '2023-06-05' }}</p>
             <p id="1_2967" class="Pixso-paragraph-1_2967">{{ "当前状态：" }}</p>
             <p id="1_2968" class="Pixso-paragraph-1_2968">{{ "身份证号：" }}</p>
             <p id="1_2969" class="Pixso-paragraph-1_2969">
-                {{ certificateData.idCard }}
+                {{ certificateData?.idCard || '11010219880520XXXX' }}
             </p>
             <div id="1_2970" class="Pixso-vector-1_2970"></div>
             <div id="33_246" class="Pixso-group-33_246" @click.stop>
@@ -87,72 +87,22 @@
 <script lang="ts" setup>
 import { ref, computed } from 'vue'
 import { useRouter, useRoute } from 'vue-router'
+import { queryCertificateMock } from '@/data/mock-certificate'
 
 const router = useRouter()
 const route = useRoute()
 
-// 获取证书编号参数
-const certificateNo = computed(() => route.params.certificateNo as string)
+// 从路由参数获取证书编号
+const certificateNo = ref(route.params.certificateNo as string)
 
-// 模拟证书详情数据（与 certificate-list.vue 中的数据保持一致）
+// 获取证书详情数据
 const certificateData = computed(() => {
-  // 这里应该根据 certificateNo 从后端获取数据
-  // 现在使用模拟数据
-  const mockCertificates = [
-    {
-      certificateNumber: 'SC20251209001',
-      certificateType: '应急指挥专家',
-      name: '张伟',
-      workUnit: '四川飞豹救援',
-      phone: '13800138001',
-      position: '总队长',
-      department: '指挥中心',
-      idCard: '510100198801011234',
-      issueDate: '2023-03-15',
-      validUntil: '2028-03-14',
-      status: '有效'
-    },
-    {
-      certificateNumber: 'SC20251209002',
-      certificateType: '绳索救援技术员',
-      name: '李明',
-      workUnit: '四川飞豹救援',
-      phone: '13800138002',
-      position: '技术员',
-      department: '特勤大队',
-      idCard: '510100198802021234',
-      issueDate: '2023-04-20',
-      validUntil: '2026-04-19',
-      status: '有效'
-    },
-    {
-      certificateNumber: 'SC20251209003',
-      certificateType: '潜水救援教练',
-      name: '王强',
-      workUnit: '四川飞豹救援',
-      phone: '13800138003',
-      position: '教练',
-      department: '水域救援队',
-      idCard: '510100198803031234',
-      issueDate: '2022-11-05',
-      validUntil: '2025-11-04',
-      status: '有效'
-    }
-  ]
+  const result = queryCertificateMock(certificateNo.value)
 
-  return mockCertificates.find(cert => cert.certificateNumber === certificateNo.value) || {
-    certificateNumber: certificateNo.value,
-    certificateType: '未知',
-    name: '未找到',
-    workUnit: '未知',
-    phone: '未知',
-    position: '未知',
-    department: '未知',
-    idCard: '未知',
-    issueDate: '未知',
-    validUntil: '未知',
-    status: '未知'
+  if (result.status === 'success' && result.data && result.data.length > 0) {
+    return result.data[0]
   }
+  return null
 })
 
 // 搜索
@@ -388,13 +338,16 @@ const doSearch = () => {
     font-weight: 400;
     line-height: 20px;
     color: rgba(70, 70, 70, 1);
-    width: 7.35%;
+    width: 12%;
     height: 1.54%;
     position: absolute;
     left: 55.36%;
-    right: 37.29%;
+    right: 32.64%;
     top: 32.85%;
     bottom: 65.61%;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
 }
 .Pixso-paragraph-1_2949 {
     font-size: 20px;
@@ -628,13 +581,16 @@ const doSearch = () => {
     font-weight: 400;
     line-height: 20px;
     color: rgba(158, 158, 158, 1);
-    width: 5.31%;
+    width: 10%;
     height: 1.54%;
     position: absolute;
     left: 49.95%;
-    right: 44.74%;
+    right: 40.05%;
     top: 65.54%;
     bottom: 32.92%;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
 }
 .Pixso-paragraph-1_2968 {
     font-size: 20px;
@@ -665,16 +621,16 @@ const doSearch = () => {
     bottom: 58.98%;
 }
 .Pixso-vector-1_2970 {
-    width: 2.39%;
-    height: 1.77%;
+    width: 3.5%;
+    height: 2.6%;
     background-image: url(@/assets/images/Vector_1_2970.png);
     background-size: 100% 100%;
     background-repeat: no-repeat;
     position: absolute;
     left: 55.21%;
-    right: 42.4%;
-    top: 65.46%;
-    bottom: 32.77%;
+    right: 41.29%;
+    top: 65.01%;
+    bottom: 32.39%;
 }
 .Pixso-group-33_246 {
     width: 338px;
