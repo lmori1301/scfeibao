@@ -1,157 +1,107 @@
 <template>
-    <div class="scroll-container-1_2501">
-        <div id="1_2501" class="Pixso-frame-1_2501">
-            <div id="1_2502" class="Pixso-vector-1_2502"></div>
-            <div id="1_2503" class="Pixso-vector-1_2503"></div>
-            <div id="1_2506" class="Pixso-vector-1_2506"></div>
-            <p id="1_2509" class="Pixso-paragraph-1_2509">
-                {{ "四川飞豹救援" }}
-            </p>
-            <p id="1_2510" class="Pixso-paragraph-1_2510">
-                {{ "Sichuan Feibao Rescue" }}
-            </p>
-            <p id="1_2519" class="Pixso-paragraph-1_2519">
-                当前位置：<router-link to="/" class="query-breadcrumb-link">首页</router-link> > <router-link to="/query-system/certificate" class="query-breadcrumb-link">证书查询系统</router-link> > <span class="query-breadcrumb-current">证书列表</span>
-            </p>
-            <div id="1_2520" class="Pixso-text-1_2520">{{ "&nbsp;" }}</div>
-            <div id="1_2521" class="Pixso-vector-1_2521"></div>
-            <div id="1_2522" class="Pixso-vector-1_2522"></div>
-            <div id="1_2523" class="Pixso-vector-1_2523"></div>
-            <div id="1_2524" class="Pixso-vector-1_2524"></div>
-            <div id="1_2525" class="Pixso-vector-1_2525"></div>
-
-            <!-- 表头 -->
-            <p id="1_2526" class="Pixso-paragraph-1_2526">{{ "序号" }}</p>
-            <div id="1_2547" class="Pixso-vector-1_2547"></div>
-            <div id="1_2548" class="Pixso-vector-1_2548"></div>
-            <p id="1_2549" class="Pixso-paragraph-1_2549">{{ "证书编号" }}</p>
-            <div id="1_2570" class="Pixso-vector-1_2570"></div>
-            <div id="1_2571" class="Pixso-vector-1_2571"></div>
-            <p id="1_2572" class="Pixso-paragraph-1_2572">{{ "证书类型" }}</p>
-            <div id="1_2593" class="Pixso-vector-1_2593"></div>
-            <div id="1_2613" class="Pixso-vector-1_2613"></div>
-            <div id="1_2614" class="Pixso-vector-1_2614"></div>
-            <p id="1_2615" class="Pixso-paragraph-1_2615">{{ "姓名" }}</p>
-            <div id="1_2636" class="Pixso-vector-1_2636"></div>
-            <div id="1_2637" class="Pixso-vector-1_2637"></div>
-            <p id="1_2638" class="Pixso-paragraph-1_2638">{{ "工作单位" }}</p>
-            <div id="1_2659" class="Pixso-vector-1_2659"></div>
-            <div id="1_2660" class="Pixso-vector-1_2660"></div>
-            <p id="1_2661" class="Pixso-paragraph-1_2661">{{ "发证日期" }}</p>
-            <div id="1_2682" class="Pixso-vector-1_2682"></div>
-            <div id="1_2683" class="Pixso-vector-1_2683"></div>
-            <p id="1_2684" class="Pixso-paragraph-1_2684">{{ "有效期至" }}</p>
-            <div id="1_2705" class="Pixso-vector-1_2705"></div>
-            <div id="1_2706" class="Pixso-vector-1_2706"></div>
-            <p id="1_2707" class="Pixso-paragraph-1_2707">{{ "状态" }}</p>
-            <div id="1_2728" class="Pixso-vector-1_2728"></div>
-            <div id="1_2748" class="Pixso-vector-1_2748"></div>
-            <div id="1_2749" class="Pixso-vector-1_2749"></div>
-            <p id="1_2750" class="Pixso-paragraph-1_2750">{{ "操作" }}</p>
-            <div id="1_2771" class="Pixso-vector-1_2771"></div>
-
-            <!-- 动态数据行 -->
-            <template v-for="(cert, index) in paginatedCertificates" :key="cert.id">
-                <!-- 序号列 -->
-                <div class="table-row-divider" :style="{ top: `${36.08 + index * 3.09}%` }"></div>
-                <p class="table-cell table-cell-serial" :style="{ top: `${36.78 + index * 3.09}%` }">{{ cert.serialNumber }}</p>
-
-                <!-- 证书编号列 -->
-                <div class="table-row-divider" :style="{ top: `${36.08 + index * 3.09}%`, left: '10.42%', right: '79.58%' }"></div>
-                <p class="table-cell table-cell-cert-number" :style="{ top: `${36.78 + index * 3.09}%` }">{{ cert.certificateNumber }}</p>
-
-                <!-- 证书类型列 -->
-                <div class="table-row-divider" :style="{ top: `${36.08 + index * 3.09}%`, left: '23.02%', right: '66.98%' }"></div>
-                <p class="table-cell table-cell-cert-type" :style="{ top: `${36.78 + index * 3.09}%` }">{{ cert.certificateType }}</p>
-
-                <!-- 姓名列 -->
-                <div class="table-row-divider" :style="{ top: `${36.08 + index * 3.09}%`, left: '35.62%', right: '54.38%' }"></div>
-                <p class="table-cell table-cell-name" :style="{ top: `${36.78 + index * 3.09}%` }">{{ cert.name }}</p>
-
-                <!-- 工作单位列 -->
-                <div class="table-row-divider" :style="{ top: `${36.08 + index * 3.09}%`, left: '48.23%', right: '41.77%' }"></div>
-                <p class="table-cell table-cell-work-unit" :style="{ top: `${36.78 + index * 3.09}%` }">{{ cert.workUnit }}</p>
-
-                <!-- 发证日期列 -->
-                <div class="table-row-divider" :style="{ top: `${36.08 + index * 3.09}%`, left: '60.83%', right: '29.17%' }"></div>
-                <p class="table-cell table-cell-issue-date" :style="{ top: `${36.78 + index * 3.09}%` }">{{ cert.issueDate }}</p>
-
-                <!-- 有效期至列 -->
-                <div class="table-row-divider" :style="{ top: `${36.08 + index * 3.09}%`, left: '73.44%', right: '16.56%' }"></div>
-                <p class="table-cell table-cell-valid-until" :style="{ top: `${36.78 + index * 3.09}%` }">{{ cert.validUntil }}</p>
-
-                <!-- 状态列 -->
-                <div class="table-row-divider" :style="{ top: `${36.08 + index * 3.09}%`, left: '86.04%', right: '3.96%' }"></div>
-                <p class="table-cell table-cell-status" :style="{ top: `${36.78 + index * 3.09}%` }">{{ cert.status }}</p>
-
-                <!-- 操作列 -->
-                <div class="table-row-divider" :style="{ top: `${36.08 + index * 3.09}%`, left: '89.27%', right: '0.73%' }"></div>
-                <p
-                    class="table-cell table-cell-action"
-                    :style="{ top: `${36.78 + index * 3.09}%` }"
-                    @click="goToDetail(cert.certificateNumber)"
-                >{{ "查看详情" }}</p>
-            </template>
-
-            <p id="1_2802" class="Pixso-paragraph-1_2802">
-                {{ `查询结果   共找到 ${totalCertificates} 条记录` }}
-            </p>
-
-            <!-- 分页组件 -->
-            <div style="position: absolute; right: 5.5%; top: 82%; height: 2.2%;">
-                <Pagination
-                    :total="totalCertificates"
-                    v-model:current-page="currentPage"
-                    v-model:page-size="pageSize"
-                    :page-size-options="[10, 20, 30]"
-                    @page-change="handlePageChange"
-                />
-            </div>
-
-            <div id="1_2879" class="Pixso-vector-1_2879"></div>
-            <div id="17_26" class="Pixso-vector-17_26"></div>
-            <div id="1_2892" class="Pixso-vector-1_2892"></div>
-            <div id="33_237" class="Pixso-group-33_237" @click.stop>
-            <div id="33_238" class="Pixso-vector-33_238"></div>
-            <!-- 输入框 -->
-            <input
-                v-model="searchKey"
-                @keyup.enter="doSearch"
-                placeholder="请输入您要搜索的内容"
-                class="search-input"
-            />
-            <!-- 搜索图标点击 -->
-            <div
-                id="33_240"
-                class="Pixso-vector-33_240"
-                style="cursor: pointer"
-                @click="doSearch"
-            ></div>
+  <div class="certificate-list-page">
+    <!-- 页面头部 -->
+    <div class="page-header">
+      <div class="header-content">
+        <div class="logo-section">
+          <div class="logo-icon"></div>
+          <div class="logo-text">
+            <h1>四川飞豹救援</h1>
+            <p>Sichuan Feibao Rescue</p>
+          </div>
         </div>
-            <router-link id="33_785" to="/overview-info" class="Pixso-paragraph-33_785 main-nav-link">概况信息</router-link>
-            <router-link id="33_786" to="/team-building" class="Pixso-paragraph-33_786 main-nav-link">队伍建设</router-link>
-            <router-link id="33_788" to="/party-building" class="Pixso-paragraph-33_788 main-nav-link">党建专栏</router-link>
-            <router-link id="33_787" to="/info-public" class="Pixso-paragraph-33_787 main-nav-link">信息公开</router-link>
-            <router-link id="33_789" to="/dynamic-news" class="Pixso-paragraph-33_789 main-nav-link">动态要闻</router-link>
-            <router-link id="33_790" to="/policy-regulations" class="Pixso-paragraph-33_790 main-nav-link">政策法规</router-link>
-            <router-link id="33_792" to="/query-system" class="Pixso-paragraph-33_792 main-nav-link">查询系统</router-link>
-            <div id="34_80" class="Pixso-group-34_80">
-                <p id="34_81" class="Pixso-paragraph-34_81">
-                    {{ "主办单位：四川飞豹救援" }}
-                </p>
-                <p id="34_82" class="Pixso-paragraph-34_82">
-                    {{ "承办单位：四川飞豹救援新闻宣传处" }}
-                </p>
-                <p id="34_83" class="Pixso-paragraph-34_83">
-                    {{ "蜀ICP备XXXXXXX号" }}
-                </p>
-                <p id="34_84" class="Pixso-paragraph-34_84">
-                    {{ "Copyright®2025 sc.feibao.com All rights reserved" }}
-                </p>
-            </div>
+        <div class="search-box">
+          <input
+            v-model="searchKey"
+            @keyup.enter="doSearch"
+            placeholder="请输入您要搜索的内容"
+            class="search-input"
+          />
+          <div class="search-icon" @click="doSearch"></div>
         </div>
+      </div>
+      <div class="nav-bar">
+        <router-link to="/overview-info" class="nav-link">概况信息</router-link>
+        <router-link to="/team-building" class="nav-link">队伍建设</router-link>
+        <router-link to="/party-building" class="nav-link">党建专栏</router-link>
+        <router-link to="/info-public" class="nav-link">信息公开</router-link>
+        <router-link to="/dynamic-news" class="nav-link">动态要闻</router-link>
+        <router-link to="/policy-regulations" class="nav-link">政策法规</router-link>
+        <router-link to="/query-system" class="nav-link nav-link-active">查询系统</router-link>
+      </div>
     </div>
+
+    <!-- 面包屑导航 -->
+    <div class="breadcrumb">
+      当前位置：
+      <router-link to="/" class="breadcrumb-link">首页</router-link> >
+      <router-link to="/query-system/certificate" class="breadcrumb-link">证书查询系统</router-link> >
+      <span class="breadcrumb-current">证书列表</span>
+    </div>
+
+    <!-- 主内容区 -->
+    <div class="main-content">
+      <div class="result-info">
+        查询结果   共找到 {{ totalCertificates }} 条记录
+      </div>
+
+      <!-- 证书列表表格 -->
+      <el-table
+        :data="paginatedCertificates"
+        style="width: 100%"
+        :header-cell-style="{ background: '#f5f7fa', color: '#606266', fontWeight: 'bold' }"
+        stripe
+      >
+        <el-table-column type="index" label="序号" width="80" align="center" />
+        <el-table-column prop="certificateNumber" label="证书编号" width="150" align="center" />
+        <el-table-column prop="certificateType" label="证书类型" width="150" align="center" />
+        <el-table-column prop="name" label="姓名" width="100" align="center" />
+        <el-table-column prop="workUnit" label="工作单位" width="150" align="center" />
+        <el-table-column prop="issueDate" label="发证日期" width="120" align="center" />
+        <el-table-column prop="validUntil" label="有效期至" width="120" align="center" />
+        <el-table-column prop="status" label="状态" width="80" align="center">
+          <template #default="{ row }">
+            <el-tag :type="row.status === '有效' ? 'success' : 'danger'" size="small">
+              {{ row.status }}
+            </el-tag>
+          </template>
+        </el-table-column>
+        <el-table-column label="操作" width="120" align="center" fixed="right">
+          <template #default="{ row }">
+            <el-button
+              type="primary"
+              size="small"
+              link
+              @click="goToDetail(row.certificateNumber)"
+            >
+              查看详情
+            </el-button>
+          </template>
+        </el-table-column>
+      </el-table>
+
+      <!-- 分页组件 -->
+      <div class="pagination-wrapper">
+        <Pagination
+          :total="totalCertificates"
+          v-model:current-page="currentPage"
+          v-model:page-size="pageSize"
+          :page-size-options="[10, 20, 30]"
+          @page-change="handlePageChange"
+        />
+      </div>
+    </div>
+
+    <!-- 页脚 -->
+    <div class="page-footer">
+      <p>主办单位：四川飞豹救援</p>
+      <p>承办单位：四川飞豹救援新闻宣传处</p>
+      <p>蜀ICP备XXXXXXX号</p>
+      <p>Copyright®2025 sc.feibao.com All rights reserved</p>
+    </div>
+  </div>
 </template>
+
 <script lang="ts" setup>
 import { ref, computed } from 'vue'
 import { useRouter, useRoute } from 'vue-router'
@@ -166,294 +116,129 @@ const pageSize = ref(10)
 
 // 证书数据接口
 interface Certificate {
-    id: number
-    serialNumber: number
-    certificateNumber: string
-    certificateType: string
-    name: string
-    workUnit: string
-    issueDate: string
-    validUntil: string
-    status: string
+  id: number
+  serialNumber: number
+  certificateNumber: string
+  certificateType: string
+  name: string
+  workUnit: string
+  issueDate: string
+  validUntil: string
+  status: string
 }
 
 // 模拟证书数据
 const certificates = ref<Certificate[]>([
-    {
-        id: 1,
-        serialNumber: 1,
-        certificateNumber: 'SC20251209001',
-        certificateType: '应急指挥专家',
-        name: '张伟',
-        workUnit: '四川飞豹救援',
-        issueDate: '2023-03-15',
-        validUntil: '2028-03-14',
-        status: '有效'
-    },
-    {
-        id: 2,
-        serialNumber: 2,
-        certificateNumber: 'SC20251209002',
-        certificateType: '绳索救援技术员',
-        name: '李明',
-        workUnit: '四川飞豹救援',
-        issueDate: '2023-04-20',
-        validUntil: '2026-04-19',
-        status: '有效'
-    },
-    {
-        id: 3,
-        serialNumber: 3,
-        certificateNumber: 'SC20251209003',
-        certificateType: '潜水救援教练',
-        name: '王强',
-        workUnit: '四川飞豹救援',
-        issueDate: '2022-11-05',
-        validUntil: '2025-11-04',
-        status: '有效'
-    },
-    {
-        id: 4,
-        serialNumber: 4,
-        certificateNumber: 'SC20251209004',
-        certificateType: '城市搜救技术员',
-        name: '刘洋',
-        workUnit: '四川飞豹救援',
-        issueDate: '2023-05-10',
-        validUntil: '2028-05-09',
-        status: '有效'
-    },
-    {
-        id: 5,
-        serialNumber: 5,
-        certificateNumber: 'SC20251209005',
-        certificateType: '山地救援教练',
-        name: '陈杰',
-        workUnit: '四川飞豹救援',
-        issueDate: '2023-02-15',
-        validUntil: '2026-02-14',
-        status: '有效'
-    },
-    {
-        id: 6,
-        serialNumber: 6,
-        certificateNumber: 'SC20251209006',
-        certificateType: '急救医疗专家',
-        name: '赵敏',
-        workUnit: '四川飞豹救援',
-        issueDate: '2022-12-10',
-        validUntil: '2025-12-09',
-        status: '有效'
-    },
-    {
-        id: 7,
-        serialNumber: 7,
-        certificateNumber: 'SC20251209007',
-        certificateType: '高级急救师',
-        name: '孙丽',
-        workUnit: '四川飞豹救援',
-        issueDate: '2021-10-20',
-        validUntil: '2024-10-19',
-        status: '有效'
-    },
-    {
-        id: 8,
-        serialNumber: 8,
-        certificateNumber: 'SC20251209008',
-        certificateType: '水域救援技术员',
-        name: '周涛',
-        workUnit: '四川飞豹救援',
-        issueDate: '2023-01-15',
-        validUntil: '2026-01-14',
-        status: '过期'
-    },
-    {
-        id: 9,
-        serialNumber: 9,
-        certificateNumber: 'SC20251209009',
-        certificateType: '无人机操作师',
-        name: '吴鹏',
-        workUnit: '四川飞豹救援',
-        issueDate: '2022-09-20',
-        validUntil: '2025-09-19',
-        status: '过期'
-    },
-    {
-        id: 10,
-        serialNumber: 10,
-        certificateNumber: 'SC20251209010',
-        certificateType: '装备管理工程师',
-        name: '郑浩',
-        workUnit: '四川飞豹救援',
-        issueDate: '2023-06-05',
-        validUntil: '2028-06-04',
-        status: '过期'
-    },
-    {
-        id: 11,
-        serialNumber: 11,
-        certificateNumber: 'SC20251209011',
-        certificateType: '地震救援专家',
-        name: '黄磊',
-        workUnit: '四川飞豹救援',
-        issueDate: '2023-07-12',
-        validUntil: '2028-07-11',
-        status: '有效'
-    },
-    {
-        id: 12,
-        serialNumber: 12,
-        certificateNumber: 'SC20251209012',
-        certificateType: '火灾救援技术员',
-        name: '徐静',
-        workUnit: '四川飞豹救援',
-        issueDate: '2023-08-18',
-        validUntil: '2026-08-17',
-        status: '有效'
-    },
-    {
-        id: 13,
-        serialNumber: 13,
-        certificateNumber: 'SC20251209013',
-        certificateType: '化学救援专家',
-        name: '朱勇',
-        workUnit: '四川飞豹救援',
-        issueDate: '2022-10-25',
-        validUntil: '2025-10-24',
-        status: '有效'
-    },
-    {
-        id: 14,
-        serialNumber: 14,
-        certificateNumber: 'SC20251209014',
-        certificateType: '通信保障工程师',
-        name: '林峰',
-        workUnit: '四川飞豹救援',
-        issueDate: '2023-09-08',
-        validUntil: '2028-09-07',
-        status: '有效'
-    },
-    {
-        id: 15,
-        serialNumber: 15,
-        certificateNumber: 'SC20251209015',
-        certificateType: '后勤保障专家',
-        name: '何娟',
-        workUnit: '四川飞豹救援',
-        issueDate: '2023-03-22',
-        validUntil: '2026-03-21',
-        status: '有效'
-    },
-    {
-        id: 16,
-        serialNumber: 16,
-        certificateNumber: 'SC20251209016',
-        certificateType: '心理辅导师',
-        name: '胡斌',
-        workUnit: '四川飞豹救援',
-        issueDate: '2022-11-30',
-        validUntil: '2025-11-29',
-        status: '有效'
-    },
-    {
-        id: 17,
-        serialNumber: 17,
-        certificateNumber: 'SC20251209017',
-        certificateType: '搜救犬训导员',
-        name: '郭亮',
-        workUnit: '四川飞豹救援',
-        issueDate: '2021-12-15',
-        validUntil: '2024-12-14',
-        status: '过期'
-    },
-    {
-        id: 18,
-        serialNumber: 18,
-        certificateNumber: 'SC20251209018',
-        certificateType: '航空救援飞行员',
-        name: '邓超',
-        workUnit: '四川飞豹救援',
-        issueDate: '2023-04-05',
-        validUntil: '2026-04-04',
-        status: '有效'
-    },
-    {
-        id: 19,
-        serialNumber: 19,
-        certificateNumber: 'SC20251209019',
-        certificateType: '医疗救护专家',
-        name: '冯丽',
-        workUnit: '四川飞豹救援',
-        issueDate: '2022-08-20',
-        validUntil: '2025-08-19',
-        status: '过期'
-    },
-    {
-        id: 20,
-        serialNumber: 20,
-        certificateNumber: 'SC20251209020',
-        certificateType: '灾害评估专家',
-        name: '曾伟',
-        workUnit: '四川飞豹救援',
-        issueDate: '2023-10-10',
-        validUntil: '2028-10-09',
-        status: '有效'
-    },
-    {
-        id: 21,
-        serialNumber: 21,
-        certificateNumber: 'SC20251209021',
-        certificateType: '建筑结构专家',
-        name: '彭军',
-        workUnit: '四川飞豹救援',
-        issueDate: '2023-05-28',
-        validUntil: '2026-05-27',
-        status: '有效'
-    },
-    {
-        id: 22,
-        serialNumber: 22,
-        certificateNumber: 'SC20251209022',
-        certificateType: '环境监测工程师',
-        name: '谢芳',
-        workUnit: '四川飞豹救援',
-        issueDate: '2022-09-15',
-        validUntil: '2025-09-14',
-        status: '有效'
-    },
-    {
-        id: 23,
-        serialNumber: 23,
-        certificateNumber: 'SC20251209023',
-        certificateType: '物资调配专员',
-        name: '韩冰',
-        workUnit: '四川飞豹救援',
-        issueDate: '2021-11-08',
-        validUntil: '2024-11-07',
-        status: '过期'
-    },
-    {
-        id: 24,
-        serialNumber: 24,
-        certificateNumber: 'SC20251209024',
-        certificateType: '信息技术专家',
-        name: '唐宇',
-        workUnit: '四川飞豹救援',
-        issueDate: '2023-06-18',
-        validUntil: '2026-06-17',
-        status: '有效'
-    },
-    {
-        id: 25,
-        serialNumber: 25,
-        certificateNumber: 'SC20251209025',
-        certificateType: '法律顾问',
-        name: '董娜',
-        workUnit: '四川飞豹救援',
-        issueDate: '2022-07-25',
-        validUntil: '2025-07-24',
-        status: '有效'
-    }
+  {
+    id: 1,
+    serialNumber: 1,
+    certificateNumber: 'SC20251209001',
+    certificateType: '应急指挥专家',
+    name: '张伟',
+    workUnit: '四川飞豹救援',
+    issueDate: '2023-03-15',
+    validUntil: '2028-03-14',
+    status: '有效'
+  },
+  {
+    id: 2,
+    serialNumber: 2,
+    certificateNumber: 'SC20251209002',
+    certificateType: '绳索救援技术员',
+    name: '李明',
+    workUnit: '四川飞豹救援',
+    issueDate: '2023-04-20',
+    validUntil: '2026-04-19',
+    status: '有效'
+  },
+  {
+    id: 3,
+    serialNumber: 3,
+    certificateNumber: 'SC20251209003',
+    certificateType: '潜水救援教练',
+    name: '王强',
+    workUnit: '四川飞豹救援',
+    issueDate: '2022-11-05',
+    validUntil: '2025-11-04',
+    status: '有效'
+  },
+  {
+    id: 4,
+    serialNumber: 4,
+    certificateNumber: 'SC20251209004',
+    certificateType: '城市搜救技术员',
+    name: '刘洋',
+    workUnit: '四川飞豹救援',
+    issueDate: '2023-05-10',
+    validUntil: '2028-05-09',
+    status: '有效'
+  },
+  {
+    id: 5,
+    serialNumber: 5,
+    certificateNumber: 'SC20251209005',
+    certificateType: '山地救援教练',
+    name: '陈杰',
+    workUnit: '四川飞豹救援',
+    issueDate: '2023-02-15',
+    validUntil: '2026-02-14',
+    status: '有效'
+  },
+  {
+    id: 6,
+    serialNumber: 6,
+    certificateNumber: 'SC20251209006',
+    certificateType: '急救医疗专家',
+    name: '赵敏',
+    workUnit: '四川飞豹救援',
+    issueDate: '2022-12-10',
+    validUntil: '2025-12-09',
+    status: '有效'
+  },
+  {
+    id: 7,
+    serialNumber: 7,
+    certificateNumber: 'SC20251209007',
+    certificateType: '高级急救师',
+    name: '孙丽',
+    workUnit: '四川飞豹救援',
+    issueDate: '2021-10-20',
+    validUntil: '2024-10-19',
+    status: '有效'
+  },
+  {
+    id: 8,
+    serialNumber: 8,
+    certificateNumber: 'SC20251209008',
+    certificateType: '水域救援技术员',
+    name: '周涛',
+    workUnit: '四川飞豹救援',
+    issueDate: '2023-01-15',
+    validUntil: '2026-01-14',
+    status: '过期'
+  },
+  {
+    id: 9,
+    serialNumber: 9,
+    certificateNumber: 'SC20251209009',
+    certificateType: '无人机操作师',
+    name: '吴鹏',
+    workUnit: '四川飞豹救援',
+    issueDate: '2022-09-20',
+    validUntil: '2025-09-19',
+    status: '过期'
+  },
+  {
+    id: 10,
+    serialNumber: 10,
+    certificateNumber: 'SC20251209010',
+    certificateType: '装备管理工程师',
+    name: '郑浩',
+    workUnit: '四川飞豹救援',
+    issueDate: '2023-06-05',
+    validUntil: '2028-06-04',
+    status: '过期'
+  }
 ])
 
 // 获取查询参数
@@ -463,24 +248,19 @@ const queryCertificateNo = computed(() => (route.query.certificateNo as string) 
 
 // 根据查询参数过滤证书
 const filteredCertificates = computed(() => {
-    let result = certificates.value
+  let result = certificates.value
 
-    // 按姓名过滤
-    if (queryName.value) {
-        result = result.filter(cert => cert.name.includes(queryName.value))
-    }
+  // 按姓名过滤
+  if (queryName.value) {
+    result = result.filter(cert => cert.name.includes(queryName.value))
+  }
 
-    // 按证书编号过滤
-    if (queryCertificateNo.value) {
-        result = result.filter(cert => cert.certificateNumber.includes(queryCertificateNo.value))
-    }
+  // 按证书编号过滤
+  if (queryCertificateNo.value) {
+    result = result.filter(cert => cert.certificateNumber.includes(queryCertificateNo.value))
+  }
 
-    // 按身份证号过滤（如果证书数据中有身份证号字段）
-    // if (queryIdCard.value) {
-    //     result = result.filter(cert => cert.idCard && cert.idCard.includes(queryIdCard.value))
-    // }
-
-    return result
+  return result
 })
 
 // 计算总数（使用过滤后的数据）
@@ -488,19 +268,19 @@ const totalCertificates = computed(() => filteredCertificates.value.length)
 
 // 计算当前页显示的证书（使用过滤后的数据）
 const paginatedCertificates = computed(() => {
-    const start = (currentPage.value - 1) * pageSize.value
-    const end = start + pageSize.value
-    return filteredCertificates.value.slice(start, end)
+  const start = (currentPage.value - 1) * pageSize.value
+  const end = start + pageSize.value
+  return filteredCertificates.value.slice(start, end)
 })
 
 // 页码改变处理
 function handlePageChange() {
-    window.scrollTo({ top: 0, behavior: 'smooth' })
+  window.scrollTo({ top: 0, behavior: 'smooth' })
 }
 
 // 跳转到详情页
 function goToDetail(certificateNo: string) {
-    router.push(`/query-system/certificate/detail/${certificateNo}`)
+  router.push(`/query-system/certificate/detail/${certificateNo}`)
 }
 
 // 搜索
@@ -539,143 +319,164 @@ const doSearch = () => {
   }
 }
 </script>
-<style>
-.scroll-container-1_2501 {
-    height: 100%;
-    width: 100%;
-    overflow: auto;
-}
-.Pixso-frame-1_2501 {
-    width: 1920px;
-    height: 1297px;
-    overflow: hidden;
-    position: relative;
-    flex-shrink: 0;
-    background-color: rgba(255, 255, 255, 1);
+
+<style scoped lang="scss">
+.certificate-list-page {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  background-color: #f5f7fa;
 }
 
-/* 动态表格行样式 */
-.table-row-divider {
-    width: 3.23%;
-    height: 3.08%;
-    background-image: url(@/assets/images/Vector_1_2527.png);
-    background-size: 100% 100%;
-    background-repeat: no-repeat;
-    position: absolute;
-    left: 7.19%;
-    right: 89.58%;
+// 页面头部
+.page-header {
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  color: white;
+  padding: 20px 0;
 }
 
-.table-cell {
-    font-size: 14px;
-    font-family: "Helvetica Neue-Light";
-    font-weight: 300;
-    text-align: center;
-    line-height: 22px;
-    color: rgba(29, 33, 41, 1);
-    position: absolute;
-    height: 1.7%;
+.header-content {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 20px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
 }
 
-.table-cell-serial {
-    width: 1.67%;
-    left: 7.97%;
-    right: 90.36%;
+.logo-section {
+  display: flex;
+  align-items: center;
+  gap: 15px;
 }
 
-.table-cell-cert-number {
-    width: 10.05%;
-    left: 11.2%;
-    right: 78.75%;
+.logo-icon {
+  width: 60px;
+  height: 60px;
+  background: rgba(255, 255, 255, 0.2);
+  border-radius: 8px;
 }
 
-.table-cell-cert-type {
-    width: 10.05%;
-    left: 23.8%;
-    right: 66.15%;
+.logo-text h1 {
+  margin: 0;
+  font-size: 24px;
+  font-weight: bold;
 }
 
-.table-cell-name {
-    width: 10.05%;
-    left: 36.41%;
-    right: 53.54%;
+.logo-text p {
+  margin: 5px 0 0 0;
+  font-size: 14px;
+  opacity: 0.9;
 }
 
-.table-cell-work-unit {
-    width: 10.05%;
-    left: 49.01%;
-    right: 40.94%;
+.search-box {
+  position: relative;
+  width: 300px;
 }
 
-.table-cell-issue-date {
-    width: 10.05%;
-    left: 61.62%;
-    right: 28.33%;
-}
-
-.table-cell-valid-until {
-    width: 10.05%;
-    left: 74.22%;
-    right: 15.73%;
-}
-
-.table-cell-status {
-    width: 1.67%;
-    left: 86.82%;
-    right: 11.51%;
-}
-
-.table-cell-action {
-    width: 3.33%;
-    left: 89.84%;
-    right: 6.83%;
-    cursor: pointer;
-    color: rgba(53, 120, 248, 1);
-}
-
-.table-cell-action:hover {
-    opacity: 0.8;
-}
-
-/* 面包屑导航样式 */
-.query-breadcrumb-link {
-    color: #848484;
-    text-decoration: none;
-}
-
-.query-breadcrumb-link:hover {
-    opacity: 0.9;
-}
-
-.query-breadcrumb-current {
-    color: inherit;
-}
-
-/* 主导航链接样式 */
-.main-nav-link {
-    color: #fff;
-    text-decoration: none;
-    cursor: pointer;
-}
-
-.main-nav-link:hover {
-    opacity: 0.9;
-}
-
-/* 搜索框样式 */
 .search-input {
+  width: 100%;
+  padding: 10px 40px 10px 15px;
+  border: none;
+  border-radius: 20px;
+  outline: none;
+  font-size: 14px;
+}
+
+.search-icon {
   position: absolute;
-  left: 4.73%;
+  right: 15px;
   top: 50%;
   transform: translateY(-50%);
-  width: 68.05%;
+  width: 20px;
   height: 20px;
-  line-height: 20px;
+  cursor: pointer;
+  background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="%23666"><path d="M15.5 14h-.79l-.28-.27A6.471 6.471 0 0 0 16 9.5 6.5 6.5 0 1 0 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19l-4.99-5zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z"/></svg>') no-repeat center;
+  background-size: contain;
+}
+
+.nav-bar {
+  max-width: 1200px;
+  margin: 15px auto 0;
+  padding: 0 20px;
+  display: flex;
+  gap: 30px;
+}
+
+.nav-link {
+  color: white;
+  text-decoration: none;
   font-size: 16px;
-  font-family: "Alibaba PuHuiTi-Regular";
+  padding: 8px 0;
+  border-bottom: 2px solid transparent;
+  transition: all 0.3s;
+
+  &:hover {
+    border-bottom-color: white;
+  }
+
+  &.nav-link-active {
+    border-bottom-color: white;
+    font-weight: bold;
+  }
+}
+
+// 面包屑
+.breadcrumb {
+  max-width: 1200px;
+  margin: 20px auto;
+  padding: 0 20px;
+  font-size: 14px;
+  color: #666;
+}
+
+.breadcrumb-link {
+  color: #409eff;
+  text-decoration: none;
+
+  &:hover {
+    text-decoration: underline;
+  }
+}
+
+.breadcrumb-current {
   color: #333;
-  border: none;
-  outline: none;
-  background: transparent;
+  font-weight: 500;
+}
+
+// 主内容区
+.main-content {
+  flex: 1;
+  max-width: 1200px;
+  margin: 0 auto 30px;
+  padding: 0 20px;
+  width: 100%;
+}
+
+.result-info {
+  margin-bottom: 20px;
+  font-size: 16px;
+  color: #333;
+  font-weight: 500;
+}
+
+.pagination-wrapper {
+  margin-top: 20px;
+  display: flex;
+  justify-content: flex-end;
+}
+
+// 页脚
+.page-footer {
+  background: #2c3e50;
+  color: white;
+  padding: 30px 20px;
+  text-align: center;
+
+  p {
+    margin: 8px 0;
+    font-size: 14px;
+    opacity: 0.8;
+  }
 }
 </style>
