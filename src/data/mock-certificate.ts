@@ -164,38 +164,6 @@ const mockCertificates: CertificateDetail[] = [
     department: '后勤装备处',
     position: '工程师',
     photo: ''
-  },
-  {
-    id: 11,
-    serialNo: '011',
-    certificateNo: 'SC20251209011',
-    certificateType: '消防救援员',
-    name: '王强',
-    workUnit: '四川飞豹救援',
-    issueDate: '2023-05-10',
-    expiryDate: '2026-05-09',
-    status: '有效',
-    idCard: '51010319900315XXXX',
-    phone: '13900139000',
-    department: '消防大队',
-    position: '救援员',
-    photo: ''
-  },
-  {
-    id: 12,
-    serialNo: '012',
-    certificateNo: 'SC20251209012',
-    certificateType: '应急救援驾驶员',
-    name: '王强',
-    workUnit: '四川飞豹救援',
-    issueDate: '2023-07-20',
-    expiryDate: '2028-07-19',
-    status: '有效',
-    idCard: '51010319900315XXXX',
-    phone: '13900139000',
-    department: '车辆调度中心',
-    position: '驾驶员',
-    photo: ''
   }
 ]
 

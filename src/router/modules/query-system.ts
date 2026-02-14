@@ -41,9 +41,17 @@ export default {
     {
       path: 'personnel',
       name: 'PersonnelQuery',
-      component: () => import('@/views/query-system/personnel.vue'),
+      component: () => import('@/views/query-system/personnel-index.vue'),
       meta: {
         title: '内部人员查询'
+      }
+    },
+    {
+      path: 'personnel/detail/:id',
+      name: 'PersonnelDetail',
+      component: () => import('@/views/query-system/personnel-detail.vue'),
+      meta: {
+        title: '人员详情'
       }
     },
     {

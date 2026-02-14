@@ -319,12 +319,18 @@
             <div id="1_2879" class="Pixso-vector-1_2879"></div>
             <div id="17_26" class="Pixso-vector-17_26"></div>
             <div id="1_2892" class="Pixso-vector-1_2892"></div>
-            <div id="6_550" class="Pixso-group-6_550">
-                <div id="6_551" class="Pixso-vector-6_551"></div>
-                <p id="6_625" class="Pixso-paragraph-6_625">
-                    共计 {{ totalCount }} 条
-                </p>
+
+            <!-- 分页组件 -->
+            <div style="position: absolute; right: 7.29%; top: 69.31%; height: 3.24%;">
+                <Pagination
+                    :total="totalCount"
+                    v-model:current-page="currentPage"
+                    v-model:page-size="pageSize"
+                    :page-size-options="[10, 20, 50]"
+                    @page-change="handlePageChange"
+                />
             </div>
+
             <div id="33_237" class="Pixso-group-33_237" @click.stop>
             <div id="33_238" class="Pixso-vector-33_238"></div>
             <!-- 输入框 -->
@@ -370,6 +376,7 @@
 import { ref, computed } from 'vue'
 import { useRouter, useRoute } from 'vue-router'
 import { queryCertificateMock } from '@/data/mock-certificate'
+import Pagination from '@/components/common/Pagination.vue'
 
 const router = useRouter()
 const route = useRoute()
@@ -463,6 +470,11 @@ const doSearch = () => {
 
   // 清空搜索框（可选）
   // searchKey.value = ''
+}
+
+// 页码改变处理
+function handlePageChange() {
+  window.scrollTo({ top: 0, behavior: 'smooth' })
 }
 
 </script>
@@ -576,14 +588,14 @@ const doSearch = () => {
     bottom: 27.6%;
 }
 .Pixso-vector-1_2521 {
-    width: 92.14%;
+    width: 89.14%;
     height: 49.11%;
     background-image: url(@/assets/images/Vector_1_2521.png);
     background-size: 100% 100%;
     background-repeat: no-repeat;
     position: absolute;
-    left: 3.85%;
-    right: 4.01%;
+    left: 50%;
+    transform: translateX(-50%);
     top: 26.6%;
     bottom: 24.29%;
 }
@@ -3812,42 +3824,6 @@ const doSearch = () => {
     top: 50%;
     transform: translateX(calc(-50% + 0px)) translateY(calc(-50% + 510.5px));
 }
-.Pixso-group-6_550 {
-    width: 35.88%;
-    height: 3.24%;
-    position: absolute;
-    left: 56.2%;
-    right: 7.92%;
-    top: 69.31%;
-    bottom: 27.45%;
-}
-.Pixso-vector-6_551 {
-    width: 87.37%;
-    height: 100%;
-    background-image: url(@/assets/images/Vector_6_551.png);
-    background-size: 100% 100%;
-    background-repeat: no-repeat;
-    position: absolute;
-    left: 12.63%;
-    right: 0%;
-    top: 0%;
-    bottom: 0%;
-}
-.Pixso-paragraph-6_625 {
-    font-size: 14px;
-    font-family: "PingFang SC-Medium";
-    font-weight: 500;
-    text-align: center;
-    line-height: 22px;
-    color: rgba(29, 33, 41, 1);
-    width: 9.87%;
-    height: 52.38%;
-    position: absolute;
-    left: 0%;
-    right: 90.13%;
-    top: 23.81%;
-    bottom: 23.81%;
-}
 .Pixso-group-33_237 {
     width: 338px;
     height: 42px;
@@ -4161,21 +4137,23 @@ const doSearch = () => {
   text-overflow: ellipsis;
 }
 
-/* 当数据行数少于3行时，隐藏大型表格背景元素，避免黑色区域显示 */
-.table-rows-1 #1_2521,
-.table-rows-1 #1_2522,
-.table-rows-1 #1_2523,
-.table-rows-1 #1_2524,
-.table-rows-1 #1_2525,
-.table-rows-1 #1_2547,
-.table-rows-1 #1_2548,
-.table-rows-2 #1_2521,
-.table-rows-2 #1_2522,
-.table-rows-2 #1_2523,
-.table-rows-2 #1_2524,
-.table-rows-2 #1_2525,
-.table-rows-2 #1_2547,
-.table-rows-2 #1_2548 {
-    display: none !important;
+/* 根据数据行数动态调整页面高度，避免黑色区域显示 */
+.table-rows-1 .Pixso-frame-1_2501,
+.table-rows-2 .Pixso-frame-1_2501,
+.table-rows-3 .Pixso-frame-1_2501 {
+    height: 900px;
 }
+
+.table-rows-4 .Pixso-frame-1_2501,
+.table-rows-5 .Pixso-frame-1_2501,
+.table-rows-6 .Pixso-frame-1_2501 {
+    height: 1100px;
+}
+
+.table-rows-7 .Pixso-frame-1_2501,
+.table-rows-8 .Pixso-frame-1_2501,
+.table-rows-9 .Pixso-frame-1_2501 {
+    height: 1200px;
+}
+
 </style>
