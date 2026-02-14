@@ -46,8 +46,6 @@ const routes: RouteRecordRaw[] = [
   // 政策法规
   { path: '/policy-regulations', name: 'PolicyRegulations', component: () => import('@/views/policy-regulations/laws.vue') },
   { path: '/policy-regulations/laws', name: 'Laws', component: () => import('@/views/policy-regulations/laws.vue') },
-  { path: '/policy-regulations/regulations', name: 'Regulations', component: () => import('@/views/policy-regulations/regulations.vue') },
-  { path: '/policy-regulations/standards', name: 'Standards', component: () => import('@/views/policy-regulations/standards.vue') },
 
   // 查询系统
   { path: '/query-system', name: 'QuerySystem', component: () => import('@/views/query-system/certificate-index.vue') },
