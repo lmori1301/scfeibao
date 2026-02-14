@@ -89,7 +89,7 @@
                 <p
                     class="table-cell table-cell-action"
                     :style="{ top: `${36.78 + index * 3.09}%` }"
-                    @click="goToDetail(cert.id)"
+                    @click="goToDetail(cert.certificateNumber)"
                 >{{ "查看详情" }}</p>
             </template>
 
@@ -471,8 +471,8 @@ function handlePageChange() {
 }
 
 // 跳转到详情页
-function goToDetail(id: number) {
-    router.push(`/query-system/certificate/${id}`)
+function goToDetail(certificateNo: string) {
+    router.push(`/query-system/certificate/detail/${certificateNo}`)
 }
 
 // 搜索
