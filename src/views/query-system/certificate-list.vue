@@ -4001,6 +4001,11 @@ function handlePageChange() {
     left: 50%;
     top: 1079px;
     transform: translateX(calc(-50% + 0px));
+    user-select: text !important;
+    -webkit-user-select: text !important;
+    -moz-user-select: text !important;
+    -ms-user-select: text !important;
+    z-index: 100;
 }
 .Pixso-paragraph-34_81 {
     font-size: 20px;
@@ -4154,6 +4159,50 @@ function handlePageChange() {
 .table-rows-8 .Pixso-frame-1_2501,
 .table-rows-9 .Pixso-frame-1_2501 {
     height: 1200px;
+}
+
+/* 隐藏证书类型的标签背景，改为纯文字显示 */
+.Pixso-vector-1_2593,
+.Pixso-vector-1_2595,
+.Pixso-vector-1_2597,
+.Pixso-vector-1_2599,
+.Pixso-vector-1_2601,
+.Pixso-vector-1_2603,
+.Pixso-vector-1_2605,
+.Pixso-vector-1_2607,
+.Pixso-vector-1_2609,
+.Pixso-vector-1_2611,
+.Pixso-vector-1_2613 {
+    display: none;
+}
+
+/* 将"查看详情"链接改为蓝色，表示可点击 */
+.Pixso-paragraph-1_2772,
+.Pixso-paragraph-1_2774,
+.Pixso-paragraph-1_2776,
+.Pixso-paragraph-1_2778,
+.Pixso-paragraph-1_2780,
+.Pixso-paragraph-1_2782,
+.Pixso-paragraph-1_2784,
+.Pixso-paragraph-1_2786,
+.Pixso-paragraph-1_2788,
+.Pixso-paragraph-1_2790 {
+    color: #1890ff !important;
+    cursor: pointer;
+}
+
+.Pixso-paragraph-1_2772:hover,
+.Pixso-paragraph-1_2774:hover,
+.Pixso-paragraph-1_2776:hover,
+.Pixso-paragraph-1_2778:hover,
+.Pixso-paragraph-1_2780:hover,
+.Pixso-paragraph-1_2782:hover,
+.Pixso-paragraph-1_2784:hover,
+.Pixso-paragraph-1_2786:hover,
+.Pixso-paragraph-1_2788:hover,
+.Pixso-paragraph-1_2790:hover {
+    color: #40a9ff !important;
+    text-decoration: underline;
 }
 
 </style>

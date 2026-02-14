@@ -55,7 +55,7 @@ const routes: RouteRecordRaw[] = [
   { path: '/query-system/personnel', name: 'QueryPersonnel', component: () => import('@/views/query-system/personnel-index.vue') },
   { path: '/query-system/personnel/detail/:id', name: 'PersonnelDetail', component: () => import('@/views/query-system/personnel-detail.vue') },
   { path: '/query-system/vehicle', name: 'Vehicle', component: () => import('@/views/query-system/vehicle-index.vue') },
-  { path: '/query-system/vehicle/:id', name: 'VehicleDetail', component: () => import('@/views/query-system/vehicle-detail.vue') }
+  { path: '/query-system/vehicle/detail/:id', name: 'VehicleDetail', component: () => import('@/views/query-system/vehicle-detail.vue') }
 ]
 
 export const router = createRouter({

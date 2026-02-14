@@ -8,14 +8,14 @@ const mockVehicles: VehicleInfo[] = [
   {
     id: 1,
     unit: '四川飞豹救援',
-    vehicleNo: 'V2023001',
-    vehicleType: '消防车',
+    vehicleNo: 'SC20251209001',
+    vehicleType: '应急救援指挥车',
     plateNumber: '川A12345',
     manufacturer: '中国重汽 HOWO',
-    engineNo: 'WD615.69',
-    vin: 'LZYTBM2W8JA123456',
+    engineNo: 'BGCA039822',
+    vin: 'L6T9444GZ2212',
     color: '红色',
-    equipDate: '2023-01-15',
+    equipDate: '2023-06-05',
     issueDate: '2023-02-01',
     expiryDate: '2028-01-31',
     inspectionDate: '2025-01-31',
@@ -65,21 +65,31 @@ export interface QueryResult {
  * 模拟车辆查询
  */
 export function queryVehicleMock(
-  plateNumber?: string,
-  vehicleType?: string
+  vehicleType?: string,
+  vehicleNumber?: string,
+  plateNumber?: string
 ): QueryResult {
   let results = mockVehicles
-
-  // 按车牌号查询
-  if (plateNumber) {
-    results = results.filter(vehicle =>
-      vehicle.plateNumber.toLowerCase().includes(plateNumber.toLowerCase())
-    )
-  }
 
   // 按车辆类型查询
   if (vehicleType) {
     results = results.filter(vehicle => vehicle.vehicleType.includes(vehicleType))
+  }
+
+  // 按车辆编号查询
+  if (vehicleNumber) {
+    results = results.filter(vehicle =>
+      vehicle.vehicleNo.toLowerCase().includes(vehicleNumber.toLowerCase())
+    )
+  }
+
+  // 按车牌号查询（去除点号、空格等分隔符）
+  if (plateNumber) {
+    const normalizedInput = plateNumber.toLowerCase().replace(/[·\s\-]/g, '')
+    results = results.filter(vehicle => {
+      const normalizedPlate = vehicle.plateNumber.toLowerCase().replace(/[·\s\-]/g, '')
+      return normalizedPlate.includes(normalizedInput)
+    })
   }
 
   if (results.length === 0) {

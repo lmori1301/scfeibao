@@ -81,6 +81,18 @@
     </div>
 </template>
 <script lang="ts" setup>
+import { ref } from 'vue'
+import { useRouter, useRoute } from 'vue-router'
+
+const router = useRouter()
+const route = useRoute()
+
+// 从路由参数获取车辆id
+const vehicleId = ref(route.params.id as string)
+
+// 这里应该根据id从mock数据获取车辆信息
+// 目前页面使用的是硬编码数据，暂时保持不变
+
 // 搜索
 const searchKey = ref('')
 
@@ -577,28 +589,28 @@ const doSearch = () => {
     bottom: 59.8%;
 }
 .Pixso-vector-1_3293 {
-    width: 39.79%;
-    height: 25.66%;
+    width: 35%;
+    height: 22%;
     background-image: url(@/assets/images/Vector_1_3293.png);
     background-size: 100% 100%;
     background-repeat: no-repeat;
     position: absolute;
-    left: 7.71%;
-    right: 52.5%;
-    top: 37.78%;
-    bottom: 36.56%;
+    left: 10.71%;
+    right: 57.29%;
+    top: 39%;
+    bottom: 39%;
 }
 .Pixso-vector-1_3296 {
-    width: 2.39%;
-    height: 1.73%;
+    width: 2.8%;
+    height: 2.1%;
     background-image: url(@/assets/images/Vector_1_3296.png);
     background-size: 100% 100%;
     background-repeat: no-repeat;
     position: absolute;
     left: 79.64%;
-    right: 17.97%;
-    top: 64.18%;
-    bottom: 34.09%;
+    right: 17.56%;
+    top: 64%;
+    bottom: 33.9%;
 }
 .Pixso-vector-1_3301 {
     width: 100%;

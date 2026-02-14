@@ -108,6 +108,23 @@
                 @click="doSearch"
             ></div>
         </div>
+
+            <!-- 底部信息 -->
+            <div id="1_113" class="Pixso-vector-1_113"></div>
+            <div id="32_8" class="Pixso-group-32_8">
+                <p id="1_118" class="Pixso-paragraph-1_118">
+                    {{ "主办单位：四川飞豹救援" }}
+                </p>
+                <p id="1_119" class="Pixso-paragraph-1_119">
+                    {{ "承办单位:四川飞豹救援新闻宣传处" }}
+                </p>
+                <p id="1_120" class="Pixso-paragraph-1_120">
+                    {{ "蜀ICP备XXXXXXX号" }}
+                </p>
+                <p id="1_121" class="Pixso-paragraph-1_121">
+                    {{ "Copyright®2025 sc.feibao.com All rights reserved" }}
+                </p>
+            </div>
       </div>
   </div>
 </template>
@@ -394,18 +411,6 @@ const doSearch = () => {
   position: absolute;
   left: 113.00048828125px;
   top: 194px;
-}
-.Pixso-vector-1_1348 {
-  width: 100%;
-  height: 14.8%;
-  background-image: url(@/assets/images/Vector_1_1348.png);
-  background-size: 100% 100%;
-  background-repeat: no-repeat;
-  position: absolute;
-  left: 0%;
-  right: 0%;
-  top: 85.2%;
-  bottom: 0%;
 }
 .Pixso-paragraph-1_1355 {
   font-size: 20px;
@@ -1205,5 +1210,116 @@ const doSearch = () => {
   border: none;
   outline: none;
   background: transparent;
+}
+
+/* 底部信息样式 */
+.Pixso-vector-1_113 {
+    width: 1920px;
+    height: 15%;
+    background-image: url(@/assets/images/Vector_1_113.png);
+    background-size: 100% 100%;
+    background-repeat: no-repeat;
+    position: absolute;
+    left: 50%;
+    top: 85%;
+    transform: translateX(calc(-50% + 0px));
+}
+
+.Pixso-group-32_8 {
+    width: 600px;
+    height: 170px;
+    position: absolute;
+    left: 50%;
+    top: 1665px;
+    transform: translateX(calc(-50% + 0px));
+    user-select: text !important;
+    -webkit-user-select: text !important;
+    -moz-user-select: text !important;
+    -ms-user-select: text !important;
+    z-index: 100;
+}
+
+.Pixso-paragraph-1_118 {
+    font-size: 20px;
+    font-family: "Alibaba PuHuiTi-Regular";
+    font-weight: 400;
+    text-align: center;
+    line-height: 20px;
+    color: rgba(255, 255, 255, 1);
+    width: auto;
+    height: auto;
+    position: absolute;
+    left: 50%;
+    top: 0%;
+    transform: translateX(calc(-50% + 0.5px));
+    white-space: pre;
+    flex-grow: 0;
+    user-select: text;
+    -webkit-user-select: text;
+    -moz-user-select: text;
+    -ms-user-select: text;
+}
+
+.Pixso-paragraph-1_119 {
+    font-size: 20px;
+    font-family: "Alibaba PuHuiTi-Regular";
+    font-weight: 400;
+    text-align: center;
+    line-height: 20px;
+    color: rgba(255, 255, 255, 1);
+    width: auto;
+    height: auto;
+    position: absolute;
+    left: 50%;
+    top: 29.41%;
+    transform: translateX(calc(-50% + 0.5px));
+    white-space: pre;
+    flex-grow: 0;
+    user-select: text;
+    -webkit-user-select: text;
+    -moz-user-select: text;
+    -ms-user-select: text;
+}
+
+.Pixso-paragraph-1_120 {
+    font-size: 20px;
+    font-family: "Alibaba PuHuiTi-Regular";
+    font-weight: 400;
+    text-align: center;
+    line-height: 20px;
+    color: rgba(255, 255, 255, 1);
+    width: auto;
+    height: auto;
+    position: absolute;
+    left: 50%;
+    top: 58.82%;
+    transform: translateX(calc(-50% + 0.5px));
+    white-space: pre;
+    flex-grow: 0;
+    user-select: text;
+    -webkit-user-select: text;
+    -moz-user-select: text;
+    -ms-user-select: text;
+}
+
+.Pixso-paragraph-1_121 {
+    font-size: 20px;
+    font-family: "Alibaba PuHuiTi-Regular";
+    font-weight: 400;
+    text-align: center;
+    line-height: 20px;
+    color: rgba(255, 255, 255, 1);
+    width: auto;
+    height: auto;
+    position: absolute;
+    left: 50%;
+    top: 88.24%;
+    transform: translateX(calc(-50% + 0.5px));
+    white-space: pre;
+    flex-grow: 0;
+    user-select: text;
+    -webkit-user-select: text;
+    -moz-user-select: text;
+    -ms-user-select: text;
 }
 </style>

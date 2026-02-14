@@ -11,19 +11,6 @@
             <div id="1_649" class="Pixso-vector-1_649"></div>
             <div id="1_650" class="Pixso-vector-1_650"></div>
             <div id="17_1" class="Pixso-vector-17_1"></div>
-            <div id="1_655" class="Pixso-vector-1_655"></div>
-            <p id="1_658" class="Pixso-paragraph-1_658">
-                {{ "主办单位：四川飞豹救援" }}
-            </p>
-            <p id="1_659" class="Pixso-paragraph-1_659">
-                {{ "承办单位：四川飞豹救援新闻宣传处" }}
-            </p>
-            <p id="1_660" class="Pixso-paragraph-1_660">
-                {{ "蜀ICP备XXXXXXX号" }}
-            </p>
-            <p id="1_661" class="Pixso-paragraph-1_661">
-                {{ "Copyright®2025 sc.119.gov.cn All rights reserved" }}
-            </p>
             <router-link id="1_662" to="/party-building" class="Pixso-paragraph-1_662 main-nav-link">党建专栏</router-link>
             <router-link id="1_663" to="/info-public" class="Pixso-paragraph-1_663 main-nav-link">信息公开</router-link>
             <router-link id="1_664" to="/dynamic-news" class="Pixso-paragraph-1_664 main-nav-link">动态要闻</router-link>
@@ -34,7 +21,6 @@
                 当前位置：<router-link to="/" style="color: inherit; text-decoration: none;">首页</router-link> > <router-link to="/team-building" style="color: inherit; text-decoration: none;">队伍建设</router-link> > 关于队伍
             </p>
             <router-link id="1_669" to="/team-building" class="Pixso-paragraph-1_669 main-nav-link">队伍建设</router-link>
-            <div id="1_670" class="Pixso-vector-1_670"></div>
             <div id="1_677" class="Pixso-vector-1_677"></div>
             <div id="1_678" class="Pixso-vector-1_678"></div>
             <div id="1_679" class="Pixso-vector-1_679"></div>
@@ -84,6 +70,23 @@
                     style="cursor: pointer"
                     @click="doSearch"
                 ></div>
+            </div>
+
+            <!-- 底部信息 -->
+            <div id="1_113" class="Pixso-vector-1_113"></div>
+            <div id="32_8" class="Pixso-group-32_8">
+                <p id="1_118" class="Pixso-paragraph-1_118">
+                    {{ "主办单位：四川飞豹救援" }}
+                </p>
+                <p id="1_119" class="Pixso-paragraph-1_119">
+                    {{ "承办单位：四川飞豹救援新闻宣传处" }}
+                </p>
+                <p id="1_120" class="Pixso-paragraph-1_120">
+                    {{ "蜀ICP备XXXXXXX号" }}
+                </p>
+                <p id="1_121" class="Pixso-paragraph-1_121">
+                    {{ "Copyright®2025 sc.feibao.com All rights reserved" }}
+                </p>
             </div>
         </div>
     </div>
@@ -248,74 +251,6 @@ const doSearch = () => {
     left: 113px;
     top: 194px;
 }
-.Pixso-vector-1_655 {
-    width: 100%;
-    height: 14.96%;
-    background-image: url(@/assets/images/Vector_1_655.png);
-    background-size: 100% 100%;
-    background-repeat: no-repeat;
-    position: absolute;
-    left: 0%;
-    right: 0%;
-    top: 85.04%;
-    bottom: 0%;
-}
-.Pixso-paragraph-1_658 {
-    font-size: 20px;
-    font-family: "Alibaba PuHuiTi-Regular";
-    font-weight: 400;
-    line-height: 20px;
-    color: rgba(255, 255, 255, 1);
-    width: 11.41%;
-    height: 1.07%;
-    position: absolute;
-    left: 44.27%;
-    right: 44.32%;
-    top: 87.93%;
-    bottom: 11%;
-}
-.Pixso-paragraph-1_659 {
-    font-size: 20px;
-    font-family: "Alibaba PuHuiTi-Regular";
-    font-weight: 400;
-    line-height: 20px;
-    color: rgba(255, 255, 255, 1);
-    width: 16.51%;
-    height: 1.07%;
-    position: absolute;
-    left: 41.72%;
-    right: 41.77%;
-    top: 90.6%;
-    bottom: 8.33%;
-}
-.Pixso-paragraph-1_660 {
-    font-size: 20px;
-    font-family: "Alibaba PuHuiTi-Regular";
-    font-weight: 400;
-    line-height: 20px;
-    color: rgba(255, 255, 255, 1);
-    width: 9.28%;
-    height: 1.07%;
-    position: absolute;
-    left: 45.36%;
-    right: 45.36%;
-    top: 95.99%;
-    bottom: 2.94%;
-}
-.Pixso-paragraph-1_661 {
-    font-size: 20px;
-    font-family: "Alibaba PuHuiTi-Regular";
-    font-weight: 400;
-    line-height: 20px;
-    color: rgba(255, 255, 255, 1);
-    width: 24.01%;
-    height: 1.07%;
-    position: absolute;
-    left: 36.61%;
-    right: 39.38%;
-    top: 93.32%;
-    bottom: 5.61%;
-}
 .Pixso-paragraph-1_662 {
     font-size: 20px;
     font-family: "FZDaHei-B02S-Regular";
@@ -450,18 +385,6 @@ const doSearch = () => {
     transform: translateX(calc(-50% + -394px));
     white-space: pre;
     flex-grow: 0;
-}
-.Pixso-vector-1_670 {
-    width: 100%;
-    height: 14.96%;
-    background-image: url(@/assets/images/Vector_1_670.png);
-    background-size: 100% 100%;
-    background-repeat: no-repeat;
-    position: absolute;
-    left: 0%;
-    right: 0%;
-    top: 85.04%;
-    bottom: 0%;
 }
 .Pixso-vector-1_677 {
     width: 18.39%;
@@ -763,5 +686,116 @@ const doSearch = () => {
   border: none;
   outline: none;
   background: transparent;
+}
+
+/* 底部信息样式 */
+.Pixso-vector-1_113 {
+    width: 1920px;
+    height: 15%;
+    background-image: url(@/assets/images/Vector_1_113.png);
+    background-size: 100% 100%;
+    background-repeat: no-repeat;
+    position: absolute;
+    left: 50%;
+    top: 85%;
+    transform: translateX(calc(-50% + 0px));
+}
+
+.Pixso-group-32_8 {
+    width: 600px;
+    height: 170px;
+    position: absolute;
+    left: 50%;
+    top: 1647px;
+    transform: translateX(calc(-50% + 0px));
+    user-select: text !important;
+    -webkit-user-select: text !important;
+    -moz-user-select: text !important;
+    -ms-user-select: text !important;
+    z-index: 100;
+}
+
+.Pixso-paragraph-1_118 {
+    font-size: 20px;
+    font-family: "Alibaba PuHuiTi-Regular";
+    font-weight: 400;
+    text-align: center;
+    line-height: 20px;
+    color: rgba(255, 255, 255, 1);
+    width: auto;
+    height: auto;
+    position: absolute;
+    left: 50%;
+    top: 0%;
+    transform: translateX(calc(-50% + 0.5px));
+    white-space: pre;
+    flex-grow: 0;
+    user-select: text;
+    -webkit-user-select: text;
+    -moz-user-select: text;
+    -ms-user-select: text;
+}
+
+.Pixso-paragraph-1_119 {
+    font-size: 20px;
+    font-family: "Alibaba PuHuiTi-Regular";
+    font-weight: 400;
+    text-align: center;
+    line-height: 20px;
+    color: rgba(255, 255, 255, 1);
+    width: auto;
+    height: auto;
+    position: absolute;
+    left: 50%;
+    top: 29.41%;
+    transform: translateX(calc(-50% + 0.5px));
+    white-space: pre;
+    flex-grow: 0;
+    user-select: text;
+    -webkit-user-select: text;
+    -moz-user-select: text;
+    -ms-user-select: text;
+}
+
+.Pixso-paragraph-1_120 {
+    font-size: 20px;
+    font-family: "Alibaba PuHuiTi-Regular";
+    font-weight: 400;
+    text-align: center;
+    line-height: 20px;
+    color: rgba(255, 255, 255, 1);
+    width: auto;
+    height: auto;
+    position: absolute;
+    left: 50%;
+    top: 58.82%;
+    transform: translateX(calc(-50% + 0.5px));
+    white-space: pre;
+    flex-grow: 0;
+    user-select: text;
+    -webkit-user-select: text;
+    -moz-user-select: text;
+    -ms-user-select: text;
+}
+
+.Pixso-paragraph-1_121 {
+    font-size: 20px;
+    font-family: "Alibaba PuHuiTi-Regular";
+    font-weight: 400;
+    text-align: center;
+    line-height: 20px;
+    color: rgba(255, 255, 255, 1);
+    width: auto;
+    height: auto;
+    position: absolute;
+    left: 50%;
+    top: 88.24%;
+    transform: translateX(calc(-50% + 0.5px));
+    white-space: pre;
+    flex-grow: 0;
+    user-select: text;
+    -webkit-user-select: text;
+    -moz-user-select: text;
+    -ms-user-select: text;
 }
 </style>

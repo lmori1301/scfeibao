@@ -150,7 +150,8 @@
                 left: item.timeLeft,
                 top: item.top,
                 fontSize: '20px',
-                color: 'rgba(132,132,132,1)'
+                color: 'rgba(132,132,132,1)',
+                whiteSpace: 'nowrap'
               }"
             >{{ item.time }}</p>
           </template>
@@ -195,7 +196,8 @@
                 left: item.timeLeft,
                 top: item.top,
                 fontSize: '20px',
-                color: 'rgba(132,132,132,1)'
+                color: 'rgba(132,132,132,1)',
+                whiteSpace: 'nowrap'
               }"
             >{{ item.time }}</p>
           </template>
@@ -368,77 +370,77 @@ const tabData = {
   // 各地动态
   local: {
     left: [
-      { title: "建设高质量综合性消防救援队伍", time: "2020-11-11", left: "7.63%", top: "66.21%", timeLeft: "37.53%", link: "/dynamic-news/detail/3", isNew: true },
-      { title: "四川消防面向全省招募消防志愿者", time: "2020-11-11", left: "7.58%", top: "69.16%", timeLeft: "37.47%", link: "/dynamic-news/detail/5" },
-      { title: "全省政府专职消防救援队伍建设现场会在成都召开", time: "2020-11-11", left: "7.58%", top: "72.11%", timeLeft: "37.47%", link: "/dynamic-news/detail/7" },
-      { title: "应急管理部召开「智慧应急」建设现场推进会", time: "2020-11-11", left: "7.63%", top: "75.06%", timeLeft: "37.53%", link: "/dynamic-news/detail/4" },
-      { title: "消防主题公园开园啦！四川省暨成都市１１９消防…", time: "2020-11-11", left: "7.58%", top: "78%", timeLeft: "37.47%", link: "/dynamic-news/detail/6" },
-      { title: "护航校园安全，省安全应急科普在行动", time: "2020-11-11", left: "7.58%", top: "80.95%", timeLeft: "37.47%", link: "/dynamic-news/detail/8" },
+      { title: "建设高质量综合性消防救援队伍", time: "2025-12-15", left: "7.63%", top: "66.21%", timeLeft: "37.53%", link: "/dynamic-news/detail/3", isNew: true },
+      { title: "四川消防面向全省招募消防志愿者", time: "2025-11-28", left: "7.58%", top: "69.16%", timeLeft: "37.47%", link: "/dynamic-news/detail/5" },
+      { title: "全省政府专职消防救援队伍建设现场会在成都召开", time: "2025-11-10", left: "7.58%", top: "72.11%", timeLeft: "37.47%", link: "/dynamic-news/detail/7" },
+      { title: "应急管理部召开「智慧应急」建设现场推进会", time: "2025-10-22", left: "7.63%", top: "75.06%", timeLeft: "37.53%", link: "/dynamic-news/detail/4" },
+      { title: "消防主题公园开园啦！四川省暨成都市１１９消防…", time: "2025-10-05", left: "7.58%", top: "78%", timeLeft: "37.47%", link: "/dynamic-news/detail/6" },
+      { title: "护航校园安全，省安全应急科普在行动", time: "2025-09-18", left: "7.58%", top: "80.95%", timeLeft: "37.47%", link: "/dynamic-news/detail/8" },
     ],
     right: [
-      { title: "中国消防救援力量到底强在哪里", time: "2020-11-11", left: "54.92%", top: "66.21%", timeLeft: "84.82%", link: "/dynamic-news/detail/9", isNew: true },
-      { title: "《你好，火焰蓝》开机！当青春「火焰蓝」…", time: "2020-11-11", left: "54.87%", top: "69.16%", timeLeft: "84.77%", link: "/dynamic-news/detail/11" },
-      { title: "琼色局长参加国新办国家综合性消防救援队伍改革…", time: "2020-11-11", left: "54.87%", top: "72.11%", timeLeft: "84.77%", link: "/dynamic-news/detail/13" },
-      { title: "开赛啦！中国消防动漫形象创意设计大赛于…", time: "2020-11-11", left: "54.92%", top: "75.06%", timeLeft: "84.82%", link: "/dynamic-news/detail/10" },
-      { title: "全民消防安全学习云平台，正式上线启用啦！", time: "2020-11-11", left: "54.87%", top: "78%", timeLeft: "84.77%", link: "/dynamic-news/detail/12" },
-      { title: "第五届全国119消防先进集体和先进个人拟表彰对象公示", time: "2020-11-11", left: "54.87%", top: "80.95%", timeLeft: "84.77%", link: "/dynamic-news/detail/14" },
+      { title: "中国消防救援力量到底强在哪里", time: "2025-12-10", left: "54.92%", top: "66.21%", timeLeft: "84.82%", link: "/dynamic-news/detail/9", isNew: true },
+      { title: "《你好，火焰蓝》开机！当青春「火焰蓝」…", time: "2025-11-25", left: "54.87%", top: "69.16%", timeLeft: "84.77%", link: "/dynamic-news/detail/11" },
+      { title: "琼色局长参加国新办国家综合性消防救援队伍改革…", time: "2025-11-08", left: "54.87%", top: "72.11%", timeLeft: "84.77%", link: "/dynamic-news/detail/13" },
+      { title: "开赛啦！中国消防动漫形象创意设计大赛于…", time: "2025-10-20", left: "54.92%", top: "75.06%", timeLeft: "84.82%", link: "/dynamic-news/detail/10" },
+      { title: "全民消防安全学习云平台，正式上线启用啦！", time: "2025-10-03", left: "54.87%", top: "78%", timeLeft: "84.77%", link: "/dynamic-news/detail/12" },
+      { title: "第五届全国119消防先进集体和先进个人拟表彰对象公示", time: "2025-09-15", left: "54.87%", top: "80.95%", timeLeft: "84.77%", link: "/dynamic-news/detail/14" },
     ]
   },
   // 救援行动
   rescue: {
     left: [
-      { title: "成都消防成功处置高层火灾救援", time: "2020-11-11", left: "7.63%", top: "66.21%", timeLeft: "37.53%", link: "/dynamic-news/detail/1", isNew: true },
-      { title: "四川消防跨区域增援抗洪抢险", time: "2020-11-11", left: "7.58%", top: "69.16%", timeLeft: "37.47%", link: "/dynamic-news/detail/2" },
-      { title: "消防救援演练进社区 提升应急能力", time: "2020-11-11", left: "7.58%", top: "72.11%", timeLeft: "37.47%", link: "/dynamic-news/detail/2" },
-      { title: "森林消防支队扑灭川西林区火情", time: "2020-11-11", left: "7.63%", top: "75.06%", timeLeft: "37.53%", link: "/dynamic-news/detail/1" },
-      { title: "救援直升机转运山区被困群众", time: "2020-11-11", left: "7.58%", top: "78%", timeLeft: "37.47%", link: "/dynamic-news/detail/2" },
-      { title: "消防指战员寒夜救援落水人员", time: "2020-11-11", left: "7.58%", top: "80.95%", timeLeft: "37.47%", link: "/dynamic-news/detail/1" },
+      { title: "成都消防成功处置高层火灾救援", time: "2025-12-18", left: "7.63%", top: "66.21%", timeLeft: "37.53%", link: "/dynamic-news/detail/1", isNew: true },
+      { title: "四川消防跨区域增援抗洪抢险", time: "2025-12-01", left: "7.58%", top: "69.16%", timeLeft: "37.47%", link: "/dynamic-news/detail/2" },
+      { title: "消防救援演练进社区 提升应急能力", time: "2025-11-15", left: "7.58%", top: "72.11%", timeLeft: "37.47%", link: "/dynamic-news/detail/2" },
+      { title: "森林消防支队扑灭川西林区火情", time: "2025-10-28", left: "7.63%", top: "75.06%", timeLeft: "37.53%", link: "/dynamic-news/detail/1" },
+      { title: "救援直升机转运山区被困群众", time: "2025-10-10", left: "7.58%", top: "78%", timeLeft: "37.47%", link: "/dynamic-news/detail/2" },
+      { title: "消防指战员寒夜救援落水人员", time: "2025-09-22", left: "7.58%", top: "80.95%", timeLeft: "37.47%", link: "/dynamic-news/detail/1" },
     ],
     right: [
-      { title: "全国消防救援技能比武竞赛举行", time: "2020-11-11", left: "54.92%", top: "66.21%", timeLeft: "84.82%", link: "/dynamic-news/detail/2", isNew: true },
-      { title: "无人机助力消防救援精准定位", time: "2020-11-11", left: "54.87%", top: "69.16%", timeLeft: "84.77%", link: "/dynamic-news/detail/1" },
-      { title: "跨省联动救援机制实战检验", time: "2020-11-11", left: "54.87%", top: "72.11%", timeLeft: "84.77%", link: "/dynamic-news/detail/2" },
-      { title: "新装备列装 提升救援效率", time: "2020-11-11", left: "54.92%", top: "75.06%", timeLeft: "84.82%", link: "/dynamic-news/detail/1" },
-      { title: "民间救援队与消防协同作战", time: "2020-11-11", left: "54.87%", top: "78%", timeLeft: "84.77%", link: "/dynamic-news/detail/2" },
-      { title: "救援现场暖心瞬间：消防员背老人转移", time: "2020-11-11", left: "54.87%", top: "80.95%", timeLeft: "84.77%", link: "/dynamic-news/detail/1" },
+      { title: "全国消防救援技能比武竞赛举行", time: "2025-12-12", left: "54.92%", top: "66.21%", timeLeft: "84.82%", link: "/dynamic-news/detail/2", isNew: true },
+      { title: "无人机助力消防救援精准定位", time: "2025-11-30", left: "54.87%", top: "69.16%", timeLeft: "84.77%", link: "/dynamic-news/detail/1" },
+      { title: "跨省联动救援机制实战检验", time: "2025-11-12", left: "54.87%", top: "72.11%", timeLeft: "84.77%", link: "/dynamic-news/detail/2" },
+      { title: "新装备列装 提升救援效率", time: "2025-10-25", left: "54.92%", top: "75.06%", timeLeft: "84.82%", link: "/dynamic-news/detail/1" },
+      { title: "民间救援队与消防协同作战", time: "2025-10-08", left: "54.87%", top: "78%", timeLeft: "84.77%", link: "/dynamic-news/detail/2" },
+      { title: "救援现场暖心瞬间：消防员背老人转移", time: "2025-09-20", left: "54.87%", top: "80.95%", timeLeft: "84.77%", link: "/dynamic-news/detail/1" },
     ]
   },
   // 政策解读
   policy: {
     left: [
-      { title: "新《消防法》重点条款解读", time: "2020-11-11", left: "7.63%", top: "66.21%", timeLeft: "37.53%", link: "/dynamic-news/detail/3", isNew: true },
-      { title: "消防安全责任制实施细则解读", time: "2020-11-11", left: "7.58%", top: "69.16%", timeLeft: "37.47%", link: "/dynamic-news/detail/4" },
-      { title: "消防救援队伍改革配套政策说明", time: "2020-11-11", left: "7.58%", top: "72.11%", timeLeft: "37.47%", link: "/dynamic-news/detail/3" },
-      { title: "农村消防建设扶持政策解读", time: "2020-11-11", left: "7.63%", top: "75.06%", timeLeft: "37.53%", link: "/dynamic-news/detail/4" },
-      { title: "企业消防安全奖惩政策说明", time: "2020-11-11", left: "7.58%", top: "78%", timeLeft: "37.47%", link: "/dynamic-news/detail/3" },
-      { title: "消防设施维保新规解读", time: "2020-11-11", left: "7.58%", top: "80.95%", timeLeft: "37.47%", link: "/dynamic-news/detail/4" },
+      { title: "新《消防法》重点条款解读", time: "2025-12-20", left: "7.63%", top: "66.21%", timeLeft: "37.53%", link: "/dynamic-news/detail/3", isNew: true },
+      { title: "消防安全责任制实施细则解读", time: "2025-12-05", left: "7.58%", top: "69.16%", timeLeft: "37.47%", link: "/dynamic-news/detail/4" },
+      { title: "消防救援队伍改革配套政策说明", time: "2025-11-18", left: "7.58%", top: "72.11%", timeLeft: "37.47%", link: "/dynamic-news/detail/3" },
+      { title: "农村消防建设扶持政策解读", time: "2025-11-01", left: "7.63%", top: "75.06%", timeLeft: "37.53%", link: "/dynamic-news/detail/4" },
+      { title: "企业消防安全奖惩政策说明", time: "2025-10-15", left: "7.58%", top: "78%", timeLeft: "37.47%", link: "/dynamic-news/detail/3" },
+      { title: "消防设施维保新规解读", time: "2025-09-28", left: "7.58%", top: "80.95%", timeLeft: "37.47%", link: "/dynamic-news/detail/4" },
     ],
     right: [
-      { title: "应急救援补贴政策落地实施", time: "2020-11-11", left: "54.92%", top: "66.21%", timeLeft: "84.82%", link: "/dynamic-news/detail/3", isNew: true },
-      { title: "消防培训收费规范政策解读", time: "2020-11-11", left: "54.87%", top: "69.16%", timeLeft: "84.77%", link: "/dynamic-news/detail/4" },
-      { title: "新能源汽车消防安全政策说明", time: "2020-11-11", left: "54.87%", top: "72.11%", timeLeft: "84.77%", link: "/dynamic-news/detail/3" },
-      { title: "高层建筑消防管理新规解读", time: "2020-11-11", left: "54.92%", top: "75.06%", timeLeft: "84.82%", link: "/dynamic-news/detail/4" },
-      { title: "消防产品认证政策调整说明", time: "2020-11-11", left: "54.87%", top: "78%", timeLeft: "84.77%", link: "/dynamic-news/detail/3" },
-      { title: "基层消防力量建设扶持政策", time: "2020-11-11", left: "54.87%", top: "80.95%", timeLeft: "84.77%", link: "/dynamic-news/detail/4" },
+      { title: "应急救援补贴政策落地实施", time: "2025-12-16", left: "54.92%", top: "66.21%", timeLeft: "84.82%", link: "/dynamic-news/detail/3", isNew: true },
+      { title: "消防培训收费规范政策解读", time: "2025-12-03", left: "54.87%", top: "69.16%", timeLeft: "84.77%", link: "/dynamic-news/detail/4" },
+      { title: "新能源汽车消防安全政策说明", time: "2025-11-16", left: "54.87%", top: "72.11%", timeLeft: "84.77%", link: "/dynamic-news/detail/3" },
+      { title: "高层建筑消防管理新规解读", time: "2025-10-30", left: "54.92%", top: "75.06%", timeLeft: "84.82%", link: "/dynamic-news/detail/4" },
+      { title: "消防产品认证政策调整说明", time: "2025-10-12", left: "54.87%", top: "78%", timeLeft: "84.77%", link: "/dynamic-news/detail/3" },
+      { title: "基层消防力量建设扶持政策", time: "2025-09-25", left: "54.87%", top: "80.95%", timeLeft: "84.77%", link: "/dynamic-news/detail/4" },
     ]
   },
   // 媒体播报
   media: {
     left: [
-      { title: "央视《新闻联播》报道四川消防工作", time: "2020-11-11", left: "7.63%", top: "66.21%", timeLeft: "37.53%", link: "/dynamic-news/detail/15", isNew: true },
-      { title: "人民日报：消防救援队伍建设成效显著", time: "2020-11-11", left: "7.58%", top: "69.16%", timeLeft: "37.47%", link: "/dynamic-news/detail/16" },
-      { title: "四川卫视专题报道「119」消防宣传月", time: "2020-11-11", left: "7.58%", top: "72.11%", timeLeft: "37.47%", link: "/dynamic-news/detail/15" },
-      { title: "央广网专访消防救援总队总队长", time: "2020-11-11", left: "7.63%", top: "75.06%", timeLeft: "37.53%", link: "/dynamic-news/detail/16" },
-      { title: "地方媒体聚焦消防救援先进事迹", time: "2020-11-11", left: "7.58%", top: "78%", timeLeft: "37.47%", link: "/dynamic-news/detail/15" },
-      { title: "消防主题纪录片登陆各大卫视", time: "2020-11-11", left: "7.58%", top: "80.95%", timeLeft: "37.47%", link: "/dynamic-news/detail/16" },
+      { title: "央视《新闻联播》报道四川消防工作", time: "2025-12-22", left: "7.63%", top: "66.21%", timeLeft: "37.53%", link: "/dynamic-news/detail/15", isNew: true },
+      { title: "人民日报：消防救援队伍建设成效显著", time: "2025-12-08", left: "7.58%", top: "69.16%", timeLeft: "37.47%", link: "/dynamic-news/detail/16" },
+      { title: "四川卫视专题报道「119」消防宣传月", time: "2025-11-20", left: "7.58%", top: "72.11%", timeLeft: "37.47%", link: "/dynamic-news/detail/15" },
+      { title: "央广网专访消防救援总队总队长", time: "2025-11-03", left: "7.63%", top: "75.06%", timeLeft: "37.53%", link: "/dynamic-news/detail/16" },
+      { title: "地方媒体聚焦消防救援先进事迹", time: "2025-10-18", left: "7.58%", top: "78%", timeLeft: "37.47%", link: "/dynamic-news/detail/15" },
+      { title: "消防主题纪录片登陆各大卫视", time: "2025-09-30", left: "7.58%", top: "80.95%", timeLeft: "37.47%", link: "/dynamic-news/detail/16" },
     ],
     right: [
-      { title: "新媒体平台消防科普内容破亿播放", time: "2020-11-11", left: "54.92%", top: "66.21%", timeLeft: "84.82%", link: "/dynamic-news/detail/15", isNew: true },
-      { title: "网红消防员直播讲解消防安全知识", time: "2020-11-11", left: "54.87%", top: "69.16%", timeLeft: "84.77%", link: "/dynamic-news/detail/16" },
-      { title: "海外媒体关注中国消防救援发展", time: "2020-11-11", left: "54.87%", top: "72.11%", timeLeft: "84.77%", link: "/dynamic-news/detail/15" },
-      { title: "消防短视频大赛获奖作品展播", time: "2020-11-11", left: "54.92%", top: "75.06%", timeLeft: "84.82%", link: "/dynamic-news/detail/16" },
-      { title: "纸媒专版报道消防改革十年成果", time: "2020-11-11", left: "54.87%", top: "78%", timeLeft: "84.77%", link: "/dynamic-news/detail/15" },
-      { title: "电台消防公益广告持续投放", time: "2020-11-11", left: "54.87%", top: "80.95%", timeLeft: "84.77%", link: "/dynamic-news/detail/16" },
+      { title: "新媒体平台消防科普内容破亿播放", time: "2025-12-19", left: "54.92%", top: "66.21%", timeLeft: "84.82%", link: "/dynamic-news/detail/15", isNew: true },
+      { title: "网红消防员直播讲解消防安全知识", time: "2025-12-06", left: "54.87%", top: "69.16%", timeLeft: "84.77%", link: "/dynamic-news/detail/16" },
+      { title: "海外媒体关注中国消防救援发展", time: "2025-11-18", left: "54.87%", top: "72.11%", timeLeft: "84.77%", link: "/dynamic-news/detail/15" },
+      { title: "消防短视频大赛获奖作品展播", time: "2025-11-01", left: "54.92%", top: "75.06%", timeLeft: "84.82%", link: "/dynamic-news/detail/16" },
+      { title: "纸媒专版报道消防改革十年成果", time: "2025-10-16", left: "54.87%", top: "78%", timeLeft: "84.77%", link: "/dynamic-news/detail/15" },
+      { title: "电台消防公益广告持续投放", time: "2025-09-28", left: "54.87%", top: "80.95%", timeLeft: "84.77%", link: "/dynamic-news/detail/16" },
     ]
   }
 }

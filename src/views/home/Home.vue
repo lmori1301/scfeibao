@@ -59,47 +59,47 @@
             </p>
             <p id="1_37" class="Pixso-paragraph-1_37" @click="navigateTo('/dynamic-news/2')" style="cursor: pointer;">
                 {{
-                    "四川飞豹救援成都、乐山、崇州、双流支队队伍授旗授牌仪式在成都举行"
+                    "全省综合性消防救援专业队伍建设工作会议召开"
                 }}
             </p>
             <p id="1_38" class="Pixso-paragraph-1_38" @click="navigateTo('/dynamic-news/3')" style="cursor: pointer;">
                 {{
-                    "四川飞豹救援成都、乐山、崇州、双流支队队伍授旗授牌仪式在成都举行"
+                    "四川飞豹救援荣获省级先进集体称号"
                 }}
             </p>
             <p id="1_39" class="Pixso-paragraph-1_39" @click="navigateTo('/dynamic-news/4')" style="cursor: pointer;">
                 {{
-                    "四川飞豹救援成都、乐山、崇州、双流支队队伍授旗授牌仪式在成都举行"
+                    "成都支队开展冬季应急救援演练活动"
                 }}
             </p>
             <p id="1_40" class="Pixso-paragraph-1_40" @click="navigateTo('/dynamic-news/5')" style="cursor: pointer;">
                 {{
-                    "四川飞豹救援成都、乐山、崇州、双流支队队伍授旗授牌仪式在成都举行"
+                    "乐山支队深入社区开展消防安全宣传"
                 }}
             </p>
             <p id="1_41" class="Pixso-paragraph-1_41" @click="navigateTo('/dynamic-news/6')" style="cursor: pointer;">
                 {{
-                    "四川飞豹救援成都、乐山、崇州、双流支队队伍授旗授牌仪式在成都举行"
+                    "崇州支队完成年度装备升级改造工作"
                 }}
             </p>
             <p id="1_42" class="Pixso-paragraph-1_42" @click="navigateTo('/dynamic-news/7')" style="cursor: pointer;">
                 {{
-                    "四川飞豹救援成都、乐山、崇州、双流支队队伍授旗授牌仪式在成都举行"
+                    "双流支队与机场开展联合应急演练"
                 }}
             </p>
             <p id="1_43" class="Pixso-paragraph-1_43" @click="navigateTo('/dynamic-news/8')" style="cursor: pointer;">
                 {{
-                    "四川飞豹救援成都、乐山、崇州、双流支队队伍授旗授牌仪式在成都举行"
+                    "四川飞豹救援成功处置高速公路交通事故"
                 }}
             </p>
             <p id="1_44" class="Pixso-paragraph-1_44" @click="navigateTo('/dynamic-news/9')" style="cursor: pointer;">
                 {{
-                    "四川飞豹救援成都、乐山、崇州、双流支队队伍授旗授牌仪式在成都举行"
+                    "山地救援队紧急救援被困登山者"
                 }}
             </p>
             <p id="1_45" class="Pixso-paragraph-1_45" @click="navigateTo('/dynamic-news/10')" style="cursor: pointer;">
                 {{
-                    "四川飞豹救援成都、乐山、崇州、双流支队队伍授旗授牌仪式在成都举行"
+                    "水域救援队成功营救落水群众"
                 }}
             </p>
             <div id="1_46" class="Pixso-text-1_46" @click="navigateTo('/dynamic-news/1')" style="cursor: pointer;">
@@ -117,24 +117,24 @@
             <div id="1_47" class="Pixso-text-1_47" @click="navigateTo('/dynamic-news/2')" style="cursor: pointer;">
                 <p id="1_47_0" class="Pixso-paragraph-1_47_0">
                     <span id="1_47_0_1" class="Pixso-span-1_47_0_1">{{
-                        "为深入贯彻习近平总书记授旗训词精神，按照应急管理部和省"
+                        "会议总结了全省消防救援队伍建设工作成效，部署下一阶段重点任务，"
                     }}</span>
                 </p>
                 <p id="1_47_1" class="Pixso-paragraph-1_47_1">
                     <span id="1_47_1_1" class="Pixso-span-1_47_1_1">{{
-                        "委省政府的工作要求……"
+                        "强调要持续提升队伍专业化、职业化水平，更好服务人民群众。"
                     }}</span>
                 </p>
             </div>
             <div id="1_48" class="Pixso-text-1_48" @click="navigateTo('/dynamic-news/3')" style="cursor: pointer;">
                 <p id="1_48_0" class="Pixso-paragraph-1_48_0">
                     <span id="1_48_0_1" class="Pixso-span-1_48_0_1">{{
-                        "为深入贯彻习近平总书记授旗训词精神，按照应急管理部和省"
+                        "在省级表彰大会上，四川飞豹救援凭借出色的救援业绩和专业能力，"
                     }}</span>
                 </p>
                 <p id="1_48_1" class="Pixso-paragraph-1_48_1">
                     <span id="1_48_1_1" class="Pixso-span-1_48_1_1">{{
-                        "委省政府的工作要求……"
+                        "被授予省级先进集体荣誉称号，展现了队伍的使命担当。"
                     }}</span>
                 </p>
             </div>
@@ -143,84 +143,84 @@
             <div id="1_51" class="Pixso-text-1_51" @click="navigateTo('/dynamic-news/4')" style="cursor: pointer;">
                 <p id="1_51_0" class="Pixso-paragraph-1_51_0">
                     <span id="1_51_0_1" class="Pixso-span-1_51_0_1">{{
-                        "为深入贯彻习近平总书记授旗训词精神，按照应急管理部和省"
+                        "成都支队组织全体队员开展冬季应急救援综合演练，模拟多种灾害场景，"
                     }}</span>
                 </p>
                 <p id="1_51_1" class="Pixso-paragraph-1_51_1">
                     <span id="1_51_1_1" class="Pixso-span-1_51_1_1">{{
-                        "委省政府的工作要求……"
+                        "全面检验队伍应急响应能力和协同作战水平，提升实战能力。"
                     }}</span>
                 </p>
             </div>
             <div id="1_52" class="Pixso-text-1_52" @click="navigateTo('/dynamic-news/5')" style="cursor: pointer;">
                 <p id="1_52_0" class="Pixso-paragraph-1_52_0">
                     <span id="1_52_0_1" class="Pixso-span-1_52_0_1">{{
-                        "为深入贯彻习近平总书记授旗训词精神，按照应急管理部和省"
+                        "乐山支队深入辖区社区、学校、企业开展消防安全知识宣传活动，"
                     }}</span>
                 </p>
                 <p id="1_52_1" class="Pixso-paragraph-1_52_1">
                     <span id="1_52_1_1" class="Pixso-span-1_52_1_1">{{
-                        "委省政府的工作要求……"
+                        "普及消防安全常识，提高群众自防自救能力，筑牢安全防线。"
                     }}</span>
                 </p>
             </div>
             <div id="1_53" class="Pixso-text-1_53" @click="navigateTo('/dynamic-news/6')" style="cursor: pointer;">
                 <p id="1_53_0" class="Pixso-paragraph-1_53_0">
                     <span id="1_53_0_1" class="Pixso-span-1_53_0_1">{{
-                        "为深入贯彻习近平总书记授旗训词精神，按照应急管理部和省"
+                        "崇州支队顺利完成年度装备升级改造任务，新增多套先进救援装备，"
                     }}</span>
                 </p>
                 <p id="1_53_1" class="Pixso-paragraph-1_53_1">
                     <span id="1_53_1_1" class="Pixso-span-1_53_1_1">{{
-                        "委省政府的工作要求……"
+                        "进一步提升队伍装备现代化水平和综合救援能力。"
                     }}</span>
                 </p>
             </div>
             <div id="1_54" class="Pixso-text-1_54" @click="navigateTo('/dynamic-news/7')" style="cursor: pointer;">
                 <p id="1_54_0" class="Pixso-paragraph-1_54_0">
                     <span id="1_54_0_1" class="Pixso-span-1_54_0_1">{{
-                        "为深入贯彻习近平总书记授旗训词精神，按照应急管理部和省"
+                        "双流支队与成都双流国际机场开展联合应急演练，模拟航空器事故救援，"
                     }}</span>
                 </p>
                 <p id="1_54_1" class="Pixso-paragraph-1_54_1">
                     <span id="1_54_1_1" class="Pixso-span-1_54_1_1">{{
-                        "委省政府的工作要求……"
+                        "强化空地协同配合，提升机场应急处置能力。"
                     }}</span>
                 </p>
             </div>
             <div id="1_55" class="Pixso-text-1_55" @click="navigateTo('/dynamic-news/8')" style="cursor: pointer;">
                 <p id="1_55_0" class="Pixso-paragraph-1_55_0">
                     <span id="1_55_0_1" class="Pixso-span-1_55_0_1">{{
-                        "为深入贯彻习近平总书记授旗训词精神，按照应急管理部和省"
+                        "四川飞豹救援接警后迅速出动，成功处置一起高速公路多车连环相撞事故，"
                     }}</span>
                 </p>
                 <p id="1_55_1" class="Pixso-paragraph-1_55_1">
                     <span id="1_55_1_1" class="Pixso-span-1_55_1_1">{{
-                        "委省政府的工作要求……"
+                        "及时救出被困人员，展现了专业高效的救援能力。"
                     }}</span>
                 </p>
             </div>
             <div id="1_56" class="Pixso-text-1_56" @click="navigateTo('/dynamic-news/9')" style="cursor: pointer;">
                 <p id="1_56_0" class="Pixso-paragraph-1_56_0">
                     <span id="1_56_0_1" class="Pixso-span-1_56_0_1">{{
-                        "为深入贯彻习近平总书记授旗训词精神，按照应急管理部和省"
+                        "山地救援队接到求助后立即出发，克服恶劣天气和复杂地形，"
                     }}</span>
                 </p>
                 <p id="1_56_1" class="Pixso-paragraph-1_56_1">
                     <span id="1_56_1_1" class="Pixso-span-1_56_1_1">{{
-                        "委省政府的工作要求……"
+                        "成功将被困登山者安全转移下山，获得群众高度赞扬。"
                     }}</span>
                 </p>
             </div>
             <div id="1_57" class="Pixso-text-1_57">
                 <p id="1_57_0" class="Pixso-paragraph-1_57_0">
                     <span id="1_57_0_1" class="Pixso-span-1_57_0_1">{{
-                        "为深入贯彻习近平总书记授旗训词精神，按照应急管理部和省"
+                        "水域救援队接到报警后快速响应，利用专业救援装备和技术，"
                     }}</span>
                 </p>
                 <p id="1_57_1" class="Pixso-paragraph-1_57_1">
                     <span id="1_57_1_1" class="Pixso-span-1_57_1_1">{{
-                        "委省政府的工作要求……"
+                        "成功将落水群众救起并送医救治，确保了人民群众生命安全。"
                     }}</span>
                 </p>
             </div>
@@ -236,27 +236,27 @@
                 @click="nextBanner"
                 style="cursor: pointer; z-index: 10;"
             ></div>
-            <p id="1_65" class="Pixso-paragraph-1_65">{{ "10-1" }}</p>
-            <p id="1_66" class="Pixso-paragraph-1_66">{{ "10-1" }}</p>
-            <p id="1_67" class="Pixso-paragraph-1_67">{{ "10-1" }}</p>
-            <p id="1_68" class="Pixso-paragraph-1_68">{{ "10-1" }}</p>
-            <p id="1_69" class="Pixso-paragraph-1_69">{{ "10-1" }}</p>
-            <p id="1_70" class="Pixso-paragraph-1_70">{{ "10-1" }}</p>
-            <p id="1_71" class="Pixso-paragraph-1_71">{{ "10-1" }}</p>
-            <p id="1_72" class="Pixso-paragraph-1_72">{{ "10-1" }}</p>
-            <p id="1_73" class="Pixso-paragraph-1_73">{{ "10-1" }}</p>
+            <p id="1_65" class="Pixso-paragraph-1_65">{{ "12-20" }}</p>
+            <p id="1_66" class="Pixso-paragraph-1_66">{{ "12-15" }}</p>
+            <p id="1_67" class="Pixso-paragraph-1_67">{{ "12-10" }}</p>
+            <p id="1_68" class="Pixso-paragraph-1_68">{{ "12-05" }}</p>
+            <p id="1_69" class="Pixso-paragraph-1_69">{{ "11-28" }}</p>
+            <p id="1_70" class="Pixso-paragraph-1_70">{{ "11-20" }}</p>
+            <p id="1_71" class="Pixso-paragraph-1_71">{{ "11-15" }}</p>
+            <p id="1_72" class="Pixso-paragraph-1_72">{{ "11-10" }}</p>
+            <p id="1_73" class="Pixso-paragraph-1_73">{{ "11-05" }}</p>
             <div id="1_74" class="Pixso-vector-1_74"></div>
-            <p id="1_75" class="Pixso-paragraph-1_75">{{ "10-1" }}</p>
-            <p id="1_76" class="Pixso-paragraph-1_76">{{ "2020" }}</p>
-            <p id="1_77" class="Pixso-paragraph-1_77">{{ "2020" }}</p>
-            <p id="1_78" class="Pixso-paragraph-1_78">{{ "2020" }}</p>
-            <p id="1_79" class="Pixso-paragraph-1_79">{{ "2020" }}</p>
-            <p id="1_80" class="Pixso-paragraph-1_80">{{ "2020" }}</p>
-            <p id="1_81" class="Pixso-paragraph-1_81">{{ "2020" }}</p>
-            <p id="1_82" class="Pixso-paragraph-1_82">{{ "2020" }}</p>
-            <p id="1_83" class="Pixso-paragraph-1_83">{{ "2020" }}</p>
-            <p id="1_84" class="Pixso-paragraph-1_84">{{ "2020" }}</p>
-            <p id="1_85" class="Pixso-paragraph-1_85">{{ "2020" }}</p>
+            <p id="1_75" class="Pixso-paragraph-1_75">{{ "10-30" }}</p>
+            <p id="1_76" class="Pixso-paragraph-1_76">{{ "2025" }}</p>
+            <p id="1_77" class="Pixso-paragraph-1_77">{{ "2025" }}</p>
+            <p id="1_78" class="Pixso-paragraph-1_78">{{ "2025" }}</p>
+            <p id="1_79" class="Pixso-paragraph-1_79">{{ "2025" }}</p>
+            <p id="1_80" class="Pixso-paragraph-1_80">{{ "2025" }}</p>
+            <p id="1_81" class="Pixso-paragraph-1_81">{{ "2025" }}</p>
+            <p id="1_82" class="Pixso-paragraph-1_82">{{ "2025" }}</p>
+            <p id="1_83" class="Pixso-paragraph-1_83">{{ "2025" }}</p>
+            <p id="1_84" class="Pixso-paragraph-1_84">{{ "2025" }}</p>
+            <p id="1_85" class="Pixso-paragraph-1_85">{{ "2025" }}</p>
             <div id="1_86" class="Pixso-vector-1_86"></div>
             <div id="1_89" class="Pixso-vector-1_89"></div>
             <div id="1_90" class="Pixso-vector-1_90"></div>
@@ -2225,6 +2225,11 @@ onUnmounted(() => {
     left: 50%;
     top: 4084px;
     transform: translateX(calc(-50% + 0px));
+    user-select: text !important;
+    -webkit-user-select: text !important;
+    -moz-user-select: text !important;
+    -ms-user-select: text !important;
+    z-index: 100;
 }
 .Pixso-paragraph-1_118 {
     font-size: 20px;
@@ -2242,6 +2247,10 @@ onUnmounted(() => {
     transform: translateX(calc(-50% + 0.5px));
     white-space: pre;
     flex-grow: 0;
+    user-select: text;
+    -webkit-user-select: text;
+    -moz-user-select: text;
+    -ms-user-select: text;
 }
 .Pixso-paragraph-1_119 {
     font-size: 20px;
@@ -2259,6 +2268,10 @@ onUnmounted(() => {
     transform: translateX(calc(-50% + 0.5px));
     white-space: pre;
     flex-grow: 0;
+    user-select: text;
+    -webkit-user-select: text;
+    -moz-user-select: text;
+    -ms-user-select: text;
 }
 .Pixso-paragraph-1_120 {
     font-size: 20px;
@@ -2276,6 +2289,10 @@ onUnmounted(() => {
     transform: translateX(calc(-50% + 0px));
     white-space: pre;
     flex-grow: 0;
+    user-select: text;
+    -webkit-user-select: text;
+    -moz-user-select: text;
+    -ms-user-select: text;
 }
 .Pixso-paragraph-1_121 {
     font-size: 20px;
@@ -2293,6 +2310,10 @@ onUnmounted(() => {
     transform: translateX(calc(-50% + 0px));
     white-space: pre;
     flex-grow: 0;
+    user-select: text;
+    -webkit-user-select: text;
+    -moz-user-select: text;
+    -ms-user-select: text;
 }
 .Pixso-vector-1_122 {
     width: 12.86%;
@@ -2778,6 +2799,16 @@ onUnmounted(() => {
     top: 24.37%;
     bottom: 74.98%;
 }
+.Pixso-paragraph-1_161::before {
+    content: '';
+    position: absolute;
+    left: -12px;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 6px;
+    height: 28px;
+    background-color: rgba(0, 92, 190, 1);
+}
 .Pixso-vector-1_162 {
     width: 0%;
     height: 0.74%;
@@ -2804,6 +2835,16 @@ onUnmounted(() => {
     top: 50%;
     transform: translateY(calc(-50% + -340px));
 }
+.Pixso-paragraph-1_163::before {
+    content: '';
+    position: absolute;
+    left: -12px;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 6px;
+    height: 28px;
+    background-color: rgba(0, 92, 190, 1);
+}
 .Pixso-vector-1_164 {
     width: 0%;
     height: 0.74%;
@@ -2817,7 +2858,7 @@ onUnmounted(() => {
     bottom: 57.52%;
 }
 .Pixso-paragraph-1_165 {
-    font-size: 28px;
+    font-size: 25px;
     font-family: "FZDaHei-B02S-Regular";
     font-weight: 400;
     line-height: 28px;
@@ -2829,6 +2870,16 @@ onUnmounted(() => {
     right: 86.67%;
     top: 84.94%;
     bottom: 14.41%;
+}
+.Pixso-paragraph-1_165::before {
+    content: '';
+    position: absolute;
+    left: -12px;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 6px;
+    height: 28px;
+    background-color: rgba(0, 92, 190, 1);
 }
 .Pixso-vector-1_166 {
     width: 0%;
@@ -2855,6 +2906,16 @@ onUnmounted(() => {
     right: 33.93%;
     top: 41.77%;
     bottom: 57.58%;
+}
+.Pixso-paragraph-1_167::before {
+    content: '';
+    position: absolute;
+    left: -12px;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 6px;
+    height: 28px;
+    background-color: rgba(0, 92, 190, 1);
 }
 .Pixso-vector-1_168 {
     width: 0%;
