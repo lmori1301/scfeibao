@@ -154,10 +154,11 @@
 </template>
 <script lang="ts" setup>
 import { ref, computed } from 'vue'
-import { useRouter } from 'vue-router'
+import { useRouter, useRoute } from 'vue-router'
 import Pagination from '@/components/common/Pagination.vue'
 
 const router = useRouter()
+const route = useRoute()
 
 // 分页状态
 const currentPage = ref(1)
@@ -455,14 +456,41 @@ const certificates = ref<Certificate[]>([
     }
 ])
 
-// 计算总数
-const totalCertificates = computed(() => certificates.value.length)
+// 获取查询参数
+const queryName = computed(() => (route.query.name as string) || '')
+const queryIdCard = computed(() => (route.query.idCard as string) || '')
+const queryCertificateNo = computed(() => (route.query.certificateNo as string) || '')
 
-// 计算当前页显示的证书
+// 根据查询参数过滤证书
+const filteredCertificates = computed(() => {
+    let result = certificates.value
+
+    // 按姓名过滤
+    if (queryName.value) {
+        result = result.filter(cert => cert.name.includes(queryName.value))
+    }
+
+    // 按证书编号过滤
+    if (queryCertificateNo.value) {
+        result = result.filter(cert => cert.certificateNumber.includes(queryCertificateNo.value))
+    }
+
+    // 按身份证号过滤（如果证书数据中有身份证号字段）
+    // if (queryIdCard.value) {
+    //     result = result.filter(cert => cert.idCard && cert.idCard.includes(queryIdCard.value))
+    // }
+
+    return result
+})
+
+// 计算总数（使用过滤后的数据）
+const totalCertificates = computed(() => filteredCertificates.value.length)
+
+// 计算当前页显示的证书（使用过滤后的数据）
 const paginatedCertificates = computed(() => {
     const start = (currentPage.value - 1) * pageSize.value
     const end = start + pageSize.value
-    return certificates.value.slice(start, end)
+    return filteredCertificates.value.slice(start, end)
 })
 
 // 页码改变处理
