@@ -52,7 +52,8 @@ const routes: RouteRecordRaw[] = [
   // 查询系统
   { path: '/query-system', name: 'QuerySystem', component: () => import('@/views/query-system/certificate-index.vue') },
   { path: '/query-system/certificate', name: 'Certificate', component: () => import('@/views/query-system/certificate-index.vue') },
-  { path: '/query-system/certificate/:id', name: 'CertificateDetail', component: () => import('@/views/query-system/certificate-detail.vue') },
+  { path: '/query-system/certificate/list', name: 'CertificateList', component: () => import('@/views/query-system/certificate-list.vue') },
+  { path: '/query-system/certificate/detail/:certificateNo', name: 'CertificateDetail', component: () => import('@/views/query-system/certificate-detail.vue') },
   { path: '/query-system/personnel', name: 'QueryPersonnel', component: () => import('@/views/query-system/personnel-index.vue') },
   { path: '/query-system/personnel/:id', name: 'PersonnelDetail', component: () => import('@/views/query-system/personnel-detail.vue') },
   { path: '/query-system/vehicle', name: 'Vehicle', component: () => import('@/views/query-system/vehicle-index.vue') },
