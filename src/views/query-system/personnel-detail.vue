@@ -86,6 +86,18 @@
     </div>
 </template>
 <script lang="ts" setup>
+import { ref, computed } from 'vue'
+import { useRouter, useRoute } from 'vue-router'
+
+const router = useRouter()
+const route = useRoute()
+
+// 从路由参数获取人员id
+const personnelId = ref(route.params.id as string)
+
+// 这里应该根据id从mock数据获取人员信息
+// 目前页面使用的是硬编码数据，暂时保持不变
+
 // 搜索
 const searchKey = ref('')
 
@@ -246,8 +258,8 @@ const doSearch = () => {
     position: absolute;
     left: 15.26%;
     right: 77.34%;
-    top: 69.43%;
-    bottom: 29.16%;
+    top: 67%;
+    bottom: 31.59%;
 }
 .Pixso-paragraph-1_3095 {
     font-size: 25px;
@@ -260,20 +272,20 @@ const doSearch = () => {
     position: absolute;
     left: 16.98%;
     right: 79.06%;
-    top: 65.92%;
-    bottom: 32.33%;
+    top: 63.5%;
+    bottom: 34.75%;
 }
 .Pixso-vector-1_3096 {
-    width: 18.07%;
-    height: 31.77%;
+    width: 15%;
+    height: 26%;
     background-image: url(@/assets/images/Vector_1_3096.png);
     background-size: 100% 100%;
     background-repeat: no-repeat;
     position: absolute;
-    left: 9.95%;
-    right: 71.98%;
-    top: 31.76%;
-    bottom: 36.47%;
+    left: 11.97%;
+    right: 68.02%;
+    top: 34%;
+    bottom: 40%;
 }
 .Pixso-paragraph-1_3097 {
     font-size: 20px;
@@ -600,16 +612,16 @@ const doSearch = () => {
     bottom: 47.79%;
 }
 .Pixso-vector-1_3120 {
-    width: 2.4%;
-    height: 1.61%;
+    width: 2.8%;
+    height: 2.1%;
     background-image: url(@/assets/images/Vector_1_3120.png);
     background-size: 100% 100%;
     background-repeat: no-repeat;
     position: absolute;
     left: 76.56%;
-    right: 21.04%;
+    right: 20.64%;
     top: 58.4%;
-    bottom: 39.99%;
+    bottom: 39.5%;
 }
 .Pixso-vector-1_3125 {
     width: 100%;

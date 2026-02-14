@@ -7,17 +7,17 @@ import type { PersonnelInfo } from '@/types/query'
 const mockPersonnel: PersonnelInfo[] = [
   {
     id: 1,
-    serialNo: 'P2023001',
+    serialNo: 'FB5100001',
     name: '谢春明',
-    idCard: '510104198811201234',
+    idCard: '11010219880520XXXX',
     phone: '13800138000',
     workUnit: '四川飞豹救援',
     department: '指挥中心',
     position: '总队长',
-    entryDate: '2019-01-15',
-    email: 'xiechunming@feibao.com',
-    taskCount: 120,
-    trainingHours: 500,
+    entryDate: '2023-06-05',
+    email: 'xiechunming@qq.com',
+    taskCount: 156,
+    trainingHours: 876,
     status: '在职',
     photo: ''
   },
@@ -65,10 +65,16 @@ export interface QueryResult {
  * 模拟人员查询
  */
 export function queryPersonnelMock(
+  personnelId?: string,
   name?: string,
   idCard?: string
 ): QueryResult {
   let results = mockPersonnel
+
+  // 按工号查询
+  if (personnelId) {
+    results = results.filter(person => person.serialNo.includes(personnelId))
+  }
 
   // 按姓名查询
   if (name) {

@@ -621,16 +621,16 @@ const doSearch = () => {
     bottom: 58.98%;
 }
 .Pixso-vector-1_2970 {
-    width: 3.5%;
-    height: 2.6%;
+    width: 2.8%;
+    height: 2.1%;
     background-image: url(@/assets/images/Vector_1_2970.png);
     background-size: 100% 100%;
     background-repeat: no-repeat;
     position: absolute;
     left: 55.21%;
-    right: 41.29%;
-    top: 65.01%;
-    bottom: 32.39%;
+    right: 41.99%;
+    top: 65.2%;
+    bottom: 32.7%;
 }
 .Pixso-group-33_246 {
     width: 338px;
