@@ -157,10 +157,7 @@ async function handleQuery() {
     const list = res.data
     logCertificateQuery({ conditions: params, result: 'found', resultCount: list.length })
 
-    if (list.length === 1) {
-      router.push({ path: `/query-system/certificate/detail/${list[0].certificateNo}` })
-      return
-    }
+    // 始终跳转到列表页面，让用户在列表中选择查看详情
     router.push({
       path: '/query-system/certificate/list',
       query: { name: params.name || '', idCard: params.idCard || '', certificateNo: params.certificateNo || '' }
