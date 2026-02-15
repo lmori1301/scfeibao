@@ -110,7 +110,7 @@
                 </div>
             </div>
             <div id="1_613" class="Pixso-vector-1_613"></div>
-            <div id="17_32" class="Pixso-vector-17_32"></div>
+            <router-link to="/" id="17_32" class="Pixso-vector-17_32" style="cursor: pointer;"></router-link>
             <div id="1_618" class="Pixso-vector-1_618"></div>
             <router-link to="/overview-info" id="1_619" class="Pixso-paragraph-1_619 main-nav-link">{{ "概况信息" }}</router-link>
             <router-link to="/team-building" id="1_620" class="Pixso-paragraph-1_620 main-nav-link">{{ "队伍建设" }}</router-link>

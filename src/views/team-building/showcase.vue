@@ -24,7 +24,7 @@
             <div id="1_916" class="Pixso-vector-1_916"></div>
             <div id="1_917" class="Pixso-vector-1_917"></div>
             <div id="1_918" class="Pixso-vector-1_918"></div>
-            <div id="17_3" class="Pixso-vector-17_3"></div>
+            <router-link to="/" id="17_3" class="Pixso-vector-17_3" style="cursor: pointer;"></router-link>
             <router-link id="1_923" to="/party-building" class="Pixso-paragraph-1_923 main-nav-link">党建专栏</router-link>
             <router-link id="1_928" to="/overview-info" class="Pixso-paragraph-1_928 main-nav-link">概况信息</router-link>
             <router-link id="1_929" to="/team-building" class="Pixso-paragraph-1_929 main-nav-link">队伍建设</router-link>

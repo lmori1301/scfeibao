@@ -202,7 +202,7 @@
             >{{ item.time }}</p>
           </template>
           <div id="1_2182" class="Pixso-vector-1_2182"></div>
-          <div id="17_31" class="Pixso-vector-17_31"></div>
+          <router-link to="/" id="17_31" class="Pixso-vector-17_31" style="cursor: pointer;"></router-link>
           <div id="1_2187" class="Pixso-vector-1_2187"></div>
           <router-link id="1_2188" to="/overview-info" class="Pixso-paragraph-1_2188 main-nav-link">概况信息</router-link>
           <router-link id="1_2189" to="/team-building" class="Pixso-paragraph-1_2189 main-nav-link">队伍建设</router-link>

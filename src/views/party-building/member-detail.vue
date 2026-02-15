@@ -122,7 +122,7 @@
                 </p>
             </div>
             <div id="1_1311" class="Pixso-vector-1_1311"></div>
-            <div id="17_28" class="Pixso-vector-17_28"></div>
+            <router-link to="/" id="17_28" class="Pixso-vector-17_28" style="cursor: pointer;"></router-link>
             <div id="33_273" class="Pixso-group-33_273" @click.stop>
             <div id="33_274" class="Pixso-vector-33_274"></div>
             <!-- 输入框 -->

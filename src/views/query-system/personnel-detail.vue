@@ -55,9 +55,8 @@
                 {{ "xiechunming@qq.com" }}
             </p>
             <div id="1_3120" class="Pixso-vector-1_3120"></div>
-            <div id="1_3125" class="Pixso-vector-1_3125"></div>
             <div id="1_3132" class="Pixso-vector-1_3132"></div>
-            <div id="17_25" class="Pixso-vector-17_25"></div>
+            <router-link to="/" id="17_25" class="Pixso-vector-17_25" style="cursor: pointer;"></router-link>
             <div id="33_255" class="Pixso-group-33_255" @click.stop>
             <div id="33_256" class="Pixso-vector-33_256"></div>
             <!-- 输入框 -->
@@ -82,6 +81,23 @@
             <router-link id="33_781" to="/dynamic-news" class="Pixso-paragraph-33_781 main-nav-link">动态要闻</router-link>
             <router-link id="33_782" to="/policy-regulations" class="Pixso-paragraph-33_782 main-nav-link">政策法规</router-link>
             <router-link id="33_784" to="/query-system" class="Pixso-paragraph-33_784 main-nav-link">查询系统</router-link>
+
+            <!-- 底部信息 -->
+            <div id="1_113" class="Pixso-vector-1_113"></div>
+            <div id="32_8" class="Pixso-group-32_8">
+                <p id="1_118" class="Pixso-paragraph-1_118">
+                    {{ "主办单位：四川飞豹救援" }}
+                </p>
+                <p id="1_119" class="Pixso-paragraph-1_119">
+                    {{ "承办单位：四川飞豹救援新闻宣传处" }}
+                </p>
+                <p id="1_120" class="Pixso-paragraph-1_120">
+                    {{ "蜀ICP备XXXXXXX号" }}
+                </p>
+                <p id="1_121" class="Pixso-paragraph-1_121">
+                    {{ "Copyright®2025 sc.feibao.com All rights reserved" }}
+                </p>
+            </div>
         </div>
     </div>
 </template>
@@ -237,15 +253,15 @@ const doSearch = () => {
 }
 .Pixso-vector-1_3092 {
     width: 88.48%;
-    height: 54.05%;
+    height: 47.05%;
     background-image: url(@/assets/images/Vector_1_3092.png);
     background-size: 100% 100%;
     background-repeat: no-repeat;
     position: absolute;
     left: 5.63%;
     right: 5.89%;
-    top: 24.24%;
-    bottom: 21.71%;
+    top: 27%;
+    bottom: 18.95%;
 }
 .Pixso-paragraph-1_3094 {
     font-size: 20px;
@@ -258,8 +274,8 @@ const doSearch = () => {
     position: absolute;
     left: 15.26%;
     right: 77.34%;
-    top: 67%;
-    bottom: 31.59%;
+    top: 64.76%;
+    bottom: 33.83%;
 }
 .Pixso-paragraph-1_3095 {
     font-size: 25px;
@@ -272,20 +288,20 @@ const doSearch = () => {
     position: absolute;
     left: 16.98%;
     right: 79.06%;
-    top: 63.5%;
-    bottom: 34.75%;
+    top: 61.26%;
+    bottom: 36.99%;
 }
 .Pixso-vector-1_3096 {
-    width: 15%;
-    height: 26%;
+    width: 13%;
+    height: 23%;
     background-image: url(@/assets/images/Vector_1_3096.png);
     background-size: 100% 100%;
     background-repeat: no-repeat;
     position: absolute;
     left: 11.97%;
-    right: 68.02%;
-    top: 34%;
-    bottom: 40%;
+    right: 75.03%;
+    top: 34.76%;
+    bottom: 42.24%;
 }
 .Pixso-paragraph-1_3097 {
     font-size: 20px;
@@ -298,8 +314,8 @@ const doSearch = () => {
     position: absolute;
     left: 32.24%;
     right: 62.45%;
-    top: 35.49%;
-    bottom: 63.11%;
+    top: 34.75%;
+    bottom: 63.85%;
 }
 .Pixso-paragraph-1_3098 {
     font-size: 20px;
@@ -312,8 +328,8 @@ const doSearch = () => {
     position: absolute;
     left: 32.24%;
     right: 62.45%;
-    top: 43.15%;
-    bottom: 55.45%;
+    top: 42.41%;
+    bottom: 56.19%;
 }
 .Pixso-paragraph-1_3099 {
     font-size: 20px;
@@ -327,8 +343,8 @@ const doSearch = () => {
     position: absolute;
     left: 32.24%;
     right: 62.5%;
-    top: 50.81%;
-    bottom: 47.79%;
+    top: 50.07%;
+    bottom: 48.53%;
 }
 .Pixso-paragraph-1_3100 {
     font-size: 20px;
@@ -341,8 +357,8 @@ const doSearch = () => {
     position: absolute;
     left: 32.24%;
     right: 62.45%;
-    top: 58.47%;
-    bottom: 40.13%;
+    top: 59.73%;
+    bottom: 38.87%;
 }
 .Pixso-paragraph-1_3101 {
     font-size: 20px;
@@ -355,8 +371,8 @@ const doSearch = () => {
     position: absolute;
     left: 51.98%;
     right: 42.71%;
-    top: 58.47%;
-    bottom: 40.13%;
+    top: 59.73%;
+    bottom: 38.87%;
 }
 .Pixso-paragraph-1_3102 {
     font-size: 20px;
@@ -369,8 +385,8 @@ const doSearch = () => {
     position: absolute;
     left: 71.3%;
     right: 23.39%;
-    top: 58.47%;
-    bottom: 40.13%;
+    top: 59.73%;
+    bottom: 38.87%;
 }
 .Pixso-paragraph-1_3103 {
     font-size: 20px;
@@ -384,8 +400,8 @@ const doSearch = () => {
     position: absolute;
     left: 51.88%;
     right: 42.86%;
-    top: 35.49%;
-    bottom: 63.11%;
+    top: 34.75%;
+    bottom: 63.85%;
 }
 .Pixso-paragraph-1_3104 {
     font-size: 20px;
@@ -398,8 +414,8 @@ const doSearch = () => {
     position: absolute;
     left: 51.88%;
     right: 42.81%;
-    top: 43.15%;
-    bottom: 55.45%;
+    top: 42.41%;
+    bottom: 56.19%;
 }
 .Pixso-paragraph-1_3105 {
     font-size: 20px;
@@ -412,8 +428,8 @@ const doSearch = () => {
     position: absolute;
     left: 51.88%;
     right: 42.81%;
-    top: 50.81%;
-    bottom: 47.79%;
+    top: 50.07%;
+    bottom: 48.53%;
 }
 .Pixso-paragraph-1_3106 {
     font-size: 20px;
@@ -426,8 +442,8 @@ const doSearch = () => {
     position: absolute;
     left: 71.3%;
     right: 23.39%;
-    top: 35.49%;
-    bottom: 63.11%;
+    top: 34.75%;
+    bottom: 63.85%;
 }
 .Pixso-paragraph-1_3107 {
     font-size: 20px;
@@ -440,8 +456,8 @@ const doSearch = () => {
     position: absolute;
     left: 71.3%;
     right: 23.39%;
-    top: 43.15%;
-    bottom: 55.45%;
+    top: 42.41%;
+    bottom: 56.19%;
 }
 .Pixso-paragraph-1_3108 {
     font-size: 20px;
@@ -454,8 +470,8 @@ const doSearch = () => {
     position: absolute;
     left: 71.3%;
     right: 23.39%;
-    top: 50.81%;
-    bottom: 47.79%;
+    top: 50.07%;
+    bottom: 48.53%;
 }
 .Pixso-paragraph-1_3109 {
     font-size: 20px;
@@ -468,8 +484,8 @@ const doSearch = () => {
     position: absolute;
     left: 37.45%;
     right: 57.03%;
-    top: 35.49%;
-    bottom: 63.11%;
+    top: 34.75%;
+    bottom: 63.85%;
 }
 .Pixso-paragraph-1_3110 {
     font-size: 20px;
@@ -482,8 +498,8 @@ const doSearch = () => {
     position: absolute;
     left: 37.45%;
     right: 56.04%;
-    top: 43.15%;
-    bottom: 55.45%;
+    top: 42.41%;
+    bottom: 56.19%;
 }
 .Pixso-paragraph-1_3111 {
     font-size: 20px;
@@ -496,8 +512,8 @@ const doSearch = () => {
     position: absolute;
     left: 37.45%;
     right: 59.32%;
-    top: 50.81%;
-    bottom: 47.79%;
+    top: 50.07%;
+    bottom: 48.53%;
 }
 .Pixso-paragraph-1_3112 {
     font-size: 20px;
@@ -510,8 +526,8 @@ const doSearch = () => {
     position: absolute;
     left: 37.45%;
     right: 59.64%;
-    top: 58.47%;
-    bottom: 40.13%;
+    top: 59.73%;
+    bottom: 38.87%;
 }
 .Pixso-paragraph-1_3113 {
     font-size: 20px;
@@ -524,8 +540,8 @@ const doSearch = () => {
     position: absolute;
     left: 57.45%;
     right: 38.59%;
-    top: 58.47%;
-    bottom: 40.13%;
+    top: 59.73%;
+    bottom: 38.87%;
 }
 .Pixso-paragraph-1_3114 {
     font-size: 20px;
@@ -538,8 +554,8 @@ const doSearch = () => {
     position: absolute;
     left: 57.45%;
     right: 39.32%;
-    top: 35.49%;
-    bottom: 63.11%;
+    top: 34.75%;
+    bottom: 63.85%;
 }
 .Pixso-paragraph-1_3115 {
     font-size: 20px;
@@ -552,8 +568,8 @@ const doSearch = () => {
     position: absolute;
     left: 57.45%;
     right: 35.16%;
-    top: 43.15%;
-    bottom: 55.45%;
+    top: 42.41%;
+    bottom: 56.19%;
 }
 .Pixso-paragraph-1_3116 {
     font-size: 20px;
@@ -566,8 +582,8 @@ const doSearch = () => {
     position: absolute;
     left: 57.45%;
     right: 36.56%;
-    top: 50.81%;
-    bottom: 47.79%;
+    top: 50.07%;
+    bottom: 48.53%;
 }
 .Pixso-paragraph-1_3117 {
     font-size: 20px;
@@ -580,8 +596,8 @@ const doSearch = () => {
     position: absolute;
     left: 76.51%;
     right: 12.5%;
-    top: 35.49%;
-    bottom: 63.11%;
+    top: 34.75%;
+    bottom: 63.85%;
 }
 .Pixso-paragraph-1_3118 {
     font-size: 20px;
@@ -594,8 +610,8 @@ const doSearch = () => {
     position: absolute;
     left: 76.51%;
     right: 19.22%;
-    top: 43.15%;
-    bottom: 55.45%;
+    top: 42.41%;
+    bottom: 56.19%;
 }
 .Pixso-paragraph-1_3119 {
     font-size: 20px;
@@ -608,8 +624,8 @@ const doSearch = () => {
     position: absolute;
     left: 76.51%;
     right: 13.07%;
-    top: 50.81%;
-    bottom: 47.79%;
+    top: 50.07%;
+    bottom: 48.53%;
 }
 .Pixso-vector-1_3120 {
     width: 2.8%;
@@ -620,20 +636,118 @@ const doSearch = () => {
     position: absolute;
     left: 76.56%;
     right: 20.64%;
-    top: 58.4%;
-    bottom: 39.5%;
+    top: 59.66%;
+    bottom: 38.24%;
 }
-.Pixso-vector-1_3125 {
-    width: 100%;
-    height: 19.68%;
-    background-image: url(@/assets/images/Vector_1_3125.png);
+/* 底部信息样式 */
+.Pixso-vector-1_113 {
+    width: 1920px;
+    height: 20%;
+    background-image: url(@/assets/images/Vector_1_113.png);
     background-size: 100% 100%;
     background-repeat: no-repeat;
     position: absolute;
-    left: 0%;
-    right: 0%;
-    top: 80.32%;
-    bottom: 0%;
+    left: 50%;
+    top: 78%;
+    transform: translateX(calc(-50% + 0px));
+}
+
+.Pixso-group-32_8 {
+    width: 600px;
+    height: 170px;
+    position: absolute;
+    left: 50%;
+    top: 1167px;
+    transform: translateX(calc(-50% + 0px));
+    user-select: text !important;
+    -webkit-user-select: text !important;
+    -moz-user-select: text !important;
+    -ms-user-select: text !important;
+    z-index: 100;
+}
+
+.Pixso-paragraph-1_118 {
+    font-size: 20px;
+    font-family: "Alibaba PuHuiTi-Regular";
+    font-weight: 400;
+    text-align: center;
+    line-height: 20px;
+    color: rgba(255, 255, 255, 1);
+    width: auto;
+    height: auto;
+    position: absolute;
+    left: 50%;
+    top: 0%;
+    transform: translateX(calc(-50% + 0.5px));
+    white-space: pre;
+    flex-grow: 0;
+    user-select: text;
+    -webkit-user-select: text;
+    -moz-user-select: text;
+    -ms-user-select: text;
+}
+
+.Pixso-paragraph-1_119 {
+    font-size: 20px;
+    font-family: "Alibaba PuHuiTi-Regular";
+    font-weight: 400;
+    text-align: center;
+    line-height: 20px;
+    color: rgba(255, 255, 255, 1);
+    width: auto;
+    height: auto;
+    position: absolute;
+    left: 50%;
+    top: 29.41%;
+    transform: translateX(calc(-50% + 0.5px));
+    white-space: pre;
+    flex-grow: 0;
+    user-select: text;
+    -webkit-user-select: text;
+    -moz-user-select: text;
+    -ms-user-select: text;
+}
+
+.Pixso-paragraph-1_120 {
+    font-size: 20px;
+    font-family: "Alibaba PuHuiTi-Regular";
+    font-weight: 400;
+    text-align: center;
+    line-height: 20px;
+    color: rgba(255, 255, 255, 1);
+    width: auto;
+    height: auto;
+    position: absolute;
+    left: 50%;
+    top: 58.82%;
+    transform: translateX(calc(-50% + 0.5px));
+    white-space: pre;
+    flex-grow: 0;
+    user-select: text;
+    -webkit-user-select: text;
+    -moz-user-select: text;
+    -ms-user-select: text;
+}
+
+.Pixso-paragraph-1_121 {
+    font-size: 20px;
+    font-family: "Alibaba PuHuiTi-Regular";
+    font-weight: 400;
+    text-align: center;
+    line-height: 20px;
+    color: rgba(255, 255, 255, 1);
+    width: auto;
+    height: auto;
+    position: absolute;
+    left: 50%;
+    top: 88.24%;
+    transform: translateX(calc(-50% + 0.5px));
+    white-space: pre;
+    flex-grow: 0;
+    user-select: text;
+    -webkit-user-select: text;
+    -moz-user-select: text;
+    -ms-user-select: text;
 }
 .Pixso-vector-1_3132 {
     width: 100%;

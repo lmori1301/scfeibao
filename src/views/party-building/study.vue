@@ -11,7 +11,7 @@
                 {{ "Sichuan Feibao Rescue" }}
             </p>
             <div id="1_1684" class="Pixso-vector-1_1684"></div>
-            <div id="17_10" class="Pixso-vector-17_10"></div>
+            <router-link to="/" id="17_10" class="Pixso-vector-17_10" style="cursor: pointer;"></router-link>
             <div id="1_1690" class="Pixso-vector-1_1690"></div>
             <p id="1_1704" class="Pixso-paragraph-1_1704">
                 {{ "当前位置：首页 > 党建专栏> 党员学“习”" }}

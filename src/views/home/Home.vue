@@ -341,7 +341,7 @@
                 {{ "国家矿山安全监察局" }}
             </p>
             <p id="1_139" class="Pixso-paragraph-1_139" @click="openLink('http://www.scfzjzjyg.com.cn/')" style="cursor: pointer;">
-                {{ "四川省防灾减灾教育馆" }}
+                {{ "四川省减灾中心" }}
             </p>
             <p id="1_140" class="Pixso-paragraph-1_140" @click="openLink('https://www.cenc.ac.cn/')" style="cursor: pointer;">
                 {{ "中国地震台网中心" }}
@@ -3428,4 +3428,19 @@ onUnmounted(() => {
   outline: none;
   background: transparent;
 }
+
+/* 调整新闻描述行距 - 使用margin-bottom而不是line-height，避免影响对齐 */
+.Pixso-paragraph-1_46_0,
+.Pixso-paragraph-1_47_0,
+.Pixso-paragraph-1_48_0,
+.Pixso-paragraph-1_51_0,
+.Pixso-paragraph-1_52_0,
+.Pixso-paragraph-1_53_0,
+.Pixso-paragraph-1_54_0,
+.Pixso-paragraph-1_55_0,
+.Pixso-paragraph-1_56_0,
+.Pixso-paragraph-1_57_0 {
+  margin-bottom: 8px !important;
+}
+
 </style>

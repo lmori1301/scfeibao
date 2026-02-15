@@ -1,11 +1,11 @@
 <template>
-    <div class="scroll-container-1_183">
-        <div id="1_183" class="Pixso-frame-1_183">
+    <div ref="scrollContainerRef" class="scroll-container-1_183">
+        <div ref="contentContainerRef" id="1_183" class="Pixso-frame-1_183">
             <div id="1_184" class="Pixso-vector-1_184"></div>
             <div id="1_185" class="Pixso-vector-1_185"></div>
             <div id="1_186" class="Pixso-vector-1_186"></div>
             <div id="1_189" class="Pixso-vector-1_189"></div>
-            <div id="17_34" class="Pixso-vector-17_34"></div>
+            <router-link to="/" id="17_34" class="Pixso-vector-17_34" style="cursor: pointer;"></router-link>
             <div id="1_194" class="Pixso-vector-1_194"></div>
             <p id="1_197" class="Pixso-paragraph-1_197">{{ "四川飞豹救援" }}</p>
             <p id="1_198" class="Pixso-paragraph-1_198">
@@ -26,148 +26,100 @@
             <p id="1_224" class="Pixso-paragraph-1_224">
                 当前位置：<router-link to="/" class="breadcrumb-link">首页</router-link> > <router-link to="/overview-info" class="breadcrumb-link">概况信息</router-link> > <span class="breadcrumb-current">领导信息</span>
             </p>
-            <div id="1_225" class="Pixso-text-1_225">
+            <div v-if="paginatedLeaders[0]" id="1_225" class="Pixso-text-1_225">
                 <p id="1_225_0" class="Pixso-paragraph-1_225_0">
-                    <span id="1_225_0_1" class="Pixso-span-1_225_0_1">{{
-                        "总队长"
-                    }}</span>
+                    <span id="1_225_0_1" class="Pixso-span-1_225_0_1">{{ paginatedLeaders[0].title.split('、')[0] }}</span>
                 </p>
                 <p id="1_225_1" class="Pixso-paragraph-1_225_1">
-                    <span id="1_225_1_1" class="Pixso-span-1_225_1_1">{{
-                        "队委会主任"
-                    }}</span>
+                    <span id="1_225_1_1" class="Pixso-span-1_225_1_1">{{ paginatedLeaders[0].title.split('、')[1] }}</span>
                 </p>
             </div>
-            <div id="1_226" class="Pixso-text-1_226">
+            <div v-if="paginatedLeaders[1]" id="1_226" class="Pixso-text-1_226">
                 <p id="1_226_0" class="Pixso-paragraph-1_226_0">
-                    <span id="1_226_0_1" class="Pixso-span-1_226_0_1">{{
-                        "副总队长"
-                    }}</span>
+                    <span id="1_226_0_1" class="Pixso-span-1_226_0_1">{{ paginatedLeaders[1].title.split('、')[0] }}</span>
                 </p>
                 <p id="1_226_1" class="Pixso-paragraph-1_226_1">
-                    <span id="1_226_1_1" class="Pixso-span-1_226_1_1">{{
-                        "队委会副主任"
-                    }}</span>
+                    <span id="1_226_1_1" class="Pixso-span-1_226_1_1">{{ paginatedLeaders[1].title.split('、')[1] }}</span>
                 </p>
             </div>
-            <div id="1_227" class="Pixso-text-1_227">
+            <div v-if="paginatedLeaders[2]" id="1_227" class="Pixso-text-1_227">
                 <p id="1_227_0" class="Pixso-paragraph-1_227_0">
-                    <span id="1_227_0_1" class="Pixso-span-1_227_0_1">{{
-                        "作战训练处处长"
-                    }}</span>
+                    <span id="1_227_0_1" class="Pixso-span-1_227_0_1">{{ paginatedLeaders[2].title.split('、')[0] }}</span>
                 </p>
                 <p id="1_227_1" class="Pixso-paragraph-1_227_1">
-                    <span id="1_227_1_1" class="Pixso-span-1_227_1_1">{{
-                        "队委会委员"
-                    }}</span>
+                    <span id="1_227_1_1" class="Pixso-span-1_227_1_1">{{ paginatedLeaders[2].title.split('、')[1] }}</span>
                 </p>
             </div>
-            <div id="1_228" class="Pixso-text-1_228">
+            <div v-if="paginatedLeaders[3]" id="1_228" class="Pixso-text-1_228">
                 <p id="1_228_0" class="Pixso-paragraph-1_228_0">
-                    <span id="1_228_0_1" class="Pixso-span-1_228_0_1">{{
-                        "副总队长"
-                    }}</span>
+                    <span id="1_228_0_1" class="Pixso-span-1_228_0_1">{{ paginatedLeaders[3].title.split('、')[0] }}</span>
                 </p>
                 <p id="1_228_1" class="Pixso-paragraph-1_228_1">
-                    <span id="1_228_1_1" class="Pixso-span-1_228_1_1">{{
-                        "队委会副主任"
-                    }}</span>
+                    <span id="1_228_1_1" class="Pixso-span-1_228_1_1">{{ paginatedLeaders[3].title.split('、')[1] }}</span>
                 </p>
             </div>
-            <div id="1_229" class="Pixso-text-1_229">
+            <div v-if="paginatedLeaders[4]" id="1_229" class="Pixso-text-1_229">
                 <p id="1_229_0" class="Pixso-paragraph-1_229_0">
-                    <span id="1_229_0_1" class="Pixso-span-1_229_0_1">{{
-                        "信息通信处处长"
-                    }}</span>
+                    <span id="1_229_0_1" class="Pixso-span-1_229_0_1">{{ paginatedLeaders[4].title.split('、')[0] }}</span>
                 </p>
                 <p id="1_229_1" class="Pixso-paragraph-1_229_1">
-                    <span id="1_229_1_1" class="Pixso-span-1_229_1_1">{{
-                        "队委会委员"
-                    }}</span>
+                    <span id="1_229_1_1" class="Pixso-span-1_229_1_1">{{ paginatedLeaders[4].title.split('、')[1] }}</span>
                 </p>
             </div>
-            <div id="1_230" class="Pixso-text-1_230">
+            <div v-if="paginatedLeaders[5]" id="1_230" class="Pixso-text-1_230">
                 <p id="1_230_0" class="Pixso-paragraph-1_230_0">
-                    <span id="1_230_0_1" class="Pixso-span-1_230_0_1">{{
-                        "副总队长"
-                    }}</span>
+                    <span id="1_230_0_1" class="Pixso-span-1_230_0_1">{{ paginatedLeaders[5].title.split('、')[0] }}</span>
                 </p>
                 <p id="1_230_1" class="Pixso-paragraph-1_230_1">
-                    <span id="1_230_1_1" class="Pixso-span-1_230_1_1">{{
-                        "队委会副主任"
-                    }}</span>
+                    <span id="1_230_1_1" class="Pixso-span-1_230_1_1">{{ paginatedLeaders[5].title.split('、')[1] }}</span>
                 </p>
             </div>
-            <div id="1_231" class="Pixso-text-1_231">
+            <div v-if="paginatedLeaders[6]" id="1_231" class="Pixso-text-1_231">
                 <p id="1_231_0" class="Pixso-paragraph-1_231_0">
-                    <span id="1_231_0_1" class="Pixso-span-1_231_0_1">{{
-                        "副总队长"
-                    }}</span>
+                    <span id="1_231_0_1" class="Pixso-span-1_231_0_1">{{ paginatedLeaders[6].title.split('、')[0] }}</span>
                 </p>
                 <p id="1_231_1" class="Pixso-paragraph-1_231_1">
-                    <span id="1_231_1_1" class="Pixso-span-1_231_1_1">{{
-                        "队委会副主任"
-                    }}</span>
+                    <span id="1_231_1_1" class="Pixso-span-1_231_1_1">{{ paginatedLeaders[6].title.split('、')[1] }}</span>
                 </p>
             </div>
-            <div id="1_232" class="Pixso-text-1_232">
+            <div v-if="paginatedLeaders[7]" id="1_232" class="Pixso-text-1_232">
                 <p id="1_232_0" class="Pixso-paragraph-1_232_0">
-                    <span id="1_232_0_1" class="Pixso-span-1_232_0_1">{{
-                        "支队长"
-                    }}</span>
+                    <span id="1_232_0_1" class="Pixso-span-1_232_0_1">{{ paginatedLeaders[7].title.split('、')[0] }}</span>
                 </p>
                 <p id="1_232_1" class="Pixso-paragraph-1_232_1">
-                    <span id="1_232_1_1" class="Pixso-span-1_232_1_1">{{
-                        "队委会主任"
-                    }}</span>
+                    <span id="1_232_1_1" class="Pixso-span-1_232_1_1">{{ paginatedLeaders[7].title.split('、')[1] }}</span>
                 </p>
             </div>
-            <div id="1_233" class="Pixso-text-1_233">
+            <div v-if="paginatedLeaders[8]" id="1_233" class="Pixso-text-1_233">
                 <p id="1_233_0" class="Pixso-paragraph-1_233_0">
-                    <span id="1_233_0_1" class="Pixso-span-1_233_0_1">{{
-                        "大队长"
-                    }}</span>
+                    <span id="1_233_0_1" class="Pixso-span-1_233_0_1">{{ paginatedLeaders[8].title.split('、')[0] }}</span>
                 </p>
                 <p id="1_233_1" class="Pixso-paragraph-1_233_1">
-                    <span id="1_233_1_1" class="Pixso-span-1_233_1_1">{{
-                        "队委会副主任"
-                    }}</span>
+                    <span id="1_233_1_1" class="Pixso-span-1_233_1_1">{{ paginatedLeaders[8].title.split('、')[1] }}</span>
                 </p>
             </div>
-            <div id="1_234" class="Pixso-text-1_234">
+            <div v-if="paginatedLeaders[9]" id="1_234" class="Pixso-text-1_234">
                 <p id="1_234_0" class="Pixso-paragraph-1_234_0">
-                    <span id="1_234_0_1" class="Pixso-span-1_234_0_1">{{
-                        "大队长"
-                    }}</span>
+                    <span id="1_234_0_1" class="Pixso-span-1_234_0_1">{{ paginatedLeaders[9].title.split('、')[0] }}</span>
                 </p>
                 <p id="1_234_1" class="Pixso-paragraph-1_234_1">
-                    <span id="1_234_1_1" class="Pixso-span-1_234_1_1">{{
-                        "队委会主任"
-                    }}</span>
+                    <span id="1_234_1_1" class="Pixso-span-1_234_1_1">{{ paginatedLeaders[9].title.split('、')[1] }}</span>
                 </p>
             </div>
-            <div id="1_235" class="Pixso-text-1_235">
+            <div v-if="paginatedLeaders[10]" id="1_235" class="Pixso-text-1_235">
                 <p id="1_235_0" class="Pixso-paragraph-1_235_0">
-                    <span id="1_235_0_1" class="Pixso-span-1_235_0_1">{{
-                        "副支队长"
-                    }}</span>
+                    <span id="1_235_0_1" class="Pixso-span-1_235_0_1">{{ paginatedLeaders[10].title.split('、')[0] }}</span>
                 </p>
                 <p id="1_235_1" class="Pixso-paragraph-1_235_1">
-                    <span id="1_235_1_1" class="Pixso-span-1_235_1_1">{{
-                        "队委会副主任"
-                    }}</span>
+                    <span id="1_235_1_1" class="Pixso-span-1_235_1_1">{{ paginatedLeaders[10].title.split('、')[1] }}</span>
                 </p>
             </div>
-            <div id="1_236" class="Pixso-text-1_236">
+            <div v-if="paginatedLeaders[11]" id="1_236" class="Pixso-text-1_236">
                 <p id="1_236_0" class="Pixso-paragraph-1_236_0">
-                    <span id="1_236_0_1" class="Pixso-span-1_236_0_1">{{
-                        "副支队长"
-                    }}</span>
+                    <span id="1_236_0_1" class="Pixso-span-1_236_0_1">{{ paginatedLeaders[11].title.split('、')[0] }}</span>
                 </p>
                 <p id="1_236_1" class="Pixso-paragraph-1_236_1">
-                    <span id="1_236_1_1" class="Pixso-span-1_236_1_1">{{
-                        "队委会副主任"
-                    }}</span>
+                    <span id="1_236_1_1" class="Pixso-span-1_236_1_1">{{ paginatedLeaders[11].title.split('、')[1] }}</span>
                 </p>
             </div>
             <p id="1_237" class="Pixso-paragraph-1_237">{{ "领导信息" }}</p>
@@ -242,8 +194,8 @@
             <div id="1_354" class="Pixso-vector-1_354"></div>
 
             <!-- 底部信息 -->
-            <div id="1_113" class="Pixso-vector-1_113"></div>
-            <div id="32_8" class="Pixso-group-32_8">
+            <div ref="bottomBgRef" id="1_113" class="Pixso-vector-1_113"></div>
+            <div ref="bottomTextRef" id="32_8" class="Pixso-group-32_8">
                 <p id="1_118" class="Pixso-paragraph-1_118">
                     {{ "主办单位：四川飞豹救援" }}
                 </p>
@@ -417,13 +369,20 @@
 </template>
 
 <script setup lang="ts">
-import { ref, computed } from 'vue'
-import { useRouter } from 'vue-router'
+import { ref, computed, onMounted, nextTick, watch } from 'vue'
+import { useRouter, useRoute } from 'vue-router'
 import img253 from '@/assets/images/Vector_1_253.png'
+import img255 from '@/assets/images/Vector_1_255.png'
 import img256 from '@/assets/images/Vector_1_256.png'
+import img258 from '@/assets/images/Vector_1_258.png'
 import img259 from '@/assets/images/Vector_1_259.png'
+import img261 from '@/assets/images/Vector_1_261.png'
 import img262 from '@/assets/images/Vector_1_262.png'
+import img264 from '@/assets/images/Vector_1_264.png'
 import img265 from '@/assets/images/Vector_1_265.png'
+import img267 from '@/assets/images/Vector_1_267.png'
+import img268 from '@/assets/images/Vector_1_268.png'
+import img270 from '@/assets/images/Vector_1_270.png'
 import img275 from '@/assets/images/Vector_1_275.png'
 import img276 from '@/assets/images/Vector_1_276.png'
 import img277 from '@/assets/images/Vector_1_277.png'
@@ -443,33 +402,41 @@ interface LeaderItem {
 }
 
 const leaders: LeaderItem[] = [
-    { name: '谢春明', title: '四川飞豹救援总队长、队委会主任', duty: '全面负责救援队各项工作，制定发展战略和救援计划', bio: '男，汉族，1967年11月出生，大学学历，工学硕士，中共党员', experience: '15+年', actions: '120+次', photoUrl: img259 },
+    { name: '谢春明', title: '总队长、队委会主任', duty: '全面负责救援队各项工作，制定发展战略和救援计划', bio: '男，汉族，1967年11月出生，大学学历，工学硕士，中共党员', experience: '15+年', actions: '120+次', photoUrl: img259 },
     { name: '蒲凯', title: '副总队长、队委会副主任', duty: '协助总队长开展日常工作，分管综合协调与对外联络', bio: '男，汉族，大学学历，中共党员', experience: '12+年', actions: '90+次', photoUrl: img281 },
     { name: '何先伟', title: '副总队长、队委会副主任', duty: '协助总队长工作，分管后勤保障与装备管理', bio: '男，汉族，大学学历，中共党员', experience: '11+年', actions: '85+次', photoUrl: img253 },
     { name: '陶琛', title: '副总队长、队委会副主任', duty: '协助总队长工作，分管队伍建设与培训', bio: '男，汉族，大学学历，中共党员', experience: '10+年', actions: '75+次', photoUrl: img275 },
     { name: '肖明和', title: '副总队长、队委会副主任', duty: '协助总队长工作，分管应急救援与预案管理', bio: '男，汉族，大学学历，中共党员', experience: '13+年', actions: '100+次', photoUrl: img256 },
     { name: '余芝森', title: '作战训练处处长、队委会委员', duty: '负责作战训练、演练与考核工作', bio: '男，汉族，研究生学历，中共党员', experience: '10+年', actions: '80+次', photoUrl: img262 },
     { name: '丁涛', title: '信息通信处处长、队委会委员', duty: '负责信息通信、指挥调度系统建设与运维', bio: '男，汉族，大学学历，中共党员', experience: '9+年', actions: '70+次', photoUrl: img265 },
-    { name: '王强', title: '支队长、队委会主任', duty: '负责支队全面工作', bio: '男，汉族，大学学历，中共党员', experience: '8+年', actions: '60+次', photoUrl: img276 },
-    { name: '张伟', title: '大队长、队委会副主任', duty: '负责大队日常管理与训练', bio: '男，汉族，大学学历，中共党员', experience: '7+年', actions: '50+次', photoUrl: img280 },
-    { name: '刘洋', title: '大队长、队委会主任', duty: '负责大队全面工作', bio: '男，汉族，大学学历，中共党员', experience: '7+年', actions: '52+次', photoUrl: img279 },
-    { name: '陈军', title: '副支队长、队委会副主任', duty: '协助支队长开展工作', bio: '男，汉族，大学学历，中共党员', experience: '6+年', actions: '45+次', photoUrl: img278 },
-    { name: '赵鹏', title: '副支队长、队委会副主任', duty: '协助支队长开展工作', bio: '男，汉族，大学学历，中共党员', experience: '6+年', actions: '44+次', photoUrl: img277 },
-    { name: '周杰', title: '副总队长、队委会副主任', duty: '协助总队长工作，分管安全管理', bio: '男，汉族，大学学历，中共党员', experience: '11+年', actions: '82+次', photoUrl: img259 },
-    { name: '吴磊', title: '政治处主任、队委会委员', duty: '负责政治思想工作和队伍管理', bio: '男，汉族，大学学历，中共党员', experience: '9+年', actions: '68+次', photoUrl: img281 },
-    { name: '郑浩', title: '后勤保障处处长、队委会委员', duty: '负责后勤保障和物资管理', bio: '男，汉族，大学学历，中共党员', experience: '10+年', actions: '75+次', photoUrl: img262 },
-    { name: '孙涛', title: '副支队长、队委会副主任', duty: '协助支队长工作，分管训练工作', bio: '男，汉族，大学学历，中共党员', experience: '8+年', actions: '62+次', photoUrl: img253 },
-    { name: '李明', title: '大队长、队委会主任', duty: '负责大队全面工作和日常管理', bio: '男，汉族，大学学历，中共党员', experience: '7+年', actions: '55+次', photoUrl: img265 },
-    { name: '黄勇', title: '副大队长、队委会副主任', duty: '协助大队长开展工作', bio: '男，汉族，大学学历，中共党员', experience: '6+年', actions: '48+次', photoUrl: img256 },
-    { name: '林峰', title: '中队长、队委会委员', duty: '负责中队日常训练和管理', bio: '男，汉族，大学学历，中共党员', experience: '5+年', actions: '40+次', photoUrl: img275 },
-    { name: '徐刚', title: '副中队长、队委会委员', duty: '协助中队长开展工作', bio: '男，汉族，大学学历，中共党员', experience: '5+年', actions: '38+次', photoUrl: img276 },
-    { name: '马超', title: '班长、队委会委员', duty: '负责班组日常工作', bio: '男，汉族，大学学历，中共党员', experience: '4+年', actions: '35+次', photoUrl: img280 },
-    { name: '胡斌', title: '副班长、队委会委员', duty: '协助班长开展工作', bio: '男，汉族，大学学历，中共党员', experience: '4+年', actions: '32+次', photoUrl: img279 },
-    { name: '高飞', title: '队员、队委会委员', duty: '参与救援行动和日常训练', bio: '男，汉族，大学学历，中共党员', experience: '3+年', actions: '28+次', photoUrl: img278 },
+    { name: '戴群', title: '办公室主任、队委会成员', duty: '负责总队办公室全面工作', bio: '女，汉族，大学学历，中共党员', experience: '8+年', actions: '60+次', photoUrl: img276 },
+    { name: '黄文兵', title: '副支队长、队委会副主任', duty: '负责大队日常管理与训练', bio: '男，汉族，大学学历，中共党员', experience: '7+年', actions: '50+次', photoUrl: img280 },
+    { name: '罗秋', title: '教官、队委会成员', duty: '负责大队全面工作', bio: '男，汉族，大学学历，中共党员', experience: '7+年', actions: '52+次', photoUrl: img279 },
+    { name: '王建', title: '教官、队委会成员', duty: '协助支队长开展工作', bio: '男，汉族，大学学历，中共党员', experience: '6+年', actions: '45+次', photoUrl: img278 },
+    { name: '赵鹏', title: '总教官、队委会成员', duty: '协助支队长开展工作', bio: '男，汉族，大学学历，中共党员', experience: '6+年', actions: '44+次', photoUrl: img277 },
+    { name: '周杰', title: '装备管理处处长、队委会委员', duty: '负责装备采购、维护与管理工作', bio: '男，汉族，大学学历，中共党员', experience: '11+年', actions: '82+次', photoUrl: img277 },
+    { name: '吴磊', title: '医疗救护处处长、队委会委员', duty: '负责医疗救护和卫生防疫工作', bio: '男，汉族，大学学历，中共党员', experience: '9+年', actions: '68+次', photoUrl: img277 },
+    { name: '郑浩', title: '宣传教育处处长、队委会委员', duty: '负责宣传教育和文化建设工作', bio: '男，汉族，大学学历，中共党员', experience: '10+年', actions: '75+次', photoUrl: img277 },
+    { name: '孙涛', title: '财务处处长、队委会委员', duty: '负责财务管理和预算执行工作', bio: '男，汉族，大学学历，中共党员', experience: '8+年', actions: '62+次', photoUrl: img277 },
+    { name: '李明', title: '人事处处长、队委会委员', duty: '负责人事管理和干部选拔工作', bio: '男，汉族，大学学历，中共党员', experience: '7+年', actions: '55+次', photoUrl: img277 },
+    { name: '黄勇', title: '技术指导处处长、队委会委员', duty: '负责技术指导和业务培训工作', bio: '男，汉族，大学学历，中共党员', experience: '6+年', actions: '48+次', photoUrl: img277 },
+    { name: '林峰', title: '安全监督处处长、队委会委员', duty: '负责安全监督和隐患排查工作', bio: '男，汉族，大学学历，中共党员', experience: '5+年', actions: '40+次', photoUrl: img277 },
+    { name: '徐刚', title: '应急指挥处处长、队委会委员', duty: '负责应急指挥和调度协调工作', bio: '男，汉族，大学学历，中共党员', experience: '5+年', actions: '38+次', photoUrl: img277 },
+    { name: '马超', title: '综合协调处处长、队委会委员', duty: '负责综合协调和对外联络工作', bio: '男，汉族，大学学历，中共党员', experience: '4+年', actions: '35+次', photoUrl: img277 },
+    { name: '胡斌', title: '培训考核处处长、队委会委员', duty: '负责培训考核和资质管理工作', bio: '男，汉族，大学学历，中共党员', experience: '4+年', actions: '32+次', photoUrl: img277 },
+    { name: '高飞', title: '物资保障处处长、队委会委员', duty: '负责物资保障和仓储管理工作', bio: '男，汉族，大学学历，中共党员', experience: '3+年', actions: '28+次', photoUrl: img277 },
     { name: '曹阳', title: '队员、队委会委员', duty: '参与救援行动和日常训练', bio: '男，汉族，大学学历，中共党员', experience: '3+年', actions: '25+次', photoUrl: img277 },
 ]
 
 const router = useRouter()
+const route = useRoute()
+
+// 容器和底部元素引用
+const scrollContainerRef = ref<HTMLElement | null>(null)
+const contentContainerRef = ref<HTMLElement | null>(null)
+const bottomBgRef = ref<HTMLElement | null>(null)
+const bottomTextRef = ref<HTMLElement | null>(null)
+
 const detailVisible = ref(false)
 const detailIndex = ref(0)
 
@@ -615,6 +582,59 @@ const doSearch = () => {
   // 清空搜索框（可选）
   // searchKey.value = ''
 }
+
+// 初始化页面布局和底部元素位置
+const initializePageLayout = async () => {
+  // 等待DOM完全渲染
+  await nextTick()
+
+  // 强制设置容器高度并触发布局重算
+  if (contentContainerRef.value) {
+    contentContainerRef.value.style.height = '2343px'
+    contentContainerRef.value.offsetHeight
+  }
+
+  // 动态设置底部元素位置
+  if (bottomBgRef.value && bottomTextRef.value && contentContainerRef.value) {
+    const containerHeight = 2343
+    const bgHeight = 280
+    const textTopPosition = 2118
+
+    // 设置底部背景位置
+    bottomBgRef.value.style.top = `${containerHeight - bgHeight}px`
+    bottomBgRef.value.style.position = 'absolute'
+    bottomBgRef.value.style.height = `${bgHeight}px`
+
+    // 设置底部文字容器位置
+    bottomTextRef.value.style.top = `${textTopPosition}px`
+    bottomTextRef.value.style.position = 'absolute'
+
+    // 强制触发重排
+    bottomBgRef.value.offsetHeight
+    bottomTextRef.value.offsetHeight
+  }
+
+  // 使用setTimeout确保浏览器完成布局计算后再重置滚动
+  setTimeout(() => {
+    window.scrollTo(0, 0)
+    if (scrollContainerRef.value) {
+      scrollContainerRef.value.scrollTop = 0
+      scrollContainerRef.value.offsetHeight
+    }
+  }, 50)
+}
+
+// 监听路由变化，确保每次导航到此页面时都重新初始化布局
+watch(() => route.path, async (newPath) => {
+  if (newPath === '/overview-info/leadership' || newPath === '/overview-info') {
+    await initializePageLayout()
+  }
+}, { immediate: false })
+
+// 组件挂载时初始化布局
+onMounted(async () => {
+  await initializePageLayout()
+})
 </script>
 
 <style>
@@ -1442,13 +1462,13 @@ const doSearch = () => {
     font-size: 25px;
     font-family: "Alibaba PuHuiTi-Regular";
     font-weight: 400;
+    text-align: center;
     line-height: 25px;
     color: rgba(51, 51, 51, 1);
-    width: 3.96%;
     height: 1.07%;
     position: absolute;
-    left: 33.07%;
-    right: 62.97%;
+    left: 28.65%;
+    right: 58.54%;
     top: 34.78%;
     bottom: 64.15%;
     white-space: nowrap;
@@ -1457,13 +1477,13 @@ const doSearch = () => {
     font-size: 25px;
     font-family: "Alibaba PuHuiTi-Regular";
     font-weight: 400;
+    text-align: center;
     line-height: 25px;
     color: rgba(51, 51, 51, 1);
-    width: 2.71%;
     height: 1.07%;
     position: absolute;
-    left: 33.7%;
-    right: 63.59%;
+    left: 28.65%;
+    right: 58.54%;
     top: 54.12%;
     bottom: 44.81%;
     white-space: nowrap;
@@ -1472,13 +1492,13 @@ const doSearch = () => {
     font-size: 25px;
     font-family: "Alibaba PuHuiTi-Regular";
     font-weight: 400;
+    text-align: center;
     line-height: 25px;
     color: rgba(51, 51, 51, 1);
-    width: 3.96%;
     height: 1.07%;
     position: absolute;
-    left: 49.58%;
-    right: 46.46%;
+    left: 45.16%;
+    right: 42.03%;
     top: 54.16%;
     bottom: 44.77%;
     white-space: nowrap;
@@ -1487,13 +1507,13 @@ const doSearch = () => {
     font-size: 25px;
     font-family: "Alibaba PuHuiTi-Regular";
     font-weight: 400;
+    text-align: center;
     line-height: 25px;
     color: rgba(51, 51, 51, 1);
-    width: 3.96%;
     height: 1.07%;
     position: absolute;
-    left: 49.58%;
-    right: 46.46%;
+    left: 45.16%;
+    right: 42.03%;
     top: 34.78%;
     bottom: 64.15%;
     white-space: nowrap;
@@ -1502,13 +1522,13 @@ const doSearch = () => {
     font-size: 25px;
     font-family: "Alibaba PuHuiTi-Regular";
     font-weight: 400;
+    text-align: center;
     line-height: 25px;
     color: rgba(51, 51, 51, 1);
-    width: 2.71%;
     height: 1.07%;
     position: absolute;
-    left: 66.72%;
-    right: 30.57%;
+    left: 61.67%;
+    right: 25.52%;
     top: 54.16%;
     bottom: 44.77%;
     white-space: nowrap;
@@ -1517,13 +1537,13 @@ const doSearch = () => {
     font-size: 25px;
     font-family: "Alibaba PuHuiTi-Regular";
     font-weight: 400;
+    text-align: center;
     line-height: 25px;
     color: rgba(51, 51, 51, 1);
-    width: 3.96%;
     height: 1.07%;
     position: absolute;
-    left: 66.09%;
-    right: 29.95%;
+    left: 61.67%;
+    right: 25.52%;
     top: 34.78%;
     bottom: 64.15%;
     white-space: nowrap;
@@ -1532,13 +1552,13 @@ const doSearch = () => {
     font-size: 25px;
     font-family: "Alibaba PuHuiTi-Regular";
     font-weight: 400;
+    text-align: center;
     line-height: 25px;
     color: rgba(51, 51, 51, 1);
-    width: 2.71%;
     height: 1.07%;
     position: absolute;
-    left: 83.33%;
-    right: 13.96%;
+    left: 78.28%;
+    right: 8.91%;
     top: 34.78%;
     bottom: 64.15%;
     white-space: nowrap;
@@ -1547,13 +1567,13 @@ const doSearch = () => {
     font-size: 25px;
     font-family: "Alibaba PuHuiTi-Regular";
     font-weight: 400;
+    text-align: center;
     line-height: 25px;
     color: rgba(51, 51, 51, 1);
-    width: 2.71%;
     height: 1.07%;
     position: absolute;
-    left: 83.33%;
-    right: 13.96%;
+    left: 78.28%;
+    right: 8.91%;
     top: 54.16%;
     bottom: 44.77%;
     white-space: nowrap;
@@ -1562,13 +1582,13 @@ const doSearch = () => {
     font-size: 25px;
     font-family: "Alibaba PuHuiTi-Regular";
     font-weight: 400;
+    text-align: center;
     line-height: 25px;
     color: rgba(51, 51, 51, 1);
-    width: 2.71%;
     height: 1.07%;
     position: absolute;
-    left: 83.23%;
-    right: 14.06%;
+    left: 78.28%;
+    right: 8.91%;
     top: 74.09%;
     bottom: 24.84%;
     white-space: nowrap;
@@ -1577,13 +1597,13 @@ const doSearch = () => {
     font-size: 25px;
     font-family: "Alibaba PuHuiTi-Regular";
     font-weight: 400;
+    text-align: center;
     line-height: 25px;
     color: rgba(51, 51, 51, 1);
-    width: 2.71%;
     height: 1.07%;
     position: absolute;
-    left: 66.56%;
-    right: 30.73%;
+    left: 61.61%;
+    right: 25.57%;
     top: 74.09%;
     bottom: 24.84%;
     white-space: nowrap;
@@ -1592,13 +1612,13 @@ const doSearch = () => {
     font-size: 25px;
     font-family: "Alibaba PuHuiTi-Regular";
     font-weight: 400;
+    text-align: center;
     line-height: 25px;
     color: rgba(51, 51, 51, 1);
-    width: 2.7%;
     height: 1.07%;
     position: absolute;
-    left: 50.42%;
-    right: 46.88%;
+    left: 45.47%;
+    right: 41.72%;
     top: 74.09%;
     bottom: 24.84%;
     white-space: nowrap;
@@ -1607,13 +1627,13 @@ const doSearch = () => {
     font-size: 25px;
     font-family: "Alibaba PuHuiTi-Regular";
     font-weight: 400;
+    text-align: center;
     line-height: 25px;
     color: rgba(51, 51, 51, 1);
-    width: 2.71%;
     height: 1.07%;
     position: absolute;
-    left: 33.59%;
-    right: 63.7%;
+    left: 28.65%;
+    right: 58.54%;
     top: 74.09%;
     bottom: 24.84%;
     white-space: nowrap;
@@ -2409,5 +2429,59 @@ const doSearch = () => {
     -webkit-user-select: text;
     -moz-user-select: text;
     -ms-user-select: text;
+}
+
+/* 领导照片、姓名、职务居中对齐样式 */
+.Pixso-vector-1_259,
+.Pixso-vector-1_253,
+.Pixso-vector-1_256,
+.Pixso-vector-1_275,
+.Pixso-vector-1_281,
+.Pixso-vector-1_262,
+.Pixso-vector-1_265,
+.Pixso-vector-1_276,
+.Pixso-vector-1_280,
+.Pixso-vector-1_279,
+.Pixso-vector-1_278,
+.Pixso-vector-1_277 {
+    background-position: center center;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.Pixso-paragraph-1_238,
+.Pixso-paragraph-1_239,
+.Pixso-paragraph-1_240,
+.Pixso-paragraph-1_241,
+.Pixso-paragraph-1_242,
+.Pixso-paragraph-1_243,
+.Pixso-paragraph-1_244,
+.Pixso-paragraph-1_245,
+.Pixso-paragraph-1_246,
+.Pixso-paragraph-1_247,
+.Pixso-paragraph-1_248,
+.Pixso-paragraph-1_249 {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.Pixso-text-1_225,
+.Pixso-text-1_226,
+.Pixso-text-1_227,
+.Pixso-text-1_228,
+.Pixso-text-1_229,
+.Pixso-text-1_230,
+.Pixso-text-1_231,
+.Pixso-text-1_232,
+.Pixso-text-1_233,
+.Pixso-text-1_234,
+.Pixso-text-1_235,
+.Pixso-text-1_236 {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
 }
 </style>

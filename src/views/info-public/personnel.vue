@@ -16,7 +16,7 @@
             </p>
             <div id="1_1862" class="Pixso-vector-1_1862"></div>
             <div id="33_383" class="Pixso-vector-33_383"></div>
-            <div id="17_5" class="Pixso-vector-17_5"></div>
+            <router-link to="/" id="17_5" class="Pixso-vector-17_5" style="cursor: pointer;"></router-link>
             <router-link id="1_1868" to="/overview-info" class="Pixso-paragraph-1_1868 main-nav-link">概况信息</router-link>
             <router-link id="1_1869" to="/team-building" class="Pixso-paragraph-1_1869 main-nav-link">队伍建设</router-link>
             <router-link id="1_1870" to="/info-public" class="Pixso-paragraph-1_1870 main-nav-link">信息公开</router-link>

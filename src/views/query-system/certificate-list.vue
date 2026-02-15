@@ -317,7 +317,7 @@
                 查询结果
             </p>
             <div id="1_2879" class="Pixso-vector-1_2879"></div>
-            <div id="17_26" class="Pixso-vector-17_26"></div>
+            <router-link to="/" id="17_26" class="Pixso-vector-17_26" style="cursor: pointer;"></router-link>
             <div id="1_2892" class="Pixso-vector-1_2892"></div>
 
             <!-- 分页组件 -->

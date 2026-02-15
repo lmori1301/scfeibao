@@ -113,7 +113,7 @@
             <div id="1_542" class="Pixso-vector-1_542"></div>
             <div id="1_543" class="Pixso-vector-1_543"></div>
             <div id="1_544" class="Pixso-vector-1_544"></div>
-            <div id="17_33" class="Pixso-vector-17_33"></div>
+            <router-link to="/" id="17_33" class="Pixso-vector-17_33" style="cursor: pointer;"></router-link>
             <div id="1_556" class="Pixso-vector-1_556"></div>
             <div id="33_318" class="Pixso-group-33_318" @click.stop>
                 <div id="33_319" class="Pixso-vector-33_319"></div>

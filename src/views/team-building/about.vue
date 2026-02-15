@@ -10,7 +10,7 @@
             </p>
             <div id="1_649" class="Pixso-vector-1_649"></div>
             <div id="1_650" class="Pixso-vector-1_650"></div>
-            <div id="17_1" class="Pixso-vector-17_1"></div>
+            <router-link to="/" id="17_1" class="Pixso-vector-17_1" style="cursor: pointer;"></router-link>
             <router-link id="1_662" to="/party-building" class="Pixso-paragraph-1_662 main-nav-link">党建专栏</router-link>
             <router-link id="1_663" to="/info-public" class="Pixso-paragraph-1_663 main-nav-link">信息公开</router-link>
             <router-link id="1_664" to="/dynamic-news" class="Pixso-paragraph-1_664 main-nav-link">动态要闻</router-link>
