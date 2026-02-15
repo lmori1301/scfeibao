@@ -1,6 +1,6 @@
 <template>
-    <div class="scroll-container-1_2">
-        <div id="1_2" class="Pixso-frame-1_2">
+    <div ref="scrollContainerRef" class="scroll-container-1_2">
+        <div ref="contentContainerRef" id="1_2" class="Pixso-frame-1_2">
             <div id="1_3" class="Pixso-vector-1_3"></div>
             <div
                 id="1_4"
@@ -275,7 +275,7 @@
             <div id="1_106" class="Pixso-vector-1_106"></div>
             <div id="1_107" class="Pixso-vector-1_107"></div>
             <div id="1_110" class="Pixso-vector-1_110"></div>
-            <div id="1_113" class="Pixso-vector-1_113"></div>
+            <div id="1_113" ref="bottomBgRef" class="Pixso-vector-1_113"></div>
             <div
                 id="1_116"
                 class="Pixso-vector-1_116"
@@ -299,7 +299,7 @@
                     ></video>
                 </div>
             </div>
-            <div id="32_8" class="Pixso-group-32_8">
+            <div id="32_8" ref="bottomTextRef" class="Pixso-group-32_8">
                 <p id="1_118" class="Pixso-paragraph-1_118">
                     {{ "主办单位：四川飞豹救援" }}
                 </p>
@@ -412,11 +412,21 @@
     </div>
 </template>
 <script lang="ts" setup>
-import { ref, onMounted, onUnmounted } from 'vue'
-import { useRouter } from 'vue-router'
+import { ref, onMounted, onUnmounted, nextTick, watch } from 'vue'
+import { useRouter, useRoute } from 'vue-router'
 import { getTeamShowcaseList } from '@/api/team-building'
 
 const router = useRouter()
+const route = useRoute()
+
+// 滚动容器引用
+const scrollContainerRef = ref<HTMLElement | null>(null)
+// 内容容器引用
+const contentContainerRef = ref<HTMLElement | null>(null)
+// 底部背景引用
+const bottomBgRef = ref<HTMLElement | null>(null)
+// 底部文字容器引用
+const bottomTextRef = ref<HTMLElement | null>(null)
 
 // 导航跳转函数
 const navigateTo = (path: string) => {
@@ -721,7 +731,61 @@ const handleVideoError = (e: Event) => {
   console.error('视频加载失败:', e)
 }
 
-onMounted(() => {
+// 初始化页面布局和底部元素位置
+const initializePageLayout = async () => {
+  // 等待DOM完全渲染
+  await nextTick()
+
+  // 强制设置容器高度并触发布局重算
+  if (contentContainerRef.value) {
+    // 显式设置容器高度为4310px
+    contentContainerRef.value.style.height = '4310px'
+    // 强制触发重排
+    contentContainerRef.value.offsetHeight
+  }
+
+  // 动态设置底部元素位置
+  if (bottomBgRef.value && bottomTextRef.value && contentContainerRef.value) {
+    const containerHeight = 4310
+    const bgHeight = 280
+    const textHeight = 170
+    const textBottomMargin = 56
+
+    // 设置底部背景位置（距离顶部4030px）
+    bottomBgRef.value.style.top = `${containerHeight - bgHeight}px`
+    bottomBgRef.value.style.position = 'absolute'
+    bottomBgRef.value.style.height = `${bgHeight}px`
+
+    // 设置底部文字容器位置（距离顶部4084px）
+    bottomTextRef.value.style.top = `${containerHeight - textHeight - textBottomMargin}px`
+    bottomTextRef.value.style.position = 'absolute'
+    bottomTextRef.value.style.height = `${textHeight}px`
+
+    // 强制触发重排
+    bottomBgRef.value.offsetHeight
+    bottomTextRef.value.offsetHeight
+  }
+
+  // 使用setTimeout确保浏览器完成布局计算后再重置滚动
+  setTimeout(() => {
+    window.scrollTo(0, 0)
+    if (scrollContainerRef.value) {
+      scrollContainerRef.value.scrollTop = 0
+      // 再次强制触发重排
+      scrollContainerRef.value.offsetHeight
+    }
+  }, 50)
+}
+
+// 监听路由变化，确保每次导航到首页时都重新初始化布局
+watch(() => route.path, async (newPath) => {
+  if (newPath === '/') {
+    await initializePageLayout()
+  }
+}, { immediate: false })
+
+onMounted(async () => {
+  await initializePageLayout()
   fetchTeamShowcase() // 获取队伍风采图片
   startBannerCarousel() // 启动 Banner 轮播
   startTeamCarousel()
@@ -2182,14 +2246,13 @@ onUnmounted(() => {
 }
 .Pixso-vector-1_113 {
     width: 1920px;
-    height: 6.5%;
+    height: 280px;
     background-image: url(@/assets/images/Vector_1_113.png);
     background-size: 100% 100%;
     background-repeat: no-repeat;
     position: absolute;
     left: 50%;
-    top: 93.5%;
-    bottom: 0%;
+    top: 4030px;
     transform: translateX(calc(-50% + 0px));
 }
 .Pixso-vector-1_116 {
