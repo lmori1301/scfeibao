@@ -887,7 +887,7 @@ function handlePageChange() {
     width: auto;
     height: auto;
     position: absolute;
-    left: 16.15%;
+    left: 17%;
     right: 79.69%;
     top: 11.55%;
     bottom: 87.12%;

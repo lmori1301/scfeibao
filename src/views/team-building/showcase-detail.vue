@@ -503,7 +503,7 @@ const doSearch = () => {
     width: auto;
     height: auto;
     position: absolute;
-    left: 16.51%;
+    left: 17%;
     right: 79.32%;
     top: 5.26%;
     bottom: 94.14%;

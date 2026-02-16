@@ -346,7 +346,7 @@ const doSearch = () => {
     width: auto;
     height: auto;
     position: absolute;
-    left: 16.15%;
+    left: 17%;
     right: 79.69%;
     top: 11.59%;
     bottom: 87.07%;

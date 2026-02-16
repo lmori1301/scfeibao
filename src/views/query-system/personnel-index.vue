@@ -98,18 +98,18 @@
           <router-link id="33_652" to="/query-system" class="Pixso-paragraph-33_652 main-nav-link">查询系统</router-link>
 
             <!-- 底部信息 -->
-            <div id="1_113" class="Pixso-vector-1_113"></div>
-            <div id="32_8" class="Pixso-group-32_8">
-                <p id="1_118" class="Pixso-paragraph-1_118">
+            <div id="1_113_personnel_index" class="Pixso-vector-1_113"></div>
+            <div id="32_8_personnel_index" class="Pixso-group-32_8">
+                <p id="1_118_personnel_index" class="Pixso-paragraph-1_118">
                     {{ "主办单位：四川飞豹救援" }}
                 </p>
-                <p id="1_119" class="Pixso-paragraph-1_119">
+                <p id="1_119_personnel_index" class="Pixso-paragraph-1_119">
                     {{ "承办单位：四川飞豹救援新闻宣传处" }}
                 </p>
-                <p id="1_120" class="Pixso-paragraph-1_120">
+                <p id="1_120_personnel_index" class="Pixso-paragraph-1_120">
                     {{ "蜀ICP备XXXXXXX号" }}
                 </p>
-                <p id="1_121" class="Pixso-paragraph-1_121">
+                <p id="1_121_personnel_index" class="Pixso-paragraph-1_121">
                     {{ "Copyright®2025 sc.feibao.com All rights reserved" }}
                 </p>
             </div>
@@ -759,7 +759,7 @@ const doSearch = () => {
   width: 338px;
   height: 42px;
   position: absolute;
-  left: 1432px;
+  left: 1472px;
   top: 90px;
 }
 .Pixso-vector-33_220 {
@@ -1002,7 +1002,7 @@ const doSearch = () => {
 /* 底部信息样式 */
 .Pixso-vector-1_113 {
     width: 1920px;
-    height: 20%;
+    height: 22%;
     background-image: url(@/assets/images/Vector_1_113.png);
     background-size: 100% 100%;
     background-repeat: no-repeat;
