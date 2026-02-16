@@ -260,7 +260,7 @@ const doSearch = () => {
     height: 170px;
     position: absolute;
     left: 50%;
-    top: 1082px;
+    top: 1094px;
     transform: translateX(calc(-50% + 0px));
     user-select: text !important;
     -webkit-user-select: text !important;

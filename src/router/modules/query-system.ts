@@ -4,7 +4,7 @@
 export default {
   path: '/query-system',
   name: 'QuerySystem',
-  component: () => import('@/layouts/DefaultLayout.vue'),
+  component: () => import('@/layouts/BlankLayout.vue'),
   redirect: '/query-system/certificate',
   meta: {
     title: '查询系统'
@@ -57,7 +57,7 @@ export default {
     {
       path: 'vehicle',
       name: 'VehicleQuery',
-      component: () => import('@/views/query-system/vehicle.vue'),
+      component: () => import('@/views/query-system/vehicle-index.vue'),
       meta: {
         title: '应急车辆查询'
       }

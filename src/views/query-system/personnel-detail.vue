@@ -657,7 +657,7 @@ const doSearch = () => {
     height: 170px;
     position: absolute;
     left: 50%;
-    top: 1167px;
+    top: 1170px;
     transform: translateX(calc(-50% + 0px));
     user-select: text !important;
     -webkit-user-select: text !important;
