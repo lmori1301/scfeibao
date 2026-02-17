@@ -77,22 +77,6 @@
             <router-link id="33_774" to="/policy-regulations" class="Pixso-paragraph-33_774 main-nav-link">政策法规</router-link>
             <router-link id="33_776" to="/query-system" class="Pixso-paragraph-33_776 main-nav-link">查询系统</router-link>
 
-            <!-- 底部信息 -->
-            <div id="1_113_vehicle_detail" class="Pixso-vector-1_113"></div>
-            <div id="32_8_vehicle_detail" class="Pixso-group-32_8">
-                <p id="1_118_vehicle_detail" class="Pixso-paragraph-1_118">
-                    {{ "主办单位：四川飞豹救援" }}
-                </p>
-                <p id="1_119_vehicle_detail" class="Pixso-paragraph-1_119">
-                    {{ "承办单位：四川飞豹救援新闻宣传处" }}
-                </p>
-                <p id="1_120_vehicle_detail" class="Pixso-paragraph-1_120">
-                    {{ "蜀ICP备XXXXXXX号" }}
-                </p>
-                <p id="1_121_vehicle_detail" class="Pixso-paragraph-1_121">
-                    {{ "Copyright®2025 sc.feibao.com All rights reserved" }}
-                </p>
-            </div>
         </div>
     </div>
 </template>
@@ -154,9 +138,9 @@ const doSearch = () => {
 </script>
 <style>
 .scroll-container-1_3243 {
-    height: 100%;
-    width: 100%;
-    overflow: auto;
+  height: 100%;
+  width: 100%;
+  overflow: auto;
 }
 .Pixso-frame-1_3243 {
     width: 1920px;
@@ -241,116 +225,6 @@ const doSearch = () => {
     right: 9.59%;
     top: 8.18%;
     bottom: 90.81%;
-}
-/* 底部信息样式 */
-.Pixso-vector-1_113 {
-    width: 1920px;
-    height: 22%;
-    background-image: url(@/assets/images/Vector_1_113.png);
-    background-size: 100% 100%;
-    background-repeat: no-repeat;
-    position: absolute;
-    left: 50%;
-    top: 78%;
-    transform: translateX(calc(-50% + 0px));
-}
-
-.Pixso-group-32_8 {
-    width: 600px;
-    height: 170px;
-    position: absolute;
-    left: 50%;
-    top: 1094px;
-    transform: translateX(calc(-50% + 0px));
-    user-select: text !important;
-    -webkit-user-select: text !important;
-    -moz-user-select: text !important;
-    -ms-user-select: text !important;
-    z-index: 100;
-}
-
-.Pixso-paragraph-1_118 {
-    font-size: 20px;
-    font-family: "Alibaba PuHuiTi-Regular";
-    font-weight: 400;
-    text-align: center;
-    line-height: 20px;
-    color: rgba(255, 255, 255, 1);
-    width: auto;
-    height: auto;
-    position: absolute;
-    left: 50%;
-    top: 0%;
-    transform: translateX(calc(-50% + 0.5px));
-    white-space: pre;
-    flex-grow: 0;
-    user-select: text;
-    -webkit-user-select: text;
-    -moz-user-select: text;
-    -ms-user-select: text;
-}
-
-.Pixso-paragraph-1_119 {
-    font-size: 20px;
-    font-family: "Alibaba PuHuiTi-Regular";
-    font-weight: 400;
-    text-align: center;
-    line-height: 20px;
-    color: rgba(255, 255, 255, 1);
-    width: auto;
-    height: auto;
-    position: absolute;
-    left: 50%;
-    top: 29.41%;
-    transform: translateX(calc(-50% + 0.5px));
-    white-space: pre;
-    flex-grow: 0;
-    user-select: text;
-    -webkit-user-select: text;
-    -moz-user-select: text;
-    -ms-user-select: text;
-}
-
-.Pixso-paragraph-1_120 {
-    font-size: 20px;
-    font-family: "Alibaba PuHuiTi-Regular";
-    font-weight: 400;
-    text-align: center;
-    line-height: 20px;
-    color: rgba(255, 255, 255, 1);
-    width: auto;
-    height: auto;
-    position: absolute;
-    left: 50%;
-    top: 58.82%;
-    transform: translateX(calc(-50% + 0.5px));
-    white-space: pre;
-    flex-grow: 0;
-    user-select: text;
-    -webkit-user-select: text;
-    -moz-user-select: text;
-    -ms-user-select: text;
-}
-
-.Pixso-paragraph-1_121 {
-    font-size: 20px;
-    font-family: "Alibaba PuHuiTi-Regular";
-    font-weight: 400;
-    text-align: center;
-    line-height: 20px;
-    color: rgba(255, 255, 255, 1);
-    width: auto;
-    height: auto;
-    position: absolute;
-    left: 50%;
-    top: 88.24%;
-    transform: translateX(calc(-50% + 0.5px));
-    white-space: pre;
-    flex-grow: 0;
-    user-select: text;
-    -webkit-user-select: text;
-    -moz-user-select: text;
-    -ms-user-select: text;
 }
 .Pixso-paragraph-1_3267 {
     font-size: 20px;

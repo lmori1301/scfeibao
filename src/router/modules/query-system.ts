@@ -4,7 +4,7 @@
 export default {
   path: '/query-system',
   name: 'QuerySystem',
-  component: () => import('@/layouts/BlankLayout.vue'),
+  component: () => import('@/layouts/QuerySystemLayout.vue'),
   redirect: '/query-system/certificate',
   meta: {
     title: '查询系统'

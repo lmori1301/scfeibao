@@ -355,20 +355,6 @@
             <router-link id="33_789" to="/dynamic-news" class="Pixso-paragraph-33_789 main-nav-link">动态要闻</router-link>
             <router-link id="33_790" to="/policy-regulations" class="Pixso-paragraph-33_790 main-nav-link">政策法规</router-link>
             <router-link id="33_792" to="/query-system" class="Pixso-paragraph-33_792 main-nav-link">查询系统</router-link>
-            <div id="34_80" class="Pixso-group-34_80">
-                <p id="34_81" class="Pixso-paragraph-34_81">
-                    {{ "主办单位：四川飞豹救援" }}
-                </p>
-                <p id="34_82" class="Pixso-paragraph-34_82">
-                    {{ "承办单位：四川飞豹救援新闻宣传处" }}
-                </p>
-                <p id="34_83" class="Pixso-paragraph-34_83">
-                    {{ "蜀ICP备XXXXXXX号" }}
-                </p>
-                <p id="34_84" class="Pixso-paragraph-34_84">
-                    {{ "Copyright®2025 sc.feibao.com All rights reserved" }}
-                </p>
-            </div>
         </div>
     </div>
 </template>
@@ -480,9 +466,9 @@ function handlePageChange() {
 </script>
 <style>
 .scroll-container-1_2501 {
-    height: 100%;
-    width: 100%;
-    overflow: auto;
+  height: 100%;
+  width: 100%;
+  overflow: auto;
 }
 .Pixso-frame-1_2501 {
     width: 1920px;
@@ -3991,87 +3977,6 @@ function handlePageChange() {
     top: 16.73%;
     bottom: 81.34%;
     transform: translateX(calc(-50% + 627px));
-    white-space: pre;
-    flex-grow: 0;
-}
-.Pixso-group-34_80 {
-    width: 460px;
-    height: 170px;
-    position: absolute;
-    left: 50%;
-    top: 1079px;
-    transform: translateX(calc(-50% + 0px));
-    user-select: text !important;
-    -webkit-user-select: text !important;
-    -moz-user-select: text !important;
-    -ms-user-select: text !important;
-    z-index: 100;
-}
-.Pixso-paragraph-34_81 {
-    font-size: 20px;
-    font-family: "Alibaba PuHuiTi-Regular";
-    font-weight: 400;
-    text-align: center;
-    line-height: 20px;
-    color: rgba(255, 255, 255, 1);
-    width: auto;
-    height: auto;
-    position: absolute;
-    left: 50%;
-    top: 0%;
-    bottom: 88.24%;
-    transform: translateX(calc(-50% + 0.5px));
-    white-space: pre;
-    flex-grow: 0;
-}
-.Pixso-paragraph-34_82 {
-    font-size: 20px;
-    font-family: "Alibaba PuHuiTi-Regular";
-    font-weight: 400;
-    text-align: center;
-    line-height: 20px;
-    color: rgba(255, 255, 255, 1);
-    width: auto;
-    height: auto;
-    position: absolute;
-    left: 50%;
-    top: 29.41%;
-    bottom: 58.82%;
-    transform: translateX(calc(-50% + 0.5px));
-    white-space: pre;
-    flex-grow: 0;
-}
-.Pixso-paragraph-34_83 {
-    font-size: 20px;
-    font-family: "Alibaba PuHuiTi-Regular";
-    font-weight: 400;
-    text-align: center;
-    line-height: 20px;
-    color: rgba(255, 255, 255, 1);
-    width: auto;
-    height: auto;
-    position: absolute;
-    left: 50%;
-    top: 88.24%;
-    bottom: 0%;
-    transform: translateX(calc(-50% + 0px));
-    white-space: pre;
-    flex-grow: 0;
-}
-.Pixso-paragraph-34_84 {
-    font-size: 20px;
-    font-family: "Alibaba PuHuiTi-Regular";
-    font-weight: 400;
-    text-align: center;
-    line-height: 20px;
-    color: rgba(255, 255, 255, 1);
-    width: auto;
-    height: auto;
-    position: absolute;
-    left: 50%;
-    top: 58.82%;
-    bottom: 29.41%;
-    transform: translateX(calc(-50% + 0px));
     white-space: pre;
     flex-grow: 0;
 }

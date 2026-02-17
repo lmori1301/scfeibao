@@ -81,30 +81,14 @@
             <router-link id="33_797" to="/dynamic-news" class="Pixso-paragraph-33_797 main-nav-link">动态要闻</router-link>
             <router-link id="33_798" to="/policy-regulations" class="Pixso-paragraph-33_798 main-nav-link">政策法规</router-link>
             <router-link id="33_800" to="/query-system" class="Pixso-paragraph-33_800 main-nav-link">查询系统</router-link>
-
-            <!-- 底部信息 -->
-            <div id="1_113_cert_detail" class="Pixso-vector-1_113"></div>
-            <div id="32_8_cert_detail" class="Pixso-group-32_8">
-                <p id="1_118_cert_detail" class="Pixso-paragraph-1_118">
-                    {{ "主办单位：四川飞豹救援" }}
-                </p>
-                <p id="1_119_cert_detail" class="Pixso-paragraph-1_119">
-                    {{ "承办单位：四川飞豹救援新闻宣传处" }}
-                </p>
-                <p id="1_120_cert_detail" class="Pixso-paragraph-1_120">
-                    {{ "蜀ICP备XXXXXXX号" }}
-                </p>
-                <p id="1_121_cert_detail" class="Pixso-paragraph-1_121">
-                    {{ "Copyright®2025 sc.feibao.com All rights reserved" }}
-                </p>
-            </div>
         </div>
     </div>
 </template>
 <script lang="ts" setup>
-import { ref, computed } from 'vue'
+import { ref, onMounted } from 'vue'
 import { useRouter, useRoute } from 'vue-router'
-import { queryCertificateMock } from '@/data/mock-certificate'
+import { queryCertificate } from '@/api/query'
+import { ElMessage } from 'element-plus'
 
 const router = useRouter()
 const route = useRoute()
@@ -112,14 +96,41 @@ const route = useRoute()
 // 从路由参数获取证书编号
 const certificateNo = ref(route.params.certificateNo as string)
 
-// 获取证书详情数据
-const certificateData = computed(() => {
-  const result = queryCertificateMock(certificateNo.value)
+// 证书详情数据
+const certificateData = ref<any>(null)
 
-  if (result.status === 'success' && result.data && result.data.length > 0) {
-    return result.data[0]
+// 获取证书详情
+async function fetchCertificateDetail() {
+  try {
+    const res = await queryCertificate(certificateNo.value)
+    if (res.code === 200 && res.data) {
+      // 映射后端字段到前端显示字段
+      certificateData.value = {
+        certificateNo: res.data.certificateNumber,
+        certificateType: res.data.certificateType,
+        name: res.data.holderName,
+        idCard: res.data.holderIdCard,
+        issueDate: res.data.issueDate,
+        expiryDate: res.data.expiryDate,
+        // 后端没有这些字段，使用默认值或空值
+        phone: '',
+        position: '',
+        workUnit: res.data.issuingAuthority,
+        department: ''
+      }
+    } else {
+      ElMessage.error('获取证书详情失败')
+      router.back()
+    }
+  } catch (error) {
+    ElMessage.error('获取证书详情失败')
+    router.back()
   }
-  return null
+}
+
+// 页面加载时获取数据
+onMounted(() => {
+  fetchCertificateDetail()
 })
 
 // 搜索
@@ -167,9 +178,9 @@ const doSearch = () => {
 </script>
 <style>
 .scroll-container-1_2899 {
-    height: 100%;
-    width: 100%;
-    overflow: auto;
+  height: 100%;
+  width: 100%;
+  overflow: auto;
 }
 .Pixso-frame-1_2899 {
     width: 1920px;
@@ -838,116 +849,5 @@ const doSearch = () => {
   border: none;
   outline: none;
   background: transparent;
-}
-
-/* 底部信息样式 */
-.Pixso-vector-1_113 {
-    width: 1920px;
-    height: 22%;
-    background-image: url(@/assets/images/Vector_1_113.png);
-    background-size: 100% 100%;
-    background-repeat: no-repeat;
-    position: absolute;
-    left: 50%;
-    top: 78%;
-    transform: translateX(calc(-50% + 0px));
-}
-
-.Pixso-group-32_8 {
-    width: 600px;
-    height: 170px;
-    position: absolute;
-    left: 50%;
-    top: 1071px;
-    transform: translateX(calc(-50% + 0px));
-    user-select: text !important;
-    -webkit-user-select: text !important;
-    -moz-user-select: text !important;
-    -ms-user-select: text !important;
-    z-index: 100;
-}
-
-.Pixso-paragraph-1_118 {
-    font-size: 20px;
-    font-family: "Alibaba PuHuiTi-Regular";
-    font-weight: 400;
-    text-align: center;
-    line-height: 20px;
-    color: rgba(255, 255, 255, 1);
-    width: auto;
-    height: auto;
-    position: absolute;
-    left: 50%;
-    top: 0%;
-    transform: translateX(calc(-50% + 0.5px));
-    white-space: pre;
-    flex-grow: 0;
-    user-select: text;
-    -webkit-user-select: text;
-    -moz-user-select: text;
-    -ms-user-select: text;
-}
-
-.Pixso-paragraph-1_119 {
-    font-size: 20px;
-    font-family: "Alibaba PuHuiTi-Regular";
-    font-weight: 400;
-    text-align: center;
-    line-height: 20px;
-    color: rgba(255, 255, 255, 1);
-    width: auto;
-    height: auto;
-    position: absolute;
-    left: 50%;
-    top: 29.41%;
-    transform: translateX(calc(-50% + 0.5px));
-    white-space: pre;
-    flex-grow: 0;
-    user-select: text;
-    -webkit-user-select: text;
-    -moz-user-select: text;
-    -ms-user-select: text;
-}
-
-.Pixso-paragraph-1_120 {
-    font-size: 20px;
-    font-family: "Alibaba PuHuiTi-Regular";
-    font-weight: 400;
-    text-align: center;
-    line-height: 20px;
-    color: rgba(255, 255, 255, 1);
-    width: auto;
-    height: auto;
-    position: absolute;
-    left: 50%;
-    top: 58.82%;
-    transform: translateX(calc(-50% + 0.5px));
-    white-space: pre;
-    flex-grow: 0;
-    user-select: text;
-    -webkit-user-select: text;
-    -moz-user-select: text;
-    -ms-user-select: text;
-}
-
-.Pixso-paragraph-1_121 {
-    font-size: 20px;
-    font-family: "Alibaba PuHuiTi-Regular";
-    font-weight: 400;
-    text-align: center;
-    line-height: 20px;
-    color: rgba(255, 255, 255, 1);
-    width: auto;
-    height: auto;
-    position: absolute;
-    left: 50%;
-    top: 88.24%;
-    transform: translateX(calc(-50% + 0.5px));
-    white-space: pre;
-    flex-grow: 0;
-    user-select: text;
-    -webkit-user-select: text;
-    -moz-user-select: text;
-    -ms-user-select: text;
 }
 </style>
