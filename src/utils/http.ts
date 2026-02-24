@@ -7,8 +7,8 @@ import { ElMessage } from 'element-plus'
 
 // 创建axios实例
 const http: AxiosInstance = axios.create({
-  baseURL: import.meta.env.VITE_APP_BASE_API || '/api',
-  timeout: 15000,
+  baseURL: import.meta.env.VITE_APP_BASE_API,
+  timeout: 600000, // 与后端 10 分钟超时保持一致
   headers: {
     'Content-Type': 'application/json;charset=UTF-8'
   }
@@ -17,11 +17,11 @@ const http: AxiosInstance = axios.create({
 // 请求拦截器
 http.interceptors.request.use(
   (config: AxiosRequestConfig) => {
-    // 在这里可以添加token等认证信息
-    // const token = localStorage.getItem('token')
-    // if (token && config.headers) {
-    //   config.headers.Authorization = `Bearer ${token}`
-    // }
+    // 添加token认证信息
+    const token = localStorage.getItem('token')
+    if (token && config.headers) {
+      config.headers.Authorization = `Bearer ${token}`
+    }
     return config
   },
   (error) => {
@@ -46,6 +46,12 @@ http.interceptors.response.use(
   (error) => {
     console.error('响应错误:', error)
 
+    // 🌟 修改3：单独处理超时错误，给出更精准的提示
+    if (error.code === 'ECONNABORTED') {
+      ElMessage.error('请求超时，请检查网络或稍后重试')
+      return Promise.reject(new Error('请求超时'))
+    }
+
     // 处理不同的HTTP状态码
     if (error.response) {
       switch (error.response.status) {
@@ -54,6 +60,9 @@ http.interceptors.response.use(
           break
         case 401:
           ElMessage.error('未授权，请登录')
+          // 前端展示系统不需要登录功能，注释掉跳转逻辑
+          // localStorage.removeItem('token')
+          // window.location.href = '/login'
           break
         case 403:
           ElMessage.error('拒绝访问')

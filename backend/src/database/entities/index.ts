@@ -1,0 +1,10 @@
+export { BaseEntity } from './base.entity';
+export { User } from './user.entity';
+export { News } from './news.entity';
+export { PartyBuilding } from './party-building.entity';
+export { TeamBuilding } from './team-building.entity';
+export { InfoPublic } from './info-public.entity';
+export { Policy } from './policy.entity';
+export { Certificate } from './certificate.entity';
+export { Personnel } from './personnel.entity';
+export { Vehicle } from './vehicle.entity';

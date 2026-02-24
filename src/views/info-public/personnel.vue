@@ -114,9 +114,11 @@
     </div>
 </template>
 <script lang="ts" setup>
-import { ref, computed } from 'vue'
+import { ref, computed, onMounted } from 'vue'
 import { useRouter } from 'vue-router'
+import { ElMessage } from 'element-plus'
 import Pagination from '@/components/common/Pagination.vue'
+import http from '@/utils/http'
 
 const router = useRouter()
 
@@ -125,101 +127,30 @@ const currentPage = ref(1)
 const pageSize = ref(3)
 
 // 人事任免数据
-const personnelList = ref([
-  {
-    id: 1,
-    title: '四川飞豹救援关于李XX等6名同志任职的通知',
-    docNumber: '应急川〔2025〕18号',
-    publishDate: '2024-03-15',
-    effectiveDate: '2024-05-01',
-    department: '四川飞豹救援',
-    fileUrl: '/files/personnel/2025-18.pdf'  // 文件附件URL，后续由后台管理系统维护
-  },
-  {
-    id: 2,
-    title: '四川飞豹救援关于王XX等5名同志任免职的通知',
-    docNumber: '应急川〔2025〕17号',
-    publishDate: '2024-03-10',
-    effectiveDate: '2024-04-15',
-    department: '四川飞豹救援',
-    fileUrl: '/files/personnel/2025-17.pdf'
-  },
-  {
-    id: 3,
-    title: '四川飞豹救援关于张XX等4名同志任职的通知',
-    docNumber: '应急川〔2025〕16号',
-    publishDate: '2024-03-05',
-    effectiveDate: '2024-04-10',
-    department: '四川飞豹救援',
-    fileUrl: '/files/personnel/2025-16.pdf'
-  },
-  {
-    id: 4,
-    title: '四川飞豹救援关于刘XX等3名同志任免职的通知',
-    docNumber: '应急川〔2025〕15号',
-    publishDate: '2024-02-28',
-    effectiveDate: '2024-04-01',
-    department: '四川飞豹救援',
-    fileUrl: '/files/personnel/2025-15.pdf'
-  },
-  {
-    id: 5,
-    title: '四川飞豹救援关于陈XX等7名同志任职的通知',
-    docNumber: '应急川〔2025〕14号',
-    publishDate: '2024-02-20',
-    effectiveDate: '2024-03-25',
-    department: '四川飞豹救援',
-    fileUrl: '/files/personnel/2025-14.pdf'
-  },
-  {
-    id: 6,
-    title: '四川飞豹救援关于赵XX等5名同志任免职的通知',
-    docNumber: '应急川〔2025〕13号',
-    publishDate: '2024-02-15',
-    effectiveDate: '2024-03-20',
-    department: '四川飞豹救援',
-    fileUrl: '/files/personnel/2025-13.pdf'
-  },
-  {
-    id: 7,
-    title: '四川飞豹救援关于周XX等6名同志任职的通知',
-    docNumber: '应急川〔2025〕12号',
-    publishDate: '2024-02-10',
-    effectiveDate: '2024-03-15',
-    department: '四川飞豹救援',
-    fileUrl: '/files/personnel/2025-12.pdf'
-  },
-  {
-    id: 8,
-    title: '四川飞豹救援关于吴XX等4名同志任免职的通知',
-    docNumber: '应急川〔2025〕11号',
-    publishDate: '2024-02-05',
-    effectiveDate: '2024-03-10',
-    department: '四川飞豹救援',
-    fileUrl: '/files/personnel/2025-11.pdf'
-  },
-  {
-    id: 9,
-    title: '四川飞豹救援关于郑XX等5名同志任职的通知',
-    docNumber: '应急川〔2025〕10号',
-    publishDate: '2024-01-30',
-    effectiveDate: '2024-03-05',
-    department: '四川飞豹救援',
-    fileUrl: '/files/personnel/2025-10.pdf'
-  },
-  {
-    id: 10,
-    title: '四川飞豹救援关于孙XX等3名同志任免职的通知',
-    docNumber: '应急川〔2025〕09号',
-    publishDate: '2024-01-25',
-    effectiveDate: '2024-03-01',
-    department: '四川飞豹救援',
-    fileUrl: '/files/personnel/2025-09.pdf'
-  }
-])
+const personnelList = ref([])
+const totalPersonnel = ref(0)
 
-// 计算总数
-const totalPersonnel = computed(() => personnelList.value.length)
+// 从后端API获取人事任免数据
+const fetchPersonnelData = async () => {
+  try {
+    const res = await http.get('/appointments', {
+      params: {
+        page: 1,
+        pageSize: 100 // 获取所有数据用于前端分页
+      }
+    })
+    personnelList.value = res.data.items || []
+    totalPersonnel.value = res.data.total || 0
+  } catch (error) {
+    ElMessage.error('获取人事任免数据失败')
+    console.error('获取人事任免数据失败:', error)
+  }
+}
+
+// 组件挂载时获取数据
+onMounted(() => {
+  fetchPersonnelData()
+})
 
 // 计算当前页显示的数据
 const paginatedPersonnel = computed(() => {

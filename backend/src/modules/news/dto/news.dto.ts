@@ -1,0 +1,133 @@
+import { ApiProperty } from '@nestjs/swagger';
+import {
+  IsString,
+  IsNotEmpty,
+  IsOptional,
+  IsInt,
+  IsDateString,
+} from 'class-validator';
+import { Type } from 'class-transformer';
+
+export class CreateNewsDto {
+  @ApiProperty({ description: '标题' })
+  @IsString()
+  @IsNotEmpty({ message: '标题不能为空' })
+  title: string;
+
+  @ApiProperty({ description: '摘要', required: false })
+  @IsString()
+  @IsOptional()
+  summary?: string;
+
+  @ApiProperty({ description: '内容' })
+  @IsString()
+  @IsNotEmpty({ message: '内容不能为空' })
+  content: string;
+
+  @ApiProperty({ description: '封面图片', required: false })
+  @IsString()
+  @IsOptional()
+  coverImage?: string;
+
+  @ApiProperty({ description: '分类', required: false })
+  @IsString()
+  @IsOptional()
+  category?: string;
+
+  @ApiProperty({ description: '作者', required: false })
+  @IsString()
+  @IsOptional()
+  author?: string;
+
+  @ApiProperty({ description: '状态：1-已发布，0-草稿', required: false })
+  @IsInt()
+  @IsOptional()
+  status?: number;
+
+  @ApiProperty({ description: '发布时间', required: false })
+  @IsDateString()
+  @IsOptional()
+  publishedAt?: Date;
+
+  @ApiProperty({ description: '排序', required: false })
+  @IsInt()
+  @IsOptional()
+  sort?: number;
+}
+
+export class UpdateNewsDto {
+  @ApiProperty({ description: '标题', required: false })
+  @IsString()
+  @IsOptional()
+  title?: string;
+
+  @ApiProperty({ description: '摘要', required: false })
+  @IsString()
+  @IsOptional()
+  summary?: string;
+
+  @ApiProperty({ description: '内容', required: false })
+  @IsString()
+  @IsOptional()
+  content?: string;
+
+  @ApiProperty({ description: '封面图片', required: false })
+  @IsString()
+  @IsOptional()
+  coverImage?: string;
+
+  @ApiProperty({ description: '分类', required: false })
+  @IsString()
+  @IsOptional()
+  category?: string;
+
+  @ApiProperty({ description: '作者', required: false })
+  @IsString()
+  @IsOptional()
+  author?: string;
+
+  @ApiProperty({ description: '状态：1-已发布，0-草稿', required: false })
+  @IsInt()
+  @IsOptional()
+  status?: number;
+
+  @ApiProperty({ description: '发布时间', required: false })
+  @IsDateString()
+  @IsOptional()
+  publishedAt?: Date;
+
+  @ApiProperty({ description: '排序', required: false })
+  @IsInt()
+  @IsOptional()
+  sort?: number;
+}
+
+export class QueryNewsDto {
+  @ApiProperty({ description: '页码', default: 1, required: false })
+  @IsOptional()
+  @Type(() => Number)
+  @IsInt()
+  page?: number = 1;
+
+  @ApiProperty({ description: '每页数量', default: 10, required: false })
+  @IsOptional()
+  @Type(() => Number)
+  @IsInt()
+  pageSize?: number = 10;
+
+  @ApiProperty({ description: '分类', required: false })
+  @IsString()
+  @IsOptional()
+  category?: string;
+
+  @ApiProperty({ description: '状态', required: false })
+  @IsInt()
+  @IsOptional()
+  @Type(() => Number)
+  status?: number;
+
+  @ApiProperty({ description: '关键词', required: false })
+  @IsString()
+  @IsOptional()
+  keyword?: string;
+}

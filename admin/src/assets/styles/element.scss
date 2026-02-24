@@ -1,0 +1,76 @@
+@import './variables.scss';
+
+// Element Plus 样式覆盖
+.el-button {
+  border-radius: $border-radius-base;
+}
+
+.el-card {
+  border-radius: $border-radius-lg;
+  box-shadow: $box-shadow-light;
+}
+
+.el-table {
+  .el-table__header th {
+    background-color: $bg-page;
+    color: $text-primary;
+    font-weight: 600;
+  }
+
+  // 修复表格固定列 z-index
+  .el-table__fixed,
+  .el-table__fixed-right {
+    z-index: 2 !important;
+  }
+}
+
+.el-dialog {
+  border-radius: $border-radius-lg;
+  z-index: 3000 !important;
+}
+
+.el-form-item {
+  margin-bottom: $spacing-md;
+}
+
+.el-pagination {
+  margin-top: $spacing-md;
+  justify-content: flex-end;
+}
+
+// 修复弹窗遮罩层 z-index
+.el-overlay {
+  z-index: 2999 !important;
+}
+
+// 修复图片预览 z-index - 确保最高层级
+.el-image-viewer {
+  z-index: 10000 !important;
+}
+
+.el-image-viewer__wrapper {
+  z-index: 10000 !important;
+}
+
+.el-image-viewer__mask {
+  z-index: 9999 !important;
+  pointer-events: auto !important;
+}
+
+.el-image-viewer__close {
+  z-index: 10001 !important;
+  top: 40px !important;
+  right: 40px !important;
+  pointer-events: auto !important;
+}
+
+.el-image-viewer__btn {
+  z-index: 10001 !important;
+  pointer-events: auto !important;
+}
+
+// 修复 Popover/Dropdown z-index
+.el-popover,
+.el-popper {
+  z-index: 3000 !important;
+}

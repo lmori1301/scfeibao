@@ -7,20 +7,38 @@ import type { NewsItem, NewsListParams } from '@/types/news'
 /**
  * 获取新闻列表
  */
-export function getNewsList(params: NewsListParams) {
-  return http.get('/news/list', { params })
+export function getNewsList(params?: NewsListParams) {
+  return http.get<{
+    items: NewsItem[]
+    total: number
+    page: number
+    pageSize: number
+    totalPages: number
+  }>('/news', { params })
 }
 
 /**
  * 获取新闻详情
  */
 export function getNewsDetail(id: string | number) {
-  return http.get<{ data: NewsItem }>(`/news/${id}`)
+  return http.get<NewsItem>(`/news/${id}`)
 }
 
 /**
  * 获取最新新闻
  */
 export function getLatestNews(limit: number = 5) {
-  return http.get('/news/latest', { params: { limit } })
+  return http.get<{
+    items: NewsItem[]
+    total: number
+    page: number
+    pageSize: number
+    totalPages: number
+  }>('/news', {
+    params: {
+      page: 1,
+      pageSize: limit,
+      status: 1 // 只获取已发布的新闻
+    }
+  })
 }

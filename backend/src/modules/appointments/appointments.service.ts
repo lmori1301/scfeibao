@@ -1,0 +1,51 @@
+import { Injectable } from '@nestjs/common'
+import { InjectRepository } from '@nestjs/typeorm'
+import { Repository, Like } from 'typeorm'
+import { Appointment } from './entities/appointment.entity'
+
+@Injectable()
+export class AppointmentsService {
+  constructor(
+    @InjectRepository(Appointment)
+    private appointmentRepository: Repository<Appointment>,
+  ) {}
+
+  async getList(page: number = 1, pageSize: number = 10, filters: any = {}) {
+    const where: any = {}
+
+    if (filters.title) {
+      where.title = Like(`%${filters.title}%`)
+    }
+
+    if (filters.department) {
+      where.department = Like(`%${filters.department}%`)
+    }
+
+    const [items, total] = await this.appointmentRepository.findAndCount({
+      where,
+      order: { publishDate: 'DESC', createdAt: 'DESC' },
+      skip: (page - 1) * pageSize,
+      take: pageSize
+    })
+    return { items, total, page, pageSize }
+  }
+
+  async getOne(id: number) {
+    return this.appointmentRepository.findOne({ where: { id } })
+  }
+
+  async create(data: any) {
+    const appointment = this.appointmentRepository.create(data)
+    return this.appointmentRepository.save(appointment)
+  }
+
+  async update(id: number, data: any) {
+    await this.appointmentRepository.update(id, data)
+    return this.getOne(id)
+  }
+
+  async delete(id: number) {
+    await this.appointmentRepository.delete(id)
+    return { success: true }
+  }
+}

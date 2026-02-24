@@ -5,7 +5,7 @@
             <div
                 id="1_4"
                 class="Pixso-vector-1_4"
-                :style="{ backgroundImage: `url(${bannerList[currentBannerIndex].image})` }"
+                :style="{ backgroundImage: bannerList[currentBannerIndex] ? `url(${bannerList[currentBannerIndex].image})` : 'none' }"
             ></div>
             <div id="1_7" class="Pixso-vector-1_7"></div>
             <div id="1_10" class="Pixso-vector-1_10"></div>
@@ -45,6 +45,7 @@
                 ></span>
             </div>
             <p
+                v-if="bannerList[currentBannerIndex]"
                 id="1_35"
                 class="Pixso-paragraph-1_35"
                 @click="navigateToNews(bannerList[currentBannerIndex].link)"
@@ -52,55 +53,35 @@
             >
                 {{ bannerList[currentBannerIndex].title }}
             </p>
-            <p id="1_36" class="Pixso-paragraph-1_36" @click="navigateTo('/dynamic-news/1')" style="cursor: pointer;">
-                {{
-                    "四川飞豹救援成都、乐山、崇州、双流支队队伍授旗授牌仪式在成都举行"
-                }}
+            <p v-if="newsList[0]" id="1_36" class="Pixso-paragraph-1_36" @click="navigateTo(`/dynamic-news/${newsList[0].id}`)" style="cursor: pointer;">
+                {{ newsList[0].title }}
             </p>
-            <p id="1_37" class="Pixso-paragraph-1_37" @click="navigateTo('/dynamic-news/2')" style="cursor: pointer;">
-                {{
-                    "全省综合性消防救援专业队伍建设工作会议召开"
-                }}
+            <p v-if="newsList[1]" id="1_37" class="Pixso-paragraph-1_37" @click="navigateTo(`/dynamic-news/${newsList[1].id}`)" style="cursor: pointer;">
+                {{ newsList[1].title }}
             </p>
-            <p id="1_38" class="Pixso-paragraph-1_38" @click="navigateTo('/dynamic-news/3')" style="cursor: pointer;">
-                {{
-                    "四川飞豹救援荣获省级先进集体称号"
-                }}
+            <p v-if="newsList[2]" id="1_38" class="Pixso-paragraph-1_38" @click="navigateTo(`/dynamic-news/${newsList[2].id}`)" style="cursor: pointer;">
+                {{ newsList[2].title }}
             </p>
-            <p id="1_39" class="Pixso-paragraph-1_39" @click="navigateTo('/dynamic-news/4')" style="cursor: pointer;">
-                {{
-                    "成都支队开展冬季应急救援演练活动"
-                }}
+            <p v-if="newsList[3]" id="1_39" class="Pixso-paragraph-1_39" @click="navigateTo(`/dynamic-news/${newsList[3].id}`)" style="cursor: pointer;">
+                {{ newsList[3].title }}
             </p>
-            <p id="1_40" class="Pixso-paragraph-1_40" @click="navigateTo('/dynamic-news/5')" style="cursor: pointer;">
-                {{
-                    "乐山支队深入社区开展消防安全宣传"
-                }}
+            <p v-if="newsList[4]" id="1_40" class="Pixso-paragraph-1_40" @click="navigateTo(`/dynamic-news/${newsList[4].id}`)" style="cursor: pointer;">
+                {{ newsList[4].title }}
             </p>
-            <p id="1_41" class="Pixso-paragraph-1_41" @click="navigateTo('/dynamic-news/6')" style="cursor: pointer;">
-                {{
-                    "崇州支队完成年度装备升级改造工作"
-                }}
+            <p v-if="newsList[5]" id="1_41" class="Pixso-paragraph-1_41" @click="navigateTo(`/dynamic-news/${newsList[5].id}`)" style="cursor: pointer;">
+                {{ newsList[5].title }}
             </p>
-            <p id="1_42" class="Pixso-paragraph-1_42" @click="navigateTo('/dynamic-news/7')" style="cursor: pointer;">
-                {{
-                    "双流支队与机场开展联合应急演练"
-                }}
+            <p v-if="newsList[6]" id="1_42" class="Pixso-paragraph-1_42" @click="navigateTo(`/dynamic-news/${newsList[6].id}`)" style="cursor: pointer;">
+                {{ newsList[6].title }}
             </p>
-            <p id="1_43" class="Pixso-paragraph-1_43" @click="navigateTo('/dynamic-news/8')" style="cursor: pointer;">
-                {{
-                    "四川飞豹救援成功处置高速公路交通事故"
-                }}
+            <p v-if="newsList[7]" id="1_43" class="Pixso-paragraph-1_43" @click="navigateTo(`/dynamic-news/${newsList[7].id}`)" style="cursor: pointer;">
+                {{ newsList[7].title }}
             </p>
-            <p id="1_44" class="Pixso-paragraph-1_44" @click="navigateTo('/dynamic-news/9')" style="cursor: pointer;">
-                {{
-                    "山地救援队紧急救援被困登山者"
-                }}
+            <p v-if="newsList[8]" id="1_44" class="Pixso-paragraph-1_44" @click="navigateTo(`/dynamic-news/${newsList[8].id}`)" style="cursor: pointer;">
+                {{ newsList[8].title }}
             </p>
-            <p id="1_45" class="Pixso-paragraph-1_45" @click="navigateTo('/dynamic-news/10')" style="cursor: pointer;">
-                {{
-                    "水域救援队成功营救落水群众"
-                }}
+            <p v-if="newsList[9]" id="1_45" class="Pixso-paragraph-1_45" @click="navigateTo(`/dynamic-news/${newsList[9].id}`)" style="cursor: pointer;">
+                {{ newsList[9].title }}
             </p>
             <div id="1_46" class="Pixso-text-1_46" @click="navigateTo('/dynamic-news/1')" style="cursor: pointer;">
                 <p id="1_46_0" class="Pixso-paragraph-1_46_0">
@@ -313,18 +294,33 @@
                     {{ "Copyright®2025 sc.feibao.com All rights reserved" }}
                 </p>
             </div>
-            <div id="1_122" class="Pixso-vector-1_122"></div>
-            <div id="1_123" class="Pixso-vector-1_123"></div>
-            <div id="1_124" class="Pixso-vector-1_124"></div>
-            <div id="1_125" class="Pixso-vector-1_125"></div>
-            <div id="1_126" class="Pixso-vector-1_126"></div>
-            <div id="1_127" class="Pixso-vector-1_127"></div>
-            <div id="1_128" class="Pixso-vector-1_128"></div>
-            <div id="1_129" class="Pixso-vector-1_129"></div>
-            <div id="1_130" class="Pixso-vector-1_130"></div>
-            <div id="1_131" class="Pixso-vector-1_131"></div>
-            <div id="1_132" class="Pixso-vector-1_132"></div>
-            <div id="1_133" class="Pixso-vector-1_133"></div>
+            <!-- 各地动态列表 -->
+            <div
+                v-for="(item, index) in localDynamicsList.slice(0, 4)"
+                :key="'dynamics-' + item.id"
+                :class="'dynamics-item dynamics-item-' + index"
+                @click="navigateTo(`/dynamic-news/${item.id}`)"
+                style="cursor: pointer;"
+            >
+                <div class="item-content">
+                    <span class="item-date">{{ new Date(item.publishDate).toLocaleDateString('zh-CN') }}</span>
+                    <span class="item-title">{{ item.title }}</span>
+                </div>
+            </div>
+
+            <!-- 救援行动列表 -->
+            <div
+                v-for="(item, index) in rescueActionsList.slice(0, 4)"
+                :key="'action-' + item.id"
+                :class="'action-item action-item-' + index"
+                @click="navigateTo(`/dynamic-news/${item.id}`)"
+                style="cursor: pointer;"
+            >
+                <div class="item-content">
+                    <span class="item-date">{{ new Date(item.rescueDate).toLocaleDateString('zh-CN') }}</span>
+                    <span class="item-title">{{ item.title }}</span>
+                </div>
+            </div>
             <p id="1_134" class="Pixso-paragraph-1_134" @click="openLink('http://www.scfzjzjyg.com.cn/')" style="cursor: pointer;">
                 {{ "四川省防灾减灾教育馆" }}
             </p>
@@ -412,9 +408,10 @@
     </div>
 </template>
 <script lang="ts" setup>
-import { ref, onMounted, onUnmounted, nextTick, watch } from 'vue'
+import { ref, computed, onMounted, onUnmounted, nextTick, watch } from 'vue'
 import { useRouter, useRoute } from 'vue-router'
 import { getTeamShowcaseList } from '@/api/team-building'
+import { getBannerList, getHomeNews, getLocalDynamics, getRescueActions, getPromotionalVideos, getTeamShowcaseForHome, getFriendLinks } from '@/api/home'
 
 const router = useRouter()
 const route = useRoute()
@@ -488,34 +485,81 @@ interface BannerItem {
   link: string
 }
 
-const bannerList = ref<BannerItem[]>([
-  {
-    id: 1,
-    image: new URL('@/assets/images/Vector_1_4.png', import.meta.url).href,
-    title: '四川飞豹救援成都、乐山、崇州、双流支队队伍授旗授牌仪式在成都举行',
-    link: '/dynamic-news/1'
-  },
-  {
-    id: 2,
-    image: new URL('@/assets/images/Vector_1_2229.png', import.meta.url).href,
-    title: '四川飞豹救援参与重大救援行动，展现专业救援能力',
-    link: '/dynamic-news/2'
-  },
-  {
-    id: 3,
-    image: new URL('@/assets/images/Vector_1_2235.png', import.meta.url).href,
-    title: '四川飞豹救援开展应急救援演练，提升队伍实战能力',
-    link: '/dynamic-news/3'
-  },
-  {
-    id: 4,
-    image: new URL('@/assets/images/8a10c6ff6f2d772207b04751a44f8af836bf2894.png', import.meta.url).href,
-    title: '四川飞豹救援荣获省级先进集体称号',
-    link: '/dynamic-news/4'
+const bannerList = ref<BannerItem[]>([])
+
+// 获取轮播图数据
+const fetchBanners = async () => {
+  try {
+    const res = await getBannerList()
+    if (res.data && res.data.length > 0) {
+      bannerList.value = res.data.map((item: any) => ({
+        id: item.id,
+        image: item.image,
+        title: item.title,
+        link: item.link || `/dynamic-news/${item.id}`
+      }))
+    }
+  } catch (error) {
+    console.error('获取轮播图失败:', error)
   }
-])
+}
 
 const currentBannerIndex = ref(0)
+
+// 新闻数据
+const newsList = ref<any[]>([])
+
+// 获取新闻数据
+const fetchNews = async () => {
+  try {
+    const res = await getHomeNews({ limit: 10 })
+    if (res.data) {
+      newsList.value = res.data
+    }
+  } catch (error) {
+    console.error('获取新闻失败:', error)
+  }
+}
+
+// 各地动态数据
+const localDynamicsList = ref<any[]>([])
+
+// 获取各地动态数据
+const fetchLocalDynamics = async () => {
+  try {
+    console.log('开始获取各地动态数据...')
+    const res = await getLocalDynamics({ page: 1, pageSize: 4 })
+    console.log('各地动态API响应:', res)
+    if (res.data) {
+      localDynamicsList.value = res.data
+      console.log('各地动态数据已设置:', localDynamicsList.value)
+    } else {
+      console.warn('各地动态API返回数据为空')
+    }
+  } catch (error) {
+    console.error('获取各地动态失败:', error)
+  }
+}
+
+// 救援行动数据
+const rescueActionsList = ref<any[]>([])
+
+// 获取救援行动数据
+const fetchRescueActions = async () => {
+  try {
+    console.log('开始获取救援行动数据...')
+    const res = await getRescueActions({ limit: 4 })
+    console.log('救援行动API响应:', res)
+    if (res.data) {
+      rescueActionsList.value = res.data
+      console.log('救援行动数据已设置:', rescueActionsList.value)
+    } else {
+      console.warn('救援行动API返回数据为空')
+    }
+  } catch (error) {
+    console.error('获取救援行动失败:', error)
+  }
+}
 let bannerCarouselTimer: number | null = null
 
 // 切换到下一张 Banner
@@ -546,6 +590,7 @@ const resetBannerCarousel = () => {
 
 // 开始 Banner 自动轮播
 const startBannerCarousel = () => {
+  if (bannerList.value.length === 0) return
   bannerCarouselTimer = setInterval(() => {
     currentBannerIndex.value = (currentBannerIndex.value + 1) % bannerList.value.length
   }, 5000)
@@ -704,7 +749,23 @@ const startTeamCarousel = () => {
 // 宣传视频模态框相关
 const showVideoModal = ref(false)
 const videoRef = ref<HTMLVideoElement | null>(null)
-const videoSrc = ref('/videos/四川甘孜泸定县6.8级地震-四川飞豹救援.mp4')
+const promotionalVideos = ref<any[]>([])
+const videoSrc = computed(() => {
+  // 使用后台管理的第一个视频，如果没有则使用默认视频
+  return promotionalVideos.value.length > 0
+    ? promotionalVideos.value[0].url
+    : '/videos/四川甘孜泸定县6.8级地震-四川飞豹救援.mp4'
+})
+
+// 获取宣传视频列表
+const fetchPromotionalVideos = async () => {
+  try {
+    const response = await getPromotionalVideos({ limit: 10 })
+    promotionalVideos.value = response.data || []
+  } catch (error) {
+    console.error('获取宣传视频失败:', error)
+  }
+}
 
 // 打开视频模态框
 const openVideoModal = () => {
@@ -786,6 +847,11 @@ watch(() => route.path, async (newPath) => {
 
 onMounted(async () => {
   await initializePageLayout()
+  await fetchBanners() // 获取轮播图数据
+  await fetchNews() // 获取新闻数据
+  await fetchLocalDynamics() // 获取各地动态数据
+  await fetchRescueActions() // 获取救援行动数据
+  await fetchPromotionalVideos() // 获取宣传视频数据
   fetchTeamShowcase() // 获取队伍风采图片
   startBannerCarousel() // 启动 Banner 轮播
   startTeamCarousel()
@@ -3441,6 +3507,64 @@ onUnmounted(() => {
 .Pixso-paragraph-1_56_0,
 .Pixso-paragraph-1_57_0 {
   margin-bottom: 8px !important;
+}
+
+/* 各地动态列表样式 - 4行布局，减少间距 */
+.dynamics-item {
+  position: absolute;
+  left: 6%;
+  width: 40%;
+  height: 30px;
+  display: flex;
+  align-items: center;
+}
+
+.dynamics-item-0 { top: 84%; }
+.dynamics-item-1 { top: 85.2%; }
+.dynamics-item-2 { top: 86.4%; }
+.dynamics-item-3 { top: 87.6%; }
+
+/* 救援行动列表样式 - 4行布局，减少间距 */
+.action-item {
+  position: absolute;
+  left: 52%;
+  width: 40%;
+  height: 30px;
+  display: flex;
+  align-items: center;
+}
+
+.action-item-0 { top: 84%; }
+.action-item-1 { top: 85.2%; }
+.action-item-2 { top: 86.4%; }
+.action-item-3 { top: 87.6%; }
+
+.item-content {
+  display: flex;
+  align-items: center;
+  width: 100%;
+  gap: 12px;
+}
+
+.item-date {
+  font-size: 14px;
+  color: #666;
+  white-space: nowrap;
+  min-width: 80px;
+}
+
+.item-title {
+  font-size: 14px;
+  color: #333;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  flex: 1;
+}
+
+.dynamics-item:hover .item-title,
+.action-item:hover .item-title {
+  color: #005cbe;
 }
 
 </style>
