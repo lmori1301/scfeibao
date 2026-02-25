@@ -129,14 +129,30 @@
 <script lang="ts" setup>
 import { ref, computed, onMounted } from 'vue'
 import { getWebsiteConfig } from '@/api/config'
+import { getTeamShowcaseList } from '@/api/team-building'
 import { useRouter } from 'vue-router'
 import Pagination from '@/components/common/Pagination.vue'
+import type { ShowcaseItem } from '@/types/team'
 
 const router = useRouter()
 
 // 分页状态
 const currentPage = ref(1)
 const pageSize = ref(4)
+const totalShowcases = ref(0)
+const loading = ref(false)
+
+// 从HTML中提取纯文本
+const stripHtml = (html: string): string => {
+    if (!html) return ''
+    // 创建临时div元素来解析HTML
+    const tmp = document.createElement('div')
+    tmp.innerHTML = html
+    // 获取纯文本内容
+    const text = tmp.textContent || tmp.innerText || ''
+    // 移除多余的空白字符
+    return text.replace(/\s+/g, ' ').trim()
+}
 
 function goToAbout() {
     router.push('/team-building/about')
@@ -147,7 +163,10 @@ function goToCases() {
 }
 
 function goToDetail(index: number) {
-    router.push(`/team-building/showcase/${index}`)
+    const item = paginatedShowcaseItems.value[index]
+    if (item && item.id) {
+        router.push(`/team-building/showcase/${item.id}`)
+    }
 }
 
 // 搜索
@@ -193,186 +212,53 @@ const doSearch = () => {
 }
 
 // 队伍风采数据
-const showcaseItems = ref([
-    {
-        title: "四川飞豹救援特勤大队",
-        dateYear: "2025-12",
-        dateDay: "06",
-        summary: "认真践行习近平总书记关于党的自我革命的重要思想李炎溪，党的十八大以来，习近平总书记站在事关党的长期...",
-        image: new URL('@/assets/images/Vector_1_1011.png', import.meta.url).href,
-        imageTop: "18.2%",
-        contentTop: "18.2%",
-        dateYearTop: "25.97%",
-        dateDayTop: "23.26%",
-        dividerTop: "21.87%",
-        summaryTop: "26.24%",
-        titleTop: "21.87%"
-    },
-    {
-        title: "四川飞豹救援峨眉山直属大队",
-        dateYear: "2025-12",
-        dateDay: "06",
-        summary: "28日下午，洪峰再次过境榕江，四川飞豹救援峨眉山大队队员们沿着低洼街巷开展排查，确保居民及时转移……",
-        image: new URL('@/assets/images/Vector_1_1014.png', import.meta.url).href,
-        imageTop: "33.37%",
-        contentTop: "33.37%",
-        dateYearTop: "41.14%",
-        dateDayTop: "38.42%",
-        dividerTop: "37.04%",
-        summaryTop: "41.41%",
-        titleTop: "37.04%"
-    },
-    {
-        title: "四川飞豹救援搜救犬大队",
-        dateYear: "2025-12",
-        dateDay: "06",
-        summary: '搜救犬穿梭 嗅闻可能的幸存者 "西岭"一次又一次确认,现场的挖掘救援工作不断开展、深入 这100人和5只搜救犬...',
-        image: new URL('@/assets/images/Vector_1_1017.png', import.meta.url).href,
-        imageTop: "48.54%",
-        contentTop: "48.54%",
-        dateYearTop: "56.31%",
-        dateDayTop: "53.59%",
-        dividerTop: "52.21%",
-        summaryTop: "56.57%",
-        titleTop: "52%"
-    },
-    {
-        title: "四川飞豹救援天府支队",
-        dateYear: "2025-12",
-        dateDay: "06",
-        summary: '"以学铸魂，就是要做好学习贯彻新时代中国特色社会主义思想的深化、内化、转化工作，从思想上正本清源、固...',
-        image: new URL('@/assets/images/Vector_1_1020.png', import.meta.url).href,
-        imageTop: "63.7%",
-        contentTop: "63.7%",
-        dateYearTop: "71.47%",
-        dateDayTop: "68.76%",
-        dividerTop: "67.38%",
-        summaryTop: "71.74%",
-        titleTop: "67.38%"
-    },
-    {
-        title: "四川飞豹救援成都支队",
-        dateYear: "2025-11",
-        dateDay: "28",
-        summary: "成都支队积极开展应急救援演练，提升队伍实战能力，确保在关键时刻能够快速响应、高效救援...",
-        image: new URL('@/assets/images/Vector_1_1011.png', import.meta.url).href,
-        imageTop: "18.2%",
-        contentTop: "18.2%",
-        dateYearTop: "25.97%",
-        dateDayTop: "23.26%",
-        dividerTop: "21.87%",
-        summaryTop: "26.24%",
-        titleTop: "21.87%"
-    },
-    {
-        title: "四川飞豹救援绵阳支队",
-        dateYear: "2025-11",
-        dateDay: "25",
-        summary: "绵阳支队深入社区开展防灾减灾宣传活动，普及应急救援知识，提高群众自救互救能力...",
-        image: new URL('@/assets/images/Vector_1_1014.png', import.meta.url).href,
-        imageTop: "33.37%",
-        contentTop: "33.37%",
-        dateYearTop: "41.14%",
-        dateDayTop: "38.42%",
-        dividerTop: "37.04%",
-        summaryTop: "41.41%",
-        titleTop: "37.04%"
-    },
-    {
-        title: "四川飞豹救援德阳支队",
-        dateYear: "2025-11",
-        dateDay: "20",
-        summary: "德阳支队组织开展水域救援专项训练，强化队员水上救援技能，为汛期应急救援做好充分准备...",
-        image: new URL('@/assets/images/Vector_1_1017.png', import.meta.url).href,
-        imageTop: "48.54%",
-        contentTop: "48.54%",
-        dateYearTop: "56.31%",
-        dateDayTop: "53.59%",
-        dividerTop: "52.21%",
-        summaryTop: "56.57%",
-        titleTop: "52%"
-    },
-    {
-        title: "四川飞豹救援乐山支队",
-        dateYear: "2025-11",
-        dateDay: "15",
-        summary: "乐山支队参与地震救援演练，与多部门协同配合，检验应急响应机制，提升综合救援能力...",
-        image: new URL('@/assets/images/Vector_1_1020.png', import.meta.url).href,
-        imageTop: "63.7%",
-        contentTop: "63.7%",
-        dateYearTop: "71.47%",
-        dateDayTop: "68.76%",
-        dividerTop: "67.38%",
-        summaryTop: "71.74%",
-        titleTop: "67.38%"
-    },
-    {
-        title: "四川飞豹救援宜宾支队",
-        dateYear: "2025-11",
-        dateDay: "10",
-        summary: "宜宾支队开展山地救援技能培训，提升队员在复杂地形环境下的救援能力和安全意识...",
-        image: new URL('@/assets/images/Vector_1_1011.png', import.meta.url).href,
-        imageTop: "18.2%",
-        contentTop: "18.2%",
-        dateYearTop: "25.97%",
-        dateDayTop: "23.26%",
-        dividerTop: "21.87%",
-        summaryTop: "26.24%",
-        titleTop: "21.87%"
-    },
-    {
-        title: "四川飞豹救援泸州支队",
-        dateYear: "2025-11",
-        dateDay: "05",
-        summary: "泸州支队积极参与社会公益活动，为困难群众提供帮助，展现救援队伍的社会责任和担当...",
-        image: new URL('@/assets/images/Vector_1_1014.png', import.meta.url).href,
-        imageTop: "33.37%",
-        contentTop: "33.37%",
-        dateYearTop: "41.14%",
-        dateDayTop: "38.42%",
-        dividerTop: "37.04%",
-        summaryTop: "41.41%",
-        titleTop: "37.04%"
-    },
-    {
-        title: "四川飞豹救援南充支队",
-        dateYear: "2025-10",
-        dateDay: "30",
-        summary: "南充支队组织开展夜间救援演练，提升队员在低能见度环境下的救援能力和协同作战水平...",
-        image: new URL('@/assets/images/Vector_1_1017.png', import.meta.url).href,
-        imageTop: "48.54%",
-        contentTop: "48.54%",
-        dateYearTop: "56.31%",
-        dateDayTop: "53.59%",
-        dividerTop: "52.21%",
-        summaryTop: "56.57%",
-        titleTop: "52%"
-    },
-    {
-        title: "四川飞豹救援达州支队",
-        dateYear: "2025-10",
-        dateDay: "25",
-        summary: "达州支队深入学校开展应急救援知识讲座，培养青少年的安全意识和自救能力，传播救援文化...",
-        image: new URL('@/assets/images/Vector_1_1020.png', import.meta.url).href,
-        imageTop: "63.7%",
-        contentTop: "63.7%",
-        dateYearTop: "71.47%",
-        dateDayTop: "68.76%",
-        dividerTop: "67.38%",
-        summaryTop: "71.74%",
-        titleTop: "67.38%"
-    }
-])
+const showcaseItems = ref<ShowcaseItem[]>([])
 
-// 计算总数
-const totalShowcases = computed(() => showcaseItems.value.length)
+// 默认图片列表（当API返回的图片为空时使用）
+const defaultImages = [
+    new URL('@/assets/images/Vector_1_1011.png', import.meta.url).href,
+    new URL('@/assets/images/Vector_1_1014.png', import.meta.url).href,
+    new URL('@/assets/images/Vector_1_1017.png', import.meta.url).href,
+    new URL('@/assets/images/Vector_1_1020.png', import.meta.url).href
+]
+
+// 获取队伍风采列表
+const fetchShowcaseList = async () => {
+    loading.value = true
+    try {
+        const res = await getTeamShowcaseList({
+            page: currentPage.value,
+            pageSize: pageSize.value
+        })
+        if (res.data && res.data.items) {
+            // 将后端数据转换为前端格式
+            showcaseItems.value = res.data.items.map((item: any) => {
+                // 从富文本HTML中提取纯文本作为摘要
+                const plainText = stripHtml(item.description || '')
+                // 限制摘要长度为100个字符
+                const summary = plainText.length > 100 ? plainText.substring(0, 100) + '...' : plainText
+
+                return {
+                    id: item.id,
+                    title: item.title,
+                    description: summary,
+                    content: item.description || '',
+                    images: item.imageUrl ? [item.imageUrl] : [],
+                    publishDate: item.createdAt || item.updatedAt || new Date().toISOString(),
+                    category: item.type || ''
+                }
+            })
+            totalShowcases.value = res.data.total || 0
+        }
+    } catch (error) {
+        console.error('获取队伍风采列表失败:', error)
+    } finally {
+        loading.value = false
+    }
+}
 
 // 计算当前页显示的数据
 const paginatedShowcaseItems = computed(() => {
-    const start = (currentPage.value - 1) * pageSize.value
-    const end = start + pageSize.value
-    const items = showcaseItems.value.slice(start, end)
-
     // 为每个项目分配位置（循环使用4个位置）
     const positions = [
         {
@@ -381,7 +267,7 @@ const paginatedShowcaseItems = computed(() => {
             dateYearTop: "25.97%",
             dateDayTop: "23.26%",
             dividerTop: "21.87%",
-            summaryTop: "26.24%",
+            summaryTop: "24.5%",
             titleTop: "21.87%"
         },
         {
@@ -390,7 +276,7 @@ const paginatedShowcaseItems = computed(() => {
             dateYearTop: "41.14%",
             dateDayTop: "38.42%",
             dividerTop: "37.04%",
-            summaryTop: "41.41%",
+            summaryTop: "39.7%",
             titleTop: "37.04%"
         },
         {
@@ -399,7 +285,7 @@ const paginatedShowcaseItems = computed(() => {
             dateYearTop: "56.31%",
             dateDayTop: "53.59%",
             dividerTop: "52.21%",
-            summaryTop: "56.57%",
+            summaryTop: "54.8%",
             titleTop: "52%"
         },
         {
@@ -408,19 +294,37 @@ const paginatedShowcaseItems = computed(() => {
             dateYearTop: "71.47%",
             dateDayTop: "68.76%",
             dividerTop: "67.38%",
-            summaryTop: "71.74%",
+            summaryTop: "70%",
             titleTop: "67.38%"
         }
     ]
 
-    return items.map((item, index) => ({
-        ...item,
-        ...positions[index % 4]
-    }))
+    return showcaseItems.value.map((item, index) => {
+        // 解析日期
+        const date = new Date(item.publishDate)
+        const dateYear = `${date.getFullYear()}-${String(date.getMonth() + 1).padStart(2, '0')}`
+        const dateDay = String(date.getDate()).padStart(2, '0')
+
+        // 获取图片（使用第一张图片或默认图片）
+        const image = (item.images && item.images.length > 0)
+            ? item.images[0]
+            : defaultImages[index % defaultImages.length]
+
+        return {
+            id: item.id,
+            title: item.title,
+            dateYear,
+            dateDay,
+            summary: item.description || '',
+            image,
+            ...positions[index % 4]
+        }
+    })
 })
 
 // 页码改变处理
 function handlePageChange() {
+    fetchShowcaseList()
     window.scrollTo({ top: 0, behavior: 'smooth' })
 }
 
@@ -449,6 +353,7 @@ const fetchWebsiteConfig = async () => {
 
 onMounted(() => {
   fetchWebsiteConfig()
+  fetchShowcaseList()
 })
 
 </script>

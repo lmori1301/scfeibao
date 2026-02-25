@@ -82,60 +82,47 @@
     </div>
 </template>
 <script lang="ts" setup>
-import { ref, computed } from 'vue'
+import { ref, computed, onMounted } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
+import { getTeamShowcaseDetail } from '@/api/team-building'
 
 const route = useRoute()
 const router = useRouter()
 
-// 队伍风采数据
-const showcaseItems = ref([
-    {
-        title: "四川飞豹救援特勤大队",
-        dateYear: "2025-12",
-        dateDay: "06",
-        summary: "认真践行习近平总书记关于党的自我革命的重要思想...",
-        image: new URL('@/assets/images/Vector_1_1011.png', import.meta.url).href,
-        content: "四川飞豹救援特勤大队是我省消防救援队伍中的精锐力量..."
-    },
-    {
-        title: "四川飞豹救援峨眉山直属大队",
-        dateYear: "2025-12",
-        dateDay: "06",
-        summary: "28日下午，洪峰再次过境榕江，四川飞豹救援峨眉山大队队员们沿着低洼街巷开展排查...",
-        image: new URL('@/assets/images/Vector_1_1014.png', import.meta.url).href,
-        content: "四川飞豹救援峨眉山直属大队在抗洪救灾中发挥了重要作用..."
-    },
-    {
-        title: "四川飞豹救援搜救犬大队",
-        dateYear: "2025-12",
-        dateDay: "06",
-        summary: '搜救犬穿梭 嗅闻可能的幸存者 "西岭"一次又一次确认...',
-        image: new URL('@/assets/images/Vector_1_1017.png', import.meta.url).href,
-        content: "四川飞豹救援搜救犬大队是专业的搜救力量..."
-    },
-    {
-        title: "四川飞豹救援天府支队",
-        dateYear: "2025-12",
-        dateDay: "06",
-        summary: '"以学铸魂，就是要做好学习贯彻新时代中国特色社会主义思想的深化、内化、转化工作...',
-        image: new URL('@/assets/images/Vector_1_1020.png', import.meta.url).href,
-        content: "四川飞豹救援天府支队积极开展党建学习活动..."
-    }
-])
+// 详情数据
+const detailData = ref<any>(null)
+const loading = ref(false)
 
-// 获取当前展示的项目
-const currentIndex = computed(() => {
+// 获取详情数据
+const fetchDetail = async () => {
     const id = route.params.id
-    return typeof id === 'string' ? parseInt(id) : 0
-})
+    if (!id) return
 
-const currentItem = computed(() => {
-    const index = currentIndex.value
-    if (index >= 0 && index < showcaseItems.value.length) {
-        return showcaseItems.value[index]
+    loading.value = true
+    try {
+        const res = await getTeamShowcaseDetail(Number(id))
+        if (res.data) {
+            detailData.value = res.data
+        }
+    } catch (error) {
+        console.error('获取队伍风采详情失败:', error)
+    } finally {
+        loading.value = false
     }
-    return showcaseItems.value[0]
+}
+
+// 当前展示的项目
+const currentItem = computed(() => {
+    if (detailData.value) {
+        return detailData.value
+    }
+    return {
+        title: '加载中...',
+        description: '',
+        date: '',
+        location: '',
+        images: []
+    }
 })
 
 // 搜索
@@ -179,6 +166,11 @@ const doSearch = () => {
   // 清空搜索框（可选）
   // searchKey.value = ''
 }
+
+// 页面加载时获取详情数据
+onMounted(() => {
+    fetchDetail()
+})
 </script>
 <style scoped>
 .breadcrumb-link {

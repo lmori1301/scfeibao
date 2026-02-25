@@ -53,7 +53,7 @@ export class HomeService {
     return this.newsRepository.find({
       where: { status: 1 },
       order: { createdAt: 'DESC' },
-      take: 6
+      take: 10
     })
   }
 
@@ -87,10 +87,18 @@ export class HomeService {
   }
 
   async getShowcase() {
-    return this.teamShowcaseRepository.find({
-      order: { sort: 'ASC' },
-      take: 8
+    const showcases = await this.teamShowcaseRepository.find({
+      where: { status: '显示' },
+      order: { sort: 'ASC', createdAt: 'DESC' },
+      take: 16
     })
+    return showcases.map(item => ({
+      id: item.id,
+      title: item.title,
+      image: item.imageUrl,
+      type: item.type,
+      date: item.createdAt
+    }))
   }
 
   async getLinks() {

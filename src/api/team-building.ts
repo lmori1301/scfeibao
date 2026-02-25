@@ -36,7 +36,7 @@ export function getRescueCaseDetail(id: number) {
  * 获取队伍风采列表
  */
 export function getTeamShowcaseList(params: TeamShowcaseListParams) {
-  return http.get<TeamShowcaseListResponse>('/team/showcase', { params })
+  return http.get<TeamShowcaseListResponse>('/team-showcase', { params })
 }
 
 /**
@@ -51,5 +51,5 @@ export function getTeamShowcaseDetail(id: number) {
     description: string
     date: string
     location: string
-  }>(`/team/showcase/${id}`)
+  }>(`/team-showcase/${id}`)
 }
