@@ -32,8 +32,13 @@ export class PolicyController {
   }
 
   @Post()
-  create(@Body() data: any) {
-    return this.policyService.create(data)
+  async create(@Body() data: any) {
+    try {
+      return await this.policyService.create(data)
+    } catch (error) {
+      console.error('Controller错误:', error)
+      throw error
+    }
   }
 
   @Patch(':id')

@@ -71,20 +71,54 @@ export class PolicyService {
   }
 
   async create(data: any) {
-    // 移除前端字段名，只保留数据库字段名
-    const { docNumber, department, publishDate, attachment, attachmentName, ...rest } = data
+    try {
+      console.log('接收到的数据:', JSON.stringify(data, null, 2))
 
-    const mappedData = {
-      ...rest,
-      ...(docNumber !== undefined && { documentNumber: docNumber }),
-      ...(department !== undefined && { issuingAuthority: department }),
-      ...(publishDate !== undefined && { publishedAt: publishDate }),
-      ...(attachment !== undefined && { attachmentUrl: attachment }),
-      ...(attachmentName !== undefined && { attachmentName })
+      // 处理 category 字段：如果是数组，取第一个元素
+      if (Array.isArray(data.category)) {
+        data.category = data.category[0]
+      }
+
+      // 处理日期字段：将ISO日期时间字符串转换为日期格式
+      if (data.effectiveDate) {
+        data.effectiveDate = data.effectiveDate.split('T')[0]
+      }
+      if (data.expiryDate) {
+        data.expiryDate = data.expiryDate.split('T')[0]
+      }
+
+      // 处理空字符串，转换为 null
+      Object.keys(data).forEach(key => {
+        if (data[key] === '') {
+          data[key] = null
+        }
+      })
+
+      // 移除前端字段名，只保留数据库字段名
+      const { docNumber, department, publishDate, attachment, attachmentName, ...rest } = data
+
+      const mappedData = {
+        ...rest,
+        ...(docNumber !== undefined && { documentNumber: docNumber }),
+        ...(department !== undefined && { issuingAuthority: department }),
+        ...(publishDate !== undefined && { publishedAt: publishDate }),
+        ...(attachment !== undefined && { attachmentUrl: attachment }),
+        ...(attachmentName !== undefined && { attachmentName })
+      }
+
+      console.log('映射后的数据:', JSON.stringify(mappedData, null, 2))
+
+      const policy = this.policyRepository.create(mappedData)
+      const result = await this.policyRepository.save(policy)
+
+      console.log('保存成功，ID:', (result as any).id || result)
+      return result
+    } catch (error) {
+      console.error('创建政策失败:', error)
+      console.error('错误详情:', error.message)
+      console.error('错误堆栈:', error.stack)
+      throw new Error(`创建政策失败: ${error.message}`)
     }
-
-    const policy = this.policyRepository.create(mappedData)
-    return this.policyRepository.save(policy)
   }
 
   async update(id: number, data: any) {

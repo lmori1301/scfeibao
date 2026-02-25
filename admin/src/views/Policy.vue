@@ -12,7 +12,7 @@ const dialogVisible = ref(false)
 const dialogTitle = ref('新增政策文件')
 const formRef = ref()
 const formData = ref({
-  title: '', docNumber: '', category: '', publishDate: '',
+  title: '', summary: '', docNumber: '', category: '', publishDate: '',
   effectiveDate: '', expiryDate: '', department: '', attachment: '', attachmentName: ''
 })
 
@@ -37,7 +37,7 @@ const handleAdd = () => {
   dialogTitle.value = '新增政策文件'
   const today = new Date().toISOString().split('T')[0]
   formData.value = {
-    title: '', docNumber: '', category: '', publishDate: today,
+    title: '', summary: '', docNumber: '', category: '', publishDate: today,
     effectiveDate: '', expiryDate: '', department: '', attachment: '', attachmentName: ''
   }
   dialogVisible.value = true
@@ -64,6 +64,13 @@ const handleDelete = (row: any) => {
 const handleFileChange = (data: { url: string; originalName: string }) => {
   formData.value.attachment = data.url
   formData.value.attachmentName = data.originalName
+}
+
+// 格式化日期为 YYYY-MM-DD
+const formatDate = (row: any, column: any, cellValue: any) => {
+  if (!cellValue) return ''
+  const date = new Date(cellValue)
+  return date.toISOString().split('T')[0]
 }
 
 const handleSave = async () => {
@@ -106,12 +113,12 @@ fetch()
         <el-button type="primary" @click="handleAdd">新增</el-button>
       </div>
       <el-table :data="data" v-loading="loading" stripe>
-        <el-table-column prop="title" label="标题" min-width="200" />
-        <el-table-column prop="docNumber" label="文号" width="120" />
+        <el-table-column prop="title" label="标题" min-width="200" show-overflow-tooltip />
+        <el-table-column prop="docNumber" label="文号" width="160" show-overflow-tooltip />
         <el-table-column prop="category" label="分类" width="100" />
-        <el-table-column prop="department" label="发文部门" width="140" />
-        <el-table-column prop="publishDate" label="发布日期" width="110" />
-        <el-table-column prop="effectiveDate" label="生效日期" width="110" />
+        <el-table-column prop="department" label="发文部门" width="140" show-overflow-tooltip />
+        <el-table-column prop="publishDate" label="发布日期" width="110" :formatter="formatDate" />
+        <el-table-column prop="effectiveDate" label="生效日期" width="110" :formatter="formatDate" />
         <el-table-column label="操作" width="150" fixed="right">
           <template #default="{ row }">
             <el-button text type="primary" size="small" @click="handleEdit(row)">编辑</el-button>
@@ -126,6 +133,9 @@ fetch()
       <el-form ref="formRef" :model="formData" :rules="rules" label-width="100px">
         <el-form-item label="标题" prop="title">
           <el-input v-model="formData.title" placeholder="请输入标题" />
+        </el-form-item>
+        <el-form-item label="摘要">
+          <el-input v-model="formData.summary" type="textarea" :rows="3" placeholder="请输入摘要" />
         </el-form-item>
         <el-row :gutter="20">
           <el-col :span="12">

@@ -14,7 +14,7 @@ export class Policy {
   @Column({ type: 'text', nullable: true })
   summary: string
 
-  @Column({ type: 'longtext' })
+  @Column({ type: 'longtext', nullable: true })
   content: string
 
   @Column({ nullable: true })
@@ -23,7 +23,7 @@ export class Policy {
   @Column({ nullable: true })
   documentNumber: string
 
-  @Column()
+  @Column({ nullable: true })
   fileUrl: string
 
   @Column({ nullable: true })

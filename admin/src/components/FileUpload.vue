@@ -148,3 +148,11 @@ const beforeUpload = (file: File) => {
     </template>
   </el-upload>
 </template>
+
+<style scoped>
+.el-upload__tip {
+  font-size: 14px;
+  color: #606266;
+  margin-top: 8px;
+}
+</style>
