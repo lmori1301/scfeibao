@@ -4,6 +4,7 @@ import { ElMessage, ElMessageBox } from 'element-plus'
 import { usePagination } from '@/composables/usePagination'
 import { requiredRule } from '@/utils/validate'
 import Pagination from '@/components/Pagination.vue'
+import FileUpload from '@/components/FileUpload.vue'
 import http from '@/utils/http'
 
 const searchForm = ref({ title: '', category: '' })
@@ -12,7 +13,7 @@ const dialogTitle = ref('新增政策文件')
 const formRef = ref()
 const formData = ref({
   title: '', docNumber: '', category: '', publishDate: '',
-  effectiveDate: '', expiryDate: '', department: '', attachment: ''
+  effectiveDate: '', expiryDate: '', department: '', attachment: '', attachmentName: ''
 })
 
 const policyCategories = ['法律法规', '部门规章', '行业标准']
@@ -37,14 +38,18 @@ const handleAdd = () => {
   const today = new Date().toISOString().split('T')[0]
   formData.value = {
     title: '', docNumber: '', category: '', publishDate: today,
-    effectiveDate: '', expiryDate: '', department: '', attachment: ''
+    effectiveDate: '', expiryDate: '', department: '', attachment: '', attachmentName: ''
   }
   dialogVisible.value = true
 }
 
 const handleEdit = (row: any) => {
   dialogTitle.value = '编辑政策文件'
-  formData.value = { ...row }
+  formData.value = {
+    ...row,
+    attachment: row.attachment || '',
+    attachmentName: row.attachmentName || ''
+  }
   dialogVisible.value = true
 }
 
@@ -54,6 +59,11 @@ const handleDelete = (row: any) => {
     ElMessage.success('删除成功')
     fetch()
   })
+}
+
+const handleFileChange = (data: { url: string; originalName: string }) => {
+  formData.value.attachment = data.url
+  formData.value.attachmentName = data.originalName
 }
 
 const handleSave = async () => {
@@ -97,7 +107,7 @@ fetch()
       </div>
       <el-table :data="data" v-loading="loading" stripe>
         <el-table-column prop="title" label="标题" min-width="200" />
-        <el-table-column prop="docNumber" label="文号" width="150" />
+        <el-table-column prop="docNumber" label="文号" width="120" />
         <el-table-column prop="category" label="分类" width="100" />
         <el-table-column prop="department" label="发文部门" width="140" />
         <el-table-column prop="publishDate" label="发布日期" width="110" />
@@ -112,7 +122,7 @@ fetch()
       <Pagination :total="total" :page="page" :page-size="pageSize" @change="handlePageChange" />
     </el-card>
 
-    <el-dialog v-model="dialogVisible" :title="dialogTitle" width="700px">
+    <el-dialog v-model="dialogVisible" :title="dialogTitle" width="1000px">
       <el-form ref="formRef" :model="formData" :rules="rules" label-width="100px">
         <el-form-item label="标题" prop="title">
           <el-input v-model="formData.title" placeholder="请输入标题" />
@@ -156,7 +166,7 @@ fetch()
           </el-col>
         </el-row>
         <el-form-item label="附件">
-          <el-input v-model="formData.attachment" placeholder="请输入附件链接" />
+          <FileUpload v-model="formData.attachment" @file-change="handleFileChange" />
         </el-form-item>
       </el-form>
       <template #footer>

@@ -29,7 +29,7 @@
 
                 <!-- 文档信息 -->
                 <p :id="`1_${2366 + index}`" :class="`Pixso-paragraph-1_${2366 + index}`">
-                    {{ `文号：${item.docNumber}     发布日期：${item.publishDate}     生效日期：${item.effectiveDate}     发布部门：${item.department}` }}
+                    {{ `文号：${item.docNumber || '暂无'}     发布日期：${formatDate(item.publishDate)}     生效日期：${formatDate(item.effectiveDate)}     发布部门：${item.department || '暂无'}` }}
                 </p>
 
                 <!-- 内容摘要 -->
@@ -37,17 +37,19 @@
                     {{ item.summary }}
                 </p>
 
-                <!-- 下载按钮 -->
+                <!-- 下载按钮 - 仅在有附件时显示 -->
                 <div
+                    v-if="item.attachment || item.attachmentUrl"
                     :id="`1_${2372 + index * 2}`"
                     :class="`Pixso-vector-1_${2372 + index * 2}`"
-                    @click="downloadFile(item.fileUrl, `${item.title}.pdf`)"
+                    @click="downloadFile(item)"
                     style="cursor: pointer;"
                 ></div>
                 <p
+                    v-if="item.attachment || item.attachmentUrl"
                     :id="`1_${2373 + index * 2}`"
                     :class="`Pixso-paragraph-1_${2373 + index * 2}`"
-                    @click="downloadFile(item.fileUrl, `${item.title}.pdf`)"
+                    @click="downloadFile(item)"
                     style="cursor: pointer;"
                 >{{ "下载文件" }}</p>
             </template>
@@ -130,6 +132,7 @@ import { ref, computed, onMounted } from 'vue'
 import { getWebsiteConfig } from '@/api/config'
 import { useRouter } from 'vue-router'
 import Pagination from '@/components/common/Pagination.vue'
+import http from '@/utils/http'
 
 const router = useRouter()
 
@@ -138,122 +141,46 @@ const currentPage = ref(1)
 const pageSize = ref(3)
 
 // 政策法规数据
-const lawsList = ref([
-  {
-    id: 1,
-    title: '国家应急救援队伍建设管理办法',
-    docNumber: '应急管理部令第15号',
-    publishDate: '2024-03-15',
-    effectiveDate: '2024-05-01',
-    department: '应急管理部',
-    summary: '为了规范应急救援队伍建设，提高救援能力，保障人民群众生命财产安全，根据《中华人民共和国突发事件应对法》等法律法规，制定本办法。',
-    fileUrl: '/files/laws/law-001.pdf'
-  },
-  {
-    id: 2,
-    title: '应急救援人员培训考核规定',
-    docNumber: '应急管理部令第15号',
-    publishDate: '2024-03-15',
-    effectiveDate: '2024-05-01',
-    department: '四川飞豹救援',
-    summary: '为了规范应急救援人员的培训考核工作，提高救援人员专业素质，制定本规定。',
-    fileUrl: '/files/laws/law-002.pdf'
-  },
-  {
-    id: 3,
-    title: '地震救援队伍建设标准',
-    docNumber: '应急管理部令第15号',
-    publishDate: '2024-03-15',
-    effectiveDate: '2024-05-01',
-    department: '应急管理部',
-    summary: '规定了地震救援队伍的组织架构、人员配置、装备要求和训练标准。',
-    fileUrl: '/files/laws/law-003.pdf'
-  },
-  {
-    id: 4,
-    title: '森林火灾应急救援预案',
-    docNumber: '应急管理部令第16号',
-    publishDate: '2024-04-10',
-    effectiveDate: '2024-06-01',
-    department: '应急管理部',
-    summary: '为有效应对森林火灾，保护人民生命财产安全和森林资源，制定本预案。',
-    fileUrl: '/files/laws/law-004.pdf'
-  },
-  {
-    id: 5,
-    title: '水域救援技术规范',
-    docNumber: '应急管理部令第17号',
-    publishDate: '2024-05-20',
-    effectiveDate: '2024-07-01',
-    department: '应急管理部',
-    summary: '规范水域救援技术操作流程，提高水域救援效率和安全性。',
-    fileUrl: '/files/laws/law-005.pdf'
-  },
-  {
-    id: 6,
-    title: '危险化学品事故应急处置办法',
-    docNumber: '应急管理部令第18号',
-    publishDate: '2024-06-15',
-    effectiveDate: '2024-08-01',
-    department: '应急管理部',
-    summary: '规范危险化学品事故应急处置程序，最大限度减少事故损失。',
-    fileUrl: '/files/laws/law-006.pdf'
-  },
-  {
-    id: 7,
-    title: '城市地下空间应急救援指南',
-    docNumber: '应急管理部令第19号',
-    publishDate: '2024-07-10',
-    effectiveDate: '2024-09-01',
-    department: '应急管理部',
-    summary: '指导城市地下空间应急救援工作，提升地下空间事故应对能力。',
-    fileUrl: '/files/laws/law-007.pdf'
-  },
-  {
-    id: 8,
-    title: '高层建筑火灾救援技术规程',
-    docNumber: '应急管理部令第20号',
-    publishDate: '2024-08-05',
-    effectiveDate: '2024-10-01',
-    department: '应急管理部',
-    summary: '规范高层建筑火灾救援技术操作，提高高层建筑火灾救援成功率。',
-    fileUrl: '/files/laws/law-008.pdf'
-  },
-  {
-    id: 9,
-    title: '矿山事故应急救援管理办法',
-    docNumber: '应急管理部令第21号',
-    publishDate: '2024-09-12',
-    effectiveDate: '2024-11-01',
-    department: '应急管理部',
-    summary: '加强矿山事故应急救援管理，保障矿山从业人员生命安全。',
-    fileUrl: '/files/laws/law-009.pdf'
-  },
-  {
-    id: 10,
-    title: '应急救援装备配置标准',
-    docNumber: '应急管理部令第22号',
-    publishDate: '2024-10-18',
-    effectiveDate: '2024-12-01',
-    department: '应急管理部',
-    summary: '规定应急救援队伍装备配置标准，提升应急救援装备水平。',
-    fileUrl: '/files/laws/law-010.pdf'
+const lawsList = ref<any[]>([])
+const totalLaws = ref(0)
+const loading = ref(false)
+
+// 获取政策列表
+const fetchPolicies = async () => {
+  loading.value = true
+  try {
+    const res = await http.get('/policies', {
+      params: {
+        page: currentPage.value,
+        pageSize: pageSize.value,
+        category: '法律法规'
+      }
+    })
+    if (res.data) {
+      lawsList.value = res.data.items || []
+      totalLaws.value = res.data.total || 0
+    }
+  } catch (error) {
+    console.error('获取政策列表失败:', error)
+  } finally {
+    loading.value = false
   }
-])
+}
 
-// 计算总数
-const totalLaws = computed(() => lawsList.value.length)
-
-// 计算当前页显示的数据
-const paginatedLaws = computed(() => {
-  const start = (currentPage.value - 1) * pageSize.value
-  const end = start + pageSize.value
-  return lawsList.value.slice(start, end)
-})
+// 计算当前页显示的数据（直接使用API返回的数据）
+const paginatedLaws = computed(() => lawsList.value)
 
 // 页码改变处理
 function handlePageChange() {
+  fetchPolicies()
   window.scrollTo({ top: 0, behavior: 'smooth' })
+}
+
+// 格式化日期
+const formatDate = (dateStr: string) => {
+  if (!dateStr) return ''
+  const date = new Date(dateStr)
+  return date.toISOString().split('T')[0]
 }
 
 // 搜索
@@ -299,16 +226,18 @@ const doSearch = () => {
 }
 
 // 下载文件
-function downloadFile(fileUrl: string, fileName: string) {
-  if (!fileUrl) {
-    console.warn('文件URL为空，无法下载')
+function downloadFile(item: any) {
+  if (!item.id) {
+    console.warn('政策ID为空，无法下载')
     return
   }
 
-  // 创建临时a标签触发下载
+  // 使用后端下载接口，后端会设置正确的 Content-Disposition 响应头
+  const downloadUrl = `/api/policies/${item.id}/download`
+
+  // 创建隐藏的 a 标签触发下载
   const link = document.createElement('a')
-  link.href = fileUrl
-  link.download = fileName
+  link.href = downloadUrl
   link.style.display = 'none'
   document.body.appendChild(link)
   link.click()
@@ -341,6 +270,7 @@ const fetchWebsiteConfig = async () => {
 
 onMounted(() => {
   fetchWebsiteConfig()
+  fetchPolicies()
 })
 
 </script>

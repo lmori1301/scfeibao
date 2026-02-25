@@ -61,6 +61,21 @@ export class UploadController {
   }))
   uploadFile(@UploadedFile() file: Express.Multer.File) {
     this.uploadService.validateFile(file);
-    return { url: this.uploadService.getFileUrl(file.filename, 'files') };
+
+    // 处理中文文件名编码问题
+    // multer 可能会将中文文件名编码为 Latin1，需要转换为 UTF-8
+    let originalName = file.originalname;
+    try {
+      // 尝试将 Latin1 编码转换为 UTF-8
+      originalName = Buffer.from(file.originalname, 'latin1').toString('utf8');
+    } catch (error) {
+      // 如果转换失败，使用原始文件名
+      originalName = file.originalname;
+    }
+
+    return {
+      url: this.uploadService.getFileUrl(file.filename, 'files'),
+      originalName: originalName
+    };
   }
 }

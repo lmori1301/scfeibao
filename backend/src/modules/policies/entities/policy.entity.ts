@@ -35,6 +35,15 @@ export class Policy {
   @Column({ type: 'datetime', nullable: true })
   publishedAt: Date
 
+  @Column({ type: 'date', nullable: true })
+  effectiveDate: Date
+
+  @Column({ type: 'date', nullable: true })
+  expiryDate: Date
+
+  @Column({ nullable: true })
+  attachmentName: string
+
   @Column({ default: 0 })
   viewCount: number
 

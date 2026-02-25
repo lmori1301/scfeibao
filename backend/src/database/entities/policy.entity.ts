@@ -33,6 +33,12 @@ export class Policy extends BaseEntity {
   @Column({ type: 'datetime', nullable: true, comment: '发布时间' })
   publishedAt: Date;
 
+  @Column({ type: 'date', nullable: true, comment: '生效日期' })
+  effectiveDate: Date;
+
+  @Column({ type: 'date', nullable: true, comment: '失效日期' })
+  expiryDate: Date;
+
   @Column({ type: 'int', default: 0, comment: '排序' })
   sort: number;
 }

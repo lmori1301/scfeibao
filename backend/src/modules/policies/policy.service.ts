@@ -10,26 +10,85 @@ export class PolicyService {
     private policyRepository: Repository<Policy>,
   ) {}
 
-  async getList(page: number = 1, pageSize: number = 10) {
+  async getList(page: number = 1, pageSize: number = 10, filters?: any) {
+    const where: any = {}
+
+    // 支持按分类筛选
+    if (filters?.category) {
+      where.category = filters.category
+    }
+
+    // 支持按标题搜索
+    if (filters?.title) {
+      where.title = filters.title
+    }
+
     const [items, total] = await this.policyRepository.findAndCount({
-      order: { publishDate: 'DESC' },
+      where,
+      order: { publishedAt: 'DESC' },
       skip: (page - 1) * pageSize,
       take: pageSize
     })
-    return { items, total, page, pageSize }
+
+    // 映射字段名以匹配前端
+    const mappedItems = items.map(item => ({
+      ...item,
+      docNumber: item.documentNumber,
+      department: item.issuingAuthority,
+      publishDate: item.publishedAt,
+      attachment: item.attachmentUrl,
+      attachmentName: item.attachmentName
+    }))
+
+    return { items: mappedItems, total, page, pageSize }
   }
 
   async getOne(id: number) {
-    return this.policyRepository.findOne({ where: { id } })
+    const item = await this.policyRepository.findOne({ where: { id } })
+    if (!item) return null
+
+    // 映射字段名以匹配前端
+    return {
+      ...item,
+      docNumber: item.documentNumber,
+      department: item.issuingAuthority,
+      publishDate: item.publishedAt,
+      attachment: item.attachmentUrl,
+      attachmentName: item.attachmentName
+    }
   }
 
   async create(data: any) {
-    const policy = this.policyRepository.create(data)
+    // 移除前端字段名，只保留数据库字段名
+    const { docNumber, department, publishDate, attachment, attachmentName, ...rest } = data
+
+    const mappedData = {
+      ...rest,
+      ...(docNumber !== undefined && { documentNumber: docNumber }),
+      ...(department !== undefined && { issuingAuthority: department }),
+      ...(publishDate !== undefined && { publishedAt: publishDate }),
+      ...(attachment !== undefined && { attachmentUrl: attachment }),
+      ...(attachmentName !== undefined && { attachmentName })
+    }
+
+    const policy = this.policyRepository.create(mappedData)
     return this.policyRepository.save(policy)
   }
 
   async update(id: number, data: any) {
-    await this.policyRepository.update(id, data)
+    // 移除前端字段名，只保留数据库字段名
+    const { docNumber, department, publishDate, attachment, attachmentName, ...rest } = data
+
+    const mappedData = {
+      ...rest,
+      ...(docNumber !== undefined && { documentNumber: docNumber }),
+      ...(department !== undefined && { issuingAuthority: department }),
+      ...(publishDate !== undefined && { publishedAt: publishDate }),
+      ...(attachment !== undefined && { attachmentUrl: attachment }),
+      ...(attachmentName !== undefined && { attachmentName })
+    }
+
+    await this.policyRepository.update(id, mappedData)
     return this.getOne(id)
   }
 
