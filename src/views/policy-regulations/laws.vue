@@ -22,6 +22,11 @@
                 <!-- 背景框 -->
                 <div :id="`1_${2360 + index}`" :class="`Pixso-vector-1_${2360 + index}`"></div>
 
+                <!-- 分类标签 -->
+                <div v-if="item.category" :class="`category-badge category-badge-${index}`">
+                    {{ item.category }}
+                </div>
+
                 <!-- 标题 -->
                 <p :id="`1_${2363 + index}`" :class="`Pixso-paragraph-1_${2363 + index}`">
                     {{ item.title }}
@@ -65,12 +70,7 @@
                 />
             </div>
 
-            <div id="1_2378" class="Pixso-vector-1_2378" v-if="paginatedLaws.length >= 1"></div>
-            <p id="1_2379" class="Pixso-paragraph-1_2379" v-if="paginatedLaws.length >= 1">{{ "法律法规" }}</p>
-            <div id="1_2380" class="Pixso-vector-1_2380" v-if="paginatedLaws.length >= 2"></div>
-            <p id="1_2381" class="Pixso-paragraph-1_2381" v-if="paginatedLaws.length >= 2">{{ "部门规章" }}</p>
-            <div id="1_2382" class="Pixso-vector-1_2382" v-if="paginatedLaws.length >= 3"></div>
-            <p id="1_2383" class="Pixso-paragraph-1_2383" v-if="paginatedLaws.length >= 3">{{ "行业标准" }}</p>
+            <!-- 分类标签已移除 -->
             <div id="1_2384" class="Pixso-vector-1_2384"></div>
             <div id="1_2385" class="Pixso-vector-1_2385"></div>
             <div id="1_2388" class="Pixso-vector-1_2388"></div>
@@ -140,20 +140,24 @@ const router = useRouter()
 const currentPage = ref(1)
 const pageSize = ref(3)
 
+// 分类状态（从后端API动态获取）
+const currentCategory = ref('')
+const categories = ref<string[]>([])
+
 // 政策法规数据
 const lawsList = ref<any[]>([])
 const totalLaws = ref(0)
 const loading = ref(false)
 
-// 获取政策列表
+// 获取政策列表（显示所有分类）
 const fetchPolicies = async () => {
   loading.value = true
   try {
     const res = await http.get('/policies', {
       params: {
         page: currentPage.value,
-        pageSize: pageSize.value,
-        category: '法律法规'
+        pageSize: pageSize.value
+        // 不传递 category 参数，显示所有分类
       }
     })
     if (res.data) {
@@ -164,6 +168,18 @@ const fetchPolicies = async () => {
     console.error('获取政策列表失败:', error)
   } finally {
     loading.value = false
+  }
+}
+
+// 获取分类列表（仅用于展示）
+const fetchCategories = async () => {
+  try {
+    const res = await http.get('/policies/categories')
+    if (res.data && Array.isArray(res.data)) {
+      categories.value = res.data
+    }
+  } catch (error) {
+    console.error('获取分类列表失败:', error)
   }
 }
 
@@ -270,7 +286,9 @@ const fetchWebsiteConfig = async () => {
 
 onMounted(() => {
   fetchWebsiteConfig()
-  fetchPolicies()
+  fetchCategories().then(() => {
+    fetchPolicies()
+  })
 })
 
 </script>
@@ -1227,5 +1245,48 @@ onMounted(() => {
     -webkit-user-select: text;
     -moz-user-select: text;
     -ms-user-select: text;
+}
+
+/* 分类标签选中状态样式 */
+.category-active {
+    opacity: 1 !important;
+    filter: brightness(1.2);
+}
+
+.category-text-active {
+    font-weight: 600;
+    color: rgba(255, 255, 255, 1) !important;
+}
+
+/* 分类标签徽章样式 */
+.category-badge {
+    position: absolute;
+    background-color: rgba(21, 112, 206, 1);
+    color: rgba(255, 255, 255, 1);
+    padding: 8px 20px;
+    border-radius: 20px;
+    font-size: 18px;
+    font-family: "Alibaba PuHuiTi-Regular";
+    font-weight: 400;
+    white-space: nowrap;
+    z-index: 10;
+}
+
+/* 第一条记录的分类标签 */
+.category-badge-0 {
+    right: 7%;
+    top: 21.5%;
+}
+
+/* 第二条记录的分类标签 */
+.category-badge-1 {
+    right: 7%;
+    top: 39.7%;
+}
+
+/* 第三条记录的分类标签 */
+.category-badge-2 {
+    right: 7%;
+    top: 57.9%;
 }
 </style>

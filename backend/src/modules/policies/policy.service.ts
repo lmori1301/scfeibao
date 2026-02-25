@@ -43,6 +43,18 @@ export class PolicyService {
     return { items: mappedItems, total, page, pageSize }
   }
 
+  async getCategories() {
+    // 查询数据库中所有不重复的分类
+    const result = await this.policyRepository
+      .createQueryBuilder('policy')
+      .select('DISTINCT policy.category', 'category')
+      .where('policy.category IS NOT NULL')
+      .andWhere('policy.category != :empty', { empty: '' })
+      .getRawMany()
+
+    return result.map(item => item.category)
+  }
+
   async getOne(id: number) {
     const item = await this.policyRepository.findOne({ where: { id } })
     if (!item) return null

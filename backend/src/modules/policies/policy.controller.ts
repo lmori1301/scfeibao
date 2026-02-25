@@ -21,6 +21,11 @@ export class PolicyController {
     return this.policyService.getList(page, pageSize, filters)
   }
 
+  @Get('categories')
+  getCategories() {
+    return this.policyService.getCategories()
+  }
+
   @Get(':id')
   getOne(@Param('id') id: number) {
     return this.policyService.getOne(id)
