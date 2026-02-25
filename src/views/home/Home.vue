@@ -282,45 +282,31 @@
             </div>
             <div id="32_8" ref="bottomTextRef" class="Pixso-group-32_8">
                 <p id="1_118" class="Pixso-paragraph-1_118">
-                    {{ "主办单位：四川飞豹救援" }}
+                    {{ websiteConfig.host_unit }}
                 </p>
                 <p id="1_119" class="Pixso-paragraph-1_119">
-                    {{ "承办单位：四川飞豹救援新闻宣传处" }}
+                    {{ websiteConfig.organizer_unit }}
                 </p>
                 <p id="1_120" class="Pixso-paragraph-1_120">
-                    {{ "蜀ICP备XXXXXXX号" }}
+                    {{ websiteConfig.icp_number }}
                 </p>
                 <p id="1_121" class="Pixso-paragraph-1_121">
-                    {{ "Copyright®2025 sc.feibao.com All rights reserved" }}
+                    {{ websiteConfig.copyright }}
                 </p>
             </div>
-            <!-- 各地动态列表 -->
-            <div
-                v-for="(item, index) in localDynamicsList.slice(0, 4)"
-                :key="'dynamics-' + item.id"
-                :class="'dynamics-item dynamics-item-' + index"
-                @click="navigateTo(`/dynamic-news/${item.id}`)"
-                style="cursor: pointer;"
-            >
-                <div class="item-content">
-                    <span class="item-date">{{ new Date(item.publishDate).toLocaleDateString('zh-CN') }}</span>
-                    <span class="item-title">{{ item.title }}</span>
-                </div>
-            </div>
-
-            <!-- 救援行动列表 -->
-            <div
-                v-for="(item, index) in rescueActionsList.slice(0, 4)"
-                :key="'action-' + item.id"
-                :class="'action-item action-item-' + index"
-                @click="navigateTo(`/dynamic-news/${item.id}`)"
-                style="cursor: pointer;"
-            >
-                <div class="item-content">
-                    <span class="item-date">{{ new Date(item.rescueDate).toLocaleDateString('zh-CN') }}</span>
-                    <span class="item-title">{{ item.title }}</span>
-                </div>
-            </div>
+            <!-- 友情链接背景框 -->
+            <div id="1_122" class="Pixso-vector-1_122"></div>
+            <div id="1_123" class="Pixso-vector-1_123"></div>
+            <div id="1_124" class="Pixso-vector-1_124"></div>
+            <div id="1_125" class="Pixso-vector-1_125"></div>
+            <div id="1_126" class="Pixso-vector-1_126"></div>
+            <div id="1_127" class="Pixso-vector-1_127"></div>
+            <div id="1_128" class="Pixso-vector-1_128"></div>
+            <div id="1_129" class="Pixso-vector-1_129"></div>
+            <div id="1_130" class="Pixso-vector-1_130"></div>
+            <div id="1_131" class="Pixso-vector-1_131"></div>
+            <div id="1_132" class="Pixso-vector-1_132"></div>
+            <div id="1_133" class="Pixso-vector-1_133"></div>
             <p id="1_134" class="Pixso-paragraph-1_134" @click="openLink('http://www.scfzjzjyg.com.cn/')" style="cursor: pointer;">
                 {{ "四川省防灾减灾教育馆" }}
             </p>
@@ -412,6 +398,7 @@ import { ref, computed, onMounted, onUnmounted, nextTick, watch } from 'vue'
 import { useRouter, useRoute } from 'vue-router'
 import { getTeamShowcaseList } from '@/api/team-building'
 import { getBannerList, getHomeNews, getLocalDynamics, getRescueActions, getPromotionalVideos, getTeamShowcaseForHome, getFriendLinks } from '@/api/home'
+import { getWebsiteConfig } from '@/api/config'
 
 const router = useRouter()
 const route = useRoute()
@@ -437,6 +424,14 @@ const openLink = (url: string) => {
 
 // 搜索
 const searchKey = ref('')
+
+// 网站配置
+const websiteConfig = ref({
+  host_unit: '主办单位：四川飞豹救援',
+  organizer_unit: '承办单位：四川飞豹救援新闻宣传处',
+  icp_number: '蜀ICP备XXXXXXX号',
+  copyright: 'Copyright®2025 sc.feibao.com All rights reserved'
+})
 
 // 7个模块路由
 const searchModules = [
@@ -501,6 +496,23 @@ const fetchBanners = async () => {
     }
   } catch (error) {
     console.error('获取轮播图失败:', error)
+  }
+}
+
+// 获取网站配置
+const fetchWebsiteConfig = async () => {
+  try {
+    const res = await getWebsiteConfig()
+    if (res.data) {
+      websiteConfig.value = {
+        host_unit: res.data.host_unit || '主办单位：四川飞豹救援',
+        organizer_unit: res.data.organizer_unit || '承办单位：四川飞豹救援新闻宣传处',
+        icp_number: res.data.icp_number || '蜀ICP备XXXXXXX号',
+        copyright: res.data.copyright || 'Copyright®2025 sc.feibao.com All rights reserved'
+      }
+    }
+  } catch (error) {
+    console.error('获取网站配置失败:', error)
   }
 }
 
@@ -852,6 +864,7 @@ onMounted(async () => {
   await fetchLocalDynamics() // 获取各地动态数据
   await fetchRescueActions() // 获取救援行动数据
   await fetchPromotionalVideos() // 获取宣传视频数据
+  await fetchWebsiteConfig() // 获取网站配置
   fetchTeamShowcase() // 获取队伍风采图片
   startBannerCarousel() // 启动 Banner 轮播
   startTeamCarousel()
@@ -2318,7 +2331,7 @@ onUnmounted(() => {
     background-repeat: no-repeat;
     position: absolute;
     left: 50%;
-    top: 4030px;
+    bottom: 0;
     transform: translateX(calc(-50% + 0px));
 }
 .Pixso-vector-1_116 {
@@ -2352,7 +2365,7 @@ onUnmounted(() => {
     height: 170px;
     position: absolute;
     left: 50%;
-    top: 4084px;
+    bottom: 65px;
     transform: translateX(calc(-50% + 0px));
     user-select: text !important;
     -webkit-user-select: text !important;
@@ -2939,14 +2952,14 @@ onUnmounted(() => {
     background-color: rgba(0, 92, 190, 1);
 }
 .Pixso-vector-1_162 {
-    width: 0%;
+    width: 0.5%;
     height: 0.74%;
     background-image: url(@/assets/images/Vector_1_162.png);
     background-size: 100% 100%;
     background-repeat: no-repeat;
     position: absolute;
     left: 6.28%;
-    right: 93.72%;
+    right: 93.22%;
     top: 24.34%;
     bottom: 74.92%;
 }
@@ -2975,14 +2988,14 @@ onUnmounted(() => {
     background-color: rgba(0, 92, 190, 1);
 }
 .Pixso-vector-1_164 {
-    width: 0%;
+    width: 0.5%;
     height: 0.74%;
     background-image: url(@/assets/images/Vector_1_164.png);
     background-size: 100% 100%;
     background-repeat: no-repeat;
     position: absolute;
     left: 6.69%;
-    right: 93.31%;
+    right: 92.81%;
     top: 41.74%;
     bottom: 57.52%;
 }
@@ -3011,14 +3024,14 @@ onUnmounted(() => {
     background-color: rgba(0, 92, 190, 1);
 }
 .Pixso-vector-1_166 {
-    width: 0%;
+    width: 0.5%;
     height: 0.74%;
     background-image: url(@/assets/images/Vector_1_166.png);
     background-size: 100% 100%;
     background-repeat: no-repeat;
     position: absolute;
     left: 6.69%;
-    right: 93.31%;
+    right: 92.81%;
     top: 84.91%;
     bottom: 14.35%;
 }
@@ -3047,14 +3060,14 @@ onUnmounted(() => {
     background-color: rgba(0, 92, 190, 1);
 }
 .Pixso-vector-1_168 {
-    width: 0%;
+    width: 0.5%;
     height: 0.74%;
     background-image: url(@/assets/images/Vector_1_168.png);
     background-size: 100% 100%;
     background-repeat: no-repeat;
     position: absolute;
     left: 59.43%;
-    right: 40.57%;
+    right: 40.07%;
     top: 41.74%;
     bottom: 57.52%;
 }
