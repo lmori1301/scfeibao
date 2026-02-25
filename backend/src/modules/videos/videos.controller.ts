@@ -12,6 +12,16 @@ export class VideosController {
     return this.videosService.getList(page, pageSize)
   }
 
+  @Get('top/list')
+  getTopList() {
+    return this.videosService.getTopList()
+  }
+
+  @Patch(':id/toggle-top')
+  toggleTop(@Param('id') id: number) {
+    return this.videosService.toggleTop(id)
+  }
+
   @Get(':id')
   getOne(@Param('id') id: number) {
     return this.videosService.getOne(id)

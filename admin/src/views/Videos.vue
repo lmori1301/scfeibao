@@ -12,11 +12,19 @@
         <el-table-column prop="id" label="ID" width="80" />
         <el-table-column prop="title" label="视频标题" />
         <el-table-column prop="videoUrl" label="视频地址" show-overflow-tooltip />
-        <el-table-column prop="coverUrl" label="封面地址" show-overflow-tooltip />
-        <el-table-column prop="sort" label="排序" width="100" />
-        <el-table-column label="操作" width="180">
+        <el-table-column label="置顶状态" width="100">
+          <template #default="{ row }">
+            <el-tag :type="row.isTop ? 'success' : 'info'">
+              {{ row.isTop ? '已置顶' : '未置顶' }}
+            </el-tag>
+          </template>
+        </el-table-column>
+        <el-table-column label="操作" width="250">
           <template #default="{ row }">
             <el-button link type="primary" @click="handleEdit(row)">编辑</el-button>
+            <el-button link :type="row.isTop ? 'warning' : 'success'" @click="handleToggleTop(row)">
+              {{ row.isTop ? '取消置顶' : '置顶' }}
+            </el-button>
             <el-button link type="danger" @click="handleDelete(row)">删除</el-button>
           </template>
         </el-table-column>
@@ -41,8 +49,10 @@
             action="/api/admin/upload/video"
             :show-file-list="false"
             :on-success="handleVideoSuccess"
+            :on-error="handleVideoError"
             :before-upload="beforeVideoUpload"
             accept="video/*"
+            name="file"
           >
             <el-button type="primary" :loading="videoUploading">
               {{ videoUploading ? '上传中...' : '点击上传视频' }}
@@ -52,23 +62,6 @@
           <div v-if="formData.videoUrl" style="margin-top: 10px">
             <video :src="formData.videoUrl" controls style="max-width: 100%; max-height: 200px"></video>
           </div>
-        </el-form-item>
-        <el-form-item label="封面上传">
-          <el-upload
-            class="cover-uploader"
-            action="/api/admin/upload/image"
-            :show-file-list="false"
-            :on-success="handleCoverSuccess"
-            :before-upload="beforeCoverUpload"
-            accept="image/*"
-          >
-            <img v-if="formData.coverUrl" :src="formData.coverUrl" class="cover-preview" />
-            <el-icon v-else class="cover-uploader-icon"><Plus /></el-icon>
-          </el-upload>
-          <el-input v-model="formData.coverUrl" placeholder="或手动输入封面地址" style="margin-top: 10px" />
-        </el-form-item>
-        <el-form-item label="排序">
-          <el-input-number v-model="formData.sort" :min="0" />
         </el-form-item>
       </el-form>
       <template #footer>
@@ -82,7 +75,6 @@
 <script setup lang="ts">
 import { ref, onMounted } from 'vue'
 import { ElMessage, ElMessageBox } from 'element-plus'
-import { Plus } from '@element-plus/icons-vue'
 import { usePagination } from '@/composables/usePagination'
 import Pagination from '@/components/Pagination.vue'
 import http from '@/utils/http'
@@ -92,9 +84,7 @@ const videoUploading = ref(false)
 const formData = ref({
   id: null,
   title: '',
-  videoUrl: '',
-  coverUrl: '',
-  sort: 0
+  videoUrl: ''
 })
 
 const { data: tableData, total, loading, page, pageSize, fetch, handlePageChange } = usePagination(
@@ -119,44 +109,46 @@ const beforeVideoUpload = (file: File) => {
 }
 
 // 视频上传成功
-const handleVideoSuccess = (response: any) => {
+const handleVideoSuccess = (response: any, file: any) => {
   videoUploading.value = false
-  if (response.url) {
-    formData.value.videoUrl = response.url
+  console.log('视频上传响应:', response)
+
+  // 尝试从不同的响应格式中提取 URL
+  const videoUrl = response?.url || response?.data?.url || response?.data
+
+  if (videoUrl) {
+    formData.value.videoUrl = videoUrl
+
+    // 自动提取视频标题（如果标题为空）
+    if (!formData.value.title && file?.name) {
+      // 移除文件扩展名
+      const fileName = file.name.replace(/\.[^/.]+$/, '')
+      formData.value.title = fileName
+    }
+
     ElMessage.success('视频上传成功')
   } else {
-    ElMessage.error('视频上传失败')
+    console.error('响应中未找到视频URL:', response)
+    ElMessage.error('视频上传失败：未返回视频地址')
   }
 }
 
-// 封面上传前验证
-const beforeCoverUpload = (file: File) => {
-  const isImage = file.type.startsWith('image/')
-  const isLt5M = file.size / 1024 / 1024 < 5
-
-  if (!isImage) {
-    ElMessage.error('只能上传图片文件')
-    return false
+// 视频上传失败
+const handleVideoError = (error: any) => {
+  videoUploading.value = false
+  console.error('视频上传失败:', error)
+  // 尝试从不同的错误对象中提取错误信息
+  let errorMsg = '视频上传失败，请重试'
+  if (error?.response?.data?.message) {
+    errorMsg = error.response.data.message
+  } else if (error?.message) {
+    errorMsg = error.message
   }
-  if (!isLt5M) {
-    ElMessage.error('图片大小不能超过 5MB')
-    return false
-  }
-  return true
-}
-
-// 封面上传成功
-const handleCoverSuccess = (response: any) => {
-  if (response.url) {
-    formData.value.coverUrl = response.url
-    ElMessage.success('封面上传成功')
-  } else {
-    ElMessage.error('封面上传失败')
-  }
+  ElMessage.error(errorMsg)
 }
 
 const handleAdd = () => {
-  formData.value = { id: null, title: '', videoUrl: '', coverUrl: '', sort: 0 }
+  formData.value = { id: null, title: '', videoUrl: '' }
   dialogVisible.value = true
 }
 
@@ -177,12 +169,28 @@ const handleDelete = (row: any) => {
   })
 }
 
+const handleToggleTop = async (row: any) => {
+  try {
+    await http.patch(`/videos/${row.id}/toggle-top`)
+    ElMessage.success(row.isTop ? '取消置顶成功' : '置顶成功')
+    fetch()
+  } catch (error) {
+    ElMessage.error('操作失败')
+  }
+}
+
 const handleSave = async () => {
   try {
+    // 只提取需要的字段，避免发送额外字段导致验证失败
+    const data = {
+      title: formData.value.title,
+      videoUrl: formData.value.videoUrl
+    }
+
     if (formData.value.id) {
-      await http.patch(`/videos/${formData.value.id}`, formData.value)
+      await http.patch(`/videos/${formData.value.id}`, data)
     } else {
-      await http.post('/videos', formData.value)
+      await http.post('/videos', data)
     }
     ElMessage.success('保存成功')
     dialogVisible.value = false
@@ -212,36 +220,5 @@ onMounted(() => {
   :deep(.el-upload) {
     display: block;
   }
-}
-
-.cover-uploader {
-  :deep(.el-upload) {
-    border: 1px dashed #d9d9d9;
-    border-radius: 6px;
-    cursor: pointer;
-    position: relative;
-    overflow: hidden;
-    transition: border-color 0.3s;
-
-    &:hover {
-      border-color: #409eff;
-    }
-  }
-}
-
-.cover-uploader-icon {
-  font-size: 28px;
-  color: #8c939d;
-  width: 178px;
-  height: 178px;
-  text-align: center;
-  line-height: 178px;
-}
-
-.cover-preview {
-  width: 178px;
-  height: 178px;
-  display: block;
-  object-fit: cover;
 }
 </style>

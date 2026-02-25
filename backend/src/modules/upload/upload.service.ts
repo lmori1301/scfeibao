@@ -35,11 +35,23 @@ export class UploadService {
   }
 
   validateVideo(file: Express.Multer.File) {
-    const allowedTypes = ['video/mp4', 'video/avi', 'video/mov'];
+    const allowedTypes = [
+      'video/mp4',
+      'video/mpeg',
+      'video/quicktime',
+      'video/x-msvideo',
+      'video/x-ms-wmv',
+      'video/webm',
+      'video/avi',
+      'video/mov'
+    ];
     const maxSize = 1024 * 1024 * 1024; // 1GB
 
+    if (!file) {
+      throw new BadRequestException('未选择文件');
+    }
     if (!allowedTypes.includes(file.mimetype)) {
-      throw new BadRequestException('不支持的视频格式');
+      throw new BadRequestException(`不支持的视频格式: ${file.mimetype}，支持的格式: MP4, AVI, MOV, MPEG, WMV, WebM`);
     }
     if (file.size > maxSize) {
       throw new BadRequestException('视频大小超出限制（最大1GB）');

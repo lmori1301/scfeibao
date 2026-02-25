@@ -54,7 +54,10 @@
     <!-- 底部版权信息 -->
     <div class="footer-bottom">
       <div class="footer-bottom-content">
-        <p>&copy; {{ currentYear }} 四川飞豹救援. All rights reserved.</p>
+        <p>{{ websiteConfig.host_unit }}</p>
+        <p>{{ websiteConfig.organizer_unit }}</p>
+        <p>{{ websiteConfig.icp_number }}</p>
+        <p>{{ websiteConfig.copyright }}</p>
         <p class="footer-links-text">
           <a href="javascript:;">隐私政策</a>
           <span class="separator">|</span>
@@ -68,10 +71,38 @@
 </template>
 
 <script setup lang="ts">
-import { computed } from 'vue'
+import { ref, computed, onMounted } from 'vue'
 import { Location, Phone, Message } from '@element-plus/icons-vue'
+import { getWebsiteConfig } from '@/api/config'
 
 const currentYear = computed(() => new Date().getFullYear())
+
+const websiteConfig = ref({
+  host_unit: '四川飞豹救援',
+  organizer_unit: '四川飞豹救援新闻宣传处',
+  icp_number: '蜀ICP备XXXXXXX号',
+  copyright: 'Copyright®2025 sc.feibao.com All rights reserved'
+})
+
+const fetchWebsiteConfig = async () => {
+  try {
+    const res = await getWebsiteConfig()
+    if (res.data) {
+      websiteConfig.value = {
+        host_unit: res.data.host_unit || '四川飞豹救援',
+        organizer_unit: res.data.organizer_unit || '四川飞豹救援新闻宣传处',
+        icp_number: res.data.icp_number || '蜀ICP备XXXXXXX号',
+        copyright: res.data.copyright || 'Copyright®2025 sc.feibao.com All rights reserved'
+      }
+    }
+  } catch (error) {
+    console.error('获取网站配置失败:', error)
+  }
+}
+
+onMounted(() => {
+  fetchWebsiteConfig()
+})
 </script>
 
 <style scoped lang="scss">

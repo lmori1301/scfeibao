@@ -3,6 +3,7 @@ import { InjectRepository } from '@nestjs/typeorm'
 import { Repository } from 'typeorm'
 import { Banner } from './entities/banner.entity'
 import { Video } from './entities/video.entity'
+import { FriendLink } from './entities/friend-link.entity'
 import { News } from '../../database/entities/news.entity'
 import { RescueCase } from '../team-building/entities/rescue-case.entity'
 import { TeamShowcase } from '../team-building/entities/team-showcase.entity'
@@ -14,6 +15,8 @@ export class HomeService {
     private bannerRepository: Repository<Banner>,
     @InjectRepository(Video)
     private videoRepository: Repository<Video>,
+    @InjectRepository(FriendLink)
+    private friendLinkRepository: Repository<FriendLink>,
     @InjectRepository(News)
     private newsRepository: Repository<News>,
     @InjectRepository(RescueCase)
@@ -91,6 +94,8 @@ export class HomeService {
   }
 
   async getLinks() {
-    return []
+    return this.friendLinkRepository.find({
+      order: { sort: 'ASC', createdAt: 'DESC' }
+    })
   }
 }

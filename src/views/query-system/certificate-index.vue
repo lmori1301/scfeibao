@@ -108,27 +108,28 @@
           <div id="1_113" class="Pixso-vector-1_113"></div>
           <div id="32_8" class="Pixso-group-32_8">
               <p id="1_118" class="Pixso-paragraph-1_118">
-                  {{ "主办单位：四川飞豹救援" }}
+                  {{ websiteConfig.host_unit }}
               </p>
               <p id="1_119" class="Pixso-paragraph-1_119">
-                  {{ "承办单位：四川飞豹救援新闻宣传处" }}
+                  {{ websiteConfig.organizer_unit }}
               </p>
               <p id="1_120" class="Pixso-paragraph-1_120">
-                  {{ "蜀ICP备XXXXXXX号" }}
+                  {{ websiteConfig.icp_number }}
               </p>
               <p id="1_121" class="Pixso-paragraph-1_121">
-                  {{ "Copyright®2025 sc.feibao.com All rights reserved" }}
+                  {{ websiteConfig.copyright }}
               </p>
-          </div>
+                                      </div>
       </div>
   </div>
 </template>
 <script lang="ts" setup>
-import { ref } from 'vue'
+import { ref, onMounted } from 'vue'
 import { useRouter } from 'vue-router'
 import { ElMessage } from 'element-plus'
 import type { CertificateQueryParams } from '@/types/query'
 import { queryCertificate } from '@/api/query'
+import { getWebsiteConfig } from '@/api/config'
 
 const router = useRouter()
 
@@ -136,6 +137,29 @@ const formData = ref({ name: '', idCard: '', certificateNo: '' })
 const loading = ref(false)
 
 const tips = '请核对查询条件，或联系管理员确认证书是否已备案。'
+
+const websiteConfig = ref({
+  host_unit: '四川飞豹救援',
+  organizer_unit: '四川飞豹救援新闻宣传处',
+  icp_number: '蜀ICP备XXXXXXX号',
+  copyright: 'Copyright®2025 sc.feibao.com All rights reserved'
+})
+
+const fetchWebsiteConfig = async () => {
+  try {
+    const res = await getWebsiteConfig()
+    if (res.data) {
+      websiteConfig.value = {
+        host_unit: res.data.host_unit || '四川飞豹救援',
+        organizer_unit: res.data.organizer_unit || '四川飞豹救援新闻宣传处',
+        icp_number: res.data.icp_number || '蜀ICP备XXXXXXX号',
+        copyright: res.data.copyright || 'Copyright®2025 sc.feibao.com All rights reserved'
+      }
+    }
+  } catch (error) {
+    console.error('获取网站配置失败:', error)
+  }
+}
 
 async function handleQuery() {
   if (loading.value) return
@@ -218,6 +242,10 @@ const doSearch = () => {
   // 清空搜索框（可选）
   // searchKey.value = ''
 }
+
+onMounted(() => {
+  fetchWebsiteConfig()
+})
 
 </script>
 <style>

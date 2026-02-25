@@ -52,16 +52,19 @@ export function getRescueActions(params?: { limit?: number }) {
 }
 
 /**
- * 获取宣传视频
+ * 获取宣传视频（只获取置顶视频）
  */
 export function getPromotionalVideos(params?: { limit?: number }) {
   return http.get<{
-    id: number
-    title: string
-    cover: string
-    url: string
-    duration: number
-  }[]>('/home/videos', { params })
+    items: {
+      id: number
+      title: string
+      cover: string
+      url: string
+      duration: number
+    }[]
+    total: number
+  }>('/videos/top/list', { params })
 }
 
 /**

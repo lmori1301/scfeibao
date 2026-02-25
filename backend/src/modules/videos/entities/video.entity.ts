@@ -17,6 +17,9 @@ export class Video {
   @Column({ default: 0 })
   sort: number
 
+  @Column({ default: false })
+  isTop: boolean
+
   @CreateDateColumn()
   createdAt: Date
 

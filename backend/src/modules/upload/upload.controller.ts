@@ -19,6 +19,9 @@ export class UploadController {
         cb(null, uniqueSuffix + extname(file.originalname));
       },
     }),
+    limits: {
+      fileSize: 10 * 1024 * 1024, // 10MB
+    },
   }))
   uploadImage(@UploadedFile() file: Express.Multer.File) {
     this.uploadService.validateImage(file);
@@ -34,6 +37,9 @@ export class UploadController {
         cb(null, uniqueSuffix + extname(file.originalname));
       },
     }),
+    limits: {
+      fileSize: 1024 * 1024 * 1024, // 1GB
+    },
   }))
   uploadVideo(@UploadedFile() file: Express.Multer.File) {
     this.uploadService.validateVideo(file);
@@ -49,6 +55,9 @@ export class UploadController {
         cb(null, uniqueSuffix + extname(file.originalname));
       },
     }),
+    limits: {
+      fileSize: 100 * 1024 * 1024, // 100MB
+    },
   }))
   uploadFile(@UploadedFile() file: Express.Multer.File) {
     this.uploadService.validateFile(file);

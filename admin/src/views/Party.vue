@@ -3,16 +3,28 @@ import { ref, onMounted } from 'vue'
 import { ElMessage, ElMessageBox } from 'element-plus'
 import http from '@/utils/http'
 import RichTextEditor from '@/components/RichTextEditor.vue'
+import Pagination from '@/components/Pagination.vue'
 
 const searchForm = ref({ title: '', type: '' })
 const tableData = ref([])
 const loading = ref(false)
 
+// 分页状态
+const page = ref(1)
+const pageSize = ref(10)
+const total = ref(0)
+
 const fetchParty = async () => {
   loading.value = true
   try {
-    const res = await http.get('/party-building')
-    tableData.value = res.data.items || res.data
+    const params = {
+      page: page.value,
+      pageSize: pageSize.value,
+      ...searchForm.value
+    }
+    const res = await http.get('/party/work-list', { params })
+    tableData.value = res.data.list || []
+    total.value = res.data.total || 0
   } catch (error) {
     ElMessage.error('获取党建列表失败')
   } finally {
@@ -28,8 +40,23 @@ const dialogVisible = ref(false)
 const formData = ref({ title: '', type: '', content: '', status: '草稿' })
 const partyTypes = ['党建工作', '团建工作', '党员先锋', '党员学习']
 
-const handleSearch = () => ElMessage.success('查询成功')
-const handleReset = () => { searchForm.value = { title: '', type: '' } }
+// 分页处理
+const handlePageChange = (newPage: number, newPageSize: number) => {
+  page.value = newPage
+  pageSize.value = newPageSize
+  fetchParty()
+}
+
+const handleSearch = () => {
+  page.value = 1
+  fetchParty()
+}
+
+const handleReset = () => {
+  searchForm.value = { title: '', type: '' }
+  page.value = 1
+  fetchParty()
+}
 const handleAdd = () => { const user = JSON.parse(localStorage.getItem('user') || '{}'); const today = new Date().toISOString().split('T')[0]; formData.value = { title: '', type: '', content: '', publishDate: today, status: '草稿' }; dialogVisible.value = true }
 const handleEdit = (row: any) => { formData.value = { ...row }; dialogVisible.value = true }
 const handleDelete = (row: any) => { ElMessageBox.confirm('确定删除吗？', '提示', { type: 'warning' }).then(async () => { try { await http.delete(`/party-building/${row.id}`); ElMessage.success('删除成功'); fetchParty() } catch (error) { ElMessage.error('删除失败') } }) }
@@ -51,7 +78,7 @@ const handleSave = async () => { try { if (formData.value.id) { await http.patch
         <h3>党建专栏列表</h3>
         <el-button type="success" @click="handleAdd"><el-icon><Plus /></el-icon>新增</el-button>
       </div>
-      <el-table :data="tableData" stripe>
+      <el-table :data="tableData" stripe v-loading="loading">
         <el-table-column type="selection" width="55" />
         <el-table-column prop="title" label="标题" min-width="200" />
         <el-table-column prop="type" label="类型" width="120"><template #default="{ row }"><el-tag>{{ row.type }}</el-tag></template></el-table-column>
@@ -64,6 +91,12 @@ const handleSave = async () => { try { if (formData.value.id) { await http.patch
           </template>
         </el-table-column>
       </el-table>
+      <Pagination
+        :total="total"
+        :page="page"
+        :page-size="pageSize"
+        @change="handlePageChange"
+      />
     </el-card>
 
     <el-dialog v-model="dialogVisible" title="党建专栏" width="600px">

@@ -11,11 +11,21 @@ export class VideosService {
   ) {}
 
   async getList(page: number = 1, pageSize: number = 10) {
-    const [items, total] = await this.videoRepository.findAndCount({
-      order: { sort: 'ASC', createdAt: 'DESC' },
-      skip: (page - 1) * pageSize,
-      take: pageSize
-    })
+    const skip = (page - 1) * pageSize
+
+    // 使用原始SQL查询来确保获取isTop字段
+    const query = `
+      SELECT id, title, videoUrl, coverUrl, sort, isTop, createdAt, updatedAt
+      FROM videos
+      ORDER BY sort ASC, createdAt DESC
+      LIMIT ? OFFSET ?
+    `
+
+    const countQuery = `SELECT COUNT(*) as total FROM videos`
+
+    const items = await this.videoRepository.query(query, [pageSize, skip])
+    const [{ total }] = await this.videoRepository.query(countQuery)
+
     return { items, total, page, pageSize }
   }
 

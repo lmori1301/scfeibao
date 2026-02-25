@@ -106,18 +106,13 @@
               <p id="1_119" class="Pixso-paragraph-1_119">
                   {{ "承办单位:四川飞豹救援新闻宣传处" }}
               </p>
-              <p id="1_120" class="Pixso-paragraph-1_120">
-                  {{ "蜀ICP备XXXXXXX号" }}
-              </p>
-              <p id="1_121" class="Pixso-paragraph-1_121">
-                  {{ "Copyright®2025 sc.feibao.com All rights reserved" }}
-              </p>
-          </div>
+                                      </div>
       </div>
   </div>
 </template>
 <script lang="ts" setup>
-import { ref } from 'vue'
+import { ref, onMounted } from 'vue'
+import { getWebsiteConfig } from '@/api/config'
 import { useRouter } from 'vue-router'
 import { ElMessage } from 'element-plus'
 import type { PersonnelQueryParams, PersonnelInfo } from '@/types/query'
@@ -211,6 +206,34 @@ const doSearch = () => {
   // 清空搜索框（可选）
   // searchKey.value = ''
 }
+
+
+const websiteConfig = ref({
+  host_unit: '四川飞豹救援',
+  organizer_unit: '四川飞豹救援新闻宣传处',
+  icp_number: '蜀ICP备XXXXXXX号',
+  copyright: 'Copyright®2025 sc.feibao.com All rights reserved'
+})
+
+const fetchWebsiteConfig = async () => {
+  try {
+    const res = await getWebsiteConfig()
+    if (res.data) {
+      websiteConfig.value = {
+        host_unit: res.data.host_unit || '四川飞豹救援',
+        organizer_unit: res.data.organizer_unit || '四川飞豹救援新闻宣传处',
+        icp_number: res.data.icp_number || '蜀ICP备XXXXXXX号',
+        copyright: res.data.copyright || 'Copyright®2025 sc.feibao.com All rights reserved'
+      }
+    }
+  } catch (error) {
+    console.error('获取网站配置失败:', error)
+  }
+}
+
+onMounted(() => {
+  fetchWebsiteConfig()
+})
 
 </script>
 <style>

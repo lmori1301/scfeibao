@@ -307,38 +307,38 @@
             <div id="1_131" class="Pixso-vector-1_131"></div>
             <div id="1_132" class="Pixso-vector-1_132"></div>
             <div id="1_133" class="Pixso-vector-1_133"></div>
-            <p id="1_134" class="Pixso-paragraph-1_134" @click="openLink('http://www.scfzjzjyg.com.cn/')" style="cursor: pointer;">
-                {{ "四川省防灾减灾教育馆" }}
+            <p v-if="getLinkBySort(1)" id="1_134" class="Pixso-paragraph-1_134" @click="getLinkBySort(1).isActive && getLinkBySort(1).url ? openLink(getLinkBySort(1).url) : null" :style="{ cursor: getLinkBySort(1).isActive && getLinkBySort(1).url ? 'pointer' : 'default' }">
+                {{ getLinkBySort(1).name }}
             </p>
-            <p id="1_135" class="Pixso-paragraph-1_135">
-                {{ "四川省应急救援总队" }}
+            <p v-if="getLinkBySort(2)" id="1_135" class="Pixso-paragraph-1_135" @click="getLinkBySort(2).isActive && getLinkBySort(2).url ? openLink(getLinkBySort(2).url) : null" :style="{ cursor: getLinkBySort(2).isActive && getLinkBySort(2).url ? 'pointer' : 'default' }">
+                {{ getLinkBySort(2).name }}
             </p>
-            <p id="1_136" class="Pixso-paragraph-1_136">
-                {{ "四川省应急管理保障中心" }}
+            <p v-if="getLinkBySort(3)" id="1_136" class="Pixso-paragraph-1_136" @click="getLinkBySort(3).isActive && getLinkBySort(3).url ? openLink(getLinkBySort(3).url) : null" :style="{ cursor: getLinkBySort(3).isActive && getLinkBySort(3).url ? 'pointer' : 'default' }">
+                {{ getLinkBySort(3).name }}
             </p>
-            <p id="1_137" class="Pixso-paragraph-1_137" @click="openLink('http://www.scyj.org.cn/')" style="cursor: pointer;">
-                {{ "四川省社会力量应急救援队" }}
+            <p v-if="getLinkBySort(4)" id="1_137" class="Pixso-paragraph-1_137" @click="getLinkBySort(4).isActive && getLinkBySort(4).url ? openLink(getLinkBySort(4).url) : null" :style="{ cursor: getLinkBySort(4).isActive && getLinkBySort(4).url ? 'pointer' : 'default' }">
+                {{ getLinkBySort(4).name }}
             </p>
-            <p id="1_138" class="Pixso-paragraph-1_138" @click="openLink('https://www.chinamine-safety.gov.cn/')" style="cursor: pointer;">
-                {{ "国家矿山安全监察局" }}
+            <p v-if="getLinkBySort(5)" id="1_138" class="Pixso-paragraph-1_138" @click="getLinkBySort(5).isActive && getLinkBySort(5).url ? openLink(getLinkBySort(5).url) : null" :style="{ cursor: getLinkBySort(5).isActive && getLinkBySort(5).url ? 'pointer' : 'default' }">
+                {{ getLinkBySort(5).name }}
             </p>
-            <p id="1_139" class="Pixso-paragraph-1_139" @click="openLink('http://www.scfzjzjyg.com.cn/')" style="cursor: pointer;">
-                {{ "四川省减灾中心" }}
+            <p v-if="getLinkBySort(6)" id="1_139" class="Pixso-paragraph-1_139" @click="getLinkBySort(6).isActive && getLinkBySort(6).url ? openLink(getLinkBySort(6).url) : null" :style="{ cursor: getLinkBySort(6).isActive && getLinkBySort(6).url ? 'pointer' : 'default' }">
+                {{ getLinkBySort(6).name }}
             </p>
-            <p id="1_140" class="Pixso-paragraph-1_140" @click="openLink('https://www.cenc.ac.cn/')" style="cursor: pointer;">
-                {{ "中国地震台网中心" }}
+            <p v-if="getLinkBySort(7)" id="1_140" class="Pixso-paragraph-1_140" @click="getLinkBySort(7).isActive && getLinkBySort(7).url ? openLink(getLinkBySort(7).url) : null" :style="{ cursor: getLinkBySort(7).isActive && getLinkBySort(7).url ? 'pointer' : 'default' }">
+                {{ getLinkBySort(7).name }}
             </p>
-            <p id="1_141" class="Pixso-paragraph-1_141" @click="openLink('https://www.mem.gov.cn/')" style="cursor: pointer;">{{ "应急管理部" }}</p>
-            <p id="1_142" class="Pixso-paragraph-1_142" @click="openLink('https://www.nwserc.cn/')" style="cursor: pointer;">
-                {{ "国家安全生产应急救援中心" }}
+            <p v-if="getLinkBySort(8)" id="1_141" class="Pixso-paragraph-1_141" @click="getLinkBySort(8).isActive && getLinkBySort(8).url ? openLink(getLinkBySort(8).url) : null" :style="{ cursor: getLinkBySort(8).isActive && getLinkBySort(8).url ? 'pointer' : 'default' }">{{ getLinkBySort(8).name }}</p>
+            <p v-if="getLinkBySort(9)" id="1_142" class="Pixso-paragraph-1_142" @click="getLinkBySort(9).isActive && getLinkBySort(9).url ? openLink(getLinkBySort(9).url) : null" :style="{ cursor: getLinkBySort(9).isActive && getLinkBySort(9).url ? 'pointer' : 'default' }">
+                {{ getLinkBySort(9).name }}
             </p>
-            <p id="1_143" class="Pixso-paragraph-1_143" @click="openLink('https://www.sc.gov.cn/')" style="cursor: pointer;">
-                {{ "四川省人民政府" }}
+            <p v-if="getLinkBySort(10)" id="1_143" class="Pixso-paragraph-1_143" @click="getLinkBySort(10).isActive && getLinkBySort(10).url ? openLink(getLinkBySort(10).url) : null" :style="{ cursor: getLinkBySort(10).isActive && getLinkBySort(10).url ? 'pointer' : 'default' }">
+                {{ getLinkBySort(10).name }}
             </p>
-            <p id="1_144" class="Pixso-paragraph-1_144" @click="openLink('https://yjt.sc.gov.cn/')" style="cursor: pointer;">
-                {{ "四川省应急管理厅" }}
+            <p v-if="getLinkBySort(11)" id="1_144" class="Pixso-paragraph-1_144" @click="getLinkBySort(11).isActive && getLinkBySort(11).url ? openLink(getLinkBySort(11).url) : null" :style="{ cursor: getLinkBySort(11).isActive && getLinkBySort(11).url ? 'pointer' : 'default' }">
+                {{ getLinkBySort(11).name }}
             </p>
-            <p id="1_145" class="Pixso-paragraph-1_145" @click="openLink('https://www.scdzj.gov.cn/')" style="cursor: pointer;">{{ "四川省地震局" }}</p>
+            <p v-if="getLinkBySort(12)" id="1_145" class="Pixso-paragraph-1_145" @click="getLinkBySort(12).isActive && getLinkBySort(12).url ? openLink(getLinkBySort(12).url) : null" :style="{ cursor: getLinkBySort(12).isActive && getLinkBySort(12).url ? 'pointer' : 'default' }">{{ getLinkBySort(12).name }}</p>
             <div id="1_146" class="Pixso-vector-1_146"></div>
             <p id="1_149" class="Pixso-paragraph-1_149">
                 {{ "即刻出征，使命必达" }}
@@ -396,6 +396,7 @@
 <script lang="ts" setup>
 import { ref, computed, onMounted, onUnmounted, nextTick, watch } from 'vue'
 import { useRouter, useRoute } from 'vue-router'
+import { ElMessage } from 'element-plus'
 import { getTeamShowcaseList } from '@/api/team-building'
 import { getBannerList, getHomeNews, getLocalDynamics, getRescueActions, getPromotionalVideos, getTeamShowcaseForHome, getFriendLinks } from '@/api/home'
 import { getWebsiteConfig } from '@/api/config'
@@ -572,6 +573,27 @@ const fetchRescueActions = async () => {
     console.error('获取救援行动失败:', error)
   }
 }
+
+// 友情链接数据
+const friendLinks = ref<any[]>([])
+
+// 获取友情链接数据
+const fetchFriendLinks = async () => {
+  try {
+    const res = await getFriendLinks()
+    if (res.data) {
+      friendLinks.value = res.data
+    }
+  } catch (error) {
+    console.error('获取友情链接失败:', error)
+  }
+}
+
+// 根据排序获取友情链接
+const getLinkBySort = (sort: number) => {
+  return friendLinks.value.find(link => link.sort === sort)
+}
+
 let bannerCarouselTimer: number | null = null
 
 // 切换到下一张 Banner
@@ -773,7 +795,7 @@ const videoSrc = computed(() => {
 const fetchPromotionalVideos = async () => {
   try {
     const response = await getPromotionalVideos({ limit: 10 })
-    promotionalVideos.value = response.data || []
+    promotionalVideos.value = response.data.items || []
   } catch (error) {
     console.error('获取宣传视频失败:', error)
   }
@@ -781,6 +803,12 @@ const fetchPromotionalVideos = async () => {
 
 // 打开视频模态框
 const openVideoModal = () => {
+  // 检查是否有可用的视频
+  if (promotionalVideos.value.length === 0) {
+    ElMessage.warning('无视频宣传')
+    return
+  }
+
   showVideoModal.value = true
   // 等待 DOM 更新后自动播放视频
   setTimeout(() => {
@@ -864,6 +892,7 @@ onMounted(async () => {
   await fetchLocalDynamics() // 获取各地动态数据
   await fetchRescueActions() // 获取救援行动数据
   await fetchPromotionalVideos() // 获取宣传视频数据
+  await fetchFriendLinks() // 获取友情链接数据
   await fetchWebsiteConfig() // 获取网站配置
   fetchTeamShowcase() // 获取队伍风采图片
   startBannerCarousel() // 启动 Banner 轮播

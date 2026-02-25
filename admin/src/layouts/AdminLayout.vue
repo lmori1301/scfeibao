@@ -37,8 +37,6 @@ const menuItems = [
       { path: '/leadership', icon: 'UserFilled', label: '领导信息' },
       { path: '/location', icon: 'Location', label: '地理位置' },
       { path: '/party', icon: 'Flag', label: '党建专栏' },
-      { path: '/party-members', icon: 'Avatar', label: '党员信息' },
-      { path: '/party-works', icon: 'Notebook', label: '党建工作' },
       { path: '/team-intro', icon: 'Promotion', label: '队伍介绍' },
       { path: '/rescue-cases', icon: 'FirstAidKit', label: '救援案例' },
       { path: '/team-style', icon: 'PictureFilled', label: '队伍风采' }

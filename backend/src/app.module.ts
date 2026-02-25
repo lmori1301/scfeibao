@@ -26,6 +26,7 @@ import { OverviewInfoModule } from './modules/overview-info/overview-info.module
 import { VideosModule } from './modules/videos/videos.module';
 import { AppointmentsModule } from './modules/appointments/appointments.module';
 import { LocationModule } from './modules/location/location.module';
+import { ConfigModule as WebsiteConfigModule } from './modules/config/config.module';
 
 // 全局守卫、过滤器、拦截器
 import { JwtAuthGuard } from './common/guards/jwt-auth.guard';
@@ -81,6 +82,7 @@ import { QueryController } from './common/controllers/query.controller';
     VideosModule,
     AppointmentsModule,
     LocationModule,
+    WebsiteConfigModule,
   ],
   controllers: [AppController, QueryController],
   providers: [

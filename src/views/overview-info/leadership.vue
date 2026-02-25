@@ -197,18 +197,18 @@
             <div ref="bottomBgRef" id="1_113" class="Pixso-vector-1_113"></div>
             <div ref="bottomTextRef" id="32_8" class="Pixso-group-32_8">
                 <p id="1_118" class="Pixso-paragraph-1_118">
-                    {{ "主办单位：四川飞豹救援" }}
+                    {{ websiteConfig.host_unit }}
                 </p>
                 <p id="1_119" class="Pixso-paragraph-1_119">
-                    {{ "承办单位：四川飞豹救援新闻宣传处" }}
+                    {{ websiteConfig.organizer_unit }}
                 </p>
-                <p id="1_120" class="Pixso-paragraph-1_120">
-                    {{ "蜀ICP备XXXXXXX号" }}
-                </p>
-                <p id="1_121" class="Pixso-paragraph-1_121">
-                    {{ "Copyright®2025 sc.feibao.com All rights reserved" }}
-                </p>
-            </div>
+              <p id="1_120" class="Pixso-paragraph-1_120">
+                  {{ websiteConfig.icp_number }}
+              </p>
+              <p id="1_121" class="Pixso-paragraph-1_121">
+                  {{ websiteConfig.copyright }}
+              </p>
+                                            </div>
 
             <!-- 分页组件 -->
             <div class="pagination-wrapper">
@@ -370,6 +370,7 @@
 
 <script setup lang="ts">
 import { ref, computed, onMounted, nextTick, watch } from 'vue'
+import { getWebsiteConfig } from '@/api/config'
 import { useRouter, useRoute } from 'vue-router'
 import img253 from '@/assets/images/Vector_1_253.png'
 import img255 from '@/assets/images/Vector_1_255.png'
@@ -635,6 +636,34 @@ watch(() => route.path, async (newPath) => {
 onMounted(async () => {
   await initializePageLayout()
 })
+
+const websiteConfig = ref({
+  host_unit: '四川飞豹救援',
+  organizer_unit: '四川飞豹救援新闻宣传处',
+  icp_number: '蜀ICP备XXXXXXX号',
+  copyright: 'Copyright®2025 sc.feibao.com All rights reserved'
+})
+
+const fetchWebsiteConfig = async () => {
+  try {
+    const res = await getWebsiteConfig()
+    if (res.data) {
+      websiteConfig.value = {
+        host_unit: res.data.host_unit || '四川飞豹救援',
+        organizer_unit: res.data.organizer_unit || '四川飞豹救援新闻宣传处',
+        icp_number: res.data.icp_number || '蜀ICP备XXXXXXX号',
+        copyright: res.data.copyright || 'Copyright®2025 sc.feibao.com All rights reserved'
+      }
+    }
+  } catch (error) {
+    console.error('获取网站配置失败:', error)
+  }
+}
+
+onMounted(() => {
+  fetchWebsiteConfig()
+})
+
 </script>
 
 <style>
