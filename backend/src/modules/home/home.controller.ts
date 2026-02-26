@@ -17,10 +17,11 @@ export class HomeController {
     return this.homeService.getVideos()
   }
 
-  @Get('news')
-  getNews() {
-    return this.homeService.getNews()
-  }
+  // 注释掉此路由，使用 NewsController 的 /home/news 路由（支持分类过滤）
+  // @Get('news')
+  // getNews() {
+  //   return this.homeService.getNews()
+  // }
 
   @Get('dynamics')
   getDynamics() {

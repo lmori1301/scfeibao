@@ -1,77 +1,95 @@
-import {
-  Controller,
-  Get,
-  Post,
-  Body,
-  Patch,
-  Param,
-  Delete,
-  Query,
-} from '@nestjs/common';
-import { ApiTags, ApiOperation, ApiBearerAuth } from '@nestjs/swagger';
+import { Controller, Get, Post, Delete, Param, Query, Body, HttpStatus } from '@nestjs/common';
 import { NewsService } from './news.service';
-import { CreateNewsDto, UpdateNewsDto, QueryNewsDto } from './dto/news.dto';
-import { PaginationDto } from '../../common/dto/pagination.dto';
 import { Public } from '../../common/decorators/public.decorator';
+import { InjectRepository } from '@nestjs/typeorm';
+import { Repository } from 'typeorm';
+import { News } from '../../database/entities/news.entity';
 
-@ApiTags('新闻')
-@Controller('news')
+@Controller()
 export class NewsController {
-  constructor(private readonly newsService: NewsService) {}
+  constructor(
+    private readonly newsService: NewsService,
+    @InjectRepository(News)
+    private newsRepository: Repository<News>
+  ) {}
 
-  @Post()
-  @ApiBearerAuth()
-  @ApiOperation({ summary: '创建新闻' })
-  create(@Body() createNewsDto: CreateNewsDto) {
-    return this.newsService.create(createNewsDto);
-  }
-
+  // 新闻列表
   @Public()
-  @Get('categories')
-  @ApiOperation({ summary: '获取新闻分类' })
-  getCategories() {
-    return this.newsService.getCategories();
+  @Get('/home/news')
+  async getNewsList(
+    @Query('category') category: string,
+    @Query('page') page: number = 1,
+    @Query('pageSize') pageSize: number = 12
+  ) {
+    const data = await this.newsService.findByCategory(category, page, pageSize);
+    return {
+      code: HttpStatus.OK,
+      data,
+      message: '查询成功'
+    };
   }
 
+  // 新闻详情
+  @Get('/dynamic-news/detail/:id')
+  async getNewsDetail(@Param('id') id: number) {
+    const data = await this.newsService.findOne(id);
+    return {
+      code: HttpStatus.OK,
+      data,
+      message: '查询成功'
+    };
+  }
+
+  // ========== 后台管理路由 ==========
+
+  // 后台：获取新闻列表
   @Public()
-  @Get()
-  @ApiOperation({ summary: '获取新闻列表' })
-  findAll(@Query() queryDto: QueryNewsDto) {
-    return this.newsService.findAll(queryDto, queryDto);
+  @Get('news')
+  async getAdminNewsList(
+    @Query('page') page: number = 1,
+    @Query('pageSize') pageSize: number = 10
+  ) {
+    return await this.newsService.findAll(page, pageSize);
   }
 
+  // 获取新闻详情（前端+后台通用）
   @Public()
-  @Get(':id')
-  @ApiOperation({ summary: '获取新闻详情' })
-  findOne(@Param('id') id: string) {
-    return this.newsService.findOne(+id);
+  @Get('news/:id')
+  async getNewsById(@Param('id') id: number) {
+    return await this.newsService.findOne(id);
   }
 
-  @Patch(':id')
-  @ApiBearerAuth()
-  @ApiOperation({ summary: '更新新闻' })
-  update(@Param('id') id: string, @Body() updateNewsDto: UpdateNewsDto) {
-    return this.newsService.update(+id, updateNewsDto);
+  // 后台：保存新闻（新增或更新）
+  @Public()
+  @Post('news')
+  async saveNews(@Body() data: any) {
+    const newsData = {
+      title: data.title,
+      summary: data.summary,
+      content: data.content,
+      coverImage: data.coverImage,
+      category: data.category,
+      author: data.author,
+      status: data.status,
+      publishedAt: data.publishedAt,
+      sort: data.sort || 0,
+      isHeadline: data.isHeadline || 0,
+      isNew: data.isNew || 0,
+    };
+
+    if (data.id) {
+      await this.newsRepository.update(data.id, newsData);
+    } else {
+      await this.newsRepository.save(newsData);
+    }
+    return { message: '保存成功' };
   }
 
-  @Delete(':id')
-  @ApiBearerAuth()
-  @ApiOperation({ summary: '删除新闻' })
-  remove(@Param('id') id: string) {
-    return this.newsService.remove(+id);
-  }
-
-  @Post('batch/delete')
-  @ApiBearerAuth()
-  @ApiOperation({ summary: '批量删除新闻' })
-  batchDelete(@Body() body: { ids: number[] }) {
-    return this.newsService.batchDelete(body.ids);
-  }
-
-  @Post('batch/status')
-  @ApiBearerAuth()
-  @ApiOperation({ summary: '批量更新状态' })
-  batchUpdateStatus(@Body() body: { ids: number[]; status: number }) {
-    return this.newsService.batchUpdateStatus(body.ids, body.status);
+  // 后台：删除新闻
+  @Public()
+  @Delete('news/:id')
+  async deleteNews(@Param('id') id: number) {
+    await this.newsRepository.delete(id);
+    return { message: '删除成功' };
   }
 }

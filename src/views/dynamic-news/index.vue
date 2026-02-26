@@ -14,26 +14,21 @@
           <p id="1_2126" class="Pixso-paragraph-1_2126">
               当前位置：<router-link to="/" style="color: inherit; text-decoration: none;">首页</router-link> > 动态要闻
           </p>
-          <div id="1_2127" class="Pixso-text-1_2127">
+          <div v-if="headlineNews" id="1_2127" class="Pixso-text-1_2127">
               <p id="1_2127_0" class="Pixso-paragraph-1_2127_0">
                   <span id="1_2127_0_1" class="Pixso-span-1_2127_0_1">
-                      11月9日，2020年"119"消防宣传月启动仪式暨成都"飞系"消防救援专业队伍技能汇报演练在成都市成都市消防救援支队培训基地隆重举行，
+                      {{ getHeadlineSummary(headlineNews) }}
                   </span>
-              </p>
-              <p id="1_2127_1" class="Pixso-paragraph-1_2127_1">
-                  <span id="1_2127_1_1" class="Pixso-span-1_2127_1_1">
-                      开启了我省消防主题宣传系列活动，掀起全民消防、全民参与的新浪潮…
-                  </span>
-                  <router-link to="/dynamic-news/1" class="detail-link">[查看详情]</router-link>
+                  <router-link :to="`/dynamic-news/detail/${headlineNews.id}`" class="detail-link">[查看详情]</router-link>
               </p>
           </div>
-          <!-- 大标题（固定不变） -->
-          <p id="1_2128" class="Pixso-paragraph-1_2128">
-              2020年"119"消防宣传月启动仪式举行，"飞系"集结亮相！
+          <!-- 大标题（动态获取） -->
+          <p v-if="headlineNews" id="1_2128" class="Pixso-paragraph-1_2128">
+              {{ headlineNews.title }}
           </p>
 
           <!-- 轮播容器（支持鼠标悬停暂停） -->
-          <div class="carousel-wrapper" @mouseenter="handleMouseEnter" @mouseleave="handleMouseLeave">
+          <div v-if="carouselData.length > 0" class="carousel-wrapper" @mouseenter="handleMouseEnter" @mouseleave="handleMouseLeave">
             <!-- 左侧图片（动态切换） -->
             <div id="1_2129" class="Pixso-vector-1_2129"
                  :style="{ backgroundImage: `url(${carouselData[currentIndex].leftImage})` }"></div>
@@ -54,11 +49,6 @@
                   <p id="1_2134_0" class="Pixso-paragraph-1_2134_0">
                       <span id="1_2134_0_1" class="Pixso-span-1_2134_0_1">
                           {{ carouselData[currentIndex].content }}
-                      </span>
-                  </p>
-                  <p id="1_2134_1" class="Pixso-paragraph-1_2134_1">
-                      <span id="1_2134_1_1" class="Pixso-span-1_2134_1_1">
-                          {{ carouselData[currentIndex].content2 }}
                       </span>
                   </p>
               </div>
@@ -249,44 +239,206 @@
   </div>
 </template>
 <script lang="ts" setup>
-import { ref, computed, onMounted, onUnmounted } from 'vue'
+import { ref, computed, onMounted, onUnmounted, onActivated, watch } from 'vue'
 import { getWebsiteConfig } from '@/api/config'
-import { useRouter } from 'vue-router'
+import { useRouter, useRoute } from 'vue-router'
+import http from '@/utils/http'
 import image1 from '@/assets/images/Vector_1_2129.png'
 
 const router = useRouter()
+const route = useRoute()
 
-// 轮播数据（4条）
-const carouselData = [
-  {
-    leftImage: image1,
-    title: '"应急使命·2025"演习总结会在京召开',
-    content: '10月31日，"应急使命·2025"演习总结会召开，此次演习由国家防灾减灾救灾委员会、国务院安全生产委员会主办，应急管理部、工业和信息化部、中央广电总台、黑龙江省人民政府联合承办。应急管理部党委委员、副部长徐加爱，黑龙江省委常委、常务副省长陈少波出席会议并讲话。',
-    content2: '会议指出，各有关方面深入贯彻落实习近平总书记关于应急管理的重要论述，坚持底线思维、极限思维，聚焦极端性、专业性、实战性，突出新装备、新技术、新材料、新战法等新质救援能力运用，以案例找难题、以难题定需求、以需求广征集、以征集搞比测、以比测促攻关……',
-    link: '/dynamic-news/17'
-  },
-  {
-    leftImage: image1,
-    title: '全国消防救援队伍改革发展成效显著',
-content: '10月31日，"应急使命·2025"演习总结会召开，此次演习由国家防灾减灾救灾委员会、国务院安全生产委员会主办，应急管理部、工业和信息化部、中央广电总台、黑龙江省人民政府联合承办。应急管理部党委委员、副部长徐加爱，黑龙江省委常委、常务副省长陈少波出席会议并讲话。',
-    content2: '会议指出，各有关方面深入贯彻落实习近平总书记关于应急管理的重要论述，坚持底线思维、极限思维，聚焦极端性、专业性、实战性，突出新装备、新技术、新材料、新战法等新质救援能力运用，以案例找难题、以难题定需求、以需求广征集、以征集搞比测、以比测促攻关……',
-    link: '/dynamic-news/18'
-  },
-  {
-    leftImage: image1,
-    title: '四川消防救援队伍建设取得新突破',
-content: '10月31日，"应急使命·2025"演习总结会召开，此次演习由国家防灾减灾救灾委员会、国务院安全生产委员会主办，应急管理部、工业和信息化部、中央广电总台、黑龙江省人民政府联合承办。应急管理部党委委员、副部长徐加爱，黑龙江省委常委、常务副省长陈少波出席会议并讲话。',
-    content2: '会议指出，各有关方面深入贯彻落实习近平总书记关于应急管理的重要论述，坚持底线思维、极限思维，聚焦极端性、专业性、实战性，突出新装备、新技术、新材料、新战法等新质救援能力运用，以案例找难题、以难题定需求、以需求广征集、以征集搞比测、以比测促攻关……',
-    link: '/dynamic-news/19'
-  },
-  {
-    leftImage: image1,
-    title: '消防救援装备现代化水平持续提升',
-content: '10月31日，"应急使命·2025"演习总结会召开，此次演习由国家防灾减灾救灾委员会、国务院安全生产委员会主办，应急管理部、工业和信息化部、中央广电总台、黑龙江省人民政府联合承办。应急管理部党委委员、副部长徐加爱，黑龙江省委常委、常务副省长陈少波出席会议并讲话。',
-    content2: '会议指出，各有关方面深入贯彻落实习近平总书记关于应急管理的重要论述，坚持底线思维、极限思维，聚焦极端性、专业性、实战性，突出新装备、新技术、新材料、新战法等新质救援能力运用，以案例找难题、以难题定需求、以需求广征集、以征集搞比测、以比测促攻关……',
-    link: '/dynamic-news/20'
+// 响应式数据
+const loading = ref(false)
+const headlineNews = ref<any>(null)
+const localNews = ref<any[]>([])
+const rescueNews = ref<any[]>([])
+const policyNews = ref<any[]>([])
+const mediaNews = ref<any[]>([])
+
+// 去除HTML标签，提取纯文本
+const stripHtml = (html: string): string => {
+  if (!html) return ''
+  const div = document.createElement('div')
+  div.innerHTML = html
+  return div.textContent || div.innerText || ''
+}
+
+// 获取头条新闻摘要（限制100字符）
+const getHeadlineSummary = (news: any): string => {
+  const text = stripHtml(news.summary || news.content || '')
+  if (text.length <= 100) {
+    return text
   }
-]
+  return text.substring(0, 100) + '…'
+}
+
+// 获取各分类新闻数据
+const fetchNewsByCategory = async (category: string, limit: number = 12) => {
+  console.log(`📞 fetchNewsByCategory 调用 - category: ${category}, limit: ${limit}`)
+  try {
+    const res = await http.get('/home/news', {
+      params: {
+        category,
+        status: 1,
+        pageSize: limit,
+        page: 1
+      }
+    })
+    console.log(`✅ ${category} 数据获取成功:`, res.data)
+
+    // 🔥 修复：处理嵌套响应结构 res.data.data.list
+    let result = []
+    if (Array.isArray(res.data)) {
+      result = res.data
+    } else if (res.data?.data?.list) {
+      result = res.data.data.list
+    } else if (res.data?.list) {
+      result = res.data.list
+    } else if (res.data?.items) {
+      result = res.data.items
+    }
+    console.log(`📦 返回数据长度:`, result.length)
+    return result
+  } catch (error) {
+    console.error(`❌ 获取${category}新闻失败:`, error)
+    return []
+  }
+}
+
+// 加载所有新闻数据
+const loadAllNews = async () => {
+  console.log('🚀 loadAllNews 开始执行')
+  loading.value = true
+  try {
+    console.log('📡 准备发起 API 请求...')
+    const [local, rescue, policy, media] = await Promise.all([
+      fetchNewsByCategory('各地动态', 12),
+      fetchNewsByCategory('救援行动', 12),
+      fetchNewsByCategory('政策解读', 12),
+      fetchNewsByCategory('媒体播报', 12)
+    ])
+    console.log('✅ API 请求完成:', {
+      localLength: local.length,
+      rescueLength: rescue.length,
+      policyLength: policy.length,
+      mediaLength: media.length
+    })
+    console.log('📦 local 数据示例:', local[0])
+
+    localNews.value = local
+    rescueNews.value = rescue
+    policyNews.value = policy
+    mediaNews.value = media
+
+    console.log('💾 数据已赋值 - localNews.value.length:', localNews.value.length)
+    console.log('💾 数据已赋值 - rescueNews.value.length:', rescueNews.value.length)
+    console.log('💾 数据已赋值 - policyNews.value.length:', policyNews.value.length)
+    console.log('💾 数据已赋值 - mediaNews.value.length:', mediaNews.value.length)
+  } finally {
+    loading.value = false
+    console.log('🏁 loadAllNews 执行完成')
+  }
+}
+
+// 获取头条新闻（优先获取设置为头条的新闻）
+const fetchHeadlineNews = async () => {
+  try {
+    const res = await http.get('/home/news', {
+      params: {
+        category: '动态要闻',
+        status: 1,
+        pageSize: 10,
+        page: 1
+      }
+    })
+    // 🔥 修复：处理嵌套响应结构
+    let items = []
+    if (Array.isArray(res.data)) {
+      items = res.data
+    } else if (res.data?.data?.list) {
+      items = res.data.data.list
+    } else if (res.data?.list) {
+      items = res.data.list
+    } else if (res.data?.items) {
+      items = res.data.items
+    }
+
+    // 优先选择设置为头条的新闻
+    const headlineItem = items.find((item: any) => item.isHeadline === 1)
+
+    if (headlineItem) {
+      headlineNews.value = headlineItem
+    } else if (items.length > 0) {
+      // 如果没有设置头条的新闻，使用第一条
+      headlineNews.value = items[0]
+    }
+  } catch (error) {
+    console.error('获取头条新闻失败:', error)
+  }
+}
+
+// 轮播新闻数据（从图文资讯分类获取前4条）
+const carouselNews = ref<any[]>([])
+
+// 获取轮播新闻数据
+const fetchCarouselNews = async () => {
+  console.log('🎠 fetchCarouselNews 开始执行')
+  try {
+    const res = await http.get('/home/news', {
+      params: {
+        category: '图文资讯',
+        status: 1,
+        pageSize: 4,
+        page: 1
+      }
+    })
+    console.log('🎠 轮播新闻数据获取成功:', res.data)
+    console.log('🎠 数据类型:', Array.isArray(res.data) ? '数组' : '对象')
+
+    // 🔥 修复：处理嵌套响应结构 res.data.data.list
+    let newsData = []
+    if (Array.isArray(res.data)) {
+      newsData = res.data
+    } else if (res.data?.data?.list) {
+      newsData = res.data.data.list
+    } else if (res.data?.list) {
+      newsData = res.data.list
+    } else if (res.data?.items) {
+      newsData = res.data.items
+    }
+
+    console.log('🎠 处理后的数据长度:', newsData.length)
+    if (newsData.length > 0) {
+      console.log('🎠 第一条数据:', newsData[0])
+      console.log('🎠 第一条数据的ID:', newsData[0]?.id)
+      console.log('🎠 第一条数据的标题:', newsData[0]?.title)
+    }
+
+    carouselNews.value = newsData
+    console.log('🎠 carouselNews.value 已赋值，长度:', carouselNews.value.length)
+  } catch (error) {
+    console.error('❌ 获取轮播新闻失败:', error)
+  }
+}
+
+// 计算轮播数据格式
+const carouselData = computed(() => {
+  return carouselNews.value.map((news: any) => {
+    let text = stripHtml(news.summary || news.content || '')
+    // 去除换行符和多余空格
+    text = text.replace(/[\r\n]+/g, ' ').replace(/\s+/g, ' ').trim()
+    const maxLength = 300
+    const truncatedText = text.length > maxLength ? text.substring(0, maxLength) + '…' : text
+
+    return {
+      leftImage: news.coverImage || image1,
+      title: news.title,
+      content: truncatedText,
+      link: `/dynamic-news/detail/${news.id}`
+    }
+  })
+})
 
 // 当前轮播索引
 const currentIndex = ref(0)
@@ -301,7 +453,8 @@ const switchToIndex = (index: number) => {
 
 // 切换到下一条
 const nextSlide = () => {
-  currentIndex.value = (currentIndex.value + 1) % carouselData.length
+  if (carouselData.value.length === 0) return
+  currentIndex.value = (currentIndex.value + 1) % carouselData.value.length
 }
 
 // 启动自动轮播
@@ -330,14 +483,38 @@ const handleMouseLeave = () => {
   startAutoPlay()
 }
 
-// 生命周期：组件挂载时启动自动轮播
+// 生命周期：组件挂载时加载数据并启动自动轮播
 onMounted(() => {
+  fetchHeadlineNews()
+  fetchCarouselNews()
+  loadAllNews()
   startAutoPlay()
+  fetchWebsiteConfig()
 })
 
 // 生命周期：组件卸载时清理定时器
 onUnmounted(() => {
   stopAutoPlay()
+})
+
+// 生命周期：组件激活时（从其他页面返回时）重新加载数据
+onActivated(() => {
+  fetchHeadlineNews()
+  fetchCarouselNews()
+  loadAllNews()
+  startAutoPlay()
+})
+
+// 监听路由变化，从详情页返回时刷新数据
+watch(() => route.path, (newPath, oldPath) => {
+  if (newPath === '/dynamic-news' && oldPath?.includes('/detail')) {
+    fetchHeadlineNews()
+    fetchCarouselNews()
+    loadAllNews()
+    if (!timer) {
+      startAutoPlay()
+    }
+  }
 })
 
 // 核心1：定义选中的Tab（默认各地动态）
@@ -383,88 +560,63 @@ const tabStyle = (tabKey: string) => {
   return base
 }
 
-// 核心3：定义各Tab对应的列表数据（匹配原有位置、标题、时间、详情链接）
-const tabData = {
-  // 各地动态
-  local: {
-    left: [
-      { title: "建设高质量综合性消防救援队伍", time: "2025-12-15", left: "7.63%", top: "66.21%", timeLeft: "37.53%", link: "/dynamic-news/detail/3", isNew: true },
-      { title: "四川消防面向全省招募消防志愿者", time: "2025-11-28", left: "7.58%", top: "69.16%", timeLeft: "37.47%", link: "/dynamic-news/detail/5" },
-      { title: "全省政府专职消防救援队伍建设现场会在成都召开", time: "2025-11-10", left: "7.58%", top: "72.11%", timeLeft: "37.47%", link: "/dynamic-news/detail/7" },
-      { title: "应急管理部召开「智慧应急」建设现场推进会", time: "2025-10-22", left: "7.63%", top: "75.06%", timeLeft: "37.53%", link: "/dynamic-news/detail/4" },
-      { title: "消防主题公园开园啦！四川省暨成都市１１９消防…", time: "2025-10-05", left: "7.58%", top: "78%", timeLeft: "37.47%", link: "/dynamic-news/detail/6" },
-      { title: "护航校园安全，省安全应急科普在行动", time: "2025-09-18", left: "7.58%", top: "80.95%", timeLeft: "37.47%", link: "/dynamic-news/detail/8" },
-    ],
-    right: [
-      { title: "中国消防救援力量到底强在哪里", time: "2025-12-10", left: "54.92%", top: "66.21%", timeLeft: "84.82%", link: "/dynamic-news/detail/9", isNew: true },
-      { title: "《你好，火焰蓝》开机！当青春「火焰蓝」…", time: "2025-11-25", left: "54.87%", top: "69.16%", timeLeft: "84.77%", link: "/dynamic-news/detail/11" },
-      { title: "琼色局长参加国新办国家综合性消防救援队伍改革…", time: "2025-11-08", left: "54.87%", top: "72.11%", timeLeft: "84.77%", link: "/dynamic-news/detail/13" },
-      { title: "开赛啦！中国消防动漫形象创意设计大赛于…", time: "2025-10-20", left: "54.92%", top: "75.06%", timeLeft: "84.82%", link: "/dynamic-news/detail/10" },
-      { title: "全民消防安全学习云平台，正式上线启用啦！", time: "2025-10-03", left: "54.87%", top: "78%", timeLeft: "84.77%", link: "/dynamic-news/detail/12" },
-      { title: "第五届全国119消防先进集体和先进个人拟表彰对象公示", time: "2025-09-15", left: "54.87%", top: "80.95%", timeLeft: "84.77%", link: "/dynamic-news/detail/14" },
-    ]
-  },
-  // 救援行动
-  rescue: {
-    left: [
-      { title: "成都消防成功处置高层火灾救援", time: "2025-12-18", left: "7.63%", top: "66.21%", timeLeft: "37.53%", link: "/dynamic-news/detail/1", isNew: true },
-      { title: "四川消防跨区域增援抗洪抢险", time: "2025-12-01", left: "7.58%", top: "69.16%", timeLeft: "37.47%", link: "/dynamic-news/detail/2" },
-      { title: "消防救援演练进社区 提升应急能力", time: "2025-11-15", left: "7.58%", top: "72.11%", timeLeft: "37.47%", link: "/dynamic-news/detail/2" },
-      { title: "森林消防支队扑灭川西林区火情", time: "2025-10-28", left: "7.63%", top: "75.06%", timeLeft: "37.53%", link: "/dynamic-news/detail/1" },
-      { title: "救援直升机转运山区被困群众", time: "2025-10-10", left: "7.58%", top: "78%", timeLeft: "37.47%", link: "/dynamic-news/detail/2" },
-      { title: "消防指战员寒夜救援落水人员", time: "2025-09-22", left: "7.58%", top: "80.95%", timeLeft: "37.47%", link: "/dynamic-news/detail/1" },
-    ],
-    right: [
-      { title: "全国消防救援技能比武竞赛举行", time: "2025-12-12", left: "54.92%", top: "66.21%", timeLeft: "84.82%", link: "/dynamic-news/detail/2", isNew: true },
-      { title: "无人机助力消防救援精准定位", time: "2025-11-30", left: "54.87%", top: "69.16%", timeLeft: "84.77%", link: "/dynamic-news/detail/1" },
-      { title: "跨省联动救援机制实战检验", time: "2025-11-12", left: "54.87%", top: "72.11%", timeLeft: "84.77%", link: "/dynamic-news/detail/2" },
-      { title: "新装备列装 提升救援效率", time: "2025-10-25", left: "54.92%", top: "75.06%", timeLeft: "84.82%", link: "/dynamic-news/detail/1" },
-      { title: "民间救援队与消防协同作战", time: "2025-10-08", left: "54.87%", top: "78%", timeLeft: "84.77%", link: "/dynamic-news/detail/2" },
-      { title: "救援现场暖心瞬间：消防员背老人转移", time: "2025-09-20", left: "54.87%", top: "80.95%", timeLeft: "84.77%", link: "/dynamic-news/detail/1" },
-    ]
-  },
-  // 政策解读
-  policy: {
-    left: [
-      { title: "新《消防法》重点条款解读", time: "2025-12-20", left: "7.63%", top: "66.21%", timeLeft: "37.53%", link: "/dynamic-news/detail/3", isNew: true },
-      { title: "消防安全责任制实施细则解读", time: "2025-12-05", left: "7.58%", top: "69.16%", timeLeft: "37.47%", link: "/dynamic-news/detail/4" },
-      { title: "消防救援队伍改革配套政策说明", time: "2025-11-18", left: "7.58%", top: "72.11%", timeLeft: "37.47%", link: "/dynamic-news/detail/3" },
-      { title: "农村消防建设扶持政策解读", time: "2025-11-01", left: "7.63%", top: "75.06%", timeLeft: "37.53%", link: "/dynamic-news/detail/4" },
-      { title: "企业消防安全奖惩政策说明", time: "2025-10-15", left: "7.58%", top: "78%", timeLeft: "37.47%", link: "/dynamic-news/detail/3" },
-      { title: "消防设施维保新规解读", time: "2025-09-28", left: "7.58%", top: "80.95%", timeLeft: "37.47%", link: "/dynamic-news/detail/4" },
-    ],
-    right: [
-      { title: "应急救援补贴政策落地实施", time: "2025-12-16", left: "54.92%", top: "66.21%", timeLeft: "84.82%", link: "/dynamic-news/detail/3", isNew: true },
-      { title: "消防培训收费规范政策解读", time: "2025-12-03", left: "54.87%", top: "69.16%", timeLeft: "84.77%", link: "/dynamic-news/detail/4" },
-      { title: "新能源汽车消防安全政策说明", time: "2025-11-16", left: "54.87%", top: "72.11%", timeLeft: "84.77%", link: "/dynamic-news/detail/3" },
-      { title: "高层建筑消防管理新规解读", time: "2025-10-30", left: "54.92%", top: "75.06%", timeLeft: "84.82%", link: "/dynamic-news/detail/4" },
-      { title: "消防产品认证政策调整说明", time: "2025-10-12", left: "54.87%", top: "78%", timeLeft: "84.77%", link: "/dynamic-news/detail/3" },
-      { title: "基层消防力量建设扶持政策", time: "2025-09-25", left: "54.87%", top: "80.95%", timeLeft: "84.77%", link: "/dynamic-news/detail/4" },
-    ]
-  },
-  // 媒体播报
-  media: {
-    left: [
-      { title: "央视《新闻联播》报道四川消防工作", time: "2025-12-22", left: "7.63%", top: "66.21%", timeLeft: "37.53%", link: "/dynamic-news/detail/15", isNew: true },
-      { title: "人民日报：消防救援队伍建设成效显著", time: "2025-12-08", left: "7.58%", top: "69.16%", timeLeft: "37.47%", link: "/dynamic-news/detail/16" },
-      { title: "四川卫视专题报道「119」消防宣传月", time: "2025-11-20", left: "7.58%", top: "72.11%", timeLeft: "37.47%", link: "/dynamic-news/detail/15" },
-      { title: "央广网专访消防救援总队总队长", time: "2025-11-03", left: "7.63%", top: "75.06%", timeLeft: "37.53%", link: "/dynamic-news/detail/16" },
-      { title: "地方媒体聚焦消防救援先进事迹", time: "2025-10-18", left: "7.58%", top: "78%", timeLeft: "37.47%", link: "/dynamic-news/detail/15" },
-      { title: "消防主题纪录片登陆各大卫视", time: "2025-09-30", left: "7.58%", top: "80.95%", timeLeft: "37.47%", link: "/dynamic-news/detail/16" },
-    ],
-    right: [
-      { title: "新媒体平台消防科普内容破亿播放", time: "2025-12-19", left: "54.92%", top: "66.21%", timeLeft: "84.82%", link: "/dynamic-news/detail/15", isNew: true },
-      { title: "网红消防员直播讲解消防安全知识", time: "2025-12-06", left: "54.87%", top: "69.16%", timeLeft: "84.77%", link: "/dynamic-news/detail/16" },
-      { title: "海外媒体关注中国消防救援发展", time: "2025-11-18", left: "54.87%", top: "72.11%", timeLeft: "84.77%", link: "/dynamic-news/detail/15" },
-      { title: "消防短视频大赛获奖作品展播", time: "2025-11-01", left: "54.92%", top: "75.06%", timeLeft: "84.82%", link: "/dynamic-news/detail/16" },
-      { title: "纸媒专版报道消防改革十年成果", time: "2025-10-16", left: "54.87%", top: "78%", timeLeft: "84.77%", link: "/dynamic-news/detail/15" },
-      { title: "电台消防公益广告持续投放", time: "2025-09-28", left: "54.87%", top: "80.95%", timeLeft: "84.77%", link: "/dynamic-news/detail/16" },
-    ]
-  }
+
+// 格式化新闻数据为显示格式（添加位置信息）
+const formatNewsForDisplay = (newsList: any[], isRightColumn: boolean = false) => {
+  const leftPositions = [
+    { left: "7.63%", top: "66.21%", timeLeft: "37.53%" },
+    { left: "7.58%", top: "69.16%", timeLeft: "37.47%" },
+    { left: "7.58%", top: "72.11%", timeLeft: "37.47%" },
+    { left: "7.63%", top: "75.06%", timeLeft: "37.53%" },
+    { left: "7.58%", top: "78%", timeLeft: "37.47%" },
+    { left: "7.58%", top: "80.95%", timeLeft: "37.47%" }
+  ]
+  const rightPositions = [
+    { left: "54.92%", top: "66.21%", timeLeft: "84.82%" },
+    { left: "54.87%", top: "69.16%", timeLeft: "84.77%" },
+    { left: "54.87%", top: "72.11%", timeLeft: "84.77%" },
+    { left: "54.92%", top: "75.06%", timeLeft: "84.82%" },
+    { left: "54.87%", top: "78%", timeLeft: "84.77%" },
+    { left: "54.87%", top: "80.95%", timeLeft: "84.77%" }
+  ]
+  const positions = isRightColumn ? rightPositions : leftPositions
+
+  return newsList.slice(0, 6).map((news: any, index: number) => ({
+    title: news.title,
+    time: news.publishedAt?.split('T')[0] || news.createdAt?.split('T')[0] || '',
+    link: `/dynamic-news/detail/${news.id}`,
+    isNew: news.isNew === 1,
+    ...positions[index]
+  }))
 }
 
 // 核心4：计算属性 - 根据选中的Tab返回对应列表
-const currentList = computed(() => tabData[activeTab.value as keyof typeof tabData])
+const currentList = computed(() => {
+  console.log('🔍 currentList 计算 - activeTab:', activeTab.value)
+  let newsList: any[] = []
+  switch (activeTab.value) {
+    case 'local':
+      newsList = localNews.value
+      break
+    case 'rescue':
+      newsList = rescueNews.value
+      break
+    case 'policy':
+      newsList = policyNews.value
+      break
+    case 'media':
+      newsList = mediaNews.value
+      break
+  }
+
+  console.log('📋 newsList 长度:', newsList.length)
+  const result = {
+    left: formatNewsForDisplay(newsList.slice(0, 6), false),
+    right: formatNewsForDisplay(newsList.slice(6, 12), true)
+  }
+  console.log('📊 currentList 结果:', { leftCount: result.left.length, rightCount: result.right.length })
+  return result
+})
 
 // 搜索
 const searchKey = ref('')
@@ -531,10 +683,6 @@ const fetchWebsiteConfig = async () => {
     console.error('获取网站配置失败:', error)
   }
 }
-
-onMounted(() => {
-  fetchWebsiteConfig()
-})
 
 </script>
 <style>
@@ -648,7 +796,7 @@ onMounted(() => {
   font-family: "Alibaba PuHuiTi-Regular";
   font-weight: Regular;
   text-align: center;
-  line-height: 20px;
+  line-height: 40px;
   color: rgba(20, 100, 166, 1);
   width: auto;
   height: auto;
@@ -657,11 +805,12 @@ onMounted(() => {
   right: 17.37%;
   top: 23.85%;
   bottom: 73.83%;
-  white-space: nowrap;
+  white-space: normal;
+  word-wrap: break-word;
   flex-grow: 0;
 }
 .Pixso-paragraph-1_2127_0 {
-  line-height: 20px;
+  line-height: 30px;
   position: relative;
   flex-shrink: 0;
 }
@@ -727,7 +876,7 @@ onMounted(() => {
   bottom: 41.9%;
 }
 .Pixso-paragraph-1_2133 {
-  font-size: 35px;
+  font-size: 30px;
   font-family: "Alibaba PuHuiTi-Regular";
   font-weight: 400;
   line-height: 49px;
@@ -741,18 +890,19 @@ onMounted(() => {
   bottom: 67.07%;
 }
 .Pixso-text-1_2134 {
-  font-size: 25px;
+  font-size: 20px;
   font-family: "Alibaba PuHuiTi-Regular";
   font-weight: Regular;
   line-height: 35px;
   color: rgba(77, 77, 77, 1);
   width: 35.52%;
-  height: 16.24%;
+  height: auto;
+  min-height: 16.24%;
   position: absolute;
   left: 55.63%;
   right: 8.85%;
   top: 35.01%;
-  bottom: 48.75%;
+  word-wrap: break-word;
 }
 .Pixso-paragraph-1_2134_0 {
   line-height: 35px;
@@ -760,7 +910,7 @@ onMounted(() => {
   flex-shrink: 0;
 }
 .Pixso-span-1_2134_0_1 {
-  font-size: 25px;
+  font-size: 20px;
   font-family: "Alibaba PuHuiTi-Regular";
   font-weight: 400;
   color: rgba(77, 77, 77, 1);

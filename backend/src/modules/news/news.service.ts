@@ -1,83 +1,89 @@
-import { Injectable, NotFoundException } from '@nestjs/common';
+import { Injectable, NotFoundException, InternalServerErrorException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { Repository, Like } from 'typeorm';
+import { Repository } from 'typeorm';
 import { News } from '../../database/entities/news.entity';
-import { CreateNewsDto, UpdateNewsDto, QueryNewsDto } from './dto/news.dto';
-import { PaginationDto, PaginatedResponseDto } from '../../common/dto/pagination.dto';
+// 如需Redis缓存，先安装：npm install cache-manager cache-manager-redis-store
+import { CACHE_MANAGER } from '@nestjs/cache-manager';
+import { Inject } from '@nestjs/common';
+import { Cache } from 'cache-manager';
 
 @Injectable()
 export class NewsService {
   constructor(
     @InjectRepository(News)
-    private newsRepository: Repository<News>,
+    private readonly newsRepository: Repository<News>,
+    @Inject(CACHE_MANAGER) private cacheManager: Cache // 注入缓存
   ) {}
 
-  async create(createNewsDto: CreateNewsDto): Promise<News> {
-    const news = this.newsRepository.create(createNewsDto);
-    return await this.newsRepository.save(news);
-  }
+  // 新闻详情查询（核心优化）
+  async findOne(id: number) {
+    try {
+      // 1. 先查缓存（缓存key：news:detail:123）
+      const cacheKey = `news:detail:${id}`;
+      const cachedNews = await this.cacheManager.get(cacheKey);
+      if (cachedNews) {
+        return cachedNews; // 缓存命中，直接返回
+      }
 
-  async findAll(
-    paginationDto: PaginationDto,
-    queryDto: QueryNewsDto,
-  ): Promise<PaginatedResponseDto<News>> {
-    const { page, pageSize } = paginationDto;
-    const { category, status, keyword } = queryDto;
+      // 2. 缓存未命中，查数据库（只查需要的字段，避免冗余）
+      const news = await this.newsRepository
+        .createQueryBuilder('news')
+        .select([
+          'news.id',
+          'news.title',
+          'news.content',
+          'news.publishedAt',
+          'news.category',
+          'news.createdAt'
+        ])
+        .where('news.id = :id', { id })
+        .getOne();
 
-    const where: any = {};
-    if (category) where.category = category;
-    if (status !== undefined) where.status = status;
-    if (keyword) {
-      where.title = Like(`%${keyword}%`);
+      if (!news) {
+        throw new NotFoundException(`新闻ID ${id} 不存在`);
+      }
+
+      // 3. 存入缓存（有效期1小时，避免缓存过期）
+      await this.cacheManager.set(cacheKey, news, 3600);
+
+      return news;
+    } catch (error) {
+      if (error instanceof NotFoundException) {
+        throw error; // 找不到新闻，抛404
+      }
+      // 其他错误，抛500并记录日志
+      throw new InternalServerErrorException(`查询新闻详情失败：${error.message}`);
     }
-
-    const [items, total] = await this.newsRepository.findAndCount({
-      where,
-      order: { sort: 'DESC', createdAt: 'DESC' },
-      skip: (page - 1) * pageSize,
-      take: pageSize,
-    });
-
-    return new PaginatedResponseDto(items, total, page, pageSize);
   }
 
-  async findOne(id: number): Promise<News> {
-    const news = await this.newsRepository.findOne({ where: { id } });
-    if (!news) {
-      throw new NotFoundException('新闻不存在');
+  // 新闻列表查询（同步优化）
+  async findByCategory(category: string, page = 1, pageSize = 12) {
+    try {
+      const [list, total] = await this.newsRepository.findAndCount({
+        where: { category },
+        select: ['id', 'title', 'summary', 'content', 'coverImage', 'publishedAt', 'createdAt', 'isNew', 'isHeadline'], // 添加 isNew 和 isHeadline 字段
+        order: { createdAt: 'DESC' },
+        skip: (page - 1) * pageSize,
+        take: pageSize, // 强制分页，避免一次性查全部
+      });
+      return { list, total };
+    } catch (error) {
+      throw new InternalServerErrorException(`查询${category}新闻失败：${error.message}`);
     }
-
-    news.viewCount += 1;
-    await this.newsRepository.save(news);
-
-    return news;
   }
 
-  async update(id: number, updateNewsDto: UpdateNewsDto): Promise<News> {
-    const news = await this.findOne(id);
-    Object.assign(news, updateNewsDto);
-    return await this.newsRepository.save(news);
-  }
-
-  async remove(id: number): Promise<void> {
-    const news = await this.findOne(id);
-    await this.newsRepository.softRemove(news);
-  }
-
-  async getCategories() {
-    return [
-      { id: 1, name: '动态要闻', code: 'news' },
-      { id: 2, name: '党建专栏', code: 'party' },
-      { id: 3, name: '队伍建设', code: 'team' },
-      { id: 4, name: '救援行动', code: 'action' }
-    ];
-  }
-
-  async batchDelete(ids: number[]): Promise<void> {
-    await this.newsRepository.softDelete(ids);
-  }
-
-  async batchUpdateStatus(ids: number[], status: number): Promise<void> {
-    await this.newsRepository.update(ids, { status });
+  // 后台管理：获取所有新闻列表
+  async findAll(page = 1, pageSize = 10) {
+    try {
+      const [items, total] = await this.newsRepository.findAndCount({
+        select: ['id', 'title', 'summary', 'content', 'coverImage', 'category', 'author', 'status', 'publishedAt', 'createdAt', 'isHeadline', 'isNew', 'sort'],
+        order: { createdAt: 'DESC' },
+        skip: (page - 1) * pageSize,
+        take: pageSize,
+      });
+      return { items, total };
+    } catch (error) {
+      throw new InternalServerErrorException(`查询新闻列表失败：${error.message}`);
+    }
   }
 }
