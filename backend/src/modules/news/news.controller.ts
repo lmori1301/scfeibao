@@ -1,4 +1,4 @@
-import { Controller, Get, Post, Delete, Param, Query, Body, HttpStatus } from '@nestjs/common';
+import { Controller, Get, Post, Patch, Delete, Param, Query, Body, HttpStatus } from '@nestjs/common';
 import { NewsService } from './news.service';
 import { Public } from '../../common/decorators/public.decorator';
 import { InjectRepository } from '@nestjs/typeorm';
@@ -83,6 +83,27 @@ export class NewsController {
       await this.newsRepository.save(newsData);
     }
     return { message: '保存成功' };
+  }
+
+  // 后台：更新新闻
+  @Public()
+  @Patch('news/:id')
+  async updateNews(@Param('id') id: number, @Body() data: any) {
+    const newsData = {
+      title: data.title,
+      summary: data.summary,
+      content: data.content,
+      coverImage: data.coverImage,
+      category: data.category,
+      author: data.author,
+      status: data.status,
+      publishedAt: data.publishedAt,
+      sort: data.sort || 0,
+      isHeadline: data.isHeadline || 0,
+      isNew: data.isNew || 0,
+    };
+    await this.newsRepository.update(id, newsData);
+    return { message: '更新成功' };
   }
 
   // 后台：删除新闻

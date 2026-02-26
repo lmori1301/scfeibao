@@ -60,7 +60,7 @@ export class NewsService {
   async findByCategory(category: string, page = 1, pageSize = 12) {
     try {
       const [list, total] = await this.newsRepository.findAndCount({
-        where: { category },
+        where: { category, status: 1 }, // 只返回已发布状态的新闻，草稿不显示
         select: ['id', 'title', 'summary', 'content', 'coverImage', 'publishedAt', 'createdAt', 'isNew', 'isHeadline'], // 添加 isNew 和 isHeadline 字段
         order: { createdAt: 'DESC' },
         skip: (page - 1) * pageSize,
