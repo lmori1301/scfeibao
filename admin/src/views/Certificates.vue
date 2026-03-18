@@ -16,6 +16,10 @@ const formData = ref({
   department: '', position: '', issueDate: '', validUntil: '', status: '有效', photo: ''
 })
 
+// 详情对话框
+const detailDialogVisible = ref(false)
+const detailData = ref<any>(null)
+
 const certificateTypes = [
   '应急指挥专家', '绳索救援技术员', '潜水救援教练', '城市搜救技术员', '山地救援教练',
   '急救医疗专家', '高级急救师', '水域救援技术员', '无人机操作师', '装备管理工程师'
@@ -51,7 +55,21 @@ const handleAdd = () => {
 
 const handleEdit = (row: any) => {
   dialogTitle.value = '编辑证书'
-  formData.value = { ...row }
+  formData.value = {
+    id: row.id,
+    certificateNo: row.certificateNumber || '',
+    type: row.certificateType || '',
+    name: row.holderName || '',
+    idCard: row.holderIdCard || '',
+    phone: '',
+    workUnit: row.issuingAuthority || '',
+    department: '',
+    position: '',
+    issueDate: row.issueDate || '',
+    validUntil: row.expiryDate || '',
+    status: row.status === 1 ? '有效' : '失效',
+    photo: ''
+  }
   dialogVisible.value = true
 }
 
@@ -63,16 +81,47 @@ const handleDelete = (row: any) => {
   })
 }
 
+// 查看详情
+const handleViewDetail = async (row: any) => {
+  try {
+    const response = await http.get(`/certificates/${row.id}`)
+    detailData.value = response
+    detailDialogVisible.value = true
+  } catch (error: any) {
+    ElMessage.error(error.message || '获取详情失败')
+  }
+}
+
 const handleSave = async () => {
   await formRef.value.validate()
+
+  const saveData = {
+    certificateNumber: formData.value.certificateNo,
+    certificateName: formData.value.type,
+    certificateType: formData.value.type,
+    holderName: formData.value.name,
+    holderIdCard: formData.value.idCard,
+    issuingAuthority: formData.value.workUnit,
+    issueDate: formData.value.issueDate,
+    expiryDate: formData.value.validUntil,
+    status: formData.value.status === '有效' ? 1 : 0
+  }
+
   if (formData.value.id) {
-    await http.patch(`/certificates/${formData.value.id}`, formData.value)
+    await http.patch(`/certificates/${formData.value.id}`, saveData)
   } else {
-    await http.post('/certificates', formData.value)
+    await http.post('/certificates', saveData)
   }
   ElMessage.success('保存成功')
   dialogVisible.value = false
   fetch()
+}
+
+// 格式化日期为 YYYY-MM-DD
+const formatDate = (row: any, column: any, cellValue: any) => {
+  if (!cellValue) return ''
+  const date = new Date(cellValue)
+  return date.toISOString().split('T')[0]
 }
 
 fetch()
@@ -119,15 +168,16 @@ fetch()
         <el-table-column prop="phone" label="联系电话" width="120" />
         <el-table-column prop="workUnit" label="工作单位" width="140" />
         <el-table-column prop="position" label="职位" width="100" />
-        <el-table-column prop="issueDate" label="发证日期" width="110" />
-        <el-table-column prop="validUntil" label="有效期限" width="110" />
+        <el-table-column prop="issueDate" label="发证日期" width="110" :formatter="formatDate" />
+        <el-table-column prop="validUntil" label="有效期限" width="110" :formatter="formatDate" />
         <el-table-column label="状态" width="80">
           <template #default="{ row }">
             <el-tag :type="row.status === '有效' ? 'success' : 'info'">{{ row.status }}</el-tag>
           </template>
         </el-table-column>
-        <el-table-column label="操作" width="150" fixed="right">
+        <el-table-column label="操作" width="200" fixed="right">
           <template #default="{ row }">
+            <el-button text type="info" size="small" @click="handleViewDetail(row)">详情</el-button>
             <el-button text type="primary" size="small" @click="handleEdit(row)">编辑</el-button>
             <el-button text type="danger" size="small" @click="handleDelete(row)">删除</el-button>
           </template>
@@ -136,7 +186,7 @@ fetch()
       <Pagination :total="total" :page="page" :page-size="pageSize" @change="handlePageChange" />
     </el-card>
 
-    <el-dialog v-model="dialogVisible" :title="dialogTitle" width="800px">
+    <el-dialog v-model="dialogVisible" :title="dialogTitle" width="1000px">
       <el-form ref="formRef" :model="formData" :rules="rules" label-width="100px">
         <el-form-item label="证书照片">
           <ImageUpload v-model="formData.photo" />
@@ -219,6 +269,31 @@ fetch()
         <el-button type="primary" @click="handleSave">保存</el-button>
       </template>
     </el-dialog>
+
+    <!-- 详情对话框 -->
+    <el-dialog v-model="detailDialogVisible" title="证书详情" width="700px">
+      <div v-if="detailData" class="detail-container">
+        <el-descriptions :column="2" border>
+          <el-descriptions-item label="证书编号">{{ detailData.certificateNumber || '-' }}</el-descriptions-item>
+          <el-descriptions-item label="证书类型">{{ detailData.certificateType || '-' }}</el-descriptions-item>
+          <el-descriptions-item label="证书名称">{{ detailData.certificateName || '-' }}</el-descriptions-item>
+          <el-descriptions-item label="持证人姓名">{{ detailData.holderName || '-' }}</el-descriptions-item>
+          <el-descriptions-item label="身份证号">{{ detailData.holderIdCard || '-' }}</el-descriptions-item>
+          <el-descriptions-item label="发证机构">{{ detailData.issuingAuthority || '-' }}</el-descriptions-item>
+          <el-descriptions-item label="发证日期">{{ formatDate(null, null, detailData.issueDate) }}</el-descriptions-item>
+          <el-descriptions-item label="有效期至">{{ formatDate(null, null, detailData.expiryDate) }}</el-descriptions-item>
+          <el-descriptions-item label="状态">
+            <el-tag :type="detailData.status === 1 ? 'success' : 'info'">
+              {{ detailData.status === 1 ? '有效' : '失效' }}
+            </el-tag>
+          </el-descriptions-item>
+          <el-descriptions-item label="备注" :span="2">{{ detailData.remark || '-' }}</el-descriptions-item>
+        </el-descriptions>
+      </div>
+      <template #footer>
+        <el-button @click="detailDialogVisible = false">关闭</el-button>
+      </template>
+    </el-dialog>
   </div>
 </template>
 
@@ -229,5 +304,9 @@ fetch()
     font-size: 16px;
     font-weight: 500;
   }
+}
+
+.detail-container {
+  padding: 10px 0;
 }
 </style>

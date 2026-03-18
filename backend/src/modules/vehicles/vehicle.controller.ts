@@ -33,11 +33,8 @@ export class VehicleController {
   @Public()
   @Get()
   @ApiOperation({ summary: '获取车辆列表' })
-  findAll(
-    @Query() paginationDto: PaginationDto,
-    @Query() queryDto: QueryVehicleDto,
-  ) {
-    return this.vehicleService.findAll(paginationDto, queryDto);
+  findAll(@Query() queryDto: QueryVehicleDto) {
+    return this.vehicleService.findAll(queryDto, queryDto);
   }
 
   @Public()

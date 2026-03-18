@@ -30,7 +30,7 @@ const routes: RouteRecordRaw[] = [
 
   // 动态要闻
   { path: '/dynamic-news', name: 'DynamicNews', component: () => import('@/views/dynamic-news/index.vue') },
-  { path: '/dynamic-news/:id', name: 'NewsDetail', component: () => import('@/views/dynamic-news/detail.vue') },
+  { path: '/dynamic-news/detail/:id', name: 'NewsDetail', component: () => import('@/views/dynamic-news/detail.vue') },
 
   // 队伍建设
   { path: '/team-building', name: 'TeamBuilding', component: () => import('@/views/team-building/about.vue') },
@@ -42,6 +42,9 @@ const routes: RouteRecordRaw[] = [
   // 信息公开
   { path: '/info-public', name: 'InfoPublic', component: () => import('@/views/info-public/personnel.vue') },
   { path: '/info-public/personnel', name: 'Personnel', component: () => import('@/views/info-public/personnel.vue') },
+
+  // 人员详情页（扫码访问）
+  { path: '/personnel/:id', name: 'PersonnelDetail', component: () => import('@/views/personnel/detail.vue') },
 
   // 政策法规
   { path: '/policy-regulations', name: 'PolicyRegulations', component: () => import('@/views/policy-regulations/laws.vue') },

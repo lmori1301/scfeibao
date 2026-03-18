@@ -6,6 +6,7 @@ import {
   IsInt,
   IsDateString,
 } from 'class-validator';
+import { PaginationDto } from '../../../common/dto/pagination.dto';
 
 export class CreateCertificateDto {
   @ApiProperty({ description: '证书编号' })
@@ -111,7 +112,7 @@ export class UpdateCertificateDto {
   status?: number;
 }
 
-export class QueryCertificateDto {
+export class QueryCertificateDto extends PaginationDto {
   @ApiProperty({ description: '证书类型', required: false })
   @IsString()
   @IsOptional()

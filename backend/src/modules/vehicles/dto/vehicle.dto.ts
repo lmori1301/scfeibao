@@ -6,6 +6,7 @@ import {
   IsInt,
   IsDateString,
 } from 'class-validator';
+import { PaginationDto } from '../../../common/dto/pagination.dto';
 
 export class CreateVehicleDto {
   @ApiProperty({ description: '车牌号' })
@@ -151,7 +152,7 @@ export class UpdateVehicleDto {
   status?: number;
 }
 
-export class QueryVehicleDto {
+export class QueryVehicleDto extends PaginationDto {
   @ApiProperty({ description: '车辆类型', required: false })
   @IsString()
   @IsOptional()

@@ -16,6 +16,10 @@ const formData = ref({
   color: '', equipDate: '', issueDate: '', validUntil: '', status: '正常', photo: ''
 })
 
+// 详情对话框
+const detailDialogVisible = ref(false)
+const detailData = ref<any>(null)
+
 const vehicleTypes = [
   '应急救援指挥车', '救援运输车', '地震救援车', '抗洪抢险车', '应急炊事车',
   '应急宿营车', '通信指挥车', '应急救援装备车', '应急照明车', '医疗救援车',
@@ -49,7 +53,22 @@ const handleAdd = () => {
 
 const handleEdit = (row: any) => {
   dialogTitle.value = '编辑车辆'
-  formData.value = { ...row }
+  formData.value = {
+    id: row.id,
+    unit: row.team || '',
+    vehicleNo: row.id || '',
+    type: row.vehicleType || '',
+    plate: row.plateNumber || '',
+    brand: row.brandModel || '',
+    engineNo: '',
+    frameNo: '',
+    color: row.color || '',
+    equipDate: row.purchaseDate || '',
+    issueDate: '',
+    validUntil: '',
+    status: row.status === 1 ? '正常' : '停用',
+    photo: row.photoUrl || ''
+  }
   dialogVisible.value = true
 }
 
@@ -61,16 +80,46 @@ const handleDelete = (row: any) => {
   })
 }
 
+// 查看详情
+const handleViewDetail = async (row: any) => {
+  try {
+    const response = await http.get(`/vehicles/${row.id}`)
+    detailData.value = response
+    detailDialogVisible.value = true
+  } catch (error: any) {
+    ElMessage.error(error.message || '获取详情失败')
+  }
+}
+
 const handleSave = async () => {
   await formRef.value.validate()
+
+  const saveData = {
+    plateNumber: formData.value.plate,
+    vehicleType: formData.value.type,
+    brandModel: formData.value.brand,
+    color: formData.value.color,
+    purchaseDate: formData.value.equipDate,
+    team: formData.value.unit,
+    photoUrl: formData.value.photo,
+    status: formData.value.status === '正常' ? 1 : 0
+  }
+
   if (formData.value.id) {
-    await http.patch(`/vehicles/${formData.value.id}`, formData.value)
+    await http.patch(`/vehicles/${formData.value.id}`, saveData)
   } else {
-    await http.post('/vehicles', formData.value)
+    await http.post('/vehicles', saveData)
   }
   ElMessage.success('保存成功')
   dialogVisible.value = false
   fetch()
+}
+
+// 格式化日期为 YYYY-MM-DD
+const formatDate = (row: any, column: any, cellValue: any) => {
+  if (!cellValue) return ''
+  const date = new Date(cellValue)
+  return date.toISOString().split('T')[0]
 }
 
 fetch()
@@ -108,21 +157,22 @@ fetch()
         <el-button type="primary" @click="handleAdd">新增</el-button>
       </div>
       <el-table :data="data" v-loading="loading" stripe>
-        <el-table-column prop="vehicleNo" label="车辆编号" width="120" />
-        <el-table-column prop="plate" label="车牌号" width="100" />
-        <el-table-column prop="type" label="车辆类型" width="140" />
-        <el-table-column prop="unit" label="车属单位" width="140" />
-        <el-table-column prop="brand" label="厂牌型号" width="100" />
+        <el-table-column prop="vehicleNo" label="车辆编号" width="140" show-overflow-tooltip />
+        <el-table-column prop="plate" label="车牌号" width="120" show-overflow-tooltip />
+        <el-table-column prop="type" label="车辆类型" width="140" show-overflow-tooltip />
+        <el-table-column prop="unit" label="车属单位" width="160" show-overflow-tooltip />
+        <el-table-column prop="brand" label="厂牌型号" width="140" show-overflow-tooltip />
         <el-table-column prop="color" label="车体颜色" width="90" />
-        <el-table-column prop="equipDate" label="装备日期" width="110" />
-        <el-table-column prop="validUntil" label="有效期限" width="110" />
+        <el-table-column prop="equipDate" label="装备日期" width="110" :formatter="formatDate" />
+        <el-table-column prop="validUntil" label="有效期限" width="110" :formatter="formatDate" />
         <el-table-column label="状态" width="80">
           <template #default="{ row }">
             <el-tag :type="row.status === '正常' ? 'success' : 'warning'">{{ row.status }}</el-tag>
           </template>
         </el-table-column>
-        <el-table-column label="操作" width="150" fixed="right">
+        <el-table-column label="操作" width="200" fixed="right">
           <template #default="{ row }">
+            <el-button text type="info" size="small" @click="handleViewDetail(row)">详情</el-button>
             <el-button text type="primary" size="small" @click="handleEdit(row)">编辑</el-button>
             <el-button text type="danger" size="small" @click="handleDelete(row)">删除</el-button>
           </template>
@@ -131,7 +181,7 @@ fetch()
       <Pagination :total="total" :page="page" :page-size="pageSize" @change="handlePageChange" />
     </el-card>
 
-    <el-dialog v-model="dialogVisible" :title="dialogTitle" width="800px">
+    <el-dialog v-model="dialogVisible" :title="dialogTitle" width="1000px">
       <el-form ref="formRef" :model="formData" :rules="rules" label-width="100px">
         <el-form-item label="车辆照片">
           <ImageUpload v-model="formData.photo" />
@@ -220,6 +270,39 @@ fetch()
         <el-button type="primary" @click="handleSave">保存</el-button>
       </template>
     </el-dialog>
+
+    <!-- 详情对话框 -->
+    <el-dialog v-model="detailDialogVisible" title="车辆详情" width="700px">
+      <div v-if="detailData" class="detail-container">
+        <el-descriptions :column="2" border>
+          <el-descriptions-item label="车辆编号">{{ detailData.id || '-' }}</el-descriptions-item>
+          <el-descriptions-item label="车牌号">{{ detailData.plateNumber || '-' }}</el-descriptions-item>
+          <el-descriptions-item label="车辆类型">{{ detailData.vehicleType || '-' }}</el-descriptions-item>
+          <el-descriptions-item label="车属单位">{{ detailData.team || '-' }}</el-descriptions-item>
+          <el-descriptions-item label="厂牌型号">{{ detailData.brandModel || '-' }}</el-descriptions-item>
+          <el-descriptions-item label="车体颜色">{{ detailData.color || '-' }}</el-descriptions-item>
+          <el-descriptions-item label="装备日期">{{ formatDate(null, null, detailData.purchaseDate) }}</el-descriptions-item>
+          <el-descriptions-item label="状态">
+            <el-tag :type="detailData.status === 1 ? 'success' : 'warning'">
+              {{ detailData.status === 1 ? '正常' : '停用' }}
+            </el-tag>
+          </el-descriptions-item>
+          <el-descriptions-item label="车辆照片" :span="2">
+            <el-image
+              v-if="detailData.photoUrl"
+              :src="detailData.photoUrl"
+              style="width: 200px; height: 150px"
+              fit="cover"
+              :preview-src-list="[detailData.photoUrl]"
+            />
+            <span v-else>-</span>
+          </el-descriptions-item>
+        </el-descriptions>
+      </div>
+      <template #footer>
+        <el-button @click="detailDialogVisible = false">关闭</el-button>
+      </template>
+    </el-dialog>
   </div>
 </template>
 
@@ -230,5 +313,9 @@ fetch()
     font-size: 16px;
     font-weight: 500;
   }
+}
+
+.detail-container {
+  padding: 10px 0;
 }
 </style>

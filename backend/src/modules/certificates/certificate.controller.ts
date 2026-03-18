@@ -33,11 +33,8 @@ export class CertificateController {
   @Public()
   @Get()
   @ApiOperation({ summary: '获取证书列表' })
-  findAll(
-    @Query() paginationDto: PaginationDto,
-    @Query() queryDto: QueryCertificateDto,
-  ) {
-    return this.certificateService.findAll(paginationDto, queryDto);
+  findAll(@Query() queryDto: QueryCertificateDto) {
+    return this.certificateService.findAll(queryDto, queryDto);
   }
 
   @Public()
