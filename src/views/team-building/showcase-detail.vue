@@ -1,6 +1,6 @@
 <template>
-    <div class="scroll-container-1_1053">
-        <div id="1_1053" class="Pixso-frame-1_1053">
+    <div ref="scrollContainerRef" class="scroll-container-1_1053">
+        <div id="1_1053" ref="frameRef" class="Pixso-frame-1_1053">
             <div id="1_1054" class="Pixso-vector-1_1054"></div>
             <div id="1_1055" class="Pixso-vector-1_1055"></div>
             <div id="1_1058" class="Pixso-vector-1_1058"></div>
@@ -85,7 +85,9 @@
 import { ref, computed, onMounted } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
 import { getTeamShowcaseDetail } from '@/api/team-building'
+import { usePixsoScale } from '@/composables/use-pixso-scale'
 
+const { scrollContainerRef, frameRef } = usePixsoScale(1920, 4128)
 const route = useRoute()
 const router = useRouter()
 
@@ -185,9 +187,9 @@ onMounted(() => {
 </style>
 <style>
 .scroll-container-1_1053 {
-    height: 100%;
     width: 100%;
-    overflow: auto;
+    overflow: hidden;
+    position: relative;
 }
 .Pixso-frame-1_1053 {
     width: 1920px;

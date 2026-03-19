@@ -10,15 +10,15 @@
 
       <el-table :data="tableData" style="width: 100%" v-loading="loading">
         <el-table-column prop="id" label="ID" width="80" />
-        <el-table-column prop="title" label="标题" />
+        <el-table-column prop="title" label="标题" min-width="200" />
         <el-table-column prop="coverImage" label="封面图" width="120">
           <template #default="{ row }">
             <el-image v-if="row.coverImage" :src="row.coverImage" style="width: 60px; height: 60px" fit="cover" />
           </template>
         </el-table-column>
         <el-table-column prop="viewCount" label="浏览量" width="100" />
-        <el-table-column prop="createdAt" label="创建时间" width="180" />
-        <el-table-column label="操作" width="180">
+        <el-table-column prop="createdAt" label="创建时间" width="160" :formatter="formatDate" />
+        <el-table-column label="操作" width="150">
           <template #default="{ row }">
             <el-button link type="primary" @click="handleEdit(row)">编辑</el-button>
             <el-button link type="danger" @click="handleDelete(row)">删除</el-button>
@@ -38,7 +38,7 @@
       />
     </el-card>
 
-    <el-dialog v-model="dialogVisible" :title="formData.id ? '编辑工作' : '新增工作'" width="600px">
+    <el-dialog v-model="dialogVisible" :title="formData.id ? '编辑工作' : '新增工作'" width="700px">
       <el-form :model="formData" label-width="100px">
         <el-form-item label="标题">
           <el-input v-model="formData.title" placeholder="请输入标题" />
@@ -124,6 +124,13 @@ const handleSave = async () => {
   } catch (error) {
     ElMessage.error('保存失败')
   }
+}
+
+// 格式化日期为 YYYY-MM-DD
+const formatDate = (row: any, column: any, cellValue: any) => {
+  if (!cellValue) return ''
+  const date = new Date(cellValue)
+  return date.toISOString().split('T')[0]
 }
 
 onMounted(() => {

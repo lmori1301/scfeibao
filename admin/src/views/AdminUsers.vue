@@ -24,11 +24,11 @@ const handleResetPwd = (row: any) => { ElMessageBox.confirm('确定重置密码�
       </div>
       <el-table :data="tableData" stripe>
         <el-table-column prop="username" label="用户名" width="120" />
-        <el-table-column prop="name" label="姓名" width="120" />
+        <el-table-column prop="name" label="姓名" width="100" />
         <el-table-column prop="role" label="角色" width="120" />
         <el-table-column prop="status" label="状态" width="80"><template #default="{ row }"><el-tag :type="row.status === '启用' ? 'success' : 'danger'">{{ row.status }}</el-tag></template></el-table-column>
-        <el-table-column prop="createTime" label="创建时间" width="150" />
-        <el-table-column label="操作" width="240" fixed="right">
+        <el-table-column prop="createTime" label="创建时间" width="160" />
+        <el-table-column label="操作" width="150" fixed="right">
           <template #default="{ row }">
             <el-button text type="primary" size="small" @click="handleEdit(row)">编辑</el-button>
             <el-button text type="warning" size="small" @click="handleResetPwd(row)">重置密码</el-button>
@@ -38,7 +38,7 @@ const handleResetPwd = (row: any) => { ElMessageBox.confirm('确定重置密码�
       </el-table>
     </el-card>
 
-    <el-dialog v-model="dialogVisible" title="管理员" width="600px">
+    <el-dialog v-model="dialogVisible" title="管理员" width="700px">
       <el-form :model="formData" label-width="100px">
         <el-form-item label="用户名"><el-input v-model="formData.username" /></el-form-item>
         <el-form-item label="姓名"><el-input v-model="formData.name" /></el-form-item>

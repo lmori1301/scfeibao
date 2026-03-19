@@ -31,10 +31,10 @@ const handleExport = () => {}
       </div>
       <el-table :data="tableData" stripe>
         <el-table-column prop="username" label="用户名" width="120" />
-        <el-table-column prop="action" label="操作" width="150" />
+        <el-table-column prop="action" label="操作" width="140" />
         <el-table-column prop="module" label="模块" width="120" />
-        <el-table-column prop="ip" label="IP地址" width="150" />
-        <el-table-column prop="time" label="操作时间" width="180" />
+        <el-table-column prop="ip" label="IP地址" width="120" />
+        <el-table-column prop="time" label="操作时间" width="160" />
       </el-table>
     </el-card>
   </div>

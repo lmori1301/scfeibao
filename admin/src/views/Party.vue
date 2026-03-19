@@ -61,6 +61,13 @@ const handleAdd = () => { const user = JSON.parse(localStorage.getItem('user') |
 const handleEdit = (row: any) => { formData.value = { ...row }; dialogVisible.value = true }
 const handleDelete = (row: any) => { ElMessageBox.confirm('确定删除吗？', '提示', { type: 'warning' }).then(async () => { try { await http.delete(`/party-building/${row.id}`); ElMessage.success('删除成功'); fetchParty() } catch (error) { ElMessage.error('删除失败') } }) }
 const handleSave = async () => { try { if (formData.value.id) { await http.patch(`/party-building/${formData.value.id}`, formData.value) } else { await http.post('/party-building', formData.value) } ElMessage.success('保存成功'); dialogVisible.value = false; fetchParty() } catch (error) { ElMessage.error('保存失败') } }
+
+// 格式化日期为 YYYY-MM-DD
+const formatDate = (row: any, column: any, cellValue: any) => {
+  if (!cellValue) return ''
+  const date = new Date(cellValue)
+  return date.toISOString().split('T')[0]
+}
 </script>
 
 <template>
@@ -82,7 +89,7 @@ const handleSave = async () => { try { if (formData.value.id) { await http.patch
         <el-table-column type="selection" width="55" />
         <el-table-column prop="title" label="标题" min-width="200" />
         <el-table-column prop="type" label="类型" width="120"><template #default="{ row }"><el-tag>{{ row.type }}</el-tag></template></el-table-column>
-        <el-table-column prop="publishDate" label="发布日期" width="110" />
+        <el-table-column prop="publishDate" label="发布日期" width="110" :formatter="formatDate" />
         <el-table-column prop="status" label="状态" width="90"><template #default="{ row }"><el-tag :type="row.status === '已发布' ? 'success' : 'info'">{{ row.status }}</el-tag></template></el-table-column>
         <el-table-column label="操作" width="150" fixed="right">
           <template #default="{ row }">
@@ -99,7 +106,7 @@ const handleSave = async () => { try { if (formData.value.id) { await http.patch
       />
     </el-card>
 
-    <el-dialog v-model="dialogVisible" title="党建专栏" width="600px">
+    <el-dialog v-model="dialogVisible" title="党建专栏" width="1200px">
       <el-form :model="formData" label-width="100px">
         <el-form-item label="标题"><el-input v-model="formData.title" /></el-form-item>
         <el-form-item label="类型"><el-select v-model="formData.type" style="width: 100%"><el-option v-for="t in partyTypes" :key="t" :label="t" :value="t" /></el-select></el-form-item>

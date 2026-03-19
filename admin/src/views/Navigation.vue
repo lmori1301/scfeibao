@@ -24,8 +24,8 @@ const handleSave = () => { ElMessage.success('保存成功'); dialogVisible.valu
         <el-button type="success" @click="handleAdd"><el-icon><Plus /></el-icon>新增</el-button>
       </div>
       <el-table :data="navItems" stripe>
-        <el-table-column prop="name" label="名称" />
-        <el-table-column prop="path" label="路径" />
+        <el-table-column prop="name" label="名称" width="100" />
+        <el-table-column prop="path" label="路径" min-width="200" />
         <el-table-column prop="sort" label="排序" width="80" />
         <el-table-column prop="visible" label="显示" width="80"><template #default="{ row }"><el-tag :type="row.visible ? 'success' : 'info'">{{ row.visible ? '是' : '否' }}</el-tag></template></el-table-column>
         <el-table-column label="操作" width="150" fixed="right">
@@ -36,7 +36,7 @@ const handleSave = () => { ElMessage.success('保存成功'); dialogVisible.valu
       </el-table>
     </el-card>
 
-    <el-dialog v-model="dialogVisible" title="导航栏" width="600px">
+    <el-dialog v-model="dialogVisible" title="导航栏" width="700px">
       <el-form :model="formData" label-width="100px">
         <el-form-item label="名称"><el-input v-model="formData.name" /></el-form-item>
         <el-form-item label="路径"><el-input v-model="formData.path" /></el-form-item>

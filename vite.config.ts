@@ -1,11 +1,16 @@
 import { defineConfig } from 'vite'
 import vue from '@vitejs/plugin-vue'
+import legacy from '@vitejs/plugin-legacy'
 import { resolve } from 'path'
 
 // https://vite.dev/config/
 export default defineConfig({
   plugins: [
-    vue()
+    vue(),
+    legacy({
+      targets: ['last 2 Chrome versions', 'last 2 Edge versions', 'last 2 Firefox versions', 'last 2 Safari versions'],
+      additionalLegacyPolyfills: ['regenerator-runtime/runtime']
+    })
   ],
   resolve: {
     alias: {

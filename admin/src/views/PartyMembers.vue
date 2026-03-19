@@ -10,11 +10,11 @@
 
       <el-table :data="tableData" style="width: 100%" v-loading="loading">
         <el-table-column prop="id" label="ID" width="80" />
-        <el-table-column prop="name" label="姓名" width="120" />
-        <el-table-column prop="position" label="职位" />
-        <el-table-column prop="description" label="简介" show-overflow-tooltip />
-        <el-table-column prop="sort" label="排序" width="100" />
-        <el-table-column label="操作" width="180">
+        <el-table-column prop="name" label="姓名" width="100" />
+        <el-table-column prop="position" label="职位" width="100" />
+        <el-table-column prop="description" label="简介" min-width="200" show-overflow-tooltip />
+        <el-table-column prop="sort" label="排序" width="80" />
+        <el-table-column label="操作" width="150">
           <template #default="{ row }">
             <el-button link type="primary" @click="handleEdit(row)">编辑</el-button>
             <el-button link type="danger" @click="handleDelete(row)">删除</el-button>
@@ -34,7 +34,7 @@
       />
     </el-card>
 
-    <el-dialog v-model="dialogVisible" :title="formData.id ? '编辑党员' : '新增党员'" width="600px">
+    <el-dialog v-model="dialogVisible" :title="formData.id ? '编辑党员' : '新增党员'" width="700px">
       <el-form :model="formData" label-width="100px">
         <el-form-item label="姓名">
           <el-input v-model="formData.name" placeholder="请输入姓名" />

@@ -1,119 +1,48 @@
-/**
- * 本地存储工具
- */
-import { StorageKeys } from './constants'
+import axios from 'axios';
+import { ElMessage } from 'element-plus';
 
-/**
- * localStorage 操作
- */
-export const storage = {
-  /**
-   * 设置存储
-   */
-  set<T = any>(key: string, value: T): void {
-    try {
-      const data = JSON.stringify(value)
-      localStorage.setItem(key, data)
-    } catch (error) {
-      console.error('Storage set error:', error)
-    }
-  },
-
-  /**
-   * 获取存储
-   */
-  get<T = any>(key: string): T | null {
-    try {
-      const data = localStorage.getItem(key)
-      if (data) {
-        return JSON.parse(data) as T
-      }
-      return null
-    } catch (error) {
-      console.error('Storage get error:', error)
-      return null
-    }
-  },
-
-  /**
-   * 删除存储
-   */
-  remove(key: string): void {
-    try {
-      localStorage.removeItem(key)
-    } catch (error) {
-      console.error('Storage remove error:', error)
-    }
-  },
-
-  /**
-   * 清空所有存储
-   */
-  clear(): void {
-    try {
-      localStorage.clear()
-    } catch (error) {
-      console.error('Storage clear error:', error)
-    }
+// 创建axios实例
+const service = axios.create({
+  baseURL: import.meta.env.VITE_APP_BASE_API, // 你的后端接口前缀
+  timeout: 600000, // 核心修改：从 300000(5分钟) → 600000(10分钟)
+  headers: {
+    'Content-Type': 'application/json;charset=utf-8'
   }
-}
+});
 
-/**
- * sessionStorage 操作
- */
-export const sessionStorage = {
-  set<T = any>(key: string, value: T): void {
-    try {
-      const data = JSON.stringify(value)
-      window.sessionStorage.setItem(key, data)
-    } catch (error) {
-      console.error('SessionStorage set error:', error)
-    }
+// 请求拦截器（保持原有逻辑）
+service.interceptors.request.use(
+  (config) => {
+    // 如需要token，这里添加
+    // config.headers.Authorization = localStorage.getItem('token') || '';
+    return config;
   },
-
-  get<T = any>(key: string): T | null {
-    try {
-      const data = window.sessionStorage.getItem(key)
-      if (data) {
-        return JSON.parse(data) as T
-      }
-      return null
-    } catch (error) {
-      console.error('SessionStorage get error:', error)
-      return null
-    }
-  },
-
-  remove(key: string): void {
-    try {
-      window.sessionStorage.removeItem(key)
-    } catch (error) {
-      console.error('SessionStorage remove error:', error)
-    }
-  },
-
-  clear(): void {
-    try {
-      window.sessionStorage.clear()
-    } catch (error) {
-      console.error('SessionStorage clear error:', error)
-    }
+  (error) => {
+    ElMessage.error('请求发送失败：' + error.message);
+    return Promise.reject(error);
   }
-}
+);
 
-/**
- * Token 操作
- */
-export const tokenStorage = {
-  setToken(token: string): void {
-    storage.set(StorageKeys.TOKEN, token)
+// 响应拦截器（优化错误提示）
+service.interceptors.response.use(
+  (response) => {
+    const res = response.data;
+    // 兼容后端自定义状态码
+    if (res.code !== 200) {
+      ElMessage.error(res.message || '请求失败');
+      return Promise.reject(res);
+    }
+    return res;
   },
-
-  getToken(): string | null {
-    return storage.get<string>(StorageKeys.TOKEN)
-  },
-
-  removeToken(): void {
-    storage.remove(StorageKeys.TOKEN)
+  (error) => {
+    // 重点：区分超时错误和其他500错误
+    if (error.code === 'ECONNABORTED') {
+      ElMessage.error('接口请求超时，请刷新页面重试');
+    } else {
+      ElMessage.error('服务器错误：' + (error.response?.data?.message || error.message));
+    }
+    return Promise.reject(error);
   }
-}
+);
+
+export default service;

@@ -88,10 +88,10 @@ fetch()
       </div>
       <el-table :data="data" v-loading="loading" stripe style="width: 100%">
         <el-table-column prop="name" label="姓名" width="100" />
-        <el-table-column prop="position" label="职位" min-width="180" show-overflow-tooltip />
+        <el-table-column prop="position" label="职位" width="100" />
         <el-table-column prop="gender" label="性别" width="90" />
         <el-table-column prop="nation" label="民族" width="90" />
-        <el-table-column prop="birth" label="出生年月" width="130" />
+        <el-table-column prop="birth" label="出生年月" width="110" />
         <el-table-column prop="education" label="学历" min-width="200" show-overflow-tooltip />
         <el-table-column prop="political" label="政治面貌" width="110" />
         <el-table-column prop="experience" label="救援经验(年)" width="120" align="center" />
@@ -106,7 +106,7 @@ fetch()
       <Pagination :total="total" :page="page" :page-size="pageSize" @change="handlePageChange" />
     </el-card>
 
-    <el-dialog v-model="dialogVisible" :title="dialogTitle" width="800px">
+    <el-dialog v-model="dialogVisible" :title="dialogTitle" width="1000px">
       <el-form ref="formRef" :model="formData" :rules="rules" label-width="100px">
         <el-form-item label="照片" prop="photo">
           <ImageUpload v-model="formData.photo" />

@@ -24,8 +24,8 @@ const handleSave = () => { ElMessage.success('保存成功'); dialogVisible.valu
         <el-button type="success" @click="handleAdd"><el-icon><Plus /></el-icon>新增</el-button>
       </div>
       <el-table :data="roles" stripe>
-        <el-table-column prop="name" label="角色名称" width="150" />
-        <el-table-column prop="description" label="描述" />
+        <el-table-column prop="name" label="角色名称" width="100" />
+        <el-table-column prop="description" label="描述" min-width="200" />
         <el-table-column prop="userCount" label="用户数" width="100" />
         <el-table-column label="操作" width="150" fixed="right">
           <template #default="{ row }">
@@ -35,7 +35,7 @@ const handleSave = () => { ElMessage.success('保存成功'); dialogVisible.valu
       </el-table>
     </el-card>
 
-    <el-dialog v-model="dialogVisible" title="权限组" width="600px">
+    <el-dialog v-model="dialogVisible" title="权限组" width="700px">
       <el-form :model="formData" label-width="100px">
         <el-form-item label="角色名称"><el-input v-model="formData.name" /></el-form-item>
         <el-form-item label="描述"><el-input v-model="formData.description" type="textarea" :rows="3" /></el-form-item>

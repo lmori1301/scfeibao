@@ -32,4 +32,10 @@ export class News extends BaseEntity {
 
   @Column({ type: 'int', default: 0, comment: '排序' })
   sort: number;
+
+  @Column({ type: 'tinyint', default: 0, comment: '是否为头条：1-是，0-否' })
+  isHeadline: number;
+
+  @Column({ type: 'tinyint', default: 0, comment: '是否显示NEW标签：1-是，0-否' })
+  isNew: number;
 }

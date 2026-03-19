@@ -4,6 +4,7 @@ import { ElMessage, ElMessageBox } from 'element-plus'
 import { usePagination } from '@/composables/usePagination'
 import { requiredRule } from '@/utils/validate'
 import Pagination from '@/components/Pagination.vue'
+import FileUpload from '@/components/FileUpload.vue'
 import http from '@/utils/http'
 
 const searchForm = ref({ title: '', department: '' })
@@ -11,7 +12,7 @@ const dialogVisible = ref(false)
 const dialogTitle = ref('新增人事任免')
 const formRef = ref()
 const formData = ref({
-  title: '', docNumber: '', publishDate: '', effectiveDate: '', department: '', attachment: ''
+  title: '', docNumber: '', publishDate: '', effectiveDate: '', department: '', attachment: '', attachmentName: ''
 })
 
 const rules = {
@@ -33,14 +34,18 @@ const handleAdd = () => {
   dialogTitle.value = '新增人事任免'
   const today = new Date().toISOString().split('T')[0]
   formData.value = {
-    title: '', docNumber: '', publishDate: today, effectiveDate: '', department: '', attachment: ''
+    title: '', docNumber: '', publishDate: today, effectiveDate: '', department: '', attachment: '', attachmentName: ''
   }
   dialogVisible.value = true
 }
 
 const handleEdit = (row: any) => {
   dialogTitle.value = '编辑人事任免'
-  formData.value = { ...row }
+  formData.value = {
+    ...row,
+    attachment: row.attachment || '',
+    attachmentName: row.attachmentName || ''
+  }
   dialogVisible.value = true
 }
 
@@ -50,6 +55,26 @@ const handleDelete = (row: any) => {
     ElMessage.success('删除成功')
     fetch()
   })
+}
+
+const handleFileChange = (data: { url: string; originalName: string }) => {
+  formData.value.attachment = data.url
+  formData.value.attachmentName = data.originalName
+}
+
+const handleDownload = async (id: number) => {
+  try {
+    window.open(`/api/appointments/${id}/download`, '_blank')
+  } catch (error) {
+    ElMessage.error('下载失败')
+  }
+}
+
+// 格式化日期为 YYYY-MM-DD
+const formatDate = (row: any, column: any, cellValue: any) => {
+  if (!cellValue) return ''
+  const date = new Date(cellValue)
+  return date.toISOString().split('T')[0]
 }
 
 const handleSave = async () => {
@@ -62,26 +87,6 @@ const handleSave = async () => {
   ElMessage.success('保存成功')
   dialogVisible.value = false
   fetch()
-}
-
-const fileUploading = ref(false)
-
-const handleFileUpload = async (options: any) => {
-  const { file } = options
-  fileUploading.value = true
-  try {
-    const formData = new FormData()
-    formData.append('file', file)
-    const res = await http.post('/admin/upload/file', formData, {
-      headers: { 'Content-Type': 'multipart/form-data' }
-    })
-    formData.value.attachment = res.url
-    ElMessage.success('文件上传成功')
-  } catch (error) {
-    ElMessage.error('文件上传失败')
-  } finally {
-    fileUploading.value = false
-  }
 }
 
 fetch()
@@ -110,22 +115,23 @@ fetch()
         <el-button type="primary" @click="handleAdd">新增</el-button>
       </div>
       <el-table :data="data" v-loading="loading" stripe>
-        <el-table-column prop="title" label="标题" min-width="200" />
-        <el-table-column prop="docNumber" label="文号" width="150" />
-        <el-table-column prop="department" label="发文部门" width="120" />
-        <el-table-column prop="publishDate" label="发布日期" width="110" />
-        <el-table-column prop="effectiveDate" label="生效日期" width="110" />
-        <el-table-column label="操作" width="150" fixed="right">
+        <el-table-column prop="title" label="标题" min-width="200" show-overflow-tooltip />
+        <el-table-column prop="docNumber" label="文号" width="200" show-overflow-tooltip />
+        <el-table-column prop="department" label="发文部门" width="180" show-overflow-tooltip />
+        <el-table-column prop="publishDate" label="发布日期" width="110" :formatter="formatDate" />
+        <el-table-column prop="effectiveDate" label="生效日期" width="110" :formatter="formatDate" />
+        <el-table-column label="操作" width="200" fixed="right">
           <template #default="{ row }">
             <el-button text type="primary" size="small" @click="handleEdit(row)">编辑</el-button>
             <el-button text type="danger" size="small" @click="handleDelete(row)">删除</el-button>
+            <el-button v-if="row.attachment" text type="success" size="small" @click="handleDownload(row.id)">下载</el-button>
           </template>
         </el-table-column>
       </el-table>
       <Pagination :total="total" :page="page" :page-size="pageSize" @change="handlePageChange" />
     </el-card>
 
-    <el-dialog v-model="dialogVisible" :title="dialogTitle" width="700px">
+    <el-dialog v-model="dialogVisible" :title="dialogTitle" width="900px">
       <el-form ref="formRef" :model="formData" :rules="rules" label-width="100px">
         <el-form-item label="标题" prop="title">
           <el-input v-model="formData.title" placeholder="请输入标题" />
@@ -155,35 +161,7 @@ fetch()
           </el-col>
         </el-row>
         <el-form-item label="附件">
-          <div style="display: flex; gap: 10px; align-items: center;">
-            <el-upload
-              :http-request="handleFileUpload"
-              :show-file-list="false"
-              :loading="fileUploading"
-              style="flex: 1;"
-            >
-              <el-button type="primary" :loading="fileUploading">
-                {{ fileUploading ? '上传中...' : '上传文件' }}
-              </el-button>
-            </el-upload>
-            <el-input
-              v-model="formData.attachment"
-              placeholder="文件URL（自动生成）"
-              readonly
-              style="flex: 2;"
-            />
-            <el-button
-              v-if="formData.attachment"
-              text
-              type="primary"
-              @click="window.open(formData.attachment)"
-            >
-              预览
-            </el-button>
-          </div>
-          <div style="color: #909399; font-size: 12px; margin-top: 5px;">
-            支持所有文件格式，最大50MB
-          </div>
+          <FileUpload v-model="formData.attachment" @file-change="handleFileChange" />
         </el-form-item>
       </el-form>
       <template #footer>

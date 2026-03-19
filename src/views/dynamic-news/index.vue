@@ -1,6 +1,6 @@
 <template>
-  <div class="scroll-container-1_2107">
-      <div id="1_2107" class="Pixso-frame-1_2107">
+  <div ref="scrollContainerRef" class="scroll-container-1_2107">
+      <div id="1_2107" ref="frameRef" class="Pixso-frame-1_2107">
           <div id="1_2108" class="Pixso-vector-1_2108"></div>
           <div id="1_2109" class="Pixso-vector-1_2109"></div>
           <div id="1_2112" class="Pixso-vector-1_2112"></div>
@@ -194,13 +194,13 @@
           <div id="1_2182" class="Pixso-vector-1_2182"></div>
           <router-link to="/" id="17_31" class="Pixso-vector-17_31" style="cursor: pointer;"></router-link>
           <div id="1_2187" class="Pixso-vector-1_2187"></div>
-          <router-link id="1_2188" to="/overview-info" class="Pixso-paragraph-1_2188 main-nav-link">概况信息</router-link>
-          <router-link id="1_2189" to="/team-building" class="Pixso-paragraph-1_2189 main-nav-link">队伍建设</router-link>
-          <router-link id="1_2190" to="/party-building" class="Pixso-paragraph-1_2190 main-nav-link">党建专栏</router-link>
-          <router-link id="1_2191" to="/info-public" class="Pixso-paragraph-1_2191 main-nav-link">信息公开</router-link>
-          <router-link id="1_2192" to="/dynamic-news" class="Pixso-paragraph-1_2192 main-nav-link">动态要闻</router-link>
-          <router-link id="1_2193" to="/policy-regulations" class="Pixso-paragraph-1_2193 main-nav-link">政策法规</router-link>
-          <router-link id="6_781" to="/query-system" class="Pixso-paragraph-6_781 main-nav-link">查询系统</router-link>
+          <router-link id="1_2188" to="/overview-info" class="Pixso-paragraph-1_2188 main-nav-link" active-class="" exact-active-class="">概况信息</router-link>
+          <router-link id="1_2189" to="/team-building" class="Pixso-paragraph-1_2189 main-nav-link" active-class="" exact-active-class="">队伍建设</router-link>
+          <router-link id="1_2190" to="/party-building" class="Pixso-paragraph-1_2190 main-nav-link" active-class="" exact-active-class="">党建专栏</router-link>
+          <router-link id="1_2191" to="/info-public" class="Pixso-paragraph-1_2191 main-nav-link" active-class="" exact-active-class="">信息公开</router-link>
+          <router-link id="1_2192" to="/dynamic-news" class="Pixso-paragraph-1_2192 main-nav-link" active-class="" exact-active-class="">动态要闻</router-link>
+          <router-link id="1_2193" to="/policy-regulations" class="Pixso-paragraph-1_2193 main-nav-link" active-class="" exact-active-class="">政策法规</router-link>
+          <router-link id="6_781" to="/query-system" class="Pixso-paragraph-6_781 main-nav-link" active-class="" exact-active-class="">查询系统</router-link>
           <div id="33_300" class="Pixso-group-33_300" @click.stop>
             <div id="33_301" class="Pixso-vector-33_301"></div>
             <!-- 输入框 -->
@@ -244,7 +244,9 @@ import { getWebsiteConfig } from '@/api/config'
 import { useRouter, useRoute } from 'vue-router'
 import http from '@/utils/http'
 import image1 from '@/assets/images/Vector_1_2129.png'
+import { usePixsoScale } from '@/composables/use-pixso-scale'
 
+const { scrollContainerRef, frameRef } = usePixsoScale(1920, 2205)
 const router = useRouter()
 const route = useRoute()
 
@@ -416,6 +418,7 @@ const fetchCarouselNews = async () => {
     }
 
     carouselNews.value = newsData
+    currentIndex.value = 0
     console.log('🎠 carouselNews.value 已赋值，长度:', carouselNews.value.length)
   } catch (error) {
     console.error('❌ 获取轮播新闻失败:', error)
@@ -484,12 +487,11 @@ const handleMouseLeave = () => {
 }
 
 // 生命周期：组件挂载时加载数据并启动自动轮播
-onMounted(() => {
-  fetchHeadlineNews()
-  fetchCarouselNews()
-  loadAllNews()
+onMounted(async () => {
+  currentIndex.value = 0
+  stopAutoPlay()
+  await Promise.all([fetchHeadlineNews(), fetchCarouselNews(), loadAllNews(), fetchWebsiteConfig()])
   startAutoPlay()
-  fetchWebsiteConfig()
 })
 
 // 生命周期：组件卸载时清理定时器
@@ -498,10 +500,10 @@ onUnmounted(() => {
 })
 
 // 生命周期：组件激活时（从其他页面返回时）重新加载数据
-onActivated(() => {
-  fetchHeadlineNews()
-  fetchCarouselNews()
-  loadAllNews()
+onActivated(async () => {
+  currentIndex.value = 0
+  stopAutoPlay()
+  await Promise.all([fetchHeadlineNews(), fetchCarouselNews(), loadAllNews()])
   startAutoPlay()
 })
 
@@ -687,9 +689,9 @@ const fetchWebsiteConfig = async () => {
 </script>
 <style>
 .scroll-container-1_2107 {
-  height: 100%;
   width: 100%;
-  overflow: auto;
+  overflow: hidden;
+  position: relative;
 }
 .Pixso-frame-1_2107 {
   width: 1920px;

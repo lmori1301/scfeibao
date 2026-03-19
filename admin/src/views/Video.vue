@@ -125,6 +125,13 @@ const handleCoverSuccess = (response: any) => {
   formData.value.cover = response.url
   ElMessage.success('封面上传成功')
 }
+
+// 格式化日期为 YYYY-MM-DD
+const formatDate = (row: any, column: any, cellValue: any) => {
+  if (!cellValue) return ''
+  const date = new Date(cellValue)
+  return date.toISOString().split('T')[0]
+}
 </script>
 
 <template>
@@ -157,7 +164,7 @@ const handleCoverSuccess = (response: any) => {
       </div>
       <el-table :data="tableData" stripe :loading="loading">
         <el-table-column type="selection" width="55" />
-        <el-table-column prop="title" label="标题" min-width="180" />
+        <el-table-column prop="title" label="标题" min-width="200" />
         <el-table-column label="封面" width="100">
           <template #default="{ row }">
             <el-image v-if="row.cover" :src="row.cover" style="width: 80px; height: 45px" fit="cover" />
@@ -165,9 +172,9 @@ const handleCoverSuccess = (response: any) => {
           </template>
         </el-table-column>
         <el-table-column prop="duration" label="时长" width="80" />
-        <el-table-column prop="sort" label="排序" width="70" />
+        <el-table-column prop="sort" label="排序" width="80" />
         <el-table-column prop="author" label="作者" width="100" />
-        <el-table-column prop="createdAt" label="创建时间" width="110" />
+        <el-table-column prop="createdAt" label="创建时间" width="110" :formatter="formatDate" />
         <el-table-column label="操作" width="150" fixed="right">
           <template #default="{ row }">
             <el-button text type="primary" size="small" @click="handleEdit(row)">
@@ -181,7 +188,7 @@ const handleCoverSuccess = (response: any) => {
       </el-table>
     </el-card>
 
-    <el-dialog v-model="dialogVisible" :title="dialogTitle" width="700px">
+    <el-dialog v-model="dialogVisible" :title="dialogTitle" width="900px">
       <el-form :model="formData" label-width="100px">
         <el-form-item label="标题" required>
           <el-input v-model="formData.title" placeholder="请输入标题" />

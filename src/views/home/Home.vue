@@ -397,17 +397,14 @@
 import { ref, computed, onMounted, onUnmounted, nextTick, watch } from 'vue'
 import { useRouter, useRoute } from 'vue-router'
 import { ElMessage } from 'element-plus'
-import { getTeamShowcaseList } from '@/api/team-building'
 import { getBannerList, getHomeNews, getLocalDynamics, getRescueActions, getPromotionalVideos, getTeamShowcaseForHome, getFriendLinks } from '@/api/home'
 import { getWebsiteConfig } from '@/api/config'
+import { usePixsoScale } from '@/composables/use-pixso-scale'
 
 const router = useRouter()
 const route = useRoute()
 
-// 滚动容器引用
-const scrollContainerRef = ref<HTMLElement | null>(null)
-// 内容容器引用
-const contentContainerRef = ref<HTMLElement | null>(null)
+const { scrollContainerRef, frameRef: contentContainerRef, updateScale } = usePixsoScale(1920, 4310)
 // 底部背景引用
 const bottomBgRef = ref<HTMLElement | null>(null)
 // 底部文字容器引用
@@ -674,16 +671,17 @@ const teamShowcase = ref<{ images: string[] }[]>([
 // 获取队伍风采图片
 const fetchTeamShowcase = async () => {
   try {
-    const response = await getTeamShowcaseList({
-      page: 1,
-      pageSize: 4 // 获取4组图片
-    })
+    const response = await getTeamShowcaseForHome({ limit: 16 })
 
-    if (response.data && response.data.list) {
-      // 将API返回的数据转换为轮播所需的格式
-      teamShowcase.value = response.data.list.map(item => ({
-        images: item.images || []
-      }))
+    if (response.data && response.data.length > 0) {
+      // 将16条数据分成4组，每组4张图片
+      const groups = []
+      for (let i = 0; i < response.data.length; i += 4) {
+        groups.push({
+          images: response.data.slice(i, i + 4).map(item => item.image)
+        })
+      }
+      teamShowcase.value = groups
     }
 
     // 如果API没有返回数据，使用默认图片作为后备
@@ -834,46 +832,28 @@ const handleVideoError = (e: Event) => {
 
 // 初始化页面布局和底部元素位置
 const initializePageLayout = async () => {
-  // 等待DOM完全渲染
   await nextTick()
 
-  // 强制设置容器高度并触发布局重算
-  if (contentContainerRef.value) {
-    // 显式设置容器高度为4310px
-    contentContainerRef.value.style.height = '4310px'
-    // 强制触发重排
-    contentContainerRef.value.offsetHeight
-  }
-
   // 动态设置底部元素位置
-  if (bottomBgRef.value && bottomTextRef.value && contentContainerRef.value) {
+  if (bottomBgRef.value && bottomTextRef.value) {
     const containerHeight = 4310
     const bgHeight = 280
     const textHeight = 170
     const textBottomMargin = 56
 
-    // 设置底部背景位置（距离顶部4030px）
     bottomBgRef.value.style.top = `${containerHeight - bgHeight}px`
     bottomBgRef.value.style.position = 'absolute'
     bottomBgRef.value.style.height = `${bgHeight}px`
 
-    // 设置底部文字容器位置（距离顶部4084px）
     bottomTextRef.value.style.top = `${containerHeight - textHeight - textBottomMargin}px`
     bottomTextRef.value.style.position = 'absolute'
     bottomTextRef.value.style.height = `${textHeight}px`
-
-    // 强制触发重排
-    bottomBgRef.value.offsetHeight
-    bottomTextRef.value.offsetHeight
   }
 
-  // 使用setTimeout确保浏览器完成布局计算后再重置滚动
   setTimeout(() => {
     window.scrollTo(0, 0)
     if (scrollContainerRef.value) {
       scrollContainerRef.value.scrollTop = 0
-      // 再次强制触发重排
-      scrollContainerRef.value.offsetHeight
     }
   }, 50)
 }
@@ -910,9 +890,9 @@ onUnmounted(() => {
 </script>
 <style>
 .scroll-container-1_2 {
-    height: 100%;
     width: 100%;
-    overflow: auto;
+    overflow: hidden;
+    position: relative;
 }
 .Pixso-frame-1_2 {
     width: 1920px;

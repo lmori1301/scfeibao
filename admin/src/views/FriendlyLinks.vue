@@ -10,9 +10,9 @@
 
       <el-table :data="tableData" style="width: 100%" v-loading="loading">
         <el-table-column prop="id" label="ID" width="80" />
-        <el-table-column prop="name" label="单位名称" />
-        <el-table-column prop="url" label="链接地址" show-overflow-tooltip />
-        <el-table-column prop="sort" label="排序" width="100" />
+        <el-table-column prop="name" label="单位名称" min-width="140" />
+        <el-table-column prop="url" label="链接地址" min-width="200" show-overflow-tooltip />
+        <el-table-column prop="sort" label="排序" width="80" />
         <el-table-column label="状态" width="100">
           <template #default="{ row }">
             <el-tag :type="row.isActive ? 'success' : 'info'">
@@ -20,7 +20,7 @@
             </el-tag>
           </template>
         </el-table-column>
-        <el-table-column label="操作" width="200">
+        <el-table-column label="操作" width="150">
           <template #default="{ row }">
             <el-button link type="primary" @click="handleEdit(row)">编辑</el-button>
             <el-button link type="danger" @click="handleDelete(row)">删除</el-button>
@@ -36,7 +36,7 @@
       />
     </el-card>
 
-    <el-dialog v-model="dialogVisible" :title="formData.id ? '编辑链接' : '新增链接'" width="600px">
+    <el-dialog v-model="dialogVisible" :title="formData.id ? '编辑链接' : '新增链接'" width="700px">
       <el-form :model="formData" label-width="100px">
         <el-form-item label="单位名称">
           <el-input v-model="formData.name" placeholder="请输入单位名称" />

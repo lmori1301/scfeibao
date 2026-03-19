@@ -5,17 +5,13 @@ export default {
   path: '/dynamic-news',
   name: 'DynamicNews',
   component: () => import('@/layouts/DefaultLayout.vue'),
-  redirect: '/dynamic-news/list',
+  redirect: '/dynamic-news',
   meta: {
     title: '动态要闻'
   },
   children: [
     {
       path: '',
-      redirect: 'list'
-    },
-    {
-      path: 'list',
       name: 'NewsList',
       component: () => import('@/views/dynamic-news/index.vue'),
       meta: {
@@ -23,7 +19,7 @@ export default {
       }
     },
     {
-      path: ':id',
+      path: 'detail/:id',
       name: 'NewsDetail',
       component: () => import('@/views/dynamic-news/detail.vue'),
       meta: {

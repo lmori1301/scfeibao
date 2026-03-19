@@ -47,12 +47,22 @@ export class CreateNewsDto {
   @ApiProperty({ description: '发布时间', required: false })
   @IsDateString()
   @IsOptional()
-  publishedAt?: Date;
+  publishedAt?: string;
 
   @ApiProperty({ description: '排序', required: false })
   @IsInt()
   @IsOptional()
   sort?: number;
+
+  @ApiProperty({ description: '是否为头条：1-是，0-否', required: false })
+  @IsInt()
+  @IsOptional()
+  isHeadline?: number;
+
+  @ApiProperty({ description: '是否显示NEW标签：1-是，0-否', required: false })
+  @IsInt()
+  @IsOptional()
+  isNew?: number;
 }
 
 export class UpdateNewsDto {
@@ -94,12 +104,22 @@ export class UpdateNewsDto {
   @ApiProperty({ description: '发布时间', required: false })
   @IsDateString()
   @IsOptional()
-  publishedAt?: Date;
+  publishedAt?: string;
 
   @ApiProperty({ description: '排序', required: false })
   @IsInt()
   @IsOptional()
   sort?: number;
+
+  @ApiProperty({ description: '是否为头条：1-是，0-否', required: false })
+  @IsInt()
+  @IsOptional()
+  isHeadline?: number;
+
+  @ApiProperty({ description: '是否显示NEW标签：1-是，0-否', required: false })
+  @IsInt()
+  @IsOptional()
+  isNew?: number;
 }
 
 export class QueryNewsDto {

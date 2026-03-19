@@ -1,6 +1,6 @@
 <template>
-    <div class="scroll-container-1_2501">
-        <div id="1_2501" class="Pixso-frame-1_2501" :class="rowCountClass">
+    <div ref="scrollContainerRef" class="scroll-container-1_2501">
+        <div id="1_2501" ref="frameRef" class="Pixso-frame-1_2501" :class="rowCountClass">
             <div id="1_2502" class="Pixso-vector-1_2502"></div>
             <div id="1_2503" class="Pixso-vector-1_2503"></div>
             <div id="1_2506" class="Pixso-vector-1_2506"></div>
@@ -348,13 +348,13 @@
                 @click="doSearch"
             ></div>
         </div>
-            <router-link id="33_785" to="/overview-info" class="Pixso-paragraph-33_785 main-nav-link">概况信息</router-link>
-            <router-link id="33_786" to="/team-building" class="Pixso-paragraph-33_786 main-nav-link">队伍建设</router-link>
-            <router-link id="33_788" to="/party-building" class="Pixso-paragraph-33_788 main-nav-link">党建专栏</router-link>
-            <router-link id="33_787" to="/info-public" class="Pixso-paragraph-33_787 main-nav-link">信息公开</router-link>
-            <router-link id="33_789" to="/dynamic-news" class="Pixso-paragraph-33_789 main-nav-link">动态要闻</router-link>
-            <router-link id="33_790" to="/policy-regulations" class="Pixso-paragraph-33_790 main-nav-link">政策法规</router-link>
-            <router-link id="33_792" to="/query-system" class="Pixso-paragraph-33_792 main-nav-link">查询系统</router-link>
+            <router-link id="33_785" to="/overview-info" class="Pixso-paragraph-33_785 main-nav-link" active-class="" exact-active-class="">概况信息</router-link>
+            <router-link id="33_786" to="/team-building" class="Pixso-paragraph-33_786 main-nav-link" active-class="" exact-active-class="">队伍建设</router-link>
+            <router-link id="33_788" to="/party-building" class="Pixso-paragraph-33_788 main-nav-link" active-class="" exact-active-class="">党建专栏</router-link>
+            <router-link id="33_787" to="/info-public" class="Pixso-paragraph-33_787 main-nav-link" active-class="" exact-active-class="">信息公开</router-link>
+            <router-link id="33_789" to="/dynamic-news" class="Pixso-paragraph-33_789 main-nav-link" active-class="" exact-active-class="">动态要闻</router-link>
+            <router-link id="33_790" to="/policy-regulations" class="Pixso-paragraph-33_790 main-nav-link" active-class="" exact-active-class="">政策法规</router-link>
+            <router-link id="33_792" to="/query-system" class="Pixso-paragraph-33_792 main-nav-link" active-class="" exact-active-class="">查询系统</router-link>
 
           <!-- 底部信息 -->
           <div id="1_113" class="Pixso-vector-1_113"></div>
@@ -381,7 +381,9 @@ import { useRouter, useRoute } from 'vue-router'
 import { queryCertificateMock } from '@/data/mock-certificate'
 import Pagination from '@/components/common/Pagination.vue'
 import { getWebsiteConfig } from '@/api/config'
+import { usePixsoScale } from '@/composables/use-pixso-scale'
 
+const { scrollContainerRef, frameRef } = usePixsoScale(1920, 1444)
 const router = useRouter()
 const route = useRoute()
 
@@ -511,9 +513,9 @@ onMounted(() => {
 </script>
 <style>
 .scroll-container-1_2501 {
-  height: 100%;
   width: 100%;
-  overflow: auto;
+  overflow: hidden;
+  position: relative;
 }
 .Pixso-frame-1_2501 {
     width: 1920px;

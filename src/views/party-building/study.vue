@@ -1,6 +1,6 @@
 <template>
-    <div class="scroll-container-1_1666">
-        <div id="1_1666" class="Pixso-frame-1_1666">
+    <div ref="scrollContainerRef" class="scroll-container-1_1666">
+        <div id="1_1666" ref="frameRef" class="Pixso-frame-1_1666">
             <div id="1_1667" class="Pixso-vector-1_1667"></div>
             <div id="1_1668" class="Pixso-vector-1_1668"></div>
             <div id="1_1671" class="Pixso-vector-1_1671"></div>
@@ -133,7 +133,9 @@ import { ref, computed, onMounted } from 'vue'
 import { getWebsiteConfig } from '@/api/config'
 import { useRouter } from 'vue-router'
 import Pagination from '@/components/common/Pagination.vue'
+import { usePixsoScale } from '@/composables/use-pixso-scale'
 
+const { scrollContainerRef, frameRef } = usePixsoScale(1920, 1892)
 const router = useRouter()
 
 // 分页状态
@@ -321,9 +323,9 @@ onMounted(() => {
 </script>
 <style>
 .scroll-container-1_1666 {
-    height: 100%;
     width: 100%;
-    overflow: auto;
+    overflow: hidden;
+    position: relative;
 }
 .Pixso-frame-1_1666 {
     width: 1920px;

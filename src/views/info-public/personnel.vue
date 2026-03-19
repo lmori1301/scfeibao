@@ -1,6 +1,6 @@
 <template>
-    <div class="scroll-container-1_1836">
-        <div id="1_1836" class="Pixso-frame-1_1836">
+    <div ref="scrollContainerRef" class="scroll-container-1_1836">
+        <div id="1_1836" ref="frameRef" class="Pixso-frame-1_1836">
             <div id="1_1837" class="Pixso-vector-1_1837"></div>
             <div id="1_1838" class="Pixso-vector-1_1838"></div>
             <div id="1_1841" class="Pixso-vector-1_1841"></div>
@@ -17,13 +17,13 @@
             <div id="1_1862" class="Pixso-vector-1_1862"></div>
             <div id="33_383" class="Pixso-vector-33_383"></div>
             <router-link to="/" id="17_5" class="Pixso-vector-17_5" style="cursor: pointer;"></router-link>
-            <router-link id="1_1868" to="/overview-info" class="Pixso-paragraph-1_1868 main-nav-link">概况信息</router-link>
-            <router-link id="1_1869" to="/team-building" class="Pixso-paragraph-1_1869 main-nav-link">队伍建设</router-link>
-            <router-link id="1_1870" to="/info-public" class="Pixso-paragraph-1_1870 main-nav-link">信息公开</router-link>
-            <router-link id="1_1871" to="/dynamic-news" class="Pixso-paragraph-1_1871 main-nav-link">动态要闻</router-link>
-            <router-link id="1_1872" to="/policy-regulations" class="Pixso-paragraph-1_1872 main-nav-link">政策法规</router-link>
-            <router-link id="1_1873" to="/query-system" class="Pixso-paragraph-1_1873 main-nav-link">查询系统</router-link>
-            <router-link id="1_1874" to="/party-building" class="Pixso-paragraph-1_1874 main-nav-link">党建专栏</router-link>
+            <router-link id="1_1868" to="/overview-info" class="Pixso-paragraph-1_1868 main-nav-link" active-class="" exact-active-class="">概况信息</router-link>
+            <router-link id="1_1869" to="/team-building" class="Pixso-paragraph-1_1869 main-nav-link" active-class="" exact-active-class="">队伍建设</router-link>
+            <router-link id="1_1870" to="/info-public" class="Pixso-paragraph-1_1870 main-nav-link" active-class="" exact-active-class="">信息公开</router-link>
+            <router-link id="1_1871" to="/dynamic-news" class="Pixso-paragraph-1_1871 main-nav-link" active-class="" exact-active-class="">动态要闻</router-link>
+            <router-link id="1_1872" to="/policy-regulations" class="Pixso-paragraph-1_1872 main-nav-link" active-class="" exact-active-class="">政策法规</router-link>
+            <router-link id="1_1873" to="/query-system" class="Pixso-paragraph-1_1873 main-nav-link" active-class="" exact-active-class="">查询系统</router-link>
+            <router-link id="1_1874" to="/party-building" class="Pixso-paragraph-1_1874 main-nav-link" active-class="" exact-active-class="">党建专栏</router-link>
             <div id="1_1875" class="Pixso-vector-1_1875"></div>
             <div id="1_1876" class="Pixso-vector-1_1876"></div>
             <div id="1_1877" class="Pixso-vector-1_1877"></div>
@@ -53,14 +53,16 @@
                 <div
                     :id="`1_${1970 + index * 2}`"
                     :class="`Pixso-vector-1_${1970 + index * 2}`"
-                    @click="downloadFile(item.fileUrl, `${item.docNumber}.pdf`)"
+                    @click="downloadFile(item.id)"
                     style="cursor: pointer;"
+                    v-if="item.attachment"
                 ></div>
                 <p
                     :id="`1_${1971 + index * 2}`"
                     :class="`Pixso-paragraph-1_${1971 + index * 2}`"
-                    @click="downloadFile(item.fileUrl, `${item.docNumber}.pdf`)"
+                    @click="downloadFile(item.id)"
                     style="cursor: pointer;"
+                    v-if="item.attachment"
                 >{{ "下载文件" }}</p>
             </template>
 
@@ -120,7 +122,9 @@ import { useRouter } from 'vue-router'
 import { ElMessage } from 'element-plus'
 import Pagination from '@/components/common/Pagination.vue'
 import http from '@/utils/http'
+import { usePixsoScale } from '@/composables/use-pixso-scale'
 
+const { scrollContainerRef, frameRef } = usePixsoScale(1920, 1486)
 const router = useRouter()
 
 // 分页状态
@@ -166,20 +170,14 @@ function handlePageChange() {
 }
 
 // 下载文件
-function downloadFile(fileUrl: string, fileName: string) {
-  if (!fileUrl) {
-    console.warn('文件URL为空，无法下载')
+function downloadFile(id: number) {
+  if (!id) {
+    console.warn('文件ID为空，无法下载')
     return
   }
 
-  // 创建临时a标签触发下载
-  const link = document.createElement('a')
-  link.href = fileUrl
-  link.download = fileName
-  link.style.display = 'none'
-  document.body.appendChild(link)
-  link.click()
-  document.body.removeChild(link)
+  // 使用后端下载接口
+  window.open(`/api/appointments/${id}/download`, '_blank')
 }
 
 // 搜索
@@ -255,9 +253,9 @@ onMounted(() => {
 </script>
 <style>
 .scroll-container-1_1836 {
-    height: 100%;
     width: 100%;
-    overflow: auto;
+    overflow: hidden;
+    position: relative;
 }
 .Pixso-frame-1_1836 {
     width: 1920px;

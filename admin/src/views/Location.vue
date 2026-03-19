@@ -113,9 +113,9 @@ onMounted(() => {
         </el-button>
       </div>
       <el-table :data="tableData" stripe v-loading="loading">
-        <el-table-column prop="name" label="单位名称" />
-        <el-table-column prop="address" label="地址" />
-        <el-table-column prop="phone" label="联系电话" width="150" />
+        <el-table-column prop="name" label="单位名称" min-width="140" />
+        <el-table-column prop="address" label="地址" min-width="180" />
+        <el-table-column prop="phone" label="联系电话" width="120" />
         <el-table-column prop="sort" label="排序" width="80" />
         <el-table-column label="状态" width="80">
           <template #default="{ row }">
@@ -144,7 +144,7 @@ onMounted(() => {
       </div>
     </el-card>
 
-    <el-dialog v-model="dialogVisible" :title="isEdit ? '编辑地理位置' : '新增地理位置'" width="600px">
+    <el-dialog v-model="dialogVisible" :title="isEdit ? '编辑地理位置' : '新增地理位置'" width="700px">
       <el-form :model="formData" label-width="100px">
         <el-form-item label="单位名称">
           <el-input v-model="formData.name" placeholder="请输入单位名称" />

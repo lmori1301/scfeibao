@@ -1,6 +1,6 @@
 <template>
     <div ref="scrollContainerRef" class="scroll-container-1_183">
-        <div ref="contentContainerRef" id="1_183" class="Pixso-frame-1_183">
+        <div ref="frameRef" id="1_183" class="Pixso-frame-1_183">
             <div id="1_184" class="Pixso-vector-1_184"></div>
             <div id="1_185" class="Pixso-vector-1_185"></div>
             <div id="1_186" class="Pixso-vector-1_186"></div>
@@ -326,13 +326,13 @@
                 ></div>
             </div>
             <div id="33_976" class="Pixso-vector-33_976"></div>
-            <router-link id="33_977" to="/overview-info" class="Pixso-paragraph-33_977 main-nav-link">概况信息</router-link>
-            <router-link id="33_978" to="/team-building" class="Pixso-paragraph-33_978 main-nav-link">队伍建设</router-link>
-            <router-link id="33_979" to="/party-building" class="Pixso-paragraph-33_979 main-nav-link">党建专栏</router-link>
-            <router-link id="33_980" to="/info-public" class="Pixso-paragraph-33_980 main-nav-link">信息公开</router-link>
-            <router-link id="33_981" to="/dynamic-news" class="Pixso-paragraph-33_981 main-nav-link">动态要闻</router-link>
-            <router-link id="33_982" to="/policy-regulations" class="Pixso-paragraph-33_982 main-nav-link">政策法规</router-link>
-            <router-link id="33_983" to="/query-system" class="Pixso-paragraph-33_983 main-nav-link">查询系统</router-link>
+            <router-link id="33_977" to="/overview-info" class="Pixso-paragraph-33_977 main-nav-link" active-class="" exact-active-class="">概况信息</router-link>
+            <router-link id="33_978" to="/team-building" class="Pixso-paragraph-33_978 main-nav-link" active-class="" exact-active-class="">队伍建设</router-link>
+            <router-link id="33_979" to="/party-building" class="Pixso-paragraph-33_979 main-nav-link" active-class="" exact-active-class="">党建专栏</router-link>
+            <router-link id="33_980" to="/info-public" class="Pixso-paragraph-33_980 main-nav-link" active-class="" exact-active-class="">信息公开</router-link>
+            <router-link id="33_981" to="/dynamic-news" class="Pixso-paragraph-33_981 main-nav-link" active-class="" exact-active-class="">动态要闻</router-link>
+            <router-link id="33_982" to="/policy-regulations" class="Pixso-paragraph-33_982 main-nav-link" active-class="" exact-active-class="">政策法规</router-link>
+            <router-link id="33_983" to="/query-system" class="Pixso-paragraph-33_983 main-nav-link" active-class="" exact-active-class="">查询系统</router-link>
         </div>
 
         <!-- 领导详情弹窗（按设计图排版） -->
@@ -391,6 +391,7 @@ import img278 from '@/assets/images/Vector_1_278.png'
 import img279 from '@/assets/images/Vector_1_279.png'
 import img280 from '@/assets/images/Vector_1_280.png'
 import img281 from '@/assets/images/Vector_1_281.png'
+import { usePixsoScale } from '@/composables/use-pixso-scale'
 
 interface LeaderItem {
     name: string
@@ -402,6 +403,7 @@ interface LeaderItem {
     photoUrl?: string
 }
 
+const { scrollContainerRef, frameRef } = usePixsoScale(1920, 2343)
 const leaders: LeaderItem[] = [
     { name: '谢春明', title: '总队长、队委会主任', duty: '全面负责救援队各项工作，制定发展战略和救援计划', bio: '男，汉族，1967年11月出生，大学学历，工学硕士，中共党员', experience: '15+年', actions: '120+次', photoUrl: img259 },
     { name: '蒲凯', title: '副总队长、队委会副主任', duty: '协助总队长开展日常工作，分管综合协调与对外联络', bio: '男，汉族，大学学历，中共党员', experience: '12+年', actions: '90+次', photoUrl: img281 },
@@ -433,8 +435,6 @@ const router = useRouter()
 const route = useRoute()
 
 // 容器和底部元素引用
-const scrollContainerRef = ref<HTMLElement | null>(null)
-const contentContainerRef = ref<HTMLElement | null>(null)
 const bottomBgRef = ref<HTMLElement | null>(null)
 const bottomTextRef = ref<HTMLElement | null>(null)
 
@@ -590,13 +590,13 @@ const initializePageLayout = async () => {
   await nextTick()
 
   // 强制设置容器高度并触发布局重算
-  if (contentContainerRef.value) {
-    contentContainerRef.value.style.height = '2343px'
-    contentContainerRef.value.offsetHeight
+  if (frameRef.value) {
+    frameRef.value.style.height = '2343px'
+    frameRef.value.offsetHeight
   }
 
   // 动态设置底部元素位置
-  if (bottomBgRef.value && bottomTextRef.value && contentContainerRef.value) {
+  if (bottomBgRef.value && bottomTextRef.value && frameRef.value) {
     const containerHeight = 2343
     const bgHeight = 280
     const textTopPosition = 2118
@@ -668,9 +668,9 @@ onMounted(() => {
 
 <style>
 .scroll-container-1_183 {
-    height: 100%;
     width: 100%;
-    overflow: auto;
+    overflow: hidden;
+    position: relative;
 }
 .overview-nav-item {
     cursor: pointer;
@@ -2072,8 +2072,8 @@ onMounted(() => {
 .leader-detail-dialog {
     position: relative;
     width: 100%;
-    max-width: 960px;
-    max-height: 90vh;
+    max-width: 640px;
+    max-height: 85vh;
     overflow: auto;
     background: #fff;
     border-radius: 10px;
@@ -2081,16 +2081,16 @@ onMounted(() => {
 }
 .leader-detail-close {
     position: absolute;
-    top: 12px;
-    right: 12px;
+    top: 8px;
+    right: 8px;
     z-index: 1;
-    width: 40px;
-    height: 40px;
+    width: 32px;
+    height: 32px;
     border: none;
     background: transparent;
     border-radius: 50%;
     cursor: pointer;
-    font-size: 30px;
+    font-size: 22px;
     line-height: 1;
     color: #555;
     padding: 0;
@@ -2103,20 +2103,20 @@ onMounted(() => {
     color: #333;
 }
 .leader-detail-content {
-    padding: 48px 48px 44px;
+    padding: 28px 28px 24px;
     display: flex;
-    gap: 40px;
+    gap: 24px;
     align-items: flex-start;
 }
 .leader-detail-photo {
-    min-width: 200px;
-    max-width: 220px;
-    width: 220px;
+    min-width: 120px;
+    max-width: 140px;
+    width: 140px;
     aspect-ratio: 200 / 260;
     flex-shrink: 0;
     align-self: center;
     background: #e8e8e8 center/cover no-repeat;
-    border-radius: 10px;
+    border-radius: 8px;
 }
 .leader-detail-right {
     flex: 1;
@@ -2128,12 +2128,12 @@ onMounted(() => {
 .leader-detail-name-row {
     display: flex;
     align-items: baseline;
-    gap: 14px;
+    gap: 10px;
     flex-wrap: wrap;
-    margin-bottom: 16px;
+    margin-bottom: 10px;
 }
 .leader-detail-name {
-    font-size: 28px;
+    font-size: 18px;
     font-weight: 700;
     font-family: "Alibaba PuHuiTi-Regular", "PingFang SC", "Microsoft YaHei", sans-serif;
     color: #1a1a1a;
@@ -2141,62 +2141,62 @@ onMounted(() => {
     line-height: 1.3;
 }
 .leader-detail-title {
-    font-size: 20px;
+    font-size: 13px;
     font-weight: 400;
     font-family: "FZHei-B01S-Regular", "Alibaba PuHuiTi-Regular", sans-serif;
     color: #3578F8;
     line-height: 1.4;
 }
 .leader-detail-bio {
-    font-size: 20px;
+    font-size: 13px;
     font-weight: 400;
     font-family: "Alibaba PuHuiTi-Regular", "PingFang SC", sans-serif;
     color: #666;
-    margin: 0 0 22px;
+    margin: 0 0 12px;
     line-height: 1.5;
 }
 .leader-detail-label {
-    font-size: 22px;
+    font-size: 14px;
     font-weight: 700;
     font-family: "Alibaba PuHuiTi-Regular", "PingFang SC", sans-serif;
     color: #1a1a1a;
-    margin: 0 0 8px;
+    margin: 0 0 6px;
     line-height: 1.4;
 }
 .leader-detail-duty {
-    font-size: 20px;
+    font-size: 13px;
     font-weight: 400;
     font-family: "Alibaba PuHuiTi-Regular", "PingFang SC", sans-serif;
     color: #666;
-    margin: 0 0 28px;
+    margin: 0 0 16px;
     line-height: 1.5;
 }
 .leader-detail-cards {
     display: flex;
-    gap: 24px;
+    gap: 12px;
 }
 .leader-detail-card {
     flex: 1;
     min-width: 0;
     border: 1px solid #a8c8f0;
-    border-radius: 10px;
-    padding: 24px 28px;
+    border-radius: 8px;
+    padding: 12px 16px;
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    gap: 10px;
-    min-height: 100px;
+    gap: 8px;
+    min-height: 70px;
     background: #F2F5FF;
 }
 .leader-detail-card-label {
-    font-size: 20px;
+    font-size: 13px;
     font-weight: 400;
     font-family: "Alibaba PuHuiTi-Regular", "PingFang SC", sans-serif;
     color: #666;
 }
 .leader-detail-card-value {
-    font-size: 30px;
+    font-size: 20px;
     font-weight: 700;
     font-family: "Alibaba PuHuiTi-Regular", "PingFang SC", sans-serif;
     color: #1a1a1a;

@@ -1,8 +1,7 @@
 <template>
-    <div class="scroll-container-1_2194">
-        <div id="1_2194" class="Pixso-frame-1_2194">
+    <div ref="scrollContainerRef" class="scroll-container-1_2194">
+        <div id="1_2194" ref="frameRef" class="Pixso-frame-1_2194">
             <div id="1_2195" class="Pixso-vector-1_2195"></div>
-            <div id="1_2196" class="Pixso-vector-1_2196"></div>
             <div id="1_2199" class="Pixso-vector-1_2199"></div>
             <p id="1_2202" class="Pixso-paragraph-1_2202">
                 {{ "四川飞豹救援" }}
@@ -12,43 +11,25 @@
             </p>
             <div id="1_2212" class="Pixso-vector-1_2212"></div>
             <p id="1_2213" class="Pixso-paragraph-1_2213">
-                {{ "当前位置：首页 > 动态要闻 > 动态详情" }}
+                当前位置：<router-link to="/" style="color: inherit; text-decoration: none;">首页</router-link> >
+                <router-link to="/dynamic-news" style="color: inherit; text-decoration: none;">动态要闻</router-link> > 动态详情
             </p>
-            <p id="1_2214" class="Pixso-paragraph-1_2214">
-                {{
-                    "来源：四川飞豹救援　　　监制：新闻宣传处　　　责任编辑：余小猴　　　发布时间：2020-11-09 21:32:00"
-                }}
+            <p v-if="newsDetail" id="1_2214" class="Pixso-paragraph-1_2214">
+                来源：{{ newsDetail.author || '四川飞豹救援' }}　　　发布时间：{{ formatDate(newsDetail.publishedAt || newsDetail.createdAt) }}
             </p>
-            <p id="1_2215" class="Pixso-paragraph-1_2215">
-                {{ "2020年“119”消防宣传月启动仪式举行，“飞系”集结亮相！" }}
+            <p v-if="newsDetail" id="1_2215" class="Pixso-paragraph-1_2215">
+                {{ newsDetail.title }}
             </p>
             <div id="1_2216" class="Pixso-vector-1_2216"></div>
             <div id="1_2223" class="Pixso-vector-1_2223"></div>
-            <div id="1_2224" class="Pixso-text-1_2224">
-                <p id="1_2224_0" class="Pixso-paragraph-1_2224_0">
-                    <span id="1_2224_0_1" class="Pixso-span-1_2224_0_1">{{
-                        "　　11月9日，2020年“119”消防宣传月启动仪式暨成都“飞系”消防救援专业队伍技能汇报演练在成都市成都市消防救援支队培训基地隆重举行，开启了我省消防主题宣传系列活动，掀起全民消防、全民参与的新浪潮。成都市市委副书记、市长王凤朝出席活动并讲话，省安委会办公室主任、省应急管理厅段毅君厅长，省消防救援总队总队长刘赋德、政委农有良，省森林消防总队政委金德成，省委宣传部副部长、省政府新闻办主任李晓骏，省教育厅党组成员、机关党委书记李志刚，省应急管理厅副厅长毛德忠，省司法厅二级巡视员李灿，团省委二级巡视员罗奕以及省公安厅等有关部门领导出席活动。"
-                    }}</span>
-                </p>
-                <p id="1_2224_1" class="Pixso-paragraph-1_2224_1">
-                    {{ "&nbsp;" }}
-                </p>
-                <p id="1_2224_2" class="Pixso-paragraph-1_2224_2">
-                    <span id="1_2224_2_1" class="Pixso-span-1_2224_2_1">{{
-                        "　　开幕式上宣读了《关于组建成都“飞系”消防救援专业队伍》的通知，段毅君高度肯定了“飞系”消防救援专业队伍建设和全市消防安全治理取得的突出成绩，并对各级各部门做好“119”消防宣传月，推进应急救援能力持续提升提出要求。"
-                    }}</span>
-                </p>
+            <div v-if="newsDetail" id="1_2224" class="Pixso-text-1_2224 news-content" v-html="newsDetail.content"></div>
+            <div v-else-if="loading" id="1_2224" class="Pixso-text-1_2224">
+                <p style="text-align: center; color: #999;">加载中...</p>
             </div>
-            <p id="1_2225" class="Pixso-paragraph-1_2225">
-                {{
-                    "　　据悉，“飞系”消防救援专业队伍是着眼超大城市“全灾种、大应急”救援需求，坚持少而精的原则，成体系打造的应急救援“尖刀、拳头”力量，在“3·30”西昌森林火灾扑救、“8·16”成都金堂特大洪灾救援等急难险重任务中发挥了不可替代作用。"
-                }}
-            </p>
-            <div id="1_2226" class="Pixso-vector-1_2226"></div>
-            <div id="1_2229" class="Pixso-vector-1_2229"></div>
-            <div id="1_2232" class="Pixso-vector-1_2232"></div>
-            <div id="1_2235" class="Pixso-vector-1_2235"></div>
-            <div id="1_2238" class="Pixso-vector-1_2238"></div>
+            <div v-else id="1_2224" class="Pixso-text-1_2224">
+                <p style="text-align: center; color: #999;">暂无内容</p>
+            </div>
+            <div id="1_2182" class="Pixso-vector-1_2182"></div>
             <router-link to="/" id="17_30" class="Pixso-vector-17_30" style="cursor: pointer;"></router-link>
             <div id="1_2243" class="Pixso-vector-1_2243"></div>
             <router-link to="/overview-info" id="1_2244" class="Pixso-paragraph-1_2244">概况信息</router-link>
@@ -96,11 +77,45 @@
     </div>
 </template>
 <script lang="ts" setup>
-import { ref, onMounted } from 'vue'
+import { ref, onMounted, watch } from 'vue'
 import { getWebsiteConfig } from '@/api/config'
-import { useRouter } from 'vue-router'
+import { useRouter, useRoute } from 'vue-router'
+import http from '@/utils/http'
+import { usePixsoScale } from '@/composables/use-pixso-scale'
 
+const { scrollContainerRef, frameRef } = usePixsoScale(1920, 4128)
 const router = useRouter()
+const route = useRoute()
+
+// 新闻详情数据
+const newsDetail = ref<any>(null)
+const loading = ref(false)
+
+// 获取新闻详情
+const fetchNewsDetail = async () => {
+  const id = route.params.id
+  console.log('🔍 获取新闻详情 - ID:', id)
+  if (!id) return
+
+  loading.value = true
+  try {
+    const res = await http.get(`/news/${id}`)
+    console.log('📦 API响应:', res)
+    console.log('📄 新闻数据:', res.data)
+    newsDetail.value = res.data
+  } catch (error) {
+    console.error('❌ 获取新闻详情失败:', error)
+  } finally {
+    loading.value = false
+  }
+}
+
+// 格式化日期
+const formatDate = (dateStr: string) => {
+  if (!dateStr) return ''
+  const date = new Date(dateStr)
+  return date.toISOString().split('T')[0]
+}
 
 // 搜索
 const searchKey = ref('')
@@ -169,15 +184,23 @@ const fetchWebsiteConfig = async () => {
 }
 
 onMounted(() => {
+  fetchNewsDetail()
   fetchWebsiteConfig()
+})
+
+// 监听路由参数变化，重新获取新闻详情
+watch(() => route.params.id, (newId, oldId) => {
+  if (newId && newId !== oldId) {
+    fetchNewsDetail()
+  }
 })
 
 </script>
 <style>
 .scroll-container-1_2194 {
-    height: 100%;
     width: 100%;
-    overflow: auto;
+    overflow: hidden;
+    position: relative;
 }
 .Pixso-frame-1_2194 {
     width: 1920px;
@@ -198,18 +221,6 @@ onMounted(() => {
     right: 0%;
     top: 0%;
     bottom: 0%;
-}
-.Pixso-vector-1_2196 {
-    width: 100%;
-    height: 4.7%;
-    background-image: url(@/assets/images/Vector_1_2196.png);
-    background-size: 100% 100%;
-    background-repeat: no-repeat;
-    position: absolute;
-    left: 0%;
-    right: 0%;
-    top: 0%;
-    bottom: 95.3%;
 }
 .Pixso-vector-1_2199 {
     width: 6.72%;
@@ -250,6 +261,18 @@ onMounted(() => {
     right: 68.8%;
     top: 2.91%;
     bottom: 96.51%;
+}
+.Pixso-vector-1_2182 {
+    width: 100%;
+    height: 1.7%;
+    background-image: url(@/assets/images/Vector_1_2182.png);
+    background-size: 100% 100%;
+    background-repeat: no-repeat;
+    position: absolute;
+    left: 0%;
+    right: 0%;
+    top: 4.7%;
+    bottom: 93.6%;
 }
 .Pixso-vector-1_2212 {
     width: 1700px;
@@ -331,11 +354,10 @@ onMounted(() => {
     line-height: 39.20000076293945px;
     color: rgba(106, 106, 106, 1);
     width: 1373px;
-    height: 10.27%;
+    min-height: 10.27%;
     position: absolute;
     left: 50%;
     top: 16.3%;
-    bottom: 73.43%;
     transform: translateX(calc(-50% + 17.5px));
 }
 .Pixso-paragraph-1_2224_0 {

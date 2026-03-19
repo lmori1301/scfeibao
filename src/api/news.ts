@@ -1,44 +1,24 @@
-/**
- * 新闻相关API接口
- */
-import http from '@/utils/http'
-import type { NewsItem, NewsListParams } from '@/types/news'
+import request from '@/utils/request';
 
-/**
- * 获取新闻列表
- */
-export function getNewsList(params?: NewsListParams) {
-  return http.get<{
-    items: NewsItem[]
-    total: number
-    page: number
-    pageSize: number
-    totalPages: number
-  }>('/news', { params })
-}
+// 新闻列表接口
+export const getNewsList = (params) => {
+  return request({
+    url: '/home/news',
+    method: 'get',
+    params,
+    timeout: 600000 // 覆盖全局，确保列表接口也有足够超时时间
+  });
+};
 
-/**
- * 获取新闻详情
- */
-export function getNewsDetail(id: string | number) {
-  return http.get<NewsItem>(`/news/${id}`)
-}
-
-/**
- * 获取最新新闻
- */
-export function getLatestNews(limit: number = 5) {
-  return http.get<{
-    items: NewsItem[]
-    total: number
-    page: number
-    pageSize: number
-    totalPages: number
-  }>('/news', {
-    params: {
-      page: 1,
-      pageSize: limit,
-      status: 1 // 只获取已发布的新闻
-    }
-  })
-}
+// 新闻详情接口（核心修改）
+export const getNewsDetail = (id) => {
+  return request({
+    url: `/dynamic-news/detail/${id}`,
+    method: 'get',
+    timeout: 600000, // 单独设置10分钟超时
+    // 可选：添加防抖，避免重复请求
+    cancelToken: new axios.CancelToken((cancel) => {
+      window.cancelNewsDetailRequest = cancel;
+    })
+  });
+};

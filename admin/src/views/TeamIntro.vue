@@ -51,6 +51,13 @@ const handleSave = async () => {
   }
 }
 
+// 格式化日期为 YYYY-MM-DD
+const formatDate = (row: any, column: any, cellValue: any) => {
+  if (!cellValue) return ''
+  const date = new Date(cellValue)
+  return date.toISOString().split('T')[0]
+}
+
 onMounted(() => {
   fetch()
 })
@@ -64,8 +71,8 @@ onMounted(() => {
         <el-button type="success" @click="handleAdd"><el-icon><Plus /></el-icon>新增</el-button>
       </div>
       <el-table :data="data" stripe v-loading="loading">
-        <el-table-column prop="title" label="标题" />
-        <el-table-column prop="updatedAt" label="更新时间" width="180" />
+        <el-table-column prop="title" label="标题" min-width="200" />
+        <el-table-column prop="updatedAt" label="更新时间" width="110" :formatter="formatDate" />
         <el-table-column label="操作" width="150" fixed="right">
           <template #default="{ row }">
             <el-button text type="primary" size="small" @click="handleEdit(row)">编辑</el-button>
@@ -82,7 +89,7 @@ onMounted(() => {
       />
     </el-card>
 
-    <el-dialog v-model="dialogVisible" title="队伍介绍" width="800px">
+    <el-dialog v-model="dialogVisible" title="队伍介绍" width="1200px">
       <el-form :model="formData" label-width="100px">
         <el-form-item label="标题"><el-input v-model="formData.title" /></el-form-item>
         <el-form-item label="内容"><RichTextEditor v-model="formData.content" placeholder="请输入队伍介绍内容" height="400px" /></el-form-item>

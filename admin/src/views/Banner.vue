@@ -107,7 +107,7 @@ fetch()
             <el-tag :type="row.status === '显示' ? 'success' : 'info'">{{ row.status }}</el-tag>
           </template>
         </el-table-column>
-        <el-table-column prop="createdAt" label="创建时间" width="180" :formatter="formatDate" />
+        <el-table-column prop="createdAt" label="创建时间" width="160" :formatter="formatDate" />
         <el-table-column label="操作" width="150" fixed="right">
           <template #default="{ row }">
             <el-button text type="primary" size="small" @click="handleEdit(row)">编辑</el-button>
@@ -118,7 +118,7 @@ fetch()
       <Pagination :total="total" :page="page" :page-size="pageSize" @change="handlePageChange" />
     </el-card>
 
-    <el-dialog v-model="dialogVisible" :title="dialogTitle" width="600px">
+    <el-dialog v-model="dialogVisible" :title="dialogTitle" width="800px">
       <el-form ref="formRef" :model="formData" :rules="rules" label-width="100px">
         <el-form-item label="标题" prop="title">
           <el-input v-model="formData.title" placeholder="请输入标题" />

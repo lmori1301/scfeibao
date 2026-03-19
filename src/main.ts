@@ -24,6 +24,15 @@ app.use(ElementPlus, {
   locale: zhCn
 })
 
+// MSW 已禁用 — 使用真实后端数据
+// if (import.meta.env.DEV) {
+//   import('./mocks/browser').then(({ worker }) => {
+//     worker.start({
+//       onUnhandledRequest: 'bypass'
+//     })
+//   })
+// }
+
 app.mount('#app')
 
 

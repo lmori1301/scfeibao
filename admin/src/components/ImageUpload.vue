@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { ref } from 'vue'
+import { ref, watch } from 'vue'
 import { ElMessage } from 'element-plus'
 import { Plus } from '@element-plus/icons-vue'
 
@@ -17,6 +17,11 @@ const emit = defineEmits<{
 }>()
 
 const fileList = ref<any[]>(props.modelValue ? [{ url: props.modelValue }] : [])
+
+// 监听 modelValue 变化，更新 fileList
+watch(() => props.modelValue, (newValue) => {
+  fileList.value = newValue ? [{ url: newValue }] : []
+})
 
 const handleSuccess = (response: any) => {
   emit('update:modelValue', response.data.url)

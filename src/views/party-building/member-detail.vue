@@ -1,6 +1,6 @@
 <template>
-    <div class="scroll-container-1_1280">
-        <div id="1_1280" class="Pixso-frame-1_1280">
+    <div ref="scrollContainerRef" class="scroll-container-1_1280">
+        <div id="1_1280" ref="frameRef" class="Pixso-frame-1_1280">
             <div id="1_1281" class="Pixso-vector-1_1281"></div>
             <div id="1_1282" class="Pixso-vector-1_1282"></div>
             <div id="1_1285" class="Pixso-vector-1_1285"></div>
@@ -154,7 +154,9 @@
 <script lang="ts" setup>
 import { ref } from 'vue'
 import { useRouter } from 'vue-router'
+import { usePixsoScale } from '@/composables/use-pixso-scale'
 
+const { scrollContainerRef, frameRef } = usePixsoScale(1920, 3997)
 const router = useRouter()
 
 // 搜索
@@ -202,9 +204,9 @@ const doSearch = () => {
 </script>
 <style>
 .scroll-container-1_1280 {
-    height: 100%;
     width: 100%;
-    overflow: auto;
+    overflow: hidden;
+    position: relative;
 }
 .Pixso-frame-1_1280 {
     width: 1920px;

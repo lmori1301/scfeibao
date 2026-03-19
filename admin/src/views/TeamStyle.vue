@@ -28,7 +28,15 @@ const handleAdd = () => {
 }
 
 const handleEdit = (row: any) => {
-  formData.value = { ...row }
+  formData.value = {
+    id: row.id,
+    title: row.title,
+    type: row.type,
+    sort: row.sort,
+    status: row.status,
+    image: row.imageUrl,
+    content: row.description || ''
+  }
   dialogVisible.value = true
 }
 
@@ -42,14 +50,31 @@ const handleDelete = (row: any) => {
 
 const handleSave = async () => {
   await formRef.value.validate()
+
+  const saveData = {
+    title: formData.value.title,
+    type: formData.value.type,
+    imageUrl: formData.value.image,
+    description: formData.value.content,
+    sort: formData.value.sort,
+    status: formData.value.status
+  }
+
   if (formData.value.id) {
-    await http.patch(`/team-showcase/${formData.value.id}`, formData.value)
+    await http.patch(`/team-showcase/${formData.value.id}`, saveData)
   } else {
-    await http.post('/team-showcase', formData.value)
+    await http.post('/team-showcase', saveData)
   }
   ElMessage.success('保存成功')
   dialogVisible.value = false
   fetch()
+}
+
+// 格式化日期为 YYYY-MM-DD
+const formatDate = (row: any, column: any, cellValue: any) => {
+  if (!cellValue) return ''
+  const date = new Date(cellValue)
+  return date.toISOString().split('T')[0]
 }
 
 fetch()
@@ -63,7 +88,7 @@ fetch()
         <el-button type="primary" @click="handleAdd">新增</el-button>
       </div>
       <el-table :data="data" v-loading="loading" stripe>
-        <el-table-column prop="title" label="标题" />
+        <el-table-column prop="title" label="标题" min-width="200" />
         <el-table-column prop="type" label="类型" width="120" />
         <el-table-column prop="sort" label="排序" width="80" />
         <el-table-column label="状态" width="80">
@@ -71,7 +96,7 @@ fetch()
             <el-tag :type="row.status === '显示' ? 'success' : 'info'">{{ row.status }}</el-tag>
           </template>
         </el-table-column>
-        <el-table-column prop="createTime" label="创建时间" width="110" />
+        <el-table-column prop="createdAt" label="创建时间" width="110" :formatter="formatDate" />
         <el-table-column label="操作" width="150" fixed="right">
           <template #default="{ row }">
             <el-button text type="primary" size="small" @click="handleEdit(row)">编辑</el-button>
@@ -82,7 +107,7 @@ fetch()
       <Pagination :total="total" :page="page" :page-size="pageSize" @change="handlePageChange" />
     </el-card>
 
-    <el-dialog v-model="dialogVisible" title="队伍风采" width="800px">
+    <el-dialog v-model="dialogVisible" title="队伍风采" width="1200px">
       <el-form ref="formRef" :model="formData" :rules="rules" label-width="100px">
         <el-form-item label="图片" prop="image">
           <ImageUpload v-model="formData.image" />

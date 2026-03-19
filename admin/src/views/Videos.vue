@@ -10,8 +10,8 @@
 
       <el-table :data="tableData" style="width: 100%" v-loading="loading">
         <el-table-column prop="id" label="ID" width="80" />
-        <el-table-column prop="title" label="视频标题" />
-        <el-table-column prop="videoUrl" label="视频地址" show-overflow-tooltip />
+        <el-table-column prop="title" label="视频标题" min-width="200" />
+        <el-table-column prop="videoUrl" label="视频地址" min-width="200" show-overflow-tooltip />
         <el-table-column label="置顶状态" width="100">
           <template #default="{ row }">
             <el-tag :type="row.isTop ? 'success' : 'info'">
@@ -19,7 +19,7 @@
             </el-tag>
           </template>
         </el-table-column>
-        <el-table-column label="操作" width="250">
+        <el-table-column label="操作" width="150">
           <template #default="{ row }">
             <el-button link type="primary" @click="handleEdit(row)">编辑</el-button>
             <el-button link :type="row.isTop ? 'warning' : 'success'" @click="handleToggleTop(row)">
@@ -38,7 +38,7 @@
       />
     </el-card>
 
-    <el-dialog v-model="dialogVisible" :title="formData.id ? '编辑视频' : '新增视频'" width="600px">
+    <el-dialog v-model="dialogVisible" :title="formData.id ? '编辑视频' : '新增视频'" width="700px">
       <el-form :model="formData" label-width="100px">
         <el-form-item label="视频标题">
           <el-input v-model="formData.title" placeholder="请输入视频标题" />

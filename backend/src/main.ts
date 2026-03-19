@@ -5,6 +5,9 @@ import { AppModule } from './app.module';
 import { NestExpressApplication } from '@nestjs/platform-express';
 import { join } from 'path';
 
+// 核心修改：定义端口为 3004，避开占用
+const port = process.env.PORT || 3004;
+
 async function bootstrap() {
   const app = await NestFactory.create<NestExpressApplication>(AppModule);
 
@@ -45,10 +48,9 @@ async function bootstrap() {
   const document = SwaggerModule.createDocument(app, config);
   SwaggerModule.setup('api-docs', app, document);
 
-  // 🔥 关键修改：把默认端口从 3002 改为 3003（你也可以换成其他未被占用的端口，如 3004、6000 等）
-  const port = process.env.PORT || 3003;
+  // 启动服务，监听 3004 端口
   await app.listen(port);
-  console.log(`应用已启动，运行在：http://localhost:${port}`); // 启动后会输出 http://localhost:3003
+  console.log(`应用已启动，运行在：http://localhost:${port}`);
   console.log(`API 文档地址：http://localhost:${port}/api-docs`);
 }
 

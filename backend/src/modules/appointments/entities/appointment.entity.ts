@@ -23,6 +23,9 @@ export class Appointment {
   @Column({ nullable: true })
   attachment: string
 
+  @Column({ nullable: true })
+  attachmentName: string
+
   @CreateDateColumn()
   createdAt: Date
 
