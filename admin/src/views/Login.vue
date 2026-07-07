@@ -1,7 +1,11 @@
 <script setup lang="ts">
-import { ref, reactive } from 'vue'
+import { reactive, ref } from 'vue'
 import { useRouter } from 'vue-router'
 import { ElMessage, type FormInstance, type FormRules } from 'element-plus'
+import { Lock, User } from '@element-plus/icons-vue'
+import { firstAccessibleAdminPath } from '@/router/admin-routes'
+import loginLogo from '../../../src/assets/images/Vector_6_567.png'
+import loginBackground from '../../../src/assets/images/Vector_00_567.png'
 
 const router = useRouter()
 const loginFormRef = ref<FormInstance>()
@@ -22,8 +26,22 @@ const rules: FormRules = {
   ]
 }
 
+const persistSession = (token: string, user: Record<string, unknown>) => {
+  localStorage.setItem('token', token)
+  localStorage.setItem('user', JSON.stringify(user))
+}
+
+const handleLoginSuccess = (payload: { token: string; user: Record<string, unknown> }) => {
+  persistSession(payload.token, payload.user)
+  ElMessage.success('登录成功')
+  router.push(firstAccessibleAdminPath(payload.user))
+}
+
 const handleLogin = async () => {
   if (!loginFormRef.value) return
+
+  loginForm.username = loginForm.username.trim()
+  loginForm.password = loginForm.password.trim()
 
   await loginFormRef.value.validate(async (valid) => {
     if (valid) {
@@ -35,10 +53,7 @@ const handleLogin = async () => {
         })
         const data = await res.json()
         if (data.code === 200) {
-          localStorage.setItem('token', data.data.token)
-          localStorage.setItem('user', JSON.stringify(data.data.user))
-          ElMessage.success('登录成功')
-          router.push('/dashboard')
+          handleLoginSuccess(data.data)
         } else {
           ElMessage.error(data.message || '登录失败')
         }
@@ -51,11 +66,16 @@ const handleLogin = async () => {
 </script>
 
 <template>
-  <div class="login-container">
+  <div
+    class="login-container"
+    :style="{
+      backgroundImage: `url(${loginBackground})`
+    }"
+  >
     <div class="login-box">
       <div class="login-header">
-        <h2>四川飞豹救援</h2>
-        <p>后台管理系统</p>
+        <img class="login-logo" :src="loginLogo" alt="四川飞豹救援 Logo" />
+        <h2>四川飞豹救援管理系统</h2>
       </div>
       <el-form ref="loginFormRef" :model="loginForm" :rules="rules" class="login-form">
         <el-form-item prop="username">
@@ -63,8 +83,12 @@ const handleLogin = async () => {
             v-model="loginForm.username"
             placeholder="请输入用户名"
             size="large"
-            prefix-icon="User"
-          />
+            autocomplete="username"
+          >
+            <template #prefix>
+              <el-icon><User /></el-icon>
+            </template>
+          </el-input>
         </el-form-item>
         <el-form-item prop="password">
           <el-input
@@ -72,9 +96,13 @@ const handleLogin = async () => {
             type="password"
             placeholder="请输入密码"
             size="large"
-            prefix-icon="Lock"
+            autocomplete="current-password"
             @keyup.enter="handleLogin"
-          />
+          >
+            <template #prefix>
+              <el-icon><Lock /></el-icon>
+            </template>
+          </el-input>
         </el-form-item>
         <el-form-item>
           <el-button type="primary" size="large" style="width: 100%" @click="handleLogin">
@@ -83,6 +111,7 @@ const handleLogin = async () => {
         </el-form-item>
       </el-form>
     </div>
+
   </div>
 </template>
 
@@ -93,7 +122,11 @@ const handleLogin = async () => {
   display: flex;
   justify-content: center;
   align-items: center;
-  background: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%);
+  overflow: hidden;
+  background-color: #0f325f;
+  background-position: center 18%;
+  background-repeat: no-repeat;
+  background-size: cover;
   position: relative;
 
   &::before {
@@ -103,44 +136,84 @@ const handleLogin = async () => {
     left: 0;
     right: 0;
     bottom: 0;
-    background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1440 320"><path fill="%23ffffff" fill-opacity="0.05" d="M0,96L48,112C96,128,192,160,288,160C384,160,480,128,576,122.7C672,117,768,139,864,154.7C960,171,1056,181,1152,165.3C1248,149,1344,107,1392,85.3L1440,64L1440,320L1392,320C1344,320,1248,320,1152,320C1056,320,960,320,864,320C768,320,672,320,576,320C480,320,384,320,288,320C192,320,96,320,48,320L0,320Z"></path></svg>') no-repeat bottom;
-    background-size: cover;
+    background:
+      linear-gradient(180deg, rgba(6, 18, 38, 0.34) 0%, rgba(9, 24, 50, 0.44) 45%, rgba(8, 18, 36, 0.58) 100%);
+  }
+
+  &::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background:
+      radial-gradient(circle at 50% 16%, rgba(92, 202, 255, 0.18), transparent 24%),
+      linear-gradient(180deg, rgba(7, 20, 41, 0.12) 0%, rgba(7, 20, 41, 0.36) 100%);
   }
 }
 
 .login-box {
   width: 420px;
-  padding: 50px 40px;
-  background: rgba(255, 255, 255, 0.95);
-  backdrop-filter: blur(10px);
-  border-radius: 12px;
-  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
+  padding: 38px 40px 56px;
+  background: rgba(255, 255, 255, 0.93);
+  backdrop-filter: blur(14px);
+  border: 1px solid rgba(255, 255, 255, 0.34);
+  border-radius: 18px;
+  box-shadow: 0 28px 60px rgba(5, 18, 43, 0.34);
   position: relative;
-  z-index: 1;
+  z-index: 2;
 }
 
 .login-header {
   text-align: center;
-  margin-bottom: 40px;
+  margin-bottom: 26px;
 
-  h2 {
-    font-size: 28px;
-    font-weight: 600;
-    color: #1e3c72;
-    margin: 0 0 10px 0;
+  .login-logo {
+    width: 84px;
+    height: 84px;
+    display: block;
+    margin: 0 auto 14px;
+    object-fit: contain;
+    filter: drop-shadow(0 10px 18px rgba(30, 60, 114, 0.18));
   }
 
-  p {
-    font-size: 14px;
-    color: #666;
+  h2 {
+    font-size: 24px;
+    font-weight: 700;
+    letter-spacing: 0.5px;
+    color: #1e3c72;
     margin: 0;
+    white-space: nowrap;
   }
 }
 
 .login-form {
+  margin-top: 8px;
+  width: 86%;
+  margin-left: auto;
+  margin-right: auto;
+
+  :deep(.el-form-item) {
+    margin-bottom: 14px;
+  }
+
+  :deep(.el-form-item:last-child) {
+    margin-top: 38px;
+    margin-bottom: 0;
+  }
+
   :deep(.el-input__wrapper) {
     box-shadow: 0 0 0 1px #dcdfe6 inset;
     border-radius: 6px;
+    padding-left: 12px;
+  }
+
+  :deep(.el-input),
+  :deep(.el-button) {
+    width: 100%;
+  }
+
+  :deep(.el-input__prefix) {
+    color: #6b7a99;
+    margin-right: 8px;
   }
 
   :deep(.el-button--primary) {
@@ -157,4 +230,5 @@ const handleLogin = async () => {
     }
   }
 }
+
 </style>

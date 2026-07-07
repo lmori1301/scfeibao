@@ -1,89 +1,174 @@
-import { Injectable, NotFoundException, InternalServerErrorException } from '@nestjs/common';
+import {
+  Injectable,
+  NotFoundException,
+  InternalServerErrorException,
+} from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { Repository } from 'typeorm';
+import { ILike, Repository } from 'typeorm';
 import { News } from '../../database/entities/news.entity';
-// 如需Redis缓存，先安装：npm install cache-manager cache-manager-redis-store
 import { CACHE_MANAGER } from '@nestjs/cache-manager';
 import { Inject } from '@nestjs/common';
 import { Cache } from 'cache-manager';
+import {
+  CreateNewsDto,
+  QueryNewsDto,
+  UpdateNewsDto,
+} from './dto/news.dto';
+import { PaginatedResponseDto } from '../../common/dto/pagination.dto';
 
 @Injectable()
 export class NewsService {
   constructor(
     @InjectRepository(News)
     private readonly newsRepository: Repository<News>,
-    @Inject(CACHE_MANAGER) private cacheManager: Cache // 注入缓存
+    @Inject(CACHE_MANAGER) private cacheManager: Cache,
   ) {}
 
-  // 新闻详情查询（核心优化）
   async findOne(id: number) {
     try {
-      // 1. 先查缓存（缓存key：news:detail:123）
       const cacheKey = `news:detail:${id}`;
-      const cachedNews = await this.cacheManager.get(cacheKey);
+      const cachedNews = await this.cacheManager.get<News>(cacheKey);
       if (cachedNews) {
-        return cachedNews; // 缓存命中，直接返回
+        return cachedNews;
       }
 
-      // 2. 缓存未命中，查数据库（只查需要的字段，避免冗余）
-      const news = await this.newsRepository
-        .createQueryBuilder('news')
-        .select([
-          'news.id',
-          'news.title',
-          'news.content',
-          'news.publishedAt',
-          'news.category',
-          'news.createdAt'
-        ])
-        .where('news.id = :id', { id })
-        .getOne();
+      const news = await this.newsRepository.findOne({ where: { id } });
 
       if (!news) {
         throw new NotFoundException(`新闻ID ${id} 不存在`);
       }
 
-      // 3. 存入缓存（有效期1小时，避免缓存过期）
       await this.cacheManager.set(cacheKey, news, 3600);
-
       return news;
     } catch (error) {
       if (error instanceof NotFoundException) {
-        throw error; // 找不到新闻，抛404
+        throw error;
       }
-      // 其他错误，抛500并记录日志
       throw new InternalServerErrorException(`查询新闻详情失败：${error.message}`);
     }
   }
 
-  // 新闻列表查询（同步优化）
-  async findByCategory(category: string, page = 1, pageSize = 12) {
+  async findPublicList(query: QueryNewsDto) {
     try {
-      const [list, total] = await this.newsRepository.findAndCount({
-        where: { category, status: 1 }, // 只返回已发布状态的新闻，草稿不显示
-        select: ['id', 'title', 'summary', 'content', 'coverImage', 'publishedAt', 'createdAt', 'isNew', 'isHeadline'], // 添加 isNew 和 isHeadline 字段
-        order: { createdAt: 'DESC' },
-        skip: (page - 1) * pageSize,
-        take: pageSize, // 强制分页，避免一次性查全部
-      });
-      return { list, total };
-    } catch (error) {
-      throw new InternalServerErrorException(`查询${category}新闻失败：${error.message}`);
-    }
-  }
+      const page = query.page ?? 1;
+      const pageSize = query.pageSize ?? 12;
+      const where: Record<string, unknown> = {
+        status: 1,
+      };
+      if (query.category) {
+        where.category = query.category;
+      }
+      if (query.keyword) {
+        where.title = ILike(`%${query.keyword}%`);
+      }
 
-  // 后台管理：获取所有新闻列表
-  async findAll(page = 1, pageSize = 10) {
-    try {
-      const [items, total] = await this.newsRepository.findAndCount({
-        select: ['id', 'title', 'summary', 'content', 'coverImage', 'category', 'author', 'status', 'publishedAt', 'createdAt', 'isHeadline', 'isNew', 'sort'],
-        order: { createdAt: 'DESC' },
+      const [list, total] = await this.newsRepository.findAndCount({
+        where,
+        select: [
+          'id',
+          'title',
+          'summary',
+          'content',
+          'coverImage',
+          'publishedAt',
+          'createdAt',
+          'isNew',
+          'isHeadline',
+          'category',
+        ],
+        order: { publishedAt: 'DESC', createdAt: 'DESC' },
         skip: (page - 1) * pageSize,
         take: pageSize,
       });
-      return { items, total };
+
+      return new PaginatedResponseDto(list, total, page, pageSize);
     } catch (error) {
       throw new InternalServerErrorException(`查询新闻列表失败：${error.message}`);
     }
+  }
+
+  async findAll(query: QueryNewsDto) {
+    try {
+      const page = query.page ?? 1;
+      const pageSize = query.pageSize ?? 10;
+      const where: Record<string, unknown> = {};
+      if (query.category) {
+        where.category = query.category;
+      }
+      if (typeof query.status === 'number') {
+        where.status = query.status;
+      }
+      if (query.keyword) {
+        where.title = ILike(`%${query.keyword}%`);
+      }
+
+      const [items, total] = await this.newsRepository.findAndCount({
+        where,
+        order: { sort: 'DESC', publishedAt: 'DESC', createdAt: 'DESC' },
+        skip: (page - 1) * pageSize,
+        take: pageSize,
+      });
+
+      return new PaginatedResponseDto(items, total, page, pageSize);
+    } catch (error) {
+      throw new InternalServerErrorException(`查询新闻列表失败：${error.message}`);
+    }
+  }
+
+  async create(dto: CreateNewsDto) {
+    try {
+      const entity = this.newsRepository.create({
+        ...dto,
+        publishedAt: dto.publishedAt ? new Date(dto.publishedAt) : null,
+      });
+      const created = await this.newsRepository.save(entity);
+      await this.clearDetailCache(created.id);
+      return created;
+    } catch (error) {
+      throw new InternalServerErrorException(`创建新闻失败：${error.message}`);
+    }
+  }
+
+  async update(id: number, dto: UpdateNewsDto) {
+    const entity = await this.newsRepository.findOne({ where: { id } });
+    if (!entity) {
+      throw new NotFoundException(`新闻ID ${id} 不存在`);
+    }
+
+    try {
+      Object.assign(entity, {
+        ...dto,
+        publishedAt:
+          dto.publishedAt === undefined
+            ? entity.publishedAt
+            : dto.publishedAt
+              ? new Date(dto.publishedAt)
+              : null,
+      });
+      const updated = await this.newsRepository.save(entity);
+      await this.clearDetailCache(id);
+      return updated;
+    } catch (error) {
+      throw new InternalServerErrorException(`更新新闻失败：${error.message}`);
+    }
+  }
+
+  async remove(id: number) {
+    const entity = await this.newsRepository.findOne({ where: { id } });
+    if (!entity) {
+      throw new NotFoundException(`新闻ID ${id} 不存在`);
+    }
+
+    try {
+      await this.newsRepository.remove(entity);
+      await this.clearDetailCache(id);
+      return { id };
+    } catch (error) {
+      throw new InternalServerErrorException(`删除新闻失败：${error.message}`);
+    }
+  }
+
+  private async clearDetailCache(id: number) {
+    await this.cacheManager.del(`news:detail:${id}`);
   }
 }

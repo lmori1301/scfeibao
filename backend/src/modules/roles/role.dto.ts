@@ -14,6 +14,10 @@ export class CreateRoleDto {
   @IsArray()
   @IsOptional()
   permissions?: string[];
+
+  @IsIn(['active', 'disabled'])
+  @IsOptional()
+  status?: 'active' | 'disabled';
 }
 
 export class UpdateRoleDto {

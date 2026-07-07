@@ -1,5 +1,9 @@
-@import './variables.scss';
-@import './mixins.scss';
+@use './variables' as *;
+@use './mixins' as *;
+
+:root {
+  color-scheme: light;
+}
 
 * {
   margin: 0;
@@ -7,11 +11,730 @@
   box-sizing: border-box;
 }
 
+html {
+  background: $bg-page;
+}
+
 body {
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+  font-family: 'PingFang SC', 'Microsoft YaHei', 'Helvetica Neue', Arial, sans-serif;
   font-size: $font-size-base;
   color: $text-primary;
-  background-color: $bg-page;
+  line-height: 1.5;
+  background: $bg-page;
+}
+
+img {
+  border-radius: 0 !important;
+}
+
+button,
+input,
+textarea,
+select {
+  font: inherit;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+#app {
+  min-height: 100vh;
+}
+
+.el-dialog {
+  max-width: calc(100vw - 28px);
+}
+
+.el-dialog__body,
+.el-dialog__footer {
+  min-width: 0;
+}
+
+.page-container {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.page-container > .el-card,
+.table-card,
+.search-card {
+  border: 1px solid #ececec;
+  background: #fff;
+}
+
+.page-container > .el-card {
+  overflow: hidden;
+}
+
+.page-container .el-card__body {
+  padding: 14px 18px;
+}
+
+.page-container > .el-card:first-child .el-form--inline {
+  gap: 8px 10px;
+  align-items: center;
+}
+
+.page-container > .el-card:first-child .el-form-item {
+  margin-bottom: 0;
+}
+
+.page-container h3 {
+  font-size: 14px;
+  font-weight: 600;
+  color: $text-primary;
+}
+
+.table-toolbar,
+.flex-between {
+  gap: 14px;
+}
+
+.page-container .el-button + .el-button {
+  margin-left: 10px;
+}
+
+.page-container .table-header,
+.page-container .flex-between {
+  min-height: 34px;
+  margin-bottom: 10px;
+}
+
+.page-container .el-table {
+  --el-table-header-bg-color: #fafafa;
+  --el-table-border-color: #efefef;
+  --el-table-row-hover-bg-color: #f8fbff;
+}
+
+.page-container .el-table th.el-table__cell {
+  height: 42px;
+}
+
+.page-container .el-table td.el-table__cell {
+  padding-block: 8px;
+}
+
+.page-container .el-pagination {
+  margin-top: 20px;
+}
+
+.page-container .el-dialog__body {
+  padding-top: 0;
+}
+
+.page-container .el-row + .el-row {
+  margin-top: 4px;
+}
+
+.page-container .el-form--inline .el-input,
+.page-container .el-form--inline .el-select,
+.page-container .el-form--inline .el-date-editor {
+  width: 210px;
+}
+
+.page-container .el-tag {
+  border-radius: 2px;
+  padding-inline: 8px;
+}
+
+.page-container .el-empty {
+  padding-block: 32px;
+}
+
+.warehouse-list-page,
+.warehouse-form-page {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.warehouse-list-page .page-crumb,
+.warehouse-form-page .page-crumb,
+.page-crumb {
+  color: #8c98ad;
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 0.02em;
+}
+
+/* 列表页：面包屑在正文滚动区内吸顶；查询区/列表区见 .admin-card */
+.admin-shell .content-panel__body .page-crumb {
+  position: sticky;
+  top: 0;
+  z-index: 9;
+  margin: -6px -4px 14px;
+  padding: 8px 4px 14px;
+  background: #ffffff;
+  box-shadow: 0 10px 18px -14px rgba(31, 57, 106, 0.22);
+}
+
+.admin-shell .content-panel__body .page-crumb.page-crumb--static {
+  position: static;
+  top: auto;
+  z-index: auto;
+  margin: 0 0 14px;
+  padding: 0;
+  background: transparent;
+  box-shadow: none;
+}
+
+.admin-view-stack {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.admin-card {
+  border: 1px solid #e7edf5;
+  border-radius: 14px;
+  background: #fff;
+  box-shadow: 0 6px 20px rgba(44, 76, 135, 0.06);
+}
+
+.admin-card--search {
+  padding: 16px 18px;
+}
+
+.admin-card--table {
+  padding: 16px 18px 18px;
+}
+
+.warehouse-list-page .toolbar-strip,
+.warehouse-form-page .toolbar-strip,
+.toolbar-strip {
+  display: flex;
+  justify-content: flex-end;
+}
+
+.warehouse-list-page .toolbar-actions,
+.warehouse-form-page .toolbar-actions {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+  align-items: center;
+}
+
+.warehouse-list-page .page-panel,
+.warehouse-form-page .page-panel {
+  padding: 18px 20px;
+  border: 1px solid #e7edf6;
+  border-radius: 14px;
+  background: #fff;
+  overflow: hidden;
+}
+
+.warehouse-list-page .filter-toolbar {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+.warehouse-list-page .status-tabs {
+  display: inline-flex;
+  gap: 10px;
+  flex-wrap: wrap;
+  max-width: 100%;
+}
+
+.warehouse-list-page .status-tab {
+  min-width: 96px;
+  height: 38px;
+  padding: 0 16px;
+  border: 1px solid #d8e3fa;
+  border-radius: 12px;
+  background: #f7faff;
+  color: #607089;
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.warehouse-list-page .status-tab + .status-tab {
+  border-left: 1px solid #d8e3fa;
+}
+
+.warehouse-list-page .status-tab.active {
+  background: linear-gradient(135deg, #4f73ff 0%, #2f67ff 100%);
+  color: #fff;
+  font-weight: 600;
+  border-color: transparent;
+}
+
+.warehouse-list-page .filter-inline {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  align-items: center;
+}
+
+.warehouse-list-page .filter-inline > * {
+  width: 220px;
+  min-width: 0;
+  flex: 1 1 220px;
+}
+
+.warehouse-list-page .filter-inline > .el-button {
+  width: auto;
+  flex: 0 0 auto;
+}
+
+.warehouse-list-page .list-panel {
+  padding-top: 0;
+}
+
+.admin-shell .content-panel__body {
+  [class$='__eyebrow'] {
+    display: none !important;
+  }
+
+  [class$='-hero'],
+  .mini-hero {
+    align-items: flex-start;
+    gap: 14px;
+    padding: 18px 20px !important;
+    border-radius: 16px !important;
+  }
+
+  [class$='-hero'] h2,
+  [class$='-hero'] h3,
+  .mini-hero h2,
+  .mini-hero h3 {
+    margin-top: 0 !important;
+    line-height: 1.35;
+  }
+
+  [class$='-hero'] h2 {
+    font-size: 24px !important;
+  }
+
+  [class$='-hero'] h3,
+  .mini-hero h3 {
+    font-size: 20px !important;
+  }
+
+  [class$='-hero'] p,
+  .mini-hero p {
+    margin-top: 6px !important;
+    line-height: 1.6;
+  }
+
+  [class$='-hero'] [class$='__actions'],
+  .mini-hero__actions {
+    gap: 8px !important;
+  }
+
+  [class$='-panel'],
+  .summary-card,
+  .status-card,
+  .preview-card,
+  .log-table-card,
+  .backup-suggestion {
+    border-radius: 16px !important;
+  }
+
+  .summary-card {
+    padding: 16px 18px !important;
+  }
+
+  .summary-card:not(.summary-card--feature):not(.summary-card--preview):not(.summary-card--highlight):not(.summary-card--article) {
+    display: flex !important;
+    align-items: center;
+    justify-content: flex-start;
+    gap: 12px;
+  }
+
+  .summary-card:not(.summary-card--feature):not(.summary-card--preview):not(.summary-card--highlight):not(.summary-card--article) span {
+    margin: 0 !important;
+    flex: 0 0 auto;
+  }
+
+  .summary-card:not(.summary-card--feature):not(.summary-card--preview):not(.summary-card--highlight):not(.summary-card--article) strong {
+    margin-top: 0 !important;
+    flex: 0 0 auto;
+    white-space: nowrap;
+    line-height: 1;
+  }
+
+  .summary-card strong {
+    margin-top: 8px !important;
+    font-size: 24px !important;
+  }
+
+  .summary-card p {
+    margin-top: 6px !important;
+  }
+
+  .summary-card.summary-card--feature,
+  .summary-card.summary-card--preview {
+    display: none !important;
+  }
+
+  [class$='-summary'] {
+    display: flex !important;
+    flex-wrap: wrap;
+    align-items: stretch;
+    gap: 14px !important;
+  }
+
+  [class$='-summary'] > .summary-card {
+    flex: 1 1 220px;
+    min-width: 220px;
+  }
+
+  [class$='-summary'] > .summary-card.summary-card--feature,
+  [class$='-summary'] > .summary-card.summary-card--preview {
+    flex: 0 0 320px;
+    width: 320px;
+    min-width: 320px;
+  }
+}
+
+.warehouse-list-page .list-panel .el-table,
+.warehouse-form-page .list-panel .el-table {
+  width: 100%;
+}
+
+.warehouse-list-page .list-panel .el-table .cell,
+.warehouse-form-page .list-panel .el-table .cell {
+  line-height: 1.5;
+}
+
+.warehouse-list-page .list-panel .el-table td.el-table__cell,
+.warehouse-form-page .list-panel .el-table td.el-table__cell {
+  vertical-align: top;
+}
+
+.warehouse-list-page .panel-title,
+.warehouse-form-page .panel-title,
+.panel-title {
+  padding: 4px 0 16px 14px;
+  position: relative;
+  color: #1f2f46;
+  font-size: 18px;
+  font-weight: 600;
+}
+
+.warehouse-form-page .panel-title {
+  padding-top: 0;
+}
+
+.warehouse-list-page .panel-title::before,
+.warehouse-form-page .panel-title::before,
+.panel-title::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 8px;
+  width: 4px;
+  height: 15px;
+  border-radius: 2px;
+  background: #4f73ff;
+}
+
+.warehouse-form-page .panel-title::before {
+  top: 4px;
+}
+
+.warehouse-list-page .pagination,
+.warehouse-form-page .pagination {
+  padding-top: 18px;
+  display: flex;
+  justify-content: flex-end;
+}
+
+.warehouse-form-page .config-form {
+  max-width: 720px;
+  padding-top: 8px;
+}
+
+.content-panel__body {
+  min-width: 0;
+}
+
+.content-panel__body > * {
+  min-width: 0;
+}
+
+.content-panel__body section,
+.content-panel__body article,
+.content-panel__body .summary-card,
+.content-panel__body .preview-card,
+.content-panel__body .el-card {
+  border-radius: 14px !important;
+}
+
+.content-panel__body [class$='-hero'],
+.content-panel__body [class$='-panel'],
+.content-panel__body .summary-card,
+.content-panel__body .preview-card {
+  min-width: 0;
+}
+
+.content-panel__body [class$='-search'] {
+  gap: 12px;
+}
+
+.content-panel__body [class$='-search'] > * {
+  min-width: 0;
+}
+
+.content-panel__body [class$='-panel'],
+.content-panel__body [class*='-panel__top'],
+.content-panel__body [class$='-table-panel'] {
+  min-width: 0;
+}
+
+.content-panel__body [class$='-table-panel'] {
+  overflow-x: auto;
+  overflow-y: hidden;
+}
+
+.content-panel__body [class$='-table-panel'] .el-table {
+  width: 100%;
+  min-width: 960px;
+}
+
+.content-panel__body .el-table .cell {
+  line-height: 1.6;
+  word-break: break-word;
+}
+
+.content-panel__body .el-table .el-button + .el-button {
+  margin-left: 4px;
+}
+
+/* 全局列表「操作」列：水平居中、按钮间距统一、避免相邻按钮 margin 叠压 */
+.content-panel__body .el-table th.admin-table-ops-col--header,
+.content-panel__body .el-table td.admin-table-ops-col {
+  text-align: center;
+}
+
+.content-panel__body .el-table td.el-table__cell.admin-table-ops-col {
+  vertical-align: middle;
+}
+
+.content-panel__body .el-table .admin-table-ops {
+  display: inline-flex;
+  flex-wrap: nowrap;
+  align-items: center;
+  justify-content: center;
+  gap: 0 4px;
+  white-space: nowrap;
+  max-width: none;
+}
+
+.content-panel__body .el-table .admin-table-ops .el-button.is-link,
+.content-panel__body .el-table .admin-table-ops .el-button.is-text {
+  margin: 0 !important;
+  padding: 2px 6px;
+  min-width: 0;
+  height: auto;
+  font-size: 13px;
+  font-weight: 500;
+}
+
+.content-panel__body .admin-pagination,
+.page-container .admin-pagination {
+  display: flex;
+  justify-content: flex-end;
+  margin-top: 20px;
+}
+
+.content-panel__body .admin-pagination .el-pagination,
+.page-container .admin-pagination .el-pagination {
+  margin-top: 0;
+}
+
+.content-panel__body [class$='-search'] .el-input,
+.content-panel__body [class$='-search'] .el-select,
+.content-panel__body [class$='-search'] .el-date-editor {
+  width: 100%;
+}
+
+.content-panel__body [class$='-search'] .el-button {
+  min-width: 92px;
+}
+
+.content-panel__body .el-form-item {
+  margin-bottom: 20px;
+}
+
+.content-panel__body .el-dialog .el-form-item:last-child {
+  margin-bottom: 0;
+}
+
+@media (max-width: 1180px) {
+  .content-panel__body [class$='-search'] {
+    grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+  }
+}
+
+@media (max-width: 768px) {
+  .content-panel__body [class$='-search'] {
+    grid-template-columns: 1fr !important;
+  }
+
+  .content-panel__body [class$='-table-panel'] .el-table {
+    min-width: 720px;
+  }
+}
+
+.content-panel__body [class$='-search'] > .el-button {
+  min-width: 98px;
+  white-space: nowrap;
+}
+
+.content-panel__body [class$='-table-panel'] {
+  overflow-x: auto;
+}
+
+.content-panel__body [class$='-table-panel'] .el-table {
+  width: 100%;
+  min-width: 980px;
+}
+
+.content-panel__body [class$='-table-panel'] .el-table .cell {
+  line-height: 1.6;
+  overflow-wrap: anywhere;
+  word-break: break-word;
+}
+
+.content-panel__body [class$='-table-panel'] .el-table td.el-table__cell {
+  vertical-align: top;
+}
+
+.content-panel__body [class$='-table-panel'] .el-table__body-wrapper,
+.content-panel__body [class$='-table-panel'] .el-scrollbar__wrap {
+  scrollbar-gutter: stable;
+}
+
+.content-panel__body [class$='-dialog'] {
+  align-items: start;
+}
+
+.content-panel__body [class$='-dialog'] > * {
+  min-width: 0;
+}
+
+.content-panel__body .meta-stack,
+.content-panel__body [class$='-cell__meta'],
+.content-panel__body .preview-card,
+.content-panel__body .summary-card {
+  overflow-wrap: anywhere;
+}
+
+@media (max-width: 1200px) {
+  .warehouse-list-page .filter-inline > * {
+    flex-basis: calc(50% - 6px);
+  }
+
+  .content-panel__body [class$='-search'] {
+    grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+  }
+
+  .content-panel__body [class$='-search'] > .el-button {
+    width: 100%;
+  }
+
+  .content-panel__body [class$='-table-panel'] .el-table {
+    min-width: 900px;
+  }
+}
+
+@media (max-width: 960px) {
+  .warehouse-list-page,
+  .warehouse-form-page {
+    gap: 12px;
+  }
+
+  .warehouse-list-page .toolbar-strip,
+  .warehouse-form-page .toolbar-strip,
+  .toolbar-strip {
+    justify-content: flex-start;
+  }
+
+  .warehouse-list-page .toolbar-actions,
+  .warehouse-form-page .toolbar-actions {
+    width: 100%;
+  }
+
+  .warehouse-list-page .toolbar-actions > .el-button,
+  .warehouse-form-page .toolbar-actions > .el-button {
+    flex: 1 1 auto;
+    min-width: 0;
+  }
+
+  .warehouse-list-page .status-tabs {
+    display: flex;
+  }
+
+  .warehouse-list-page .status-tab {
+    flex: 1 1 auto;
+    min-width: 110px;
+  }
+
+  .warehouse-list-page .filter-inline > * {
+    flex-basis: 100%;
+    width: 100%;
+  }
+
+  .warehouse-list-page .page-panel,
+  .warehouse-form-page .page-panel {
+    padding: 16px;
+  }
+
+  .warehouse-list-page .list-panel,
+  .warehouse-form-page .list-panel {
+    overflow-x: auto;
+  }
+
+  .warehouse-list-page .list-panel .el-table,
+  .warehouse-form-page .list-panel .el-table {
+    min-width: 860px;
+  }
+
+  .warehouse-form-page .config-form {
+    max-width: none;
+  }
+
+  .content-panel__body [class$='-hero'] {
+    padding: 18px !important;
+  }
+
+  .content-panel__body [class$='-search'] {
+    grid-template-columns: 1fr !important;
+  }
+
+  .content-panel__body [class$='-summary'],
+  .content-panel__body [class$='-grid'] {
+    grid-template-columns: 1fr !important;
+  }
+
+  .content-panel__body [class$='-dialog'] {
+    grid-template-columns: 1fr !important;
+  }
+
+  .content-panel__body [class$='-table-panel'] {
+    padding-inline: 16px !important;
+  }
+
+  .content-panel__body [class$='-table-panel'] .el-table {
+    min-width: 760px;
+  }
+}
+
+@media (max-width: 768px) {
+  .content-panel__body [class$='-panel'] {
+    padding: 16px !important;
+  }
+
+  .content-panel__body .panel-title {
+    font-size: 16px;
+    padding-bottom: 14px;
+  }
 }
 
 // 通用工具类
@@ -49,3 +772,304 @@ body {
 
 .mr-sm { margin-right: $spacing-sm; }
 .mr-md { margin-right: $spacing-md; }
+
+@media (max-width: 960px) {
+  .admin-shell .content-panel__body [class$='-summary'] > .summary-card,
+  .admin-shell .content-panel__body [class$='-summary'] > .summary-card.summary-card--feature,
+  .admin-shell .content-panel__body [class$='-summary'] > .summary-card.summary-card--preview {
+    width: 100%;
+    min-width: 0;
+    flex-basis: 100%;
+  }
+}
+
+// 查询条：筛选与按钮从左连续排列；单行展示（窄屏横向滚动）
+.admin-card--search .policy-toolbar,
+.admin-card--search .content-toolbar,
+.admin-card--search .party-toolbar,
+.admin-card--search .portal-toolbar,
+.admin-card--search .leadership-toolbar,
+.admin-card--search .video-toolbar,
+.admin-card--search .appointment-toolbar,
+.admin-card--search .location-toolbar,
+.admin-card--search .case-toolbar,
+.admin-list-query.policy-toolbar,
+.admin-list-query.party-toolbar,
+.admin-list-query.portal-toolbar,
+.admin-list-query.leadership-toolbar,
+.admin-list-query.video-toolbar,
+.admin-list-query.appointment-toolbar,
+.admin-list-query.location-toolbar,
+.admin-list-query.case-toolbar {
+  justify-content: flex-start !important;
+  flex-wrap: nowrap !important;
+}
+
+.admin-card--search .policy-toolbar__filters,
+.admin-card--search .content-toolbar__filters,
+.admin-card--search .party-toolbar__filters,
+.admin-card--search .portal-toolbar__filters,
+.admin-card--search .leadership-toolbar__filters,
+.admin-card--search .video-toolbar__filters,
+.admin-card--search .appointment-toolbar__filters,
+.admin-card--search .location-toolbar__filters,
+.admin-card--search .case-toolbar__filters,
+.admin-list-query .policy-toolbar__filters,
+.admin-list-query .content-toolbar__filters,
+.admin-list-query .party-toolbar__filters,
+.admin-list-query .portal-toolbar__filters,
+.admin-list-query .leadership-toolbar__filters,
+.admin-list-query .video-toolbar__filters,
+.admin-list-query .appointment-toolbar__filters,
+.admin-list-query .location-toolbar__filters,
+.admin-list-query .case-toolbar__filters {
+  flex: 0 1 auto !important;
+  flex-wrap: nowrap !important;
+  min-width: 0;
+  overflow-x: auto;
+  overflow-y: hidden;
+  scrollbar-width: thin;
+}
+
+.admin-card--search .portal-toolbar__actions,
+.admin-card--search .content-toolbar__actions,
+.admin-card--search .policy-toolbar__actions,
+.admin-card--search .appointment-toolbar__actions,
+.admin-card--search .party-toolbar__actions,
+.admin-card--search .leadership-toolbar__actions,
+.admin-card--search .video-toolbar__actions,
+.admin-card--search .location-toolbar__actions,
+.admin-card--search .case-toolbar__actions,
+.admin-list-query .portal-toolbar__actions,
+.admin-list-query .content-toolbar__actions,
+.admin-list-query .policy-toolbar__actions,
+.admin-list-query .appointment-toolbar__actions,
+.admin-list-query .party-toolbar__actions,
+.admin-list-query .leadership-toolbar__actions,
+.admin-list-query .video-toolbar__actions,
+.admin-list-query .location-toolbar__actions,
+.admin-list-query .case-toolbar__actions {
+  display: flex;
+  flex-wrap: nowrap;
+  align-items: center;
+  gap: 10px;
+  justify-content: flex-start !important;
+  margin-left: 0 !important;
+  flex: 1 1 auto !important;
+  min-width: 0 !important;
+}
+
+/* 查询主操作（查询/重置）与末尾操作（刷新、新增等）分组，末尾与列表右缘对齐 */
+.admin-toolbar-actions__primary {
+  display: inline-flex;
+  flex-wrap: nowrap;
+  align-items: center;
+  gap: 10px;
+  flex-shrink: 0;
+}
+
+.admin-toolbar-actions__end {
+  display: inline-flex;
+  flex-wrap: nowrap;
+  align-items: center;
+  gap: 10px;
+  margin-left: auto;
+  flex-shrink: 0;
+}
+
+/* 覆盖各页 scoped 里仍写的 margin-left:auto / space-between，保证查询按钮靠左 */
+.admin-card--search [class*='toolbar__actions']:not([class*='head-actions']),
+.admin-list-query [class*='toolbar__actions']:not([class*='head-actions']) {
+  margin-left: 0 !important;
+  justify-content: flex-start !important;
+}
+
+.admin-card--search .case-toolbar__filters {
+  display: flex;
+  flex-wrap: nowrap;
+  align-items: center;
+  gap: 10px;
+  flex: 0 1 auto;
+  min-width: 0;
+  overflow-x: auto;
+  overflow-y: hidden;
+}
+
+.admin-card--search .permissions-search__actions {
+  display: flex;
+  flex-wrap: nowrap;
+  align-items: center;
+  gap: 10px;
+  margin-left: 0;
+  justify-content: flex-start;
+  flex: 1 1 auto;
+  min-width: 0;
+}
+
+/* 板块查询条内控件统一宽度，单行对齐 */
+.admin-card--search .policy-toolbar__filters > .el-select,
+.admin-card--search .policy-toolbar__filters > .el-input,
+.admin-card--search .content-toolbar__filters > .el-select,
+.admin-card--search .content-toolbar__filters > .el-input,
+.admin-card--search .party-toolbar__filters > .el-select,
+.admin-card--search .party-toolbar__filters > .el-input,
+.admin-card--search .portal-toolbar__filters > .el-select,
+.admin-card--search .portal-toolbar__filters > .el-input,
+.admin-card--search .leadership-toolbar__filters > .el-select,
+.admin-card--search .leadership-toolbar__filters > .el-input,
+.admin-card--search .video-toolbar__filters > .el-select,
+.admin-card--search .video-toolbar__filters > .el-input,
+.admin-card--search .appointment-toolbar__filters > .el-select,
+.admin-card--search .appointment-toolbar__filters > .el-input,
+.admin-card--search .location-toolbar__filters > .el-select,
+.admin-card--search .location-toolbar__filters > .el-input,
+.admin-card--search .case-toolbar__filters > .el-select,
+.admin-card--search .case-toolbar__filters > .el-input,
+.admin-list-query .policy-toolbar__filters > .el-select,
+.admin-list-query .policy-toolbar__filters > .el-input,
+.admin-list-query .content-toolbar__filters > .el-select,
+.admin-list-query .content-toolbar__filters > .el-input,
+.admin-list-query .party-toolbar__filters > .el-select,
+.admin-list-query .party-toolbar__filters > .el-input,
+.admin-list-query .portal-toolbar__filters > .el-select,
+.admin-list-query .portal-toolbar__filters > .el-input,
+.admin-list-query .leadership-toolbar__filters > .el-select,
+.admin-list-query .leadership-toolbar__filters > .el-input,
+.admin-list-query .video-toolbar__filters > .el-select,
+.admin-list-query .video-toolbar__filters > .el-input,
+.admin-list-query .appointment-toolbar__filters > .el-select,
+.admin-list-query .appointment-toolbar__filters > .el-input,
+.admin-list-query .location-toolbar__filters > .el-select,
+.admin-list-query .location-toolbar__filters > .el-input,
+.admin-list-query .case-toolbar__filters > .el-select,
+.admin-list-query .case-toolbar__filters > .el-input {
+  flex: 0 0 auto;
+  width: 160px;
+  max-width: 200px;
+}
+
+.admin-card--search .content-toolbar__filters .content-toolbar__field--grow,
+.admin-list-query .content-toolbar__filters .content-toolbar__field--grow {
+  flex: 0 0 auto !important;
+  width: 220px;
+  min-width: 160px;
+  max-width: 280px;
+}
+
+.admin-list-toolbar {
+  display: flex;
+  flex-wrap: nowrap;
+  align-items: center;
+  gap: 10px;
+  width: 100%;
+  min-width: 0;
+}
+
+.admin-card--search .admin-list-toolbar {
+  flex-wrap: nowrap;
+}
+
+.admin-list-toolbar__filters {
+  display: flex;
+  flex-wrap: nowrap;
+  align-items: center;
+  gap: 10px;
+  flex: 0 1 auto;
+  min-width: 0;
+  overflow-x: auto;
+  overflow-y: hidden;
+  scrollbar-width: thin;
+}
+
+.admin-card--search .admin-list-toolbar .admin-list-toolbar__filters .el-select,
+.admin-card--search .admin-list-toolbar .admin-list-toolbar__filters .el-input {
+  flex: 0 0 auto;
+  width: 160px;
+  max-width: 200px;
+}
+
+.admin-card--search .admin-list-toolbar .admin-list-toolbar__filters .permissions-toolbar__keyword.el-input {
+  width: 240px;
+  max-width: 320px;
+}
+
+/* 未包在 .admin-card--search 内的列表页（人员/车辆/证书等）：同样单行 + 控件宽度 */
+.admin-list-query.admin-list-toolbar .admin-list-toolbar__filters .el-select,
+.admin-list-query.admin-list-toolbar .admin-list-toolbar__filters .el-input {
+  flex: 0 0 auto;
+  width: 160px;
+  max-width: 200px;
+}
+
+.admin-list-toolbar__actions {
+  display: flex;
+  flex-wrap: nowrap;
+  align-items: center;
+  gap: 10px;
+  margin-left: 0;
+  justify-content: flex-start;
+  flex: 0 0 auto;
+  min-width: 0;
+}
+
+.admin-table-panel__head {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  margin-bottom: 12px;
+}
+
+.admin-table-panel__head .panel-title {
+  margin-bottom: 0;
+}
+
+.admin-table-panel__head-actions {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 10px;
+  margin-left: auto;
+}
+
+/** 子页顶部仅右侧操作（与 Dashboard 刷新条一致，无标题卡片） */
+.admin-toolbar-right {
+  display: flex;
+  justify-content: flex-end;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+
+/** 列表页：查询条 + 表格同一张白卡片 */
+.admin-page-list-card {
+  border: 1px solid #e8edf5;
+  background: #fff;
+  border-radius: 12px;
+  /* 允许宽表格在卡片内横向滚动，避免与 overflow:hidden 一样被压扁重叠 */
+  overflow-x: auto;
+  overflow-y: visible;
+  min-width: 0;
+  box-shadow: 0 12px 28px rgba(39, 66, 120, 0.05);
+}
+
+.admin-page-list-card__toolbar {
+  padding: 14px 18px 12px;
+  border-bottom: 1px solid #eef1f7;
+  background: #fafbfd;
+}
+
+.admin-page-list-card__toolbar .admin-card--search,
+.admin-page-list-card__toolbar .admin-list-toolbar {
+  padding: 0 !important;
+  border: none !important;
+  background: transparent !important;
+  box-shadow: none !important;
+}
+
+.admin-page-list-card__main {
+  padding: 14px 18px 18px;
+  min-width: 0;
+  /* 与卡片配合：表格区再允许横向滚动，双保险 */
+  overflow-x: auto;
+}

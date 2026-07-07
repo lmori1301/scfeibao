@@ -29,13 +29,18 @@ export class CertificateService {
     queryDto: QueryCertificateDto,
   ): Promise<PaginatedResponseDto<Certificate>> {
     const { page, pageSize } = paginationDto;
-    const { certificateType, status, keyword } = queryDto;
+    const { certificateType, certificateNumber, status, keyword, holderIdCard } =
+      queryDto;
 
     const where: any = {};
     if (certificateType) where.certificateType = certificateType;
+    if (certificateNumber) where.certificateNumber = Like(`%${certificateNumber}%`);
     if (status !== undefined) where.status = status;
     if (keyword) {
       where.holderName = Like(`%${keyword}%`);
+    }
+    if (holderIdCard) {
+      where.holderIdCard = Like(`%${holderIdCard}%`);
     }
 
     const [items, total] = await this.certificateRepository.findAndCount({

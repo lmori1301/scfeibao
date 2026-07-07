@@ -17,6 +17,7 @@ import {
 } from './dto/vehicle.dto';
 import { PaginationDto } from '../../common/dto/pagination.dto';
 import { Public } from '../../common/decorators/public.decorator';
+import { RequirePermissions } from '../../common/decorators/permissions.decorator';
 
 @ApiTags('车辆查询')
 @Controller('vehicles')
@@ -26,6 +27,7 @@ export class VehicleController {
   @Post()
   @ApiBearerAuth()
   @ApiOperation({ summary: '创建车辆' })
+  @RequirePermissions('Vehicles')
   create(@Body() createVehicleDto: CreateVehicleDto) {
     return this.vehicleService.create(createVehicleDto);
   }
@@ -54,6 +56,7 @@ export class VehicleController {
   @Patch(':id')
   @ApiBearerAuth()
   @ApiOperation({ summary: '更新车辆' })
+  @RequirePermissions('Vehicles')
   update(
     @Param('id') id: string,
     @Body() updateVehicleDto: UpdateVehicleDto,
@@ -64,6 +67,7 @@ export class VehicleController {
   @Delete(':id')
   @ApiBearerAuth()
   @ApiOperation({ summary: '删除车辆' })
+  @RequirePermissions('Vehicles')
   remove(@Param('id') id: string) {
     return this.vehicleService.remove(+id);
   }
@@ -71,6 +75,7 @@ export class VehicleController {
   @Post('batch/delete')
   @ApiBearerAuth()
   @ApiOperation({ summary: '批量删除车辆' })
+  @RequirePermissions('Vehicles')
   batchDelete(@Body() body: { ids: number[] }) {
     return this.vehicleService.batchDelete(body.ids);
   }
@@ -78,6 +83,7 @@ export class VehicleController {
   @Post('batch/status')
   @ApiBearerAuth()
   @ApiOperation({ summary: '批量更新状态' })
+  @RequirePermissions('Vehicles')
   batchUpdateStatus(@Body() body: { ids: number[]; status: number }) {
     return this.vehicleService.batchUpdateStatus(body.ids, body.status);
   }

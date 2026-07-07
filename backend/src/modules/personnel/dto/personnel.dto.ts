@@ -4,11 +4,17 @@ import {
   IsNotEmpty,
   IsOptional,
   IsInt,
-  IsDateString,
+  IsDate,
+  Min,
 } from 'class-validator';
 import { PaginationDto } from '../../../common/dto/pagination.dto';
 
 export class CreatePersonnelDto {
+  @ApiProperty({ description: '人员业务编号', required: false })
+  @IsString()
+  @IsOptional()
+  personnelCode?: string;
+
   @ApiProperty({ description: '姓名' })
   @IsString()
   @IsNotEmpty({ message: '姓名不能为空' })
@@ -25,7 +31,7 @@ export class CreatePersonnelDto {
   gender?: string;
 
   @ApiProperty({ description: '出生日期', required: false })
-  @IsDateString()
+  @IsDate()
   @IsOptional()
   birthDate?: Date;
 
@@ -34,10 +40,20 @@ export class CreatePersonnelDto {
   @IsOptional()
   phone?: string;
 
+  @ApiProperty({ description: '电子邮箱', required: false })
+  @IsString()
+  @IsOptional()
+  email?: string;
+
   @ApiProperty({ description: '所属队伍', required: false })
   @IsString()
   @IsOptional()
   team?: string;
+
+  @ApiProperty({ description: '工作单位', required: false })
+  @IsString()
+  @IsOptional()
+  workUnit?: string;
 
   @ApiProperty({ description: '职务', required: false })
   @IsString()
@@ -45,7 +61,7 @@ export class CreatePersonnelDto {
   position?: string;
 
   @ApiProperty({ description: '入队日期', required: false })
-  @IsDateString()
+  @IsDate()
   @IsOptional()
   joinDate?: Date;
 
@@ -64,13 +80,35 @@ export class CreatePersonnelDto {
   @IsOptional()
   remark?: string;
 
+  @ApiProperty({ description: '出勤次数', required: false })
+  @IsInt()
+  @Min(0)
+  @IsOptional()
+  taskCount?: number;
+
+  @ApiProperty({ description: '培训时长(小时)', required: false })
+  @IsInt()
+  @Min(0)
+  @IsOptional()
+  trainingHours?: number;
+
   @ApiProperty({ description: '状态：1-在职，0-离职', required: false })
   @IsInt()
   @IsOptional()
   status?: number;
+
+  @ApiProperty({ description: '审核状态 0待审核 1已通过 2已拒绝', required: false })
+  @IsInt()
+  @IsOptional()
+  auditStatus?: number;
 }
 
 export class UpdatePersonnelDto {
+  @ApiProperty({ description: '人员业务编号', required: false })
+  @IsString()
+  @IsOptional()
+  personnelCode?: string;
+
   @ApiProperty({ description: '姓名', required: false })
   @IsString()
   @IsOptional()
@@ -87,7 +125,7 @@ export class UpdatePersonnelDto {
   gender?: string;
 
   @ApiProperty({ description: '出生日期', required: false })
-  @IsDateString()
+  @IsDate()
   @IsOptional()
   birthDate?: Date;
 
@@ -96,10 +134,20 @@ export class UpdatePersonnelDto {
   @IsOptional()
   phone?: string;
 
+  @ApiProperty({ description: '电子邮箱', required: false })
+  @IsString()
+  @IsOptional()
+  email?: string;
+
   @ApiProperty({ description: '所属队伍', required: false })
   @IsString()
   @IsOptional()
   team?: string;
+
+  @ApiProperty({ description: '工作单位', required: false })
+  @IsString()
+  @IsOptional()
+  workUnit?: string;
 
   @ApiProperty({ description: '职务', required: false })
   @IsString()
@@ -107,7 +155,7 @@ export class UpdatePersonnelDto {
   position?: string;
 
   @ApiProperty({ description: '入队日期', required: false })
-  @IsDateString()
+  @IsDate()
   @IsOptional()
   joinDate?: Date;
 
@@ -126,13 +174,35 @@ export class UpdatePersonnelDto {
   @IsOptional()
   remark?: string;
 
+  @ApiProperty({ description: '出勤次数', required: false })
+  @IsInt()
+  @Min(0)
+  @IsOptional()
+  taskCount?: number;
+
+  @ApiProperty({ description: '培训时长(小时)', required: false })
+  @IsInt()
+  @Min(0)
+  @IsOptional()
+  trainingHours?: number;
+
   @ApiProperty({ description: '状态：1-在职，0-离职', required: false })
   @IsInt()
   @IsOptional()
   status?: number;
+
+  @ApiProperty({ description: '审核状态 0待审核 1已通过 2已拒绝', required: false })
+  @IsInt()
+  @IsOptional()
+  auditStatus?: number;
 }
 
 export class QueryPersonnelDto extends PaginationDto {
+  @ApiProperty({ description: '人员主键（精确）', required: false })
+  @IsInt()
+  @IsOptional()
+  id?: number;
+
   @ApiProperty({ description: '所属队伍', required: false })
   @IsString()
   @IsOptional()
@@ -143,8 +213,13 @@ export class QueryPersonnelDto extends PaginationDto {
   @IsOptional()
   status?: number;
 
-  @ApiProperty({ description: '关键词', required: false })
+  @ApiProperty({ description: '关键词（姓名）', required: false })
   @IsString()
   @IsOptional()
   keyword?: string;
+
+  @ApiProperty({ description: '人员业务编号（模糊）', required: false })
+  @IsString()
+  @IsOptional()
+  personnelCode?: string;
 }

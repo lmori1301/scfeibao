@@ -18,6 +18,7 @@ import { PersonnelModule } from './modules/personnel/personnel.module';
 import { VehicleModule } from './modules/vehicles/vehicle.module';
 import { AdminUserModule } from './modules/admin-users/admin-user.module';
 import { RoleModule } from './modules/roles/role.module';
+import { MenuTreeModule } from './modules/menu-tree/menu-tree.module';
 import { UploadModule } from './modules/upload/upload.module';
 import { DashboardModule } from './modules/dashboard/dashboard.module';
 import { SettingModule } from './modules/settings/setting.module';
@@ -27,9 +28,14 @@ import { VideosModule } from './modules/videos/videos.module';
 import { AppointmentsModule } from './modules/appointments/appointments.module';
 import { LocationModule } from './modules/location/location.module';
 import { ConfigModule as WebsiteConfigModule } from './modules/config/config.module';
+import { TeamUnitModule } from './modules/team-units/team-unit.module';
+import { NavigationModule } from './modules/navigation/navigation.module';
+import { OperationLogModule } from './modules/operation-log/operation-log.module';
+import { DataBackupModule } from './modules/data-backup/data-backup.module';
 
 // 全局守卫、过滤器、拦截器
 import { JwtAuthGuard } from './common/guards/jwt-auth.guard';
+import { PermissionGuard } from './common/guards/permission.guard';
 import { HttpExceptionFilter } from './common/filters/http-exception.filter';
 import { TransformInterceptor } from './common/interceptors/transform.interceptor';
 import { QueryController } from './common/controllers/query.controller';
@@ -75,6 +81,7 @@ import { QueryController } from './common/controllers/query.controller';
     VehicleModule,
     AdminUserModule,
     RoleModule,
+    MenuTreeModule,
     UploadModule,
     DashboardModule,
     SettingModule,
@@ -82,7 +89,11 @@ import { QueryController } from './common/controllers/query.controller';
     VideosModule,
     AppointmentsModule,
     LocationModule,
+    TeamUnitModule,
     WebsiteConfigModule,
+    NavigationModule,
+    OperationLogModule,
+    DataBackupModule,
   ],
   controllers: [AppController, QueryController],
   providers: [
@@ -91,6 +102,10 @@ import { QueryController } from './common/controllers/query.controller';
     {
       provide: APP_GUARD,
       useClass: JwtAuthGuard,
+    },
+    {
+      provide: APP_GUARD,
+      useClass: PermissionGuard,
     },
     // 全局过滤器
     {

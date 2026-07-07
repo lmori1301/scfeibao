@@ -4,6 +4,7 @@ import { AuthService } from './auth.service';
 import { LoginDto, RegisterDto } from './dto/auth.dto';
 import { Public } from '../../common/decorators/public.decorator';
 import { CurrentUser } from '../../common/decorators/current-user.decorator';
+import { ForceChangePasswordDto } from '../admin-users/admin-user.dto';
 
 @ApiTags('认证')
 @Controller('auth')
@@ -29,5 +30,15 @@ export class AuthController {
   @ApiOperation({ summary: '获取当前用户信息' })
   async getProfile(@CurrentUser() user: any) {
     return this.authService.validateUser(user.id);
+  }
+
+  @Post('change-password')
+  @ApiBearerAuth()
+  @ApiOperation({ summary: '当前登录用户修改密码' })
+  async changePassword(
+    @CurrentUser() user: any,
+    @Body() dto: ForceChangePasswordDto,
+  ) {
+    return this.authService.changePassword(user.id, dto);
   }
 }

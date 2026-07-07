@@ -8,6 +8,7 @@ import {
   Delete,
   Query,
   Res,
+  Headers,
 } from '@nestjs/common';
 import { ApiTags, ApiOperation, ApiBearerAuth } from '@nestjs/swagger';
 import { Response } from 'express';
@@ -20,6 +21,43 @@ import {
 import { PaginationDto } from '../../common/dto/pagination.dto';
 import { Public } from '../../common/decorators/public.decorator';
 import * as QRCode from 'qrcode';
+import { RequirePermissions } from '../../common/decorators/permissions.decorator';
+
+/** 二维码内嵌链接的门户根地址：禁止带 path/query，避免开放重定向 */
+function pickPortalPublicOrigin(portalBase?: string, headerPortal?: string): string {
+  const decoded = portalBase ? safeDecodeURIComponent(portalBase.trim()) : '';
+  const candidates = [
+    decoded,
+    (headerPortal || '').trim(),
+    (process.env.PORTAL_PUBLIC_URL || '').trim(),
+    (process.env.FRONTEND_URL || '').trim(),
+  ].filter(Boolean);
+  for (const raw of candidates) {
+    const base = raw.replace(/\/+$/, '');
+    if (isSafeHttpOrigin(base)) return base;
+  }
+  return 'http://localhost:5173';
+}
+
+function safeDecodeURIComponent(s: string): string {
+  try {
+    return decodeURIComponent(s);
+  } catch {
+    return s;
+  }
+}
+
+function isSafeHttpOrigin(url: string): boolean {
+  try {
+    const u = new URL(url);
+    if (u.protocol !== 'http:' && u.protocol !== 'https:') return false;
+    if (u.search || u.hash) return false;
+    if (u.pathname && u.pathname !== '/') return false;
+    return true;
+  } catch {
+    return false;
+  }
+}
 
 @ApiTags('人员查询')
 @Controller('personnel')
@@ -29,6 +67,7 @@ export class PersonnelController {
   @Post()
   @ApiBearerAuth()
   @ApiOperation({ summary: '创建人员' })
+  @RequirePermissions('Personnel')
   create(@Body() createPersonnelDto: CreatePersonnelDto) {
     return this.personnelService.create(createPersonnelDto);
   }
@@ -57,6 +96,7 @@ export class PersonnelController {
   @Patch(':id')
   @ApiBearerAuth()
   @ApiOperation({ summary: '更新人员' })
+  @RequirePermissions('Personnel')
   update(
     @Param('id') id: string,
     @Body() updatePersonnelDto: UpdatePersonnelDto,
@@ -67,6 +107,7 @@ export class PersonnelController {
   @Delete(':id')
   @ApiBearerAuth()
   @ApiOperation({ summary: '删除人员' })
+  @RequirePermissions('Personnel')
   remove(@Param('id') id: string) {
     return this.personnelService.remove(+id);
   }
@@ -74,6 +115,7 @@ export class PersonnelController {
   @Post('batch/delete')
   @ApiBearerAuth()
   @ApiOperation({ summary: '批量删除人员' })
+  @RequirePermissions('Personnel')
   batchDelete(@Body() body: { ids: number[] }) {
     return this.personnelService.batchDelete(body.ids);
   }
@@ -81,6 +123,7 @@ export class PersonnelController {
   @Post('batch/status')
   @ApiBearerAuth()
   @ApiOperation({ summary: '批量更新状态' })
+  @RequirePermissions('Personnel')
   batchUpdateStatus(@Body() body: { ids: number[]; status: number }) {
     return this.personnelService.batchUpdateStatus(body.ids, body.status);
   }
@@ -88,10 +131,14 @@ export class PersonnelController {
   @Public()
   @Get(':id/qrcode')
   @ApiOperation({ summary: '生成人员二维码' })
-  async generateQRCode(@Param('id') id: string, @Res() res: Response) {
+  async generateQRCode(
+    @Param('id') id: string,
+    @Query('portalBase') portalBase: string | undefined,
+    @Headers('x-portal-public-url') headerPortal: string | undefined,
+    @Res() res: Response,
+  ) {
     try {
-      // 生成前端个人信息页面的URL
-      const baseUrl = process.env.FRONTEND_URL || 'http://localhost:5173';
+      const baseUrl = pickPortalPublicOrigin(portalBase, headerPortal);
       const personnelUrl = `${baseUrl}/personnel/${id}`;
 
       // 生成二维码

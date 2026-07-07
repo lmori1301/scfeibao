@@ -29,6 +29,9 @@ export class AdminUser {
   @Column({ type: 'datetime', nullable: true })
   lastLoginTime: Date;
 
+  @Column({ type: 'tinyint', width: 1, default: 0, comment: '是否需首次登录改密：1-是，0-否' })
+  mustChangePassword: boolean;
+
   @CreateDateColumn()
   createTime: Date;
 

@@ -4,13 +4,14 @@ import { createReadStream } from 'fs'
 import { join } from 'path'
 import { PolicyService } from './policy.service'
 import { Public } from '../../common/decorators/public.decorator'
+import { RequirePermissions } from '../../common/decorators/permissions.decorator'
 
-@Public()
 @Controller('policies')
 export class PolicyController {
   constructor(private readonly policyService: PolicyService) {}
 
   @Get()
+  @Public()
   getList(
     @Query('page') page: number = 1,
     @Query('pageSize') pageSize: number = 10,
@@ -22,16 +23,19 @@ export class PolicyController {
   }
 
   @Get('categories')
+  @Public()
   getCategories() {
     return this.policyService.getCategories()
   }
 
   @Get(':id')
+  @Public()
   getOne(@Param('id') id: number) {
     return this.policyService.getOne(id)
   }
 
   @Post()
+  @RequirePermissions('Policy')
   async create(@Body() data: any) {
     try {
       return await this.policyService.create(data)
@@ -42,16 +46,19 @@ export class PolicyController {
   }
 
   @Patch(':id')
+  @RequirePermissions('Policy')
   update(@Param('id') id: number, @Body() data: any) {
     return this.policyService.update(id, data)
   }
 
   @Delete(':id')
+  @RequirePermissions('Policy')
   delete(@Param('id') id: number) {
     return this.policyService.delete(id)
   }
 
   @Get(':id/download')
+  @Public()
   async download(@Param('id') id: number, @Res({ passthrough: true }) res: Response) {
     const policy = await this.policyService.getOne(id)
     if (!policy || !policy.attachmentUrl) {

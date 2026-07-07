@@ -1,6 +1,10 @@
-import { Injectable, NotFoundException } from '@nestjs/common';
+import {
+  ConflictException,
+  Injectable,
+  NotFoundException,
+} from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { Repository, Like } from 'typeorm';
+import { QueryFailedError, Repository, Like } from 'typeorm';
 import { Vehicle } from '../../database/entities/vehicle.entity';
 import {
   CreateVehicleDto,
@@ -21,7 +25,11 @@ export class VehicleService {
 
   async create(createVehicleDto: CreateVehicleDto): Promise<Vehicle> {
     const vehicle = this.vehicleRepository.create(createVehicleDto);
-    return await this.vehicleRepository.save(vehicle);
+    try {
+      return await this.vehicleRepository.save(vehicle);
+    } catch (e) {
+      this.rethrowIfVehicleUniqueViolation(e);
+    }
   }
 
   async findAll(
@@ -29,7 +37,7 @@ export class VehicleService {
     queryDto: QueryVehicleDto,
   ): Promise<PaginatedResponseDto<Vehicle>> {
     const { page, pageSize } = paginationDto;
-    const { vehicleType, team, status, keyword } = queryDto;
+    const { vehicleType, team, status, keyword, vehicleNo } = queryDto;
 
     const where: any = {};
     if (vehicleType) where.vehicleType = vehicleType;
@@ -37,6 +45,9 @@ export class VehicleService {
     if (status !== undefined) where.status = status;
     if (keyword) {
       where.plateNumber = Like(`%${keyword}%`);
+    }
+    if (vehicleNo?.trim()) {
+      where.vehicleNo = Like(`%${vehicleNo.trim()}%`);
     }
 
     const [items, total] = await this.vehicleRepository.findAndCount({
@@ -75,7 +86,24 @@ export class VehicleService {
   ): Promise<Vehicle> {
     const vehicle = await this.findOne(id);
     Object.assign(vehicle, updateVehicleDto);
-    return await this.vehicleRepository.save(vehicle);
+    try {
+      return await this.vehicleRepository.save(vehicle);
+    } catch (e) {
+      this.rethrowIfVehicleUniqueViolation(e);
+    }
+  }
+
+  /** 车牌号 unique 等冲突时 MySQL 抛 ER_DUP_ENTRY，否则前端只看到 500 */
+  private rethrowIfVehicleUniqueViolation(err: unknown): never {
+    if (err instanceof QueryFailedError) {
+      const d = err.driverError as { code?: string; errno?: number };
+      if (d?.code === 'ER_DUP_ENTRY' || d?.errno === 1062) {
+        throw new ConflictException(
+          '该车牌号已被其他车辆使用，请改回或更换为未占用的号牌后保存',
+        );
+      }
+    }
+    throw err;
   }
 
   async remove(id: number): Promise<void> {

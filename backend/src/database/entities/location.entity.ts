@@ -6,11 +6,23 @@ export class Location extends BaseEntity {
   @Column({ length: 100, comment: '单位名称' })
   name: string;
 
+  @Column({ length: 150, default: '', comment: '点位名称' })
+  pointName: string;
+
   @Column({ length: 200, comment: '地址' })
   address: string;
 
   @Column({ length: 20, comment: '联系电话' })
   phone: string;
+
+  @Column({ type: 'decimal', precision: 10, scale: 6, default: 0, comment: '经度' })
+  longitude: number;
+
+  @Column({ type: 'decimal', precision: 10, scale: 6, default: 0, comment: '纬度' })
+  latitude: number;
+
+  @Column({ type: 'int', default: 15, comment: '地图缩放级别' })
+  zoom: number;
 
   @Column({ type: 'int', default: 0, comment: '排序' })
   sort: number;

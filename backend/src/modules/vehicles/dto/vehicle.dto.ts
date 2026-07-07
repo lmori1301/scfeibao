@@ -1,10 +1,11 @@
 import { ApiProperty } from '@nestjs/swagger';
+import { Type } from 'class-transformer';
 import {
   IsString,
   IsNotEmpty,
   IsOptional,
   IsInt,
-  IsDateString,
+  IsDate,
 } from 'class-validator';
 import { PaginationDto } from '../../../common/dto/pagination.dto';
 
@@ -13,6 +14,11 @@ export class CreateVehicleDto {
   @IsString()
   @IsNotEmpty({ message: '车牌号不能为空' })
   plateNumber: string;
+
+  @ApiProperty({ description: '车辆编号', required: false })
+  @IsString()
+  @IsOptional()
+  vehicleNo?: string;
 
   @ApiProperty({ description: '车辆类型' })
   @IsString()
@@ -24,15 +30,38 @@ export class CreateVehicleDto {
   @IsOptional()
   brandModel?: string;
 
+  @ApiProperty({ description: '发动机号', required: false })
+  @IsString()
+  @IsOptional()
+  engineNumber?: string;
+
+  @ApiProperty({ description: '车架号码', required: false })
+  @IsString()
+  @IsOptional()
+  chassisNumber?: string;
+
   @ApiProperty({ description: '车辆颜色', required: false })
   @IsString()
   @IsOptional()
   color?: string;
 
   @ApiProperty({ description: '购置日期', required: false })
-  @IsDateString()
   @IsOptional()
+  @Type(() => Date)
+  @IsDate()
   purchaseDate?: Date;
+
+  @ApiProperty({ description: '发证日期', required: false })
+  @IsOptional()
+  @Type(() => Date)
+  @IsDate()
+  issueDate?: Date;
+
+  @ApiProperty({ description: '有效期限', required: false })
+  @IsOptional()
+  @Type(() => Date)
+  @IsDate()
+  validityDate?: Date;
 
   @ApiProperty({ description: '所属队伍', required: false })
   @IsString()
@@ -60,13 +89,15 @@ export class CreateVehicleDto {
   photoUrl?: string;
 
   @ApiProperty({ description: '最后保养日期', required: false })
-  @IsDateString()
   @IsOptional()
+  @Type(() => Date)
+  @IsDate()
   lastMaintenanceDate?: Date;
 
   @ApiProperty({ description: '下次保养日期', required: false })
-  @IsDateString()
   @IsOptional()
+  @Type(() => Date)
+  @IsDate()
   nextMaintenanceDate?: Date;
 
   @ApiProperty({ description: '备注', required: false })
@@ -86,6 +117,11 @@ export class UpdateVehicleDto {
   @IsOptional()
   plateNumber?: string;
 
+  @ApiProperty({ description: '车辆编号', required: false })
+  @IsString()
+  @IsOptional()
+  vehicleNo?: string;
+
   @ApiProperty({ description: '车辆类型', required: false })
   @IsString()
   @IsOptional()
@@ -96,15 +132,38 @@ export class UpdateVehicleDto {
   @IsOptional()
   brandModel?: string;
 
+  @ApiProperty({ description: '发动机号', required: false })
+  @IsString()
+  @IsOptional()
+  engineNumber?: string;
+
+  @ApiProperty({ description: '车架号码', required: false })
+  @IsString()
+  @IsOptional()
+  chassisNumber?: string;
+
   @ApiProperty({ description: '车辆颜色', required: false })
   @IsString()
   @IsOptional()
   color?: string;
 
   @ApiProperty({ description: '购置日期', required: false })
-  @IsDateString()
   @IsOptional()
+  @Type(() => Date)
+  @IsDate()
   purchaseDate?: Date;
+
+  @ApiProperty({ description: '发证日期', required: false })
+  @IsOptional()
+  @Type(() => Date)
+  @IsDate()
+  issueDate?: Date;
+
+  @ApiProperty({ description: '有效期限', required: false })
+  @IsOptional()
+  @Type(() => Date)
+  @IsDate()
+  validityDate?: Date;
 
   @ApiProperty({ description: '所属队伍', required: false })
   @IsString()
@@ -132,13 +191,15 @@ export class UpdateVehicleDto {
   photoUrl?: string;
 
   @ApiProperty({ description: '最后保养日期', required: false })
-  @IsDateString()
   @IsOptional()
+  @Type(() => Date)
+  @IsDate()
   lastMaintenanceDate?: Date;
 
   @ApiProperty({ description: '下次保养日期', required: false })
-  @IsDateString()
   @IsOptional()
+  @Type(() => Date)
+  @IsDate()
   nextMaintenanceDate?: Date;
 
   @ApiProperty({ description: '备注', required: false })
@@ -172,4 +233,9 @@ export class QueryVehicleDto extends PaginationDto {
   @IsString()
   @IsOptional()
   keyword?: string;
+
+  @ApiProperty({ description: '车辆编号（模糊）', required: false })
+  @IsString()
+  @IsOptional()
+  vehicleNo?: string;
 }

@@ -29,11 +29,13 @@ export class PersonnelService {
     queryDto: QueryPersonnelDto,
   ): Promise<PaginatedResponseDto<Personnel>> {
     const { page, pageSize } = paginationDto;
-    const { team, status, keyword } = queryDto;
+    const { id, team, status, keyword, personnelCode } = queryDto;
 
     const where: any = {};
+    if (id !== undefined) where.id = id;
     if (team) where.team = team;
     if (status !== undefined) where.status = status;
+    if (personnelCode) where.personnelCode = Like(`%${personnelCode}%`);
     if (keyword) {
       where.name = Like(`%${keyword}%`);
     }

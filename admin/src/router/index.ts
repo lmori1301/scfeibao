@@ -1,4 +1,5 @@
 import { createRouter, createWebHistory } from 'vue-router'
+import { adminChildRoutes, canAccessAdminRoute, firstAccessibleAdminPath } from './admin-routes'
 
 const router = createRouter({
   history: createWebHistory(),
@@ -9,163 +10,64 @@ const router = createRouter({
       component: () => import('@/views/Login.vue')
     },
     {
+      path: '/user-management',
+      redirect: '/admin-users',
+    },
+    {
       path: '/',
       component: () => import('@/layouts/AdminLayout.vue'),
       redirect: '/dashboard',
       children: [
+        ...adminChildRoutes,
         {
-          path: 'dashboard',
-          name: 'Dashboard',
-          component: () => import('@/views/Dashboard.vue')
+          path: 'profile-security',
+          name: 'ProfileSecurity',
+          component: () => import('@/views/ProfileSecurity.vue'),
+          meta: {
+            title: '个人中心',
+            ignorePermission: true,
+          },
         },
-        {
-          path: 'data-overview',
-          name: 'DataOverview',
-          component: () => import('@/views/workbench/DataOverview.vue')
-        },
-        {
-          path: 'todo-list',
-          name: 'TodoList',
-          component: () => import('@/views/workbench/TodoList.vue')
-        },
-        {
-          path: 'workbench-log',
-          name: 'WorkbenchLog',
-          component: () => import('@/views/workbench/WorkbenchLog.vue')
-        },
-        {
-          path: 'notifications',
-          name: 'Notifications',
-          component: () => import('@/views/workbench/Notifications.vue')
-        },
-        {
-          path: 'quick-access',
-          name: 'QuickAccess',
-          component: () => import('@/views/workbench/QuickAccess.vue')
-        },
-        {
-          path: 'certificates',
-          name: 'Certificates',
-          component: () => import('@/views/Certificates.vue')
-        },
-        {
-          path: 'personnel',
-          name: 'Personnel',
-          component: () => import('@/views/Personnel.vue')
-        },
-        {
-          path: 'vehicles',
-          name: 'Vehicles',
-          component: () => import('@/views/Vehicles.vue')
-        },
-        {
-          path: 'news',
-          name: 'News',
-          component: () => import('@/views/News.vue')
-        },
-        {
-          path: 'banner',
-          name: 'Banner',
-          component: () => import('@/views/Banner.vue')
-        },
-        {
-          path: 'appointment',
-          name: 'Appointment',
-          component: () => import('@/views/Appointment.vue')
-        },
-        {
-          path: 'policy',
-          name: 'Policy',
-          component: () => import('@/views/Policy.vue')
-        },
-        {
-          path: 'leadership',
-          name: 'Leadership',
-          component: () => import('@/views/Leadership.vue')
-        },
-        {
-          path: 'location',
-          name: 'Location',
-          component: () => import('@/views/Location.vue')
-        },
-        {
-          path: 'party',
-          name: 'Party',
-          component: () => import('@/views/Party.vue')
-        },
-        {
-          path: 'team-intro',
-          name: 'TeamIntro',
-          component: () => import('@/views/TeamIntro.vue')
-        },
-        {
-          path: 'rescue-cases',
-          name: 'RescueCases',
-          component: () => import('@/views/RescueCases.vue')
-        },
-        {
-          path: 'team-style',
-          name: 'TeamStyle',
-          component: () => import('@/views/TeamStyle.vue')
-        },
-        {
-          path: 'videos',
-          name: 'Videos',
-          component: () => import('@/views/Videos.vue')
-        },
-        {
-          path: 'party-members',
-          name: 'PartyMembers',
-          component: () => import('@/views/PartyMembers.vue')
-        },
-        {
-          path: 'party-works',
-          name: 'PartyWorks',
-          component: () => import('@/views/PartyWorks.vue')
-        },
-        {
-          path: 'admin-users',
-          name: 'AdminUsers',
-          component: () => import('@/views/AdminUsers.vue')
-        },
-        {
-          path: 'user-management',
-          name: 'UserManagement',
-          component: () => import('@/views/UserManagement.vue')
-        },
-        {
-          path: 'permissions',
-          name: 'Permissions',
-          component: () => import('@/views/Permissions.vue')
-        },
-        {
-          path: 'site-config',
-          name: 'SiteConfig',
-          component: () => import('@/views/SiteConfig.vue')
-        },
-        {
-          path: 'navigation',
-          name: 'Navigation',
-          component: () => import('@/views/Navigation.vue')
-        },
-        {
-          path: 'operation-log',
-          name: 'OperationLog',
-          component: () => import('@/views/OperationLog.vue')
-        },
-        {
-          path: 'data-backup',
-          name: 'DataBackup',
-          component: () => import('@/views/DataBackup.vue')
-        },
-        {
-          path: 'friendly-links',
-          name: 'FriendlyLinks',
-          component: () => import('@/views/FriendlyLinks.vue')
-        }
       ]
     }
   ]
+})
+
+function readSessionUser() {
+  try {
+    return JSON.parse(localStorage.getItem('user') || '{}') as Record<string, unknown>
+  } catch {
+    return {}
+  }
+}
+
+router.beforeEach((to) => {
+  const token = localStorage.getItem('token')
+  const user = readSessionUser() as { role?: string; permissions?: string[] }
+
+  if (to.path === '/login') {
+    if (token) {
+      const fallback = firstAccessibleAdminPath(user)
+      return fallback
+    }
+    return true
+  }
+
+  if (!token) {
+    return '/login'
+  }
+
+  if (to.meta?.ignorePermission) {
+    return true
+  }
+
+  if (!canAccessAdminRoute(to.name, user)) {
+    const fallback = firstAccessibleAdminPath(user)
+    if (fallback !== to.path) return fallback
+    return false
+  }
+
+  return true
 })
 
 export default router

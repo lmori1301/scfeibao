@@ -17,6 +17,7 @@ import {
 } from './dto/certificate.dto';
 import { PaginationDto } from '../../common/dto/pagination.dto';
 import { Public } from '../../common/decorators/public.decorator';
+import { RequirePermissions } from '../../common/decorators/permissions.decorator';
 
 @ApiTags('证书查询')
 @Controller('certificates')
@@ -26,6 +27,7 @@ export class CertificateController {
   @Post()
   @ApiBearerAuth()
   @ApiOperation({ summary: '创建证书' })
+  @RequirePermissions('Certificates')
   create(@Body() createCertificateDto: CreateCertificateDto) {
     return this.certificateService.create(createCertificateDto);
   }
@@ -54,6 +56,7 @@ export class CertificateController {
   @Patch(':id')
   @ApiBearerAuth()
   @ApiOperation({ summary: '更新证书' })
+  @RequirePermissions('Certificates')
   update(
     @Param('id') id: string,
     @Body() updateCertificateDto: UpdateCertificateDto,
@@ -64,6 +67,7 @@ export class CertificateController {
   @Delete(':id')
   @ApiBearerAuth()
   @ApiOperation({ summary: '删除证书' })
+  @RequirePermissions('Certificates')
   remove(@Param('id') id: string) {
     return this.certificateService.remove(+id);
   }
@@ -71,6 +75,7 @@ export class CertificateController {
   @Post('batch/delete')
   @ApiBearerAuth()
   @ApiOperation({ summary: '批量删除证书' })
+  @RequirePermissions('Certificates')
   batchDelete(@Body() body: { ids: number[] }) {
     return this.certificateService.batchDelete(body.ids);
   }
@@ -78,6 +83,7 @@ export class CertificateController {
   @Post('batch/status')
   @ApiBearerAuth()
   @ApiOperation({ summary: '批量更新状态' })
+  @RequirePermissions('Certificates')
   batchUpdateStatus(@Body() body: { ids: number[]; status: number }) {
     return this.certificateService.batchUpdateStatus(body.ids, body.status);
   }

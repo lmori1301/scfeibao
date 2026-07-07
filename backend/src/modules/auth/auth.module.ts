@@ -6,11 +6,15 @@ import { ConfigModule, ConfigService } from '@nestjs/config';
 import { AuthController } from './auth.controller';
 import { AuthService } from './auth.service';
 import { JwtStrategy } from './jwt.strategy';
-import { User } from '../../database/entities/user.entity';
+import { AdminUser } from '../admin-users/admin-user.entity';
+import { RoleModule } from '../roles/role.module';
+import { OperationLogModule } from '../operation-log/operation-log.module';
 
 @Module({
   imports: [
-    TypeOrmModule.forFeature([User]),
+    TypeOrmModule.forFeature([AdminUser]),
+    RoleModule,
+    OperationLogModule,
     PassportModule,
     JwtModule.registerAsync({
       imports: [ConfigModule],

@@ -5,7 +5,7 @@ const props = withDefaults(defineProps<{
   pageSize: number
   pageSizes?: number[]
 }>(), {
-  pageSizes: () => [10, 20, 50, 100]
+  pageSizes: () => [10]
 })
 
 const emit = defineEmits<{
@@ -22,13 +22,16 @@ const handleCurrentChange = (page: number) => {
 </script>
 
 <template>
-  <el-pagination
-    :current-page="page"
-    :page-size="pageSize"
-    :page-sizes="pageSizes"
-    :total="total"
-    layout="total, sizes, prev, pager, next, jumper"
-    @size-change="handleSizeChange"
-    @current-change="handleCurrentChange"
-  />
+  <div v-if="total > 0" class="admin-pagination">
+    <el-pagination
+      :current-page="page"
+      :page-size="pageSize"
+      :page-sizes="pageSizes"
+      :total="total"
+      background
+      layout="total, prev, pager, next, jumper"
+      @size-change="handleSizeChange"
+      @current-change="handleCurrentChange"
+    />
+  </div>
 </template>

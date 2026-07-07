@@ -1,0 +1,17 @@
+UPDATE `locations` SET `address` = '四川省成都市温江区成名高速凤凰立交四川飞豹救援总队指挥中心' WHERE `id` = 1;
+UPDATE `locations` SET `address` = '四川省成都市武侯区四川飞豹救援特勤大队' WHERE `id` = 2;
+UPDATE `locations` SET `address` = '四川省成都市双流区四川飞豹救援训练与战勤保障大队' WHERE `id` = 3;
+UPDATE `locations` SET `address` = '四川省成都市龙泉驿区四川飞豹救援应急通信与车辆勤务大队' WHERE `id` = 4;
+UPDATE `locations` SET `address` = '四川省乐山市峨眉山市四川飞豹救援峨眉山直属大队' WHERE `id` = 5;
+UPDATE `locations` SET `address` = '四川省成都市新都区四川飞豹救援搜救犬大队' WHERE `id` = 6;
+UPDATE `locations` SET `address` = '四川省成都市崇州市四川飞豹救援崇州支队' WHERE `id` = 7;
+UPDATE `locations` SET `address` = '四川省南充市顺庆区四川飞豹救援南充支队' WHERE `id` = 8;
+UPDATE `locations` SET `address` = '四川省成都市天府新区四川飞豹救援天府支队' WHERE `id` = 9;
+UPDATE `locations` SET `address` = '四川省雅安市雨城区四川飞豹救援雅安支队' WHERE `id` = 10;
+UPDATE `locations` SET `address` = '四川省德阳市旌阳区四川飞豹救援德阳支队' WHERE `id` = 11;
+UPDATE `locations` SET `address` = '四川省达州市通川区四川飞豹救援达州支队' WHERE `id` = 12;
+UPDATE `locations` SET `address` = '四川省成都市双流区四川飞豹救援双流大队' WHERE `id` = 13;
+UPDATE `locations` SET `address` = '四川省成都市青白江区四川飞豹救援青白江大队' WHERE `id` = 14;
+UPDATE `locations` SET `address` = '四川省成都市龙泉驿区四川飞豹救援龙泉驿大队' WHERE `id` = 15;
+UPDATE `locations` SET `address` = '四川省南充市南部县四川飞豹救援南部大队' WHERE `id` = 16;
+UPDATE `locations` SET `address` = '四川省南充市营山县四川飞豹救援营山大队' WHERE `id` = 17;

@@ -1,18 +1,181 @@
-@import './variables.scss';
+@use './variables' as *;
 
 // Element Plus 样式覆盖
 .el-button {
-  border-radius: $border-radius-base;
+  --admin-btn-blue: #2f67ff;
+  --admin-btn-blue-deep: #1f56ec;
+  --admin-btn-blue-soft: #edf3ff;
+  --admin-btn-border: #d7e2f1;
+  --admin-btn-text: #42536b;
+  --admin-btn-success: #22a06b;
+  --admin-btn-success-soft: #e9f8f1;
+  --admin-btn-warning: #c27a11;
+  --admin-btn-warning-soft: #fff6e6;
+  --admin-btn-danger: #e14d5d;
+  --admin-btn-danger-soft: #ffedf0;
+  border-radius: 8px;
+  font-weight: 600;
+  letter-spacing: 0;
+  box-shadow: none;
+  height: 40px;
+  padding: 0 18px;
+  font-size: 13px;
+  border: 1px solid var(--admin-btn-border);
+  background: #fff;
+  color: var(--admin-btn-text);
+  transition: transform 0.18s ease, box-shadow 0.18s ease, border-color 0.18s ease, background-color 0.18s ease, color 0.18s ease;
+
+  &:hover {
+    border-color: #bfd2f0;
+    color: #24364d;
+    background: #f8fbff;
+    box-shadow: 0 10px 20px rgba(31, 56, 107, 0.08);
+    transform: translateY(-1px);
+  }
+
+  &:active {
+    transform: translateY(0);
+    box-shadow: 0 4px 10px rgba(31, 56, 107, 0.08);
+  }
+
+  &:focus-visible {
+    outline: none;
+    box-shadow: 0 0 0 3px rgba(47, 103, 255, 0.16);
+  }
+
+  &.is-disabled,
+  &.is-disabled:hover {
+    transform: none;
+    box-shadow: none;
+    border-color: #e5ebf5;
+    background: #f6f8fc;
+    color: #a3afc2;
+  }
+
+  &.el-button--default:not(.is-plain):not(.is-text):not(.is-link) {
+    background: linear-gradient(180deg, #ffffff 0%, #f6f9fd 100%);
+    color: var(--admin-btn-text);
+  }
+
+  &.el-button--primary:not(.is-plain):not(.is-text):not(.is-link) {
+    background: linear-gradient(135deg, #4c78ff 0%, var(--admin-btn-blue) 55%, var(--admin-btn-blue-deep) 100%);
+    border-color: transparent;
+    color: #fff;
+    box-shadow: 0 12px 24px rgba(47, 103, 255, 0.24);
+
+    &:hover {
+      background: linear-gradient(135deg, #3f6fff 0%, #285ef7 55%, #184ae0 100%);
+      color: #fff;
+      box-shadow: 0 16px 28px rgba(47, 103, 255, 0.28);
+    }
+  }
+
+  &.el-button--success:not(.is-plain):not(.is-text):not(.is-link) {
+    background: linear-gradient(135deg, #34c48d 0%, var(--admin-btn-success) 100%);
+    border-color: transparent;
+    color: #fff;
+    box-shadow: 0 12px 24px rgba(34, 160, 107, 0.2);
+  }
+
+  &.el-button--warning:not(.is-plain):not(.is-text):not(.is-link) {
+    background: linear-gradient(135deg, #ffbf5f 0%, #ee9e2c 100%);
+    border-color: transparent;
+    color: #fff;
+    box-shadow: 0 12px 24px rgba(238, 158, 44, 0.2);
+  }
+
+  &.el-button--danger:not(.is-plain):not(.is-text):not(.is-link) {
+    background: linear-gradient(135deg, #ff8a98 0%, var(--admin-btn-danger) 100%);
+    border-color: transparent;
+    color: #fff;
+    box-shadow: 0 12px 24px rgba(225, 77, 93, 0.2);
+  }
+
+  &.is-plain {
+    background: linear-gradient(180deg, #ffffff 0%, #f5f8fd 100%);
+    color: var(--admin-btn-text);
+    box-shadow: 0 8px 18px rgba(41, 74, 132, 0.06);
+
+    &:hover {
+      border-color: #abc4f8;
+      color: var(--admin-btn-blue);
+      background: #f4f8ff;
+      box-shadow: 0 10px 20px rgba(47, 103, 255, 0.12);
+    }
+  }
+
+  &.el-button--primary.is-plain {
+    border-color: #bfd4ff;
+    background: linear-gradient(180deg, #ffffff 0%, #edf4ff 100%);
+    color: var(--admin-btn-blue);
+  }
+
+  &.el-button--success.is-plain {
+    border-color: #bbe9d3;
+    background: linear-gradient(180deg, #ffffff 0%, var(--admin-btn-success-soft) 100%);
+    color: var(--admin-btn-success);
+  }
+
+  &.el-button--warning.is-plain {
+    border-color: #f4dfb7;
+    background: linear-gradient(180deg, #ffffff 0%, var(--admin-btn-warning-soft) 100%);
+    color: var(--admin-btn-warning);
+  }
+
+  &.el-button--danger.is-plain {
+    border-color: #f6c9d0;
+    background: linear-gradient(180deg, #ffffff 0%, var(--admin-btn-danger-soft) 100%);
+    color: var(--admin-btn-danger);
+  }
+
+  &.is-text,
+  &.is-link {
+    height: 30px;
+    padding: 0 10px;
+    border-radius: 8px;
+    border-color: transparent;
+    box-shadow: none !important;
+    transform: none !important;
+    background: #f3f7ff;
+    color: var(--admin-btn-blue);
+
+    &:hover {
+      background: #e9f1ff;
+      color: var(--admin-btn-blue-deep);
+    }
+  }
+
+  &.el-button--success.is-text,
+  &.el-button--success.is-link {
+    background: var(--admin-btn-success-soft);
+    color: var(--admin-btn-success);
+  }
+
+  &.el-button--warning.is-text,
+  &.el-button--warning.is-link {
+    background: var(--admin-btn-warning-soft);
+    color: var(--admin-btn-warning);
+  }
+
+  &.el-button--danger.is-text,
+  &.el-button--danger.is-link {
+    background: var(--admin-btn-danger-soft);
+    color: var(--admin-btn-danger);
+  }
 }
 
 .el-card {
-  border-radius: $border-radius-lg;
-  box-shadow: $box-shadow-light;
+  border-radius: 10px;
+  box-shadow: $box-shadow-base;
+  border: 1px solid #ececec;
 }
 
 .el-table {
+  /* 斑马纹隔行底色（与 Element Plus stripe 一致，略加深便于辨认） */
+  --el-fill-color-lighter: #eef2f9;
+
   .el-table__header th {
-    background-color: $bg-page;
+    background-color: #fafafa;
     color: $text-primary;
     font-weight: 600;
   }
@@ -22,15 +185,113 @@
   .el-table__fixed-right {
     z-index: 2 !important;
   }
+
+  .el-table__fixed-right::before,
+  .el-table__fixed::before {
+    background: #ebf0f6;
+  }
+
+  /* 固定区表头与主表一致；勿对固定区 body 的 td 写死 #fff，否则会盖住斑马纹与悬停行底色 */
+  .el-table__fixed-right .el-table__fixed-header-wrapper th.el-table__cell,
+  .el-table__fixed .el-table__fixed-header-wrapper th.el-table__cell {
+    background-color: #fafafa;
+  }
+
+  td.el-table__cell {
+    .el-button.is-text,
+    .el-button.is-link {
+      min-width: 44px;
+      height: 30px;
+      padding: 0 10px;
+      font-size: 12px;
+      font-weight: 600;
+    }
+
+    .el-button + .el-button {
+      margin-left: 8px;
+    }
+  }
 }
 
 .el-dialog {
-  border-radius: $border-radius-lg;
+  border-radius: 10px;
   z-index: 3000 !important;
+  overflow: hidden;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.12);
+  max-width: calc(100vw - 32px);
+  margin: 24px auto;
+
+  .el-dialog__header {
+    padding: 16px 20px 12px;
+    background: #fff;
+    border-bottom: 1px solid #f0f0f0;
+  }
+
+  .el-dialog__title {
+    font-size: 15px;
+    font-weight: 600;
+    color: $text-primary;
+  }
+
+  .el-dialog__body {
+    padding: 16px 20px;
+  }
+
+  .el-dialog__footer {
+    padding: 0 20px 16px;
+    display: flex;
+    justify-content: flex-end;
+    gap: 10px;
+    flex-wrap: wrap;
+  }
+
+  .el-dialog__footer .el-button + .el-button {
+    margin-left: 0;
+  }
+
+  .el-row {
+    margin-left: 0 !important;
+    margin-right: 0 !important;
+  }
+
+  .el-col {
+    min-width: 0;
+  }
 }
 
 .el-form-item {
   margin-bottom: $spacing-md;
+}
+
+.el-form-item__label {
+  color: #666;
+  font-size: 12px;
+  line-height: 18px;
+  padding-right: 14px;
+}
+
+.el-input__wrapper,
+.el-textarea__inner,
+.el-select__wrapper {
+  border-radius: 8px;
+  box-shadow: 0 0 0 1px #d7dfeb inset;
+  transition: box-shadow 0.2s ease;
+}
+
+.el-input__wrapper,
+.el-select__wrapper {
+  min-height: 32px;
+}
+
+.el-input__inner,
+.el-textarea__inner {
+  font-size: 12px;
+}
+
+.el-input__wrapper.is-focus,
+.el-select__wrapper.is-focused,
+.el-textarea__inner:focus {
+  box-shadow: 0 0 0 1px rgba(77, 168, 255, 0.9) inset !important;
 }
 
 .el-pagination {
@@ -38,9 +299,20 @@
   justify-content: flex-end;
 }
 
+// 后台大量使用 v-loading；即使遮罩偶发残留，也不要整页吞掉点击事件
+.el-loading-mask {
+  pointer-events: none !important;
+}
+
 // 修复弹窗遮罩层 z-index
 .el-overlay {
   z-index: 2999 !important;
+}
+
+// 弹窗强制为 3000，ElMessage/Notification 默认约 2000+ 会被挡住，需高于弹窗（仍低于图片预览 10000）
+.el-message,
+.el-notification {
+  z-index: 3100 !important;
 }
 
 // 修复图片预览 z-index - 确保最高层级
@@ -73,4 +345,80 @@
 .el-popover,
 .el-popper {
   z-index: 3000 !important;
+}
+
+.el-tag {
+  font-weight: 400;
+  font-size: 12px;
+  border-radius: 8px;
+}
+
+.el-tabs {
+  --el-tabs-header-height: 40px;
+}
+
+.el-tabs__nav-wrap::after {
+  background-color: #e8edf5;
+}
+
+.el-tabs__item {
+  height: 40px;
+  font-size: 13px;
+  color: #6b7a90;
+}
+
+.el-tabs__item.is-active {
+  color: #2f67ff;
+  font-weight: 600;
+}
+
+.el-tabs__active-bar {
+  background-color: #2f67ff;
+}
+
+.el-button-group {
+  display: inline-flex;
+  gap: 8px;
+}
+
+.el-button-group > .el-button {
+  margin-left: 0 !important;
+}
+
+@media (max-width: 960px) {
+  .el-dialog {
+    max-width: calc(100vw - 20px);
+    margin: 12px auto;
+
+    .el-dialog__header {
+      padding: 14px 16px 10px;
+    }
+
+    .el-dialog__body {
+      padding: 14px 16px 16px;
+    }
+
+    .el-dialog__footer {
+      padding: 0 16px 16px;
+    }
+
+    .el-dialog__footer .el-button {
+      flex: 1 1 0;
+      margin-left: 0 !important;
+    }
+
+    .el-col {
+      max-width: 100%;
+      flex: 0 0 100%;
+    }
+  }
+
+  .el-form-item {
+    margin-bottom: 14px;
+  }
+
+  .el-form-item__label {
+    min-height: 18px;
+    padding-bottom: 6px;
+  }
 }

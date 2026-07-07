@@ -27,6 +27,9 @@ export class Certificate extends BaseEntity {
   @Column({ length: 50, nullable: true, comment: '证书类型' })
   certificateType: string;
 
+  @Column({ type: 'text', nullable: true, comment: '证书照片：JSON 数组 URL 或单张 URL 兼容' })
+  photoUrl: string;
+
   @Column({ type: 'text', nullable: true, comment: '备注' })
   remark: string;
 

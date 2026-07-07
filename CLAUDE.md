@@ -4,6 +4,17 @@
 
 本项目是四川飞豹救援官方网站，采用前后端分离架构，基于 Vue 3 + TypeScript + Vite 技术栈构建。
 
+## 项目结构
+
+```
+├── admin/      # 后台管理系统前端
+├── backend/    # 后端服务（NestJS）
+├── website/    # 官网前端（Vue 3）
+├── docs/       # 文档目录
+├── mock/       # Mock 数据
+└── tests/      # 测试文件
+```
+
 ## 项目架构
 
 ### 技术栈
@@ -25,9 +36,12 @@
 
 ## 目录结构说明
 
+### 官网前端（website/）
+
 ```
-src/
-├── api/                    # API 接口层
+website/
+├── src/
+│   ├── api/                    # API 接口层
 │   ├── index.ts           # API 统一导出
 │   ├── home.ts            # 首页相关接口
 │   ├── party-building.ts  # 党建相关接口
@@ -119,6 +133,11 @@ src/
 │
 ├── App.vue             # 根组件
 └── main.ts             # 应用入口
+├── index.html          # 入口 HTML
+├── package.json        # 依赖配置
+├── vite.config.ts      # Vite 配置
+├── tsconfig.json       # TypeScript 配置
+└── public/             # 公共资源
 ```
 
 ## 开发规范
@@ -320,15 +339,18 @@ VITE_APP_TITLE=四川飞豹救援
 
 ### 1. 新增功能模块
 
-1. 在 `src/types/` 定义类型
-2. 在 `src/api/` 创建接口文件
-3. 在 `src/views/` 创建页面组件
-4. 在 `src/router/modules/` 添加路由配置
-5. 如需全局状态，在 `src/stores/` 创建 store
+1. 在 `website/src/types/` 定义类型
+2. 在 `website/src/api/` 创建接口文件
+3. 在 `website/src/views/` 创建页面组件
+4. 在 `website/src/router/modules/` 添加路由配置
+5. 如需全局状态，在 `website/src/stores/` 创建 store
 
 ### 2. 开发调试
 
 ```bash
+# 进入官网前端目录
+cd website
+
 # 安装依赖
 npm install
 

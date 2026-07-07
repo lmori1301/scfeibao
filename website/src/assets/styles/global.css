@@ -1,0 +1,44 @@
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+/* 移除所有链接的下划线 */
+a {
+  text-decoration: none;
+}
+
+ol,ul,menu {
+  padding-inline-start: 0;
+  list-style: none;
+}
+
+ol li {
+  list-style-position: inside;
+}
+
+ol li::marker, ul li::before {
+  letter-spacing: 0;
+}
+
+/* 移动端基础优化 */
+html {
+  -webkit-text-size-adjust: 100%;
+  text-size-adjust: 100%;
+}
+
+body {
+  -webkit-tap-highlight-color: transparent;
+  overflow-x: hidden;
+}
+
+img {
+  max-width: 100%;
+  height: auto;
+  border-radius: 0 !important;
+}
+
+input, button, textarea, select {
+  font-family: inherit;
+}

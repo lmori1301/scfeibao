@@ -4,7 +4,7 @@ import {
   IsNotEmpty,
   IsOptional,
   IsInt,
-  IsDateString,
+  IsDate,
 } from 'class-validator';
 import { PaginationDto } from '../../../common/dto/pagination.dto';
 
@@ -35,12 +35,12 @@ export class CreateCertificateDto {
   issuingAuthority?: string;
 
   @ApiProperty({ description: '发证日期', required: false })
-  @IsDateString()
+  @IsDate()
   @IsOptional()
   issueDate?: Date;
 
   @ApiProperty({ description: '有效期至', required: false })
-  @IsDateString()
+  @IsDate()
   @IsOptional()
   expiryDate?: Date;
 
@@ -48,6 +48,11 @@ export class CreateCertificateDto {
   @IsString()
   @IsOptional()
   certificateType?: string;
+
+  @ApiProperty({ description: '证书照片URL', required: false })
+  @IsString()
+  @IsOptional()
+  photoUrl?: string;
 
   @ApiProperty({ description: '备注', required: false })
   @IsString()
@@ -87,12 +92,12 @@ export class UpdateCertificateDto {
   issuingAuthority?: string;
 
   @ApiProperty({ description: '发证日期', required: false })
-  @IsDateString()
+  @IsDate()
   @IsOptional()
   issueDate?: Date;
 
   @ApiProperty({ description: '有效期至', required: false })
-  @IsDateString()
+  @IsDate()
   @IsOptional()
   expiryDate?: Date;
 
@@ -100,6 +105,11 @@ export class UpdateCertificateDto {
   @IsString()
   @IsOptional()
   certificateType?: string;
+
+  @ApiProperty({ description: '证书照片URL', required: false })
+  @IsString()
+  @IsOptional()
+  photoUrl?: string;
 
   @ApiProperty({ description: '备注', required: false })
   @IsString()
@@ -118,13 +128,23 @@ export class QueryCertificateDto extends PaginationDto {
   @IsOptional()
   certificateType?: string;
 
+  @ApiProperty({ description: '证书编号（模糊）', required: false })
+  @IsString()
+  @IsOptional()
+  certificateNumber?: string;
+
   @ApiProperty({ description: '状态', required: false })
   @IsInt()
   @IsOptional()
   status?: number;
 
-  @ApiProperty({ description: '关键词', required: false })
+  @ApiProperty({ description: '关键词（持证人姓名）', required: false })
   @IsString()
   @IsOptional()
   keyword?: string;
+
+  @ApiProperty({ description: '持证人身份证号（模糊）', required: false })
+  @IsString()
+  @IsOptional()
+  holderIdCard?: string;
 }

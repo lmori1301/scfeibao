@@ -13,16 +13,6 @@ http.interceptors.request.use(
       config.headers.Authorization = `Bearer ${token}`
     }
 
-    // 🔥 调试：打印实际发送的请求数据
-    if (config.url?.includes('/news') && config.method === 'post') {
-      console.log('🔥 实际发送的请求数据:', config.data)
-      console.log('🔥 请求数据类型:', typeof config.data)
-      if (config.data?.publishedAt) {
-        console.log('🔥 publishedAt 值:', config.data.publishedAt)
-        console.log('🔥 publishedAt 类型:', typeof config.data.publishedAt)
-      }
-    }
-
     return config
   },
   error => {

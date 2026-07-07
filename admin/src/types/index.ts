@@ -6,7 +6,10 @@ export interface LoginForm {
 export interface UserInfo {
   id: number
   username: string
+  name?: string
+  realName?: string
   role: string
+  permissions?: string[]
 }
 
 export interface Certificate {

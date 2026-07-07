@@ -3,14 +3,30 @@ import { FileInterceptor } from '@nestjs/platform-express';
 import { diskStorage } from 'multer';
 import { extname } from 'path';
 import { UploadService } from './upload.service';
-import { Public } from '../../common/decorators/public.decorator';
+import { RequirePermissions } from '../../common/decorators/permissions.decorator';
 
 @Controller('admin/upload')
-@Public()
 export class UploadController {
   constructor(private readonly uploadService: UploadService) {}
 
   @Post('image')
+  @RequirePermissions(
+    'Banner',
+    'News',
+    'Videos',
+    'Appointment',
+    'PublicInfo',
+    'Policy',
+    'Leadership',
+    'Party',
+    'TeamIntro',
+    'RescueCases',
+    'TeamStyle',
+    'Certificates',
+    'Personnel',
+    'Vehicles',
+    'Location',
+  )
   @UseInterceptors(FileInterceptor('file', {
     storage: diskStorage({
       destination: './uploads/images',
@@ -29,6 +45,7 @@ export class UploadController {
   }
 
   @Post('video')
+  @RequirePermissions('Videos')
   @UseInterceptors(FileInterceptor('file', {
     storage: diskStorage({
       destination: './uploads/videos',
@@ -47,6 +64,14 @@ export class UploadController {
   }
 
   @Post('file')
+  @RequirePermissions(
+    'Appointment',
+    'PublicInfo',
+    'Policy',
+    'Certificates',
+    'Personnel',
+    'Vehicles',
+  )
   @UseInterceptors(FileInterceptor('file', {
     storage: diskStorage({
       destination: './uploads/files',

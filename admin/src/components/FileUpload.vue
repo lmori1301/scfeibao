@@ -55,13 +55,10 @@ const handleUpload = async (options: any) => {
     })
 
     const result = await response.json()
-    console.log('Upload response:', result)
 
     if (result.code === 200) {
       const url = result.data?.url || result.url
       const originalName = result.data?.originalName || result.originalName || getFileName(url)
-
-      console.log('Extracted originalName:', originalName)
 
       // 更新文件列表
       fileList.value = [{
@@ -76,23 +73,19 @@ const handleUpload = async (options: any) => {
 
       onSuccess(result)
     } else {
+      ElMessage.error(result.message || '文件上传失败')
       onError(new Error('上传失败'))
     }
   } catch (error) {
     console.error('Upload error:', error)
+    ElMessage.error('文件上传失败，请稍后重试')
     onError(error)
   }
 }
 
 const handleSuccess = async (response: any, file: any, uploadFileList: any[]) => {
-  // 调试：打印后端返回的数据
-  console.log('Upload response:', response)
-
-  // 后端返回格式：{code: 200, message: '操作成功', data: {url, originalName}}
   const url = response.data?.url || response.url
   const originalName = response.data?.originalName || response.originalName || getFileName(url)
-
-  console.log('Extracted originalName:', originalName)
 
   // 先清空 fileList
   fileList.value = []
@@ -117,6 +110,14 @@ const handleRemove = () => {
   emit('file-change', { url: '', originalName: '' })
 }
 
+const handleExceed = () => {
+  ElMessage.warning('仅支持上传 1 个文件，请先删除已有文件')
+}
+
+const handleError = () => {
+  ElMessage.error('文件上传失败，请检查网络或文件格式后重试')
+}
+
 const beforeUpload = (file: File) => {
   const isLt = file.size / 1024 / 1024 < props.size
 
@@ -136,6 +137,8 @@ const beforeUpload = (file: File) => {
     :limit="1"
     :before-upload="beforeUpload"
     :on-remove="handleRemove"
+    :on-exceed="handleExceed"
+    :on-error="handleError"
   >
     <el-button type="primary">
       <el-icon class="el-icon--left"><Document /></el-icon>

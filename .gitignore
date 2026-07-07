@@ -8,6 +8,11 @@ dist/
 dist-ssr/
 *.local
 
+# Website specific
+website/node_modules/
+website/dist/
+website/.env.local
+
 # Editor directories and files
 .vscode/*
 !.vscode/extensions.json

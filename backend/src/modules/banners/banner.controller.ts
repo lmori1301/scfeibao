@@ -3,6 +3,7 @@ import { InjectRepository } from '@nestjs/typeorm'
 import { Repository } from 'typeorm'
 import { Banner } from '../home/entities/banner.entity'
 import { Public } from '../../common/decorators/public.decorator'
+import { RequirePermissions } from '../../common/decorators/permissions.decorator'
 
 @Controller('banner')
 export class BannerController {
@@ -27,8 +28,8 @@ export class BannerController {
     return { items: mappedItems, total }
   }
 
-  @Public()
   @Post('save')
+  @RequirePermissions('Banner')
   async save(@Body() data: any) {
     const bannerData = {
       title: data.title,
@@ -46,8 +47,8 @@ export class BannerController {
     return { message: '保存成功' }
   }
 
-  @Public()
   @Delete(':id')
+  @RequirePermissions('Banner')
   async remove(@Param('id') id: number) {
     await this.bannerRepository.delete(id)
     return { message: '删除成功' }

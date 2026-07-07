@@ -1,70 +1,154 @@
 <script setup lang="ts">
-import { ref } from 'vue'
-import { ElMessage, ElMessageBox } from 'element-plus'
+import { onMounted, ref } from 'vue'
+import { RefreshRight, Search, User } from '@element-plus/icons-vue'
+import Pagination from '@/components/Pagination.vue'
+import { usePagination } from '@/composables/usePagination'
+import http from '@/utils/http'
+import { formatDateTimeLocal } from '@/utils/format'
 
-const tableData = ref([
-  { id: 1, username: 'user001', realName: '张三', phone: '13800138000', email: 'zhangsan@example.com', status: '正常', createTime: '2024-01-10' },
-  { id: 2, username: 'user002', realName: '李四', phone: '13900139000', email: 'lisi@example.com', status: '正常', createTime: '2024-01-12' }
-])
+type AdminUserItem = {
+  id: number
+  username: string
+  name: string
+  phone?: string
+  email?: string
+  role?: string
+  status: 'active' | 'disabled'
+  createTime: string
+}
 
-const dialogVisible = ref(false)
-const formData = ref({ username: '', realName: '', phone: '', email: '', password: '', status: '正常' })
+type StaffScope = '' | '启用中' | '已禁用'
 
-const handleAdd = () => { formData.value = { username: '', realName: '', phone: '', email: '', password: '', status: '正常' }; dialogVisible.value = true }
-const handleEdit = (row: any) => { formData.value = { ...row, password: '' }; dialogVisible.value = true }
-const handleDelete = (row: any) => { ElMessageBox.confirm('确定删除该用户吗？', '提示', { type: 'warning' }).then(() => ElMessage.success('删除成功')) }
-const handleSave = () => { ElMessage.success('保存成功'); dialogVisible.value = false }
+const searchForm = ref({
+  keyword: '',
+  scope: '' as StaffScope,
+})
+const { data: tableData, total, loading, page, pageSize, fetch, handlePageChange, resetAndFetch } = usePagination(
+  (params: Record<string, any>) =>
+    http.get('/admin/users', {
+      params: {
+        page: params.page,
+        pageSize: params.pageSize,
+        username: params.keyword,
+        status:
+          params.scope === '启用中'
+            ? 'active'
+            : params.scope === '已禁用'
+              ? 'disabled'
+              : undefined,
+      },
+    })
+)
+
+const fetchUsers = async () => {
+  await fetch({
+    keyword: searchForm.value.keyword.trim() || undefined,
+    scope: searchForm.value.scope || undefined,
+  })
+}
+
+const handleSearch = () => {
+  resetAndFetch({
+    keyword: searchForm.value.keyword.trim() || undefined,
+    scope: searchForm.value.scope || undefined,
+  })
+}
+
+const handleReset = () => {
+  searchForm.value = { keyword: '', scope: '' }
+  resetAndFetch()
+}
+
+const getStatusLabel = (status: string) => (status === 'active' ? '启用' : '禁用')
+
+onMounted(fetchUsers)
 </script>
 
 <template>
-  <div class="user-management">
-    <el-card shadow="never">
-      <div class="table-header">
-        <h3>用户列表</h3>
-        <el-button type="success" @click="handleAdd"><el-icon><Plus /></el-icon>新增</el-button>
+  <div class="user-management-page admin-view-stack">
+    <div class="page-crumb">系统首页 / 系统配置 / 人员管理</div>
+
+    <div class="admin-card admin-card--search">
+    <div class="admin-list-toolbar">
+      <div class="admin-list-toolbar__filters user-management-toolbar__filters">
+        <el-select v-model="searchForm.scope" placeholder="账号状态" clearable style="min-width: 120px">
+          <el-option label="启用中" value="启用中" />
+          <el-option label="已禁用" value="已禁用" />
+        </el-select>
+        <el-input v-model="searchForm.keyword" placeholder="输入用户名、姓名或手机号" clearable style="min-width: 220px; max-width: 420px; flex: 1">
+          <template #prefix><el-icon><Search /></el-icon></template>
+        </el-input>
       </div>
-      <el-table :data="tableData" stripe>
-        <el-table-column prop="username" label="用户名" width="120" />
-        <el-table-column prop="realName" label="真实姓名" width="100" />
-        <el-table-column prop="phone" label="手机号" width="120" />
-        <el-table-column prop="email" label="邮箱" min-width="200" />
-        <el-table-column prop="status" label="状态" width="80">
+      <div class="admin-list-toolbar__actions">
+        <div class="admin-toolbar-actions__primary">
+          <el-button type="primary" @click="handleSearch">查询</el-button>
+          <el-button @click="handleReset">重置</el-button>
+        </div>
+      </div>
+    </div>
+    </div>
+
+    <section class="admin-card admin-card--table user-management-panel user-management-table-panel">
+      <div class="admin-table-panel__head">
+        <div class="panel-title">后台人员名录</div>
+        <div class="admin-table-panel__head-actions">
+          <el-button plain @click="fetchUsers">
+            <el-icon><RefreshRight /></el-icon>
+            刷新
+          </el-button>
+        </div>
+      </div>
+      <el-table :data="tableData" v-loading="loading" stripe>
+        <el-table-column type="index" label="序号" width="70" />
+        <el-table-column label="人员信息" min-width="300">
           <template #default="{ row }">
-            <el-tag :type="row.status === '正常' ? 'success' : 'danger'">{{ row.status }}</el-tag>
+            <div class="user-cell">
+              <div class="user-cell__avatar"><el-icon><User /></el-icon></div>
+              <div class="user-cell__meta">
+                <strong>{{ row.name || row.username }}</strong>
+                <span>{{ row.username }}</span>
+              </div>
+            </div>
           </template>
         </el-table-column>
-        <el-table-column prop="createTime" label="创建时间" width="160" />
-        <el-table-column label="操作" width="150" fixed="right">
+        <el-table-column prop="role" label="角色" min-width="180" show-overflow-tooltip />
+        <el-table-column prop="phone" label="手机号" width="160" show-overflow-tooltip />
+        <el-table-column prop="email" label="邮箱" min-width="220" show-overflow-tooltip />
+        <el-table-column label="状态" width="100">
           <template #default="{ row }">
-            <el-button text type="primary" size="small" @click="handleEdit(row)">编辑</el-button>
-            <el-button text type="danger" size="small" @click="handleDelete(row)">删除</el-button>
+            <el-tag :type="row.status === 'active' ? 'success' : 'info'">{{ getStatusLabel(row.status) }}</el-tag>
           </template>
+        </el-table-column>
+        <el-table-column label="创建时间" width="170">
+          <template #default="{ row }">{{ formatDateTimeLocal(row.createTime) }}</template>
         </el-table-column>
       </el-table>
-    </el-card>
-
-    <el-dialog v-model="dialogVisible" title="用户信息" width="700px">
-      <el-form :model="formData" label-width="100px">
-        <el-form-item label="用户名"><el-input v-model="formData.username" /></el-form-item>
-        <el-form-item label="真实姓名"><el-input v-model="formData.realName" /></el-form-item>
-        <el-form-item label="手机号"><el-input v-model="formData.phone" /></el-form-item>
-        <el-form-item label="邮箱"><el-input v-model="formData.email" /></el-form-item>
-        <el-form-item label="密码"><el-input v-model="formData.password" type="password" placeholder="留空则不修改" /></el-form-item>
-        <el-form-item label="状态">
-          <el-select v-model="formData.status" style="width: 100%">
-            <el-option label="正常" value="正常" />
-            <el-option label="禁用" value="禁用" />
-          </el-select>
-        </el-form-item>
-      </el-form>
-      <template #footer>
-        <el-button @click="dialogVisible = false">取消</el-button>
-        <el-button type="primary" @click="handleSave">保存</el-button>
-      </template>
-    </el-dialog>
+      <Pagination :total="total" :page="page" :page-size="pageSize" @change="handlePageChange" />
+    </section>
   </div>
 </template>
 
 <style scoped lang="scss">
-.user-management { :deep(.el-card__body) { padding: 0; } .table-header { display: flex; justify-content: space-between; align-items: center; padding: 16px 20px; border-bottom: 1px solid #f0f0f0; h3 { margin: 0; font-size: 16px; font-weight: 500; } } :deep(.el-table .el-button--text) { padding: 0; margin-right: 8px; } }
+.user-management-page { display: flex; flex-direction: column; gap: 18px; }
+.user-management-panel { border: 1px solid #e6edf7; background: #fff; padding: 20px; border-radius: 22px; overflow: hidden; }
+.user-management-toolbar__filters {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 10px;
+  flex: 1;
+  min-width: 0;
+}
+.user-management-toolbar__filters :deep(.el-input),
+.user-management-toolbar__filters :deep(.el-select) {
+  flex: 0 1 auto;
+}
+.user-cell { display: flex; gap: 14px; align-items: center; }
+.user-cell__avatar {
+  width: 56px; height: 56px; border-radius: 18px; display: grid; place-items: center;
+  background: linear-gradient(135deg, #edf3ff 0%, #dce8ff 100%); color: #2f67ff; font-size: 22px;
+}
+.user-cell__meta { min-width: 0; }
+.user-cell__meta strong { display: block; color: #1f2f46; font-size: 15px; line-height: 1.5; }
+.user-cell__meta span { display: block; margin-top: 6px; color: #7b879b; font-size: 12px; line-height: 1.6; word-break: break-all; }
 </style>

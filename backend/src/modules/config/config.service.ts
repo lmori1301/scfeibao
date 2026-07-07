@@ -3,12 +3,14 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { WebsiteConfig } from './entities/config.entity';
 import { UpdateConfigDto } from './dto/update-config.dto';
+import { OperationLogService } from '../operation-log/operation-log.service';
 
 @Injectable()
 export class ConfigService {
   constructor(
     @InjectRepository(WebsiteConfig)
     private configRepository: Repository<WebsiteConfig>,
+    private operationLogService: OperationLogService,
   ) {}
 
   async getAllConfig() {
@@ -24,7 +26,7 @@ export class ConfigService {
     return await this.configRepository.findOne({ where: { key } });
   }
 
-  async updateConfig(updateConfigDto: UpdateConfigDto) {
+  async updateConfig(updateConfigDto: UpdateConfigDto, actor = 'system') {
     const { key, value, description } = updateConfigDto;
     let config = await this.configRepository.findOne({ where: { key } });
 
@@ -37,6 +39,13 @@ export class ConfigService {
       config = this.configRepository.create({ key, value, description });
     }
 
-    return await this.configRepository.save(config);
+    const saved = await this.configRepository.save(config);
+    await this.operationLogService.record({
+      username: actor,
+      action: `更新网站配置：${saved.key}`,
+      module: '网站配置',
+      ip: '127.0.0.1',
+    })
+    return saved;
   }
 }

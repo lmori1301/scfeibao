@@ -1,0 +1,106 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Location Geocoder</title>
+</head>
+<body>
+  <pre id="output">loading...</pre>
+  <script>
+    const AMAP_KEY = 'e2f3c362950ac5d432a489b7f74e16cf'
+    const locations = [
+      { id: 1, name: '四川飞豹救援总队', pointName: '四川飞豹救援总队指挥中心', address: '四川省成都市温江区S8(成名高速)' },
+      { id: 2, name: '特勤大队', pointName: '四川飞豹救援特勤大队', address: '四川省成都市武侯区特勤大队驻地' },
+      { id: 3, name: '训练与战勤保障大队', pointName: '四川飞豹救援训练与战勤保障大队', address: '四川省成都市双流区训练基地' },
+      { id: 4, name: '应急通信与车辆勤务大队', pointName: '四川飞豹救援应急通信与车辆勤务大队', address: '四川省成都市龙泉驿区车辆勤务中心' },
+      { id: 5, name: '峨眉山直属大队', pointName: '四川飞豹救援峨眉山直属大队', address: '四川省乐山市峨眉山市救援站' },
+      { id: 6, name: '搜救犬大队', pointName: '四川飞豹救援搜救犬大队', address: '四川省成都市新都区搜救犬训练基地' },
+      { id: 7, name: '崇州支队', pointName: '四川飞豹救援崇州支队', address: '四川省成都市崇州市崇州支队驻地' },
+      { id: 8, name: '南充支队', pointName: '四川飞豹救援南充支队', address: '四川省南充市顺庆区南充支队驻地' },
+      { id: 9, name: '天府支队', pointName: '四川飞豹救援天府支队', address: '四川省成都市天府新区天府支队驻地' },
+      { id: 10, name: '雅安支队', pointName: '四川飞豹救援雅安支队', address: '四川省雅安市雨城区雅安支队驻地' },
+      { id: 11, name: '德阳支队', pointName: '四川飞豹救援德阳支队', address: '四川省德阳市旌阳区德阳支队驻地' },
+      { id: 12, name: '达州支队', pointName: '四川飞豹救援达州支队', address: '四川省达州市通川区达州支队驻地' },
+      { id: 13, name: '双流大队', pointName: '四川飞豹救援双流大队', address: '四川省成都市双流区双流大队驻地' },
+      { id: 14, name: '青白江大队', pointName: '四川飞豹救援青白江大队', address: '四川省成都市青白江区青白江大队驻地' },
+      { id: 15, name: '龙泉驿大队', pointName: '四川飞豹救援龙泉驿大队', address: '四川省成都市龙泉驿区龙泉驿大队驻地' },
+      { id: 16, name: '南部大队', pointName: '四川飞豹救援南部大队', address: '四川省南充市南部县南部大队驻地' },
+      { id: 17, name: '营山大队', pointName: '四川飞豹救援营山大队', address: '四川省南充市营山县营山大队驻地' }
+    ]
+
+    const output = document.getElementById('output')
+    function setOutput(value) {
+      output.textContent = typeof value === 'string' ? value : JSON.stringify(value, null, 2)
+    }
+
+    function buildQuery(item) {
+      return [item.address, item.pointName, item.name].filter(Boolean).join(' ')
+    }
+
+    function loadAmap() {
+      return new Promise((resolve, reject) => {
+        const script = document.createElement('script')
+        script.src = `https://webapi.amap.com/maps?v=2.0&key=${AMAP_KEY}&plugin=AMap.Geocoder`
+        script.onload = () => resolve(window.AMap)
+        script.onerror = () => reject(new Error('amap script load failed'))
+        document.head.appendChild(script)
+      })
+    }
+
+    async function run() {
+      try {
+        setOutput({ stage: 'loading-amap' })
+        const AMap = await loadAmap()
+        setOutput({ stage: 'amap-loaded' })
+        const geocoder = new AMap.Geocoder({ city: '全国', extensions: 'base' })
+        const results = []
+
+        for (const item of locations) {
+          const query = buildQuery(item)
+          setOutput({ stage: 'geocoding', current: item.id, query, completed: results.length })
+          const result = await new Promise((resolve) => {
+            const timer = window.setTimeout(() => {
+              resolve({
+                id: item.id,
+                name: item.name,
+                pointName: item.pointName,
+                address: item.address,
+                query,
+                status: 'timeout',
+                lng: null,
+                lat: null,
+                formattedAddress: null
+              })
+            }, 8000)
+
+            geocoder.getLocation(query, (status, payload) => {
+              window.clearTimeout(timer)
+              const first = payload && payload.geocodes && payload.geocodes[0]
+              const location = first && first.location
+              resolve({
+                id: item.id,
+                name: item.name,
+                pointName: item.pointName,
+                address: item.address,
+                query,
+                status,
+                lng: location ? Number(location.lng) : null,
+                lat: location ? Number(location.lat) : null,
+                formattedAddress: first && first.formattedAddress ? first.formattedAddress : null
+              })
+            })
+          })
+          results.push(result)
+        }
+
+        setOutput(results)
+      } catch (error) {
+        setOutput({ error: String(error && error.message ? error.message : error) })
+      }
+    }
+
+    run()
+  </script>
+</body>
+</html>

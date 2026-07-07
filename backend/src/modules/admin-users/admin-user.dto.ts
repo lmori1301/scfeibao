@@ -1,4 +1,4 @@
-import { IsString, IsEmail, IsOptional, IsIn } from 'class-validator';
+import { IsString, IsEmail, IsOptional, IsIn, MinLength } from 'class-validator';
 
 export class CreateAdminUserDto {
   @IsString()
@@ -21,6 +21,10 @@ export class CreateAdminUserDto {
   @IsString()
   @IsOptional()
   role?: string;
+
+  @IsIn(['active', 'disabled'])
+  @IsOptional()
+  status?: string;
 }
 
 export class UpdateAdminUserDto {
@@ -46,6 +50,22 @@ export class UpdatePasswordDto {
   oldPassword: string;
 
   @IsString()
+  @MinLength(6)
+  newPassword: string;
+}
+
+export class ForceChangePasswordDto {
+  @IsString()
+  oldPassword: string;
+
+  @IsString()
+  @MinLength(6)
+  newPassword: string;
+}
+
+export class ResetPasswordDto {
+  @IsString()
+  @MinLength(6)
   newPassword: string;
 }
 
