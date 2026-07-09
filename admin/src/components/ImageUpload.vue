@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { nextTick, ref, watch } from 'vue'
+import { computed, nextTick, ref, watch } from 'vue'
 import { ElMessage } from 'element-plus'
 import { Plus } from '@element-plus/icons-vue'
 import { parsePhotoUrlList } from '@/utils/photo-urls'
@@ -19,6 +19,11 @@ const props = withDefaults(
 const emit = defineEmits<{
   'update:modelValue': [value: string]
 }>()
+
+const uploadHeaders = computed(() => {
+  const token = localStorage.getItem('token')
+  return token ? { Authorization: `Bearer ${token}` } : {}
+})
 
 const fileList = ref<any[]>([])
 
@@ -70,8 +75,15 @@ const handleRemove = (_file: any, uploadFiles: any[]) => {
   })
 }
 
-const handleError = () => {
-  ElMessage.error('图片上传失败，请稍后重试')
+const handleError = (error: Error) => {
+  let message = '图片上传失败，请稍后重试'
+  try {
+    const payload = JSON.parse((error as any)?.message || '{}')
+    message = payload?.message || message
+  } catch {
+    message = (error as any)?.message || message
+  }
+  ElMessage.error(message)
 }
 
 const handleExceed = () => {
@@ -99,6 +111,7 @@ const beforeUpload = (file: File) => {
     v-model:file-list="fileList"
     action="/api/admin/upload/image"
     list-type="picture-card"
+    :headers="uploadHeaders"
     :limit="limit"
     :before-upload="beforeUpload"
     :on-success="handleSuccess"

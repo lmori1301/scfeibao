@@ -47,10 +47,12 @@ const handleUpload = async (options: any) => {
 
   const formData = new FormData()
   formData.append('file', file)
+  const token = localStorage.getItem('token')
 
   try {
     const response = await fetch('/api/admin/upload/file', {
       method: 'POST',
+      headers: token ? { Authorization: `Bearer ${token}` } : {},
       body: formData
     })
 

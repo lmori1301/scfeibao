@@ -587,12 +587,6 @@ onMounted(() => {
               />
               <div v-else class="preview-card__empty">队员照片预览</div>
             </div>
-            <strong>{{ formData.name || '未填写姓名' }}</strong>
-            <p>{{ formData.department || '待分配部门' }} · {{ formData.position || '待分配岗位' }}</p>
-            <div class="preview-card__meta">
-              <span>{{ formData.status }}</span>
-              <span>{{ formData.joinDate || '未填写入队日期' }}</span>
-            </div>
           </div>
         </aside>
       </div>
@@ -703,16 +697,17 @@ onMounted(() => {
 .personnel-form-section__body { padding: 18px 20px 4px; }
 .personnel-form-section__body :deep(.el-form-item) { margin-bottom: 14px; }
 .preview-card__photo {
-  width: 72px; height: 72px; border-radius: 0; overflow: hidden; background: #edf3fb; flex: 0 0 auto;
+  width: 100%;
+  aspect-ratio: 4 / 3;
+  border-radius: 0;
+  overflow: hidden;
+  background: #edf3fb;
+  flex: 0 0 auto;
   img { width: 100%; height: 100%; object-fit: contain; }
 }
-.preview-card__empty { width: 100%; height: 100%; display: grid; place-items: center; color: #8b98ad; }
+.preview-card__empty { width: 100%; height: 100%; display: grid; place-items: center; color: #8b98ad; font-size: 14px; }
 .personnel-dialog { display: grid; grid-template-columns: minmax(0, 1.35fr) 320px; gap: 24px; }
 .preview-card { padding: 18px; border-radius: 20px; background: linear-gradient(180deg, #f7fbff 0%, #edf4ff 100%); }
-.preview-card strong { display: block; margin-top: 14px; font-size: 18px; color: #1f2f46; }
-.preview-card p { margin-top: 8px; color: #718198; font-size: 13px; line-height: 1.7; }
-.preview-card__meta { display: flex; gap: 8px; flex-wrap: wrap; margin-top: 12px; }
-.preview-card__meta span { padding: 6px 10px; border-radius: 999px; background: rgba(47,103,255,.1); color: #2f67ff; font-size: 12px; font-weight: 600; }
 .qrcode-panel { min-height: 300px; }
 .qrcode-panel__content { display: flex; flex-direction: column; align-items: center; gap: 12px; }
 .qrcode-panel__image { width: 220px; height: 220px; object-fit: contain; padding: 12px; border: 1px solid #e8ecf5; border-radius: 0; background: #fff; }

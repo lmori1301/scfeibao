@@ -24,12 +24,18 @@ watch(() => props.modelValue, (val) => {
 })
 
 const toolbarConfig = {}
+const uploadHeaders = () => {
+  const token = localStorage.getItem('token')
+  return token ? { Authorization: `Bearer ${token}` } : {}
+}
+
 const editorConfig = {
   placeholder: props.placeholder || '请输入内容...',
   MENU_CONF: {
     uploadImage: {
       server: '/api/admin/upload/image',
       fieldName: 'file',
+      headers: uploadHeaders(),
       maxFileSize: 10 * 1024 * 1024, // 10MB
       allowedFileTypes: ['image/*'],
       customInsert(res: any, insertFn: any) {
@@ -59,6 +65,7 @@ const editorConfig = {
     uploadVideo: {
       server: '/api/admin/upload/video',
       fieldName: 'file',
+      headers: uploadHeaders(),
       maxFileSize: 50 * 1024 * 1024, // 50MB
       allowedFileTypes: ['video/*'],
       customInsert(res: any, insertFn: any) {

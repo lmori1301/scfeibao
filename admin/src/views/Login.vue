@@ -4,11 +4,11 @@ import { useRouter } from 'vue-router'
 import { ElMessage, type FormInstance, type FormRules } from 'element-plus'
 import { Lock, User } from '@element-plus/icons-vue'
 import { firstAccessibleAdminPath } from '@/router/admin-routes'
-import loginLogo from '../../../src/assets/images/Vector_6_567.png'
-import loginBackground from '../../../src/assets/images/Vector_00_567.png'
 
 const router = useRouter()
 const loginFormRef = ref<FormInstance>()
+const loginLogo = '/login-logo.png'
+const loginBackground = '/Vector_00_567.png'
 
 const loginForm = reactive({
   username: '',
@@ -124,7 +124,7 @@ const handleLogin = async () => {
   align-items: center;
   overflow: hidden;
   background-color: #0f325f;
-  background-position: center 18%;
+  background-position: center center;
   background-repeat: no-repeat;
   background-size: cover;
   position: relative;
@@ -137,7 +137,7 @@ const handleLogin = async () => {
     right: 0;
     bottom: 0;
     background:
-      linear-gradient(180deg, rgba(6, 18, 38, 0.34) 0%, rgba(9, 24, 50, 0.44) 45%, rgba(8, 18, 36, 0.58) 100%);
+      linear-gradient(180deg, rgba(6, 18, 38, 0.18) 0%, rgba(9, 24, 50, 0.22) 45%, rgba(8, 18, 36, 0.34) 100%);
   }
 
   &::after {
@@ -145,8 +145,7 @@ const handleLogin = async () => {
     position: absolute;
     inset: 0;
     background:
-      radial-gradient(circle at 50% 16%, rgba(92, 202, 255, 0.18), transparent 24%),
-      linear-gradient(180deg, rgba(7, 20, 41, 0.12) 0%, rgba(7, 20, 41, 0.36) 100%);
+      linear-gradient(180deg, rgba(7, 20, 41, 0.04) 0%, rgba(7, 20, 41, 0.18) 100%);
   }
 }
 
@@ -167,8 +166,8 @@ const handleLogin = async () => {
   margin-bottom: 26px;
 
   .login-logo {
-    width: 84px;
-    height: 84px;
+    width: 92px;
+    height: 92px;
     display: block;
     margin: 0 auto 14px;
     object-fit: contain;
@@ -201,9 +200,29 @@ const handleLogin = async () => {
   }
 
   :deep(.el-input__wrapper) {
+    background: #fff;
     box-shadow: 0 0 0 1px #dcdfe6 inset;
     border-radius: 6px;
     padding-left: 12px;
+  }
+
+  :deep(.el-input__wrapper.is-focus) {
+    background: #fff;
+    box-shadow: 0 0 0 1px #409eff inset;
+  }
+
+  :deep(.el-input__inner) {
+    background: transparent;
+    color: #1f2937;
+    caret-color: #1f2937;
+  }
+
+  :deep(.el-input__inner:-webkit-autofill),
+  :deep(.el-input__inner:-webkit-autofill:hover),
+  :deep(.el-input__inner:-webkit-autofill:focus) {
+    -webkit-text-fill-color: #1f2937;
+    box-shadow: 0 0 0 1000px #fff inset;
+    transition: background-color 9999s ease-out;
   }
 
   :deep(.el-input),

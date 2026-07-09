@@ -24,7 +24,7 @@ export default defineConfig({
   server: {
     host: true,
     port: 5176,
-    allowedHosts: ['dev.scfb.org.cn'],
+    allowedHosts: ['dev.scfb.org.cn', '192.168.2.189', 'localhost', '127.0.0.1'],
     proxy: {
       '/api': {
         target: 'http://localhost:3003',
