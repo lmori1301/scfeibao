@@ -9,7 +9,12 @@ import {
   Query,
   Res,
   Headers,
+  UploadedFile,
+  UseInterceptors,
+  BadRequestException,
 } from '@nestjs/common';
+import { FileInterceptor } from '@nestjs/platform-express';
+import { memoryStorage } from 'multer';
 import { ApiTags, ApiOperation, ApiBearerAuth } from '@nestjs/swagger';
 import { Response } from 'express';
 import { PersonnelService } from './personnel.service';
@@ -70,6 +75,21 @@ export class PersonnelController {
   @RequirePermissions('Personnel')
   create(@Body() createPersonnelDto: CreatePersonnelDto) {
     return this.personnelService.create(createPersonnelDto);
+  }
+
+  @Post('import')
+  @ApiBearerAuth()
+  @ApiOperation({ summary: '导入人员台账' })
+  @RequirePermissions('Personnel')
+  @UseInterceptors(FileInterceptor('file', {
+    storage: memoryStorage(),
+    limits: { fileSize: 10 * 1024 * 1024 },
+  }))
+  import(@UploadedFile() file?: Express.Multer.File) {
+    if (!file?.buffer) {
+      throw new BadRequestException('请上传导入文件');
+    }
+    return this.personnelService.importFromExcel(file.buffer);
   }
 
   @Public()

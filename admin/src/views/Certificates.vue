@@ -1,11 +1,12 @@
 <script setup lang="ts">
 import { computed, nextTick, ref } from 'vue'
-import { Download, Plus, RefreshRight, Search, Tickets } from '@element-plus/icons-vue'
+import { Download, Plus, RefreshRight, Search, Tickets, Upload } from '@element-plus/icons-vue'
 import { ElMessage, ElMessageBox } from 'element-plus'
 import { usePagination } from '@/composables/usePagination'
 import { idCardRule, phoneRule, requiredRule } from '@/utils/validate'
 import Pagination from '@/components/Pagination.vue'
 import ImageUpload from '@/components/ImageUpload.vue'
+import DataImportDialog from '@/components/DataImportDialog.vue'
 import http from '@/utils/http'
 import { parsePhotoUrlListForDisplay } from '@/utils/photo-urls'
 
@@ -19,6 +20,7 @@ const searchForm = ref({
   listScope: '' as CertificateListScope,
 })
 const dialogVisible = ref(false)
+const importDialogVisible = ref(false)
 const dialogTitle = ref('新增证书')
 const formRef = ref()
 const formData = ref({
@@ -55,6 +57,20 @@ const detailCertificatePhotoUrls = computed(() =>
 const certificateTypes = [
   '应急指挥专家', '绳索救援技术员', '潜水救援教练', '城市搜救技术员', '山地救援教练',
   '急救医疗专家', '高级急救师', '水域救援技术员', '无人机操作师', '装备管理工程师',
+]
+
+const importFields = [
+  { label: '证书编号', required: true },
+  { label: '证书类型', required: true },
+  { label: '姓名', required: true },
+  { label: '证书名称' },
+  { label: '身份证号' },
+  { label: '发证机构' },
+  { label: '发证日期' },
+  { label: '有效期至' },
+  { label: '状态' },
+  { label: '证书照片' },
+  { label: '备注' },
 ]
 
 const rules = {
@@ -177,6 +193,11 @@ const handleReset = () => {
   searchForm.value = { certificateNo: '', type: '', name: '', status: '', listScope: '' }
   page.value = 1
   fetch({})
+}
+
+const handleImportSuccess = () => {
+  page.value = 1
+  fetch(buildCertificateQuery())
 }
 
 const handleAdd = () => {
@@ -324,6 +345,10 @@ fetch()
             <el-icon><Download /></el-icon>
             导出
           </el-button>
+          <el-button plain @click="importDialogVisible = true">
+            <el-icon><Upload /></el-icon>
+            导入
+          </el-button>
           <el-button plain @click="fetch()">
             <el-icon><RefreshRight /></el-icon>
             刷新
@@ -384,6 +409,15 @@ fetch()
       </el-table>
       <Pagination :total="total" :page="page" :page-size="pageSize" @change="handlePageChange" />
     </div>
+
+    <DataImportDialog
+      v-model="importDialogVisible"
+      title="导入证书台账"
+      action="/certificates/import"
+      :fields="importFields"
+      match-rule="按“证书编号”匹配已有证书，匹配到则更新，否则新增。"
+      @success="handleImportSuccess"
+    />
 
     <el-dialog v-model="dialogVisible" :title="dialogTitle" width="1120px" @closed="handleDialogClosed">
       <div class="certificates-dialog">

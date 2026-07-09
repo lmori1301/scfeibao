@@ -1,4 +1,18 @@
-import { Controller, Get, Post, Patch, Delete, Body, Param, Query } from '@nestjs/common'
+import {
+  BadRequestException,
+  Body,
+  Controller,
+  Delete,
+  Get,
+  Param,
+  Patch,
+  Post,
+  Query,
+  UploadedFile,
+  UseInterceptors,
+} from '@nestjs/common'
+import { FileInterceptor } from '@nestjs/platform-express'
+import { memoryStorage } from 'multer'
 import { LeadershipService } from './leadership.service'
 import { Public } from '../../common/decorators/public.decorator'
 import { RequirePermissions } from '../../common/decorators/permissions.decorator'
@@ -23,6 +37,19 @@ export class LeadershipController {
   @RequirePermissions('Leadership')
   create(@Body() data: any) {
     return this.leadershipService.create(data)
+  }
+
+  @Post('import')
+  @RequirePermissions('Leadership')
+  @UseInterceptors(FileInterceptor('file', {
+    storage: memoryStorage(),
+    limits: { fileSize: 10 * 1024 * 1024 },
+  }))
+  import(@UploadedFile() file?: Express.Multer.File) {
+    if (!file?.buffer) {
+      throw new BadRequestException('请上传导入文件')
+    }
+    return this.leadershipService.importFromExcel(file.buffer)
   }
 
   @Patch(':id')

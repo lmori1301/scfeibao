@@ -1,12 +1,13 @@
 <script setup lang="ts">
 import { computed, nextTick, onMounted, ref } from 'vue'
 import { useRoute } from 'vue-router'
-import { Plus, RefreshRight, Search } from '@element-plus/icons-vue'
+import { Plus, RefreshRight, Search, Upload } from '@element-plus/icons-vue'
 import { ElMessage, ElMessageBox } from 'element-plus'
 import { usePagination } from '@/composables/usePagination'
 import { emailRule, idCardRule, phoneRule, requiredRule } from '@/utils/validate'
 import Pagination from '@/components/Pagination.vue'
 import ImageUpload from '@/components/ImageUpload.vue'
+import DataImportDialog from '@/components/DataImportDialog.vue'
 import http from '@/utils/http'
 import { parsePhotoUrlListForDisplay } from '@/utils/photo-urls'
 import {
@@ -43,6 +44,7 @@ const searchForm = ref({
   listScope: '' as PersonnelListScope,
 })
 const dialogVisible = ref(false)
+const importDialogVisible = ref(false)
 const dialogTitle = ref('新增人员')
 const formRef = ref()
 const formData = ref<{
@@ -92,6 +94,24 @@ const detailPersonnelPhotoUrls = computed(() =>
 )
 
 const selectedRows = ref<any[]>([])
+
+const importFields = [
+  { label: '人员编号' },
+  { label: '姓名', required: true },
+  { label: '身份证号', required: true },
+  { label: '联系电话' },
+  { label: '电子邮箱' },
+  { label: '所属部门' },
+  { label: '工作单位' },
+  { label: '职务' },
+  { label: '入职日期' },
+  { label: '人员照片' },
+  { label: '出勤次数' },
+  { label: '培训时长' },
+  { label: '审核状态' },
+  { label: '在职状态' },
+  { label: '备注' },
+]
 
 const handleSelectionChange = (selection: any[]) => {
   selectedRows.value = selection
@@ -162,6 +182,11 @@ const handleReset = () => {
   searchForm.value = { personnelNo: '', name: '', department: '', status: '', listScope: '' }
   page.value = 1
   fetch({})
+}
+
+const handleImportSuccess = () => {
+  page.value = 1
+  fetch(buildPersonnelQuery())
 }
 
 const handleAdd = () => {
@@ -424,6 +449,10 @@ onMounted(() => {
           <el-button type="success" plain :disabled="selectedRows.length === 0" @click="handleBatchGenerateQRCode">
             批量二维码 ({{ selectedRows.length }})
           </el-button>
+          <el-button plain @click="importDialogVisible = true">
+            <el-icon><Upload /></el-icon>
+            导入
+          </el-button>
           <el-button plain @click="fetch()">
             <el-icon><RefreshRight /></el-icon>
             刷新
@@ -483,6 +512,15 @@ onMounted(() => {
       </el-table>
       <Pagination :total="total" :page="page" :page-size="pageSize" @change="handlePageChange" />
     </section>
+
+    <DataImportDialog
+      v-model="importDialogVisible"
+      title="导入人员台账"
+      action="/personnel/import"
+      :fields="importFields"
+      match-rule="按“身份证号”匹配已有人员，匹配到则更新，否则新增。"
+      @success="handleImportSuccess"
+    />
 
     <el-dialog v-model="dialogVisible" :title="dialogTitle" width="1100px" @closed="handleDialogClosed">
       <div class="personnel-dialog">

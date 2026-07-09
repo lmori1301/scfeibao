@@ -1,15 +1,17 @@
 <script setup lang="ts">
 import { computed, nextTick, ref } from 'vue'
-import { Plus, RefreshRight, Search } from '@element-plus/icons-vue'
+import { Plus, RefreshRight, Search, Upload } from '@element-plus/icons-vue'
 import { ElMessage, ElMessageBox } from 'element-plus'
 import { usePagination } from '@/composables/usePagination'
 import { requiredRule } from '@/utils/validate'
 import Pagination from '@/components/Pagination.vue'
 import ImageUpload from '@/components/ImageUpload.vue'
+import DataImportDialog from '@/components/DataImportDialog.vue'
 import http from '@/utils/http'
 
 const searchForm = ref({ name: '', position: '' })
 const dialogVisible = ref(false)
+const importDialogVisible = ref(false)
 const dialogTitle = ref('新增领导信息')
 const formRef = ref()
 const formData = ref({
@@ -41,11 +43,30 @@ const { data, total, loading, page, pageSize, fetch, handlePageChange } = usePag
 
 const tableRows = computed(() => data.value)
 
+const importFields = [
+  { label: '姓名', required: true },
+  { label: '职位', required: true },
+  { label: '性别' },
+  { label: '民族' },
+  { label: '出生年月' },
+  { label: '学历' },
+  { label: '政治面貌' },
+  { label: '工作职责' },
+  { label: '救援经验' },
+  { label: '参与行动' },
+  { label: '照片' },
+  { label: '排序' },
+]
+
 const handleSearch = () => fetch(searchForm.value)
 
 const handleReset = () => {
   searchForm.value = { name: '', position: '' }
   fetch()
+}
+
+const handleImportSuccess = () => {
+  fetch(searchForm.value)
 }
 
 const handleAdd = () => {
@@ -131,6 +152,10 @@ fetch()
             <el-icon><RefreshRight /></el-icon>
             刷新
           </el-button>
+          <el-button plain @click="importDialogVisible = true">
+            <el-icon><Upload /></el-icon>
+            导入
+          </el-button>
           <el-button type="primary" @click="handleAdd">
             <el-icon><Plus /></el-icon>
             新增成员
@@ -185,6 +210,15 @@ fetch()
         </div>
       <Pagination :total="total" :page="page" :page-size="pageSize" @change="handlePageChange" />
     </section>
+
+    <DataImportDialog
+      v-model="importDialogVisible"
+      title="导入领导信息"
+      action="/leadership/import"
+      :fields="importFields"
+      match-rule="按“姓名 + 职位”匹配已有领导信息，匹配到则更新，否则新增。"
+      @success="handleImportSuccess"
+    />
 
     <el-dialog v-model="dialogVisible" :title="dialogTitle" width="1080px" @closed="handleDialogClosed">
       <div class="leadership-dialog">

@@ -15,6 +15,13 @@ import {
   PaginationDto,
   PaginatedResponseDto,
 } from '../../common/dto/pagination.dto';
+import {
+  ImportResult,
+  parseExcelRows,
+  toOptionalDate,
+  toOptionalString,
+  toStatusNumber,
+} from '../../common/utils/excel-import';
 
 @Injectable()
 export class VehicleService {
@@ -117,5 +124,61 @@ export class VehicleService {
 
   async batchUpdateStatus(ids: number[], status: number): Promise<void> {
     await this.vehicleRepository.update(ids, { status });
+  }
+
+  async importFromExcel(buffer: Buffer): Promise<ImportResult> {
+    const parsed = parseExcelRows<Vehicle>(buffer, [
+      { field: 'team', headers: ['车属单位', '所属队伍', '所属部门', 'team'], transform: toOptionalString },
+      { field: 'vehicleNo', headers: ['车辆编号', 'vehicleNo'], transform: toOptionalString },
+      { field: 'vehicleType', headers: ['车辆类型', 'vehicleType'], required: true },
+      { field: 'plateNumber', headers: ['车辆号牌', '车牌号', 'plateNumber'], required: true },
+      { field: 'brandModel', headers: ['厂牌型号', '品牌型号', 'brandModel'], transform: toOptionalString },
+      { field: 'engineNumber', headers: ['发动机号', 'engineNumber'], transform: toOptionalString },
+      { field: 'chassisNumber', headers: ['车架号码', '车架号', 'chassisNumber'], transform: toOptionalString },
+      { field: 'color', headers: ['车体颜色', '车辆颜色', 'color'], transform: toOptionalString },
+      { field: 'purchaseDate', headers: ['装备日期', '购置日期', 'purchaseDate'], transform: toOptionalDate },
+      { field: 'issueDate', headers: ['发证日期', 'issueDate'], transform: toOptionalDate },
+      { field: 'validityDate', headers: ['有效期限', '有效期至', 'validityDate'], transform: toOptionalDate },
+      { field: 'status', headers: ['当前状态', '使用状态', '状态', 'status'], transform: (value) => toStatusNumber(value, ['正常', '可调度', '值勤中']) },
+      { field: 'photoUrl', headers: ['车辆照片', '照片', 'photoUrl'], transform: toOptionalString },
+      { field: 'remark', headers: ['备注', 'remark'], transform: toOptionalString },
+    ]);
+
+    const result: ImportResult = {
+      total: parsed.rows.length,
+      created: 0,
+      updated: 0,
+      failed: parsed.errors.length,
+      errors: parsed.errors,
+    };
+
+    for (const item of parsed.rows) {
+      try {
+        const data = item.data;
+        if (data.status === undefined) data.status = 1;
+
+        const existing = await this.vehicleRepository.findOne({
+          where: { plateNumber: String(data.plateNumber) },
+          withDeleted: true,
+        });
+
+        if (existing) {
+          Object.assign(existing, data);
+          await this.vehicleRepository.save(existing);
+          result.updated += 1;
+        } else {
+          await this.vehicleRepository.save(this.vehicleRepository.create(data));
+          result.created += 1;
+        }
+      } catch (error) {
+        result.failed += 1;
+        result.errors.push({
+          row: item.rowNumber,
+          message: error instanceof Error ? error.message : '导入失败',
+        });
+      }
+    }
+
+    return result;
   }
 }

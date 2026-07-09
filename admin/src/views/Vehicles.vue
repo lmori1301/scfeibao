@@ -1,12 +1,13 @@
 <script setup lang="ts">
 import { computed, nextTick, ref } from 'vue'
 import { useRoute } from 'vue-router'
-import { Download, Plus, RefreshRight, Search } from '@element-plus/icons-vue'
+import { Download, Plus, RefreshRight, Search, Upload } from '@element-plus/icons-vue'
 import { ElMessage, ElMessageBox } from 'element-plus'
 import { usePagination } from '@/composables/usePagination'
 import { requiredRule } from '@/utils/validate'
 import Pagination from '@/components/Pagination.vue'
 import ImageUpload from '@/components/ImageUpload.vue'
+import DataImportDialog from '@/components/DataImportDialog.vue'
 import http from '@/utils/http'
 import { parsePhotoUrlListForDisplay } from '@/utils/photo-urls'
 
@@ -23,6 +24,7 @@ type VehicleListScope = '' | '值勤中' | '可调度' | '停用维护'
 
 const searchForm = ref({ plate: '', type: '', status: '', listScope: '' as VehicleListScope })
 const dialogVisible = ref(false)
+const importDialogVisible = ref(false)
 const dialogTitle = ref('新增车辆')
 const formRef = ref()
 const formData = ref({
@@ -48,6 +50,23 @@ const vehicleTypes = [
   '应急救援指挥车', '救援运输车', '地震救援车', '抗洪抢险车', '应急炊事车',
   '应急宿营车', '通信指挥车', '应急救援装备车', '应急照明车', '医疗救援车',
   '移动方舱医疗车', '内勤车',
+]
+
+const importFields = [
+  { label: '车属单位' },
+  { label: '车辆编号' },
+  { label: '车辆类型', required: true },
+  { label: '车辆号牌', required: true },
+  { label: '厂牌型号' },
+  { label: '发动机号' },
+  { label: '车架号码' },
+  { label: '车体颜色' },
+  { label: '装备日期' },
+  { label: '发证日期' },
+  { label: '有效期限' },
+  { label: '当前状态' },
+  { label: '车辆照片' },
+  { label: '备注' },
 ]
 
 const rules = {
@@ -106,6 +125,11 @@ const handleReset = () => {
   searchForm.value = { plate: '', type: '', status: '', listScope: '' }
   page.value = 1
   fetch({})
+}
+
+const handleImportSuccess = () => {
+  page.value = 1
+  fetch(buildVehicleQuery())
 }
 
 const handleAdd = () => {
@@ -263,6 +287,10 @@ fetch()
             <el-icon><Download /></el-icon>
             导出
           </el-button>
+          <el-button plain @click="importDialogVisible = true">
+            <el-icon><Upload /></el-icon>
+            导入
+          </el-button>
           <el-button plain @click="fetch()">
             <el-icon><RefreshRight /></el-icon>
             刷新
@@ -320,6 +348,15 @@ fetch()
       </el-table>
       <Pagination :total="total" :page="page" :page-size="pageSize" @change="handlePageChange" />
     </section>
+
+    <DataImportDialog
+      v-model="importDialogVisible"
+      title="导入车辆台账"
+      action="/vehicles/import"
+      :fields="importFields"
+      match-rule="按“车辆号牌”匹配已有车辆，匹配到则更新，否则新增。"
+      @success="handleImportSuccess"
+    />
 
     <el-dialog v-model="dialogVisible" :title="dialogTitle" width="1120px" @closed="handleDialogClosed">
       <div class="vehicles-dialog">

@@ -2,12 +2,17 @@ import {
   Controller,
   Get,
   Post,
+  UploadedFile,
+  UseInterceptors,
   Body,
   Patch,
   Param,
   Delete,
   Query,
+  BadRequestException,
 } from '@nestjs/common';
+import { FileInterceptor } from '@nestjs/platform-express';
+import { memoryStorage } from 'multer';
 import { ApiTags, ApiOperation, ApiBearerAuth } from '@nestjs/swagger';
 import { CertificateService } from './certificate.service';
 import {
@@ -30,6 +35,21 @@ export class CertificateController {
   @RequirePermissions('Certificates')
   create(@Body() createCertificateDto: CreateCertificateDto) {
     return this.certificateService.create(createCertificateDto);
+  }
+
+  @Post('import')
+  @ApiBearerAuth()
+  @ApiOperation({ summary: '导入证书台账' })
+  @RequirePermissions('Certificates')
+  @UseInterceptors(FileInterceptor('file', {
+    storage: memoryStorage(),
+    limits: { fileSize: 10 * 1024 * 1024 },
+  }))
+  import(@UploadedFile() file?: Express.Multer.File) {
+    if (!file?.buffer) {
+      throw new BadRequestException('请上传导入文件');
+    }
+    return this.certificateService.importFromExcel(file.buffer);
   }
 
   @Public()

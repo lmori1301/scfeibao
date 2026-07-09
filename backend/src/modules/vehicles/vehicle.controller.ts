@@ -7,7 +7,12 @@ import {
   Param,
   Delete,
   Query,
+  UploadedFile,
+  UseInterceptors,
+  BadRequestException,
 } from '@nestjs/common';
+import { FileInterceptor } from '@nestjs/platform-express';
+import { memoryStorage } from 'multer';
 import { ApiTags, ApiOperation, ApiBearerAuth } from '@nestjs/swagger';
 import { VehicleService } from './vehicle.service';
 import {
@@ -30,6 +35,21 @@ export class VehicleController {
   @RequirePermissions('Vehicles')
   create(@Body() createVehicleDto: CreateVehicleDto) {
     return this.vehicleService.create(createVehicleDto);
+  }
+
+  @Post('import')
+  @ApiBearerAuth()
+  @ApiOperation({ summary: '导入车辆台账' })
+  @RequirePermissions('Vehicles')
+  @UseInterceptors(FileInterceptor('file', {
+    storage: memoryStorage(),
+    limits: { fileSize: 10 * 1024 * 1024 },
+  }))
+  import(@UploadedFile() file?: Express.Multer.File) {
+    if (!file?.buffer) {
+      throw new BadRequestException('请上传导入文件');
+    }
+    return this.vehicleService.importFromExcel(file.buffer);
   }
 
   @Public()
