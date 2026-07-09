@@ -296,8 +296,8 @@ const doSearch = () => {
 const websiteConfig = ref({
   host_unit: '四川飞豹救援',
   organizer_unit: '四川飞豹救援新闻宣传处',
-  icp_number: '蜀ICP备XXXXXXX号',
-  copyright: 'Copyright®2025 sc.feibao.com All rights reserved'
+  icp_number: '蜀ICP备2026009479',
+  copyright: 'Copyright®2026 www.scfeibao.com All rights reserved'
 })
 
 const fetchWebsiteConfig = async () => {
@@ -307,8 +307,8 @@ const fetchWebsiteConfig = async () => {
       websiteConfig.value = {
         host_unit: res.data.host_unit || '四川飞豹救援',
         organizer_unit: res.data.organizer_unit || '四川飞豹救援新闻宣传处',
-        icp_number: res.data.icp_number || '蜀ICP备XXXXXXX号',
-        copyright: res.data.copyright || 'Copyright®2025 sc.feibao.com All rights reserved'
+        icp_number: res.data.icp_number || '蜀ICP备2026009479',
+        copyright: res.data.copyright || 'Copyright®2026 www.scfeibao.com All rights reserved'
       }
     }
   } catch (error) {
@@ -518,13 +518,15 @@ onMounted(() => {
     font-weight: 400;
     line-height: 50px;
     color: rgba(41, 41, 41, 1);
-    width: 2.29%;
+    width: 4%;
     height: 2.65%;
     position: absolute;
     left: 50.05%;
     right: 47.66%;
     top: 23.2%;
     bottom: 74.15%;
+    text-align: center;
+    white-space: nowrap;
 }
 .Pixso-vector-1_1712 {
     width: 0%;
@@ -559,13 +561,15 @@ onMounted(() => {
     font-weight: 400;
     line-height: 50px;
     color: rgba(41, 41, 41, 1);
-    width: 2.29%;
+    width: 4%;
     height: 2.64%;
     position: absolute;
     left: 50.05%;
     right: 47.66%;
     top: 38.27%;
     bottom: 59.09%;
+    text-align: center;
+    white-space: nowrap;
 }
 .Pixso-vector-1_1715 {
     width: 0%;
@@ -600,13 +604,15 @@ onMounted(() => {
     font-weight: 400;
     line-height: 50px;
     color: rgba(41, 41, 41, 1);
-    width: 2.29%;
+    width: 4%;
     height: 2.64%;
     position: absolute;
     left: 50.05%;
     right: 47.66%;
     top: 53.33%;
     bottom: 44.03%;
+    text-align: center;
+    white-space: nowrap;
 }
 .Pixso-vector-1_1718 {
     width: 0%;
@@ -641,13 +647,15 @@ onMounted(() => {
     font-weight: 400;
     line-height: 50px;
     color: rgba(41, 41, 41, 1);
-    width: 2.29%;
+    width: 4%;
     height: 2.65%;
     position: absolute;
     left: 50.05%;
     right: 47.66%;
     top: 68.39%;
     bottom: 28.96%;
+    text-align: center;
+    white-space: nowrap;
 }
 .Pixso-paragraph-1_1721 {
     font-size: 18px;
@@ -787,7 +795,7 @@ onMounted(() => {
 }
 .Pixso-vector-1_1807 {
     width: 18.38%;
-    height: 31.02%;
+    height: 31.50%;
     background-image: url(@/assets/images/Vector_1_1807.png);
     background-size: 100% 100%;
     background-repeat: no-repeat;

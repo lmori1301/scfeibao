@@ -48,11 +48,6 @@
                 </div>
             </div>
 
-            <div id="1_250" class="Pixso-vector-1_250"></div>
-            <div id="1_251" class="Pixso-vector-1_251"></div>
-            <div id="1_252" class="Pixso-vector-1_252"></div>
-            <div id="1_354" class="Pixso-vector-1_354"></div>
-
             <!-- 底部信息 -->
             <div ref="bottomBgRef" id="1_113" class="Pixso-vector-1_113"></div>
             <div ref="bottomTextRef" id="32_8" class="Pixso-group-32_8">
@@ -207,6 +202,7 @@
                             :alt="`${currentLeader.name}肖像`"
                             loading="lazy"
                             decoding="async"
+                            @error="handleLeaderPhotoError"
                         />
                         <div class="leader-detail-right">
                             <div class="leader-detail-name-row">
@@ -256,6 +252,7 @@ interface LeaderItem {
 function resolveMediaUrl(url: string | undefined | null) {
     if (!url || !String(url).trim()) return ''
     const u = String(url).trim()
+    if (/^https?:\/\/(?:cdn\.)?example\.com\//i.test(u)) return ''
     if (u.startsWith('http://') || u.startsWith('https://')) return u
     return u.startsWith('/') ? u : `/${u}`
 }
@@ -348,6 +345,13 @@ function splitLeaderPosition(position: string) {
 function getLeaderPhotoStyle(leader: LeaderItem) {
   return {
     backgroundImage: `url(${leader.photoUrl || defaultLeaderPhoto})`,
+  }
+}
+
+function handleLeaderPhotoError(event: Event) {
+  const target = event.target as HTMLImageElement
+  if (target.src !== defaultLeaderPhoto) {
+    target.src = defaultLeaderPhoto
   }
 }
 
@@ -538,8 +542,8 @@ onMounted(async () => {
 const websiteConfig = ref({
   host_unit: '四川飞豹救援',
   organizer_unit: '四川飞豹救援新闻宣传处',
-  icp_number: '蜀ICP备XXXXXXX号',
-  copyright: 'Copyright®2025 sc.feibao.com All rights reserved'
+  icp_number: '蜀ICP备2026009479',
+  copyright: 'Copyright®2026 www.scfeibao.com All rights reserved'
 })
 
 const fetchWebsiteConfig = async () => {
@@ -549,8 +553,8 @@ const fetchWebsiteConfig = async () => {
       websiteConfig.value = {
         host_unit: res.data.host_unit || '四川飞豹救援',
         organizer_unit: res.data.organizer_unit || '四川飞豹救援新闻宣传处',
-        icp_number: res.data.icp_number || '蜀ICP备XXXXXXX号',
-        copyright: res.data.copyright || 'Copyright®2025 sc.feibao.com All rights reserved'
+        icp_number: res.data.icp_number || '蜀ICP备2026009479',
+        copyright: res.data.copyright || 'Copyright®2026 www.scfeibao.com All rights reserved'
       }
     }
   } catch (error) {
@@ -614,7 +618,7 @@ const fetchWebsiteConfig = async () => {
 }
 .Pixso-vector-1_185 {
     width: 68.33%;
-    height: 71.4%;
+    height: 70.88%;
     background-image: url(@/assets/images/Vector_1_185.png);
     background-size: 100% 100%;
     background-repeat: no-repeat;
@@ -748,7 +752,7 @@ const fetchWebsiteConfig = async () => {
 }
 .Pixso-vector-1_218 {
     width: 18.38%;
-    height: 53.52%;
+    height: 53%;
     background-image: url(@/assets/images/Vector_1_218.png);
     background-size: 100% 100%;
     background-repeat: no-repeat;
@@ -2362,11 +2366,11 @@ const fetchWebsiteConfig = async () => {
     position: absolute;
     left: 28.65%;
     right: 8.91%;
-    top: 20.91%;
+    top: 20.1%;
     display: grid;
     grid-template-columns: repeat(4, minmax(0, 1fr));
     column-gap: 56px;
-    row-gap: 48px;
+    row-gap: 34px;
     align-content: start;
     content-visibility: auto;
     contain: layout paint style;
@@ -2376,12 +2380,14 @@ const fetchWebsiteConfig = async () => {
     display: flex;
     flex-direction: column;
     align-items: center;
+    min-height: 382px;
     cursor: pointer;
 }
 
 .leader-grid-photo {
-    width: 100%;
+    width: min(100%, 246px);
     aspect-ratio: 246 / 304;
+    background-color: #d9d9d9;
     background-position: center center;
     background-repeat: no-repeat;
     background-size: cover;

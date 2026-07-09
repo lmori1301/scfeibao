@@ -33,9 +33,36 @@ vi.mock('@/api/overview-info', () => ({
   ),
 }))
 
+vi.mock('@/api/config', () => ({
+  getWebsiteConfig: vi.fn(() =>
+    Promise.resolve({
+      code: 200,
+      message: 'ok',
+      data: {
+        host_unit: '四川飞豹救援',
+        organizer_unit: '四川飞豹救援新闻宣传处',
+        icp_number: '蜀ICP备2026009479',
+        copyright: 'Copyright®2026 www.scfeibao.com All rights reserved',
+      },
+    })
+  ),
+}))
+
 const router = createRouter({
   history: createMemoryHistory(),
-  routes: [{ path: '/overview-info/leadership', component: Leadership }],
+  routes: [
+    { path: '/', component: { template: '<div />' } },
+    { path: '/overview-info', component: { template: '<div />' } },
+    { path: '/overview-info/leadership', component: Leadership },
+    { path: '/overview-info/organization', component: { template: '<div />' } },
+    { path: '/overview-info/geography', component: { template: '<div />' } },
+    { path: '/team-building', component: { template: '<div />' } },
+    { path: '/party-building', component: { template: '<div />' } },
+    { path: '/info-public', component: { template: '<div />' } },
+    { path: '/dynamic-news', component: { template: '<div />' } },
+    { path: '/policy-regulations', component: { template: '<div />' } },
+    { path: '/query-system', component: { template: '<div />' } },
+  ],
 })
 
 describe('Leadership.vue', () => {

@@ -19,7 +19,7 @@
             <router-link to="/overview-info/geography" id="1_493" class="Pixso-paragraph-1_493 overview-nav-item">地理位置</router-link>
             <div id="1_494" class="Pixso-vector-1_494"></div>
             <div id="1_505" class="Pixso-vector-1_505"></div>
-            <p id="1_506" class="Pixso-paragraph-1_506">{{ "办公室 " }}</p>
+            <p id="1_506" class="Pixso-paragraph-1_506">{{ "综合办公室 " }}</p>
             <p id="1_507" class="Pixso-paragraph-1_507">
                 {{ "训练与战勤保障大队" }}
             </p>
@@ -36,8 +36,8 @@
             <p id="1_512" class="Pixso-paragraph-1_512">
                 {{ "四川飞豹救援青白江大队" }}
             </p>
-            <p id="1_513" class="Pixso-paragraph-1_513">{{ "纪检督察室" }}</p>
-            <p id="1_514" class="Pixso-paragraph-1_514">{{ "审计室" }}</p>
+            <p id="1_513" class="Pixso-paragraph-1_513">{{ "党风廉政与纪律督查室" }}</p>
+            <p id="1_514" class="Pixso-paragraph-1_514">{{ "财务审计室" }}</p>
             <p id="1_515" class="Pixso-paragraph-1_515">
                 {{ "应急通信与车辆勤务大队" }}
             </p>
@@ -60,7 +60,7 @@
             <p id="1_522" class="Pixso-paragraph-1_522">
                 {{ "四川飞豹救援双流大队" }}
             </p>
-            <p id="1_523" class="Pixso-paragraph-1_523">{{ "后勤装备处" }}</p>
+            <p id="1_523" class="Pixso-paragraph-1_523">{{ "战勤保障与装备管理处" }}</p>
             <p id="1_524" class="Pixso-paragraph-1_524">{{ "搜救犬大队" }}</p>
             <p id="1_525" class="Pixso-paragraph-1_525">
                 {{ "四川飞豹救援南充支队" }}
@@ -71,13 +71,13 @@
                         {{ "抢险救援指挥部" }}
                     </p>
                     <p id="1_528" class="Pixso-paragraph-1_528">
-                        {{ "指挥中心" }}
+                        {{ "应急调度指挥中心" }}
                     </p>
                     <p id="1_530" class="Pixso-paragraph-1_530">
-                        {{ "作战训练处" }}
+                        {{ "灾害处置与实训处" }}
                     </p>
                     <p id="1_532" class="Pixso-paragraph-1_532">
-                        {{ "信息通信处" }}
+                        {{ "应急通信与数字化处" }}
                     </p>
                 </div>
             </div>
@@ -87,13 +87,13 @@
                         {{ "政治部" }}
                     </p>
                     <p id="6_650" class="Pixso-paragraph-6_650">
-                        {{ "组织教育处" }}
+                        {{ "党建群团与思政处" }}
                     </p>
                     <p id="6_651" class="Pixso-paragraph-6_651">
-                        {{ "人事处" }}
+                        {{ "干部人事处" }}
                     </p>
                     <p id="6_652" class="Pixso-paragraph-6_652">
-                        {{ "队务处" }}
+                        {{ "队伍正规化管理处" }}
                     </p>
                 </div>
             </div>
@@ -109,7 +109,7 @@
             <p id="1_539" class="Pixso-paragraph-1_539">{{ "总队直属单位" }}</p>
             <div id="1_540" class="Pixso-vector-1_540"></div>
             <div class="blue-vertical-line blue-line-3"></div>
-            <p id="1_541" class="Pixso-paragraph-1_541">{{ "支、大队" }}</p>
+            <p id="1_541" class="Pixso-paragraph-1_541">{{ "支/大队" }}</p>
             <div id="1_542" class="Pixso-vector-1_542"></div>
             <div id="1_543" class="Pixso-vector-1_543"></div>
             <div id="1_544" class="Pixso-vector-1_544"></div>
@@ -214,8 +214,8 @@ const doSearch = () => {
 const websiteConfig = ref({
   host_unit: '四川飞豹救援',
   organizer_unit: '四川飞豹救援新闻宣传处',
-  icp_number: '蜀ICP备XXXXXXX号',
-  copyright: 'Copyright®2025 sc.feibao.com All rights reserved'
+  icp_number: '蜀ICP备2026009479',
+  copyright: 'Copyright®2026 www.scfeibao.com All rights reserved'
 })
 
 const fetchWebsiteConfig = async () => {
@@ -225,8 +225,8 @@ const fetchWebsiteConfig = async () => {
       websiteConfig.value = {
         host_unit: res.data.host_unit || '四川飞豹救援',
         organizer_unit: res.data.organizer_unit || '四川飞豹救援新闻宣传处',
-        icp_number: res.data.icp_number || '蜀ICP备XXXXXXX号',
-        copyright: res.data.copyright || 'Copyright®2025 sc.feibao.com All rights reserved'
+        icp_number: res.data.icp_number || '蜀ICP备2026009479',
+        copyright: res.data.copyright || 'Copyright®2026 www.scfeibao.com All rights reserved'
       }
     }
   } catch (error) {
@@ -395,7 +395,7 @@ onMounted(() => {
 }
 .Pixso-vector-1_489 {
     width: 18.38%;
-    height: 50.05%;
+    height: 49.50%;
     background-image: url(@/assets/images/Vector_1_489.png);
     background-size: 100% 100%;
     background-repeat: no-repeat;
@@ -480,7 +480,7 @@ onMounted(() => {
 }
 .Pixso-vector-1_505 {
     width: 68.33%;
-    height: 70.67%;
+    height: 70.10%;
     background-image: url(@/assets/images/Vector_1_505.png);
     background-size: 100% 100%;
     background-repeat: no-repeat;
@@ -607,8 +607,8 @@ onMounted(() => {
     width: 6.51%;
     height: 1.12%;
     position: absolute;
-    left: 38.44%;
-    right: 55.05%;
+    left: 38.54%;
+    right: 54.95%;
     top: 40.58%;
     bottom: 58.3%;
 }
@@ -621,8 +621,8 @@ onMounted(() => {
     width: 3.96%;
     height: 1.12%;
     position: absolute;
-    left: 50.1%;
-    right: 45.94%;
+    left: 54.22%;
+    right: 41.82%;
     top: 40.58%;
     bottom: 58.3%;
 }
@@ -683,8 +683,8 @@ onMounted(() => {
     width: 6.51%;
     height: 1.12%;
     position: absolute;
-    left: 59.17%;
-    right: 34.32%;
+    left: 63.39%;
+    right: 30.1%;
     top: 40.58%;
     bottom: 58.3%;
 }
@@ -759,8 +759,8 @@ onMounted(() => {
     width: 6.51%;
     height: 1.12%;
     position: absolute;
-    left: 70.83%;
-    right: 22.66%;
+    left: 72.55%;
+    right: 20.94%;
     top: 40.71%;
     bottom: 58.17%;
 }
@@ -865,7 +865,7 @@ onMounted(() => {
     width: 355.75px;
     height: 153px;
     position: absolute;
-    left: 1309px;
+    left: 1249px;
     top: 621px;
 }
 .Pixso-group-6_648 {
@@ -936,6 +936,42 @@ onMounted(() => {
     bottom: 0%;
     white-space: pre;
     flex-grow: 0;
+}
+
+.Pixso-frame-1_466 .Pixso-paragraph-1_506,
+.Pixso-frame-1_466 .Pixso-paragraph-1_507,
+.Pixso-frame-1_466 .Pixso-paragraph-1_508,
+.Pixso-frame-1_466 .Pixso-paragraph-1_509,
+.Pixso-frame-1_466 .Pixso-paragraph-1_510,
+.Pixso-frame-1_466 .Pixso-paragraph-1_511,
+.Pixso-frame-1_466 .Pixso-paragraph-1_512,
+.Pixso-frame-1_466 .Pixso-paragraph-1_513,
+.Pixso-frame-1_466 .Pixso-paragraph-1_514,
+.Pixso-frame-1_466 .Pixso-paragraph-1_515,
+.Pixso-frame-1_466 .Pixso-paragraph-1_516,
+.Pixso-frame-1_466 .Pixso-paragraph-1_517,
+.Pixso-frame-1_466 .Pixso-paragraph-1_518,
+.Pixso-frame-1_466 .Pixso-paragraph-1_519,
+.Pixso-frame-1_466 .Pixso-paragraph-1_520,
+.Pixso-frame-1_466 .Pixso-paragraph-1_521,
+.Pixso-frame-1_466 .Pixso-paragraph-1_522,
+.Pixso-frame-1_466 .Pixso-paragraph-1_523,
+.Pixso-frame-1_466 .Pixso-paragraph-1_524,
+.Pixso-frame-1_466 .Pixso-paragraph-1_525,
+.Pixso-frame-1_466 .Pixso-paragraph-1_526,
+.Pixso-frame-1_466 .Pixso-paragraph-1_528,
+.Pixso-frame-1_466 .Pixso-paragraph-1_530,
+.Pixso-frame-1_466 .Pixso-paragraph-1_532,
+.Pixso-frame-1_466 .Pixso-paragraph-6_649,
+.Pixso-frame-1_466 .Pixso-paragraph-6_650,
+.Pixso-frame-1_466 .Pixso-paragraph-6_651,
+.Pixso-frame-1_466 .Pixso-paragraph-6_652 {
+    width: max-content !important;
+    max-width: none !important;
+    height: auto !important;
+    white-space: nowrap !important;
+    word-break: keep-all !important;
+    overflow: visible !important;
 }
 .Pixso-paragraph-1_534 {
     font-size: 20px;

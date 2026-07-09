@@ -42,3 +42,75 @@ img {
 input, button, textarea, select {
   font-family: inherit;
 }
+
+/*
+ * 内页 Pixso 导出的底部 class 名在多个路由中重复，且页面样式未 scoped。
+ * 路由切换后后加载的模块会覆盖当前模块同名底部样式，导致版权信息和背景图错位。
+ */
+div[class^="scroll-container-"]:not(.scroll-container-1_2) .Pixso-vector-1_113 {
+  width: 1920px !important;
+  height: 300px !important;
+  position: absolute !important;
+  left: 50% !important;
+  top: auto !important;
+  right: auto !important;
+  bottom: 0 !important;
+  transform: translateX(-50%) !important;
+  background-size: 100% 100% !important;
+  background-repeat: no-repeat !important;
+  z-index: 1 !important;
+}
+
+div[class^="scroll-container-"]:not(.scroll-container-1_2) .Pixso-group-32_8 {
+  width: 600px !important;
+  height: 170px !important;
+  position: absolute !important;
+  left: 50% !important;
+  top: auto !important;
+  right: auto !important;
+  bottom: 65px !important;
+  transform: translateX(-50%) !important;
+  user-select: text !important;
+  -webkit-user-select: text !important;
+  -moz-user-select: text !important;
+  -ms-user-select: text !important;
+  z-index: 2 !important;
+}
+
+div[class^="scroll-container-"]:not(.scroll-container-1_2) .Pixso-paragraph-1_118,
+div[class^="scroll-container-"]:not(.scroll-container-1_2) .Pixso-paragraph-1_119,
+div[class^="scroll-container-"]:not(.scroll-container-1_2) .Pixso-paragraph-1_120,
+div[class^="scroll-container-"]:not(.scroll-container-1_2) .Pixso-paragraph-1_121 {
+  width: auto !important;
+  height: auto !important;
+  position: absolute !important;
+  left: 50% !important;
+  transform: translateX(calc(-50% + 0.5px)) !important;
+  font-size: 20px !important;
+  font-family: "Alibaba PuHuiTi-Regular" !important;
+  font-weight: 400 !important;
+  line-height: 20px !important;
+  color: #fff !important;
+  text-align: center !important;
+  white-space: nowrap !important;
+  user-select: text !important;
+  -webkit-user-select: text !important;
+  -moz-user-select: text !important;
+  -ms-user-select: text !important;
+}
+
+div[class^="scroll-container-"]:not(.scroll-container-1_2) .Pixso-paragraph-1_118 {
+  top: 0 !important;
+}
+
+div[class^="scroll-container-"]:not(.scroll-container-1_2) .Pixso-paragraph-1_119 {
+  top: 29.41% !important;
+}
+
+div[class^="scroll-container-"]:not(.scroll-container-1_2) .Pixso-paragraph-1_120 {
+  top: 58.82% !important;
+}
+
+div[class^="scroll-container-"]:not(.scroll-container-1_2) .Pixso-paragraph-1_121 {
+  top: 88.24% !important;
+}

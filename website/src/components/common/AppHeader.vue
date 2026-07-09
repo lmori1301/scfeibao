@@ -111,6 +111,7 @@ onMounted(() => {
   }
 
   .logo-text {
+    font-family: "FZDaHei-B02S-Regular", "PingFang SC", "Microsoft YaHei", sans-serif;
     font-size: 20px;
     font-weight: 600;
     color: #1a73e8;
@@ -123,6 +124,7 @@ onMounted(() => {
   align-items: center;
 
   a {
+    font-family: "FZDaHei-B02S-Regular", "PingFang SC", "Microsoft YaHei", sans-serif;
     text-decoration: none;
     color: #606266;
     font-size: 16px;

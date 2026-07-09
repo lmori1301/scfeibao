@@ -214,8 +214,8 @@ const doSearch = () => {
 const websiteConfig = ref({
   host_unit: '四川飞豹救援',
   organizer_unit: '四川飞豹救援新闻宣传处',
-  icp_number: '蜀ICP备XXXXXXX号',
-  copyright: 'Copyright®2025 sc.feibao.com All rights reserved'
+  icp_number: '蜀ICP备2026009479',
+  copyright: 'Copyright®2026 www.scfeibao.com All rights reserved'
 })
 
 const queryFooterBgStyle = {
@@ -245,8 +245,8 @@ const fetchWebsiteConfig = async () => {
       websiteConfig.value = {
         host_unit: res.data.host_unit || '四川飞豹救援',
         organizer_unit: res.data.organizer_unit || '四川飞豹救援新闻宣传处',
-        icp_number: res.data.icp_number || '蜀ICP备XXXXXXX号',
-        copyright: res.data.copyright || 'Copyright®2025 sc.feibao.com All rights reserved'
+        icp_number: res.data.icp_number || '蜀ICP备2026009479',
+        copyright: res.data.copyright || 'Copyright®2026 www.scfeibao.com All rights reserved'
       }
     }
   } catch (error) {
@@ -753,25 +753,26 @@ onMounted(() => {
 }
 .Pixso-vector-1_3132 {
     width: 100%;
-    height: 4.92%;
-    background-image: url(@/assets/images/Vector_1_3132.png);
+    height: 4.85%;
+    background-image: url(@/assets/images/Vector_1_2411.png);
     background-size: 100% 100%;
     background-repeat: no-repeat;
     position: absolute;
     left: 0%;
     right: 0%;
-    top: 13.7%;
-    bottom: 81.38%;
+    top: 13.43%;
+    bottom: 81.72%;
 }
 .Pixso-vector-17_25 {
     width: 150px;
     height: 70px;
-    background-image: url(@/assets/images/Group_17_25.png);
+    background-image: url(@/assets/images/Group_17_12.png);
     background-size: 100% 100%;
     background-repeat: no-repeat;
     position: absolute;
     left: 113px;
-    top: 195px;
+    top: 194px;
+    z-index: 10;
 }
 .Pixso-group-33_255 {
     width: 338px;

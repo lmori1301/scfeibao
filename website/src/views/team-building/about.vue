@@ -35,24 +35,7 @@
             <router-link to="/team-building/showcase" id="1_686" class="Pixso-paragraph-1_686">{{ "队伍风采" }}</router-link>
             <div id="1_687" class="Pixso-vector-1_687"></div>
             <div id="1_688" class="Pixso-vector-1_688"></div>
-            <p id="1_689" class="Pixso-paragraph-1_689">
-                {{
-                    '        四川飞豹救援总队是四川省应急管理厅、四川省应急救援总队直属的专业应急救援力量，肩负着保护人民生命财产安全、维护社会稳定的重要使命。成立于2019年，是一支由专业人员和志愿者组成的非营利性应急救援组织。我们的使命是在自然灾害和突发事件中提供快速、专业的救援服务，保护人民生命财产安全。 十年来，救援队已发展成为拥有120名专业救援人员、300余名志愿者的综合性救援队伍，配备了先进的救援设备和通讯系统。我们参与了国内外多起重大灾害救援行动，包括地震、洪水、火灾等，累计救援人数超过5000人。 救援队始终坚持"生命至上、科学救援"的理念，不断提升专业技能和应急响应能力，为构建安全社会贡献力量。'
-                }}
-            </p>
-            <div id="1_690" class="Pixso-text-1_690">
-                <p id="1_690_0" class="Pixso-paragraph-1_690_0">
-                    <span id="1_690_0_1" class="Pixso-span-1_690_0_1">{{
-                        "       总队下设3个救援大队、1个指挥中心和若干专业救援分队，共有队员580人。其中，专业救援人员450人，后勤保障人员130人。队员均经过严格的选拔和专业培训，具备多种救援技能。"
-                    }}</span>
-                </p>
-                <p id="1_690_1" class="Pixso-paragraph-1_690_1">
-                    <span id="1_690_1_1" class="Pixso-span-1_690_1_1">{{
-                        "       装备方面，总队配备各类救援车辆128台，包括消防车、救护车、指挥车、物资运输车等；拥有生命探测仪、破拆工具、救生器材等专业设备5000余件（套），能够满足各类救援任务需求。"
-                    }}</span>
-                </p>
-            </div>
-            <div id="1_691" class="Pixso-vector-1_691"></div>
+            <div id="team-about-rich-text" class="team-about-rich-text" v-html="aboutRichHtml"></div>
             <div id="1_694" class="Pixso-vector-1_694"></div>
             <div id="33_120" class="Pixso-group-33_120" @click.stop>
                 <div id="33_121" class="Pixso-vector-33_121"></div>
@@ -94,8 +77,10 @@
 <script lang="ts" setup>
 import { ref, onMounted } from 'vue'
 import { getWebsiteConfig } from '@/api/config'
+import { getTeamAbout } from '@/api/team-building'
 import { useRouter } from 'vue-router'
 import { usePixsoScale } from '@/composables/use-pixso-scale'
+import { sanitizeRichText } from '@/utils/rich-text'
 
 const { scrollContainerRef, frameRef } = usePixsoScale(1920, 1872)
 const router = useRouter()
@@ -145,9 +130,16 @@ const doSearch = () => {
 const websiteConfig = ref({
   host_unit: '四川飞豹救援',
   organizer_unit: '四川飞豹救援新闻宣传处',
-  icp_number: '蜀ICP备XXXXXXX号',
-  copyright: 'Copyright®2025 sc.feibao.com All rights reserved'
+  icp_number: '蜀ICP备2026009479',
+  copyright: 'Copyright®2026 www.scfeibao.com All rights reserved'
 })
+
+const defaultAboutHtml = sanitizeRichText([
+  '四川飞豹救援坚持人民至上、生命至上，围绕综合应急救援、专业训练、装备保障和社会服务持续提升队伍能力。',
+  '队伍常态化开展山地、水域、高空、地震等专业训练，积极参与突发事件应急处置和安全宣传。',
+  '队伍建立专业化训练体系，配备救援车辆、通信装备、绳索装备、水域救援装备和医疗急救器材，持续提升复杂环境下的快速响应和协同处置能力。'
+].join('\n\n'))
+const aboutRichHtml = ref(defaultAboutHtml)
 
 const fetchWebsiteConfig = async () => {
   try {
@@ -156,8 +148,8 @@ const fetchWebsiteConfig = async () => {
       websiteConfig.value = {
         host_unit: res.data.host_unit || '四川飞豹救援',
         organizer_unit: res.data.organizer_unit || '四川飞豹救援新闻宣传处',
-        icp_number: res.data.icp_number || '蜀ICP备XXXXXXX号',
-        copyright: res.data.copyright || 'Copyright®2025 sc.feibao.com All rights reserved'
+        icp_number: res.data.icp_number || '蜀ICP备2026009479',
+        copyright: res.data.copyright || 'Copyright®2026 www.scfeibao.com All rights reserved'
       }
     }
   } catch (error) {
@@ -165,8 +157,19 @@ const fetchWebsiteConfig = async () => {
   }
 }
 
+const fetchTeamAbout = async () => {
+  try {
+    const res = await getTeamAbout()
+    const content = res.data?.content || res.data?.description || ''
+    aboutRichHtml.value = sanitizeRichText(content) || defaultAboutHtml
+  } catch (error) {
+    // 保留默认文案，避免接口异常时页面空白。
+  }
+}
+
 onMounted(() => {
   fetchWebsiteConfig()
+  fetchTeamAbout()
 })
 
 </script>
@@ -467,7 +470,7 @@ onMounted(() => {
 }
 .Pixso-vector-1_681 {
     width: 18.39%;
-    height: 37.55%;
+    height: 36.80%;
     background-image: url(@/assets/images/Vector_1_681.png);
     background-size: 100% 100%;
     background-repeat: no-repeat;
@@ -565,7 +568,7 @@ onMounted(() => {
 }
 .Pixso-vector-1_688 {
     width: 68.34%;
-    height: 64.85%;
+    height: 64%;
     background-image: url(@/assets/images/Vector_1_688.png);
     background-size: 100% 100%;
     background-repeat: no-repeat;
@@ -575,74 +578,29 @@ onMounted(() => {
     top: 18.11%;
     bottom: 17.04%;
 }
-.Pixso-paragraph-1_689 {
+.team-about-rich-text {
     font-size: 20px;
     font-family: "Alibaba PuHuiTi-Regular";
     font-weight: 400;
-    line-height: 40px;
+    line-height: 34px;
     color: rgba(132, 132, 132, 1);
-    white-space: pre-wrap;
     width: 64.12%;
-    height: 10.69%;
+    max-height: 58%;
+    overflow: hidden;
     position: absolute;
     left: 28.02%;
     right: 7.86%;
     top: 20.83%;
-    bottom: 68.48%;
 }
-.Pixso-text-1_690 {
-    font-size: 20px;
-    font-family: "Alibaba PuHuiTi-Regular";
-    font-weight: Regular;
-    line-height: 30px;
-    color: rgba(132, 132, 132, 1);
-    width: 64.12%;
-    height: 6.41%;
-    position: absolute;
-    left: 28.02%;
-    right: 7.86%;
-    top: 65.12%;
-    bottom: 28.47%;
+.team-about-rich-text p {
+    margin: 0 0 30px;
 }
-.Pixso-paragraph-1_690_0 {
-    line-height: 30px;
-    position: relative;
-    flex-shrink: 0;
-}
-.Pixso-span-1_690_0_1 {
-    font-size: 20px;
-    font-family: "Alibaba PuHuiTi-Regular";
-    font-weight: 400;
-    color: rgba(132, 132, 132, 1);
-    white-space: pre-wrap;
-    position: relative;
-    flex-shrink: 0;
-}
-.Pixso-paragraph-1_690_1 {
-    line-height: 30px;
-    position: relative;
-    flex-shrink: 0;
-}
-.Pixso-span-1_690_1_1 {
-    font-size: 20px;
-    font-family: "Alibaba PuHuiTi-Regular";
-    font-weight: 400;
-    color: rgba(132, 132, 132, 1);
-    white-space: pre-wrap;
-    position: relative;
-    flex-shrink: 0;
-}
-.Pixso-vector-1_691 {
-    width: 63.28%;
-    height: 28.69%;
-    background-image: url(@/assets/images/Vector_1_691.png);
-    background-size: 100% 100%;
-    background-repeat: no-repeat;
-    position: absolute;
-    left: 28.28%;
-    right: 8.44%;
-    top: 33.92%;
-    bottom: 37.39%;
+.team-about-rich-text img {
+    display: block;
+    width: 100%;
+    max-height: 535px;
+    object-fit: cover;
+    margin: 28px 0 34px;
 }
 .Pixso-vector-1_694 {
     width: 2.14%;

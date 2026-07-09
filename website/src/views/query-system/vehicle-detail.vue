@@ -208,8 +208,8 @@ const doSearch = () => {
 const websiteConfig = ref({
   host_unit: '四川飞豹救援',
   organizer_unit: '四川飞豹救援新闻宣传处',
-  icp_number: '蜀ICP备XXXXXXX号',
-  copyright: 'Copyright®2025 sc.feibao.com All rights reserved'
+  icp_number: '蜀ICP备2026009479',
+  copyright: 'Copyright®2026 www.scfeibao.com All rights reserved'
 })
 
 const queryFooterBgStyle = {
@@ -239,8 +239,8 @@ const fetchWebsiteConfig = async () => {
       websiteConfig.value = {
         host_unit: res.data.host_unit || '四川飞豹救援',
         organizer_unit: res.data.organizer_unit || '四川飞豹救援新闻宣传处',
-        icp_number: res.data.icp_number || '蜀ICP备XXXXXXX号',
-        copyright: res.data.copyright || 'Copyright®2025 sc.feibao.com All rights reserved'
+        icp_number: res.data.icp_number || '蜀ICP备2026009479',
+        copyright: res.data.copyright || 'Copyright®2026 www.scfeibao.com All rights reserved'
       }
     }
   } catch (error) {
@@ -729,25 +729,26 @@ onMounted(() => {
 }
 .Pixso-vector-1_3301 {
     width: 100%;
-    height: 5.28%;
-    background-image: url(@/assets/images/Vector_1_3301.png);
+    height: 4.85%;
+    background-image: url(@/assets/images/Vector_1_2411.png);
     background-size: 100% 100%;
     background-repeat: no-repeat;
     position: absolute;
     left: 0%;
     right: 0%;
-    top: 14.86%;
-    bottom: 79.86%;
+    top: 13.43%;
+    bottom: 81.72%;
 }
 .Pixso-vector-17_24 {
     width: 150px;
     height: 70px;
-    background-image: url(@/assets/images/Group_17_24.png);
+    background-image: url(@/assets/images/Group_17_12.png);
     background-size: 100% 100%;
     background-repeat: no-repeat;
     position: absolute;
     left: 113px;
-    top: 197px;
+    top: 194px;
+    z-index: 10;
 }
 .Pixso-group-33_264 {
     width: 338px;
@@ -805,8 +806,8 @@ onMounted(() => {
     height: auto;
     position: absolute;
     left: 50%;
-    top: 16.59%;
-    bottom: 81.52%;
+    top: 15.25%;
+    bottom: 82.99%;
     transform: translateX(calc(-50% + -595px));
     white-space: pre;
     flex-grow: 0;
@@ -821,8 +822,8 @@ onMounted(() => {
     height: auto;
     position: absolute;
     left: 50%;
-    top: 16.59%;
-    bottom: 81.52%;
+    top: 15.25%;
+    bottom: 82.99%;
     transform: translateX(calc(-50% + -391px));
     white-space: pre;
     flex-grow: 0;
@@ -837,8 +838,8 @@ onMounted(() => {
     height: auto;
     position: absolute;
     left: 50%;
-    top: 16.59%;
-    bottom: 81.52%;
+    top: 15.25%;
+    bottom: 82.99%;
     transform: translateX(calc(-50% + 17px));
     white-space: pre;
     flex-grow: 0;
@@ -853,8 +854,8 @@ onMounted(() => {
     height: auto;
     position: absolute;
     left: 50%;
-    top: 16.59%;
-    bottom: 81.52%;
+    top: 15.25%;
+    bottom: 82.99%;
     transform: translateX(calc(-50% + -187px));
     white-space: pre;
     flex-grow: 0;
@@ -869,8 +870,8 @@ onMounted(() => {
     height: auto;
     position: absolute;
     left: 50%;
-    top: 16.59%;
-    bottom: 81.52%;
+    top: 15.25%;
+    bottom: 82.99%;
     transform: translateX(calc(-50% + 221px));
     white-space: pre;
     flex-grow: 0;
@@ -885,8 +886,8 @@ onMounted(() => {
     height: auto;
     position: absolute;
     left: 50%;
-    top: 16.59%;
-    bottom: 81.52%;
+    top: 15.25%;
+    bottom: 82.99%;
     transform: translateX(calc(-50% + 425px));
     white-space: pre;
     flex-grow: 0;
@@ -913,8 +914,8 @@ onMounted(() => {
     height: auto;
     position: absolute;
     left: 50%;
-    top: 16.59%;
-    bottom: 81.52%;
+    top: 15.25%;
+    bottom: 82.99%;
     transform: translateX(calc(-50% + 627px));
     white-space: pre;
     flex-grow: 0;

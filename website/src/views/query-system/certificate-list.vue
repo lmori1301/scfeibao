@@ -1,6 +1,6 @@
 <template>
-    <div ref="scrollContainerRef" class="query-system-index-page query-system-index-scroll scroll-container-1_2501">
-        <div id="1_2501" ref="frameRef" class="query-system-index-frame Pixso-frame-1_2501">
+    <div ref="scrollContainerRef" class="query-system-index-page query-system-index-scroll scroll-container-1_2501" :style="wrapperStyle">
+        <div id="1_2501" ref="frameRef" class="query-system-index-frame Pixso-frame-1_2501" :style="frameStyle">
             <div id="1_2502" class="Pixso-vector-1_2502"></div>
             <div id="1_2503" class="Pixso-vector-1_2503"></div>
             <div id="1_2506" class="Pixso-vector-1_2506"></div>
@@ -17,7 +17,7 @@
             <p id="1_2519" class="Pixso-paragraph-1_2519">
                 当前位置：<router-link to="/" class="query-breadcrumb-link">首页</router-link> > <router-link to="/query-system/certificate" class="query-breadcrumb-link">证书查询系统</router-link> > <span class="query-breadcrumb-current">证书列表</span>
             </p>
-            <div class="cert-query-results-panel" v-loading="listLoading">
+            <div ref="resultsPanelRef" class="cert-query-results-panel" v-loading="listLoading">
               <div class="cert-query-results-head">
                 <div class="cert-query-results-title-wrap">
                   <svg class="cert-query-results-icon" viewBox="0 0 16 16" width="16" height="16" aria-hidden="true">
@@ -117,8 +117,8 @@
             <router-link id="1_2500" to="/query-system" class="Pixso-paragraph-1_2500 main-nav-link" active-class="" exact-active-class="">查询系统</router-link>
 
           <!-- 底部信息（与查询系统首页一致） -->
-          <div id="1_113" class="Pixso-vector-1_113 query-footer-bg" :style="queryFooterBgStyle"></div>
-          <div id="32_8" class="Pixso-group-32_8 query-footer-info" :style="queryFooterInfoStyle">
+          <div id="1_113" ref="footerBgRef" class="Pixso-vector-1_113 query-footer-bg" :style="queryFooterBgStyle"></div>
+          <div id="32_8" ref="footerInfoRef" class="Pixso-group-32_8 query-footer-info" :style="queryFooterInfoStyle">
               <p id="1_118" class="Pixso-paragraph-1_118 query-footer-line query-footer-line-1" :style="queryFooterLineStyles.line1">
                   {{ websiteConfig.host_unit }}
               </p>
@@ -136,12 +136,11 @@
     </div>
 </template>
 <script lang="ts" setup>
-import { ref, computed, onMounted, watch } from 'vue'
+import { ref, computed, nextTick, onMounted, onUnmounted, watch } from 'vue'
 import { useRouter, useRoute } from 'vue-router'
 import Pagination from '@/components/common/Pagination.vue'
 import { getWebsiteConfig } from '@/api/config'
 import { getCertificateList } from '@/api/query'
-import { usePixsoScale } from '@/composables/use-pixso-scale'
 import { getCertificateDisplayStatus } from '@/utils/certificate-status'
 
 type CertListRow = {
@@ -163,7 +162,62 @@ function formatYmd(v: string | Date | null | undefined): string {
   return s.slice(0, 10)
 }
 
-const { scrollContainerRef, frameRef } = usePixsoScale(1920, 1444)
+const DESIGN_WIDTH = 1920
+const FOOTER_HEIGHT = 340
+const FOOTER_INFO_TOP_OFFSET = 85
+const CONTENT_FOOTER_GAP = 56
+const MIN_FOOTER_TOP = 840
+
+const scrollContainerRef = ref<HTMLElement | null>(null)
+const frameRef = ref<HTMLElement | null>(null)
+const resultsPanelRef = ref<HTMLElement | null>(null)
+const footerBgRef = ref<HTMLElement | null>(null)
+const footerInfoRef = ref<HTMLElement | null>(null)
+const pageScale = ref(1)
+const frameHeight = ref(MIN_FOOTER_TOP + FOOTER_HEIGHT)
+const wrapperHeight = ref(0)
+const footerTop = ref(MIN_FOOTER_TOP)
+let resizeObserver: ResizeObserver | null = null
+
+const wrapperStyle = computed(() => ({
+  height: wrapperHeight.value > 0 ? `${wrapperHeight.value}px` : 'auto',
+}))
+
+const frameStyle = computed(() => ({
+  height: `${frameHeight.value}px`,
+  transform: `scale(${pageScale.value})`,
+  transformOrigin: 'top left',
+}))
+
+const queryFooterBgStyle = computed(() => ({
+  top: `${footerTop.value}px`,
+  bottom: 'auto',
+  height: `${FOOTER_HEIGHT}px`,
+  zIndex: '1',
+}))
+
+const queryFooterInfoStyle = computed(() => ({
+  top: `${footerTop.value + FOOTER_INFO_TOP_OFFSET}px`,
+  bottom: 'auto',
+  zIndex: '2',
+}))
+
+const updateWrapperLayout = async () => {
+  await nextTick()
+  const container = scrollContainerRef.value
+  if (!container) return
+
+  const width = container.clientWidth || window.innerWidth || DESIGN_WIDTH
+  pageScale.value = width / DESIGN_WIDTH
+
+  await nextTick()
+  const resultsBottom = resultsPanelRef.value
+    ? resultsPanelRef.value.offsetTop + resultsPanelRef.value.offsetHeight
+    : MIN_FOOTER_TOP
+  footerTop.value = Math.max(MIN_FOOTER_TOP, resultsBottom + CONTENT_FOOTER_GAP)
+  frameHeight.value = footerTop.value + FOOTER_HEIGHT
+  wrapperHeight.value = Math.ceil(frameHeight.value * pageScale.value)
+}
 const router = useRouter()
 const route = useRoute()
 
@@ -254,6 +308,7 @@ async function loadCertificates() {
     totalCount.value = 0
   } finally {
     listLoading.value = false
+    updateWrapperLayout()
   }
 }
 
@@ -276,6 +331,7 @@ watch(
   [currentPage, pageSize, queryName, queryIdCard, queryCertificateNo, hasListQuery],
   () => {
     loadCertificates()
+    updateWrapperLayout()
   },
 )
 
@@ -324,27 +380,15 @@ const doSearch = () => {
 // 页码改变处理
 function handlePageChange() {
   window.scrollTo({ top: 0, behavior: 'smooth' })
+  updateWrapperLayout()
 }
 
 const websiteConfig = ref({
   host_unit: '四川飞豹救援',
   organizer_unit: '四川飞豹救援新闻宣传处',
-  icp_number: '蜀ICP备XXXXXXX号',
-  copyright: 'Copyright®2025 sc.feibao.com All rights reserved'
+  icp_number: '蜀ICP备2026009479',
+  copyright: 'Copyright®2026 www.scfeibao.com All rights reserved'
 })
-
-const queryFooterBgStyle = {
-  top: 'auto',
-  bottom: '0',
-  height: '340px',
-  zIndex: '1'
-}
-
-const queryFooterInfoStyle = {
-  top: 'auto',
-  bottom: '85px',
-  zIndex: '2'
-}
 
 const queryFooterLineStyles = {
   line1: { left: '50%', top: '0%', transform: 'translateX(calc(-50% + 0.5px))' },
@@ -360,18 +404,43 @@ const fetchWebsiteConfig = async () => {
       websiteConfig.value = {
         host_unit: res.data.host_unit || '四川飞豹救援',
         organizer_unit: res.data.organizer_unit || '四川飞豹救援新闻宣传处',
-        icp_number: res.data.icp_number || '蜀ICP备XXXXXXX号',
-        copyright: res.data.copyright || 'Copyright®2025 sc.feibao.com All rights reserved'
+        icp_number: res.data.icp_number || '蜀ICP备2026009479',
+        copyright: res.data.copyright || 'Copyright®2026 www.scfeibao.com All rights reserved'
       }
     }
   } catch (error) {
     console.error('获取网站配置失败:', error)
+  } finally {
+    updateWrapperLayout()
   }
 }
 
 onMounted(() => {
   fetchWebsiteConfig()
   loadCertificates()
+  updateWrapperLayout()
+  resizeObserver = new ResizeObserver(() => {
+    updateWrapperLayout()
+  })
+  if (scrollContainerRef.value) {
+    resizeObserver.observe(scrollContainerRef.value)
+  }
+  if (frameRef.value) {
+    resizeObserver.observe(frameRef.value)
+  }
+  if (resultsPanelRef.value) {
+    resizeObserver.observe(resultsPanelRef.value)
+  }
+  if (footerBgRef.value) {
+    resizeObserver.observe(footerBgRef.value)
+  }
+  if (footerInfoRef.value) {
+    resizeObserver.observe(footerInfoRef.value)
+  }
+})
+
+onUnmounted(() => {
+  resizeObserver?.disconnect()
 })
 
 </script>
@@ -388,7 +457,7 @@ onMounted(() => {
   position: absolute;
   left: 5%;
   right: 5%;
-  top: 24.9%;
+  top: 360px;
   width: auto;
   min-height: 448px;
   overflow: visible;
@@ -555,7 +624,6 @@ onMounted(() => {
 
 .Pixso-frame-1_2501 {
     width: 1920px;
-    height: 1444px;
     overflow: hidden;
     position: relative;
     flex-shrink: 0;
@@ -563,24 +631,24 @@ onMounted(() => {
 }
 .Pixso-vector-1_2411 {
   width: 100%;
-  height: 4.85%;
+  height: 70px;
   background-image: url(@/assets/images/Vector_1_2411.png);
   background-size: 100% 100%;
   background-repeat: no-repeat;
   position: absolute;
   left: 0%;
   right: 0%;
-  top: 13.43%;
-  bottom: 81.72%;
+  top: 194px;
+  bottom: auto;
   z-index: 1;
 }
 .Pixso-vector-17_12 {
   position: absolute;
   left: 113px;
-  top: 13.43%;
-  bottom: 81.72%;
+  top: 194px;
+  bottom: auto;
   width: 150px;
-  height: auto;
+  height: 70px;
   background-image: url(@/assets/images/Group_17_12.png);
   background-size: contain;
   background-position: center center;
@@ -598,8 +666,8 @@ onMounted(() => {
   height: auto;
   position: absolute;
   left: 50%;
-  top: 15.03%;
-  bottom: 83.24%;
+  top: 217px;
+  bottom: auto;
   transform: translateX(calc(-50% + -595px));
   white-space: pre;
   flex-grow: 0;
@@ -615,8 +683,8 @@ onMounted(() => {
   height: auto;
   position: absolute;
   left: 50%;
-  top: 15.03%;
-  bottom: 83.24%;
+  top: 217px;
+  bottom: auto;
   transform: translateX(calc(-50% + -391px));
   white-space: pre;
   flex-grow: 0;
@@ -632,8 +700,8 @@ onMounted(() => {
   height: auto;
   position: absolute;
   left: 50%;
-  top: 15.03%;
-  bottom: 83.24%;
+  top: 217px;
+  bottom: auto;
   transform: translateX(calc(-50% + 17px));
   white-space: pre;
   flex-grow: 0;
@@ -649,8 +717,8 @@ onMounted(() => {
   height: auto;
   position: absolute;
   left: 50%;
-  top: 15.03%;
-  bottom: 83.24%;
+  top: 217px;
+  bottom: auto;
   transform: translateX(calc(-50% + -187px));
   white-space: pre;
   flex-grow: 0;
@@ -666,8 +734,8 @@ onMounted(() => {
   height: auto;
   position: absolute;
   left: 50%;
-  top: 15.03%;
-  bottom: 83.24%;
+  top: 217px;
+  bottom: auto;
   transform: translateX(calc(-50% + 221px));
   white-space: pre;
   flex-grow: 0;
@@ -683,8 +751,8 @@ onMounted(() => {
   height: auto;
   position: absolute;
   left: 50%;
-  top: 15.03%;
-  bottom: 83.24%;
+  top: 217px;
+  bottom: auto;
   transform: translateX(calc(-50% + 425px));
   white-space: pre;
   flex-grow: 0;
@@ -716,14 +784,14 @@ onMounted(() => {
 }
 .Pixso-vector-1_2499 {
   width: 204px;
-  height: 4.85%;
+  height: 70px;
   background-image: url(@/assets/images/Vector_1_2499.png);
   background-size: 100% 100%;
   background-repeat: no-repeat;
   position: absolute;
   left: 50%;
-  top: 13.43%;
-  bottom: 81.72%;
+  top: 194px;
+  bottom: auto;
   transform: translateX(calc(-50% + 627px));
   z-index: 2;
 }
@@ -737,8 +805,8 @@ onMounted(() => {
   height: auto;
   position: absolute;
   left: 50%;
-  top: 15.03%;
-  bottom: 83.24%;
+  top: 217px;
+  bottom: auto;
   transform: translateX(calc(-50% + 627px));
   white-space: pre;
   flex-grow: 0;
@@ -758,7 +826,7 @@ onMounted(() => {
 }
 .Pixso-vector-1_2503 {
     width: 100%;
-    height: 13.43%;
+    height: 194px;
     background-image: url(@/assets/images/Vector_1_2503.png);
     background-size: 100% 100%;
     background-repeat: no-repeat;
@@ -766,11 +834,11 @@ onMounted(() => {
     left: 0%;
     right: 0%;
     top: 0%;
-    bottom: 86.57%;
+    bottom: auto;
 }
 .Pixso-vector-1_2506 {
     width: 6.72%;
-    height: 8.93%;
+    height: 129px;
     background-image: url(@/assets/images/Vector_1_2506.png);
     background-size: contain;
     background-position: center center;
@@ -778,8 +846,8 @@ onMounted(() => {
     position: absolute;
     left: 6.46%;
     right: 86.82%;
-    top: 2.29%;
-    bottom: 88.78%;
+    top: 33px;
+    bottom: auto;
 }
 .Pixso-paragraph-1_2509 {
     font-size: 53px;
@@ -792,8 +860,8 @@ onMounted(() => {
     position: absolute;
     left: 14.69%;
     right: 68.65%;
-    top: 4.02%;
-    bottom: 92.31%;
+    top: 58px;
+    bottom: auto;
 }
 .Pixso-paragraph-1_2510 {
     font-size: 28.5px;
@@ -806,8 +874,8 @@ onMounted(() => {
     position: absolute;
     left: 14.9%;
     right: 68.8%;
-    top: 8.31%;
-    bottom: 90.03%;
+    top: 120px;
+    bottom: auto;
 }
 .Pixso-paragraph-1_2519 {
     font-size: 20px;
@@ -820,8 +888,8 @@ onMounted(() => {
     position: absolute;
     left: 5.83%;
     right: 64.17%;
-    top: 20.43%;
-    bottom: 78.02%;
+    top: 295px;
+    bottom: auto;
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
@@ -4236,6 +4304,14 @@ onMounted(() => {
   border: none;
   outline: none;
   background: transparent;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.search-input::placeholder {
+  color: #999;
+  font-size: 14px;
 }
 
 /* 表格单元格文本对齐和溢出处理 */
@@ -4320,13 +4396,14 @@ onMounted(() => {
 /* 底部信息样式 */
 .Pixso-vector-1_113 {
     width: 1920px;
-    height: 300px;
+    height: 340px;
     background-image: url(@/assets/images/Vector_1_113.png);
     background-size: 100% 100%;
     background-repeat: no-repeat;
     position: absolute;
     left: 50%;
-    bottom: 0;
+    top: auto;
+    bottom: auto;
     transform: translateX(calc(-50% + 0px));
 }
 
@@ -4335,7 +4412,8 @@ onMounted(() => {
     height: 170px;
     position: absolute;
     left: 50%;
-    bottom: 65px;
+    top: auto;
+    bottom: auto;
     transform: translateX(calc(-50% + 0px));
     user-select: text !important;
     -webkit-user-select: text !important;
@@ -4430,12 +4508,13 @@ onMounted(() => {
 .query-footer-bg {
   height: 340px;
   top: auto;
+  bottom: auto;
   z-index: 1;
 }
 
 .query-footer-info {
   top: auto;
-  bottom: 85px;
+  bottom: auto;
   z-index: 2;
 }
 

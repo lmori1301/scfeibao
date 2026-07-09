@@ -53,37 +53,37 @@
             >
                 {{ bannerList[currentBannerIndex].title }}
             </p>
-            <p v-if="newsList[0]" id="1_36" class="Pixso-paragraph-1_36" @click="navigateTo(`/dynamic-news/${newsList[0].id}`)" style="cursor: pointer;">
+            <p v-if="newsList[0]" id="1_36" class="Pixso-paragraph-1_36" @click="navigateTo(newsDetailPath(newsList[0].id))" style="cursor: pointer;">
                 {{ newsList[0].title }}
             </p>
-            <p v-if="newsList[1]" id="1_37" class="Pixso-paragraph-1_37" @click="navigateTo(`/dynamic-news/${newsList[1].id}`)" style="cursor: pointer;">
+            <p v-if="newsList[1]" id="1_37" class="Pixso-paragraph-1_37" @click="navigateTo(newsDetailPath(newsList[1].id))" style="cursor: pointer;">
                 {{ newsList[1].title }}
             </p>
-            <p v-if="newsList[2]" id="1_38" class="Pixso-paragraph-1_38" @click="navigateTo(`/dynamic-news/${newsList[2].id}`)" style="cursor: pointer;">
+            <p v-if="newsList[2]" id="1_38" class="Pixso-paragraph-1_38" @click="navigateTo(newsDetailPath(newsList[2].id))" style="cursor: pointer;">
                 {{ newsList[2].title }}
             </p>
-            <p v-if="newsList[3]" id="1_39" class="Pixso-paragraph-1_39" @click="navigateTo(`/dynamic-news/${newsList[3].id}`)" style="cursor: pointer;">
+            <p v-if="newsList[3]" id="1_39" class="Pixso-paragraph-1_39" @click="navigateTo(newsDetailPath(newsList[3].id))" style="cursor: pointer;">
                 {{ newsList[3].title }}
             </p>
-            <p v-if="newsList[4]" id="1_40" class="Pixso-paragraph-1_40" @click="navigateTo(`/dynamic-news/${newsList[4].id}`)" style="cursor: pointer;">
+            <p v-if="newsList[4]" id="1_40" class="Pixso-paragraph-1_40" @click="navigateTo(newsDetailPath(newsList[4].id))" style="cursor: pointer;">
                 {{ newsList[4].title }}
             </p>
-            <p v-if="newsList[5]" id="1_41" class="Pixso-paragraph-1_41" @click="navigateTo(`/dynamic-news/${newsList[5].id}`)" style="cursor: pointer;">
+            <p v-if="newsList[5]" id="1_41" class="Pixso-paragraph-1_41" @click="navigateTo(newsDetailPath(newsList[5].id))" style="cursor: pointer;">
                 {{ newsList[5].title }}
             </p>
-            <p v-if="newsList[6]" id="1_42" class="Pixso-paragraph-1_42" @click="navigateTo(`/dynamic-news/${newsList[6].id}`)" style="cursor: pointer;">
+            <p v-if="newsList[6]" id="1_42" class="Pixso-paragraph-1_42" @click="navigateTo(newsDetailPath(newsList[6].id))" style="cursor: pointer;">
                 {{ newsList[6].title }}
             </p>
-            <p v-if="newsList[7]" id="1_43" class="Pixso-paragraph-1_43" @click="navigateTo(`/dynamic-news/${newsList[7].id}`)" style="cursor: pointer;">
+            <p v-if="newsList[7]" id="1_43" class="Pixso-paragraph-1_43" @click="navigateTo(newsDetailPath(newsList[7].id))" style="cursor: pointer;">
                 {{ newsList[7].title }}
             </p>
-            <p v-if="newsList[8]" id="1_44" class="Pixso-paragraph-1_44" @click="navigateTo(`/dynamic-news/${newsList[8].id}`)" style="cursor: pointer;">
+            <p v-if="newsList[8]" id="1_44" class="Pixso-paragraph-1_44" @click="navigateTo(newsDetailPath(newsList[8].id))" style="cursor: pointer;">
                 {{ newsList[8].title }}
             </p>
-            <p v-if="newsList[9]" id="1_45" class="Pixso-paragraph-1_45" @click="navigateTo(`/dynamic-news/${newsList[9].id}`)" style="cursor: pointer;">
+            <p v-if="newsList[9]" id="1_45" class="Pixso-paragraph-1_45" @click="navigateTo(newsDetailPath(newsList[9].id))" style="cursor: pointer;">
                 {{ newsList[9].title }}
             </p>
-            <div id="1_46" class="Pixso-text-1_46" @click="navigateTo('/dynamic-news/1')" style="cursor: pointer;">
+            <div id="1_46" class="Pixso-text-1_46" @click="navigateTo(newsDetailPath(1))" style="cursor: pointer;">
                 <p id="1_46_0" class="Pixso-paragraph-1_46_0">
                     <span id="1_46_0_1" class="Pixso-span-1_46_0_1">{{
                         "为深入贯彻习近平总书记授旗训词精神，按照应急管理部和省委省政府的工作要求，"
@@ -95,7 +95,7 @@
                     }}</span>
                 </p>
             </div>
-            <div id="1_47" class="Pixso-text-1_47" @click="navigateTo('/dynamic-news/2')" style="cursor: pointer;">
+            <div id="1_47" class="Pixso-text-1_47" @click="navigateTo(newsDetailPath(2))" style="cursor: pointer;">
                 <p id="1_47_0" class="Pixso-paragraph-1_47_0">
                     <span id="1_47_0_1" class="Pixso-span-1_47_0_1">{{
                         "会议总结了全省消防救援队伍建设工作成效，部署下一阶段重点任务，"
@@ -107,7 +107,7 @@
                     }}</span>
                 </p>
             </div>
-            <div id="1_48" class="Pixso-text-1_48" @click="navigateTo('/dynamic-news/3')" style="cursor: pointer;">
+            <div id="1_48" class="Pixso-text-1_48" @click="navigateTo(newsDetailPath(3))" style="cursor: pointer;">
                 <p id="1_48_0" class="Pixso-paragraph-1_48_0">
                     <span id="1_48_0_1" class="Pixso-span-1_48_0_1">{{
                         "在省级表彰大会上，四川飞豹救援凭借出色的救援业绩和专业能力，"
@@ -121,7 +121,7 @@
             </div>
             <p id="1_49" class="Pixso-paragraph-1_49" @click="navigateTo('/dynamic-news')" style="cursor: pointer;">{{ "更多 >>" }}</p>
             <p id="32_1" class="Pixso-paragraph-32_1" @click="navigateTo('/dynamic-news')" style="cursor: pointer;">{{ "更多 >>" }}</p>
-            <div id="1_51" class="Pixso-text-1_51" @click="navigateTo('/dynamic-news/4')" style="cursor: pointer;">
+            <div id="1_51" class="Pixso-text-1_51" @click="navigateTo(newsDetailPath(4))" style="cursor: pointer;">
                 <p id="1_51_0" class="Pixso-paragraph-1_51_0">
                     <span id="1_51_0_1" class="Pixso-span-1_51_0_1">{{
                         "成都支队组织全体队员开展冬季应急救援综合演练，模拟多种灾害场景，"
@@ -133,7 +133,7 @@
                     }}</span>
                 </p>
             </div>
-            <div id="1_52" class="Pixso-text-1_52" @click="navigateTo('/dynamic-news/5')" style="cursor: pointer;">
+            <div id="1_52" class="Pixso-text-1_52" @click="navigateTo(newsDetailPath(5))" style="cursor: pointer;">
                 <p id="1_52_0" class="Pixso-paragraph-1_52_0">
                     <span id="1_52_0_1" class="Pixso-span-1_52_0_1">{{
                         "乐山支队深入辖区社区、学校、企业开展消防安全知识宣传活动，"
@@ -145,7 +145,7 @@
                     }}</span>
                 </p>
             </div>
-            <div id="1_53" class="Pixso-text-1_53" @click="navigateTo('/dynamic-news/6')" style="cursor: pointer;">
+            <div id="1_53" class="Pixso-text-1_53" @click="navigateTo(newsDetailPath(6))" style="cursor: pointer;">
                 <p id="1_53_0" class="Pixso-paragraph-1_53_0">
                     <span id="1_53_0_1" class="Pixso-span-1_53_0_1">{{
                         "崇州支队顺利完成年度装备升级改造任务，新增多套先进救援装备，"
@@ -157,7 +157,7 @@
                     }}</span>
                 </p>
             </div>
-            <div id="1_54" class="Pixso-text-1_54" @click="navigateTo('/dynamic-news/7')" style="cursor: pointer;">
+            <div id="1_54" class="Pixso-text-1_54" @click="navigateTo(newsDetailPath(7))" style="cursor: pointer;">
                 <p id="1_54_0" class="Pixso-paragraph-1_54_0">
                     <span id="1_54_0_1" class="Pixso-span-1_54_0_1">{{
                         "双流支队与成都双流国际机场开展联合应急演练，模拟航空器事故救援，"
@@ -169,7 +169,7 @@
                     }}</span>
                 </p>
             </div>
-            <div id="1_55" class="Pixso-text-1_55" @click="navigateTo('/dynamic-news/8')" style="cursor: pointer;">
+            <div id="1_55" class="Pixso-text-1_55" @click="navigateTo(newsDetailPath(8))" style="cursor: pointer;">
                 <p id="1_55_0" class="Pixso-paragraph-1_55_0">
                     <span id="1_55_0_1" class="Pixso-span-1_55_0_1">{{
                         "四川飞豹救援接警后迅速出动，成功处置一起高速公路多车连环相撞事故，"
@@ -181,7 +181,7 @@
                     }}</span>
                 </p>
             </div>
-            <div id="1_56" class="Pixso-text-1_56" @click="navigateTo('/dynamic-news/9')" style="cursor: pointer;">
+            <div id="1_56" class="Pixso-text-1_56" @click="navigateTo(newsDetailPath(9))" style="cursor: pointer;">
                 <p id="1_56_0" class="Pixso-paragraph-1_56_0">
                     <span id="1_56_0_1" class="Pixso-span-1_56_0_1">{{
                         "山地救援队接到求助后立即出发，克服恶劣天气和复杂地形，"
@@ -294,51 +294,18 @@
                     {{ websiteConfig.copyright }}
                 </p>
             </div>
-            <!-- 友情链接背景框 -->
-            <div id="1_122" class="Pixso-vector-1_122"></div>
-            <div id="1_123" class="Pixso-vector-1_123"></div>
-            <div id="1_124" class="Pixso-vector-1_124"></div>
-            <div id="1_125" class="Pixso-vector-1_125"></div>
-            <div id="1_126" class="Pixso-vector-1_126"></div>
-            <div id="1_127" class="Pixso-vector-1_127"></div>
-            <div id="1_128" class="Pixso-vector-1_128"></div>
-            <div id="1_129" class="Pixso-vector-1_129"></div>
-            <div id="1_130" class="Pixso-vector-1_130"></div>
-            <div id="1_131" class="Pixso-vector-1_131"></div>
-            <div id="1_132" class="Pixso-vector-1_132"></div>
-            <div id="1_133" class="Pixso-vector-1_133"></div>
-            <p v-if="getLinkBySort(1)" id="1_134" class="Pixso-paragraph-1_134" @click="getLinkBySort(1).isActive && getLinkBySort(1).url ? openLink(getLinkBySort(1).url) : null" :style="{ cursor: getLinkBySort(1).isActive && getLinkBySort(1).url ? 'pointer' : 'default' }">
-                {{ getLinkBySort(1).name }}
-            </p>
-            <p v-if="getLinkBySort(2)" id="1_135" class="Pixso-paragraph-1_135" @click="getLinkBySort(2).isActive && getLinkBySort(2).url ? openLink(getLinkBySort(2).url) : null" :style="{ cursor: getLinkBySort(2).isActive && getLinkBySort(2).url ? 'pointer' : 'default' }">
-                {{ getLinkBySort(2).name }}
-            </p>
-            <p v-if="getLinkBySort(3)" id="1_136" class="Pixso-paragraph-1_136" @click="getLinkBySort(3).isActive && getLinkBySort(3).url ? openLink(getLinkBySort(3).url) : null" :style="{ cursor: getLinkBySort(3).isActive && getLinkBySort(3).url ? 'pointer' : 'default' }">
-                {{ getLinkBySort(3).name }}
-            </p>
-            <p v-if="getLinkBySort(4)" id="1_137" class="Pixso-paragraph-1_137" @click="getLinkBySort(4).isActive && getLinkBySort(4).url ? openLink(getLinkBySort(4).url) : null" :style="{ cursor: getLinkBySort(4).isActive && getLinkBySort(4).url ? 'pointer' : 'default' }">
-                {{ getLinkBySort(4).name }}
-            </p>
-            <p v-if="getLinkBySort(5)" id="1_138" class="Pixso-paragraph-1_138" @click="getLinkBySort(5).isActive && getLinkBySort(5).url ? openLink(getLinkBySort(5).url) : null" :style="{ cursor: getLinkBySort(5).isActive && getLinkBySort(5).url ? 'pointer' : 'default' }">
-                {{ getLinkBySort(5).name }}
-            </p>
-            <p v-if="getLinkBySort(6)" id="1_139" class="Pixso-paragraph-1_139" @click="getLinkBySort(6).isActive && getLinkBySort(6).url ? openLink(getLinkBySort(6).url) : null" :style="{ cursor: getLinkBySort(6).isActive && getLinkBySort(6).url ? 'pointer' : 'default' }">
-                {{ getLinkBySort(6).name }}
-            </p>
-            <p v-if="getLinkBySort(7)" id="1_140" class="Pixso-paragraph-1_140" @click="getLinkBySort(7).isActive && getLinkBySort(7).url ? openLink(getLinkBySort(7).url) : null" :style="{ cursor: getLinkBySort(7).isActive && getLinkBySort(7).url ? 'pointer' : 'default' }">
-                {{ getLinkBySort(7).name }}
-            </p>
-            <p v-if="getLinkBySort(8)" id="1_141" class="Pixso-paragraph-1_141" @click="getLinkBySort(8).isActive && getLinkBySort(8).url ? openLink(getLinkBySort(8).url) : null" :style="{ cursor: getLinkBySort(8).isActive && getLinkBySort(8).url ? 'pointer' : 'default' }">{{ getLinkBySort(8).name }}</p>
-            <p v-if="getLinkBySort(9)" id="1_142" class="Pixso-paragraph-1_142" @click="getLinkBySort(9).isActive && getLinkBySort(9).url ? openLink(getLinkBySort(9).url) : null" :style="{ cursor: getLinkBySort(9).isActive && getLinkBySort(9).url ? 'pointer' : 'default' }">
-                {{ getLinkBySort(9).name }}
-            </p>
-            <p v-if="getLinkBySort(10)" id="1_143" class="Pixso-paragraph-1_143" @click="getLinkBySort(10).isActive && getLinkBySort(10).url ? openLink(getLinkBySort(10).url) : null" :style="{ cursor: getLinkBySort(10).isActive && getLinkBySort(10).url ? 'pointer' : 'default' }">
-                {{ getLinkBySort(10).name }}
-            </p>
-            <p v-if="getLinkBySort(11)" id="1_144" class="Pixso-paragraph-1_144" @click="getLinkBySort(11).isActive && getLinkBySort(11).url ? openLink(getLinkBySort(11).url) : null" :style="{ cursor: getLinkBySort(11).isActive && getLinkBySort(11).url ? 'pointer' : 'default' }">
-                {{ getLinkBySort(11).name }}
-            </p>
-            <p v-if="getLinkBySort(12)" id="1_145" class="Pixso-paragraph-1_145" @click="getLinkBySort(12).isActive && getLinkBySort(12).url ? openLink(getLinkBySort(12).url) : null" :style="{ cursor: getLinkBySort(12).isActive && getLinkBySort(12).url ? 'pointer' : 'default' }">{{ getLinkBySort(12).name }}</p>
+            <div class="friend-links-grid">
+                <button
+                    v-for="link in displayFriendLinks"
+                    :key="link.id"
+                    type="button"
+                    class="friend-link-card"
+                    :class="{ 'is-disabled': !link.isActive || !link.url }"
+                    @click="link.isActive && link.url ? openLink(link.url) : null"
+                >
+                    {{ link.name }}
+                </button>
+            </div>
             <div id="1_146" class="Pixso-vector-1_146" :class="{ 'deferred-heavy-bg': !belowFoldAssetsReady }"></div>
             <p id="1_149" class="Pixso-paragraph-1_149">
                 {{ "即刻出征，使命必达" }}
@@ -400,6 +367,7 @@ import { ElMessage } from 'element-plus'
 import { getBannerList, getHomeNews, getLocalDynamics, getRescueActions, getPromotionalVideos, getTeamShowcaseForHome, getFriendLinks } from '@/api/home'
 import { getWebsiteConfig } from '@/api/config'
 import { usePixsoScale } from '@/composables/use-pixso-scale'
+import { normalizeMediaUrl } from '@/utils/photo-urls'
 
 const router = useRouter()
 const route = useRoute()
@@ -422,6 +390,8 @@ const navigateTo = (path: string) => {
   router.push(path)
 }
 
+const newsDetailPath = (id: number | string) => `/dynamic-news/detail/${id}`
+
 // 打开外部链接（新窗口）
 const openLink = (url: string) => {
   window.open(url, '_blank')
@@ -434,8 +404,8 @@ const searchKey = ref('')
 const websiteConfig = ref({
   host_unit: '主办单位：四川飞豹救援',
   organizer_unit: '承办单位：四川飞豹救援新闻宣传处',
-  icp_number: '蜀ICP备XXXXXXX号',
-  copyright: 'Copyright®2025 sc.feibao.com All rights reserved'
+  icp_number: '蜀ICP备2026009479',
+  copyright: 'Copyright®2026 www.scfeibao.com All rights reserved'
 })
 
 // 7个模块路由
@@ -487,16 +457,25 @@ interface BannerItem {
 
 const bannerList = ref<BannerItem[]>([])
 
+const normalizeListResponse = <T,>(payload: unknown): T[] => {
+  if (Array.isArray(payload)) return payload as T[]
+  if (payload && typeof payload === 'object' && Array.isArray((payload as { items?: unknown }).items)) {
+    return (payload as { items: T[] }).items
+  }
+  return []
+}
+
 // 获取轮播图数据
 const fetchBanners = async () => {
   try {
     const res = await getBannerList()
-    if (res.data && res.data.length > 0) {
-      bannerList.value = res.data.map((item: any) => ({
+    const items = normalizeListResponse<any>(res.data)
+    if (items.length > 0) {
+      bannerList.value = items.map((item: any) => ({
         id: item.id,
-        image: item.image,
+        image: normalizeMediaUrl(item.image),
         title: item.title,
-        link: item.link || `/dynamic-news/${item.id}`
+        link: item.link || newsDetailPath(item.id)
       }))
 
       if (!bannerCarouselTimer) {
@@ -516,8 +495,8 @@ const fetchWebsiteConfig = async () => {
       websiteConfig.value = {
         host_unit: res.data.host_unit || '主办单位：四川飞豹救援',
         organizer_unit: res.data.organizer_unit || '承办单位：四川飞豹救援新闻宣传处',
-        icp_number: res.data.icp_number || '蜀ICP备XXXXXXX号',
-        copyright: res.data.copyright || 'Copyright®2025 sc.feibao.com All rights reserved'
+        icp_number: res.data.icp_number || '蜀ICP备2026009479',
+        copyright: res.data.copyright || 'Copyright®2026 www.scfeibao.com All rights reserved'
       }
     }
   } catch (error) {
@@ -533,10 +512,8 @@ const newsList = ref<any[]>([])
 // 获取新闻数据
 const fetchNews = async () => {
   try {
-    const res = await getHomeNews({ limit: 10 })
-    if (res.data) {
-      newsList.value = res.data
-    }
+    const res = await getHomeNews({ pageSize: 10 })
+    newsList.value = normalizeListResponse<any>(res.data)
   } catch (error) {
     console.error('获取新闻失败:', error)
   }
@@ -548,12 +525,9 @@ const localDynamicsList = ref<any[]>([])
 // 获取各地动态数据
 const fetchLocalDynamics = async () => {
   try {
-    console.log('开始获取各地动态数据...')
     const res = await getLocalDynamics({ page: 1, pageSize: 4 })
-    console.log('各地动态API响应:', res)
     if (res.data) {
       localDynamicsList.value = res.data
-      console.log('各地动态数据已设置:', localDynamicsList.value)
     } else {
       console.warn('各地动态API返回数据为空')
     }
@@ -568,12 +542,9 @@ const rescueActionsList = ref<any[]>([])
 // 获取救援行动数据
 const fetchRescueActions = async () => {
   try {
-    console.log('开始获取救援行动数据...')
-    const res = await getRescueActions({ limit: 4 })
-    console.log('救援行动API响应:', res)
+    const res = await getRescueActions({ pageSize: 4 })
     if (res.data) {
       rescueActionsList.value = res.data
-      console.log('救援行动数据已设置:', rescueActionsList.value)
     } else {
       console.warn('救援行动API返回数据为空')
     }
@@ -597,10 +568,12 @@ const fetchFriendLinks = async () => {
   }
 }
 
-// 根据排序获取友情链接
-const getLinkBySort = (sort: number) => {
-  return friendLinks.value.find(link => link.sort === sort)
-}
+const displayFriendLinks = computed(() =>
+  friendLinks.value
+    .filter(link => link?.name && String(link.name).trim())
+    .sort((a, b) => (Number(a.sort) || 0) - (Number(b.sort) || 0))
+    .slice(0, 12)
+)
 
 let bannerCarouselTimer: number | null = null
 
@@ -640,7 +613,8 @@ const startBannerCarousel = () => {
 
 // 跳转到新闻详情页
 const navigateToNews = (link: string) => {
-  router.push(link)
+  const legacyMatch = link?.match(/^\/dynamic-news\/(\d+)$/)
+  router.push(legacyMatch ? newsDetailPath(legacyMatch[1]) : link)
 }
 
 // 队伍风采轮播数据 - 初始化为默认图片，避免加载时出错
@@ -696,14 +670,15 @@ const getTeamImageStyle = (index: number) => {
 // 获取队伍风采图片
 const fetchTeamShowcase = async () => {
   try {
-    const response = await getTeamShowcaseForHome({ limit: 16 })
+    const response = await getTeamShowcaseForHome({ pageSize: 16 })
+    const items = normalizeListResponse<any>(response.data)
 
-    if (response.data && response.data.length > 0) {
+    if (items.length > 0) {
       // 将16条数据分成4组，每组4张图片
       const groups = []
-      for (let i = 0; i < response.data.length; i += 4) {
+      for (let i = 0; i < items.length; i += 4) {
         groups.push({
-          images: response.data.slice(i, i + 4).map(item => item.image)
+          images: items.slice(i, i + 4).map(item => normalizeMediaUrl(item.image))
         })
       }
       teamShowcase.value = groups
@@ -817,7 +792,7 @@ const videoSrc = computed(() => {
 // 获取宣传视频列表
 const fetchPromotionalVideos = async () => {
   try {
-    const response = await getPromotionalVideos({ limit: 10 })
+    const response = await getPromotionalVideos({ pageSize: 10 })
     promotionalVideos.value = response.data.items || []
   } catch (error) {
     console.error('获取宣传视频失败:', error)
@@ -2827,6 +2802,43 @@ onUnmounted(() => {
     transform: translateX(calc(-50% + 689.5px));
     white-space: pre;
     flex-grow: 0;
+}
+.friend-links-grid {
+    position: absolute;
+    left: 5.89%;
+    right: 5.89%;
+    top: 86.55%;
+    height: 5.27%;
+    display: grid;
+    grid-template-columns: repeat(6, minmax(0, 1fr));
+    grid-template-rows: repeat(2, 1fr);
+    gap: 34px 30px;
+    z-index: 5;
+}
+.friend-link-card {
+    border: 1px solid rgba(128, 138, 255, 0.45);
+    border-radius: 4px;
+    background: rgba(244, 246, 255, 0.88);
+    color: rgba(38, 38, 38, 1);
+    font-family: "Alibaba PuHuiTi-Regular";
+    font-size: 20px;
+    line-height: 1.25;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0 18px;
+    min-width: 0;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    cursor: pointer;
+}
+.friend-link-card:hover {
+    border-color: rgba(0, 88, 160, 0.55);
+    color: rgba(0, 88, 160, 1);
+}
+.friend-link-card.is-disabled {
+    cursor: default;
 }
 .Pixso-vector-1_146 {
     width: 88.22%;

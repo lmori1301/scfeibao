@@ -277,7 +277,6 @@ const getHeadlineSummary = (news: any): string => {
 
 // 获取各分类新闻数据
 const fetchNewsByCategory = async (category: string, limit: number = 12) => {
-  console.log(`📞 fetchNewsByCategory 调用 - category: ${category}, limit: ${limit}`)
   try {
     const res = await http.get('/home/news', {
       params: {
@@ -287,9 +286,6 @@ const fetchNewsByCategory = async (category: string, limit: number = 12) => {
         page: 1
       }
     })
-    console.log(`✅ ${category} 数据获取成功:`, res.data)
-
-    // 🔥 修复：处理嵌套响应结构 res.data.data.list
     let result = []
     if (Array.isArray(res.data)) {
       result = res.data
@@ -300,46 +296,28 @@ const fetchNewsByCategory = async (category: string, limit: number = 12) => {
     } else if (res.data?.items) {
       result = res.data.items
     }
-    console.log(`📦 返回数据长度:`, result.length)
     return result
   } catch (error) {
-    console.error(`❌ 获取${category}新闻失败:`, error)
     return []
   }
 }
 
 // 加载所有新闻数据
 const loadAllNews = async () => {
-  console.log('🚀 loadAllNews 开始执行')
   loading.value = true
   try {
-    console.log('📡 准备发起 API 请求...')
     const [local, rescue, policy, media] = await Promise.all([
       fetchNewsByCategory('各地动态', 12),
       fetchNewsByCategory('救援行动', 12),
       fetchNewsByCategory('政策解读', 12),
       fetchNewsByCategory('媒体播报', 12)
     ])
-    console.log('✅ API 请求完成:', {
-      localLength: local.length,
-      rescueLength: rescue.length,
-      policyLength: policy.length,
-      mediaLength: media.length
-    })
-    console.log('📦 local 数据示例:', local[0])
-
     localNews.value = local
     rescueNews.value = rescue
     policyNews.value = policy
     mediaNews.value = media
-
-    console.log('💾 数据已赋值 - localNews.value.length:', localNews.value.length)
-    console.log('💾 数据已赋值 - rescueNews.value.length:', rescueNews.value.length)
-    console.log('💾 数据已赋值 - policyNews.value.length:', policyNews.value.length)
-    console.log('💾 数据已赋值 - mediaNews.value.length:', mediaNews.value.length)
   } finally {
     loading.value = false
-    console.log('🏁 loadAllNews 执行完成')
   }
 }
 
@@ -354,7 +332,6 @@ const fetchHeadlineNews = async () => {
         page: 1
       }
     })
-    // 🔥 修复：处理嵌套响应结构
     let items = []
     if (Array.isArray(res.data)) {
       items = res.data
@@ -376,7 +353,7 @@ const fetchHeadlineNews = async () => {
       headlineNews.value = items[0]
     }
   } catch (error) {
-    console.error('获取头条新闻失败:', error)
+    headlineNews.value = null
   }
 }
 
@@ -385,7 +362,6 @@ const carouselNews = ref<any[]>([])
 
 // 获取轮播新闻数据
 const fetchCarouselNews = async () => {
-  console.log('🎠 fetchCarouselNews 开始执行')
   try {
     const res = await http.get('/home/news', {
       params: {
@@ -395,10 +371,6 @@ const fetchCarouselNews = async () => {
         page: 1
       }
     })
-    console.log('🎠 轮播新闻数据获取成功:', res.data)
-    console.log('🎠 数据类型:', Array.isArray(res.data) ? '数组' : '对象')
-
-    // 🔥 修复：处理嵌套响应结构 res.data.data.list
     let newsData = []
     if (Array.isArray(res.data)) {
       newsData = res.data
@@ -410,18 +382,10 @@ const fetchCarouselNews = async () => {
       newsData = res.data.items
     }
 
-    console.log('🎠 处理后的数据长度:', newsData.length)
-    if (newsData.length > 0) {
-      console.log('🎠 第一条数据:', newsData[0])
-      console.log('🎠 第一条数据的ID:', newsData[0]?.id)
-      console.log('🎠 第一条数据的标题:', newsData[0]?.title)
-    }
-
     carouselNews.value = newsData
     currentIndex.value = 0
-    console.log('🎠 carouselNews.value 已赋值，长度:', carouselNews.value.length)
   } catch (error) {
-    console.error('❌ 获取轮播新闻失败:', error)
+    carouselNews.value = []
   }
 }
 
@@ -594,7 +558,6 @@ const formatNewsForDisplay = (newsList: any[], isRightColumn: boolean = false) =
 
 // 核心4：计算属性 - 根据选中的Tab返回对应列表
 const currentList = computed(() => {
-  console.log('🔍 currentList 计算 - activeTab:', activeTab.value)
   let newsList: any[] = []
   switch (activeTab.value) {
     case 'local':
@@ -611,13 +574,10 @@ const currentList = computed(() => {
       break
   }
 
-  console.log('📋 newsList 长度:', newsList.length)
-  const result = {
+  return {
     left: formatNewsForDisplay(newsList.slice(0, 6), false),
     right: formatNewsForDisplay(newsList.slice(6, 12), true)
   }
-  console.log('📊 currentList 结果:', { leftCount: result.left.length, rightCount: result.right.length })
-  return result
 })
 
 // 搜索
@@ -666,8 +626,8 @@ const doSearch = () => {
 const websiteConfig = ref({
   host_unit: '四川飞豹救援',
   organizer_unit: '四川飞豹救援新闻宣传处',
-  icp_number: '蜀ICP备XXXXXXX号',
-  copyright: 'Copyright®2025 sc.feibao.com All rights reserved'
+  icp_number: '蜀ICP备2026009479',
+  copyright: 'Copyright®2026 www.scfeibao.com All rights reserved'
 })
 
 const fetchWebsiteConfig = async () => {
@@ -677,8 +637,8 @@ const fetchWebsiteConfig = async () => {
       websiteConfig.value = {
         host_unit: res.data.host_unit || '四川飞豹救援',
         organizer_unit: res.data.organizer_unit || '四川飞豹救援新闻宣传处',
-        icp_number: res.data.icp_number || '蜀ICP备XXXXXXX号',
-        copyright: res.data.copyright || 'Copyright®2025 sc.feibao.com All rights reserved'
+        icp_number: res.data.icp_number || '蜀ICP备2026009479',
+        copyright: res.data.copyright || 'Copyright®2026 www.scfeibao.com All rights reserved'
       }
     }
   } catch (error) {
@@ -767,7 +727,7 @@ const fetchWebsiteConfig = async () => {
 }
 .Pixso-vector-1_2125 {
   width: 88.34%;
-  height: 69.39%;
+  height: 69%;
   background-image: url(@/assets/images/Vector_1_2125.png);
   background-size: 100% 100%;
   background-repeat: no-repeat;

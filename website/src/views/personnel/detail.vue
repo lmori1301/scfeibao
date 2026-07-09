@@ -15,10 +15,8 @@
         <header class="detail-card__head">
           <div class="detail-card__avatar">
             <img v-if="photoUrls[0]" :src="photoUrls[0]" alt="照片" />
-            <el-icon v-else class="detail-card__avatar-placeholder"><User /></el-icon>
+            <span v-else class="detail-card__avatar-placeholder">人员照片预览</span>
           </div>
-          <h1 class="detail-card__name">{{ personnel.name || '—' }}</h1>
-          <p class="detail-card__sub">{{ personnel.position || '队员' }} · {{ personnel.team || '—' }}</p>
         </header>
 
         <section class="detail-card__body">
@@ -52,30 +50,9 @@
             </el-descriptions-item>
           </el-descriptions>
 
-          <div v-if="personnel.skills" class="detail-card__block">
-            <h3 class="detail-card__block-title">专业技能</h3>
-            <div class="detail-card__text">{{ personnel.skills }}</div>
-          </div>
-
           <div v-if="personnel.remark" class="detail-card__block">
             <h3 class="detail-card__block-title">备注</h3>
             <div class="detail-card__text">{{ personnel.remark }}</div>
-          </div>
-
-          <div v-if="photoUrls.length" class="detail-card__photos">
-            <h3 class="detail-card__block-title">人员照片</h3>
-            <div class="detail-card__photo-grid">
-              <el-image
-                v-for="(url, idx) in photoUrls"
-                :key="`${url}-${idx}`"
-                :src="url"
-                :preview-src-list="photoUrls"
-                :initial-index="idx"
-                fit="contain"
-                class="detail-card__photo-thumb"
-                preview-teleported
-              />
-            </div>
           </div>
         </section>
 
@@ -91,7 +68,7 @@
 <script setup lang="ts">
 import { computed, ref, onMounted } from 'vue'
 import { useRoute } from 'vue-router'
-import { Loading, WarningFilled, User } from '@element-plus/icons-vue'
+import { Loading, WarningFilled } from '@element-plus/icons-vue'
 import http from '@/utils/http'
 import { parsePhotoUrlListForDisplay } from '@/utils/photo-urls'
 
@@ -182,20 +159,20 @@ onMounted(() => {
 }
 
 .detail-card__head {
-  padding: 28px 20px 22px;
+  padding: 18px;
   text-align: center;
-  background: linear-gradient(135deg, #2f67ff 0%, #4a8fff 100%);
-  color: #fff;
+  background: #f7fbff;
+  color: #1f2f46;
 }
 
 .detail-card__avatar {
-  width: 104px;
-  height: 104px;
-  margin: 0 auto 14px;
-  border-radius: 12px;
+  width: 100%;
+  aspect-ratio: 4 / 3;
+  margin: 0 auto;
+  border-radius: 0;
   overflow: hidden;
-  border: 3px solid rgba(255, 255, 255, 0.35);
-  background: rgba(255, 255, 255, 0.12);
+  border: none;
+  background: #edf3fb;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -208,20 +185,8 @@ onMounted(() => {
 }
 
 .detail-card__avatar-placeholder {
-  font-size: 48px;
-  color: rgba(255, 255, 255, 0.85);
-}
-
-.detail-card__name {
-  margin: 0 0 6px;
-  font-size: 24px;
-  font-weight: 700;
-}
-
-.detail-card__sub {
-  margin: 0;
   font-size: 14px;
-  opacity: 0.92;
+  color: #8b98ad;
 }
 
 .detail-card__body {
@@ -259,32 +224,6 @@ onMounted(() => {
   white-space: pre-wrap;
 }
 
-.detail-card__photos {
-  margin-top: 20px;
-  padding-top: 16px;
-  border-top: 1px solid #eef3fb;
-}
-
-.detail-card__photo-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
-  gap: 12px;
-}
-
-.detail-card__photo-thumb {
-  width: 100%;
-  min-height: 120px;
-  max-height: 200px;
-  border-radius: 10px;
-  border: 1px solid #e8ecf5;
-  background: #f8fafc;
-  overflow: hidden;
-}
-
-.detail-card__photo-thumb :deep(.el-image__inner) {
-  object-fit: contain;
-}
-
 .detail-card__foot {
   padding: 16px 18px 20px;
   text-align: center;
@@ -304,10 +243,6 @@ onMounted(() => {
 @media (max-width: 480px) {
   .personnel-public-page {
     padding: 12px 10px 24px;
-  }
-
-  .detail-card__name {
-    font-size: 20px;
   }
 }
 </style>
