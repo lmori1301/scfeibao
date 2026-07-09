@@ -51,15 +51,16 @@ export class NewsService {
   async findPublicList(query: QueryNewsDto) {
     try {
       const page = query.page ?? 1;
-      const pageSize = query.pageSize ?? 12;
+      const pageSize = query.pageSize ?? query.limit ?? 12;
       const where: Record<string, unknown> = {
         status: 1,
       };
       if (query.category) {
         where.category = query.category;
       }
-      if (query.keyword) {
-        where.title = ILike(`%${query.keyword}%`);
+      const keyword = query.keyword || query.title;
+      if (keyword) {
+        where.title = ILike(`%${keyword}%`);
       }
 
       const [list, total] = await this.newsRepository.findAndCount({
@@ -90,7 +91,7 @@ export class NewsService {
   async findAll(query: QueryNewsDto) {
     try {
       const page = query.page ?? 1;
-      const pageSize = query.pageSize ?? 10;
+      const pageSize = query.pageSize ?? query.limit ?? 10;
       const where: Record<string, unknown> = {};
       if (query.category) {
         where.category = query.category;
@@ -98,8 +99,9 @@ export class NewsService {
       if (typeof query.status === 'number') {
         where.status = query.status;
       }
-      if (query.keyword) {
-        where.title = ILike(`%${query.keyword}%`);
+      const keyword = query.keyword || query.title;
+      if (keyword) {
+        where.title = ILike(`%${keyword}%`);
       }
 
       const [items, total] = await this.newsRepository.findAndCount({

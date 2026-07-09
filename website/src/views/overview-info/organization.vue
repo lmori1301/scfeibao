@@ -74,7 +74,7 @@
                         {{ "应急调度指挥中心" }}
                     </p>
                     <p id="1_530" class="Pixso-paragraph-1_530">
-                        {{ "灾害处置与实训处" }}
+                        {{ "应急实训与作战处" }}
                     </p>
                     <p id="1_532" class="Pixso-paragraph-1_532">
                         {{ "应急通信与数字化处" }}
@@ -103,7 +103,7 @@
             <p id="1_535" class="Pixso-paragraph-1_535">{{ "组织机构" }}</p>
             <div id="1_536" class="Pixso-vector-1_536"></div>
             <div class="blue-vertical-line blue-line-1"></div>
-            <p id="1_537" class="Pixso-paragraph-1_537">{{ "机关内设机构" }}</p>
+            <p id="1_537" class="Pixso-paragraph-1_537">{{ "总队内设机构" }}</p>
             <div id="1_538" class="Pixso-vector-1_538"></div>
             <div class="blue-vertical-line blue-line-2"></div>
             <p id="1_539" class="Pixso-paragraph-1_539">{{ "总队直属单位" }}</p>
@@ -212,10 +212,10 @@ const doSearch = () => {
 }
 
 const websiteConfig = ref({
-  host_unit: '四川飞豹救援',
-  organizer_unit: '四川飞豹救援新闻宣传处',
-  icp_number: '蜀ICP备2026009479',
-  copyright: 'Copyright®2026 www.scfeibao.com All rights reserved'
+  host_unit: '',
+  organizer_unit: '',
+  icp_number: '',
+  copyright: ''
 })
 
 const fetchWebsiteConfig = async () => {
@@ -223,10 +223,10 @@ const fetchWebsiteConfig = async () => {
     const res = await getWebsiteConfig()
     if (res.data) {
       websiteConfig.value = {
-        host_unit: res.data.host_unit || '四川飞豹救援',
-        organizer_unit: res.data.organizer_unit || '四川飞豹救援新闻宣传处',
-        icp_number: res.data.icp_number || '蜀ICP备2026009479',
-        copyright: res.data.copyright || 'Copyright®2026 www.scfeibao.com All rights reserved'
+        host_unit: res.data.host_unit || '',
+        organizer_unit: res.data.organizer_unit || '',
+        icp_number: res.data.icp_number || '',
+        copyright: res.data.copyright || ''
       }
     }
   } catch (error) {
@@ -284,7 +284,7 @@ onMounted(() => {
 .Pixso-vector-1_467 {
     width: 100%;
     height: 100%;
-    background-image: url(@/assets/images/Vector_1_467.png);
+    background-image: url(@/assets/images/Vector_1_467.webp);
     background-size: 100% 100%;
     background-repeat: no-repeat;
     position: absolute;
@@ -1353,7 +1353,7 @@ onMounted(() => {
 .Pixso-vector-1_113 {
     width: 1920px;
     height: 12%;
-    background-image: url(@/assets/images/Vector_1_113.png);
+    background-image: url(@/assets/images/Vector_1_113.webp);
     background-size: 100% 100%;
     background-repeat: no-repeat;
     position: absolute;

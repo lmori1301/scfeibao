@@ -118,6 +118,15 @@ describe('Leadership.vue', () => {
     expect(wrapper.vm.detailIndex).toBe(5)
   })
 
+  it('领导详情统计数字不应该显示加号', () => {
+    expect(wrapper.vm.paginatedLeaders[0].experience).toBe('10年')
+    expect(wrapper.vm.paginatedLeaders[0].actions).toBe('50次')
+  })
+
+  it('领导列表职务应该按斜杠拆分为两行展示', () => {
+    expect(wrapper.vm.splitLeaderPosition('总队长/队委会主任')).toEqual(['总队长', '队委会主任'])
+  })
+
   it('关闭详情弹窗应该重置状态', async () => {
     wrapper.vm.openDetail(5)
     await nextTick()

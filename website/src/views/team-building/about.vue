@@ -1,6 +1,6 @@
 <template>
     <div ref="scrollContainerRef" class="scroll-container-1_631">
-        <div id="1_631" ref="frameRef" class="Pixso-frame-1_631">
+        <div id="1_631" ref="frameRef" class="Pixso-frame-1_631" :style="frameStyle">
             <div id="1_632" class="Pixso-vector-1_632"></div>
             <div id="1_633" class="Pixso-vector-1_633"></div>
             <div id="1_636" class="Pixso-vector-1_636"></div>
@@ -34,8 +34,8 @@
             <router-link to="/team-building/cases" id="1_685" class="Pixso-paragraph-1_685">{{ "救援案例" }}</router-link>
             <router-link to="/team-building/showcase" id="1_686" class="Pixso-paragraph-1_686">{{ "队伍风采" }}</router-link>
             <div id="1_687" class="Pixso-vector-1_687"></div>
-            <div id="1_688" class="Pixso-vector-1_688"></div>
-            <div id="team-about-rich-text" class="team-about-rich-text" v-html="aboutRichHtml"></div>
+            <div id="1_688" class="Pixso-vector-1_688" :style="contentPanelStyle"></div>
+            <div id="team-about-rich-text" ref="contentRef" class="team-about-rich-text" v-html="aboutRichHtml"></div>
             <div id="1_694" class="Pixso-vector-1_694"></div>
             <div id="33_120" class="Pixso-group-33_120" @click.stop>
                 <div id="33_121" class="Pixso-vector-33_121"></div>
@@ -56,8 +56,8 @@
             </div>
 
             <!-- 底部信息 -->
-            <div id="1_113" class="Pixso-vector-1_113"></div>
-            <div id="32_8" class="Pixso-group-32_8">
+            <div id="1_113" class="Pixso-vector-1_113" :style="footerBgStyle"></div>
+            <div id="32_8" class="Pixso-group-32_8" :style="footerTextStyle">
                 <p id="1_118" class="Pixso-paragraph-1_118">
                     {{ websiteConfig.host_unit }}
                 </p>
@@ -75,15 +75,70 @@
     </div>
 </template>
 <script lang="ts" setup>
-import { ref, onMounted } from 'vue'
+import { computed, nextTick, ref, onMounted } from 'vue'
 import { getWebsiteConfig } from '@/api/config'
 import { getTeamAbout } from '@/api/team-building'
 import { useRouter } from 'vue-router'
 import { usePixsoScale } from '@/composables/use-pixso-scale'
 import { sanitizeRichText } from '@/utils/rich-text'
 
-const { scrollContainerRef, frameRef } = usePixsoScale(1920, 1872)
+const BASE_PAGE_HEIGHT = 1872
+const BASE_FOOTER_TOP = 1647
+const CONTENT_PANEL_TOP = 339
+const FOOTER_BG_OFFSET = 56
+const FOOTER_BG_HEIGHT = 280
+const CONTENT_BOTTOM_GAP = 110
+
+const { scrollContainerRef, frameRef, scale, updateScale } = usePixsoScale(1920, BASE_PAGE_HEIGHT)
 const router = useRouter()
+const contentRef = ref<HTMLElement | null>(null)
+const pageHeight = ref(BASE_PAGE_HEIGHT)
+const footerTop = ref(BASE_FOOTER_TOP)
+
+const frameStyle = computed(() => ({
+  height: `${pageHeight.value}px`,
+}))
+
+const contentPanelStyle = computed(() => ({
+  height: `${Math.max(1198, footerTop.value - CONTENT_PANEL_TOP - CONTENT_BOTTOM_GAP)}px`,
+}))
+
+const footerBgStyle = computed(() => ({
+  top: `${footerTop.value - FOOTER_BG_OFFSET}px`,
+}))
+
+const footerTextStyle = computed(() => ({
+  top: `${footerTop.value}px`,
+}))
+
+function estimateRichTextHeight(html: string) {
+  const text = html
+    .replace(/<br\s*\/?\s*>/gi, '\n')
+    .replace(/<[^>]+>/g, '')
+    .replace(/&nbsp;/g, ' ')
+    .trim()
+  const imageCount = (html.match(/<img\b/gi) || []).length
+  const paragraphCount = Math.max(1, (html.match(/<p\b/gi) || []).length)
+  const lineCount = Math.max(1, Math.ceil(text.length / 55))
+
+  return lineCount * 34 + paragraphCount * 30 + imageCount * 590
+}
+
+async function updateDynamicLayout() {
+  await nextTick()
+  const measuredHeight = contentRef.value?.scrollHeight || 0
+  const contentHeight = Math.max(measuredHeight, estimateRichTextHeight(aboutRichHtml.value), 980)
+  const nextFooterTop = Math.max(BASE_FOOTER_TOP, 390 + contentHeight + 82)
+
+  footerTop.value = Math.ceil(nextFooterTop)
+  pageHeight.value = Math.ceil(footerTop.value + FOOTER_BG_HEIGHT - FOOTER_BG_OFFSET)
+
+  await nextTick()
+  updateScale()
+  if (scrollContainerRef.value) {
+    scrollContainerRef.value.style.height = `${pageHeight.value * scale.value}px`
+  }
+}
 
 // 搜索
 const searchKey = ref('')
@@ -128,28 +183,23 @@ const doSearch = () => {
 }
 
 const websiteConfig = ref({
-  host_unit: '四川飞豹救援',
-  organizer_unit: '四川飞豹救援新闻宣传处',
-  icp_number: '蜀ICP备2026009479',
-  copyright: 'Copyright®2026 www.scfeibao.com All rights reserved'
+  host_unit: '',
+  organizer_unit: '',
+  icp_number: '',
+  copyright: ''
 })
 
-const defaultAboutHtml = sanitizeRichText([
-  '四川飞豹救援坚持人民至上、生命至上，围绕综合应急救援、专业训练、装备保障和社会服务持续提升队伍能力。',
-  '队伍常态化开展山地、水域、高空、地震等专业训练，积极参与突发事件应急处置和安全宣传。',
-  '队伍建立专业化训练体系，配备救援车辆、通信装备、绳索装备、水域救援装备和医疗急救器材，持续提升复杂环境下的快速响应和协同处置能力。'
-].join('\n\n'))
-const aboutRichHtml = ref(defaultAboutHtml)
+const aboutRichHtml = ref('')
 
 const fetchWebsiteConfig = async () => {
   try {
     const res = await getWebsiteConfig()
     if (res.data) {
       websiteConfig.value = {
-        host_unit: res.data.host_unit || '四川飞豹救援',
-        organizer_unit: res.data.organizer_unit || '四川飞豹救援新闻宣传处',
-        icp_number: res.data.icp_number || '蜀ICP备2026009479',
-        copyright: res.data.copyright || 'Copyright®2026 www.scfeibao.com All rights reserved'
+        host_unit: res.data.host_unit || '',
+        organizer_unit: res.data.organizer_unit || '',
+        icp_number: res.data.icp_number || '',
+        copyright: res.data.copyright || ''
       }
     }
   } catch (error) {
@@ -161,15 +211,19 @@ const fetchTeamAbout = async () => {
   try {
     const res = await getTeamAbout()
     const content = res.data?.content || res.data?.description || ''
-    aboutRichHtml.value = sanitizeRichText(content) || defaultAboutHtml
+    aboutRichHtml.value = sanitizeRichText(content)
+    updateDynamicLayout()
   } catch (error) {
-    // 保留默认文案，避免接口异常时页面空白。
+    console.error('获取队伍介绍失败:', error)
+    aboutRichHtml.value = ''
+    updateDynamicLayout()
   }
 }
 
 onMounted(() => {
   fetchWebsiteConfig()
   fetchTeamAbout()
+  updateDynamicLayout()
 })
 
 </script>
@@ -190,7 +244,7 @@ onMounted(() => {
 .Pixso-vector-1_632 {
     width: 100%;
     height: 100%;
-    background-image: url(@/assets/images/Vector_1_632.png);
+    background-image: url(@/assets/images/Vector_1_632.webp);
     background-size: 100% 100%;
     background-repeat: no-repeat;
     position: absolute;
@@ -681,7 +735,7 @@ onMounted(() => {
 .Pixso-vector-1_113 {
     width: 1920px;
     height: 15%;
-    background-image: url(@/assets/images/Vector_1_113.png);
+    background-image: url(@/assets/images/Vector_1_113.webp);
     background-size: 100% 100%;
     background-repeat: no-repeat;
     position: absolute;

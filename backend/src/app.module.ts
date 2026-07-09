@@ -32,6 +32,7 @@ import { TeamUnitModule } from './modules/team-units/team-unit.module';
 import { NavigationModule } from './modules/navigation/navigation.module';
 import { OperationLogModule } from './modules/operation-log/operation-log.module';
 import { DataBackupModule } from './modules/data-backup/data-backup.module';
+import { SearchModule } from './modules/search/search.module';
 
 // 全局守卫、过滤器、拦截器
 import { JwtAuthGuard } from './common/guards/jwt-auth.guard';
@@ -59,10 +60,14 @@ import { QueryController } from './common/controllers/query.controller';
         password: configService.get('DB_PASSWORD'),
         database: configService.get('DB_DATABASE'),
         entities: [__dirname + '/**/*.entity{.ts,.js}'],
-        synchronize: false, // 临时禁用自动同步，避免实体不一致导致的迁移错误
+        autoLoadEntities: true,
+        synchronize: false, // 禁止运行时自动改表，避免覆盖或改动已有后台数据
         logging: configService.get('NODE_ENV') === 'development',
         timezone: '+08:00',
         charset: 'utf8mb4',
+        extra: {
+          charset: 'utf8mb4_unicode_ci',
+        },
       }),
       inject: [ConfigService],
     }),
@@ -94,6 +99,7 @@ import { QueryController } from './common/controllers/query.controller';
     NavigationModule,
     OperationLogModule,
     DataBackupModule,
+    SearchModule,
   ],
   controllers: [AppController, QueryController],
   providers: [

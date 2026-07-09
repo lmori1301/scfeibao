@@ -127,6 +127,7 @@
 <script lang="ts" setup>
 import { ref, computed, onMounted } from 'vue'
 import { getWebsiteConfig } from '@/api/config'
+import { getPartyMembers } from '@/api/party-building'
 import { useRouter } from 'vue-router'
 import Pagination from '@/components/common/Pagination.vue'
 import { usePixsoScale } from '@/composables/use-pixso-scale'
@@ -138,95 +139,19 @@ const router = useRouter()
 const currentPage = ref(1)
 const pageSize = ref(4)
 
-// 党员先锋数据
-const membersList = ref([
-  {
-    id: 1,
-    title: '优秀党员：张明 - 冲锋在前的救援先锋',
-    summary: '张明同志在多次重大救援任务中表现突出，始终冲锋在前，用实际行动践行共产党员的初心使命...',
-    publishDate: '2025-12-06'
-  },
-  {
-    id: 2,
-    title: '模范党员：李华 - 技术攻关的带头人',
-    summary: '李华同志在救援技术研究方面成果显著，带领团队攻克多项技术难题，为救援工作提供有力支撑...',
-    publishDate: '2025-12-06'
-  },
-  {
-    id: 3,
-    title: '先进党员：王强 - 无私奉献的志愿者',
-    summary: '王强同志长期参与志愿服务活动，用爱心和行动温暖他人，展现了共产党员的良好形象...',
-    publishDate: '2025-12-06'
-  },
-  {
-    id: 4,
-    title: '优秀党员：刘芳 - 细致入微的后勤保障',
-    summary: '刘芳同志在后勤保障工作中兢兢业业，确保每次救援任务的顺利进行，是队伍的坚强后盾...',
-    publishDate: '2025-12-06'
-  },
-  {
-    id: 5,
-    title: '党员标兵：陈军 - 勇于担当的队长',
-    summary: '陈军同志作为救援队队长，带领团队完成多次艰巨任务，展现了优秀的领导能力和担当精神...',
-    publishDate: '2025-11-28'
-  },
-  {
-    id: 6,
-    title: '先进个人：赵敏 - 医疗救护的专家',
-    summary: '赵敏同志在医疗救护方面经验丰富，多次在关键时刻挽救伤员生命，是队伍的医疗骨干...',
-    publishDate: '2025-11-20'
-  },
-  {
-    id: 7,
-    title: '优秀党员：孙伟 - 装备维护的能手',
-    summary: '孙伟同志负责救援装备的维护保养，确保装备始终处于最佳状态，为救援工作提供装备保障...',
-    publishDate: '2025-11-15'
-  },
-  {
-    id: 8,
-    title: '模范党员：周丽 - 宣传工作的排头兵',
-    summary: '周丽同志在宣传工作中表现出色，通过多种渠道传播正能量，提升了救援队的社会影响力...',
-    publishDate: '2025-11-10'
-  },
-  {
-    id: 9,
-    title: '先进党员：吴涛 - 培训教育的专家',
-    summary: '吴涛同志负责队员培训工作，设计科学的培训课程，不断提升队员的专业技能和综合素质...',
-    publishDate: '2025-11-05'
-  },
-  {
-    id: 10,
-    title: '优秀党员：郑红 - 协调沟通的桥梁',
-    summary: '郑红同志在对外协调工作中表现突出，建立了良好的合作关系，为救援工作创造有利条件...',
-    publishDate: '2025-10-30'
-  },
-  {
-    id: 11,
-    title: '党员楷模：黄勇 - 应急响应的快手',
-    summary: '黄勇同志在应急响应方面反应迅速，多次第一时间赶赴现场，为救援争取了宝贵时间...',
-    publishDate: '2025-10-25'
-  },
-  {
-    id: 12,
-    title: '先进个人：林静 - 心理疏导的专家',
-    summary: '林静同志在心理疏导方面经验丰富，帮助受灾群众和队员缓解心理压力，维护心理健康...',
-    publishDate: '2025-10-20'
-  }
-])
-
-// 计算总数
-const totalMembers = computed(() => membersList.value.length)
+const membersList = ref<any[]>([])
+const totalMembers = ref(0)
 
 // 计算当前页显示的数据
 const paginatedMembers = computed(() => {
-  const start = (currentPage.value - 1) * pageSize.value
-  const end = start + pageSize.value
-  return membersList.value.slice(start, end)
+  return membersList.value
 })
 
 // 格式化日期
 const formatDate = (dateStr: string) => {
+  if (!dateStr) return { year: '', day: '' }
   const date = new Date(dateStr)
+  if (Number.isNaN(date.getTime())) return { year: '', day: '' }
   const year = date.getFullYear()
   const month = String(date.getMonth() + 1).padStart(2, '0')
   const day = String(date.getDate()).padStart(2, '0')
@@ -238,12 +163,31 @@ const formatDate = (dateStr: string) => {
 
 // 页码改变处理
 function handlePageChange() {
+  fetchMembers()
   window.scrollTo({ top: 0, behavior: 'smooth' })
 }
 
 // 跳转到详情页
 function goToDetail(id: number) {
   router.push(`/party-building/members/${id}`)
+}
+
+async function fetchMembers() {
+  try {
+    const res = await getPartyMembers({ page: currentPage.value, pageSize: pageSize.value })
+    const list = res.data?.list || res.data?.items || []
+    membersList.value = list.map((item: any) => ({
+      id: item.id,
+      title: item.title || item.name || item.position || '',
+      summary: item.summary || item.description || item.introduction || item.position || '',
+      publishDate: item.publishDate || item.createdAt || ''
+    }))
+    totalMembers.value = res.data?.total || 0
+  } catch (error) {
+    console.error('获取党员先锋失败:', error)
+    membersList.value = []
+    totalMembers.value = 0
+  }
 }
 
 // 搜索
@@ -290,10 +234,10 @@ const doSearch = () => {
 
 
 const websiteConfig = ref({
-  host_unit: '四川飞豹救援',
-  organizer_unit: '四川飞豹救援新闻宣传处',
-  icp_number: '蜀ICP备2026009479',
-  copyright: 'Copyright®2026 www.scfeibao.com All rights reserved'
+  host_unit: '',
+  organizer_unit: '',
+  icp_number: '',
+  copyright: ''
 })
 
 const fetchWebsiteConfig = async () => {
@@ -301,10 +245,10 @@ const fetchWebsiteConfig = async () => {
     const res = await getWebsiteConfig()
     if (res.data) {
       websiteConfig.value = {
-        host_unit: res.data.host_unit || '四川飞豹救援',
-        organizer_unit: res.data.organizer_unit || '四川飞豹救援新闻宣传处',
-        icp_number: res.data.icp_number || '蜀ICP备2026009479',
-        copyright: res.data.copyright || 'Copyright®2026 www.scfeibao.com All rights reserved'
+        host_unit: res.data.host_unit || '',
+        organizer_unit: res.data.organizer_unit || '',
+        icp_number: res.data.icp_number || '',
+        copyright: res.data.copyright || ''
       }
     }
   } catch (error) {
@@ -313,6 +257,7 @@ const fetchWebsiteConfig = async () => {
 }
 
 onMounted(() => {
+  fetchMembers()
   fetchWebsiteConfig()
 })
 
@@ -334,7 +279,7 @@ onMounted(() => {
 .Pixso-vector-1_1495 {
     width: 100%;
     height: 100%;
-    background-image: url(@/assets/images/Vector_1_1495.png);
+    background-image: url(@/assets/images/Vector_1_1495.webp);
     background-size: 100% 100%;
     background-repeat: no-repeat;
     position: absolute;
@@ -566,7 +511,7 @@ onMounted(() => {
 .Pixso-vector-1_1533 {
     width: 22.03%;
     height: 13.74%;
-    background-image: url(@/assets/images/Vector_1_1533.png);
+    background-image: url(@/assets/images/Vector_1_1533.webp);
     background-size: 100% 100%;
     background-repeat: no-repeat;
     position: absolute;
@@ -578,7 +523,7 @@ onMounted(() => {
 .Pixso-vector-1_1536 {
     width: 22.03%;
     height: 13.74%;
-    background-image: url(@/assets/images/Vector_1_1536.png);
+    background-image: url(@/assets/images/Vector_1_1536.webp);
     background-size: 100% 100%;
     background-repeat: no-repeat;
     position: absolute;
@@ -590,7 +535,7 @@ onMounted(() => {
 .Pixso-vector-1_1539 {
     width: 22.03%;
     height: 13.74%;
-    background-image: url(@/assets/images/Vector_1_1539.png);
+    background-image: url(@/assets/images/Vector_1_1539.webp);
     background-size: 100% 100%;
     background-repeat: no-repeat;
     position: absolute;
@@ -602,7 +547,7 @@ onMounted(() => {
 .Pixso-vector-1_1542 {
     width: 22.03%;
     height: 13.74%;
-    background-image: url(@/assets/images/Vector_1_1542.png);
+    background-image: url(@/assets/images/Vector_1_1542.webp);
     background-size: 100% 100%;
     background-repeat: no-repeat;
     position: absolute;
@@ -1239,7 +1184,7 @@ onMounted(() => {
 .Pixso-vector-1_113 {
     width: 1920px;
     height: 15%;
-    background-image: url(@/assets/images/Vector_1_113.png);
+    background-image: url(@/assets/images/Vector_1_113.webp);
     background-size: 100% 100%;
     background-repeat: no-repeat;
     position: absolute;

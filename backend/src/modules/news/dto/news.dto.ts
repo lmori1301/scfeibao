@@ -75,6 +75,11 @@ export class CreateNewsDto {
 export class UpdateNewsDto extends PartialType(CreateNewsDto) {}
 
 export class QueryNewsDto extends PaginationDto {
+  @ApiProperty({ description: '标题', required: false })
+  @IsString()
+  @IsOptional()
+  title?: string;
+
   @ApiProperty({ description: '分类', required: false })
   @IsString()
   @IsOptional()

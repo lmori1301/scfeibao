@@ -10,10 +10,13 @@ export class PartyWorksService {
     private partyWorkRepository: Repository<PartyWork>,
   ) {}
 
-  async getList(page: number = 1, pageSize: number = 10, keyword?: string) {
+  async getList(page: number = 1, pageSize: number = 10, keyword?: string, type?: string) {
     const where: any = {}
     if (keyword) {
       where.title = Like(`%${keyword}%`)
+    }
+    if (type) {
+      where.type = type
     }
 
     const [items, total] = await this.partyWorkRepository.findAndCount({

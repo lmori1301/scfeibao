@@ -17,6 +17,14 @@ export class PaginationDto {
   @Min(1)
   @Max(100)
   pageSize?: number = 10;
+
+  @ApiProperty({ description: '每页数量兼容参数', default: 10, required: false })
+  @IsOptional()
+  @Type(() => Number)
+  @IsInt()
+  @Min(1)
+  @Max(100)
+  limit?: number;
 }
 
 export class PaginatedResponseDto<T> {

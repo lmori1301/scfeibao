@@ -34,18 +34,7 @@ import { getPublicNavigation, type PublicNavigationItem } from '@/api/navigation
 const route = useRoute()
 const menuOpen = ref(false)
 
-const fallbackNavItems: PublicNavigationItem[] = [
-  { id: 1, name: '首页', path: '/', visible: true, sort: 1 },
-  { id: 2, name: '概况信息', path: '/overview-info', visible: true, sort: 2 },
-  { id: 3, name: '党建专栏', path: '/party-building', visible: true, sort: 3 },
-  { id: 4, name: '动态要闻', path: '/dynamic-news', visible: true, sort: 4 },
-  { id: 5, name: '队伍建设', path: '/team-building', visible: true, sort: 5 },
-  { id: 6, name: '信息公开', path: '/info-public', visible: true, sort: 6 },
-  { id: 7, name: '政策法规', path: '/policy-regulations', visible: true, sort: 7 },
-  { id: 8, name: '查询系统', path: '/query-system', visible: true, sort: 8 }
-]
-
-const navItems = ref<PublicNavigationItem[]>(fallbackNavItems)
+const navItems = ref<PublicNavigationItem[]>([])
 
 const isActive = (path: string) => {
   return computed(() => {
@@ -67,9 +56,9 @@ const closeMenu = () => {
 const fetchNavigation = async () => {
   try {
     const response = await getPublicNavigation()
-    navItems.value = Array.isArray(response?.data) ? response.data : fallbackNavItems
+    navItems.value = Array.isArray(response?.data) ? response.data : []
   } catch {
-    navItems.value = fallbackNavItems
+    navItems.value = []
   }
 }
 

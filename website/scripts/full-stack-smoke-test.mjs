@@ -4,11 +4,11 @@ const FRONTEND_URL = process.env.FRONTEND_URL || 'http://127.0.0.1:5173'
 const ADMIN_URL = process.env.ADMIN_URL || 'http://127.0.0.1:5176'
 const BACKEND_URL = process.env.BACKEND_URL || 'http://127.0.0.1:3003'
 const DB_HOST = process.env.SMOKE_DB_HOST || '127.0.0.1'
-const DB_PORT = process.env.SMOKE_DB_PORT || '3307'
+const DB_PORT = process.env.SMOKE_DB_PORT || '3308'
 const DB_USER = process.env.SMOKE_DB_USER || 'root'
-const DB_PASSWORD = process.env.SMOKE_DB_PASSWORD || 'feibao123'
+const DB_PASSWORD = process.env.SMOKE_DB_PASSWORD || ''
 const DB_NAME = process.env.SMOKE_DB_NAME || 'feibao_rescue'
-const LOGIN_USERNAME = process.env.SMOKE_ADMIN_USER || 'testuser'
+const LOGIN_USERNAME = process.env.SMOKE_ADMIN_USER || 'admin'
 const LOGIN_PASSWORD = process.env.SMOKE_ADMIN_PASSWORD || 'admin123'
 
 const results = []
@@ -33,7 +33,6 @@ function mysqlQuery(sql) {
     `-h${DB_HOST}`,
     `-P${DB_PORT}`,
     `-u${DB_USER}`,
-    `-p${DB_PASSWORD}`,
     '-D',
     DB_NAME,
     '-N',
@@ -41,6 +40,10 @@ function mysqlQuery(sql) {
     '-e',
     sql,
   ]
+
+  if (DB_PASSWORD) {
+    args.splice(3, 0, `-p${DB_PASSWORD}`)
+  }
 
   return execFileSync('mysql', args, { encoding: 'utf8' }).trim()
 }

@@ -1,0 +1,3773 @@
+{
+  "database": "feibao_rescue",
+  "createdAt": "2026-07-07T07:05:14.221Z",
+  "tables": {
+    "admin_users": {
+      "columns": [
+        {
+          "Field": "id",
+          "Type": "int",
+          "Null": "NO",
+          "Key": "PRI",
+          "Default": null,
+          "Extra": "auto_increment"
+        },
+        {
+          "Field": "username",
+          "Type": "varchar(255)",
+          "Null": "NO",
+          "Key": "UNI",
+          "Default": null,
+          "Extra": ""
+        },
+        {
+          "Field": "password",
+          "Type": "varchar(255)",
+          "Null": "NO",
+          "Key": "",
+          "Default": null,
+          "Extra": ""
+        },
+        {
+          "Field": "name",
+          "Type": "varchar(255)",
+          "Null": "NO",
+          "Key": "",
+          "Default": null,
+          "Extra": ""
+        },
+        {
+          "Field": "email",
+          "Type": "varchar(255)",
+          "Null": "YES",
+          "Key": "",
+          "Default": null,
+          "Extra": ""
+        },
+        {
+          "Field": "phone",
+          "Type": "varchar(255)",
+          "Null": "YES",
+          "Key": "",
+          "Default": null,
+          "Extra": ""
+        },
+        {
+          "Field": "role",
+          "Type": "varchar(255)",
+          "Null": "NO",
+          "Key": "",
+          "Default": "editor",
+          "Extra": ""
+        },
+        {
+          "Field": "status",
+          "Type": "varchar(255)",
+          "Null": "NO",
+          "Key": "",
+          "Default": "active",
+          "Extra": ""
+        },
+        {
+          "Field": "lastLoginTime",
+          "Type": "datetime",
+          "Null": "YES",
+          "Key": "",
+          "Default": null,
+          "Extra": ""
+        },
+        {
+          "Field": "mustChangePassword",
+          "Type": "tinyint(1)",
+          "Null": "NO",
+          "Key": "",
+          "Default": "0",
+          "Extra": ""
+        },
+        {
+          "Field": "createTime",
+          "Type": "datetime(6)",
+          "Null": "NO",
+          "Key": "",
+          "Default": "CURRENT_TIMESTAMP(6)",
+          "Extra": "DEFAULT_GENERATED"
+        },
+        {
+          "Field": "updateTime",
+          "Type": "datetime(6)",
+          "Null": "NO",
+          "Key": "",
+          "Default": "CURRENT_TIMESTAMP(6)",
+          "Extra": "DEFAULT_GENERATED on update CURRENT_TIMESTAMP(6)"
+        }
+      ],
+      "rows": [
+        {
+          "id": 1,
+          "username": "admin",
+          "password": "$2b$10$j/0xD0qoCGAGRSLP71gMBejnsYpGTK3/Si16/wggHv0F/RjBLPKjC",
+          "name": "系统管理员",
+          "email": null,
+          "phone": null,
+          "role": "admin",
+          "status": "active",
+          "lastLoginTime": "2026-07-07T06:25:30.000Z",
+          "mustChangePassword": 0,
+          "createTime": "2026-02-19T09:38:11.804Z",
+          "updateTime": "2026-07-06T22:25:29.000Z"
+        }
+      ]
+    },
+    "appointments": {
+      "columns": [
+        {
+          "Field": "id",
+          "Type": "int",
+          "Null": "NO",
+          "Key": "PRI",
+          "Default": null,
+          "Extra": "auto_increment"
+        },
+        {
+          "Field": "title",
+          "Type": "varchar(255)",
+          "Null": "NO",
+          "Key": "",
+          "Default": null,
+          "Extra": ""
+        },
+        {
+          "Field": "docNumber",
+          "Type": "varchar(255)",
+          "Null": "NO",
+          "Key": "",
+          "Default": null,
+          "Extra": ""
+        },
+        {
+          "Field": "publishDate",
+          "Type": "date",
+          "Null": "NO",
+          "Key": "",
+          "Default": null,
+          "Extra": ""
+        },
+        {
+          "Field": "effectiveDate",
+          "Type": "date",
+          "Null": "YES",
+          "Key": "",
+          "Default": null,
+          "Extra": ""
+        },
+        {
+          "Field": "department",
+          "Type": "varchar(255)",
+          "Null": "YES",
+          "Key": "",
+          "Default": null,
+          "Extra": ""
+        },
+        {
+          "Field": "attachment",
+          "Type": "varchar(255)",
+          "Null": "YES",
+          "Key": "",
+          "Default": null,
+          "Extra": ""
+        },
+        {
+          "Field": "attachmentName",
+          "Type": "varchar(255)",
+          "Null": "YES",
+          "Key": "",
+          "Default": null,
+          "Extra": ""
+        },
+        {
+          "Field": "createdAt",
+          "Type": "datetime(6)",
+          "Null": "NO",
+          "Key": "",
+          "Default": "CURRENT_TIMESTAMP(6)",
+          "Extra": "DEFAULT_GENERATED"
+        },
+        {
+          "Field": "updatedAt",
+          "Type": "datetime(6)",
+          "Null": "NO",
+          "Key": "",
+          "Default": "CURRENT_TIMESTAMP(6)",
+          "Extra": "DEFAULT_GENERATED on update CURRENT_TIMESTAMP(6)"
+        }
+      ],
+      "rows": []
+    },
+    "banners": {
+      "columns": [
+        {
+          "Field": "id",
+          "Type": "int",
+          "Null": "NO",
+          "Key": "PRI",
+          "Default": null,
+          "Extra": "auto_increment"
+        },
+        {
+          "Field": "title",
+          "Type": "varchar(255)",
+          "Null": "NO",
+          "Key": "",
+          "Default": null,
+          "Extra": ""
+        },
+        {
+          "Field": "imageUrl",
+          "Type": "varchar(255)",
+          "Null": "NO",
+          "Key": "",
+          "Default": null,
+          "Extra": ""
+        },
+        {
+          "Field": "link",
+          "Type": "varchar(255)",
+          "Null": "YES",
+          "Key": "",
+          "Default": null,
+          "Extra": ""
+        },
+        {
+          "Field": "sort",
+          "Type": "int",
+          "Null": "NO",
+          "Key": "",
+          "Default": "0",
+          "Extra": ""
+        },
+        {
+          "Field": "isActive",
+          "Type": "tinyint",
+          "Null": "NO",
+          "Key": "",
+          "Default": "1",
+          "Extra": ""
+        },
+        {
+          "Field": "createdAt",
+          "Type": "datetime(6)",
+          "Null": "NO",
+          "Key": "",
+          "Default": "CURRENT_TIMESTAMP(6)",
+          "Extra": "DEFAULT_GENERATED"
+        }
+      ],
+      "rows": [
+        {
+          "id": 1,
+          "title": "四川飞豹救援授旗授牌仪式",
+          "imageUrl": "/uploads/images/1771914205341-880638838.png",
+          "link": "/dynamic-news/detail/1",
+          "sort": 1,
+          "isActive": 1,
+          "createdAt": "2026-07-07T04:17:07.542Z"
+        },
+        {
+          "id": 2,
+          "title": "全省消防救援队伍建设工作会议",
+          "imageUrl": "/uploads/images/1771913966377-18243769.png",
+          "link": "/dynamic-news/detail/2",
+          "sort": 2,
+          "isActive": 1,
+          "createdAt": "2026-07-07T04:17:07.542Z"
+        },
+        {
+          "id": 3,
+          "title": "省级先进集体表彰大会",
+          "imageUrl": "/uploads/images/1771912035621-395150975.png",
+          "link": "/dynamic-news/detail/3",
+          "sort": 3,
+          "isActive": 1,
+          "createdAt": "2026-07-07T04:17:07.542Z"
+        }
+      ]
+    },
+    "certificates": {
+      "columns": [
+        {
+          "Field": "id",
+          "Type": "int",
+          "Null": "NO",
+          "Key": "PRI",
+          "Default": null,
+          "Extra": "auto_increment"
+        },
+        {
+          "Field": "created_at",
+          "Type": "datetime(6)",
+          "Null": "NO",
+          "Key": "",
+          "Default": "CURRENT_TIMESTAMP(6)",
+          "Extra": "DEFAULT_GENERATED"
+        },
+        {
+          "Field": "updated_at",
+          "Type": "datetime(6)",
+          "Null": "NO",
+          "Key": "",
+          "Default": "CURRENT_TIMESTAMP(6)",
+          "Extra": "DEFAULT_GENERATED on update CURRENT_TIMESTAMP(6)"
+        },
+        {
+          "Field": "deleted_at",
+          "Type": "datetime(6)",
+          "Null": "YES",
+          "Key": "",
+          "Default": null,
+          "Extra": ""
+        },
+        {
+          "Field": "certificateNumber",
+          "Type": "varchar(100)",
+          "Null": "NO",
+          "Key": "UNI",
+          "Default": null,
+          "Extra": ""
+        },
+        {
+          "Field": "certificateName",
+          "Type": "varchar(100)",
+          "Null": "NO",
+          "Key": "",
+          "Default": null,
+          "Extra": ""
+        },
+        {
+          "Field": "holderName",
+          "Type": "varchar(50)",
+          "Null": "NO",
+          "Key": "",
+          "Default": null,
+          "Extra": ""
+        },
+        {
+          "Field": "holderIdCard",
+          "Type": "varchar(20)",
+          "Null": "YES",
+          "Key": "",
+          "Default": null,
+          "Extra": ""
+        },
+        {
+          "Field": "issuingAuthority",
+          "Type": "varchar(100)",
+          "Null": "YES",
+          "Key": "",
+          "Default": null,
+          "Extra": ""
+        },
+        {
+          "Field": "issueDate",
+          "Type": "date",
+          "Null": "YES",
+          "Key": "",
+          "Default": null,
+          "Extra": ""
+        },
+        {
+          "Field": "expiryDate",
+          "Type": "date",
+          "Null": "YES",
+          "Key": "",
+          "Default": null,
+          "Extra": ""
+        },
+        {
+          "Field": "certificateType",
+          "Type": "varchar(50)",
+          "Null": "YES",
+          "Key": "",
+          "Default": null,
+          "Extra": ""
+        },
+        {
+          "Field": "photoUrl",
+          "Type": "text",
+          "Null": "YES",
+          "Key": "",
+          "Default": null,
+          "Extra": ""
+        },
+        {
+          "Field": "remark",
+          "Type": "text",
+          "Null": "YES",
+          "Key": "",
+          "Default": null,
+          "Extra": ""
+        },
+        {
+          "Field": "status",
+          "Type": "tinyint",
+          "Null": "NO",
+          "Key": "",
+          "Default": "1",
+          "Extra": ""
+        }
+      ],
+      "rows": [
+        {
+          "id": 1,
+          "created_at": "2026-02-17T03:14:06.161Z",
+          "updated_at": "2026-02-17T03:14:06.161Z",
+          "deleted_at": null,
+          "certificateNumber": "CERT2024001",
+          "certificateName": "应急救援资格证书",
+          "holderName": "张三",
+          "holderIdCard": "510100199001011234",
+          "issuingAuthority": "四川省应急管理厅",
+          "issueDate": null,
+          "expiryDate": null,
+          "certificateType": "救援资格",
+          "photoUrl": null,
+          "remark": null,
+          "status": 1
+        },
+        {
+          "id": 2,
+          "created_at": "2026-02-17T03:14:28.796Z",
+          "updated_at": "2026-02-17T03:14:28.796Z",
+          "deleted_at": null,
+          "certificateNumber": "CERT2024002",
+          "certificateName": "消防救援技能证书",
+          "holderName": "李四",
+          "holderIdCard": "510100199102025678",
+          "issuingAuthority": "四川省消防救援总队",
+          "issueDate": null,
+          "expiryDate": null,
+          "certificateType": "消防技能",
+          "photoUrl": null,
+          "remark": null,
+          "status": 1
+        },
+        {
+          "id": 3,
+          "created_at": "2026-02-17T03:14:28.835Z",
+          "updated_at": "2026-02-17T03:14:28.835Z",
+          "deleted_at": null,
+          "certificateNumber": "CERT2024003",
+          "certificateName": "山地救援专业证书",
+          "holderName": "王五",
+          "holderIdCard": "510100199203039012",
+          "issuingAuthority": "中国登山协会",
+          "issueDate": null,
+          "expiryDate": null,
+          "certificateType": "山地救援",
+          "photoUrl": null,
+          "remark": null,
+          "status": 1
+        }
+      ]
+    },
+    "friend_links": {
+      "columns": [
+        {
+          "Field": "id",
+          "Type": "int",
+          "Null": "NO",
+          "Key": "PRI",
+          "Default": null,
+          "Extra": "auto_increment"
+        },
+        {
+          "Field": "name",
+          "Type": "varchar(100)",
+          "Null": "NO",
+          "Key": "",
+          "Default": null,
+          "Extra": ""
+        },
+        {
+          "Field": "url",
+          "Type": "varchar(500)",
+          "Null": "NO",
+          "Key": "",
+          "Default": null,
+          "Extra": ""
+        },
+        {
+          "Field": "logo",
+          "Type": "varchar(500)",
+          "Null": "YES",
+          "Key": "",
+          "Default": null,
+          "Extra": ""
+        },
+        {
+          "Field": "sort",
+          "Type": "int",
+          "Null": "NO",
+          "Key": "",
+          "Default": "0",
+          "Extra": ""
+        },
+        {
+          "Field": "isActive",
+          "Type": "tinyint",
+          "Null": "NO",
+          "Key": "",
+          "Default": "1",
+          "Extra": ""
+        },
+        {
+          "Field": "createdAt",
+          "Type": "datetime(6)",
+          "Null": "NO",
+          "Key": "",
+          "Default": "CURRENT_TIMESTAMP(6)",
+          "Extra": "DEFAULT_GENERATED"
+        },
+        {
+          "Field": "updatedAt",
+          "Type": "datetime(6)",
+          "Null": "NO",
+          "Key": "",
+          "Default": "CURRENT_TIMESTAMP(6)",
+          "Extra": "DEFAULT_GENERATED on update CURRENT_TIMESTAMP(6)"
+        }
+      ],
+      "rows": [
+        {
+          "id": 1,
+          "name": "四川省应急管理厅",
+          "url": "https://yjt.sc.gov.cn/",
+          "logo": "",
+          "sort": 1,
+          "isActive": 1,
+          "createdAt": "2026-07-07T06:35:32.996Z",
+          "updatedAt": "2026-07-07T06:35:32.996Z"
+        },
+        {
+          "id": 2,
+          "name": "中华人民共和国应急管理部",
+          "url": "https://www.mem.gov.cn/",
+          "logo": "",
+          "sort": 2,
+          "isActive": 1,
+          "createdAt": "2026-07-07T06:35:32.996Z",
+          "updatedAt": "2026-07-07T06:35:32.996Z"
+        },
+        {
+          "id": 3,
+          "name": "中国消防救援",
+          "url": "https://www.119.gov.cn/",
+          "logo": "",
+          "sort": 3,
+          "isActive": 1,
+          "createdAt": "2026-07-07T06:35:32.996Z",
+          "updatedAt": "2026-07-07T06:35:32.996Z"
+        },
+        {
+          "id": 4,
+          "name": "四川省消防救援总队",
+          "url": "https://sc.119.gov.cn/",
+          "logo": "",
+          "sort": 4,
+          "isActive": 1,
+          "createdAt": "2026-07-07T06:35:32.996Z",
+          "updatedAt": "2026-07-07T06:35:32.996Z"
+        },
+        {
+          "id": 5,
+          "name": "四川省人民政府",
+          "url": "https://www.sc.gov.cn/",
+          "logo": "",
+          "sort": 5,
+          "isActive": 1,
+          "createdAt": "2026-07-07T06:35:32.996Z",
+          "updatedAt": "2026-07-07T06:35:32.996Z"
+        },
+        {
+          "id": 6,
+          "name": "中国政府网",
+          "url": "https://www.gov.cn/",
+          "logo": "",
+          "sort": 6,
+          "isActive": 1,
+          "createdAt": "2026-07-07T06:35:32.996Z",
+          "updatedAt": "2026-07-07T06:35:32.996Z"
+        },
+        {
+          "id": 7,
+          "name": "四川省气象局",
+          "url": "https://sc.cma.gov.cn/",
+          "logo": "",
+          "sort": 7,
+          "isActive": 1,
+          "createdAt": "2026-07-07T06:35:32.996Z",
+          "updatedAt": "2026-07-07T06:35:32.996Z"
+        },
+        {
+          "id": 8,
+          "name": "四川省地震局",
+          "url": "https://www.scdzj.gov.cn/",
+          "logo": "",
+          "sort": 8,
+          "isActive": 1,
+          "createdAt": "2026-07-07T06:35:32.996Z",
+          "updatedAt": "2026-07-07T06:35:32.996Z"
+        },
+        {
+          "id": 9,
+          "name": "四川省水利厅",
+          "url": "https://slt.sc.gov.cn/",
+          "logo": "",
+          "sort": 9,
+          "isActive": 1,
+          "createdAt": "2026-07-07T06:35:32.996Z",
+          "updatedAt": "2026-07-07T06:35:32.996Z"
+        },
+        {
+          "id": 10,
+          "name": "四川省交通运输厅",
+          "url": "https://jtt.sc.gov.cn/",
+          "logo": "",
+          "sort": 10,
+          "isActive": 1,
+          "createdAt": "2026-07-07T06:35:32.996Z",
+          "updatedAt": "2026-07-07T06:35:32.996Z"
+        },
+        {
+          "id": 11,
+          "name": "四川省卫生健康委员会",
+          "url": "https://wsjkw.sc.gov.cn/",
+          "logo": "",
+          "sort": 11,
+          "isActive": 1,
+          "createdAt": "2026-07-07T06:35:32.996Z",
+          "updatedAt": "2026-07-07T06:35:32.996Z"
+        },
+        {
+          "id": 12,
+          "name": "四川省红十字会",
+          "url": "https://www.scredcross.org.cn/",
+          "logo": "",
+          "sort": 12,
+          "isActive": 1,
+          "createdAt": "2026-07-07T06:35:32.996Z",
+          "updatedAt": "2026-07-07T06:35:32.996Z"
+        }
+      ]
+    },
+    "info_public": {
+      "columns": [
+        {
+          "Field": "id",
+          "Type": "int",
+          "Null": "NO",
+          "Key": "PRI",
+          "Default": null,
+          "Extra": "auto_increment"
+        },
+        {
+          "Field": "created_at",
+          "Type": "datetime(6)",
+          "Null": "NO",
+          "Key": "",
+          "Default": "CURRENT_TIMESTAMP(6)",
+          "Extra": "DEFAULT_GENERATED"
+        },
+        {
+          "Field": "updated_at",
+          "Type": "datetime(6)",
+          "Null": "NO",
+          "Key": "",
+          "Default": "CURRENT_TIMESTAMP(6)",
+          "Extra": "DEFAULT_GENERATED on update CURRENT_TIMESTAMP(6)"
+        },
+        {
+          "Field": "deleted_at",
+          "Type": "datetime(6)",
+          "Null": "YES",
+          "Key": "",
+          "Default": null,
+          "Extra": ""
+        },
+        {
+          "Field": "title",
+          "Type": "varchar(200)",
+          "Null": "NO",
+          "Key": "",
+          "Default": null,
+          "Extra": ""
+        },
+        {
+          "Field": "summary",
+          "Type": "text",
+          "Null": "YES",
+          "Key": "",
+          "Default": null,
+          "Extra": ""
+        },
+        {
+          "Field": "content",
+          "Type": "longtext",
+          "Null": "NO",
+          "Key": "",
+          "Default": null,
+          "Extra": ""
+        },
+        {
+          "Field": "category",
+          "Type": "varchar(50)",
+          "Null": "YES",
+          "Key": "",
+          "Default": null,
+          "Extra": ""
+        },
+        {
+          "Field": "attachmentUrl",
+          "Type": "varchar(255)",
+          "Null": "YES",
+          "Key": "",
+          "Default": null,
+          "Extra": ""
+        },
+        {
+          "Field": "viewCount",
+          "Type": "int",
+          "Null": "NO",
+          "Key": "",
+          "Default": "0",
+          "Extra": ""
+        },
+        {
+          "Field": "status",
+          "Type": "tinyint",
+          "Null": "NO",
+          "Key": "",
+          "Default": "1",
+          "Extra": ""
+        },
+        {
+          "Field": "publishedAt",
+          "Type": "datetime",
+          "Null": "YES",
+          "Key": "",
+          "Default": null,
+          "Extra": ""
+        },
+        {
+          "Field": "sort",
+          "Type": "int",
+          "Null": "NO",
+          "Key": "",
+          "Default": "0",
+          "Extra": ""
+        }
+      ],
+      "rows": []
+    },
+    "leadership": {
+      "columns": [
+        {
+          "Field": "id",
+          "Type": "int",
+          "Null": "NO",
+          "Key": "PRI",
+          "Default": null,
+          "Extra": "auto_increment"
+        },
+        {
+          "Field": "name",
+          "Type": "varchar(255)",
+          "Null": "NO",
+          "Key": "",
+          "Default": null,
+          "Extra": ""
+        },
+        {
+          "Field": "position",
+          "Type": "varchar(255)",
+          "Null": "NO",
+          "Key": "",
+          "Default": null,
+          "Extra": ""
+        },
+        {
+          "Field": "gender",
+          "Type": "varchar(255)",
+          "Null": "YES",
+          "Key": "",
+          "Default": null,
+          "Extra": ""
+        },
+        {
+          "Field": "nation",
+          "Type": "varchar(255)",
+          "Null": "YES",
+          "Key": "",
+          "Default": null,
+          "Extra": ""
+        },
+        {
+          "Field": "birth",
+          "Type": "varchar(255)",
+          "Null": "YES",
+          "Key": "",
+          "Default": null,
+          "Extra": ""
+        },
+        {
+          "Field": "education",
+          "Type": "varchar(255)",
+          "Null": "YES",
+          "Key": "",
+          "Default": null,
+          "Extra": ""
+        },
+        {
+          "Field": "political",
+          "Type": "varchar(255)",
+          "Null": "YES",
+          "Key": "",
+          "Default": null,
+          "Extra": ""
+        },
+        {
+          "Field": "duty",
+          "Type": "varchar(255)",
+          "Null": "YES",
+          "Key": "",
+          "Default": null,
+          "Extra": ""
+        },
+        {
+          "Field": "experience",
+          "Type": "int",
+          "Null": "NO",
+          "Key": "",
+          "Default": "0",
+          "Extra": ""
+        },
+        {
+          "Field": "actions",
+          "Type": "int",
+          "Null": "NO",
+          "Key": "",
+          "Default": "0",
+          "Extra": ""
+        },
+        {
+          "Field": "photo",
+          "Type": "varchar(255)",
+          "Null": "YES",
+          "Key": "",
+          "Default": null,
+          "Extra": ""
+        },
+        {
+          "Field": "sort",
+          "Type": "int",
+          "Null": "NO",
+          "Key": "",
+          "Default": "0",
+          "Extra": ""
+        },
+        {
+          "Field": "createdAt",
+          "Type": "datetime(6)",
+          "Null": "NO",
+          "Key": "",
+          "Default": "CURRENT_TIMESTAMP(6)",
+          "Extra": "DEFAULT_GENERATED"
+        }
+      ],
+      "rows": [
+        {
+          "id": 1,
+          "name": "张三",
+          "position": "队长",
+          "gender": "男",
+          "nation": "汉族",
+          "birth": "1980-01",
+          "education": "本科",
+          "political": "中共党员",
+          "duty": "全面负责救援工作",
+          "experience": 15,
+          "actions": 120,
+          "photo": "https://cdn.example.com/photo.jpg",
+          "sort": 1,
+          "createdAt": "2026-07-06T22:20:18.692Z"
+        }
+      ]
+    },
+    "locations": {
+      "columns": [
+        {
+          "Field": "id",
+          "Type": "int",
+          "Null": "NO",
+          "Key": "PRI",
+          "Default": null,
+          "Extra": "auto_increment"
+        },
+        {
+          "Field": "created_at",
+          "Type": "datetime(6)",
+          "Null": "NO",
+          "Key": "",
+          "Default": "CURRENT_TIMESTAMP(6)",
+          "Extra": "DEFAULT_GENERATED"
+        },
+        {
+          "Field": "updated_at",
+          "Type": "datetime(6)",
+          "Null": "NO",
+          "Key": "",
+          "Default": "CURRENT_TIMESTAMP(6)",
+          "Extra": "DEFAULT_GENERATED on update CURRENT_TIMESTAMP(6)"
+        },
+        {
+          "Field": "deleted_at",
+          "Type": "datetime(6)",
+          "Null": "YES",
+          "Key": "",
+          "Default": null,
+          "Extra": ""
+        },
+        {
+          "Field": "name",
+          "Type": "varchar(100)",
+          "Null": "NO",
+          "Key": "",
+          "Default": null,
+          "Extra": ""
+        },
+        {
+          "Field": "pointName",
+          "Type": "varchar(150)",
+          "Null": "NO",
+          "Key": "",
+          "Default": "",
+          "Extra": ""
+        },
+        {
+          "Field": "address",
+          "Type": "varchar(200)",
+          "Null": "NO",
+          "Key": "",
+          "Default": null,
+          "Extra": ""
+        },
+        {
+          "Field": "phone",
+          "Type": "varchar(20)",
+          "Null": "NO",
+          "Key": "",
+          "Default": null,
+          "Extra": ""
+        },
+        {
+          "Field": "longitude",
+          "Type": "decimal(10,6)",
+          "Null": "NO",
+          "Key": "",
+          "Default": "0.000000",
+          "Extra": ""
+        },
+        {
+          "Field": "latitude",
+          "Type": "decimal(10,6)",
+          "Null": "NO",
+          "Key": "",
+          "Default": "0.000000",
+          "Extra": ""
+        },
+        {
+          "Field": "zoom",
+          "Type": "int",
+          "Null": "NO",
+          "Key": "",
+          "Default": "15",
+          "Extra": ""
+        },
+        {
+          "Field": "sort",
+          "Type": "int",
+          "Null": "NO",
+          "Key": "",
+          "Default": "0",
+          "Extra": ""
+        },
+        {
+          "Field": "status",
+          "Type": "tinyint",
+          "Null": "NO",
+          "Key": "",
+          "Default": "1",
+          "Extra": ""
+        }
+      ],
+      "rows": [
+        {
+          "id": 1,
+          "created_at": "2026-07-06T22:20:18.655Z",
+          "updated_at": "2026-07-06T22:20:18.655Z",
+          "deleted_at": null,
+          "name": "总队",
+          "pointName": "四川飞豹救援指挥中心",
+          "address": "四川省成都市温江区S8(成名高速)",
+          "phone": "028-87659119",
+          "longitude": "103.849650",
+          "latitude": "30.686520",
+          "zoom": 16,
+          "sort": 1,
+          "status": 1
+        },
+        {
+          "id": 2,
+          "created_at": "2026-07-06T22:20:18.655Z",
+          "updated_at": "2026-07-06T22:20:18.655Z",
+          "deleted_at": null,
+          "name": "特勤大队",
+          "pointName": "四川飞豹救援特勤大队",
+          "address": "四川省成都市武侯区四川飞豹救援特勤大队",
+          "phone": "028-87659120",
+          "longitude": "104.043720",
+          "latitude": "30.641960",
+          "zoom": 16,
+          "sort": 2,
+          "status": 1
+        },
+        {
+          "id": 3,
+          "created_at": "2026-07-06T22:20:18.655Z",
+          "updated_at": "2026-07-06T22:20:18.655Z",
+          "deleted_at": null,
+          "name": "训练与战勤保障大队",
+          "pointName": "四川飞豹救援训练与战勤保障大队",
+          "address": "四川省成都市双流区四川飞豹救援训练与战勤保障大队",
+          "phone": "028-87659121",
+          "longitude": "103.923710",
+          "latitude": "30.574470",
+          "zoom": 16,
+          "sort": 3,
+          "status": 1
+        },
+        {
+          "id": 4,
+          "created_at": "2026-07-06T22:20:18.655Z",
+          "updated_at": "2026-07-06T22:20:18.655Z",
+          "deleted_at": null,
+          "name": "应急通信与车辆勤务大队",
+          "pointName": "四川飞豹救援应急通信与车辆勤务大队",
+          "address": "四川省成都市龙泉驿区四川飞豹救援应急通信与车辆勤务大队",
+          "phone": "028-87659122",
+          "longitude": "104.274620",
+          "latitude": "30.556580",
+          "zoom": 16,
+          "sort": 4,
+          "status": 1
+        },
+        {
+          "id": 5,
+          "created_at": "2026-07-06T22:20:18.655Z",
+          "updated_at": "2026-07-06T22:20:18.655Z",
+          "deleted_at": null,
+          "name": "峨眉山直属大队",
+          "pointName": "四川飞豹救援峨眉山直属大队",
+          "address": "四川省乐山市峨眉山市四川飞豹救援峨眉山直属大队",
+          "phone": "028-87659123",
+          "longitude": "103.484230",
+          "latitude": "29.601190",
+          "zoom": 16,
+          "sort": 5,
+          "status": 1
+        },
+        {
+          "id": 6,
+          "created_at": "2026-07-06T22:20:18.655Z",
+          "updated_at": "2026-07-06T22:20:18.655Z",
+          "deleted_at": null,
+          "name": "搜救犬大队",
+          "pointName": "四川飞豹救援搜救犬大队",
+          "address": "四川省成都市新都区四川飞豹救援搜救犬大队",
+          "phone": "028-87659124",
+          "longitude": "104.158170",
+          "latitude": "30.823440",
+          "zoom": 16,
+          "sort": 6,
+          "status": 1
+        },
+        {
+          "id": 7,
+          "created_at": "2026-07-06T22:20:18.655Z",
+          "updated_at": "2026-07-06T22:20:18.655Z",
+          "deleted_at": null,
+          "name": "崇州支队",
+          "pointName": "四川飞豹救援崇州支队",
+          "address": "四川省成都市崇州市四川飞豹救援崇州支队",
+          "phone": "028-87659125",
+          "longitude": "103.673020",
+          "latitude": "30.630110",
+          "zoom": 16,
+          "sort": 7,
+          "status": 1
+        },
+        {
+          "id": 8,
+          "created_at": "2026-07-06T22:20:18.655Z",
+          "updated_at": "2026-07-06T22:20:18.655Z",
+          "deleted_at": null,
+          "name": "南充支队",
+          "pointName": "四川飞豹救援南充支队",
+          "address": "四川省南充市顺庆区四川飞豹救援南充支队",
+          "phone": "028-87659126",
+          "longitude": "106.110560",
+          "latitude": "30.837680",
+          "zoom": 16,
+          "sort": 8,
+          "status": 1
+        },
+        {
+          "id": 9,
+          "created_at": "2026-07-06T22:20:18.655Z",
+          "updated_at": "2026-07-06T22:20:18.655Z",
+          "deleted_at": null,
+          "name": "天府支队",
+          "pointName": "四川飞豹救援天府支队",
+          "address": "成都市双流区宁安东路红豆家园",
+          "phone": "028-87659127",
+          "longitude": "104.076510",
+          "latitude": "30.509720",
+          "zoom": 16,
+          "sort": 9,
+          "status": 1
+        },
+        {
+          "id": 10,
+          "created_at": "2026-07-06T22:20:18.655Z",
+          "updated_at": "2026-07-06T22:20:18.655Z",
+          "deleted_at": null,
+          "name": "雅安支队",
+          "pointName": "四川飞豹救援雅安支队",
+          "address": "四川省雅安市雨城区四川飞豹救援雅安支队",
+          "phone": "028-87659128",
+          "longitude": "103.042400",
+          "latitude": "30.010560",
+          "zoom": 16,
+          "sort": 10,
+          "status": 1
+        },
+        {
+          "id": 11,
+          "created_at": "2026-07-06T22:20:18.655Z",
+          "updated_at": "2026-07-06T22:20:18.655Z",
+          "deleted_at": null,
+          "name": "德阳支队",
+          "pointName": "四川飞豹救援德阳支队",
+          "address": "四川省德阳市旌阳区四川飞豹救援德阳支队",
+          "phone": "028-87659129",
+          "longitude": "104.398170",
+          "latitude": "31.127410",
+          "zoom": 16,
+          "sort": 11,
+          "status": 1
+        },
+        {
+          "id": 12,
+          "created_at": "2026-07-06T22:20:18.655Z",
+          "updated_at": "2026-07-06T22:20:18.655Z",
+          "deleted_at": null,
+          "name": "达州支队",
+          "pointName": "四川飞豹救援达州支队",
+          "address": "四川省达州市通川区四川飞豹救援达州支队",
+          "phone": "028-87659130",
+          "longitude": "107.467910",
+          "latitude": "31.209660",
+          "zoom": 16,
+          "sort": 12,
+          "status": 1
+        },
+        {
+          "id": 13,
+          "created_at": "2026-07-06T22:20:18.655Z",
+          "updated_at": "2026-07-06T22:20:18.655Z",
+          "deleted_at": null,
+          "name": "双流大队",
+          "pointName": "四川飞豹救援双流大队",
+          "address": "四川省成都市双流区四川飞豹救援双流大队",
+          "phone": "028-87659131",
+          "longitude": "103.923640",
+          "latitude": "30.574410",
+          "zoom": 16,
+          "sort": 13,
+          "status": 1
+        },
+        {
+          "id": 14,
+          "created_at": "2026-07-06T22:20:18.655Z",
+          "updated_at": "2026-07-06T22:20:18.655Z",
+          "deleted_at": null,
+          "name": "青白江大队",
+          "pointName": "四川飞豹救援青白江大队",
+          "address": "四川省成都市青白江区四川飞豹救援青白江大队",
+          "phone": "028-87659132",
+          "longitude": "104.251740",
+          "latitude": "30.878570",
+          "zoom": 16,
+          "sort": 14,
+          "status": 1
+        },
+        {
+          "id": 15,
+          "created_at": "2026-07-06T22:20:18.655Z",
+          "updated_at": "2026-07-06T22:20:18.655Z",
+          "deleted_at": null,
+          "name": "龙泉驿大队",
+          "pointName": "四川飞豹救援龙泉驿大队",
+          "address": "四川省成都市龙泉驿区四川飞豹救援龙泉驿大队",
+          "phone": "028-87659133",
+          "longitude": "104.274580",
+          "latitude": "30.556610",
+          "zoom": 16,
+          "sort": 15,
+          "status": 1
+        },
+        {
+          "id": 16,
+          "created_at": "2026-07-06T22:20:18.655Z",
+          "updated_at": "2026-07-06T22:20:18.655Z",
+          "deleted_at": null,
+          "name": "南部大队",
+          "pointName": "四川飞豹救援南部大队",
+          "address": "四川省南充市南部县四川飞豹救援南部大队",
+          "phone": "028-87659134",
+          "longitude": "106.061510",
+          "latitude": "31.349310",
+          "zoom": 16,
+          "sort": 16,
+          "status": 1
+        },
+        {
+          "id": 17,
+          "created_at": "2026-07-06T22:20:18.655Z",
+          "updated_at": "2026-07-06T22:20:18.655Z",
+          "deleted_at": null,
+          "name": "营山大队",
+          "pointName": "四川飞豹救援营山大队",
+          "address": "四川省南充市营山县四川飞豹救援营山大队",
+          "phone": "028-87659135",
+          "longitude": "106.565560",
+          "latitude": "31.077880",
+          "zoom": 16,
+          "sort": 17,
+          "status": 1
+        }
+      ]
+    },
+    "news": {
+      "columns": [
+        {
+          "Field": "id",
+          "Type": "int",
+          "Null": "NO",
+          "Key": "PRI",
+          "Default": null,
+          "Extra": "auto_increment"
+        },
+        {
+          "Field": "created_at",
+          "Type": "datetime(6)",
+          "Null": "NO",
+          "Key": "",
+          "Default": "CURRENT_TIMESTAMP(6)",
+          "Extra": "DEFAULT_GENERATED"
+        },
+        {
+          "Field": "updated_at",
+          "Type": "datetime(6)",
+          "Null": "NO",
+          "Key": "",
+          "Default": "CURRENT_TIMESTAMP(6)",
+          "Extra": "DEFAULT_GENERATED on update CURRENT_TIMESTAMP(6)"
+        },
+        {
+          "Field": "deleted_at",
+          "Type": "datetime(6)",
+          "Null": "YES",
+          "Key": "",
+          "Default": null,
+          "Extra": ""
+        },
+        {
+          "Field": "title",
+          "Type": "varchar(200)",
+          "Null": "NO",
+          "Key": "",
+          "Default": null,
+          "Extra": ""
+        },
+        {
+          "Field": "summary",
+          "Type": "text",
+          "Null": "YES",
+          "Key": "",
+          "Default": null,
+          "Extra": ""
+        },
+        {
+          "Field": "content",
+          "Type": "longtext",
+          "Null": "NO",
+          "Key": "",
+          "Default": null,
+          "Extra": ""
+        },
+        {
+          "Field": "coverImage",
+          "Type": "varchar(255)",
+          "Null": "YES",
+          "Key": "",
+          "Default": null,
+          "Extra": ""
+        },
+        {
+          "Field": "category",
+          "Type": "varchar(50)",
+          "Null": "YES",
+          "Key": "",
+          "Default": null,
+          "Extra": ""
+        },
+        {
+          "Field": "author",
+          "Type": "varchar(50)",
+          "Null": "YES",
+          "Key": "",
+          "Default": null,
+          "Extra": ""
+        },
+        {
+          "Field": "viewCount",
+          "Type": "int",
+          "Null": "NO",
+          "Key": "",
+          "Default": "0",
+          "Extra": ""
+        },
+        {
+          "Field": "status",
+          "Type": "tinyint",
+          "Null": "NO",
+          "Key": "",
+          "Default": "1",
+          "Extra": ""
+        },
+        {
+          "Field": "publishedAt",
+          "Type": "datetime",
+          "Null": "YES",
+          "Key": "",
+          "Default": null,
+          "Extra": ""
+        },
+        {
+          "Field": "sort",
+          "Type": "int",
+          "Null": "NO",
+          "Key": "",
+          "Default": "0",
+          "Extra": ""
+        },
+        {
+          "Field": "isHeadline",
+          "Type": "tinyint",
+          "Null": "NO",
+          "Key": "",
+          "Default": "0",
+          "Extra": ""
+        },
+        {
+          "Field": "isNew",
+          "Type": "tinyint",
+          "Null": "NO",
+          "Key": "",
+          "Default": "0",
+          "Extra": ""
+        }
+      ],
+      "rows": [
+        {
+          "id": 2,
+          "created_at": "2026-07-07T04:17:07.542Z",
+          "updated_at": "2026-07-07T04:17:07.542Z",
+          "deleted_at": null,
+          "title": "四川飞豹救援授旗授牌仪式",
+          "summary": "授旗授牌仪式顺利举行",
+          "content": "为深入贯彻习近平总书记授旗训词精神，按照应急管理部和省委省政府的工作要求，四川飞豹救援举行授旗授牌仪式。",
+          "coverImage": "/uploads/images/1772012670176-263678027.jpg",
+          "category": "动态要闻",
+          "author": "新闻宣传处",
+          "viewCount": 0,
+          "status": 1,
+          "publishedAt": "2026-07-07T04:17:08.000Z",
+          "sort": 1,
+          "isHeadline": 1,
+          "isNew": 1
+        },
+        {
+          "id": 3,
+          "created_at": "2026-07-07T04:17:07.542Z",
+          "updated_at": "2026-07-07T04:17:07.542Z",
+          "deleted_at": null,
+          "title": "全省消防救援队伍建设工作会议召开",
+          "summary": "部署下一阶段重点任务",
+          "content": "会议总结了全省消防救援队伍建设工作成效，部署下一阶段重点任务，强调持续提升队伍专业化、职业化水平。",
+          "coverImage": "/uploads/images/1771929358760-480792560.jpg",
+          "category": "动态要闻",
+          "author": "新闻宣传处",
+          "viewCount": 0,
+          "status": 1,
+          "publishedAt": "2026-07-07T04:17:08.000Z",
+          "sort": 2,
+          "isHeadline": 1,
+          "isNew": 0
+        },
+        {
+          "id": 4,
+          "created_at": "2026-07-07T04:17:07.542Z",
+          "updated_at": "2026-07-07T04:17:07.542Z",
+          "deleted_at": null,
+          "title": "四川飞豹救援获省级先进集体荣誉",
+          "summary": "展现队伍使命担当",
+          "content": "四川飞豹救援凭借出色的救援业绩和专业能力，被授予省级先进集体荣誉称号。",
+          "coverImage": "/uploads/images/1772011890986-64178342.png",
+          "category": "动态要闻",
+          "author": "新闻宣传处",
+          "viewCount": 0,
+          "status": 1,
+          "publishedAt": "2026-07-07T04:17:08.000Z",
+          "sort": 3,
+          "isHeadline": 1,
+          "isNew": 0
+        },
+        {
+          "id": 5,
+          "created_at": "2026-07-07T04:17:07.542Z",
+          "updated_at": "2026-07-07T04:17:07.542Z",
+          "deleted_at": null,
+          "title": "成都支队开展冬季应急救援综合演练",
+          "summary": "全面检验队伍应急响应能力",
+          "content": "成都支队组织全体队员开展冬季应急救援综合演练，模拟多种灾害场景，全面检验队伍应急响应能力和协同作战水平。",
+          "coverImage": "/uploads/images/1772012797680-610333930.jpg",
+          "category": "各地动态",
+          "author": "新闻宣传处",
+          "viewCount": 0,
+          "status": 1,
+          "publishedAt": "2026-07-07T04:17:08.000Z",
+          "sort": 4,
+          "isHeadline": 0,
+          "isNew": 0
+        },
+        {
+          "id": 6,
+          "created_at": "2026-07-07T04:17:07.542Z",
+          "updated_at": "2026-07-07T04:17:07.542Z",
+          "deleted_at": null,
+          "title": "乐山支队深入社区开展消防安全宣传",
+          "summary": "提高群众自防自救能力",
+          "content": "乐山支队深入辖区社区、学校、企业开展消防安全知识宣传活动，普及消防安全常识，提高群众自防自救能力。",
+          "coverImage": "/uploads/images/1772012347900-787110831.jpg",
+          "category": "各地动态",
+          "author": "新闻宣传处",
+          "viewCount": 0,
+          "status": 1,
+          "publishedAt": "2026-07-07T04:17:08.000Z",
+          "sort": 5,
+          "isHeadline": 0,
+          "isNew": 0
+        },
+        {
+          "id": 7,
+          "created_at": "2026-07-07T04:17:07.542Z",
+          "updated_at": "2026-07-07T04:17:07.542Z",
+          "deleted_at": null,
+          "title": "崇州支队完成年度装备升级改造",
+          "summary": "提升装备现代化水平",
+          "content": "崇州支队顺利完成年度装备升级改造任务，新增多套先进救援装备，进一步提升队伍装备现代化水平。",
+          "coverImage": "/uploads/images/1772017360639-169151121.jpg",
+          "category": "各地动态",
+          "author": "新闻宣传处",
+          "viewCount": 0,
+          "status": 1,
+          "publishedAt": "2026-07-07T04:17:08.000Z",
+          "sort": 6,
+          "isHeadline": 0,
+          "isNew": 0
+        },
+        {
+          "id": 8,
+          "created_at": "2026-07-07T04:17:07.542Z",
+          "updated_at": "2026-07-07T04:17:07.542Z",
+          "deleted_at": null,
+          "title": "双流支队与机场开展联合演练",
+          "summary": "强化空地协同配合",
+          "content": "双流支队与成都双流国际机场开展联合应急演练，模拟航空器事故救援，强化空地协同配合能力。",
+          "coverImage": "/uploads/images/1772017018183-188723664.png",
+          "category": "各地动态",
+          "author": "新闻宣传处",
+          "viewCount": 0,
+          "status": 1,
+          "publishedAt": "2026-07-07T04:17:08.000Z",
+          "sort": 7,
+          "isHeadline": 0,
+          "isNew": 0
+        },
+        {
+          "id": 9,
+          "created_at": "2026-07-07T04:17:07.542Z",
+          "updated_at": "2026-07-07T04:17:07.542Z",
+          "deleted_at": null,
+          "title": "四川飞豹救援开展冬季大练兵活动",
+          "summary": "全面提升队伍实战能力",
+          "content": "四川飞豹救援组织开展冬季大练兵活动，全面提升队伍实战能力和应急响应水平。",
+          "coverImage": "/uploads/images/1772017280639-476314576.png",
+          "category": "动态要闻",
+          "author": "新闻宣传处",
+          "viewCount": 0,
+          "status": 1,
+          "publishedAt": "2026-07-07T04:17:08.000Z",
+          "sort": 8,
+          "isHeadline": 0,
+          "isNew": 0
+        },
+        {
+          "id": 10,
+          "created_at": "2026-07-07T04:17:07.542Z",
+          "updated_at": "2026-07-07T04:17:07.542Z",
+          "deleted_at": null,
+          "title": "四川飞豹救援参加全国应急救援技能竞赛",
+          "summary": "展现专业救援能力",
+          "content": "四川飞豹救援代表队参加全国应急救援技能竞赛，在多个项目中取得优异成绩。",
+          "coverImage": "/uploads/images/1772093657671-998030690.png",
+          "category": "动态要闻",
+          "author": "新闻宣传处",
+          "viewCount": 0,
+          "status": 1,
+          "publishedAt": "2026-07-07T04:17:08.000Z",
+          "sort": 9,
+          "isHeadline": 0,
+          "isNew": 0
+        },
+        {
+          "id": 11,
+          "created_at": "2026-07-07T04:17:07.542Z",
+          "updated_at": "2026-07-07T04:17:07.542Z",
+          "deleted_at": null,
+          "title": "四川飞豹救援开展社区应急演练",
+          "summary": "提高群众应急意识",
+          "content": "四川飞豹救援深入社区开展应急演练活动，向居民普及应急知识，提高群众的应急意识和自救互救能力。",
+          "coverImage": "/uploads/images/1772109592087-215156322.png",
+          "category": "动态要闻",
+          "author": "新闻宣传处",
+          "viewCount": 0,
+          "status": 1,
+          "publishedAt": "2026-07-07T04:17:08.000Z",
+          "sort": 10,
+          "isHeadline": 0,
+          "isNew": 0
+        }
+      ]
+    },
+    "party_building": {
+      "columns": [
+        {
+          "Field": "id",
+          "Type": "int",
+          "Null": "NO",
+          "Key": "PRI",
+          "Default": null,
+          "Extra": "auto_increment"
+        },
+        {
+          "Field": "created_at",
+          "Type": "datetime(6)",
+          "Null": "NO",
+          "Key": "",
+          "Default": "CURRENT_TIMESTAMP(6)",
+          "Extra": "DEFAULT_GENERATED"
+        },
+        {
+          "Field": "updated_at",
+          "Type": "datetime(6)",
+          "Null": "NO",
+          "Key": "",
+          "Default": "CURRENT_TIMESTAMP(6)",
+          "Extra": "DEFAULT_GENERATED on update CURRENT_TIMESTAMP(6)"
+        },
+        {
+          "Field": "deleted_at",
+          "Type": "datetime(6)",
+          "Null": "YES",
+          "Key": "",
+          "Default": null,
+          "Extra": ""
+        },
+        {
+          "Field": "title",
+          "Type": "varchar(200)",
+          "Null": "NO",
+          "Key": "",
+          "Default": null,
+          "Extra": ""
+        },
+        {
+          "Field": "summary",
+          "Type": "text",
+          "Null": "YES",
+          "Key": "",
+          "Default": null,
+          "Extra": ""
+        },
+        {
+          "Field": "content",
+          "Type": "longtext",
+          "Null": "NO",
+          "Key": "",
+          "Default": null,
+          "Extra": ""
+        },
+        {
+          "Field": "coverImage",
+          "Type": "varchar(255)",
+          "Null": "YES",
+          "Key": "",
+          "Default": null,
+          "Extra": ""
+        },
+        {
+          "Field": "category",
+          "Type": "varchar(50)",
+          "Null": "YES",
+          "Key": "",
+          "Default": null,
+          "Extra": ""
+        },
+        {
+          "Field": "viewCount",
+          "Type": "int",
+          "Null": "NO",
+          "Key": "",
+          "Default": "0",
+          "Extra": ""
+        },
+        {
+          "Field": "status",
+          "Type": "tinyint",
+          "Null": "NO",
+          "Key": "",
+          "Default": "1",
+          "Extra": ""
+        },
+        {
+          "Field": "publishedAt",
+          "Type": "datetime",
+          "Null": "YES",
+          "Key": "",
+          "Default": null,
+          "Extra": ""
+        },
+        {
+          "Field": "sort",
+          "Type": "int",
+          "Null": "NO",
+          "Key": "",
+          "Default": "0",
+          "Extra": ""
+        }
+      ],
+      "rows": []
+    },
+    "party_members": {
+      "columns": [
+        {
+          "Field": "id",
+          "Type": "int",
+          "Null": "NO",
+          "Key": "PRI",
+          "Default": null,
+          "Extra": "auto_increment"
+        },
+        {
+          "Field": "name",
+          "Type": "varchar(255)",
+          "Null": "NO",
+          "Key": "",
+          "Default": null,
+          "Extra": ""
+        },
+        {
+          "Field": "position",
+          "Type": "varchar(255)",
+          "Null": "NO",
+          "Key": "",
+          "Default": null,
+          "Extra": ""
+        },
+        {
+          "Field": "avatar",
+          "Type": "varchar(255)",
+          "Null": "YES",
+          "Key": "",
+          "Default": null,
+          "Extra": ""
+        },
+        {
+          "Field": "description",
+          "Type": "text",
+          "Null": "YES",
+          "Key": "",
+          "Default": null,
+          "Extra": ""
+        },
+        {
+          "Field": "sort",
+          "Type": "int",
+          "Null": "NO",
+          "Key": "",
+          "Default": "0",
+          "Extra": ""
+        }
+      ],
+      "rows": []
+    },
+    "party_works": {
+      "columns": [
+        {
+          "Field": "id",
+          "Type": "int",
+          "Null": "NO",
+          "Key": "PRI",
+          "Default": null,
+          "Extra": "auto_increment"
+        },
+        {
+          "Field": "title",
+          "Type": "varchar(255)",
+          "Null": "NO",
+          "Key": "",
+          "Default": null,
+          "Extra": ""
+        },
+        {
+          "Field": "content",
+          "Type": "text",
+          "Null": "NO",
+          "Key": "",
+          "Default": null,
+          "Extra": ""
+        },
+        {
+          "Field": "coverImage",
+          "Type": "varchar(255)",
+          "Null": "YES",
+          "Key": "",
+          "Default": null,
+          "Extra": ""
+        },
+        {
+          "Field": "viewCount",
+          "Type": "int",
+          "Null": "NO",
+          "Key": "",
+          "Default": "0",
+          "Extra": ""
+        },
+        {
+          "Field": "createdAt",
+          "Type": "datetime(6)",
+          "Null": "NO",
+          "Key": "",
+          "Default": "CURRENT_TIMESTAMP(6)",
+          "Extra": "DEFAULT_GENERATED"
+        },
+        {
+          "Field": "type",
+          "Type": "varchar(255)",
+          "Null": "YES",
+          "Key": "",
+          "Default": null,
+          "Extra": ""
+        },
+        {
+          "Field": "summary",
+          "Type": "varchar(255)",
+          "Null": "YES",
+          "Key": "",
+          "Default": null,
+          "Extra": ""
+        },
+        {
+          "Field": "publishDate",
+          "Type": "datetime",
+          "Null": "YES",
+          "Key": "",
+          "Default": null,
+          "Extra": ""
+        },
+        {
+          "Field": "status",
+          "Type": "varchar(255)",
+          "Null": "YES",
+          "Key": "",
+          "Default": null,
+          "Extra": ""
+        },
+        {
+          "Field": "updatedAt",
+          "Type": "datetime(6)",
+          "Null": "YES",
+          "Key": "",
+          "Default": "CURRENT_TIMESTAMP(6)",
+          "Extra": "DEFAULT_GENERATED on update CURRENT_TIMESTAMP(6)"
+        }
+      ],
+      "rows": []
+    },
+    "personnel": {
+      "columns": [
+        {
+          "Field": "id",
+          "Type": "int",
+          "Null": "NO",
+          "Key": "PRI",
+          "Default": null,
+          "Extra": "auto_increment"
+        },
+        {
+          "Field": "personnelCode",
+          "Type": "varchar(32)",
+          "Null": "YES",
+          "Key": "",
+          "Default": null,
+          "Extra": ""
+        },
+        {
+          "Field": "created_at",
+          "Type": "datetime(6)",
+          "Null": "NO",
+          "Key": "",
+          "Default": "CURRENT_TIMESTAMP(6)",
+          "Extra": "DEFAULT_GENERATED"
+        },
+        {
+          "Field": "updated_at",
+          "Type": "datetime(6)",
+          "Null": "NO",
+          "Key": "",
+          "Default": "CURRENT_TIMESTAMP(6)",
+          "Extra": "DEFAULT_GENERATED on update CURRENT_TIMESTAMP(6)"
+        },
+        {
+          "Field": "deleted_at",
+          "Type": "datetime(6)",
+          "Null": "YES",
+          "Key": "",
+          "Default": null,
+          "Extra": ""
+        },
+        {
+          "Field": "name",
+          "Type": "varchar(50)",
+          "Null": "NO",
+          "Key": "",
+          "Default": null,
+          "Extra": ""
+        },
+        {
+          "Field": "idCard",
+          "Type": "varchar(20)",
+          "Null": "NO",
+          "Key": "UNI",
+          "Default": null,
+          "Extra": ""
+        },
+        {
+          "Field": "gender",
+          "Type": "varchar(10)",
+          "Null": "YES",
+          "Key": "",
+          "Default": null,
+          "Extra": ""
+        },
+        {
+          "Field": "birthDate",
+          "Type": "date",
+          "Null": "YES",
+          "Key": "",
+          "Default": null,
+          "Extra": ""
+        },
+        {
+          "Field": "phone",
+          "Type": "varchar(20)",
+          "Null": "YES",
+          "Key": "",
+          "Default": null,
+          "Extra": ""
+        },
+        {
+          "Field": "email",
+          "Type": "varchar(100)",
+          "Null": "YES",
+          "Key": "",
+          "Default": null,
+          "Extra": ""
+        },
+        {
+          "Field": "team",
+          "Type": "varchar(100)",
+          "Null": "YES",
+          "Key": "",
+          "Default": null,
+          "Extra": ""
+        },
+        {
+          "Field": "workUnit",
+          "Type": "varchar(100)",
+          "Null": "YES",
+          "Key": "",
+          "Default": null,
+          "Extra": ""
+        },
+        {
+          "Field": "position",
+          "Type": "varchar(50)",
+          "Null": "YES",
+          "Key": "",
+          "Default": null,
+          "Extra": ""
+        },
+        {
+          "Field": "joinDate",
+          "Type": "date",
+          "Null": "YES",
+          "Key": "",
+          "Default": null,
+          "Extra": ""
+        },
+        {
+          "Field": "photoUrl",
+          "Type": "varchar(255)",
+          "Null": "YES",
+          "Key": "",
+          "Default": null,
+          "Extra": ""
+        },
+        {
+          "Field": "skills",
+          "Type": "text",
+          "Null": "YES",
+          "Key": "",
+          "Default": null,
+          "Extra": ""
+        },
+        {
+          "Field": "remark",
+          "Type": "text",
+          "Null": "YES",
+          "Key": "",
+          "Default": null,
+          "Extra": ""
+        },
+        {
+          "Field": "taskCount",
+          "Type": "int",
+          "Null": "NO",
+          "Key": "",
+          "Default": "0",
+          "Extra": ""
+        },
+        {
+          "Field": "trainingHours",
+          "Type": "int",
+          "Null": "NO",
+          "Key": "",
+          "Default": "0",
+          "Extra": ""
+        },
+        {
+          "Field": "status",
+          "Type": "tinyint",
+          "Null": "NO",
+          "Key": "",
+          "Default": "1",
+          "Extra": ""
+        },
+        {
+          "Field": "auditStatus",
+          "Type": "tinyint",
+          "Null": "NO",
+          "Key": "",
+          "Default": "1",
+          "Extra": ""
+        }
+      ],
+      "rows": [
+        {
+          "id": 1,
+          "personnelCode": null,
+          "created_at": "2026-02-17T03:15:03.175Z",
+          "updated_at": "2026-02-17T03:15:03.175Z",
+          "deleted_at": null,
+          "name": "张三",
+          "idCard": "510100199001011234",
+          "gender": "男",
+          "birthDate": null,
+          "phone": "13800138001",
+          "email": null,
+          "team": "成都救援队",
+          "workUnit": null,
+          "position": "队长",
+          "joinDate": null,
+          "photoUrl": null,
+          "skills": "山地救援、水域救援、医疗急救",
+          "remark": null,
+          "taskCount": 0,
+          "trainingHours": 0,
+          "status": 1,
+          "auditStatus": 1
+        },
+        {
+          "id": 2,
+          "personnelCode": null,
+          "created_at": "2026-02-17T03:15:03.225Z",
+          "updated_at": "2026-02-17T03:15:03.225Z",
+          "deleted_at": null,
+          "name": "李四",
+          "idCard": "510100199102025678",
+          "gender": "男",
+          "birthDate": null,
+          "phone": "13800138002",
+          "email": null,
+          "team": "成都救援队",
+          "workUnit": null,
+          "position": "副队长",
+          "joinDate": null,
+          "photoUrl": null,
+          "skills": "消防救援、高空救援",
+          "remark": null,
+          "taskCount": 0,
+          "trainingHours": 0,
+          "status": 1,
+          "auditStatus": 1
+        },
+        {
+          "id": 3,
+          "personnelCode": null,
+          "created_at": "2026-02-17T03:15:03.259Z",
+          "updated_at": "2026-02-17T03:15:03.259Z",
+          "deleted_at": null,
+          "name": "王五",
+          "idCard": "510100199203039012",
+          "gender": "男",
+          "birthDate": null,
+          "phone": "13800138003",
+          "email": null,
+          "team": "成都救援队",
+          "workUnit": null,
+          "position": "队员",
+          "joinDate": null,
+          "photoUrl": null,
+          "skills": "潜水救援、绳索技术",
+          "remark": null,
+          "taskCount": 0,
+          "trainingHours": 0,
+          "status": 1,
+          "auditStatus": 1
+        }
+      ]
+    },
+    "personnel_appointments": {
+      "columns": [
+        {
+          "Field": "id",
+          "Type": "int",
+          "Null": "NO",
+          "Key": "PRI",
+          "Default": null,
+          "Extra": "auto_increment"
+        },
+        {
+          "Field": "name",
+          "Type": "varchar(255)",
+          "Null": "NO",
+          "Key": "",
+          "Default": null,
+          "Extra": ""
+        },
+        {
+          "Field": "position",
+          "Type": "varchar(255)",
+          "Null": "NO",
+          "Key": "",
+          "Default": null,
+          "Extra": ""
+        },
+        {
+          "Field": "type",
+          "Type": "varchar(255)",
+          "Null": "NO",
+          "Key": "",
+          "Default": null,
+          "Extra": ""
+        },
+        {
+          "Field": "appointmentDate",
+          "Type": "datetime",
+          "Null": "NO",
+          "Key": "",
+          "Default": null,
+          "Extra": ""
+        },
+        {
+          "Field": "createdAt",
+          "Type": "datetime(6)",
+          "Null": "NO",
+          "Key": "",
+          "Default": "CURRENT_TIMESTAMP(6)",
+          "Extra": "DEFAULT_GENERATED"
+        }
+      ],
+      "rows": []
+    },
+    "policies": {
+      "columns": [
+        {
+          "Field": "id",
+          "Type": "int",
+          "Null": "NO",
+          "Key": "PRI",
+          "Default": null,
+          "Extra": "auto_increment"
+        },
+        {
+          "Field": "fileUrl",
+          "Type": "varchar(255)",
+          "Null": "NO",
+          "Key": "",
+          "Default": null,
+          "Extra": ""
+        },
+        {
+          "Field": "publishDate",
+          "Type": "datetime",
+          "Null": "NO",
+          "Key": "",
+          "Default": null,
+          "Extra": ""
+        },
+        {
+          "Field": "createdAt",
+          "Type": "datetime(6)",
+          "Null": "NO",
+          "Key": "",
+          "Default": "CURRENT_TIMESTAMP(6)",
+          "Extra": "DEFAULT_GENERATED"
+        },
+        {
+          "Field": "created_at",
+          "Type": "datetime(6)",
+          "Null": "NO",
+          "Key": "",
+          "Default": "CURRENT_TIMESTAMP(6)",
+          "Extra": "DEFAULT_GENERATED"
+        },
+        {
+          "Field": "updated_at",
+          "Type": "datetime(6)",
+          "Null": "NO",
+          "Key": "",
+          "Default": "CURRENT_TIMESTAMP(6)",
+          "Extra": "DEFAULT_GENERATED on update CURRENT_TIMESTAMP(6)"
+        },
+        {
+          "Field": "deleted_at",
+          "Type": "datetime(6)",
+          "Null": "YES",
+          "Key": "",
+          "Default": null,
+          "Extra": ""
+        },
+        {
+          "Field": "summary",
+          "Type": "text",
+          "Null": "YES",
+          "Key": "",
+          "Default": null,
+          "Extra": ""
+        },
+        {
+          "Field": "content",
+          "Type": "longtext",
+          "Null": "NO",
+          "Key": "",
+          "Default": null,
+          "Extra": ""
+        },
+        {
+          "Field": "issuingAuthority",
+          "Type": "varchar(100)",
+          "Null": "YES",
+          "Key": "",
+          "Default": null,
+          "Extra": ""
+        },
+        {
+          "Field": "documentNumber",
+          "Type": "varchar(50)",
+          "Null": "YES",
+          "Key": "",
+          "Default": null,
+          "Extra": ""
+        },
+        {
+          "Field": "attachmentUrl",
+          "Type": "varchar(255)",
+          "Null": "YES",
+          "Key": "",
+          "Default": null,
+          "Extra": ""
+        },
+        {
+          "Field": "viewCount",
+          "Type": "int",
+          "Null": "NO",
+          "Key": "",
+          "Default": "0",
+          "Extra": ""
+        },
+        {
+          "Field": "status",
+          "Type": "tinyint",
+          "Null": "NO",
+          "Key": "",
+          "Default": "1",
+          "Extra": ""
+        },
+        {
+          "Field": "publishedAt",
+          "Type": "datetime",
+          "Null": "YES",
+          "Key": "",
+          "Default": null,
+          "Extra": ""
+        },
+        {
+          "Field": "sort",
+          "Type": "int",
+          "Null": "NO",
+          "Key": "",
+          "Default": "0",
+          "Extra": ""
+        },
+        {
+          "Field": "title",
+          "Type": "varchar(200)",
+          "Null": "NO",
+          "Key": "",
+          "Default": null,
+          "Extra": ""
+        },
+        {
+          "Field": "category",
+          "Type": "varchar(50)",
+          "Null": "YES",
+          "Key": "",
+          "Default": null,
+          "Extra": ""
+        },
+        {
+          "Field": "attachmentName",
+          "Type": "varchar(255)",
+          "Null": "YES",
+          "Key": "",
+          "Default": null,
+          "Extra": ""
+        },
+        {
+          "Field": "effectiveDate",
+          "Type": "date",
+          "Null": "YES",
+          "Key": "",
+          "Default": null,
+          "Extra": ""
+        },
+        {
+          "Field": "expiryDate",
+          "Type": "date",
+          "Null": "YES",
+          "Key": "",
+          "Default": null,
+          "Extra": ""
+        }
+      ],
+      "rows": []
+    },
+    "public_info": {
+      "columns": [
+        {
+          "Field": "id",
+          "Type": "int",
+          "Null": "NO",
+          "Key": "PRI",
+          "Default": null,
+          "Extra": "auto_increment"
+        },
+        {
+          "Field": "title",
+          "Type": "varchar(255)",
+          "Null": "NO",
+          "Key": "",
+          "Default": null,
+          "Extra": ""
+        },
+        {
+          "Field": "content",
+          "Type": "text",
+          "Null": "NO",
+          "Key": "",
+          "Default": null,
+          "Extra": ""
+        },
+        {
+          "Field": "category",
+          "Type": "varchar(255)",
+          "Null": "YES",
+          "Key": "",
+          "Default": null,
+          "Extra": ""
+        },
+        {
+          "Field": "publishDate",
+          "Type": "datetime",
+          "Null": "YES",
+          "Key": "",
+          "Default": null,
+          "Extra": ""
+        },
+        {
+          "Field": "attachmentUrl",
+          "Type": "varchar(255)",
+          "Null": "YES",
+          "Key": "",
+          "Default": null,
+          "Extra": ""
+        },
+        {
+          "Field": "viewCount",
+          "Type": "int",
+          "Null": "NO",
+          "Key": "",
+          "Default": "0",
+          "Extra": ""
+        },
+        {
+          "Field": "createdAt",
+          "Type": "datetime(6)",
+          "Null": "NO",
+          "Key": "",
+          "Default": "CURRENT_TIMESTAMP(6)",
+          "Extra": "DEFAULT_GENERATED"
+        },
+        {
+          "Field": "updatedAt",
+          "Type": "datetime(6)",
+          "Null": "NO",
+          "Key": "",
+          "Default": "CURRENT_TIMESTAMP(6)",
+          "Extra": "DEFAULT_GENERATED on update CURRENT_TIMESTAMP(6)"
+        }
+      ],
+      "rows": []
+    },
+    "rescue_cases": {
+      "columns": [
+        {
+          "Field": "id",
+          "Type": "int",
+          "Null": "NO",
+          "Key": "PRI",
+          "Default": null,
+          "Extra": "auto_increment"
+        },
+        {
+          "Field": "title",
+          "Type": "varchar(255)",
+          "Null": "NO",
+          "Key": "",
+          "Default": null,
+          "Extra": ""
+        },
+        {
+          "Field": "content",
+          "Type": "text",
+          "Null": "NO",
+          "Key": "",
+          "Default": null,
+          "Extra": ""
+        },
+        {
+          "Field": "coverImage",
+          "Type": "varchar(255)",
+          "Null": "YES",
+          "Key": "",
+          "Default": null,
+          "Extra": ""
+        },
+        {
+          "Field": "location",
+          "Type": "varchar(255)",
+          "Null": "NO",
+          "Key": "",
+          "Default": null,
+          "Extra": ""
+        },
+        {
+          "Field": "rescueDate",
+          "Type": "datetime",
+          "Null": "NO",
+          "Key": "",
+          "Default": null,
+          "Extra": ""
+        },
+        {
+          "Field": "createdAt",
+          "Type": "datetime(6)",
+          "Null": "NO",
+          "Key": "",
+          "Default": "CURRENT_TIMESTAMP(6)",
+          "Extra": "DEFAULT_GENERATED"
+        }
+      ],
+      "rows": [
+        {
+          "id": 1,
+          "title": "成功处置高速公路多车连环相撞事故",
+          "content": "四川飞豹救援接警后迅速出动，成功处置一起高速公路多车连环相撞事故，及时救出被困人员。",
+          "coverImage": "/uploads/images/1772011837512-801241663.jpg",
+          "location": "成都绕城高速",
+          "rescueDate": "2025-01-14T16:00:00.000Z",
+          "createdAt": "2026-07-07T04:17:07.542Z"
+        },
+        {
+          "id": 2,
+          "title": "山地救援队成功转移被困登山者",
+          "content": "山地救援队接到求助后立即出发，克服恶劣天气和复杂地形，成功将被困登山者安全转移下山。",
+          "coverImage": "/uploads/images/1772011851171-736832018.png",
+          "location": "四姑娘山",
+          "rescueDate": "2025-01-09T16:00:00.000Z",
+          "createdAt": "2026-07-07T04:17:07.542Z"
+        },
+        {
+          "id": 3,
+          "title": "水域救援队成功救起落水群众",
+          "content": "水域救援队接到报警后快速响应，利用专业救援装备和技术，成功将落水群众救起并送医救治。",
+          "coverImage": "/uploads/images/1772011879395-934330508.png",
+          "location": "岷江河段",
+          "rescueDate": "2025-01-04T16:00:00.000Z",
+          "createdAt": "2026-07-07T04:17:07.542Z"
+        },
+        {
+          "id": 4,
+          "title": "地震救援队紧急驰援灾区",
+          "content": "地震发生后，救援队第一时间赶赴灾区，开展搜救工作，成功救出多名被困群众。",
+          "coverImage": "/uploads/images/1772012863659-6702179.png",
+          "location": "雅安市",
+          "rescueDate": "2024-12-27T16:00:00.000Z",
+          "createdAt": "2026-07-07T04:17:07.542Z"
+        }
+      ]
+    },
+    "roles": {
+      "columns": [
+        {
+          "Field": "id",
+          "Type": "int",
+          "Null": "NO",
+          "Key": "PRI",
+          "Default": null,
+          "Extra": "auto_increment"
+        },
+        {
+          "Field": "name",
+          "Type": "varchar(255)",
+          "Null": "NO",
+          "Key": "UNI",
+          "Default": null,
+          "Extra": ""
+        },
+        {
+          "Field": "code",
+          "Type": "varchar(255)",
+          "Null": "NO",
+          "Key": "UNI",
+          "Default": null,
+          "Extra": ""
+        },
+        {
+          "Field": "description",
+          "Type": "varchar(255)",
+          "Null": "YES",
+          "Key": "",
+          "Default": null,
+          "Extra": ""
+        },
+        {
+          "Field": "permissions",
+          "Type": "json",
+          "Null": "YES",
+          "Key": "",
+          "Default": null,
+          "Extra": ""
+        },
+        {
+          "Field": "status",
+          "Type": "varchar(255)",
+          "Null": "NO",
+          "Key": "",
+          "Default": "active",
+          "Extra": ""
+        },
+        {
+          "Field": "createTime",
+          "Type": "datetime(6)",
+          "Null": "NO",
+          "Key": "",
+          "Default": "CURRENT_TIMESTAMP(6)",
+          "Extra": "DEFAULT_GENERATED"
+        },
+        {
+          "Field": "updateTime",
+          "Type": "datetime(6)",
+          "Null": "NO",
+          "Key": "",
+          "Default": "CURRENT_TIMESTAMP(6)",
+          "Extra": "DEFAULT_GENERATED on update CURRENT_TIMESTAMP(6)"
+        }
+      ],
+      "rows": []
+    },
+    "settings": {
+      "columns": [
+        {
+          "Field": "id",
+          "Type": "int",
+          "Null": "NO",
+          "Key": "PRI",
+          "Default": null,
+          "Extra": "auto_increment"
+        },
+        {
+          "Field": "key",
+          "Type": "varchar(255)",
+          "Null": "NO",
+          "Key": "UNI",
+          "Default": null,
+          "Extra": ""
+        },
+        {
+          "Field": "value",
+          "Type": "text",
+          "Null": "NO",
+          "Key": "",
+          "Default": null,
+          "Extra": ""
+        },
+        {
+          "Field": "description",
+          "Type": "varchar(255)",
+          "Null": "YES",
+          "Key": "",
+          "Default": null,
+          "Extra": ""
+        },
+        {
+          "Field": "type",
+          "Type": "varchar(255)",
+          "Null": "NO",
+          "Key": "",
+          "Default": "text",
+          "Extra": ""
+        },
+        {
+          "Field": "createTime",
+          "Type": "datetime(6)",
+          "Null": "NO",
+          "Key": "",
+          "Default": "CURRENT_TIMESTAMP(6)",
+          "Extra": "DEFAULT_GENERATED"
+        },
+        {
+          "Field": "updateTime",
+          "Type": "datetime(6)",
+          "Null": "NO",
+          "Key": "",
+          "Default": "CURRENT_TIMESTAMP(6)",
+          "Extra": "DEFAULT_GENERATED on update CURRENT_TIMESTAMP(6)"
+        }
+      ],
+      "rows": [
+        {
+          "id": 1,
+          "key": "admin_operation_logs",
+          "value": "[{\"id\":11,\"username\":\"admin\",\"action\":\"更新网站配置：copyright\",\"module\":\"网站配置\",\"ip\":\"127.0.0.1\",\"time\":\"2026-07-07 06:28:00\"},{\"id\":10,\"username\":\"admin\",\"action\":\"更新网站配置：icp_number\",\"module\":\"网站配置\",\"ip\":\"127.0.0.1\",\"time\":\"2026-07-07 06:28:00\"},{\"id\":9,\"username\":\"admin\",\"action\":\"更新网站配置：organizer_unit\",\"module\":\"网站配置\",\"ip\":\"127.0.0.1\",\"time\":\"2026-07-07 06:28:00\"},{\"id\":8,\"username\":\"admin\",\"action\":\"更新网站配置：host_unit\",\"module\":\"网站配置\",\"ip\":\"127.0.0.1\",\"time\":\"2026-07-07 06:28:00\"},{\"id\":7,\"username\":\"admin\",\"action\":\"登录系统\",\"module\":\"认证\",\"ip\":\"127.0.0.1\",\"time\":\"2026-07-07 06:25:30\"},{\"id\":6,\"username\":\"admin\",\"action\":\"登录系统\",\"module\":\"认证\",\"ip\":\"127.0.0.1\",\"time\":\"2026-07-07 04:49:28\"},{\"id\":5,\"username\":\"admin\",\"action\":\"登录系统\",\"module\":\"认证\",\"ip\":\"127.0.0.1\",\"time\":\"2026-07-07 04:18:29\"},{\"id\":4,\"username\":\"admin\",\"action\":\"登录系统\",\"module\":\"认证\",\"ip\":\"127.0.0.1\",\"time\":\"2026-07-07 04:14:47\"},{\"id\":1,\"username\":\"admin\",\"action\":\"登录系统\",\"module\":\"认证\",\"ip\":\"127.0.0.1\",\"time\":\"2026-04-24 10:30:00\"},{\"id\":2,\"username\":\"admin\",\"action\":\"编辑新闻\",\"module\":\"新闻管理\",\"ip\":\"127.0.0.1\",\"time\":\"2026-04-24 10:35:00\"},{\"id\":3,\"username\":\"admin\",\"action\":\"更新网站配置\",\"module\":\"网站配置\",\"ip\":\"127.0.0.1\",\"time\":\"2026-04-24 10:40:00\"}]",
+          "description": "后台操作日志",
+          "type": "json",
+          "createTime": "2026-07-06T20:14:47.638Z",
+          "updateTime": "2026-07-06T22:28:00.000Z"
+        },
+        {
+          "id": 2,
+          "key": "admin_navigation_items",
+          "value": "[{\"id\":1,\"name\":\"首页\",\"path\":\"/\",\"source\":\"src/components/common/AppHeader.vue\",\"visible\":true,\"sort\":1},{\"id\":2,\"name\":\"概况信息\",\"path\":\"/overview-info\",\"source\":\"src/components/common/AppHeader.vue\",\"visible\":true,\"sort\":2},{\"id\":3,\"name\":\"党建专栏\",\"path\":\"/party-building\",\"source\":\"src/components/common/AppHeader.vue\",\"visible\":true,\"sort\":3},{\"id\":4,\"name\":\"动态要闻\",\"path\":\"/dynamic-news\",\"source\":\"src/components/common/AppHeader.vue\",\"visible\":true,\"sort\":4},{\"id\":5,\"name\":\"队伍建设\",\"path\":\"/team-building\",\"source\":\"src/components/common/AppHeader.vue\",\"visible\":true,\"sort\":5},{\"id\":6,\"name\":\"信息公开\",\"path\":\"/info-public\",\"source\":\"src/components/common/AppHeader.vue\",\"visible\":true,\"sort\":6},{\"id\":7,\"name\":\"政策法规\",\"path\":\"/policy-regulations\",\"source\":\"src/components/common/AppHeader.vue\",\"visible\":true,\"sort\":7},{\"id\":8,\"name\":\"查询系统\",\"path\":\"/query-system\",\"source\":\"src/components/common/AppHeader.vue\",\"visible\":true,\"sort\":8}]",
+          "description": "后台导航设置",
+          "type": "json",
+          "createTime": "2026-07-06T20:35:49.504Z",
+          "updateTime": "2026-07-06T20:35:49.504Z"
+        }
+      ]
+    },
+    "team_building": {
+      "columns": [
+        {
+          "Field": "id",
+          "Type": "int",
+          "Null": "NO",
+          "Key": "PRI",
+          "Default": null,
+          "Extra": "auto_increment"
+        },
+        {
+          "Field": "created_at",
+          "Type": "datetime(6)",
+          "Null": "NO",
+          "Key": "",
+          "Default": "CURRENT_TIMESTAMP(6)",
+          "Extra": "DEFAULT_GENERATED"
+        },
+        {
+          "Field": "updated_at",
+          "Type": "datetime(6)",
+          "Null": "NO",
+          "Key": "",
+          "Default": "CURRENT_TIMESTAMP(6)",
+          "Extra": "DEFAULT_GENERATED on update CURRENT_TIMESTAMP(6)"
+        },
+        {
+          "Field": "deleted_at",
+          "Type": "datetime(6)",
+          "Null": "YES",
+          "Key": "",
+          "Default": null,
+          "Extra": ""
+        },
+        {
+          "Field": "title",
+          "Type": "varchar(200)",
+          "Null": "NO",
+          "Key": "",
+          "Default": null,
+          "Extra": ""
+        },
+        {
+          "Field": "summary",
+          "Type": "text",
+          "Null": "YES",
+          "Key": "",
+          "Default": null,
+          "Extra": ""
+        },
+        {
+          "Field": "content",
+          "Type": "longtext",
+          "Null": "NO",
+          "Key": "",
+          "Default": null,
+          "Extra": ""
+        },
+        {
+          "Field": "coverImage",
+          "Type": "varchar(255)",
+          "Null": "YES",
+          "Key": "",
+          "Default": null,
+          "Extra": ""
+        },
+        {
+          "Field": "category",
+          "Type": "varchar(50)",
+          "Null": "YES",
+          "Key": "",
+          "Default": null,
+          "Extra": ""
+        },
+        {
+          "Field": "viewCount",
+          "Type": "int",
+          "Null": "NO",
+          "Key": "",
+          "Default": "0",
+          "Extra": ""
+        },
+        {
+          "Field": "status",
+          "Type": "tinyint",
+          "Null": "NO",
+          "Key": "",
+          "Default": "1",
+          "Extra": ""
+        },
+        {
+          "Field": "publishedAt",
+          "Type": "datetime",
+          "Null": "YES",
+          "Key": "",
+          "Default": null,
+          "Extra": ""
+        },
+        {
+          "Field": "sort",
+          "Type": "int",
+          "Null": "NO",
+          "Key": "",
+          "Default": "0",
+          "Extra": ""
+        }
+      ],
+      "rows": []
+    },
+    "team_intro": {
+      "columns": [
+        {
+          "Field": "id",
+          "Type": "int",
+          "Null": "NO",
+          "Key": "PRI",
+          "Default": null,
+          "Extra": "auto_increment"
+        },
+        {
+          "Field": "title",
+          "Type": "varchar(255)",
+          "Null": "NO",
+          "Key": "",
+          "Default": null,
+          "Extra": ""
+        },
+        {
+          "Field": "content",
+          "Type": "text",
+          "Null": "NO",
+          "Key": "",
+          "Default": null,
+          "Extra": ""
+        },
+        {
+          "Field": "sort",
+          "Type": "int",
+          "Null": "NO",
+          "Key": "",
+          "Default": "0",
+          "Extra": ""
+        },
+        {
+          "Field": "createdAt",
+          "Type": "datetime(6)",
+          "Null": "NO",
+          "Key": "",
+          "Default": "CURRENT_TIMESTAMP(6)",
+          "Extra": "DEFAULT_GENERATED"
+        },
+        {
+          "Field": "updatedAt",
+          "Type": "datetime(6)",
+          "Null": "NO",
+          "Key": "",
+          "Default": "CURRENT_TIMESTAMP(6)",
+          "Extra": "DEFAULT_GENERATED on update CURRENT_TIMESTAMP(6)"
+        }
+      ],
+      "rows": []
+    },
+    "team_showcase": {
+      "columns": [
+        {
+          "Field": "id",
+          "Type": "int",
+          "Null": "NO",
+          "Key": "PRI",
+          "Default": null,
+          "Extra": "auto_increment"
+        },
+        {
+          "Field": "title",
+          "Type": "varchar(255)",
+          "Null": "NO",
+          "Key": "",
+          "Default": null,
+          "Extra": ""
+        },
+        {
+          "Field": "type",
+          "Type": "varchar(50)",
+          "Null": "YES",
+          "Key": "",
+          "Default": null,
+          "Extra": ""
+        },
+        {
+          "Field": "imageUrl",
+          "Type": "varchar(255)",
+          "Null": "NO",
+          "Key": "",
+          "Default": null,
+          "Extra": ""
+        },
+        {
+          "Field": "description",
+          "Type": "varchar(255)",
+          "Null": "YES",
+          "Key": "",
+          "Default": null,
+          "Extra": ""
+        },
+        {
+          "Field": "sort",
+          "Type": "int",
+          "Null": "NO",
+          "Key": "",
+          "Default": "0",
+          "Extra": ""
+        },
+        {
+          "Field": "status",
+          "Type": "varchar(20)",
+          "Null": "NO",
+          "Key": "",
+          "Default": "显示",
+          "Extra": ""
+        },
+        {
+          "Field": "createdAt",
+          "Type": "datetime(6)",
+          "Null": "NO",
+          "Key": "",
+          "Default": "CURRENT_TIMESTAMP(6)",
+          "Extra": "DEFAULT_GENERATED"
+        },
+        {
+          "Field": "updatedAt",
+          "Type": "datetime(6)",
+          "Null": "NO",
+          "Key": "",
+          "Default": "CURRENT_TIMESTAMP(6)",
+          "Extra": "DEFAULT_GENERATED on update CURRENT_TIMESTAMP(6)"
+        }
+      ],
+      "rows": [
+        {
+          "id": 1,
+          "title": "训练场景1",
+          "type": "训练场景",
+          "imageUrl": "/uploads/images/1772091958573-811889524.png",
+          "description": "队员进行绳索救援训练",
+          "sort": 1,
+          "status": "显示",
+          "createdAt": "2026-07-07T04:17:07.542Z",
+          "updatedAt": "2026-07-07T04:17:07.542Z"
+        },
+        {
+          "id": 2,
+          "title": "训练场景2",
+          "type": "训练场景",
+          "imageUrl": "/uploads/images/1772093166116-43957493.png",
+          "description": "队员进行高空救援训练",
+          "sort": 2,
+          "status": "显示",
+          "createdAt": "2026-07-07T04:17:07.542Z",
+          "updatedAt": "2026-07-07T04:17:07.542Z"
+        },
+        {
+          "id": 3,
+          "title": "训练场景3",
+          "type": "训练场景",
+          "imageUrl": "/uploads/images/1772093657671-998030690.png",
+          "description": "队员进行水域救援训练",
+          "sort": 3,
+          "status": "显示",
+          "createdAt": "2026-07-07T04:17:07.542Z",
+          "updatedAt": "2026-07-07T04:17:07.542Z"
+        },
+        {
+          "id": 4,
+          "title": "训练场景4",
+          "type": "训练场景",
+          "imageUrl": "/uploads/images/1772094560465-393963285.png",
+          "description": "队员进行地震救援训练",
+          "sort": 4,
+          "status": "显示",
+          "createdAt": "2026-07-07T04:17:07.542Z",
+          "updatedAt": "2026-07-07T04:17:07.542Z"
+        },
+        {
+          "id": 5,
+          "title": "实战场景1",
+          "type": "实战场景",
+          "imageUrl": "/uploads/images/1772094725466-330988384.png",
+          "description": "队员参与实战救援",
+          "sort": 5,
+          "status": "显示",
+          "createdAt": "2026-07-07T04:17:07.542Z",
+          "updatedAt": "2026-07-07T04:17:07.542Z"
+        },
+        {
+          "id": 6,
+          "title": "实战场景2",
+          "type": "实战场景",
+          "imageUrl": "/uploads/images/1772094941093-372031621.png",
+          "description": "队员转移被困群众",
+          "sort": 6,
+          "status": "显示",
+          "createdAt": "2026-07-07T04:17:07.542Z",
+          "updatedAt": "2026-07-07T04:17:07.542Z"
+        },
+        {
+          "id": 7,
+          "title": "实战场景3",
+          "type": "实战场景",
+          "imageUrl": "/uploads/images/1772095241976-46189070.png",
+          "description": "队员开展搜救工作",
+          "sort": 7,
+          "status": "显示",
+          "createdAt": "2026-07-07T04:17:07.542Z",
+          "updatedAt": "2026-07-07T04:17:07.542Z"
+        },
+        {
+          "id": 8,
+          "title": "实战场景4",
+          "type": "实战场景",
+          "imageUrl": "/uploads/images/1772095408220-815651717.png",
+          "description": "队员进行医疗救护",
+          "sort": 8,
+          "status": "显示",
+          "createdAt": "2026-07-07T04:17:07.542Z",
+          "updatedAt": "2026-07-07T04:17:07.542Z"
+        }
+      ]
+    },
+    "team_units": {
+      "columns": [
+        {
+          "Field": "id",
+          "Type": "int",
+          "Null": "NO",
+          "Key": "PRI",
+          "Default": null,
+          "Extra": "auto_increment"
+        },
+        {
+          "Field": "created_at",
+          "Type": "datetime(6)",
+          "Null": "NO",
+          "Key": "",
+          "Default": "CURRENT_TIMESTAMP(6)",
+          "Extra": "DEFAULT_GENERATED"
+        },
+        {
+          "Field": "updated_at",
+          "Type": "datetime(6)",
+          "Null": "NO",
+          "Key": "",
+          "Default": "CURRENT_TIMESTAMP(6)",
+          "Extra": "DEFAULT_GENERATED on update CURRENT_TIMESTAMP(6)"
+        },
+        {
+          "Field": "deleted_at",
+          "Type": "datetime(6)",
+          "Null": "YES",
+          "Key": "",
+          "Default": null,
+          "Extra": ""
+        },
+        {
+          "Field": "name",
+          "Type": "varchar(100)",
+          "Null": "NO",
+          "Key": "UNI",
+          "Default": null,
+          "Extra": ""
+        },
+        {
+          "Field": "pointName",
+          "Type": "varchar(150)",
+          "Null": "NO",
+          "Key": "",
+          "Default": "",
+          "Extra": ""
+        },
+        {
+          "Field": "sort",
+          "Type": "int",
+          "Null": "NO",
+          "Key": "",
+          "Default": "0",
+          "Extra": ""
+        },
+        {
+          "Field": "status",
+          "Type": "tinyint",
+          "Null": "NO",
+          "Key": "",
+          "Default": "1",
+          "Extra": ""
+        }
+      ],
+      "rows": [
+        {
+          "id": 1,
+          "created_at": "2026-07-06T22:20:18.549Z",
+          "updated_at": "2026-07-06T22:20:18.549Z",
+          "deleted_at": null,
+          "name": "总队",
+          "pointName": "四川飞豹救援指挥中心",
+          "sort": 1,
+          "status": 1
+        },
+        {
+          "id": 2,
+          "created_at": "2026-07-06T22:20:18.549Z",
+          "updated_at": "2026-07-06T22:20:18.549Z",
+          "deleted_at": null,
+          "name": "特勤大队",
+          "pointName": "四川飞豹救援特勤大队",
+          "sort": 2,
+          "status": 1
+        },
+        {
+          "id": 3,
+          "created_at": "2026-07-06T22:20:18.549Z",
+          "updated_at": "2026-07-06T22:20:18.549Z",
+          "deleted_at": null,
+          "name": "训练与战勤保障大队",
+          "pointName": "四川飞豹救援训练与战勤保障大队",
+          "sort": 3,
+          "status": 1
+        },
+        {
+          "id": 4,
+          "created_at": "2026-07-06T22:20:18.549Z",
+          "updated_at": "2026-07-06T22:20:18.549Z",
+          "deleted_at": null,
+          "name": "应急通信与车辆勤务大队",
+          "pointName": "四川飞豹救援应急通信与车辆勤务大队",
+          "sort": 4,
+          "status": 1
+        },
+        {
+          "id": 5,
+          "created_at": "2026-07-06T22:20:18.549Z",
+          "updated_at": "2026-07-06T22:20:18.549Z",
+          "deleted_at": null,
+          "name": "峨眉山直属大队",
+          "pointName": "四川飞豹救援峨眉山直属大队",
+          "sort": 5,
+          "status": 1
+        },
+        {
+          "id": 6,
+          "created_at": "2026-07-06T22:20:18.549Z",
+          "updated_at": "2026-07-06T22:20:18.549Z",
+          "deleted_at": null,
+          "name": "搜救犬大队",
+          "pointName": "四川飞豹救援搜救犬大队",
+          "sort": 6,
+          "status": 1
+        },
+        {
+          "id": 7,
+          "created_at": "2026-07-06T22:20:18.549Z",
+          "updated_at": "2026-07-06T22:20:18.549Z",
+          "deleted_at": null,
+          "name": "崇州支队",
+          "pointName": "四川飞豹救援崇州支队",
+          "sort": 7,
+          "status": 1
+        },
+        {
+          "id": 8,
+          "created_at": "2026-07-06T22:20:18.549Z",
+          "updated_at": "2026-07-06T22:20:18.549Z",
+          "deleted_at": null,
+          "name": "南充支队",
+          "pointName": "四川飞豹救援南充支队",
+          "sort": 8,
+          "status": 1
+        },
+        {
+          "id": 9,
+          "created_at": "2026-07-06T22:20:18.549Z",
+          "updated_at": "2026-07-06T22:20:18.549Z",
+          "deleted_at": null,
+          "name": "天府支队",
+          "pointName": "四川飞豹救援天府支队",
+          "sort": 9,
+          "status": 1
+        },
+        {
+          "id": 10,
+          "created_at": "2026-07-06T22:20:18.549Z",
+          "updated_at": "2026-07-06T22:20:18.549Z",
+          "deleted_at": null,
+          "name": "雅安支队",
+          "pointName": "四川飞豹救援雅安支队",
+          "sort": 10,
+          "status": 1
+        },
+        {
+          "id": 11,
+          "created_at": "2026-07-06T22:20:18.549Z",
+          "updated_at": "2026-07-06T22:20:18.549Z",
+          "deleted_at": null,
+          "name": "德阳支队",
+          "pointName": "四川飞豹救援德阳支队",
+          "sort": 11,
+          "status": 1
+        },
+        {
+          "id": 12,
+          "created_at": "2026-07-06T22:20:18.549Z",
+          "updated_at": "2026-07-06T22:20:18.549Z",
+          "deleted_at": null,
+          "name": "达州支队",
+          "pointName": "四川飞豹救援达州支队",
+          "sort": 12,
+          "status": 1
+        },
+        {
+          "id": 13,
+          "created_at": "2026-07-06T22:20:18.549Z",
+          "updated_at": "2026-07-06T22:20:18.549Z",
+          "deleted_at": null,
+          "name": "双流大队",
+          "pointName": "四川飞豹救援双流大队",
+          "sort": 13,
+          "status": 1
+        },
+        {
+          "id": 14,
+          "created_at": "2026-07-06T22:20:18.549Z",
+          "updated_at": "2026-07-06T22:20:18.549Z",
+          "deleted_at": null,
+          "name": "青白江大队",
+          "pointName": "四川飞豹救援青白江大队",
+          "sort": 14,
+          "status": 1
+        },
+        {
+          "id": 15,
+          "created_at": "2026-07-06T22:20:18.549Z",
+          "updated_at": "2026-07-06T22:20:18.549Z",
+          "deleted_at": null,
+          "name": "龙泉驿大队",
+          "pointName": "四川飞豹救援龙泉驿大队",
+          "sort": 15,
+          "status": 1
+        },
+        {
+          "id": 16,
+          "created_at": "2026-07-06T22:20:18.549Z",
+          "updated_at": "2026-07-06T22:20:18.549Z",
+          "deleted_at": null,
+          "name": "南部大队",
+          "pointName": "四川飞豹救援南部大队",
+          "sort": 16,
+          "status": 1
+        },
+        {
+          "id": 17,
+          "created_at": "2026-07-06T22:20:18.549Z",
+          "updated_at": "2026-07-06T22:20:18.549Z",
+          "deleted_at": null,
+          "name": "营山大队",
+          "pointName": "四川飞豹救援营山大队",
+          "sort": 17,
+          "status": 1
+        }
+      ]
+    },
+    "users": {
+      "columns": [
+        {
+          "Field": "id",
+          "Type": "int",
+          "Null": "NO",
+          "Key": "PRI",
+          "Default": null,
+          "Extra": "auto_increment"
+        },
+        {
+          "Field": "created_at",
+          "Type": "datetime(6)",
+          "Null": "NO",
+          "Key": "",
+          "Default": "CURRENT_TIMESTAMP(6)",
+          "Extra": "DEFAULT_GENERATED"
+        },
+        {
+          "Field": "updated_at",
+          "Type": "datetime(6)",
+          "Null": "NO",
+          "Key": "",
+          "Default": "CURRENT_TIMESTAMP(6)",
+          "Extra": "DEFAULT_GENERATED on update CURRENT_TIMESTAMP(6)"
+        },
+        {
+          "Field": "deleted_at",
+          "Type": "datetime(6)",
+          "Null": "YES",
+          "Key": "",
+          "Default": null,
+          "Extra": ""
+        },
+        {
+          "Field": "username",
+          "Type": "varchar(50)",
+          "Null": "NO",
+          "Key": "UNI",
+          "Default": null,
+          "Extra": ""
+        },
+        {
+          "Field": "password",
+          "Type": "varchar(255)",
+          "Null": "NO",
+          "Key": "",
+          "Default": null,
+          "Extra": ""
+        },
+        {
+          "Field": "realName",
+          "Type": "varchar(50)",
+          "Null": "YES",
+          "Key": "",
+          "Default": null,
+          "Extra": ""
+        },
+        {
+          "Field": "email",
+          "Type": "varchar(100)",
+          "Null": "YES",
+          "Key": "UNI",
+          "Default": null,
+          "Extra": ""
+        },
+        {
+          "Field": "phone",
+          "Type": "varchar(20)",
+          "Null": "YES",
+          "Key": "",
+          "Default": null,
+          "Extra": ""
+        },
+        {
+          "Field": "role",
+          "Type": "enum('admin','editor','viewer')",
+          "Null": "NO",
+          "Key": "",
+          "Default": "viewer",
+          "Extra": ""
+        },
+        {
+          "Field": "status",
+          "Type": "tinyint",
+          "Null": "NO",
+          "Key": "",
+          "Default": "1",
+          "Extra": ""
+        },
+        {
+          "Field": "lastLoginAt",
+          "Type": "datetime",
+          "Null": "YES",
+          "Key": "",
+          "Default": null,
+          "Extra": ""
+        }
+      ],
+      "rows": [
+        {
+          "id": 1,
+          "created_at": "2026-02-16T17:26:41.607Z",
+          "updated_at": "2026-02-19T09:38:21.000Z",
+          "deleted_at": null,
+          "username": "admin",
+          "password": "$2b$10$baGtV6R.a45AaI.hoY4ZnOI41Rq/6ztjWK6NxnEpxrxMzeEtiKNP.",
+          "realName": "系统管理员",
+          "email": null,
+          "phone": null,
+          "role": "viewer",
+          "status": 1,
+          "lastLoginAt": "2026-02-19T09:38:21.000Z"
+        },
+        {
+          "id": 2,
+          "created_at": "2026-02-19T09:39:13.733Z",
+          "updated_at": "2026-02-19T10:49:20.000Z",
+          "deleted_at": null,
+          "username": "testuser",
+          "password": "$2b$10$hG5talQEhqBcMycWzq1nne9jcRG1XaoMjLMtBozaDHsI3hecX8huK",
+          "realName": "测试用户",
+          "email": null,
+          "phone": null,
+          "role": "admin",
+          "status": 1,
+          "lastLoginAt": "2026-02-19T10:49:20.000Z"
+        }
+      ]
+    },
+    "vehicles": {
+      "columns": [
+        {
+          "Field": "id",
+          "Type": "int",
+          "Null": "NO",
+          "Key": "PRI",
+          "Default": null,
+          "Extra": "auto_increment"
+        },
+        {
+          "Field": "created_at",
+          "Type": "datetime(6)",
+          "Null": "NO",
+          "Key": "",
+          "Default": "CURRENT_TIMESTAMP(6)",
+          "Extra": "DEFAULT_GENERATED"
+        },
+        {
+          "Field": "updated_at",
+          "Type": "datetime(6)",
+          "Null": "NO",
+          "Key": "",
+          "Default": "CURRENT_TIMESTAMP(6)",
+          "Extra": "DEFAULT_GENERATED on update CURRENT_TIMESTAMP(6)"
+        },
+        {
+          "Field": "deleted_at",
+          "Type": "datetime(6)",
+          "Null": "YES",
+          "Key": "",
+          "Default": null,
+          "Extra": ""
+        },
+        {
+          "Field": "plateNumber",
+          "Type": "varchar(20)",
+          "Null": "NO",
+          "Key": "UNI",
+          "Default": null,
+          "Extra": ""
+        },
+        {
+          "Field": "vehicleNo",
+          "Type": "varchar(40)",
+          "Null": "YES",
+          "Key": "",
+          "Default": null,
+          "Extra": ""
+        },
+        {
+          "Field": "vehicleType",
+          "Type": "varchar(50)",
+          "Null": "NO",
+          "Key": "",
+          "Default": null,
+          "Extra": ""
+        },
+        {
+          "Field": "brandModel",
+          "Type": "varchar(50)",
+          "Null": "YES",
+          "Key": "",
+          "Default": null,
+          "Extra": ""
+        },
+        {
+          "Field": "engineNumber",
+          "Type": "varchar(64)",
+          "Null": "YES",
+          "Key": "",
+          "Default": null,
+          "Extra": ""
+        },
+        {
+          "Field": "chassisNumber",
+          "Type": "varchar(64)",
+          "Null": "YES",
+          "Key": "",
+          "Default": null,
+          "Extra": ""
+        },
+        {
+          "Field": "color",
+          "Type": "varchar(50)",
+          "Null": "YES",
+          "Key": "",
+          "Default": null,
+          "Extra": ""
+        },
+        {
+          "Field": "purchaseDate",
+          "Type": "date",
+          "Null": "YES",
+          "Key": "",
+          "Default": null,
+          "Extra": ""
+        },
+        {
+          "Field": "issueDate",
+          "Type": "date",
+          "Null": "YES",
+          "Key": "",
+          "Default": null,
+          "Extra": ""
+        },
+        {
+          "Field": "validityDate",
+          "Type": "date",
+          "Null": "YES",
+          "Key": "",
+          "Default": null,
+          "Extra": ""
+        },
+        {
+          "Field": "team",
+          "Type": "varchar(100)",
+          "Null": "YES",
+          "Key": "",
+          "Default": null,
+          "Extra": ""
+        },
+        {
+          "Field": "responsiblePerson",
+          "Type": "varchar(50)",
+          "Null": "YES",
+          "Key": "",
+          "Default": null,
+          "Extra": ""
+        },
+        {
+          "Field": "phone",
+          "Type": "varchar(20)",
+          "Null": "YES",
+          "Key": "",
+          "Default": null,
+          "Extra": ""
+        },
+        {
+          "Field": "configuration",
+          "Type": "text",
+          "Null": "YES",
+          "Key": "",
+          "Default": null,
+          "Extra": ""
+        },
+        {
+          "Field": "photoUrl",
+          "Type": "varchar(255)",
+          "Null": "YES",
+          "Key": "",
+          "Default": null,
+          "Extra": ""
+        },
+        {
+          "Field": "lastMaintenanceDate",
+          "Type": "date",
+          "Null": "YES",
+          "Key": "",
+          "Default": null,
+          "Extra": ""
+        },
+        {
+          "Field": "nextMaintenanceDate",
+          "Type": "date",
+          "Null": "YES",
+          "Key": "",
+          "Default": null,
+          "Extra": ""
+        },
+        {
+          "Field": "remark",
+          "Type": "text",
+          "Null": "YES",
+          "Key": "",
+          "Default": null,
+          "Extra": ""
+        },
+        {
+          "Field": "status",
+          "Type": "tinyint",
+          "Null": "NO",
+          "Key": "",
+          "Default": "1",
+          "Extra": ""
+        }
+      ],
+      "rows": [
+        {
+          "id": 1,
+          "created_at": "2026-02-17T03:15:17.259Z",
+          "updated_at": "2026-02-17T03:15:17.259Z",
+          "deleted_at": null,
+          "plateNumber": "川A12345",
+          "vehicleNo": null,
+          "vehicleType": "救援指挥车",
+          "brandModel": "丰田陆地巡洋舰",
+          "engineNumber": null,
+          "chassisNumber": null,
+          "color": "白色",
+          "purchaseDate": null,
+          "issueDate": null,
+          "validityDate": null,
+          "team": "成都救援队",
+          "responsiblePerson": "张三",
+          "phone": "13800138001",
+          "configuration": "GPS定位、卫星通讯、应急照明设备",
+          "photoUrl": null,
+          "lastMaintenanceDate": null,
+          "nextMaintenanceDate": null,
+          "remark": null,
+          "status": 1
+        },
+        {
+          "id": 2,
+          "created_at": "2026-02-17T03:15:17.307Z",
+          "updated_at": "2026-02-17T03:15:17.307Z",
+          "deleted_at": null,
+          "plateNumber": "川A67890",
+          "vehicleNo": null,
+          "vehicleType": "消防救援车",
+          "brandModel": "五十铃消防车",
+          "engineNumber": null,
+          "chassisNumber": null,
+          "color": "红色",
+          "purchaseDate": null,
+          "issueDate": null,
+          "validityDate": null,
+          "team": "成都救援队",
+          "responsiblePerson": "李四",
+          "phone": "13800138002",
+          "configuration": "水罐、泡沫罐、高压水枪、破拆工具",
+          "photoUrl": null,
+          "lastMaintenanceDate": null,
+          "nextMaintenanceDate": null,
+          "remark": null,
+          "status": 1
+        },
+        {
+          "id": 3,
+          "created_at": "2026-02-17T03:15:17.354Z",
+          "updated_at": "2026-02-17T03:15:17.354Z",
+          "deleted_at": null,
+          "plateNumber": "川A11111",
+          "vehicleNo": null,
+          "vehicleType": "医疗救护车",
+          "brandModel": "福特全顺",
+          "engineNumber": null,
+          "chassisNumber": null,
+          "color": "白色",
+          "purchaseDate": null,
+          "issueDate": null,
+          "validityDate": null,
+          "team": "成都救援队",
+          "responsiblePerson": "王五",
+          "phone": "13800138003",
+          "configuration": "急救设备、担架、氧气瓶、除颤仪",
+          "photoUrl": null,
+          "lastMaintenanceDate": null,
+          "nextMaintenanceDate": null,
+          "remark": null,
+          "status": 1
+        }
+      ]
+    },
+    "videos": {
+      "columns": [
+        {
+          "Field": "id",
+          "Type": "int",
+          "Null": "NO",
+          "Key": "PRI",
+          "Default": null,
+          "Extra": "auto_increment"
+        },
+        {
+          "Field": "title",
+          "Type": "varchar(255)",
+          "Null": "NO",
+          "Key": "",
+          "Default": null,
+          "Extra": ""
+        },
+        {
+          "Field": "videoUrl",
+          "Type": "varchar(255)",
+          "Null": "NO",
+          "Key": "",
+          "Default": null,
+          "Extra": ""
+        },
+        {
+          "Field": "coverUrl",
+          "Type": "varchar(255)",
+          "Null": "YES",
+          "Key": "",
+          "Default": null,
+          "Extra": ""
+        },
+        {
+          "Field": "sort",
+          "Type": "int",
+          "Null": "NO",
+          "Key": "",
+          "Default": "0",
+          "Extra": ""
+        },
+        {
+          "Field": "createdAt",
+          "Type": "datetime(6)",
+          "Null": "NO",
+          "Key": "",
+          "Default": "CURRENT_TIMESTAMP(6)",
+          "Extra": "DEFAULT_GENERATED"
+        },
+        {
+          "Field": "isTop",
+          "Type": "tinyint",
+          "Null": "NO",
+          "Key": "",
+          "Default": "0",
+          "Extra": ""
+        },
+        {
+          "Field": "updatedAt",
+          "Type": "datetime(6)",
+          "Null": "NO",
+          "Key": "",
+          "Default": "CURRENT_TIMESTAMP(6)",
+          "Extra": "DEFAULT_GENERATED on update CURRENT_TIMESTAMP(6)"
+        }
+      ],
+      "rows": [
+        {
+          "id": 1,
+          "title": "四川飞豹救援宣传片",
+          "videoUrl": "/uploads/videos/1771997109315-841584175.mp4",
+          "coverUrl": "/uploads/images/1771914205341-880638838.png",
+          "sort": 1,
+          "createdAt": "2026-07-07T04:17:07.542Z",
+          "isTop": 1,
+          "updatedAt": "2026-07-07T04:17:07.542Z"
+        }
+      ]
+    },
+    "website_config": {
+      "columns": [
+        {
+          "Field": "id",
+          "Type": "int",
+          "Null": "NO",
+          "Key": "PRI",
+          "Default": null,
+          "Extra": "auto_increment"
+        },
+        {
+          "Field": "key",
+          "Type": "varchar(50)",
+          "Null": "NO",
+          "Key": "UNI",
+          "Default": null,
+          "Extra": ""
+        },
+        {
+          "Field": "value",
+          "Type": "text",
+          "Null": "NO",
+          "Key": "",
+          "Default": null,
+          "Extra": ""
+        },
+        {
+          "Field": "description",
+          "Type": "varchar(200)",
+          "Null": "YES",
+          "Key": "",
+          "Default": null,
+          "Extra": ""
+        },
+        {
+          "Field": "created_at",
+          "Type": "datetime(6)",
+          "Null": "NO",
+          "Key": "",
+          "Default": "CURRENT_TIMESTAMP(6)",
+          "Extra": "DEFAULT_GENERATED"
+        },
+        {
+          "Field": "updated_at",
+          "Type": "datetime(6)",
+          "Null": "NO",
+          "Key": "",
+          "Default": "CURRENT_TIMESTAMP(6)",
+          "Extra": "DEFAULT_GENERATED on update CURRENT_TIMESTAMP(6)"
+        }
+      ],
+      "rows": [
+        {
+          "id": 1,
+          "key": "host_unit",
+          "value": "四川飞豹救援",
+          "description": "主办单位",
+          "created_at": "2026-07-06T22:28:00.558Z",
+          "updated_at": "2026-07-06T22:28:00.558Z"
+        },
+        {
+          "id": 2,
+          "key": "organizer_unit",
+          "value": "四川飞豹救援新闻宣传处",
+          "description": "承办单位",
+          "created_at": "2026-07-06T22:28:00.693Z",
+          "updated_at": "2026-07-06T22:28:00.693Z"
+        },
+        {
+          "id": 3,
+          "key": "icp_number",
+          "value": "蜀ICP备2026009479",
+          "description": "ICP备案号",
+          "created_at": "2026-07-06T22:28:00.768Z",
+          "updated_at": "2026-07-06T22:28:00.768Z"
+        },
+        {
+          "id": 4,
+          "key": "copyright",
+          "value": "Copyright®2026 www.scfeibao.com All rights reserved",
+          "description": "版权信息",
+          "created_at": "2026-07-06T22:28:00.850Z",
+          "updated_at": "2026-07-06T22:28:00.850Z"
+        }
+      ]
+    }
+  }
+}

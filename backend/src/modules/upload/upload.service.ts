@@ -2,6 +2,7 @@ import { Injectable, BadRequestException } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import * as fs from 'fs';
 import * as path from 'path';
+import sharp from 'sharp';
 
 @Injectable()
 export class UploadService {
@@ -26,12 +27,37 @@ export class UploadService {
     const allowedTypes = ['image/jpeg', 'image/png', 'image/gif', 'image/webp'];
     const maxSize = 5 * 1024 * 1024; // 5MB
 
+    if (!file) {
+      throw new BadRequestException('未选择文件');
+    }
     if (!allowedTypes.includes(file.mimetype)) {
       throw new BadRequestException('不支持的图片格式');
     }
     if (file.size > maxSize) {
       throw new BadRequestException('图片大小超出限制（最大5MB）');
     }
+  }
+
+  async saveOptimizedImage(file: Express.Multer.File) {
+    if (!file?.buffer?.length) {
+      throw new BadRequestException('图片内容为空');
+    }
+
+    const filename = `${Date.now()}-${Math.round(Math.random() * 1E9)}.webp`;
+    const fullPath = path.join(this.uploadPath, 'images', filename);
+
+    await sharp(file.buffer, { animated: false })
+      .rotate()
+      .resize({
+        width: 1920,
+        height: 1080,
+        fit: 'inside',
+        withoutEnlargement: true,
+      })
+      .webp({ quality: 82, effort: 4 })
+      .toFile(fullPath);
+
+    return filename;
   }
 
   validateVideo(file: Express.Multer.File) {

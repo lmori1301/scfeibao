@@ -1,4 +1,4 @@
-import { Injectable, NotFoundException, BadRequestException } from '@nestjs/common';
+import { Injectable, NotFoundException, BadRequestException, OnModuleInit } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import * as bcrypt from 'bcrypt';
@@ -11,13 +11,31 @@ import { OperationLogService } from '../operation-log/operation-log.service';
 const LEGACY_ADMIN_ROLES = new Set(['admin', 'editor', 'viewer']);
 
 @Injectable()
-export class AdminUserService {
+export class AdminUserService implements OnModuleInit {
   constructor(
     @InjectRepository(AdminUser)
     private adminUserRepository: Repository<AdminUser>,
     private roleService: RoleService,
     private operationLogService: OperationLogService,
   ) {}
+
+  async onModuleInit() {
+    if (process.env.NODE_ENV !== 'development') return;
+
+    const count = await this.adminUserRepository.count();
+    if (count > 0) return;
+
+    const password = await bcrypt.hash('admin123', 10);
+    const user = this.adminUserRepository.create({
+      username: 'admin',
+      password,
+      name: '系统管理员',
+      role: 'admin',
+      status: 'active',
+      mustChangePassword: false,
+    });
+    await this.adminUserRepository.save(user);
+  }
 
   async findAll(query: any) {
     const { page = 1, pageSize = 10, username, role, status } = query;

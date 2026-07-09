@@ -21,8 +21,8 @@ export function getPartyWorkDetail(id: number) {
 /**
  * 获取党员先锋列表
  */
-export function getPartyMembers(params?: { page?: number; pageSize?: number }) {
-  return http.get<PartyMember[]>('/party/members', { params })
+export function getPartyMembers(params?: { page?: number; pageSize?: number; keyword?: string }) {
+  return http.get<PartyListResponse>('/party/members', { params })
 }
 
 /**
@@ -36,5 +36,12 @@ export function getPartyMemberDetail(id: number) {
  * 获取学习资料列表
  */
 export function getStudyMaterials(params?: { page?: number; pageSize?: number; type?: string }) {
-  return http.get<StudyMaterial[]>('/party/study-materials', { params })
+  return http.get<PartyListResponse>('/party/study-materials', { params })
+}
+
+/**
+ * 获取团建工作列表
+ */
+export function getTeamWorkList(params?: { page?: number; pageSize?: number; keyword?: string }) {
+  return http.get<PartyListResponse>('/party/team-work', { params })
 }

@@ -3,7 +3,8 @@ import { ValidationPipe } from '@nestjs/common';
 import { SwaggerModule, DocumentBuilder } from '@nestjs/swagger';
 import { AppModule } from './app.module';
 import { NestExpressApplication } from '@nestjs/platform-express';
-import { join } from 'path';
+import { existsSync } from 'fs';
+import { basename, dirname, extname, join, normalize } from 'path';
 import { Request, Response } from 'express';
 import * as https from 'https';
 
@@ -32,8 +33,24 @@ function buildAmapUpstreamUrl(originalUrl: string) {
   return new URL(`${requestUrl.pathname}${requestUrl.search}`, `https://${upstreamHost}`);
 }
 
+function getOptimizedUploadPath(requestPath: string, uploadRoot: string) {
+  if (!/^\/images\/.+\.(png|jpe?g)$/i.test(requestPath)) return '';
+
+  const relativePath = decodeURIComponent(requestPath).replace(/^\/images\//, 'images/');
+  const originalPath = normalize(join(uploadRoot, relativePath));
+  const imagesRoot = normalize(join(uploadRoot, 'images'));
+
+  if (!originalPath.startsWith(`${imagesRoot}/`) && originalPath !== imagesRoot) return '';
+
+  return join(
+    dirname(originalPath),
+    `${basename(originalPath, extname(originalPath))}.webp`,
+  );
+}
+
 async function bootstrap() {
   const app = await NestFactory.create<NestExpressApplication>(AppModule);
+  const uploadRoot = join(__dirname, '..', 'uploads');
 
   app.use(AMAP_PROXY_PREFIX, (req: Request, res: Response) => {
     const upstreamUrl = buildAmapUpstreamUrl(req.originalUrl || req.url);
@@ -71,9 +88,30 @@ async function bootstrap() {
     req.pipe(proxyRequest);
   });
 
+  app.use('/uploads', (req: Request, res: Response, next) => {
+    const acceptsWebp = String(req.headers.accept || '').includes('image/webp');
+    if (!acceptsWebp) {
+      next();
+      return;
+    }
+
+    const optimizedPath = getOptimizedUploadPath(req.path, uploadRoot);
+    if (!optimizedPath || !existsSync(optimizedPath)) {
+      next();
+      return;
+    }
+
+    res.setHeader('Content-Type', 'image/webp');
+    res.setHeader('Vary', 'Accept');
+    res.setHeader('Cache-Control', 'public, max-age=2592000, immutable');
+    res.sendFile(optimizedPath);
+  });
+
   // 配置静态文件服务
-  app.useStaticAssets(join(__dirname, '..', 'uploads'), {
+  app.useStaticAssets(uploadRoot, {
     prefix: '/uploads',
+    maxAge: '30d',
+    immutable: true,
   });
 
   // 全局验证管道

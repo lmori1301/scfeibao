@@ -226,7 +226,7 @@ const doSearch = () => {
 .Pixso-vector-1_1281 {
   width: 100%;
   height: 100%;
-  background-image: url(@/assets/images/Vector_1_1281.png);
+  background-image: url(@/assets/images/Vector_1_1281.webp);
   background-size: 100% 100%;
   background-repeat: no-repeat;
   position: absolute;
@@ -290,7 +290,7 @@ const doSearch = () => {
 .Pixso-vector-1_1298 {
   width: 1718px;
   height: 82.96%;
-  background-image: url(@/assets/images/Vector_1_1298.png);
+  background-image: url(@/assets/images/Vector_1_1298.webp);
   background-size: 100% 100%;
   background-repeat: no-repeat;
   position: absolute;
@@ -351,7 +351,7 @@ const doSearch = () => {
 .Pixso-vector-1_1302 {
   width: 100%;
   height: 7.01%;
-  background-image: url(@/assets/images/Vector_1_1302.png);
+  background-image: url(@/assets/images/Vector_1_1302.webp);
   background-size: 100% 100%;
   background-repeat: no-repeat;
   position: absolute;

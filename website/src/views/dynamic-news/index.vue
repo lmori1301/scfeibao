@@ -243,7 +243,7 @@ import { ref, computed, onMounted, onUnmounted, onActivated, watch } from 'vue'
 import { getWebsiteConfig } from '@/api/config'
 import { useRouter, useRoute } from 'vue-router'
 import http from '@/utils/http'
-import image1 from '@/assets/images/Vector_1_2129.png'
+import image1 from '@/assets/images/Vector_1_2129.webp'
 import { usePixsoScale } from '@/composables/use-pixso-scale'
 
 const { scrollContainerRef, frameRef } = usePixsoScale(1920, 2205)
@@ -624,10 +624,10 @@ const doSearch = () => {
 
 
 const websiteConfig = ref({
-  host_unit: '四川飞豹救援',
-  organizer_unit: '四川飞豹救援新闻宣传处',
-  icp_number: '蜀ICP备2026009479',
-  copyright: 'Copyright®2026 www.scfeibao.com All rights reserved'
+  host_unit: '',
+  organizer_unit: '',
+  icp_number: '',
+  copyright: ''
 })
 
 const fetchWebsiteConfig = async () => {
@@ -635,10 +635,10 @@ const fetchWebsiteConfig = async () => {
     const res = await getWebsiteConfig()
     if (res.data) {
       websiteConfig.value = {
-        host_unit: res.data.host_unit || '四川飞豹救援',
-        organizer_unit: res.data.organizer_unit || '四川飞豹救援新闻宣传处',
-        icp_number: res.data.icp_number || '蜀ICP备2026009479',
-        copyright: res.data.copyright || 'Copyright®2026 www.scfeibao.com All rights reserved'
+        host_unit: res.data.host_unit || '',
+        organizer_unit: res.data.organizer_unit || '',
+        icp_number: res.data.icp_number || '',
+        copyright: res.data.copyright || ''
       }
     }
   } catch (error) {
@@ -664,7 +664,7 @@ const fetchWebsiteConfig = async () => {
 .Pixso-vector-1_2108 {
   width: 100%;
   height: 100%;
-  background-image: url(@/assets/images/Vector_1_2108.png);
+  background-image: url(@/assets/images/Vector_1_2108.webp);
   background-size: 100% 100%;
   background-repeat: no-repeat;
   position: absolute;
@@ -816,7 +816,7 @@ const fetchWebsiteConfig = async () => {
 .Pixso-vector-1_2129 {
   width: 46.82%;
   height: 29.44%;
-  background-image: url(@/assets/images/Vector_1_2129.png);
+  background-image: url(@/assets/images/Vector_1_2129.webp);
   background-size: 100% 100%;
   background-repeat: no-repeat;
   position: absolute;
@@ -1698,7 +1698,7 @@ const fetchWebsiteConfig = async () => {
 .Pixso-vector-1_113 {
     width: 1920px;
     height: 15%;
-    background-image: url(@/assets/images/Vector_1_113.png);
+    background-image: url(@/assets/images/Vector_1_113.webp);
     background-size: 100% 100%;
     background-repeat: no-repeat;
     position: absolute;

@@ -67,11 +67,11 @@ cp .env.example .env
 ```env
 # 应用配置
 NODE_ENV=development          # 环境：development/production
-PORT=3000                     # 端口号
+PORT=3003                     # 端口号
 
 # 数据库配置
 DB_HOST=localhost             # 数据库地址
-DB_PORT=3306                  # 数据库端口
+DB_PORT=3308                  # 数据库端口
 DB_USERNAME=root              # 数据库用户名
 DB_PASSWORD=your_password     # 数据库密码
 DB_DATABASE=feibao_rescue     # 数据库名称
@@ -115,13 +115,13 @@ npm run start:prod
 
 ### 6. 访问应用
 
-- API 地址: http://localhost:3000/api
-- Swagger 文档: http://localhost:3000/api-docs
-- 健康检查: http://localhost:3000/api
+- API 地址: http://localhost:3003/api
+- Swagger 文档: http://localhost:3003/api-docs
+- 健康检查: http://localhost:3003/api
 
 ## API 文档
 
-启动应用后，访问 http://localhost:3000/api-docs 查看完整的 API 文档。
+启动应用后，访问 http://localhost:3003/api-docs 查看完整的 API 文档。
 
 ### 主要接口模块
 

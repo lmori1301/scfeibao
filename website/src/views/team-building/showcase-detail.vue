@@ -266,7 +266,7 @@ onMounted(() => {
 .Pixso-vector-1_1071 {
     width: 88.34%;
     height: 83.26%;
-    background-image: url(@/assets/images/Vector_1_1071.png);
+    background-image: url(@/assets/images/Vector_1_1071.webp);
     background-size: 100% 100%;
     background-repeat: no-repeat;
     position: absolute;
@@ -323,7 +323,7 @@ onMounted(() => {
 .Pixso-vector-1_1075 {
     width: 1920px;
     height: 280px;
-    background-image: url(@/assets/images/Vector_1_1075.png);
+    background-image: url(@/assets/images/Vector_1_1075.webp);
     background-size: 100% 100%;
     background-repeat: no-repeat;
     position: absolute;
@@ -408,7 +408,7 @@ onMounted(() => {
 .Pixso-vector-1_1085 {
     width: 45.47%;
     height: 13.93%;
-    background-image: url(@/assets/images/Vector_1_1085.png);
+    background-image: url(@/assets/images/Vector_1_1085.webp);
     background-size: 100% 100%;
     background-repeat: no-repeat;
     position: absolute;
@@ -420,7 +420,7 @@ onMounted(() => {
 .Pixso-vector-1_1088 {
     width: 45.47%;
     height: 13.88%;
-    background-image: url(@/assets/images/Vector_1_1088.png);
+    background-image: url(@/assets/images/Vector_1_1088.webp);
     background-size: 100% 100%;
     background-repeat: no-repeat;
     position: absolute;
@@ -432,7 +432,7 @@ onMounted(() => {
 .Pixso-vector-1_1091 {
     width: 45.47%;
     height: 14.1%;
-    background-image: url(@/assets/images/Vector_1_1091.png);
+    background-image: url(@/assets/images/Vector_1_1091.webp);
     background-size: 100% 100%;
     background-repeat: no-repeat;
     position: absolute;
@@ -444,7 +444,7 @@ onMounted(() => {
 .Pixso-vector-1_1094 {
     width: 45.47%;
     height: 14.08%;
-    background-image: url(@/assets/images/Vector_1_1094.png);
+    background-image: url(@/assets/images/Vector_1_1094.webp);
     background-size: 100% 100%;
     background-repeat: no-repeat;
     position: absolute;

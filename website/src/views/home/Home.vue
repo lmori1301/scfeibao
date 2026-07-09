@@ -374,11 +374,41 @@ const route = useRoute()
 
 const { scrollContainerRef, frameRef: contentContainerRef, updateScale } = usePixsoScale(1920, 4310)
 const belowFoldAssetsReady = ref(false)
+let belowFoldAssetsTimer: number | null = null
+let belowFoldScrollHandler: (() => void) | null = null
 
 const loadBelowFoldAssets = () => {
-  window.setTimeout(() => {
+  if (belowFoldAssetsReady.value) {
+    return
+  }
+
+  const reveal = () => {
+    if (belowFoldAssetsReady.value) {
+      return
+    }
     belowFoldAssetsReady.value = true
-  }, 300)
+    cleanupBelowFoldAssetLoader()
+  }
+
+  belowFoldScrollHandler = () => {
+    if (window.scrollY > window.innerHeight * 0.45) {
+      reveal()
+    }
+  }
+
+  window.addEventListener('scroll', belowFoldScrollHandler, { passive: true })
+  belowFoldAssetsTimer = window.setTimeout(reveal, 30000)
+}
+
+const cleanupBelowFoldAssetLoader = () => {
+  if (belowFoldAssetsTimer !== null) {
+    window.clearTimeout(belowFoldAssetsTimer)
+    belowFoldAssetsTimer = null
+  }
+  if (belowFoldScrollHandler) {
+    window.removeEventListener('scroll', belowFoldScrollHandler)
+    belowFoldScrollHandler = null
+  }
 }
 // 底部背景引用
 const bottomBgRef = ref<HTMLElement | null>(null)
@@ -403,9 +433,9 @@ const searchKey = ref('')
 // 网站配置
 const websiteConfig = ref({
   host_unit: '主办单位：四川飞豹救援',
-  organizer_unit: '承办单位：四川飞豹救援新闻宣传处',
-  icp_number: '蜀ICP备2026009479',
-  copyright: 'Copyright®2026 www.scfeibao.com All rights reserved'
+  organizer_unit: '',
+  icp_number: '',
+  copyright: ''
 })
 
 // 7个模块路由
@@ -494,9 +524,9 @@ const fetchWebsiteConfig = async () => {
     if (res.data) {
       websiteConfig.value = {
         host_unit: res.data.host_unit || '主办单位：四川飞豹救援',
-        organizer_unit: res.data.organizer_unit || '承办单位：四川飞豹救援新闻宣传处',
-        icp_number: res.data.icp_number || '蜀ICP备2026009479',
-        copyright: res.data.copyright || 'Copyright®2026 www.scfeibao.com All rights reserved'
+        organizer_unit: res.data.organizer_unit || '',
+        icp_number: res.data.icp_number || '',
+        copyright: res.data.copyright || ''
       }
     }
   } catch (error) {
@@ -617,41 +647,7 @@ const navigateToNews = (link: string) => {
   router.push(legacyMatch ? newsDetailPath(legacyMatch[1]) : link)
 }
 
-// 队伍风采轮播数据 - 初始化为默认图片，避免加载时出错
-const teamShowcase = ref<{ images: string[] }[]>([
-  {
-    images: [
-      new URL('@/assets/images/Vector_1_1363.png', import.meta.url).href,
-      new URL('@/assets/images/Vector_1_1368.png', import.meta.url).href,
-      new URL('@/assets/images/Vector_1_1365.png', import.meta.url).href,
-      new URL('@/assets/images/Vector_1_1366.png', import.meta.url).href
-    ]
-  },
-  {
-    images: [
-      new URL('@/assets/images/Vector_1_1533.png', import.meta.url).href,
-      new URL('@/assets/images/Vector_1_1538.png', import.meta.url).href,
-      new URL('@/assets/images/Vector_1_1535.png', import.meta.url).href,
-      new URL('@/assets/images/Vector_1_1536.png', import.meta.url).href
-    ]
-  },
-  {
-    images: [
-      new URL('@/assets/images/Vector_1_1539.png', import.meta.url).href,
-      new URL('@/assets/images/Vector_1_1544.png', import.meta.url).href,
-      new URL('@/assets/images/Vector_1_1541.png', import.meta.url).href,
-      new URL('@/assets/images/Vector_1_1542.png', import.meta.url).href
-    ]
-  },
-  {
-    images: [
-      new URL('@/assets/images/Vector_1_1149.png', import.meta.url).href,
-      new URL('@/assets/images/Vector_1_1154.png', import.meta.url).href,
-      new URL('@/assets/images/Vector_1_1151.png', import.meta.url).href,
-      new URL('@/assets/images/Vector_1_1152.png', import.meta.url).href
-    ]
-  }
-])
+const teamShowcase = ref<{ images: string[] }[]>([])
 
 const getTeamImageStyle = (index: number) => {
   if (!belowFoldAssetsReady.value) {
@@ -683,81 +679,9 @@ const fetchTeamShowcase = async () => {
       }
       teamShowcase.value = groups
     }
-
-    // 如果API没有返回数据，使用默认图片作为后备
-    if (teamShowcase.value.length === 0) {
-      teamShowcase.value = [
-        {
-          images: [
-            new URL('@/assets/images/Vector_1_1363.png', import.meta.url).href,
-            new URL('@/assets/images/Vector_1_1368.png', import.meta.url).href,
-            new URL('@/assets/images/Vector_1_1365.png', import.meta.url).href,
-            new URL('@/assets/images/Vector_1_1366.png', import.meta.url).href
-          ]
-        },
-        {
-          images: [
-            new URL('@/assets/images/Vector_1_1533.png', import.meta.url).href,
-            new URL('@/assets/images/Vector_1_1538.png', import.meta.url).href,
-            new URL('@/assets/images/Vector_1_1535.png', import.meta.url).href,
-            new URL('@/assets/images/Vector_1_1536.png', import.meta.url).href
-          ]
-        },
-        {
-          images: [
-            new URL('@/assets/images/Vector_1_1539.png', import.meta.url).href,
-            new URL('@/assets/images/Vector_1_1544.png', import.meta.url).href,
-            new URL('@/assets/images/Vector_1_1541.png', import.meta.url).href,
-            new URL('@/assets/images/Vector_1_1542.png', import.meta.url).href
-          ]
-        },
-        {
-          images: [
-            new URL('@/assets/images/Vector_1_1149.png', import.meta.url).href,
-            new URL('@/assets/images/Vector_1_1154.png', import.meta.url).href,
-            new URL('@/assets/images/Vector_1_1151.png', import.meta.url).href,
-            new URL('@/assets/images/Vector_1_1152.png', import.meta.url).href
-          ]
-        }
-      ]
-    }
   } catch (error) {
     console.error('获取队伍风采图片失败:', error)
-    // 使用默认图片作为后备
-    teamShowcase.value = [
-      {
-        images: [
-          new URL('@/assets/images/Vector_1_1363.png', import.meta.url).href,
-          new URL('@/assets/images/Vector_1_1368.png', import.meta.url).href,
-          new URL('@/assets/images/Vector_1_1365.png', import.meta.url).href,
-          new URL('@/assets/images/Vector_1_1366.png', import.meta.url).href
-        ]
-      },
-      {
-        images: [
-          new URL('@/assets/images/Vector_1_1533.png', import.meta.url).href,
-          new URL('@/assets/images/Vector_1_1538.png', import.meta.url).href,
-          new URL('@/assets/images/Vector_1_1535.png', import.meta.url).href,
-          new URL('@/assets/images/Vector_1_1536.png', import.meta.url).href
-        ]
-      },
-      {
-        images: [
-          new URL('@/assets/images/Vector_1_1539.png', import.meta.url).href,
-          new URL('@/assets/images/Vector_1_1544.png', import.meta.url).href,
-          new URL('@/assets/images/Vector_1_1541.png', import.meta.url).href,
-          new URL('@/assets/images/Vector_1_1542.png', import.meta.url).href
-        ]
-      },
-      {
-        images: [
-          new URL('@/assets/images/Vector_1_1149.png', import.meta.url).href,
-          new URL('@/assets/images/Vector_1_1154.png', import.meta.url).href,
-          new URL('@/assets/images/Vector_1_1151.png', import.meta.url).href,
-          new URL('@/assets/images/Vector_1_1152.png', import.meta.url).href
-        ]
-      }
-    ]
+    teamShowcase.value = []
   }
 }
 
@@ -773,6 +697,7 @@ const switchTeamGroup = (index: number) => {
 }
 
 const startTeamCarousel = () => {
+  if (teamShowcase.value.length === 0) return
   teamCarouselTimer = setInterval(() => {
     currentTeamIndex.value = (currentTeamIndex.value + 1) % teamShowcase.value.length
   }, 5000)
@@ -783,10 +708,7 @@ const showVideoModal = ref(false)
 const videoRef = ref<HTMLVideoElement | null>(null)
 const promotionalVideos = ref<any[]>([])
 const videoSrc = computed(() => {
-  // 使用后台管理的第一个视频，如果没有则使用默认视频
-  return promotionalVideos.value.length > 0
-    ? promotionalVideos.value[0].url
-    : '/videos/四川甘孜泸定县6.8级地震-四川飞豹救援.mp4'
+  return promotionalVideos.value[0]?.url || ''
 })
 
 // 获取宣传视频列表
@@ -882,6 +804,7 @@ onMounted(async () => {
 })
 
 onUnmounted(() => {
+  cleanupBelowFoldAssetLoader()
   if (bannerCarouselTimer) {
     clearInterval(bannerCarouselTimer)
   }
@@ -907,7 +830,7 @@ onUnmounted(() => {
 .Pixso-vector-1_3 {
     width: 100%;
     height: 87.37%;
-    background-image: url(@/assets/images/Vector_1_3.png);
+    background-image: url(@/assets/images/Vector_1_3.webp);
     background-size: 100% 100%;
     background-repeat: no-repeat;
     position: absolute;
@@ -932,7 +855,7 @@ onUnmounted(() => {
 .Pixso-vector-1_7 {
     width: 100%;
     height: 4.5%;
-    background-image: url(@/assets/images/Vector_1_7.png);
+    background-image: url(@/assets/images/Vector_1_7.webp);
     background-size: 100% 100%;
     background-repeat: no-repeat;
     position: absolute;
@@ -2122,7 +2045,7 @@ onUnmounted(() => {
 .Pixso-vector-1_86 {
     width: 46.04%;
     height: 7.8%;
-    background-image: url(@/assets/images/Vector_1_86.png);
+    background-image: url(@/assets/images/Vector_1_86.webp);
     background-size: 100% 100%;
     background-repeat: no-repeat;
     position: absolute;
@@ -2326,7 +2249,7 @@ onUnmounted(() => {
 .Pixso-vector-1_110 {
     width: 100%;
     height: 10.72%;
-    background-image: url(@/assets/images/Vector_1_110.png);
+    background-image: url(@/assets/images/Vector_1_110.webp);
     background-size: 100% 100%;
     background-repeat: no-repeat;
     position: absolute;
@@ -2338,7 +2261,7 @@ onUnmounted(() => {
 .Pixso-vector-1_113 {
     width: 1920px;
     height: 280px;
-    background-image: url(@/assets/images/Vector_1_113.png);
+    background-image: url(@/assets/images/Vector_1_113.webp);
     background-size: 100% 100%;
     background-repeat: no-repeat;
     position: absolute;
@@ -2843,7 +2766,7 @@ onUnmounted(() => {
 .Pixso-vector-1_146 {
     width: 88.22%;
     height: 15.17%;
-    background-image: url(@/assets/images/Vector_1_146.png);
+    background-image: url(@/assets/images/Vector_1_146.webp);
     background-size: 100% 100%;
     background-repeat: no-repeat;
     position: absolute;
@@ -2883,7 +2806,7 @@ onUnmounted(() => {
 .Pixso-vector-1_153 {
     width: 16.14%;
     height: 5.41%;
-    background-image: url(@/assets/images/Vector_1_153.png);
+    background-image: url(@/assets/images/Vector_1_153.webp);
     background-size: 100% 100%;
     background-repeat: no-repeat;
     position: absolute;
@@ -2943,7 +2866,7 @@ onUnmounted(() => {
 .Pixso-vector-1_158 {
     width: 16.15%;
     height: 5.41%;
-    background-image: url(@/assets/images/Vector_1_158.png);
+    background-image: url(@/assets/images/Vector_1_158.webp);
     background-size: 100% 100%;
     background-repeat: no-repeat;
     position: absolute;
@@ -2955,7 +2878,7 @@ onUnmounted(() => {
 .Pixso-vector-1_159 {
     width: 16.14%;
     height: 5.41%;
-    background-image: url(@/assets/images/Vector_1_159.png);
+    background-image: url(@/assets/images/Vector_1_159.webp);
     background-size: 100% 100%;
     background-repeat: no-repeat;
     position: absolute;
@@ -2967,7 +2890,7 @@ onUnmounted(() => {
 .Pixso-vector-1_160 {
     width: 16.17%;
     height: 5.41%;
-    background-image: url(@/assets/images/Vector_1_160.png);
+    background-image: url(@/assets/images/Vector_1_160.webp);
     background-size: 100% 100%;
     background-repeat: no-repeat;
     position: absolute;

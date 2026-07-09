@@ -20,7 +20,7 @@ export class PartyController {
     @Query('pageSize') pageSize: number = 10,
     @Query('keyword') keyword?: string,
   ) {
-    return this.partyWorksService.getList(page, pageSize, keyword)
+    return this.partyWorksService.getList(page, pageSize, keyword, '党建工作')
   }
 
   @Get('work/:id')
@@ -34,13 +34,34 @@ export class PartyController {
   getMembers(
     @Query('page') page: number = 1,
     @Query('pageSize') pageSize: number = 10,
+    @Query('keyword') keyword?: string,
   ) {
-    return this.partyMembersService.getList(page, pageSize)
+    return this.partyMembersService.getList(page, pageSize, keyword)
   }
 
   @Get('member/:id')
   @ApiOperation({ summary: '获取党员先锋详情' })
   getMemberDetail(@Param('id') id: number) {
     return this.partyMembersService.getOne(id)
+  }
+
+  @Get('study-materials')
+  @ApiOperation({ summary: '获取党员学习资料列表' })
+  getStudyMaterials(
+    @Query('page') page: number = 1,
+    @Query('pageSize') pageSize: number = 10,
+    @Query('keyword') keyword?: string,
+  ) {
+    return this.partyWorksService.getList(page, pageSize, keyword, '党员学习')
+  }
+
+  @Get('team-work')
+  @ApiOperation({ summary: '获取团建工作列表' })
+  getTeamWorkList(
+    @Query('page') page: number = 1,
+    @Query('pageSize') pageSize: number = 10,
+    @Query('keyword') keyword?: string,
+  ) {
+    return this.partyWorksService.getList(page, pageSize, keyword, '团建工作')
   }
 }

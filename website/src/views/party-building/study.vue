@@ -131,6 +131,7 @@
 <script lang="ts" setup>
 import { ref, computed, onMounted } from 'vue'
 import { getWebsiteConfig } from '@/api/config'
+import { getStudyMaterials } from '@/api/party-building'
 import { useRouter } from 'vue-router'
 import Pagination from '@/components/common/Pagination.vue'
 import { usePixsoScale } from '@/composables/use-pixso-scale'
@@ -142,95 +143,19 @@ const router = useRouter()
 const currentPage = ref(1)
 const pageSize = ref(4)
 
-// 党员学"习"数据
-const studyList = ref([
-  {
-    id: 1,
-    title: '深入学习贯彻习近平新时代中国特色社会主义思想',
-    summary: '认真践行习近平总书记关于党的自我革命的重要思想，党的十八大以来，习近平总书记站在事关党的长期...',
-    publishDate: '2025-12-06'
-  },
-  {
-    id: 2,
-    title: '学习贯彻党的二十届四中全会精神',
-    summary: '协同推进科学立法、严格执法、公正司法、全民守法，法治是治国理政的基本方式。党的二十届四中全会...',
-    publishDate: '2025-12-06'
-  },
-  {
-    id: 3,
-    title: '促进高质量充分就业 - 学习习近平总书记重要文章',
-    summary: '"就业是家事，更是国事。"11月1日出版的第21期《求是》杂志刊发习近平总书记重要文章《促进高质量...',
-    publishDate: '2025-12-06'
-  },
-  {
-    id: 4,
-    title: '以学铸魂 - 深化新时代中国特色社会主义思想学习',
-    summary: '"以学铸魂，就是要做好学习贯彻新时代中国特色社会主义思想的深化、内化、转化工作，从思想上正本清源、固...',
-    publishDate: '2025-12-06'
-  },
-  {
-    id: 5,
-    title: '党史学习教育：从百年党史中汲取智慧和力量',
-    summary: '通过系统学习党的百年奋斗历程，深刻理解党的初心使命，传承红色基因，赓续精神血脉...',
-    publishDate: '2025-11-28'
-  },
-  {
-    id: 6,
-    title: '理论学习：提升马克思主义理论素养',
-    summary: '深入学习马克思主义基本原理，掌握科学的世界观和方法论，提升理论思维能力...',
-    publishDate: '2025-11-20'
-  },
-  {
-    id: 7,
-    title: '政策学习：准确把握党的路线方针政策',
-    summary: '及时学习党中央的重大决策部署，准确理解政策精神，确保贯彻落实不走样...',
-    publishDate: '2025-11-15'
-  },
-  {
-    id: 8,
-    title: '业务学习：提升救援专业技能',
-    summary: '组织专业知识学习，不断提升救援技能和应急处置能力，为救援工作提供技术保障...',
-    publishDate: '2025-11-10'
-  },
-  {
-    id: 9,
-    title: '法律学习：增强法治意识和法律素养',
-    summary: '学习相关法律法规，增强法治观念，确保救援工作依法依规开展...',
-    publishDate: '2025-11-05'
-  },
-  {
-    id: 10,
-    title: '安全学习：筑牢安全防线',
-    summary: '加强安全知识学习，提升安全意识，确保救援行动安全有序进行...',
-    publishDate: '2025-10-30'
-  },
-  {
-    id: 11,
-    title: '经验学习：总结提炼救援工作经验',
-    summary: '通过案例分析和经验总结，不断提升救援工作的科学性和有效性...',
-    publishDate: '2025-10-25'
-  },
-  {
-    id: 12,
-    title: '创新学习：探索救援工作新模式',
-    summary: '学习借鉴先进经验，创新工作方法，推动救援工作高质量发展...',
-    publishDate: '2025-10-20'
-  }
-])
-
-// 计算总数
-const totalStudy = computed(() => studyList.value.length)
+const studyList = ref<any[]>([])
+const totalStudy = ref(0)
 
 // 计算当前页显示的数据
 const paginatedStudy = computed(() => {
-  const start = (currentPage.value - 1) * pageSize.value
-  const end = start + pageSize.value
-  return studyList.value.slice(start, end)
+  return studyList.value
 })
 
 // 格式化日期
 const formatDate = (dateStr: string) => {
+  if (!dateStr) return { year: '', day: '' }
   const date = new Date(dateStr)
+  if (Number.isNaN(date.getTime())) return { year: '', day: '' }
   const year = date.getFullYear()
   const month = String(date.getMonth() + 1).padStart(2, '0')
   const day = String(date.getDate()).padStart(2, '0')
@@ -242,12 +167,31 @@ const formatDate = (dateStr: string) => {
 
 // 页码改变处理
 function handlePageChange() {
+  fetchStudy()
   window.scrollTo({ top: 0, behavior: 'smooth' })
 }
 
 // 跳转到详情页
 function goToDetail(id: number) {
   router.push(`/party-building/study/${id}`)
+}
+
+async function fetchStudy() {
+  try {
+    const res = await getStudyMaterials({ page: currentPage.value, pageSize: pageSize.value })
+    const list = res.data?.list || res.data?.items || []
+    studyList.value = list.map((item: any) => ({
+      id: item.id,
+      title: item.title || '',
+      summary: item.summary || item.content?.replace(/<[^>]*>/g, '').slice(0, 120) || '',
+      publishDate: item.publishDate || item.createdAt || ''
+    }))
+    totalStudy.value = res.data?.total || 0
+  } catch (error) {
+    console.error('获取党员学习失败:', error)
+    studyList.value = []
+    totalStudy.value = 0
+  }
 }
 
 // 搜索
@@ -294,10 +238,10 @@ const doSearch = () => {
 
 
 const websiteConfig = ref({
-  host_unit: '四川飞豹救援',
-  organizer_unit: '四川飞豹救援新闻宣传处',
-  icp_number: '蜀ICP备2026009479',
-  copyright: 'Copyright®2026 www.scfeibao.com All rights reserved'
+  host_unit: '',
+  organizer_unit: '',
+  icp_number: '',
+  copyright: ''
 })
 
 const fetchWebsiteConfig = async () => {
@@ -305,10 +249,10 @@ const fetchWebsiteConfig = async () => {
     const res = await getWebsiteConfig()
     if (res.data) {
       websiteConfig.value = {
-        host_unit: res.data.host_unit || '四川飞豹救援',
-        organizer_unit: res.data.organizer_unit || '四川飞豹救援新闻宣传处',
-        icp_number: res.data.icp_number || '蜀ICP备2026009479',
-        copyright: res.data.copyright || 'Copyright®2026 www.scfeibao.com All rights reserved'
+        host_unit: res.data.host_unit || '',
+        organizer_unit: res.data.organizer_unit || '',
+        icp_number: res.data.icp_number || '',
+        copyright: res.data.copyright || ''
       }
     }
   } catch (error) {
@@ -317,6 +261,7 @@ const fetchWebsiteConfig = async () => {
 }
 
 onMounted(() => {
+  fetchStudy()
   fetchWebsiteConfig()
 })
 
@@ -338,7 +283,7 @@ onMounted(() => {
 .Pixso-vector-1_1667 {
     width: 100%;
     height: 100%;
-    background-image: url(@/assets/images/Vector_1_1667.png);
+    background-image: url(@/assets/images/Vector_1_1667.webp);
     background-size: 100% 100%;
     background-repeat: no-repeat;
     position: absolute;
@@ -944,7 +889,7 @@ onMounted(() => {
 .Pixso-vector-1_1818 {
     width: 22.03%;
     height: 13.74%;
-    background-image: url(@/assets/images/Vector_1_1818.png);
+    background-image: url(@/assets/images/Vector_1_1818.webp);
     background-size: 100% 100%;
     background-repeat: no-repeat;
     position: absolute;
@@ -956,7 +901,7 @@ onMounted(() => {
 .Pixso-vector-1_1821 {
     width: 22.03%;
     height: 13.74%;
-    background-image: url(@/assets/images/Vector_1_1821.png);
+    background-image: url(@/assets/images/Vector_1_1821.webp);
     background-size: 100% 100%;
     background-repeat: no-repeat;
     position: absolute;
@@ -968,7 +913,7 @@ onMounted(() => {
 .Pixso-vector-1_1824 {
     width: 22.03%;
     height: 13.74%;
-    background-image: url(@/assets/images/Vector_1_1824.png);
+    background-image: url(@/assets/images/Vector_1_1824.webp);
     background-size: 100% 100%;
     background-repeat: no-repeat;
     position: absolute;
@@ -980,7 +925,7 @@ onMounted(() => {
 .Pixso-vector-1_1827 {
     width: 22.03%;
     height: 13.74%;
-    background-image: url(@/assets/images/Vector_1_1827.png);
+    background-image: url(@/assets/images/Vector_1_1827.webp);
     background-size: 100% 100%;
     background-repeat: no-repeat;
     position: absolute;
@@ -1235,7 +1180,7 @@ onMounted(() => {
 .Pixso-vector-1_113 {
     width: 1920px;
     height: 15%;
-    background-image: url(@/assets/images/Vector_1_113.png);
+    background-image: url(@/assets/images/Vector_1_113.webp);
     background-size: 100% 100%;
     background-repeat: no-repeat;
     position: absolute;

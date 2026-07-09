@@ -1,6 +1,6 @@
 import { Controller, Post, UseInterceptors, UploadedFile } from '@nestjs/common';
 import { FileInterceptor } from '@nestjs/platform-express';
-import { diskStorage } from 'multer';
+import { diskStorage, memoryStorage } from 'multer';
 import { extname } from 'path';
 import { UploadService } from './upload.service';
 import { RequirePermissions } from '../../common/decorators/permissions.decorator';
@@ -28,20 +28,15 @@ export class UploadController {
     'Location',
   )
   @UseInterceptors(FileInterceptor('file', {
-    storage: diskStorage({
-      destination: './uploads/images',
-      filename: (req, file, cb) => {
-        const uniqueSuffix = Date.now() + '-' + Math.round(Math.random() * 1E9);
-        cb(null, uniqueSuffix + extname(file.originalname));
-      },
-    }),
+    storage: memoryStorage(),
     limits: {
       fileSize: 10 * 1024 * 1024, // 10MB
     },
   }))
-  uploadImage(@UploadedFile() file: Express.Multer.File) {
+  async uploadImage(@UploadedFile() file: Express.Multer.File) {
     this.uploadService.validateImage(file);
-    return { url: this.uploadService.getFileUrl(file.filename, 'images') };
+    const filename = await this.uploadService.saveOptimizedImage(file);
+    return { url: this.uploadService.getFileUrl(filename, 'images') };
   }
 
   @Post('video')

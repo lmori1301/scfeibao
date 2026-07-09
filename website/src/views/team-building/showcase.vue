@@ -216,14 +216,6 @@ const doSearch = () => {
 // 队伍风采数据
 const showcaseItems = ref<ShowcaseItem[]>([])
 
-// 默认图片列表（当API返回的图片为空时使用）
-const defaultImages = [
-    new URL('@/assets/images/Vector_1_1011.png', import.meta.url).href,
-    new URL('@/assets/images/Vector_1_1014.png', import.meta.url).href,
-    new URL('@/assets/images/Vector_1_1017.png', import.meta.url).href,
-    new URL('@/assets/images/Vector_1_1020.png', import.meta.url).href
-]
-
 // 获取队伍风采列表
 const fetchShowcaseList = async () => {
     loading.value = true
@@ -307,10 +299,7 @@ const paginatedShowcaseItems = computed(() => {
         const dateYear = `${date.getFullYear()}-${String(date.getMonth() + 1).padStart(2, '0')}`
         const dateDay = String(date.getDate()).padStart(2, '0')
 
-        // 获取图片（使用第一张图片或默认图片）
-        const image = (item.images && item.images.length > 0)
-            ? item.images[0]
-            : defaultImages[index % defaultImages.length]
+        const image = item.images?.[0] || ''
 
         return {
             id: item.id,
@@ -331,10 +320,10 @@ function handlePageChange() {
 }
 
 const websiteConfig = ref({
-  host_unit: '四川飞豹救援',
-  organizer_unit: '四川飞豹救援新闻宣传处',
-  icp_number: '蜀ICP备2026009479',
-  copyright: 'Copyright®2026 www.scfeibao.com All rights reserved'
+  host_unit: '',
+  organizer_unit: '',
+  icp_number: '',
+  copyright: ''
 })
 
 const fetchWebsiteConfig = async () => {
@@ -342,10 +331,10 @@ const fetchWebsiteConfig = async () => {
     const res = await getWebsiteConfig()
     if (res.data) {
       websiteConfig.value = {
-        host_unit: res.data.host_unit || '四川飞豹救援',
-        organizer_unit: res.data.organizer_unit || '四川飞豹救援新闻宣传处',
-        icp_number: res.data.icp_number || '蜀ICP备2026009479',
-        copyright: res.data.copyright || 'Copyright®2026 www.scfeibao.com All rights reserved'
+        host_unit: res.data.host_unit || '',
+        organizer_unit: res.data.organizer_unit || '',
+        icp_number: res.data.icp_number || '',
+        copyright: res.data.copyright || ''
       }
     }
   } catch (error) {
@@ -496,7 +485,7 @@ onMounted(() => {
 .Pixso-vector-1_877 {
     width: 100%;
     height: 99.63%;
-    background-image: url(@/assets/images/Vector_1_877.png);
+    background-image: url(@/assets/images/Vector_1_877.webp);
     background-size: 100% 100%;
     background-repeat: no-repeat;
     position: absolute;
@@ -876,7 +865,7 @@ onMounted(() => {
 .Pixso-vector-1_932 {
     width: 22.03%;
     height: 13.84%;
-    background-image: url(@/assets/images/Vector_1_932.png);
+    background-image: url(@/assets/images/Vector_1_932.webp);
     background-size: 100% 100%;
     background-repeat: no-repeat;
     position: absolute;
@@ -888,7 +877,7 @@ onMounted(() => {
 .Pixso-vector-1_1011 {
     width: 22.03%;
     height: 13.84%;
-    background-image: url(@/assets/images/Vector_1_1011.png);
+    background-image: url(@/assets/images/Vector_1_1011.webp);
     background-size: 100% 100%;
     background-repeat: no-repeat;
     position: absolute;
@@ -900,7 +889,7 @@ onMounted(() => {
 .Pixso-vector-1_1014 {
     width: 22.03%;
     height: 13.84%;
-    background-image: url(@/assets/images/Vector_1_1014.png);
+    background-image: url(@/assets/images/Vector_1_1014.webp);
     background-size: 100% 100%;
     background-repeat: no-repeat;
     position: absolute;
@@ -912,7 +901,7 @@ onMounted(() => {
 .Pixso-vector-1_1017 {
     width: 22.03%;
     height: 13.83%;
-    background-image: url(@/assets/images/Vector_1_1017.png);
+    background-image: url(@/assets/images/Vector_1_1017.webp);
     background-size: 100% 100%;
     background-repeat: no-repeat;
     position: absolute;
@@ -924,7 +913,7 @@ onMounted(() => {
 .Pixso-vector-1_1020 {
     width: 22.03%;
     height: 13.84%;
-    background-image: url(@/assets/images/Vector_1_1020.png);
+    background-image: url(@/assets/images/Vector_1_1020.webp);
     background-size: 100% 100%;
     background-repeat: no-repeat;
     position: absolute;
@@ -1388,7 +1377,7 @@ onMounted(() => {
 .Pixso-vector-1_113 {
     width: 1920px;
     height: 15%;
-    background-image: url(@/assets/images/Vector_1_113.png);
+    background-image: url(@/assets/images/Vector_1_113.webp);
     background-size: 100% 100%;
     background-repeat: no-repeat;
     position: absolute;

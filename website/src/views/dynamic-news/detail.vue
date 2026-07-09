@@ -34,11 +34,11 @@
       </header>
 
       <main ref="mainRef" class="news-detail-main">
+        <p class="detail-breadcrumb">
+          当前位置：<router-link to="/">首页</router-link> &gt;
+          <router-link to="/dynamic-news">动态要闻</router-link> &gt; 动态详情
+        </p>
         <section ref="cardRef" class="news-detail-card">
-          <p class="breadcrumb">
-            当前位置：<router-link to="/">首页</router-link> &gt;
-            <router-link to="/dynamic-news">动态要闻</router-link> &gt; 动态详情
-          </p>
           <h1 v-if="newsDetail" class="detail-title">{{ newsDetail.title }}</h1>
           <p v-if="newsDetail" class="detail-meta">
             来源：{{ newsDetail.author || '四川飞豹救援' }}　　　发布时间：{{ formatDate(newsDetail.publishedAt || newsDetail.createdAt) }}
@@ -193,10 +193,10 @@ const doSearch = () => {
 }
 
 const websiteConfig = ref({
-  host_unit: '四川飞豹救援',
-  organizer_unit: '四川飞豹救援新闻宣传处',
-  icp_number: '蜀ICP备2026009479',
-  copyright: 'Copyright®2026 www.scfeibao.com All rights reserved'
+  host_unit: '',
+  organizer_unit: '',
+  icp_number: '',
+  copyright: ''
 })
 
 const fetchWebsiteConfig = async () => {
@@ -204,10 +204,10 @@ const fetchWebsiteConfig = async () => {
     const res = await getWebsiteConfig()
     if (res.data) {
       websiteConfig.value = {
-        host_unit: res.data.host_unit || '四川飞豹救援',
-        organizer_unit: res.data.organizer_unit || '四川飞豹救援新闻宣传处',
-        icp_number: res.data.icp_number || '蜀ICP备2026009479',
-        copyright: res.data.copyright || 'Copyright®2026 www.scfeibao.com All rights reserved'
+        host_unit: res.data.host_unit || '',
+        organizer_unit: res.data.organizer_unit || '',
+        icp_number: res.data.icp_number || '',
+        copyright: res.data.copyright || ''
       }
     }
   } catch (error) {
@@ -271,7 +271,7 @@ watch(() => route.params.id, (newId, oldId) => {
 
 .site-header {
   background-color: #fff;
-  background-image: url(@/assets/images/Vector_1_7.png);
+  background-image: url(@/assets/images/Vector_1_7.webp);
   background-size: 100% 191px;
   background-repeat: no-repeat;
   background-position: top center;
@@ -399,27 +399,28 @@ watch(() => route.params.id, (newId, oldId) => {
 }
 
 .news-detail-main {
-  padding: 92px 0 72px;
+  padding: 36px 0 72px;
 }
 
 .news-detail-card {
   width: 1700px;
   min-height: 420px;
-  margin: 0 auto;
-  padding: 48px 70px 82px;
+  margin: 36px auto 0;
+  padding: 80px 70px 82px;
   box-sizing: border-box;
   background: #fff;
 }
 
-.breadcrumb {
-  margin: 0 0 68px;
+.detail-breadcrumb {
+  width: 1600px;
+  margin: 0 auto;
   font-size: 20px;
   font-family: "Alibaba PuHuiTi-Regular";
   line-height: 20px;
   color: #848484;
 }
 
-.breadcrumb a {
+.detail-breadcrumb a {
   color: inherit;
   text-decoration: none;
 }
@@ -491,7 +492,7 @@ watch(() => route.params.id, (newId, oldId) => {
   min-height: 260px;
   padding: 48px 0;
   box-sizing: border-box;
-  background-image: url(@/assets/images/Vector_1_113.png);
+  background-image: url(@/assets/images/Vector_1_113.webp);
   background-size: 100% 100%;
   background-repeat: no-repeat;
   color: #fff;

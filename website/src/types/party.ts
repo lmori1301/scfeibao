@@ -1,7 +1,7 @@
 /**
  * 党建相关类型定义
  */
-import type { PageParams } from './common'
+import type { PageParams, PageResponse } from './common'
 
 // 党建工作
 export interface PartyWorkItem {
@@ -12,6 +12,12 @@ export interface PartyWorkItem {
   publishDate: string
   author: string
   category?: string
+  type?: string
+  coverImage?: string
+}
+
+export interface PartyListResponse extends PageResponse<PartyWorkItem | PartyMember | StudyMaterial> {
+  items?: Array<PartyWorkItem | PartyMember | StudyMaterial>
 }
 
 export interface PartyWorkListParams extends PageParams {
@@ -36,13 +42,19 @@ export interface TeamWorkListParams extends PageParams {
 // 党员先锋
 export interface MemberItem {
   id: number
-  name: string
-  position: string
-  department: string
+  name?: string
+  title?: string
+  position?: string
+  department?: string
   avatar?: string
-  introduction: string
+  description?: string
+  introduction?: string
+  summary?: string
+  publishDate?: string
   achievements?: string[]
 }
+
+export type PartyMember = MemberItem
 
 export interface MemberListParams extends PageParams {
   keyword?: string
@@ -59,6 +71,8 @@ export interface StudyItem {
   source?: string
   videoUrl?: string
 }
+
+export type StudyMaterial = StudyItem
 
 export interface StudyListParams extends PageParams {
   keyword?: string

@@ -50,6 +50,8 @@ export interface TeamShowcaseListResponse extends PageResponse<ShowcaseItem> {}
 
 // 关于队伍
 export interface TeamInfo {
+  title?: string
+  content?: string
   name: string
   establishedDate: string
   description: string

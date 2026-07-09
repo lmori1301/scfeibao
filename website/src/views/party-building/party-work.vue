@@ -140,7 +140,6 @@ import { ref, computed, onMounted } from 'vue'
 import { getWebsiteConfig } from '@/api/config'
 import { useRouter } from 'vue-router'
 import { getPartyWorkList } from '@/api/party-building'
-import { getMockPartyWorkList } from '@/mock/party'
 import type { PartyWorkItem } from '@/types/party'
 import Pagination from '@/components/common/Pagination.vue'
 import { usePixsoScale } from '@/composables/use-pixso-scale'
@@ -200,53 +199,9 @@ const fetchArticleList = async () => {
     total.value = res.data?.total ?? 0
   } catch (error: any) {
     console.error('获取党建工作列表失败:', error)
-    
-    // 开发环境：如果后端返回500错误，使用Mock数据降级
-    const isDev = import.meta.env.DEV
-    const errorStatus = error?.response?.status
-    const errorCode = error?.code
-    const isServerError = errorStatus === 500 || errorCode === 'ERR_NETWORK' || errorCode === 'ECONNREFUSED'
-    
-    console.log('🔍 错误详情:', {
-      isDev,
-      errorStatus,
-      errorCode,
-      isServerError,
-      errorMessage: error?.message
-    })
-    
-    if (isDev && isServerError) {
-      console.warn('⚠️ 后端服务不可用（500错误），使用Mock数据降级显示')
-      try {
-        const mockRes = getMockPartyWorkList(currentPage.value, pageSize.value)
-        // 如果有搜索关键词，过滤Mock数据
-        let filteredList = mockRes.data.list
-        if (searchKeyword.value) {
-          const keyword = searchKeyword.value.toLowerCase()
-          filteredList = filteredList.filter((item: PartyWorkItem) => 
-            item.title.toLowerCase().includes(keyword) ||
-            item.summary?.toLowerCase().includes(keyword) ||
-            item.content?.toLowerCase().includes(keyword)
-          )
-        }
-        articleList.value = filteredList
-        total.value = filteredList.length
-        console.log('✅ 已使用Mock数据:', filteredList.length, '条')
-        // Mock数据加载成功，不显示错误提示
-        loadFailed.value = false
-      } catch (mockError) {
-        console.error('Mock数据加载失败:', mockError)
     articleList.value = []
     total.value = 0
-        loadFailed.value = true
-      }
-    } else {
-      // 生产环境或其他错误：显示错误提示
-      console.log('❌ 显示错误提示（非开发环境或非500错误）')
-      articleList.value = []
-      total.value = 0
-      loadFailed.value = true
-    }
+    loadFailed.value = true
   } finally {
     loading.value = false
   }
@@ -333,10 +288,10 @@ onMounted(() => {
 })
 
 const websiteConfig = ref({
-  host_unit: '四川飞豹救援',
-  organizer_unit: '四川飞豹救援新闻宣传处',
-  icp_number: '蜀ICP备2026009479',
-  copyright: 'Copyright®2026 www.scfeibao.com All rights reserved'
+  host_unit: '',
+  organizer_unit: '',
+  icp_number: '',
+  copyright: ''
 })
 
 const fetchWebsiteConfig = async () => {
@@ -344,10 +299,10 @@ const fetchWebsiteConfig = async () => {
     const res = await getWebsiteConfig()
     if (res.data) {
       websiteConfig.value = {
-        host_unit: res.data.host_unit || '四川飞豹救援',
-        organizer_unit: res.data.organizer_unit || '四川飞豹救援新闻宣传处',
-        icp_number: res.data.icp_number || '蜀ICP备2026009479',
-        copyright: res.data.copyright || 'Copyright®2026 www.scfeibao.com All rights reserved'
+        host_unit: res.data.host_unit || '',
+        organizer_unit: res.data.organizer_unit || '',
+        icp_number: res.data.icp_number || '',
+        copyright: res.data.copyright || ''
       }
     }
   } catch (error) {
@@ -398,7 +353,7 @@ onMounted(() => {
 .Pixso-vector-1_1111 {
   width: 100%;
   height: 100%;
-  background-image: url(@/assets/images/Vector_1_1111.png);
+  background-image: url(@/assets/images/Vector_1_1111.webp);
   background-size: 100% 100%;
   background-repeat: no-repeat;
   position: absolute;
@@ -631,7 +586,7 @@ onMounted(() => {
 .Pixso-vector-1_1149 {
   width: 22.03%;
   height: 13.74%;
-  background-image: url(@/assets/images/Vector_1_1149.png);
+  background-image: url(@/assets/images/Vector_1_1149.webp);
   background-size: 100% 100%;
   background-repeat: no-repeat;
   position: absolute;
@@ -643,7 +598,7 @@ onMounted(() => {
 .Pixso-vector-1_1152 {
   width: 22.03%;
   height: 13.74%;
-  background-image: url(@/assets/images/Vector_1_1152.png);
+  background-image: url(@/assets/images/Vector_1_1152.webp);
   background-size: 100% 100%;
   background-repeat: no-repeat;
   position: absolute;
@@ -655,7 +610,7 @@ onMounted(() => {
 .Pixso-vector-1_1155 {
   width: 22.03%;
   height: 13.74%;
-  background-image: url(@/assets/images/Vector_1_1155.png);
+  background-image: url(@/assets/images/Vector_1_1155.webp);
   background-size: 100% 100%;
   background-repeat: no-repeat;
   position: absolute;
@@ -667,7 +622,7 @@ onMounted(() => {
 .Pixso-vector-1_1158 {
   width: 22.03%;
   height: 13.74%;
-  background-image: url(@/assets/images/Vector_1_1158.png);
+  background-image: url(@/assets/images/Vector_1_1158.webp);
   background-size: 100% 100%;
   background-repeat: no-repeat;
   position: absolute;
@@ -1305,7 +1260,7 @@ onMounted(() => {
 .Pixso-vector-1_113 {
     width: 1920px;
     height: 15%;
-    background-image: url(@/assets/images/Vector_1_113.png);
+    background-image: url(@/assets/images/Vector_1_113.webp);
     background-size: 100% 100%;
     background-repeat: no-repeat;
     position: absolute;

@@ -116,7 +116,7 @@
                     {{ websiteConfig.host_unit }}
                 </p>
                 <p id="1_119" class="Pixso-paragraph-1_119">
-                    {{ "承办单位:四川飞豹救援新闻宣传处" }}
+                    {{ websiteConfig.organizer_unit }}
                 </p>
                                             </div>
       </div>
@@ -125,6 +125,7 @@
 <script lang="ts" setup>
 import { ref, computed, onMounted } from 'vue'
 import { getWebsiteConfig } from '@/api/config'
+import { getTeamWorkList } from '@/api/party-building'
 import { useRouter } from 'vue-router'
 import Pagination from '@/components/common/Pagination.vue'
 import { usePixsoScale } from '@/composables/use-pixso-scale'
@@ -136,95 +137,19 @@ const router = useRouter()
 const currentPage = ref(1)
 const pageSize = ref(4)
 
-// 团建工作数据
-const teamWorkList = ref([
-  {
-    id: 1,
-    title: '"我是党员，我在岗位" | 李辉："干一行、爱一行、精一行"',
-    summary: '认真践行习近平总书记关于党的自我革命的重要思想李炎溪，党的十八大以来，习近平总书记站在事关党的长期...',
-    publishDate: '2025-12-06'
-  },
-  {
-    id: 2,
-    title: '我是党员，我在岗位" | 张建设："村民舒心了，我们就开心"',
-    summary: '协同推进科学立法、严格执法、公正司法、全民守法沈春耀，法治是治国理政的基本方式。党的二十届四中全会...',
-    publishDate: '2025-12-06'
-  },
-  {
-    id: 3,
-    title: '"我是党员，我在岗位" | 黄国东："帮农民端稳\'金饭碗\'，很有成就感！"',
-    summary: '"就业是家事，更是国事。"11月1日出版的第21期《求是》杂志刊发习近平总书记重要文章《促进高质量...',
-    publishDate: '2025-12-06'
-  },
-  {
-    id: 4,
-    title: '"我是党员，我在岗位" | 陈蓉："确保各方平安，一切都值得"',
-    summary: '"以学铸魂，就是要做好学习贯彻新时代中国特色社会主义思想的深化、内化、转化工作，从思想上正本清源、固...',
-    publishDate: '2025-12-06'
-  },
-  {
-    id: 5,
-    title: '团建活动：凝聚团队力量，共创美好未来',
-    summary: '通过丰富多彩的团建活动，增强团队凝聚力，提升队员之间的协作能力，为救援工作打下坚实基础...',
-    publishDate: '2025-11-28'
-  },
-  {
-    id: 6,
-    title: '党员先锋：在救援一线践行初心使命',
-    summary: '党员同志在救援工作中发挥先锋模范作用，用实际行动诠释共产党员的责任与担当...',
-    publishDate: '2025-11-20'
-  },
-  {
-    id: 7,
-    title: '学习强国：提升理论素养，增强业务能力',
-    summary: '组织队员深入学习党的理论知识，不断提升政治素养和业务能力，为救援工作提供思想保障...',
-    publishDate: '2025-11-15'
-  },
-  {
-    id: 8,
-    title: '志愿服务：传递温暖，服务社会',
-    summary: '积极参与社会志愿服务活动，用爱心和行动回馈社会，展现救援队伍的良好形象...',
-    publishDate: '2025-11-10'
-  },
-  {
-    id: 9,
-    title: '技能培训：提升专业水平，增强救援能力',
-    summary: '定期组织专业技能培训，不断提升队员的救援技能和应急处置能力...',
-    publishDate: '2025-11-05'
-  },
-  {
-    id: 10,
-    title: '党建引领：以高质量党建推动高质量发展',
-    summary: '坚持党建引领，充分发挥党组织的战斗堡垒作用，推动救援工作高质量发展...',
-    publishDate: '2025-10-30'
-  },
-  {
-    id: 11,
-    title: '红色教育：传承红色基因，赓续精神血脉',
-    summary: '组织队员参观红色教育基地，学习革命先烈的英勇事迹，传承红色基因...',
-    publishDate: '2025-10-25'
-  },
-  {
-    id: 12,
-    title: '廉政建设：筑牢思想防线，守住纪律底线',
-    summary: '加强廉政教育，筑牢思想防线，确保队伍清正廉洁，为救援工作提供纪律保障...',
-    publishDate: '2025-10-20'
-  }
-])
-
-// 计算总数
-const totalTeamWork = computed(() => teamWorkList.value.length)
+const teamWorkList = ref<any[]>([])
+const totalTeamWork = ref(0)
 
 // 计算当前页显示的数据
 const paginatedTeamWork = computed(() => {
-  const start = (currentPage.value - 1) * pageSize.value
-  const end = start + pageSize.value
-  return teamWorkList.value.slice(start, end)
+  return teamWorkList.value
 })
 
 // 格式化日期
 const formatDate = (dateStr: string) => {
+  if (!dateStr) return { year: '', day: '' }
   const date = new Date(dateStr)
+  if (Number.isNaN(date.getTime())) return { year: '', day: '' }
   const year = date.getFullYear()
   const month = String(date.getMonth() + 1).padStart(2, '0')
   const day = String(date.getDate()).padStart(2, '0')
@@ -236,12 +161,31 @@ const formatDate = (dateStr: string) => {
 
 // 页码改变处理
 function handlePageChange() {
+  fetchTeamWork()
   window.scrollTo({ top: 0, behavior: 'smooth' })
 }
 
 // 跳转到详情页
 function goToDetail(id: number) {
   router.push(`/party-building/team-work/${id}`)
+}
+
+async function fetchTeamWork() {
+  try {
+    const res = await getTeamWorkList({ page: currentPage.value, pageSize: pageSize.value })
+    const list = res.data?.list || res.data?.items || []
+    teamWorkList.value = list.map((item: any) => ({
+      id: item.id,
+      title: item.title || '',
+      summary: item.summary || item.content?.replace(/<[^>]*>/g, '').slice(0, 120) || '',
+      publishDate: item.publishDate || item.createdAt || ''
+    }))
+    totalTeamWork.value = res.data?.total || 0
+  } catch (error) {
+    console.error('获取团建工作失败:', error)
+    teamWorkList.value = []
+    totalTeamWork.value = 0
+  }
 }
 
 // 搜索
@@ -288,10 +232,10 @@ const doSearch = () => {
 
 
 const websiteConfig = ref({
-  host_unit: '四川飞豹救援',
-  organizer_unit: '四川飞豹救援新闻宣传处',
-  icp_number: '蜀ICP备2026009479',
-  copyright: 'Copyright®2026 www.scfeibao.com All rights reserved'
+  host_unit: '',
+  organizer_unit: '',
+  icp_number: '',
+  copyright: ''
 })
 
 const fetchWebsiteConfig = async () => {
@@ -299,10 +243,10 @@ const fetchWebsiteConfig = async () => {
     const res = await getWebsiteConfig()
     if (res.data) {
       websiteConfig.value = {
-        host_unit: res.data.host_unit || '四川飞豹救援',
-        organizer_unit: res.data.organizer_unit || '四川飞豹救援新闻宣传处',
-        icp_number: res.data.icp_number || '蜀ICP备2026009479',
-        copyright: res.data.copyright || 'Copyright®2026 www.scfeibao.com All rights reserved'
+        host_unit: res.data.host_unit || '',
+        organizer_unit: res.data.organizer_unit || '',
+        icp_number: res.data.icp_number || '',
+        copyright: res.data.copyright || ''
       }
     }
   } catch (error) {
@@ -311,6 +255,7 @@ const fetchWebsiteConfig = async () => {
 }
 
 onMounted(() => {
+  fetchTeamWork()
   fetchWebsiteConfig()
 })
 
@@ -342,7 +287,7 @@ onMounted(() => {
 .Pixso-vector-1_1325 {
   width: 100%;
   height: 100%;
-  background-image: url(@/assets/images/Vector_1_1325.png);
+  background-image: url(@/assets/images/Vector_1_1325.webp);
   background-size: 100% 100%;
   background-repeat: no-repeat;
   position: absolute;
@@ -575,7 +520,7 @@ onMounted(() => {
 .Pixso-vector-1_1363 {
   width: 22.03%;
   height: 13.74%;
-  background-image: url(@/assets/images/Vector_1_1363.png);
+  background-image: url(@/assets/images/Vector_1_1363.webp);
   background-size: 100% 100%;
   background-repeat: no-repeat;
   position: absolute;
@@ -587,7 +532,7 @@ onMounted(() => {
 .Pixso-vector-1_1366 {
   width: 22.03%;
   height: 13.74%;
-  background-image: url(@/assets/images/Vector_1_1366.png);
+  background-image: url(@/assets/images/Vector_1_1366.webp);
   background-size: 100% 100%;
   background-repeat: no-repeat;
   position: absolute;
@@ -599,7 +544,7 @@ onMounted(() => {
 .Pixso-vector-1_1369 {
   width: 22.03%;
   height: 13.74%;
-  background-image: url(@/assets/images/Vector_1_1369.png);
+  background-image: url(@/assets/images/Vector_1_1369.webp);
   background-size: 100% 100%;
   background-repeat: no-repeat;
   position: absolute;
@@ -611,7 +556,7 @@ onMounted(() => {
 .Pixso-vector-1_1372 {
   width: 22.03%;
   height: 13.74%;
-  background-image: url(@/assets/images/Vector_1_1372.png);
+  background-image: url(@/assets/images/Vector_1_1372.webp);
   background-size: 100% 100%;
   background-repeat: no-repeat;
   position: absolute;
@@ -1249,7 +1194,7 @@ onMounted(() => {
 .Pixso-vector-1_113 {
     width: 1920px;
     height: 15%;
-    background-image: url(@/assets/images/Vector_1_113.png);
+    background-image: url(@/assets/images/Vector_1_113.webp);
     background-size: 100% 100%;
     background-repeat: no-repeat;
     position: absolute;

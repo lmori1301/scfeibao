@@ -13,7 +13,7 @@ export default defineConfig({
   server: {
     host: true,
     port: 5173,
-    allowedHosts: ['dev.scfb.org.cn'],
+    allowedHosts: ['dev.scfb.org.cn', '192.168.2.189', 'localhost', '127.0.0.1'],
     open: true,
     proxy: {
       '/api': {
@@ -34,6 +34,7 @@ export default defineConfig({
   build: {
     outDir: 'dist',
     sourcemap: false,
+    assetsInlineLimit: 16 * 1024,
     rollupOptions: {
       output: {
         manualChunks: {

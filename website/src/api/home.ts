@@ -21,7 +21,7 @@ export function getBannerList() {
 /**
  * 获取首页最新新闻
  */
-export function getHomeNews(params?: { limit?: number }) {
+export function getHomeNews(params?: { pageSize?: number }) {
   return http.get<NewsItem[]>('/home/news', { params })
 }
 
@@ -40,7 +40,7 @@ export function getLocalDynamics(params?: { page?: number; pageSize?: number }) 
 /**
  * 获取救援行动
  */
-export function getRescueActions(params?: { limit?: number }) {
+export function getRescueActions(params?: { pageSize?: number }) {
   return http.get<{
     id: number
     title: string
@@ -54,7 +54,7 @@ export function getRescueActions(params?: { limit?: number }) {
 /**
  * 获取宣传视频（只获取置顶视频）
  */
-export function getPromotionalVideos(params?: { limit?: number }) {
+export function getPromotionalVideos(params?: { pageSize?: number }) {
   return http.get<{
     items: {
       id: number
@@ -70,7 +70,7 @@ export function getPromotionalVideos(params?: { limit?: number }) {
 /**
  * 获取队伍风采
  */
-export function getTeamShowcaseForHome(params?: { limit?: number }) {
+export function getTeamShowcaseForHome(params?: { pageSize?: number }) {
   return http.get<{
     id: number
     title: string

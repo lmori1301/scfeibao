@@ -46,7 +46,7 @@
                         left: caseItem.left,
                         top: caseItem.top
                     }"
-                    @click="goToCaseDetail((currentPage - 1) * pageSize + index)"
+                    @click="goToCaseDetail(caseItem.id)"
                 ></div>
 
                 <!-- 案例标题 -->
@@ -56,7 +56,7 @@
                         left: caseItem.titleLeft,
                         top: caseItem.titleTop
                     }"
-                    @click="goToCaseDetail((currentPage - 1) * pageSize + index)"
+                    @click="goToCaseDetail(caseItem.id)"
                 >
                     {{ caseItem.title }}
                 </p>
@@ -113,9 +113,11 @@
 <script lang="ts" setup>
 import { ref, computed, onMounted } from 'vue'
 import { getWebsiteConfig } from '@/api/config'
+import { getRescueCases } from '@/api/team-building'
 import { useRouter } from 'vue-router'
 import Pagination from '@/components/common/Pagination.vue'
 import { usePixsoScale } from '@/composables/use-pixso-scale'
+import type { RescueCase } from '@/types/team'
 
 const { scrollContainerRef, frameRef } = usePixsoScale(1920, 1907)
 const router = useRouter()
@@ -124,126 +126,13 @@ const router = useRouter()
 const currentPage = ref(1)
 const pageSize = ref(9)
 
-// 救援案例数据
-const cases = ref([
-    {
-        title: "6·3普洱6.4级地震",
-        image: new URL('@/assets/images/Vector_1_834.png', import.meta.url).href,
-        date: "2014-06-03",
-        description: "2014年6月3日，云南省普洱市发生6.4级地震，四川飞豹救援队第一时间赶赴灾区开展救援工作..."
-    },
-    {
-        title: "8·7舟曲山体滑坡泥石流",
-        image: new URL('@/assets/images/Vector_1_840.png', import.meta.url).href,
-        date: "2010-08-07",
-        description: "2010年8月7日，甘肃省舟曲县发生特大山洪泥石流灾害，救援队紧急出动参与救援..."
-    },
-    {
-        title: "8·8九寨沟7.0级地震",
-        image: new URL('@/assets/images/Vector_1_837.png', import.meta.url).href,
-        date: "2017-08-08",
-        description: "2017年8月8日，四川省九寨沟县发生7.0级地震，救援队迅速响应，全力开展救援..."
-    },
-    {
-        title: "5·12汶川8.0级地震",
-        image: new URL('@/assets/images/Vector_1_843.png', import.meta.url).href,
-        date: "2008-05-12",
-        description: "2008年5月12日，四川省汶川县发生8.0级特大地震，救援队员冒着生命危险深入灾区..."
-    },
-    {
-        title: "4·20芦山7.0级地震",
-        image: new URL('@/assets/images/Vector_1_849.png', import.meta.url).href,
-        date: "2013-04-20",
-        description: "2013年4月20日，四川省雅安市芦山县发生7.0级地震，救援队快速集结投入救援..."
-    },
-    {
-        title: "6·24茂县山体滑坡",
-        image: new URL('@/assets/images/Vector_1_846.png', import.meta.url).href,
-        date: "2017-06-24",
-        description: "2017年6月24日，四川省阿坝州茂县发生山体滑坡，救援队全力搜救被困群众..."
-    },
-    {
-        title: "4·14玉树7.1级地震",
-        image: new URL('@/assets/images/Vector_1_852.png', import.meta.url).href,
-        date: "2010-04-14",
-        description: "2010年4月14日，青海省玉树县发生7.1级地震，救援队克服高原反应参与救援..."
-    },
-    {
-        title: "8·3鲁甸6.5级地震",
-        image: new URL('@/assets/images/Vector_1_858.png', import.meta.url).href,
-        date: "2014-08-03",
-        description: "2014年8月3日，云南省昭通市鲁甸县发生6.5级地震，救援队紧急驰援灾区..."
-    },
-    {
-        title: "7·20郑州特大暴雨",
-        image: new URL('@/assets/images/Vector_1_855.png', import.meta.url).href,
-        date: "2021-07-20",
-        description: "2021年7月20日，河南省郑州市遭遇特大暴雨，救援队参与抢险救援工作..."
-    },
-    {
-        title: "9·5泸定6.8级地震",
-        image: new URL('@/assets/images/Vector_1_834.png', import.meta.url).href,
-        date: "2022-09-05",
-        description: "2022年9月5日，四川省甘孜州泸定县发生6.8级地震，救援队迅速响应展开救援..."
-    },
-    {
-        title: "6·17长宁6.0级地震",
-        image: new URL('@/assets/images/Vector_1_840.png', import.meta.url).href,
-        date: "2019-06-17",
-        description: "2019年6月17日，四川省宜宾市长宁县发生6.0级地震，救援队第一时间赶赴现场..."
-    },
-    {
-        title: "10·11金沙江堰塞湖",
-        image: new URL('@/assets/images/Vector_1_837.png', import.meta.url).href,
-        date: "2018-10-11",
-        description: "2018年10月11日，金沙江发生山体滑坡形成堰塞湖，救援队参与应急处置..."
-    },
-    {
-        title: "8·13甘肃舟曲泥石流",
-        image: new URL('@/assets/images/Vector_1_843.png', import.meta.url).href,
-        date: "2010-08-13",
-        description: "2010年8月13日，甘肃省舟曲县再次发生泥石流灾害，救援队持续开展救援..."
-    },
-    {
-        title: "7·22定西6.6级地震",
-        image: new URL('@/assets/images/Vector_1_849.png', import.meta.url).href,
-        date: "2013-07-22",
-        description: "2013年7月22日，甘肃省定西市发生6.6级地震，救援队紧急出动参与救援..."
-    },
-    {
-        title: "5·30东方之星沉船",
-        image: new URL('@/assets/images/Vector_1_846.png', import.meta.url).href,
-        date: "2015-05-30",
-        description: "2015年5月30日，长江客轮东方之星翻沉，救援队参与水上搜救行动..."
-    },
-    {
-        title: "11·3金沙江白格堰塞湖",
-        image: new URL('@/assets/images/Vector_1_852.png', import.meta.url).href,
-        date: "2018-11-03",
-        description: "2018年11月3日，金沙江再次发生堰塞湖险情，救援队参与应急救援..."
-    },
-    {
-        title: "6·1重庆武隆山体滑坡",
-        image: new URL('@/assets/images/Vector_1_858.png', import.meta.url).href,
-        date: "2009-06-01",
-        description: "2009年6月1日，重庆市武隆县发生山体滑坡，救援队全力搜救被困人员..."
-    },
-    {
-        title: "8·12天津港爆炸事故",
-        image: new URL('@/assets/images/Vector_1_855.png', import.meta.url).href,
-        date: "2015-08-12",
-        description: "2015年8月12日，天津港发生特大爆炸事故，救援队参与应急救援和善后处置..."
-    }
-])
+const cases = ref<Array<RescueCase & { image: string }>>([])
+const totalCases = ref(0)
 
 // 计算总数
-const totalCases = computed(() => cases.value.length)
-
 // 计算当前页显示的案例
 const paginatedCases = computed(() => {
-    const start = (currentPage.value - 1) * pageSize.value
-    const end = start + pageSize.value
-    const items = cases.value.slice(start, end)
+    const items = cases.value
 
     // 定义9个位置（3×3网格）
     const positions = [
@@ -265,13 +154,30 @@ const paginatedCases = computed(() => {
 })
 
 // 跳转到案例详情
-function goToCaseDetail(index: number) {
-    router.push(`/team-building/cases/${index}`)
+function goToCaseDetail(id: number) {
+    router.push(`/team-building/cases/${id}`)
 }
 
 // 页码改变处理
 function handlePageChange() {
+    fetchCases()
     window.scrollTo({ top: 0, behavior: 'smooth' })
+}
+
+async function fetchCases() {
+    try {
+        const res = await getRescueCases({ page: currentPage.value, pageSize: pageSize.value })
+        const list = res.data?.list || []
+        cases.value = list.map((item) => ({
+            ...item,
+            image: item.coverImage || item.images?.[0] || ''
+        }))
+        totalCases.value = res.data?.total || 0
+    } catch (error) {
+        console.error('获取救援案例失败:', error)
+        cases.value = []
+        totalCases.value = 0
+    }
 }
 
 // 搜索
@@ -317,10 +223,10 @@ const doSearch = () => {
 }
 
 const websiteConfig = ref({
-  host_unit: '四川飞豹救援',
-  organizer_unit: '四川飞豹救援新闻宣传处',
-  icp_number: '蜀ICP备2026009479',
-  copyright: 'Copyright®2026 www.scfeibao.com All rights reserved'
+  host_unit: '',
+  organizer_unit: '',
+  icp_number: '',
+  copyright: ''
 })
 
 const fetchWebsiteConfig = async () => {
@@ -328,10 +234,10 @@ const fetchWebsiteConfig = async () => {
     const res = await getWebsiteConfig()
     if (res.data) {
       websiteConfig.value = {
-        host_unit: res.data.host_unit || '四川飞豹救援',
-        organizer_unit: res.data.organizer_unit || '四川飞豹救援新闻宣传处',
-        icp_number: res.data.icp_number || '蜀ICP备2026009479',
-        copyright: res.data.copyright || 'Copyright®2026 www.scfeibao.com All rights reserved'
+        host_unit: res.data.host_unit || '',
+        organizer_unit: res.data.organizer_unit || '',
+        icp_number: res.data.icp_number || '',
+        copyright: res.data.copyright || ''
       }
     }
   } catch (error) {
@@ -340,6 +246,7 @@ const fetchWebsiteConfig = async () => {
 }
 
 onMounted(() => {
+  fetchCases()
   fetchWebsiteConfig()
 })
 
@@ -361,7 +268,7 @@ onMounted(() => {
 .Pixso-vector-1_701 {
     width: 100%;
     height: 100%;
-    background-image: url(@/assets/images/Vector_1_701.png);
+    background-image: url(@/assets/images/Vector_1_701.webp);
     background-size: 100% 100%;
     background-repeat: no-repeat;
     position: absolute;
@@ -441,7 +348,7 @@ onMounted(() => {
 .Pixso-vector-1_726 {
     width: 1920px;
     height: 280px;
-    background-image: url(@/assets/images/Vector_1_726.png);
+    background-image: url(@/assets/images/Vector_1_726.webp);
     background-size: 100% 100%;
     background-repeat: no-repeat;
     position: absolute;
@@ -763,7 +670,7 @@ onMounted(() => {
 .Pixso-vector-1_834 {
     width: 19.84%;
     height: 13%;
-    background-image: url(@/assets/images/Vector_1_834.png);
+    background-image: url(@/assets/images/Vector_1_834.webp);
     background-size: 100% 100%;
     background-repeat: no-repeat;
     position: absolute;
@@ -775,7 +682,7 @@ onMounted(() => {
 .Pixso-vector-1_837 {
     width: 19.84%;
     height: 13%;
-    background-image: url(@/assets/images/Vector_1_837.png);
+    background-image: url(@/assets/images/Vector_1_837.webp);
     background-size: 100% 100%;
     background-repeat: no-repeat;
     position: absolute;
@@ -787,7 +694,7 @@ onMounted(() => {
 .Pixso-vector-1_840 {
     width: 19.84%;
     height: 13%;
-    background-image: url(@/assets/images/Vector_1_840.png);
+    background-image: url(@/assets/images/Vector_1_840.webp);
     background-size: 100% 100%;
     background-repeat: no-repeat;
     position: absolute;
@@ -799,7 +706,7 @@ onMounted(() => {
 .Pixso-vector-1_843 {
     width: 19.84%;
     height: 13%;
-    background-image: url(@/assets/images/Vector_1_843.png);
+    background-image: url(@/assets/images/Vector_1_843.webp);
     background-size: 100% 100%;
     background-repeat: no-repeat;
     position: absolute;
@@ -811,7 +718,7 @@ onMounted(() => {
 .Pixso-vector-1_846 {
     width: 19.84%;
     height: 13%;
-    background-image: url(@/assets/images/Vector_1_846.png);
+    background-image: url(@/assets/images/Vector_1_846.webp);
     background-size: 100% 100%;
     background-repeat: no-repeat;
     position: absolute;
@@ -823,7 +730,7 @@ onMounted(() => {
 .Pixso-vector-1_849 {
     width: 19.84%;
     height: 13%;
-    background-image: url(@/assets/images/Vector_1_849.png);
+    background-image: url(@/assets/images/Vector_1_849.webp);
     background-size: 100% 100%;
     background-repeat: no-repeat;
     position: absolute;
@@ -835,7 +742,7 @@ onMounted(() => {
 .Pixso-vector-1_852 {
     width: 19.84%;
     height: 13%;
-    background-image: url(@/assets/images/Vector_1_852.png);
+    background-image: url(@/assets/images/Vector_1_852.webp);
     background-size: 100% 100%;
     background-repeat: no-repeat;
     position: absolute;
@@ -847,7 +754,7 @@ onMounted(() => {
 .Pixso-vector-1_855 {
     width: 19.84%;
     height: 13%;
-    background-image: url(@/assets/images/Vector_1_855.png);
+    background-image: url(@/assets/images/Vector_1_855.webp);
     background-size: 100% 100%;
     background-repeat: no-repeat;
     position: absolute;
@@ -859,7 +766,7 @@ onMounted(() => {
 .Pixso-vector-1_858 {
     width: 19.84%;
     height: 13%;
-    background-image: url(@/assets/images/Vector_1_858.png);
+    background-image: url(@/assets/images/Vector_1_858.webp);
     background-size: 100% 100%;
     background-repeat: no-repeat;
     position: absolute;
@@ -1161,7 +1068,7 @@ onMounted(() => {
 .Pixso-vector-1_113 {
     width: 1920px;
     height: 15%;
-    background-image: url(@/assets/images/Vector_1_113.png);
+    background-image: url(@/assets/images/Vector_1_113.webp);
     background-size: 100% 100%;
     background-repeat: no-repeat;
     position: absolute;
