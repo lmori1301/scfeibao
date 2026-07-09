@@ -52,6 +52,12 @@ export class LeadershipController {
     return this.leadershipService.importFromExcel(file.buffer)
   }
 
+  @Patch('sort')
+  @RequirePermissions('Leadership')
+  updateSort(@Body() body: { ids?: number[]; startSort?: number }) {
+    return this.leadershipService.updateSort(body.ids || [], body.startSort)
+  }
+
   @Patch(':id')
   @RequirePermissions('Leadership')
   update(@Param('id') id: number, @Body() data: any) {

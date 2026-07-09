@@ -290,21 +290,14 @@ function mapApiToLeaderItem(row: LeadershipApiItem): LeaderItem {
 
 const { scrollContainerRef, frameRef } = usePixsoScale(1920, 2343)
 const leaders = ref<LeaderItem[]>([])
-let leadershipListCache: LeaderItem[] | null = null
 
 const fetchLeaders = async () => {
-    if (leadershipListCache) {
-        leaders.value = leadershipListCache
-        return
-    }
-
     try {
         const res = (await getLeadershipList({ page: 1, pageSize: 500 })) as {
             data?: LeadershipListData
         }
         const items = res?.data?.items ?? []
-        leadershipListCache = items.map(mapApiToLeaderItem)
-        leaders.value = leadershipListCache
+        leaders.value = items.map(mapApiToLeaderItem)
     } catch {
         leaders.value = []
     }

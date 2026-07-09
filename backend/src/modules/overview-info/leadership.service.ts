@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common'
+import { BadRequestException, Injectable } from '@nestjs/common'
 import { InjectRepository } from '@nestjs/typeorm'
 import { Repository } from 'typeorm'
 import { Leadership } from './entities/leadership.entity'
@@ -30,6 +30,9 @@ export class LeadershipService {
   }
 
   async create(data: any) {
+    if (data.sort === undefined || data.sort === null || data.sort === '') {
+      data.sort = await this.getNextSort()
+    }
     const leadership = this.leadershipRepository.create(data)
     return this.leadershipRepository.save(leadership)
   }
@@ -41,6 +44,24 @@ export class LeadershipService {
 
   async delete(id: number) {
     await this.leadershipRepository.delete(id)
+    return { success: true }
+  }
+
+  async updateSort(ids: number[], startSort = 1) {
+    if (!Array.isArray(ids) || ids.length === 0) {
+      throw new BadRequestException('排序数据不能为空')
+    }
+
+    const normalizedStart = Number.isFinite(Number(startSort)) && Number(startSort) > 0
+      ? Number(startSort)
+      : 1
+
+    await this.leadershipRepository.manager.transaction(async (manager) => {
+      for (const [index, id] of ids.entries()) {
+        await manager.update(Leadership, id, { sort: normalizedStart + index })
+      }
+    })
+
     return { success: true }
   }
 
@@ -96,5 +117,14 @@ export class LeadershipService {
     }
 
     return result
+  }
+
+  private async getNextSort() {
+    const current = await this.leadershipRepository
+      .createQueryBuilder('leadership')
+      .select('MAX(leadership.sort)', 'max')
+      .getRawOne<{ max: number | string | null }>()
+
+    return Number(current?.max || 0) + 1
   }
 }

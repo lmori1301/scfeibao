@@ -14,6 +14,7 @@ const dialogVisible = ref(false)
 const importDialogVisible = ref(false)
 const dialogTitle = ref('新增领导信息')
 const formRef = ref()
+const sortSaving = ref(false)
 const formData = ref({
   name: '',
   position: '',
@@ -67,6 +68,32 @@ const handleReset = () => {
 
 const handleImportSuccess = () => {
   fetch(searchForm.value)
+}
+
+const handleSortMove = async (row: any, direction: 'up' | 'down') => {
+  const currentRows = [...tableRows.value]
+  const currentIndex = currentRows.findIndex((item: any) => item.id === row.id)
+  const targetIndex = direction === 'up' ? currentIndex - 1 : currentIndex + 1
+  if (currentIndex < 0 || targetIndex < 0 || targetIndex >= currentRows.length) return
+
+  const nextRows = [...currentRows]
+  ;[nextRows[currentIndex], nextRows[targetIndex]] = [nextRows[targetIndex], nextRows[currentIndex]]
+  const startSort = (page.value - 1) * pageSize.value + 1
+
+  try {
+    sortSaving.value = true
+    data.value = nextRows
+    await http.patch('/leadership/sort', {
+      ids: nextRows.map((item: any) => item.id),
+      startSort,
+    })
+    ElMessage.success('排序已保存')
+    fetch(searchForm.value)
+  } catch (error) {
+    data.value = currentRows
+  } finally {
+    sortSaving.value = false
+  }
 }
 
 const handleAdd = () => {
@@ -194,13 +221,15 @@ fetch()
         </el-table-column>
         <el-table-column
           label="操作"
-          width="176"
+          width="252"
           fixed="right"
           class-name="admin-table-ops-col"
           label-class-name="admin-table-ops-col--header"
         >
-          <template #default="{ row }">
+          <template #default="{ row, $index }">
             <div class="admin-table-ops">
+              <el-button link type="primary" :disabled="$index === 0 || sortSaving" @click="handleSortMove(row, 'up')">上移</el-button>
+              <el-button link type="primary" :disabled="$index === tableRows.length - 1 || sortSaving" @click="handleSortMove(row, 'down')">下移</el-button>
               <el-button link type="primary" @click="handleEdit(row)">编辑</el-button>
               <el-button link type="danger" @click="handleDelete(row)">删除</el-button>
             </div>
