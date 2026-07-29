@@ -39,15 +39,11 @@
             <p id="1_2950" class="Pixso-paragraph-1_2950">
                 {{ certificateData?.phone || '—' }}
             </p>
-            <p id="1_2951" class="Pixso-paragraph-1_2951">
-                {{ "职       务：" }}
-            </p>
+            <p id="1_2951" class="Pixso-paragraph-1_2951">职　　务：</p>
             <p id="1_2952" class="Pixso-paragraph-1_2952">{{ certificateData?.position || '—' }}</p>
             <p id="1_2953" class="Pixso-paragraph-1_2953">{{ "有效期至：" }}</p>
             <p id="1_2954" class="Pixso-paragraph-1_2954">{{ certificateData?.expiryDate || '—' }}</p>
-            <p id="1_2957" class="Pixso-paragraph-1_2957">
-                {{ "姓       名：" }}
-            </p>
+            <p id="1_2957" class="Pixso-paragraph-1_2957">姓　　名：</p>
             <p id="1_2958" class="Pixso-paragraph-1_2958">{{ certificateData?.name || '—' }}</p>
             <p id="1_2959" class="Pixso-paragraph-1_2959">{{ "工作单位：" }}</p>
             <p id="1_2960" class="Pixso-paragraph-1_2960">
@@ -454,15 +450,19 @@ onMounted(() => {
     font-size: 20px;
     font-family: "FZHei-B01S-Regular";
     font-weight: 400;
+    text-align: center;
     line-height: 20px;
     color: rgba(53, 120, 248, 1);
-    width: 6.36%;
+    width: 33.38%;
     height: 1.54%;
     position: absolute;
-    left: 24.11%;
-    right: 69.53%;
+    left: 10.63%;
+    right: 55.99%;
     top: 69.7%;
     bottom: 28.76%;
+    white-space: nowrap;
+    overflow: visible;
+    text-overflow: clip;
 }
 .Pixso-vector-1_2946 {
     width: 33.38%;
@@ -1137,6 +1137,31 @@ onMounted(() => {
   text-overflow: clip !important;
   width: auto !important;
   height: auto !important;
+}
+
+/* 证书详情字段标签：禁止被窄定位框挤成竖排 */
+.Pixso-frame-1_2899 .Pixso-paragraph-1_2947,
+.Pixso-frame-1_2899 .Pixso-paragraph-1_2949,
+.Pixso-frame-1_2899 .Pixso-paragraph-1_2951,
+.Pixso-frame-1_2899 .Pixso-paragraph-1_2953,
+.Pixso-frame-1_2899 .Pixso-paragraph-1_2957,
+.Pixso-frame-1_2899 .Pixso-paragraph-1_2959,
+.Pixso-frame-1_2899 .Pixso-paragraph-1_2961,
+.Pixso-frame-1_2899 .Pixso-paragraph-1_2963,
+.Pixso-frame-1_2899 .Pixso-paragraph-1_2965,
+.Pixso-frame-1_2899 .Pixso-paragraph-1_2967,
+.Pixso-frame-1_2899 .Pixso-paragraph-1_2968 {
+  white-space: nowrap !important;
+  overflow: visible !important;
+  text-overflow: clip !important;
+  width: auto !important;
+  height: auto !important;
+}
+
+.Pixso-frame-1_2899 .Pixso-paragraph-1_2951,
+.Pixso-frame-1_2899 .Pixso-paragraph-1_2957 {
+  width: 5em !important;
+  text-align: left !important;
 }
 
 .query-footer-bg {

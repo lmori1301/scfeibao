@@ -1,6 +1,6 @@
 ---
-updated: 2026-06-20
-version: 1.0
+updated: 2026-07-19
+version: 1.1
 scope: phase3-development/backend-framework
 description: Swagger 接口文档标注规范——@ApiOperation/DTO/@ApiParam/@ApiQuery/响应装饰器/VO 脱敏
 ---
@@ -27,29 +27,29 @@ async add(@Body() body: { name: string; items: any[] }) {}
 async save(@Body() body: Record<string, any>) {}
 
 // ✅ 定义 DTO 类，字段自带说明
-async add(@Body() dto: CreateChecklistDto) {}
+async add(@Body() dto: CreateOrderDto) {}
 ```
 
 DTO 每个字段：`@ApiProperty` 写中文描述 + `class-validator` 装饰器做校验，二者并存：
 
 ```typescript
-export class CreateChecklistDto {
-  @ApiProperty({ description: '清单名称' })
+export class CreateOrderDto {
+  @ApiProperty({ description: '订单名称' })
   @IsString()
   @MaxLength(50)
   name: string;
 
-  @ApiProperty({ description: '设备分类 ID', required: false })  // 可选字段标 required: false
+  @ApiProperty({ description: '商品分类 ID', required: false })  // 可选字段标 required: false
   @IsOptional()
   @IsInt()
-  deviceCategoryId?: number;
+  categoryId?: number;
 
-  @ApiProperty({ description: '检查项列表', type: [ChecklistItemDto] })  // 数组/嵌套必须标 type
+  @ApiProperty({ description: '订单项列表', type: [OrderItemDto] })  // 数组/嵌套必须标 type
   @IsArray()
   @ArrayNotEmpty()
   @ValidateNested({ each: true })
-  @Type(() => ChecklistItemDto)         // 缺这行嵌套校验失效，必加
-  items: ChecklistItemDto[];
+  @Type(() => OrderItemDto)         // 缺这行嵌套校验失效，必加
+  items: OrderItemDto[];
 }
 ```
 
@@ -62,7 +62,7 @@ export class CreateChecklistDto {
 async detail(@Param('id', ParseIntPipe) id: number) {}
 
 // 查询参数（写法A 推荐）：query 收进 DTO，字段用 @ApiProperty 描述
-async list(@Query() query: ChecklistQueryDto) {}
+async list(@Query() query: OrderQueryDto) {}
 // 写法B：散字段用 @ApiQuery 逐个标
 @ApiQuery({ name: 'keyword', required: false, description: '关键字（模糊匹配）' })
 async list(@Query() query: SomeQueryDto) {}
@@ -83,8 +83,8 @@ async list(@Query() query: SomeQueryDto) {}
 DTO 只管类型 / 非空 / 格式 / 长度等静态校验。业务校验（状态机、唯一性、跨字段依赖、纯空格拦截）写在 controller/service：
 
 ```typescript
-async add(@Body() dto: CreateAnnouncementDto) {
-  if (!dto.title.trim()) return this.fail('公告标题不能为空');  // DTO 做不了的纯空格拦截
+async add(@Body() dto: CreateOrderDto) {
+  if (!dto.name.trim()) return this.fail('订单名称不能为空');  // DTO 做不了的纯空格拦截
   ...
 }
 ```

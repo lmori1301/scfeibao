@@ -21,9 +21,9 @@ import {
 @Injectable()
 export class LocationService {
   private readonly amapKey =
-    process.env.AMAP_WEB_KEY || 'e2f3c362950ac5d432a489b7f74e16cf';
+    process.env.AMAP_WEB_KEY?.trim() || '';
   private readonly amapSecurityJsCode =
-    process.env.AMAP_SECURITY_JSCODE || '89a3e2583feec1c50c910b5e8518451e';
+    process.env.AMAP_SECURITY_JSCODE?.trim() || '';
 
   constructor(
     @InjectRepository(Location)
@@ -238,11 +238,18 @@ export class LocationService {
     if (!address) {
       throw new BadRequestException('请填写详细地址后再解析坐标');
     }
+    if (!this.amapKey) {
+      throw new BadRequestException(
+        '后端未配置高德 Web 服务 Key，请配置 AMAP_WEB_KEY，或使用已加白名单域名打开后台让前端自动解析坐标',
+      );
+    }
 
     const keyword = this.buildGeocodeKeyword(data);
     const url = new URL('https://restapi.amap.com/v3/geocode/geo');
     url.searchParams.set('key', this.amapKey);
-    url.searchParams.set('jscode', this.amapSecurityJsCode);
+    if (this.amapSecurityJsCode) {
+      url.searchParams.set('jscode', this.amapSecurityJsCode);
+    }
     url.searchParams.set('address', keyword);
 
     const response = await new Promise<string>((resolve, reject) => {

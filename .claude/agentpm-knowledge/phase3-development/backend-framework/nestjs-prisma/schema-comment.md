@@ -1,6 +1,6 @@
 ---
-updated: 2026-06-20
-version: 1.0
+updated: 2026-07-19
+version: 1.1
 scope: phase3-development/backend-framework
 description: Schema 字段注释与数据库注释流水线——/// 注释 → 库 comment → 文档/代码生成
 ---
@@ -36,7 +36,7 @@ pnpm dev              # 主入口：db push 后自动刷注释。改完 schema �
 pnpm prisma:push      # 不启服务，只把结构+注释刷进库（db push 后自动刷注释）
 pnpm sync:comments    # 只刷注释，不动结构（幂等可重跑）
 DRY_RUN=1 pnpm sync:comments              # 预览不执行
-npx ts-node scripts/sync-db-comments.ts SysUser   # 单表调试
+npx ts-node scripts/sync-db-comments.ts DictType   # 单表调试
 ```
 
 > 日常只记 `pnpm dev`：改完 schema 重启就自动 db push + 刷注释 + 重新生成 client。watch 模式不会自动同步 schema，别在服务运行时手动 `prisma:push`，重启一条命令搞定。生产走迁移 `migrate deploy`，与此无关。

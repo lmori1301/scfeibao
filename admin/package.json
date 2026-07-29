@@ -3,8 +3,8 @@
   "version": "1.0.0",
   "type": "module",
   "scripts": {
-    "dev": "vite --port 5176",
-    "dev:test": "vite --port 5176 --mode test",
+    "dev": "vite --port 5177",
+    "dev:test": "vite --port 5177 --mode test",
     "build": "vite build",
     "build:test": "vite build --mode test",
     "typecheck": "tsc --noEmit -p tsconfig.json",

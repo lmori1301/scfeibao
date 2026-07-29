@@ -1,14 +1,14 @@
 #!/bin/bash
 
 # MySQL数据库备份脚本
-# 用途：自动备份feibao_rescue数据库
+# 用途：自动备份scfeibao数据库
 
 # 配置信息
 DB_HOST="127.0.0.1"
-DB_PORT="3307"
-DB_USER="root"
-DB_PASS="feibao123"
-DB_NAME="feibao_rescue"
+DB_PORT="3308"
+DB_USER="scfeibao"
+DB_PASS="${DB_PASSWORD:?请先设置 DB_PASSWORD}"
+DB_NAME="scfeibao"
 BACKUP_DIR="./backups/mysql"
 DATE=$(date +%Y%m%d_%H%M%S)
 BACKUP_FILE="$BACKUP_DIR/${DB_NAME}_$DATE.sql"

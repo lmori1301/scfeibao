@@ -4,26 +4,26 @@
 
 ### 1.1 基本信息
 - **数据库地址**: 127.0.0.1
-- **端口**: 3307
-- **用户名**: root
-- **密码**: feibao123
-- **数据库名**: feibao_rescue
+- **端口**: 3308
+- **用户名**: scfeibao
+- **密码**: 请从部署环境变量读取，不在仓库记录
+- **数据库名**: scfeibao
 - **字符集**: utf8mb4
 - **时区**: +08:00
 
 ### 1.2 连接字符串
 ```
-mysql://root:feibao123@127.0.0.1:3307/feibao_rescue
+mysql://scfeibao:<url_encoded_password>@127.0.0.1:3308/scfeibao
 ```
 
 ### 1.3 环境变量配置
 ```env
 # 数据库配置
 DB_HOST=127.0.0.1
-DB_PORT=3307
-DB_USERNAME=root
-DB_PASSWORD=feibao123
-DB_DATABASE=feibao_rescue
+DB_PORT=3308
+DB_USERNAME=scfeibao
+DB_PASSWORD=请替换为数据库密码
+DB_DATABASE=scfeibao
 ```
 
 ---
@@ -33,28 +33,28 @@ DB_DATABASE=feibao_rescue
 ### 2.1 完整备份
 ```bash
 # 备份整个数据库
-mysqldump -h 127.0.0.1 -P 3307 -u root -pfeibao123 feibao_rescue > backup_$(date +%Y%m%d_%H%M%S).sql
+mysqldump -h 127.0.0.1 -P 3308 -u scfeibao -p"$DB_PASSWORD" scfeibao > backup_$(date +%Y%m%d_%H%M%S).sql
 
 # 备份数据库结构和数据
-mysqldump -h 127.0.0.1 -P 3307 -u root -pfeibao123 --databases feibao_rescue > feibao_rescue_full_backup.sql
+mysqldump -h 127.0.0.1 -P 3308 -u scfeibao -p"$DB_PASSWORD" --databases scfeibao > scfeibao_full_backup.sql
 ```
 
 ### 2.2 仅备份结构
 ```bash
 # 仅备份表结构，不包含数据
-mysqldump -h 127.0.0.1 -P 3307 -u root -pfeibao123 --no-data feibao_rescue > feibao_rescue_schema.sql
+mysqldump -h 127.0.0.1 -P 3308 -u scfeibao -p"$DB_PASSWORD" --no-data scfeibao > scfeibao_schema.sql
 ```
 
 ### 2.3 仅备份数据
 ```bash
 # 仅备份数据，不包含表结构
-mysqldump -h 127.0.0.1 -P 3307 -u root -pfeibao123 --no-create-info feibao_rescue > feibao_rescue_data.sql
+mysqldump -h 127.0.0.1 -P 3308 -u scfeibao -p"$DB_PASSWORD" --no-create-info scfeibao > scfeibao_data.sql
 ```
 
 ### 2.4 备份指定表
 ```bash
 # 备份指定表
-mysqldump -h 127.0.0.1 -P 3307 -u root -pfeibao123 feibao_rescue users news certificates > specific_tables_backup.sql
+mysqldump -h 127.0.0.1 -P 3308 -u scfeibao -p"$DB_PASSWORD" scfeibao users news certificates > specific_tables_backup.sql
 ```
 
 ---
@@ -64,16 +64,16 @@ mysqldump -h 127.0.0.1 -P 3307 -u root -pfeibao123 feibao_rescue users news cert
 ### 3.1 恢复完整数据库
 ```bash
 # 从备份文件恢复数据库
-mysql -h 127.0.0.1 -P 3307 -u root -pfeibao123 feibao_rescue < backup_file.sql
+mysql -h 127.0.0.1 -P 3308 -u scfeibao -p"$DB_PASSWORD" scfeibao < backup_file.sql
 ```
 
 ### 3.2 恢复到新数据库
 ```bash
 # 创建新数据库
-mysql -h 127.0.0.1 -P 3307 -u root -pfeibao123 -e "CREATE DATABASE feibao_rescue_new CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;"
+mysql -h 127.0.0.1 -P 3308 -u root -p -e "CREATE DATABASE scfeibao_new CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci; GRANT ALL PRIVILEGES ON scfeibao_new.* TO 'scfeibao'@'%'; FLUSH PRIVILEGES;"
 
 # 恢复数据到新数据库
-mysql -h 127.0.0.1 -P 3307 -u root -pfeibao123 feibao_rescue_new < backup_file.sql
+mysql -h 127.0.0.1 -P 3308 -u scfeibao -p"$DB_PASSWORD" scfeibao_new < backup_file.sql
 ```
 
 ---
@@ -112,13 +112,13 @@ mysql -h 127.0.0.1 -P 3307 -u root -pfeibao123 feibao_rescue_new < backup_file.s
 
 BACKUP_DIR="/backup/mysql"
 DATE=$(date +%Y%m%d_%H%M%S)
-BACKUP_FILE="$BACKUP_DIR/feibao_rescue_$DATE.sql"
+BACKUP_FILE="$BACKUP_DIR/scfeibao_$DATE.sql"
 
 # 创建备份目录
 mkdir -p $BACKUP_DIR
 
 # 执行备份
-mysqldump -h 127.0.0.1 -P 3307 -u root -pfeibao123 feibao_rescue > $BACKUP_FILE
+mysqldump -h 127.0.0.1 -P 3308 -u scfeibao -p"$DB_PASSWORD" scfeibao > $BACKUP_FILE
 
 # 压缩备份文件
 gzip $BACKUP_FILE

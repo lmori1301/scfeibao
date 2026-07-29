@@ -6,10 +6,10 @@ async function createAdmin() {
 
   const connection = await mysql.createConnection({
     host: '127.0.0.1',
-    port: 3307,
-    user: 'root',
-    password: 'feibao123',
-    database: 'feibao_rescue'
+    port: 3308,
+    user: 'scfeibao',
+    password: process.env.DB_PASSWORD,
+    database: 'scfeibao'
   });
 
   await connection.execute(

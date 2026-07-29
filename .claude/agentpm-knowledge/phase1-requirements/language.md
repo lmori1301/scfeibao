@@ -1,6 +1,6 @@
 ---
-updated: 2026-05-16
-version: 1.0
+updated: 2026-07-19
+version: 1.1
 scope: global
 description: 可研报告语言规范，适用于 feasibility-report 技能
 ---
@@ -44,7 +44,7 @@ description: 可研报告语言规范，适用于 feasibility-report 技能
 | 类型 | 特征 | 示例 | 正确写法 |
 |------|------|------|---------|
 | UI 组件名 | 具体组件名称 | "使用 ECharts 折线图" | "以折线图形式展示趋势" |
-| 接口路径 | /api/xxx 格式 | "调用 /api/workorder/list" | "查询整改工单台账" |
+| 接口路径 | /api/xxx 格式 | "调用 /api/order/list" | "查询订单台账" |
 | CSS 属性 | 样式描述 | "蓝色按钮，圆角4px" | 删除，不在可研中描述样式 |
 | 口语化表达 | 非正式用语 | "这个功能很好用" | "该功能可有效提升作业效率" |
 

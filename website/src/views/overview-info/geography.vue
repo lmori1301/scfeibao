@@ -114,7 +114,11 @@ import { ref, computed, onMounted, onUnmounted, watch, nextTick } from 'vue'
 import { getWebsiteConfig } from '@/api/config'
 import { getTeamMapList, type TeamMapItem } from '@/api/location'
 import { usePixsoScale } from '@/composables/use-pixso-scale'
-import { applyAmapSecurityConfig } from '@/utils/amap-security'
+import {
+  applyAmapSecurityConfig,
+  getAmapJsApiKey,
+  isAmapInvalidUserDomainError,
+} from '@/utils/amap-security'
 import { useRouter } from 'vue-router'
 
 declare global {
@@ -123,14 +127,20 @@ declare global {
   }
 }
 
-const AMAP_KEY = 'e2f3c362950ac5d432a489b7f74e16cf'
+const AMAP_KEY = getAmapJsApiKey()
+const AMAP_DOMAIN_ERROR_MESSAGE =
+  '地图底图授权失败：当前访问域名未加入高德 JSAPI Key 白名单，请在高德控制台加白当前域名，或配置 VITE_AMAP_KEY 使用已授权 Key。'
+const AMAP_SCRIPT_TIMEOUT_MS = 8000
 let amapLoaderPromise: Promise<any> | null = null
+let originalConsoleError: typeof console.error | null = null
+let originalCanvasGetContext: HTMLCanvasElement['getContext'] | null = null
 
 function loadAmap() {
   if (typeof window === 'undefined') {
     return Promise.reject(new Error('地图环境不可用'))
   }
 
+  installCanvasReadbackHint()
   applyAmapSecurityConfig()
 
   if (window.AMap) {
@@ -149,19 +159,26 @@ function loadAmap() {
       return
     }
 
+    const timeoutId = window.setTimeout(() => {
+      reject(new Error('高德地图脚本加载超时'))
+    }, AMAP_SCRIPT_TIMEOUT_MS)
     const script = document.createElement('script')
-    script.src = `https://webapi.amap.com/maps?v=2.0&key=${AMAP_KEY}&plugin=AMap.Scale,AMap.ToolBar`
+    script.src = `https://webapi.amap.com/maps?v=2.0&key=${AMAP_KEY}`
     script.async = true
     script.defer = true
     script.dataset.amapLoader = 'true'
     script.onload = () => {
+      window.clearTimeout(timeoutId)
       if (window.AMap) {
         resolve(window.AMap)
       } else {
         reject(new Error('高德地图初始化失败'))
       }
     }
-    script.onerror = () => reject(new Error('高德地图脚本加载失败'))
+    script.onerror = () => {
+      window.clearTimeout(timeoutId)
+      reject(new Error('高德地图脚本加载失败'))
+    }
     document.head.appendChild(script)
   }).catch((error) => {
     amapLoaderPromise = null
@@ -179,7 +196,6 @@ const mapContainerRef = ref<HTMLElement | null>(null)
 const mapLoading = ref(true)
 const mapError = ref('')
 const MAP_DEFAULT_ZOOM = 16
-const MAP_MOVE_DURATION = 800
 const MAP_MARKER_OFFSET = [-12, -40] as const
 const MAP_INFO_OFFSET = [0, -70] as const
 const LOCATION_REFRESH_INTERVAL_MS = 30000
@@ -193,6 +209,7 @@ let amapInstance: any = null
 let amapMarker: any = null
 let amapInfoWindow: any = null
 let locationRefreshTimer: number | null = null
+let isMapInitializing = false
 
 // 滚动容器引用
 const unitTabsRef = ref<HTMLElement | null>(null)
@@ -268,10 +285,13 @@ function scrollActiveTabIntoView() {
     const container = unitTabsRef.value
     if (!container) return
     const activeTab = container.children.item(activeIndex.value) as HTMLElement | null
-    activeTab?.scrollIntoView({
+    if (!activeTab) return
+
+    const targetLeft =
+      activeTab.offsetLeft - (container.clientWidth - activeTab.offsetWidth) / 2
+    container.scrollTo({
+      left: Math.max(0, targetLeft),
       behavior: 'smooth',
-      inline: 'center',
-      block: 'nearest',
     })
   })
 }
@@ -328,21 +348,8 @@ function clearMapOverlay() {
 function moveMapTo(position: [number, number], zoom: number) {
   if (!amapInstance) return
 
-  try {
-    if (typeof amapInstance.setZoomAndCenter === 'function') {
-      amapInstance.setZoomAndCenter(zoom, position, false, MAP_MOVE_DURATION)
-      return
-    }
-  } catch (error) {
-    console.warn('地图平滑定位降级为普通移动:', error)
-  }
-
-  if (typeof amapInstance.panTo === 'function') {
-    amapInstance.panTo(position)
-  } else {
-    amapInstance.setCenter(position)
-  }
   amapInstance.setZoom(zoom)
+  amapInstance.setCenter(position)
 }
 
 function renderUnitMarker(unit: UnitInfo) {
@@ -380,8 +387,9 @@ function syncMapToUnit() {
 }
 
 async function initMap() {
-  if (!mapContainerRef.value) return
+  if (!mapContainerRef.value || amapInstance || isMapInitializing) return
 
+  isMapInitializing = true
   mapLoading.value = true
   mapError.value = ''
 
@@ -398,20 +406,13 @@ async function initMap() {
       resizeEnable: true,
       dragEnable: true,
       zoomEnable: true,
-      animateEnable: true,
-      jogEnable: true,
+      animateEnable: false,
+      jogEnable: false,
       viewMode: '2D',
       pitchEnable: false,
       expandZoomRange: true,
       zooms: [3, 20],
     })
-    amapInstance.addControl(new AMap.Scale())
-    amapInstance.addControl(new AMap.ToolBar({
-      position: {
-        top: '18px',
-        right: '18px',
-      },
-    }))
 
     renderUnitMarker(currentUnit.value)
 
@@ -428,6 +429,8 @@ async function initMap() {
     mapLoading.value = false
     mapError.value = '地图加载失败，请稍后重试'
     console.error('初始化地图失败:', error)
+  } finally {
+    isMapInitializing = false
   }
 }
 
@@ -460,6 +463,8 @@ async function fetchLocationUnits() {
 
 async function refreshLocationUnits(recenter = true) {
   const previousUnitName = currentUnit.value.name
+  const previousLongitude = currentUnit.value.longitude
+  const previousLatitude = currentUnit.value.latitude
   const loaded = await fetchLocationUnits()
   if (!loaded) return false
 
@@ -468,8 +473,12 @@ async function refreshLocationUnits(recenter = true) {
 
   if (!amapInstance) return true
 
-  if (!recenter && previousUnitName === nextUnit.name) {
-    renderUnitMarker(nextUnit)
+  if (
+    !recenter &&
+    previousUnitName === nextUnit.name &&
+    previousLongitude === nextUnit.longitude &&
+    previousLatitude === nextUnit.latitude
+  ) {
     return true
   }
 
@@ -485,6 +494,67 @@ function handleVisibilityChange() {
   }
 
   stopLocationAutoRefresh()
+}
+
+function setAmapDomainError() {
+  mapLoading.value = false
+  mapError.value = AMAP_DOMAIN_ERROR_MESSAGE
+}
+
+function handleAmapRuntimeError(event: ErrorEvent | PromiseRejectionEvent) {
+  const reason =
+    'reason' in event
+      ? event.reason
+      : event.error || event.message
+
+  if (isAmapInvalidUserDomainError(reason)) {
+    setAmapDomainError()
+  }
+}
+
+function installAmapConsoleErrorListener() {
+  if (originalConsoleError) return
+
+  originalConsoleError = console.error
+  console.error = (...args: unknown[]) => {
+    if (args.some((item) => isAmapInvalidUserDomainError(item))) {
+      setAmapDomainError()
+    }
+    originalConsoleError?.apply(console, args)
+  }
+}
+
+function uninstallAmapConsoleErrorListener() {
+  if (!originalConsoleError) return
+
+  console.error = originalConsoleError
+  originalConsoleError = null
+}
+
+function installCanvasReadbackHint() {
+  if (originalCanvasGetContext || typeof HTMLCanvasElement === 'undefined') return
+
+  originalCanvasGetContext = HTMLCanvasElement.prototype.getContext
+  HTMLCanvasElement.prototype.getContext = function (
+    contextId: string,
+    options?: CanvasRenderingContext2DSettings | WebGLContextAttributes,
+  ) {
+    if (contextId === '2d') {
+      return originalCanvasGetContext?.call(this, contextId, {
+        ...(options as CanvasRenderingContext2DSettings | undefined),
+        willReadFrequently: true,
+      }) ?? null
+    }
+
+    return originalCanvasGetContext?.call(this, contextId as never, options as never) ?? null
+  } as HTMLCanvasElement['getContext']
+}
+
+function uninstallCanvasReadbackHint() {
+  if (!originalCanvasGetContext || typeof HTMLCanvasElement === 'undefined') return
+
+  HTMLCanvasElement.prototype.getContext = originalCanvasGetContext
+  originalCanvasGetContext = null
 }
 
 // 鼠标按下事件
@@ -552,6 +622,9 @@ onMounted(() => {
 
   document.addEventListener('visibilitychange', handleVisibilityChange)
   window.addEventListener('focus', handleVisibilityChange)
+  window.addEventListener('error', handleAmapRuntimeError)
+  window.addEventListener('unhandledrejection', handleAmapRuntimeError)
+  installAmapConsoleErrorListener()
 
   refreshLocationUnits().then((hasData) => {
     if (hasData) {
@@ -572,6 +645,10 @@ onUnmounted(() => {
   stopLocationAutoRefresh()
   document.removeEventListener('visibilitychange', handleVisibilityChange)
   window.removeEventListener('focus', handleVisibilityChange)
+  window.removeEventListener('error', handleAmapRuntimeError)
+  window.removeEventListener('unhandledrejection', handleAmapRuntimeError)
+  uninstallAmapConsoleErrorListener()
+  uninstallCanvasReadbackHint()
 
   if (unitTabsRef.value) {
     unitTabsRef.value.removeEventListener('mousedown', handleMouseDown)

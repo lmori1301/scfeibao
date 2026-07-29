@@ -1,6 +1,6 @@
 ---
-updated: 2026-05-30
-version: 1.0
+updated: 2026-07-19
+version: 1.1
 scope: phase2-design
 description: 详细设计（LLD）内容规范，定义LLD三大维度（模块详设/数据库物理设计/API详细设计）的内容要求、与技术规范的引用关系、质量清单，适用于 lld-design 技能
 ---
@@ -63,7 +63,7 @@ LLD 不重新发明规范，直接遵循项目已有技术规范。design-writer
    - **类图**（diagram-generator，class 类型）：展示类、属性、方法、类间关系
    - 遵循 backend.md 分层（Controller → Service → Repository）
 3. **核心业务流程**：
-   - 选取模块的关键操作（如"创建运单""审核工单"）
+   - 选取模块的关键操作（如"创建订单""审核订单"）
    - **时序图**（diagram-generator，sequence 类型）：展示调用链
    - 配文字步骤：含参数校验、事务边界、分支判断、跨模块调用
    - 关键逻辑可用伪代码描述（描述步骤，不抄业务源码）
@@ -84,7 +84,7 @@ LLD 不重新发明规范，直接遵循项目已有技术规范。design-writer
 | 字段名 | 类型 | 允许空 | 键 | 默认值 | 说明 |
 |-------|------|-------|----|-------|------|
 | id | INT AUTO_INCREMENT | 否 | PK | - | 主键ID |
-| plate_no | VARCHAR(20) | 否 | UNI | - | 车牌号 |
+| order_no | VARCHAR(32) | 否 | UNI | - | 订单编号 |
 | status | TINYINT | 否 | - | 1 | 状态：1-启用 0-禁用 |
 | created_at | DATETIME | 否 | - | CURRENT_TIMESTAMP | 创建时间 |
 | updated_at | DATETIME | 否 | - | CURRENT_TIMESTAMP | 更新时间 |
@@ -117,7 +117,7 @@ LLD 不重新发明规范，直接遵循项目已有技术规范。design-writer
 前端 mock 的 interface 是视图模型，缺少持久化字段。转换时：
 - 业务字段从 mock/entity 提取，标注来源
 - 补全 id/created_at 等必备字段，标注 [规范补全]
-- 关联字段（如选司机带出手机号）：手机号属司机表，不在本表冗余存储，除非有冗余设计理由
+- 关联字段（如选用户带出手机号）：手机号属用户表，不在本表冗余存储，除非有冗余设计理由
 - 设计阶段新增的表（中间表、字典表）标注 [设计补全]
 
 ---
@@ -128,8 +128,8 @@ LLD 不重新发明规范，直接遵循项目已有技术规范。design-writer
 
 | 方法 | 路径 | 用途 | 鉴权/权限码 |
 |------|------|------|-----------|
-| GET | /api/waybills | 运单列表 | waybill:list |
-| POST | /api/waybills | 创建运单 | waybill:create |
+| GET | /api/orders | 订单列表 | order:list |
+| POST | /api/orders | 创建订单 | order:create |
 
 ### 每个接口的明细
 

@@ -1,6 +1,6 @@
 ---
-updated: 2026-05-16
-version: 1.0
+updated: 2026-07-19
+version: 1.1
 scope: global
 description: 通用页面开发规范，包含文件目录、命名、路由、封装原则
 ---
@@ -95,19 +95,19 @@ src/
 
 ---
 
-## 六、本项目特有约定（AxureMart 一次物流信息化）
+## 六、admin 页面视觉与表格约定（通用）
 
-> 以下为本项目实际踩坑后沉淀的硬性约定，page-generator 生成 admin 页面时必须遵守，优先级高于"推断"。
+> 以下为 admin 管理后台常见踩坑后沉淀的硬性约定，page-generator 生成 admin 页面时优先遵守，优先级高于"推断"。示例以 Element Plus 组件库为例，其他组件库同理迁移。
 
-### 技术栈与命令
+### 技术栈与命令（按项目实际替换）
 
-- admin（PC 管理后台）：Vue 3 + TypeScript + Vite + **Element Plus**
-- mobile（移动端）：Vue 3 + Vite + **Vant** + Capacitor（JS，非 TS）
-- 构建：`cd admin && npx vite build`；类型检查：`cd admin && npx vue-tsc --noEmit`
+- admin（PC 管理后台）：Vue 3 + TypeScript + Vite + 组件库（示例用 **Element Plus**）
+- mobile（移动端，如有）：Vue 3 + Vite + 移动端组件库（如 **Vant**）+ 打包壳（如 Capacitor）
+- 构建、类型检查命令以项目实际约定为准（如 `npx vite build`、`npx vue-tsc --noEmit`）
 
-### admin 卡片样式（强制，参考运单台账页 `views/Waybill/List/index.vue`）
+### admin 卡片样式（强制，取项目内既有列表页为基准页）
 
-本项目 admin 页面的卡片是**无边框、无阴影**的扁平风格，**禁止**给卡片加边框/阴影/顶部彩条：
+扁平化的 admin 页面卡片建议**无边框、无阴影**，**禁止**给卡片加边框/阴影/顶部彩条：
 
 ```scss
 .xxx-card {
@@ -133,6 +133,6 @@ src/
 - 颜色、间距、字号优先用 Element Plus CSS 变量（`var(--el-color-xxx)`、`var(--el-text-color-xxx)`、`var(--el-border-color-lighter)`），不硬编码 `#xxx`
 - 动画只用合成器友好属性（`transform`/`opacity`/`clip-path`），禁止动画 `background`/`border-color`/`width`/`height`
 
-### 运单状态枚举（全项目统一）
+### 业务状态枚举（全项目统一）
 
-`transit 在途 → arrived 到库 → unloading 接卸中 → completed 已完成`（外加 `cancelled 已取消`）；化验结果 `testResult: pass/fail/null`。新增涉及运单状态的功能必须复用此枚举，不另起名。
+同一业务对象的状态枚举必须全项目统一，一处定义、处处复用，新增功能不得另起名。例如一条流转型单据的状态：`pending 待处理 → processing 处理中 → completed 已完成`（外加 `cancelled 已取消`）；布尔型结果字段用统一取值（如 `result: pass/fail/null`）。以项目实际定义的枚举取值为准。

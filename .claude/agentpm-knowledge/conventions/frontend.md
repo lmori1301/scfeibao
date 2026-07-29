@@ -1,6 +1,6 @@
 ---
-updated: 2026-05-22
-version: 2.0
+updated: 2026-07-19
+version: 2.1
 scope: global
 description: 前端 Web 规范，包含文件组织、CSS 变量、语义化 HTML、性能指标、设计质量
 ---
@@ -13,8 +13,8 @@ description: 前端 Web 规范，包含文件组织、CSS 变量、语义化 HTM
 ```
 src/
 ├── views/
-│   └── Equipment/          # 模块目录（大驼峰）
-│       └── Archive/        # 功能目录（大驼峰）
+│   └── Product/            # 模块目录（大驼峰）
+│       └── List/           # 功能目录（大驼峰）
 │           ├── index.vue   # 页面入口
 │           └── components/ # 页面私有组件
 ├── api/                    # 接口层（按模块一个文件）

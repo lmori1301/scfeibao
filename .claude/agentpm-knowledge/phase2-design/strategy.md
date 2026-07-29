@@ -1,6 +1,6 @@
 ---
-updated: 2026-05-16
-version: 1.0
+updated: 2026-07-19
+version: 1.1
 scope: global
 description: 标注策略规范，适用于 annotation 技能
 ---
@@ -18,7 +18,7 @@ description: 标注策略规范，适用于 annotation 技能
 
 ## 多页面功能模块处理规范
 
-一个功能模块（如"工单台账"）通常包含多个独立路由页面，**每个页面都需要单独标注，生成独立的 JSON 文件**。
+一个功能模块（如"订单台账"）通常包含多个独立路由页面，**每个页面都需要单独标注，生成独立的 JSON 文件**。
 
 ### 识别方法
 
@@ -32,16 +32,16 @@ ls {PROJECT_PATH}/src/views/{ModuleDir}/
 
 | 文件名 | 对应页面类型 | 标注 JSON 命名示例 |
 |--------|------------|-----------------|
-| `index.vue` | 列表页 | `rectification-workorder.json` |
-| `Detail.vue` | 详情页 | `rectification-workorder-detail.json` |
-| `Create.vue` | 新增页（独立路由） | `rectification-workorder-create.json` |
-| `Edit.vue` | 编辑页（独立路由） | `rectification-workorder-edit.json` |
+| `index.vue` | 列表页 | `order.json` |
+| `Detail.vue` | 详情页 | `order-detail.json` |
+| `Create.vue` | 新增页（独立路由） | `order-create.json` |
+| `Edit.vue` | 编辑页（独立路由） | `order-edit.json` |
 
 ### 处理原则
 
 - **不要只标注 index.vue 就结束**，必须把目录下所有独立路由页面都纳入标注任务
 - 详情页、新增页、编辑页各自有独立的字段和交互逻辑，需要单独分析需求文档对应章节
-- 多步表单页（如巡检计划新增）也是独立路由，按多步表单页策略单独标注
+- 多步表单页（如向导式新增流程）也是独立路由，按多步表单页策略单独标注
 - 弹窗/抽屉内的表单不是独立路由，用 `container: modal/drawer` 处理，不单独生成 JSON
 
 ### 路由确认
@@ -117,7 +117,7 @@ grep -n "Detail\|Create\|Edit" {PROJECT_PATH}/src/router/modules/{module}.ts
 | 基本信息区（a-descriptions） | 基本信息字段说明 | field | `.ant-descriptions` |
 | 折叠面板区（a-collapse） | xxx记录说明 | field | `.ant-collapse` |
 | 时间轴区（a-timeline） | 流转记录说明 | field | `.ant-timeline` |
-| 操作按钮区（审核/整改/复核） | 操作说明 | action | 锚定到对应按钮 class |
+| 操作按钮区（审核/驳回/复核） | 操作说明 | action | 锚定到对应按钮 class |
 | 照片/附件区 | 照片/附件说明 | field | 找容器 class 或加 class |
 
 **详情页特别说明：**
@@ -141,7 +141,7 @@ grep -n "Detail\|Create\|Edit" {PROJECT_PATH}/src/router/modules/{module}.ts
 **多步表单页特别说明：**
 - 步骤条标注说明总步数、每步名称、步骤间的校验规则（每步校验通过才能进入下一步）
 - 每步的字段单独标注，不要把四步字段合并到一个标注里（太长，开发看不清楚）
-- 联动字段（如切换巡检方式时清空另一种模式的数据）要在对应步骤标注里说明
+- 联动字段（如切换某种模式时清空另一种模式的数据）要在对应步骤标注里说明
 - 提交成功/失败的结果说明放在工具栏标注里
 
 ---

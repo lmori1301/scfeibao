@@ -1,6 +1,6 @@
 ---
-updated: 2026-05-23
-version: 1.0
+updated: 2026-07-19
+version: 1.1
 scope: global
 description: 判定功能是否存在的唯一标准——路由注册表是真相源，残留文件不算
 ---
@@ -11,10 +11,10 @@ description: 判定功能是否存在的唯一标准——路由注册表是真�
 
 判定一个功能模块是否"存在于项目中"，唯一标准是**路由是否在入口文件中注册**。
 
-| 端 | 路由入口文件 | 判定方式 |
+| 场景 | 路由入口文件 | 判定方式 |
 |----|------------|---------|
-| Admin | `src/router/modules/index.ts` | 该文件中 import 并导出的路由模块 = 存在 |
-| Mobile | `src/router/index.js` 或等效入口 | routes 数组中注册的路由 = 存在 |
+| 聚合式路由 | 路由聚合入口（如 `src/router/modules/index.ts`） | 该文件中 import 并导出的路由模块 = 存在 |
+| 数组式路由 | 路由入口（如 `src/router/index.*`） | routes 数组中注册的路由 = 存在 |
 
 ## 判定规则
 

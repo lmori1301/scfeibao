@@ -1,6 +1,6 @@
 ---
-updated: 2026-05-16
-version: 1.0
+updated: 2026-07-19
+version: 1.1
 scope: global
 description: CSS 选择器模式规范，适用于 annotation 技能
 ---
@@ -14,7 +14,7 @@ description: CSS 选择器模式规范，适用于 annotation 技能
 ❌ 错误：selector: ".ant-table-tbody .ant-tag"
 ❌ 错误：selector: ".el-table__row"
 ❌ 错误：selector: ".filter-card"（代码原有，可能被重构）
-✅ 正确：selector: ".annot-inspection-task-filter"（我们注入，稳定可控）
+✅ 正确：selector: ".annot-order-list-filter"（我们注入，稳定可控）
 ```
 
 ---
@@ -31,14 +31,14 @@ description: CSS 选择器模式规范，适用于 annotation 技能
 
 **完整风格（跨页面/大项目）**：`annot-{page}-{category}-{name}`
 - 跨多个页面/子项目时避免命名冲突
-- 示例：`annot-inspection-task-action-add`、`annot-equipment-archive-field-table`
+- 示例：`annot-order-list-action-add`、`annot-user-archive-field-table`
 
 两种风格**不能混用**。同一项目内选一种，统一到底。
 
 ### 字段说明
 
 - **annot-**：统一前缀，避免与业务 class 冲突（强制）
-- **{page}**：页面标识（路由去斜杠，如 `/inspection/task` → `inspection-task`）
+- **{page}**：页面标识（路由去斜杠，如 `/order/list` → `order-list`）
 - **{category}**：功能分类（`filter` / `action` / `field` / `rule` / `custom`）
 - **{name}**：具体功能名（短横线命名，语义化）
 

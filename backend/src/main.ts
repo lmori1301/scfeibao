@@ -9,6 +9,7 @@ import { Request, Response } from 'express';
 import * as https from 'https';
 
 const port = process.env.PORT || 3003;
+const host = process.env.HOST || '0.0.0.0';
 const AMAP_PROXY_PREFIX = '/_AMapService';
 const AMAP_SECURITY_JSCODE =
   process.env.AMAP_SECURITY_JSCODE || '89a3e2583feec1c50c910b5e8518451e';
@@ -146,9 +147,9 @@ async function bootstrap() {
   const document = SwaggerModule.createDocument(app, config);
   SwaggerModule.setup('api-docs', app, document);
 
-  await app.listen(port);
-  console.log(`应用已启动，运行在：http://localhost:${port}`);
-  console.log(`API 文档地址：http://localhost:${port}/api-docs`);
+  await app.listen(port, host);
+  console.log(`应用已启动，运行在：http://${host}:${port}`);
+  console.log(`API 文档地址：http://${host}:${port}/api-docs`);
 }
 
 bootstrap();

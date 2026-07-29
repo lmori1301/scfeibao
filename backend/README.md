@@ -72,9 +72,9 @@ PORT=3003                     # 端口号
 # 数据库配置
 DB_HOST=localhost             # 数据库地址
 DB_PORT=3308                  # 数据库端口
-DB_USERNAME=root              # 数据库用户名
+DB_USERNAME=scfeibao              # 数据库用户名
 DB_PASSWORD=your_password     # 数据库密码
-DB_DATABASE=feibao_rescue     # 数据库名称
+DB_DATABASE=scfeibao     # 数据库名称
 
 # JWT配置
 JWT_SECRET=your_jwt_secret    # JWT密钥（生产环境请使用强密码）
@@ -92,7 +92,7 @@ API_PREFIX=api                # API路由前缀
 登录 MySQL，创建数据库：
 
 ```sql
-CREATE DATABASE feibao_rescue CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
+CREATE DATABASE scfeibao CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
 ```
 
 ### 5. 启动应用

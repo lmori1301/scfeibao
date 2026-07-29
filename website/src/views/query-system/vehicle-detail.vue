@@ -1082,6 +1082,26 @@ onMounted(() => {
   height: auto !important;
 }
 
+/* 车辆详情字段标签：禁止被窄定位框挤成竖排 */
+.Pixso-frame-1_3243 .Pixso-paragraph-1_3270,
+.Pixso-frame-1_3243 .Pixso-paragraph-1_3272,
+.Pixso-frame-1_3243 .Pixso-paragraph-1_3274,
+.Pixso-frame-1_3243 .Pixso-paragraph-1_3276,
+.Pixso-frame-1_3243 .Pixso-paragraph-1_3278,
+.Pixso-frame-1_3243 .Pixso-paragraph-1_3280,
+.Pixso-frame-1_3243 .Pixso-paragraph-1_3282,
+.Pixso-frame-1_3243 .Pixso-paragraph-1_3284,
+.Pixso-frame-1_3243 .Pixso-paragraph-1_3286,
+.Pixso-frame-1_3243 .Pixso-paragraph-1_3288,
+.Pixso-frame-1_3243 .Pixso-paragraph-1_3290,
+.Pixso-frame-1_3243 .Pixso-paragraph-1_3291 {
+  white-space: nowrap !important;
+  overflow: visible !important;
+  text-overflow: clip !important;
+  width: auto !important;
+  height: auto !important;
+}
+
 .query-footer-bg {
   height: 340px;
   top: auto;

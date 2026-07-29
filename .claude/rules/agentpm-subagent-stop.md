@@ -13,7 +13,7 @@
 
 ## 子 Agent 可以做的
 
-- 调用 `mcp__agentpm__get_knowledge` 获取规范
+- 用 `Read(".claude/agentpm-knowledge/<category>.md")` 读取本地知识库规范
 - 执行被分配的具体任务
 - 报告四状态之一（DONE / DONE_WITH_CONCERNS / NEEDS_CONTEXT / BLOCKED）
 

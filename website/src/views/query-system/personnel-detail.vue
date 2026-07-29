@@ -21,15 +21,11 @@
             <div id="1_3096" class="Pixso-vector-1_3096"></div>
             <p id="1_3097" class="Pixso-paragraph-1_3097">{{ "人员编号：" }}</p>
             <p id="1_3098" class="Pixso-paragraph-1_3098">{{ "联系电话：" }}</p>
-            <p id="1_3099" class="Pixso-paragraph-1_3099">
-                {{ "职       务：" }}
-            </p>
+            <p id="1_3099" class="Pixso-paragraph-1_3099">职　　务：</p>
             <p id="1_3100" class="Pixso-paragraph-1_3100">{{ "任务次数：" }}</p>
             <p id="1_3101" class="Pixso-paragraph-1_3101">{{ "培训时长：" }}</p>
             <p id="1_3102" class="Pixso-paragraph-1_3102">{{ "当前状态：" }}</p>
-            <p id="1_3103" class="Pixso-paragraph-1_3103">
-                {{ "姓       名：" }}
-            </p>
+            <p id="1_3103" class="Pixso-paragraph-1_3103">姓　　名：</p>
             <p id="1_3104" class="Pixso-paragraph-1_3104">{{ "工作单位：" }}</p>
             <p id="1_3105" class="Pixso-paragraph-1_3105">{{ "入职日期：" }}</p>
             <p id="1_3106" class="Pixso-paragraph-1_3106">{{ "身份证号：" }}</p>
@@ -42,7 +38,6 @@
             <p id="1_3111" class="Pixso-paragraph-1_3111">{{ display?.position ?? '—' }}</p>
             <p id="1_3112" class="Pixso-paragraph-1_3112">{{ display ? `${display.taskCount}次` : '—' }}</p>
             <p id="1_3113" class="Pixso-paragraph-1_3113">{{ display ? `${display.trainingHours}小时` : '—' }}</p>
-            <p v-if="display" class="personnel-detail-status-value">{{ display.statusLabel }}</p>
             <p id="1_3114" class="Pixso-paragraph-1_3114">{{ display?.name ?? '—' }}</p>
             <p id="1_3115" class="Pixso-paragraph-1_3115">
                 {{ display?.workUnit ?? '—' }}
@@ -1117,29 +1112,12 @@ onMounted(() => {
   top: 88.24%;
 }
 
-/* 「当前状态」取值（与 Pixso 第四列任务/培训行对齐） */
-.personnel-detail-status-value {
-  position: absolute;
-  left: 76.51%;
-  right: 13.07%;
-  top: 59.73%;
-  bottom: 38.87%;
-  font-size: 20px;
-  font-family: "FZHei-B01S-Regular", sans-serif;
-  font-weight: 400;
-  line-height: 20px;
-  color: rgba(70, 70, 70, 1);
-  margin: 0;
-  white-space: nowrap;
-}
-
 /* 人员详情字段值：单行不换行，不使用省略号 */
 .Pixso-frame-1_3073 .Pixso-paragraph-1_3109,
 .Pixso-frame-1_3073 .Pixso-paragraph-1_3110,
 .Pixso-frame-1_3073 .Pixso-paragraph-1_3111,
 .Pixso-frame-1_3073 .Pixso-paragraph-1_3112,
 .Pixso-frame-1_3073 .Pixso-paragraph-1_3113,
-.Pixso-frame-1_3073 .personnel-detail-status-value,
 .Pixso-frame-1_3073 .Pixso-paragraph-1_3114,
 .Pixso-frame-1_3073 .Pixso-paragraph-1_3115,
 .Pixso-frame-1_3073 .Pixso-paragraph-1_3116,
@@ -1151,5 +1129,31 @@ onMounted(() => {
   text-overflow: clip !important;
   width: auto !important;
   height: auto !important;
+}
+
+/* 人员详情字段标签：禁止被窄定位框挤成竖排 */
+.Pixso-frame-1_3073 .Pixso-paragraph-1_3097,
+.Pixso-frame-1_3073 .Pixso-paragraph-1_3098,
+.Pixso-frame-1_3073 .Pixso-paragraph-1_3099,
+.Pixso-frame-1_3073 .Pixso-paragraph-1_3100,
+.Pixso-frame-1_3073 .Pixso-paragraph-1_3101,
+.Pixso-frame-1_3073 .Pixso-paragraph-1_3102,
+.Pixso-frame-1_3073 .Pixso-paragraph-1_3103,
+.Pixso-frame-1_3073 .Pixso-paragraph-1_3104,
+.Pixso-frame-1_3073 .Pixso-paragraph-1_3105,
+.Pixso-frame-1_3073 .Pixso-paragraph-1_3106,
+.Pixso-frame-1_3073 .Pixso-paragraph-1_3107,
+.Pixso-frame-1_3073 .Pixso-paragraph-1_3108 {
+  white-space: nowrap !important;
+  overflow: visible !important;
+  text-overflow: clip !important;
+  width: auto !important;
+  height: auto !important;
+}
+
+.Pixso-frame-1_3073 .Pixso-paragraph-1_3099,
+.Pixso-frame-1_3073 .Pixso-paragraph-1_3103 {
+  width: 5em !important;
+  text-align: left !important;
 }
 </style>

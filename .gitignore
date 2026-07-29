@@ -41,3 +41,6 @@ lerna-debug.log*
 *.bak
 *.backup
 .before-git/
+
+# Claude configuration (contains sensitive keys)
+.claude/config.json

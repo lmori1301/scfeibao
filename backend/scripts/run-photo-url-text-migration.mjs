@@ -41,8 +41,8 @@ async function getColumnType(conn, table, column) {
 async function main() {
   const env = loadEnv()
   const host = env.DB_HOST || 'localhost'
-  const port = Number(env.DB_PORT || 3306)
-  const user = env.DB_USERNAME || 'root'
+  const port = Number(env.DB_PORT || 3308)
+  const user = env.DB_USERNAME || 'scfeibao'
   const password = env.DB_PASSWORD ?? ''
   const database = env.DB_DATABASE
   if (!database) {

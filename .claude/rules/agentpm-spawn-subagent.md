@@ -5,8 +5,8 @@
 spawn 任何子 Agent 时，必须在 prompt 开头注入以下强制指令：
 
 ```
-【强制前置步骤】在开始工作前，你必须先调用 mcp__agentpm__get_knowledge(category: "conventions/coding") 获取编码规范。
-这是强制要求，不可跳过，不存在任何例外。未完成此调用前禁止执行任何后续操作。
+【强制前置步骤】在开始工作前，你必须先用 Read(".claude/agentpm-knowledge/conventions/coding.md") 读取本地编码规范。
+这是强制要求，不可跳过，不存在任何例外。未完成此读取前禁止执行任何后续操作。
 你是被派发的子 Agent，只执行分配的任务，不触发任何技能流程。
 ```
 

@@ -9,9 +9,16 @@
 
 # CLAUDE.md
 
+<EXTREMELY-IMPORTANT>
+所有面向用户的输出必须使用中文——包括正文、进度汇报、问题描述、工具调用之间的过渡说明、代码注释在内的一切。
+这不是可选的。这不是可协商的。你不能因为周围是英文代码/英文工具输出就顺势用英文。
+仅代码中的变量名、函数名等标识符保持英文。
+IF YOU ARE ABOUT TO WRITE ANY USER-FACING TEXT IN ENGLISH, STOP. WRITE IT IN CHINESE.
+</EXTREMELY-IMPORTANT>
+
 ## SDAD — Spec-Driven Agentic Delivery（规格驱动代理交付）
 
-> **版本：v17.0.1** ｜ 更新：`npx sdad-agentpm@latest init`
+> **版本：v18.0.0** ｜ 更新：`npx sdad-agentpm@latest init`
 
 AI 代理编排驱动的产品交付系统。以需求规格为起点，通过技能自动触发、子代理流水线编排、知识库实时注入、强制审查门禁四大机制，覆盖「需求 → 设计 → 原型 → 编码 → 验收」全链路。每个阶段由专用代理执行，主流程只负责调度和质量把关，实现从一句话需求到可交付代码的自动化流转。
 
@@ -25,18 +32,16 @@ AI 代理编排驱动的产品交付系统。以需求规格为起点，通过�
 | Review-Gated | 任何代码变更必须过审查门禁（code-review + security-review）才能交付 |
 | Verify-Before-Claim | 不接受"应该没问题"，完成声明必须附带构建/测试通过的证据 |
 
-## 语言要求
-
-**所有回复必须使用中文。** 包括代码注释说明、进度汇报、问题描述等所有面向用户的输出，一律使用中文。代码中的变量名、函数名等标识符保持英文。
-
 ## 执行规则
 
+0. **Chinese-Always** — 所有面向用户的输出一律中文，含工具调用间的过渡说明；违反等同违反项目规则（详见文件顶部强制块）
 1. **Agent-First** — 委派专用 agent 处理领域任务，无需用户提示
 2. **Skill-First** — 技能匹配时必须调用，1% 可能性就触发，不可跳过
 3. **Knowledge-Driven** — 规范由 PreToolUse hook 自动注入，MCP 不可用时阻断写入
 4. **Review-Always** — 写完代码立即调用 code-reviewer agent 自查
 5. **Verify-Before-Claim** — 完成声明前必须运行验证命令，证据先于断言
 6. **Tool-Call-Integrity** — 调用工具必须发起真正的结构化工具调用，严禁把工具调用输出成 `call`/`invoke` 等纯文本（详见 `rules/agentpm-tool-call-integrity.md`）
+7. **No-Auto-Serve** — 禁止自动执行 `npm run dev` 等启动/常驻项目的命令，项目由用户自行启动（详见 `rules/agentpm-development-workflow.md`）
 
 ## 知识产权声明
 
@@ -55,7 +60,7 @@ AI 代理编排驱动的产品交付系统。以需求规格为起点，通过�
 ## 项目架构
 
 ```
-四川飞豹/
+四川飞豹_副本/
 └── .claude/
     ├── agents/       # 专用子 Agent
     ├── skills/       # 技能库（触发词匹配后执行）
@@ -94,6 +99,7 @@ IF A SKILL APPLIES TO YOUR TASK, YOU DO NOT HAVE A CHOICE. YOU MUST USE IT.
 | `diagram-generator` | 流程图、架构图、时序图、图表 |
 | `pm-test-cases` | 测试用例、QA测试、验收标准 |
 | `pm-operation-manual` | 操作手册、用户手册、使用说明 |
+| `gpt-image-generator` | gpt-image-2生图、AI生图、文生图、生成图片、生成插画/海报/头像、改图、编辑图片、参考图生成 |
 | `delivery-plan` | 交付计划、实现全部功能、自动实现、连续实现 |
 | `finishing-branch` | 完成了、可以合并、提PR、分支完成、收尾 |
 

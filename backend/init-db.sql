@@ -1,9 +1,9 @@
 -- 四川飞豹救援系统数据库初始化脚本
 
 -- 创建数据库
-CREATE DATABASE IF NOT EXISTS feibao_rescue CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
+CREATE DATABASE IF NOT EXISTS scfeibao CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
 
-USE feibao_rescue;
+USE scfeibao;
 
 -- 数据库创建成功提示
 SELECT '数据库创建成功！' AS message;

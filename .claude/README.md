@@ -79,7 +79,7 @@
 │   ├── run.cjs                      #   hook 运行入口
 │   └── lib/                         #   公共库
 │
-├── agentpm-knowledge/               # 分阶段知识库（按需 Read，线上 MCP 副本）
+├── agentpm-knowledge/               # 分阶段本地知识库（按需 Read）
 │   ├── agents.md                    #   Agent 编排总览
 │   ├── conventions/                 #   testing/security/typescript/debugging
 │   ├── phase1-requirements/         #   需求阶段规范
@@ -111,7 +111,7 @@
 | `agents/` | 专用子 Agent——主流程委派的分析/撰写/审查角色 | ✅ |
 | `rules/` | 行为铁律——会话启动时自动加载的约束 | ✅ |
 | `hooks/` | 质量门禁——在工具调用前后自动执行的 `.cjs` 脚本 | ✅ |
-| `agentpm-knowledge/` | 分阶段详细规范——按需 Read 的知识库本地副本 | ✅ |
+| `agentpm-knowledge/` | 分阶段详细规范——按需 Read 的本地知识库 | ✅ |
 | `commands/` | 斜杠命令（`/finish` `/review` `/verify`） | ✅ |
 | `settings.json` | hook 注册表（哪个事件触发哪个 hook） | ✅ |
 | `run` | 运行时辅助脚本 | ✅ |
@@ -233,7 +233,7 @@
 
 ## agentpm-knowledge/ — 分阶段知识库
 
-按需 Read 的详细规范（线上 MCP 服务的本地维护副本）。
+按需 Read 的详细规范（纯本地知识库，直接用 Read 读取，不依赖任何 MCP 服务）。
 
 | 路径 | 内容 |
 |------|------|

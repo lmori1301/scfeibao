@@ -22,7 +22,7 @@ cd backend
 ## 备份说明
 
 - **备份位置**: `backend/backups/mysql/`
-- **备份格式**: `feibao_rescue_YYYYMMDD_HHMMSS.sql.gz`
+- **备份格式**: `scfeibao_YYYYMMDD_HHMMSS.sql.gz`
 - **保留时间**: 30天
 - **自动清理**: 脚本会自动删除30天前的备份
 
@@ -30,8 +30,8 @@ cd backend
 
 ```bash
 # 解压备份文件
-gunzip feibao_rescue_20260219_185030.sql.gz
+gunzip scfeibao_20260219_185030.sql.gz
 
 # 恢复数据库
-mysql -h 127.0.0.1 -P 3307 -u root -pfeibao123 feibao_rescue < feibao_rescue_20260219_185030.sql
+mysql -h 127.0.0.1 -P 3308 -u scfeibao -p"$DB_PASSWORD" scfeibao < scfeibao_20260219_185030.sql
 ```
