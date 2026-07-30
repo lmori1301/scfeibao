@@ -22,7 +22,16 @@ const rules: FormRules = {
   ],
   password: [
     { required: true, message: '请输入密码', trigger: 'blur' },
-    { min: 6, max: 20, message: '密码长度为6-20个字符', trigger: 'blur' }
+    {
+      validator: (_rule, value, callback) => {
+        const byteLength = new TextEncoder().encode(String(value || '')).length
+        if (byteLength < 6 || byteLength > 72) {
+          return callback(new Error('密码长度为 6-72 字节'))
+        }
+        callback()
+      },
+      trigger: 'blur'
+    }
   ]
 }
 
@@ -41,7 +50,6 @@ const handleLogin = async () => {
   if (!loginFormRef.value) return
 
   loginForm.username = loginForm.username.trim()
-  loginForm.password = loginForm.password.trim()
 
   await loginFormRef.value.validate(async (valid) => {
     if (valid) {

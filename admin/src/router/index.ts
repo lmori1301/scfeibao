@@ -43,7 +43,11 @@ function readSessionUser() {
 
 router.beforeEach((to) => {
   const token = localStorage.getItem('token')
-  const user = readSessionUser() as { role?: string; permissions?: string[] }
+  const user = readSessionUser() as {
+    role?: string
+    permissions?: string[]
+    mustChangePassword?: boolean
+  }
 
   if (to.path === '/login') {
     if (token) {
@@ -55,6 +59,10 @@ router.beforeEach((to) => {
 
   if (!token) {
     return '/login'
+  }
+
+  if (user.mustChangePassword && to.path !== '/profile-security') {
+    return '/profile-security'
   }
 
   if (to.meta?.ignorePermission) {

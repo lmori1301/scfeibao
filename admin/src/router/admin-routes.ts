@@ -177,7 +177,7 @@ export function rolePermissionTitle(name: string): string {
   return titleByPermissionName.get(name) ?? name
 }
 
-const LEGACY_ROLE_FULL_ACCESS = new Set(['admin', 'editor', 'viewer'])
+const LEGACY_ROLE_FULL_ACCESS = new Set(['admin'])
 
 export function getSessionPermissionNames(user: { role?: string; permissions?: string[] } | null | undefined): string[] {
   const normalized = normalizeRolePermissionNames(user?.permissions)

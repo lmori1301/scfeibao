@@ -37,6 +37,7 @@ import { SearchModule } from './modules/search/search.module';
 // 全局守卫、过滤器、拦截器
 import { JwtAuthGuard } from './common/guards/jwt-auth.guard';
 import { PermissionGuard } from './common/guards/permission.guard';
+import { MustChangePasswordGuard } from './common/guards/must-change-password.guard';
 import { HttpExceptionFilter } from './common/filters/http-exception.filter';
 import { TransformInterceptor } from './common/interceptors/transform.interceptor';
 import { QueryController } from './common/controllers/query.controller';
@@ -108,6 +109,10 @@ import { QueryController } from './common/controllers/query.controller';
     {
       provide: APP_GUARD,
       useClass: JwtAuthGuard,
+    },
+    {
+      provide: APP_GUARD,
+      useClass: MustChangePasswordGuard,
     },
     {
       provide: APP_GUARD,

@@ -82,9 +82,20 @@ const formRules: FormRules = {
     {
       validator: (_rule, value, callback) => {
         if (isEdit.value) return callback()
-        const password = String(value || '').trim()
+        const password = String(value || '')
+        const byteLength = new TextEncoder().encode(password).length
         if (!password) return callback(new Error('请输入初始密码'))
-        if (password.length < 6) return callback(new Error('初始密码至少 6 位'))
+        if (
+          password !== password.trim() ||
+          byteLength < 12 ||
+          byteLength > 72 ||
+          !/[a-z]/.test(password) ||
+          !/[A-Z]/.test(password) ||
+          !/\d/.test(password) ||
+          !/[^A-Za-z0-9]/.test(password)
+        ) {
+          return callback(new Error('密码须为 12-72 字节，包含大小写字母、数字和特殊字符，且首尾不能有空白'))
+        }
         callback()
       },
       trigger: 'blur',
@@ -95,7 +106,25 @@ const formRules: FormRules = {
 const resetPasswordRules: FormRules = {
   newPassword: [
     { required: true, message: '请输入新密码', trigger: 'blur' },
-    { min: 6, message: '新密码至少 6 位', trigger: 'blur' },
+    {
+      validator: (_rule, value, callback) => {
+        const password = String(value || '')
+        const byteLength = new TextEncoder().encode(password).length
+        const valid =
+          password === password.trim() &&
+          byteLength >= 12 &&
+          byteLength <= 72 &&
+          /[a-z]/.test(password) &&
+          /[A-Z]/.test(password) &&
+          /\d/.test(password) &&
+          /[^A-Za-z0-9]/.test(password)
+        if (!valid) {
+          return callback(new Error('密码须为 12-72 字节，包含大小写字母、数字和特殊字符，且首尾不能有空白'))
+        }
+        callback()
+      },
+      trigger: 'blur',
+    },
   ],
   confirmPassword: [
     { required: true, message: '请再次输入新密码', trigger: 'blur' },
@@ -214,7 +243,6 @@ const handleSave = async () => {
   if (!formRef.value) return
   formData.value.username = formData.value.username.trim()
   formData.value.name = formData.value.name.trim()
-  formData.value.password = formData.value.password.trim()
   formData.value.email = formData.value.email.trim()
   formData.value.phone = formData.value.phone.trim()
 
@@ -264,9 +292,6 @@ const handleResetPasswordClosed = () => {
 
 const handleResetPasswordSave = async () => {
   if (!resetPasswordRef.value || !resetPasswordTarget.value) return
-
-  resetPasswordForm.value.newPassword = resetPasswordForm.value.newPassword.trim()
-  resetPasswordForm.value.confirmPassword = resetPasswordForm.value.confirmPassword.trim()
 
   const valid = await resetPasswordRef.value.validate().catch(() => false)
   if (!valid) return
@@ -455,7 +480,7 @@ onMounted(async () => {
       @closed="handleResetPasswordClosed"
     >
       <el-form ref="resetPasswordRef" :model="resetPasswordForm" :rules="resetPasswordRules" label-width="92px">
-        <div class="reset-password-tip">重置完成后，该账号可直接使用新密码登录系统。</div>
+        <div class="reset-password-tip">重置后旧会话立即失效，该账号下次登录必须先修改密码。</div>
         <el-form-item label="目标账号">
           <el-input :model-value="resetPasswordTarget?.name || resetPasswordTarget?.username || '—'" disabled />
         </el-form-item>

@@ -32,6 +32,9 @@ export class AdminUser {
   @Column({ type: 'tinyint', width: 1, default: 0, comment: '是否需首次登录改密：1-是，0-否' })
   mustChangePassword: boolean;
 
+  @Column({ type: 'int', default: 0, comment: '令牌版本，密码变更后递增以吊销旧会话' })
+  tokenVersion: number;
+
   @CreateDateColumn()
   createTime: Date;
 

@@ -9,7 +9,7 @@ import { Observable } from 'rxjs';
 import { IS_PUBLIC_KEY } from '../decorators/public.decorator';
 import { REQUIRED_PERMISSIONS_KEY } from '../decorators/permissions.decorator';
 
-const LEGACY_ROLE_FULL_ACCESS = new Set(['admin', 'editor', 'viewer']);
+const LEGACY_ROLE_FULL_ACCESS = new Set(['admin']);
 
 @Injectable()
 export class PermissionGuard implements CanActivate {

@@ -5,6 +5,7 @@ import { LoginDto, RegisterDto } from './dto/auth.dto';
 import { Public } from '../../common/decorators/public.decorator';
 import { CurrentUser } from '../../common/decorators/current-user.decorator';
 import { ForceChangePasswordDto } from '../admin-users/admin-user.dto';
+import { AllowPasswordChangePending } from '../../common/decorators/allow-password-change-pending.decorator';
 
 @ApiTags('认证')
 @Controller('auth')
@@ -26,6 +27,7 @@ export class AuthController {
   }
 
   @Get('profile')
+  @AllowPasswordChangePending()
   @ApiBearerAuth()
   @ApiOperation({ summary: '获取当前用户信息' })
   async getProfile(@CurrentUser() user: any) {
@@ -33,6 +35,7 @@ export class AuthController {
   }
 
   @Post('change-password')
+  @AllowPasswordChangePending()
   @ApiBearerAuth()
   @ApiOperation({ summary: '当前登录用户修改密码' })
   async changePassword(

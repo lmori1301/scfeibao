@@ -1,4 +1,4 @@
-import { Injectable, NotFoundException, BadRequestException, OnModuleInit } from '@nestjs/common';
+import { Injectable, NotFoundException, BadRequestException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import * as bcrypt from 'bcrypt';
@@ -6,36 +6,16 @@ import { AdminUser } from './admin-user.entity';
 import { CreateAdminUserDto, UpdateAdminUserDto, UpdatePasswordDto, ResetPasswordDto, UpdateStatusDto } from './admin-user.dto';
 import { RoleService } from '../roles/role.service';
 import { OperationLogService } from '../operation-log/operation-log.service';
-
-/** 与旧版 users 表角色枚举一致，允许在未在「权限设置」建表前仍可使用 */
-const LEGACY_ADMIN_ROLES = new Set(['admin', 'editor', 'viewer']);
+import { assertStrongPassword } from '../../common/security/password-policy';
 
 @Injectable()
-export class AdminUserService implements OnModuleInit {
+export class AdminUserService {
   constructor(
     @InjectRepository(AdminUser)
     private adminUserRepository: Repository<AdminUser>,
     private roleService: RoleService,
     private operationLogService: OperationLogService,
   ) {}
-
-  async onModuleInit() {
-    if (process.env.NODE_ENV !== 'development') return;
-
-    const count = await this.adminUserRepository.count();
-    if (count > 0) return;
-
-    const password = await bcrypt.hash('admin123', 10);
-    const user = this.adminUserRepository.create({
-      username: 'admin',
-      password,
-      name: '系统管理员',
-      role: 'admin',
-      status: 'active',
-      mustChangePassword: false,
-    });
-    await this.adminUserRepository.save(user);
-  }
 
   async findAll(query: any) {
     const { page = 1, pageSize = 10, username, role, status } = query;
@@ -63,8 +43,13 @@ export class AdminUserService implements OnModuleInit {
 
     await this.ensureRoleAssignable(dto.role);
 
-    const hashedPassword = await bcrypt.hash(dto.password, 10);
-    const user = this.adminUserRepository.create({ ...dto, password: hashedPassword });
+    assertStrongPassword(dto.password, dto.username);
+    const hashedPassword = await bcrypt.hash(dto.password, 12);
+    const user = this.adminUserRepository.create({
+      ...dto,
+      password: hashedPassword,
+      mustChangePassword: true,
+    });
     await this.adminUserRepository.save(user);
     await this.operationLogService.record({
       username: actor,
@@ -81,8 +66,8 @@ export class AdminUserService implements OnModuleInit {
 
     if (dto.role !== undefined) await this.ensureRoleAssignable(dto.role);
 
+    await this.adminUserRepository.update({ id }, dto);
     Object.assign(user, dto);
-    await this.adminUserRepository.save(user);
     await this.operationLogService.record({
       username: actor,
       action: `更新后台用户：${user.username}`,
@@ -113,9 +98,19 @@ export class AdminUserService implements OnModuleInit {
     const isMatch = await bcrypt.compare(dto.oldPassword, user.password);
     if (!isMatch) throw new BadRequestException('原密码错误');
 
-    user.password = await bcrypt.hash(dto.newPassword, 10);
-    user.mustChangePassword = false;
-    await this.adminUserRepository.save(user);
+    assertStrongPassword(dto.newPassword, user.username);
+    const password = await bcrypt.hash(dto.newPassword, 12);
+    const result = await this.adminUserRepository.update(
+      { id, password: user.password },
+      {
+        password,
+        mustChangePassword: false,
+        tokenVersion: () => '`tokenVersion` + 1',
+      },
+    );
+    if (!result.affected) {
+      throw new BadRequestException('密码已被其他操作修改，请重新登录后再试');
+    }
     await this.operationLogService.record({
       username: actor,
       action: `修改后台用户密码：${user.username}`,
@@ -129,9 +124,16 @@ export class AdminUserService implements OnModuleInit {
     const user = await this.adminUserRepository.findOne({ where: { id } });
     if (!user) throw new NotFoundException('管理员不存在');
 
-    user.password = await bcrypt.hash(dto.newPassword.trim(), 10);
-    user.mustChangePassword = false;
-    await this.adminUserRepository.save(user);
+    assertStrongPassword(dto.newPassword, user.username);
+    const password = await bcrypt.hash(dto.newPassword, 12);
+    await this.adminUserRepository.update(
+      { id },
+      {
+        password,
+        mustChangePassword: true,
+        tokenVersion: () => '`tokenVersion` + 1',
+      },
+    );
     await this.operationLogService.record({
       username: actor,
       action: `重置后台用户密码：${user.username}`,
@@ -145,15 +147,22 @@ export class AdminUserService implements OnModuleInit {
     const user = await this.adminUserRepository.findOne({ where: { id } });
     if (!user) throw new NotFoundException('管理员不存在');
 
-    user.status = dto.status;
-    await this.adminUserRepository.save(user);
+    await this.adminUserRepository.update(
+      { id },
+      {
+        status: dto.status,
+        tokenVersion: () => '`tokenVersion` + 1',
+      },
+    );
+    const updatedUser = await this.adminUserRepository.findOne({ where: { id } });
+    if (!updatedUser) throw new NotFoundException('管理员不存在');
     await this.operationLogService.record({
       username: actor,
-      action: `${dto.status === 'active' ? '启用' : '禁用'}后台用户：${user.username}`,
+      action: `${dto.status === 'active' ? '启用' : '禁用'}后台用户：${updatedUser.username}`,
       module: '用户管理',
       ip: '127.0.0.1',
     })
-    return this.sanitizeUser(user);
+    return this.sanitizeUser(updatedUser);
   }
 
   private sanitizeUser(user: AdminUser) {
@@ -163,8 +172,8 @@ export class AdminUserService implements OnModuleInit {
 
   private async ensureRoleAssignable(role?: string) {
     const name = role?.trim();
-    if (!name) return;
-    if (LEGACY_ADMIN_ROLES.has(name)) return;
+    if (!name) throw new BadRequestException('必须分配角色');
+    if (name === 'admin') return;
 
     const entity = await this.roleService.findByName(name);
     if (!entity) {

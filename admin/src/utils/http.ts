@@ -25,6 +25,13 @@ http.interceptors.response.use(
     return response.data
   },
   error => {
+    if (error.response?.status === 401) {
+      localStorage.removeItem('token')
+      localStorage.removeItem('user')
+      if (window.location.pathname !== '/login') {
+        window.location.replace('/login')
+      }
+    }
     ElMessage.error(error.response?.data?.message || '请求失败')
     return Promise.reject(error)
   }

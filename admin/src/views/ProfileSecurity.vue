@@ -24,7 +24,25 @@ const rules: FormRules = {
   oldPassword: [{ required: true, message: '请输入当前密码', trigger: 'blur' }],
   newPassword: [
     { required: true, message: '请输入新密码', trigger: 'blur' },
-    { min: 6, message: '新密码至少 6 位', trigger: 'blur' },
+    {
+      validator: (_rule, value, callback) => {
+        const password = String(value || '')
+        const byteLength = new TextEncoder().encode(password).length
+        const valid =
+          password === password.trim() &&
+          byteLength >= 12 &&
+          byteLength <= 72 &&
+          /[a-z]/.test(password) &&
+          /[A-Z]/.test(password) &&
+          /\d/.test(password) &&
+          /[^A-Za-z0-9]/.test(password)
+        if (!valid) {
+          return callback(new Error('密码须为 12-72 字节，包含大小写字母、数字和特殊字符，且首尾不能有空白'))
+        }
+        callback()
+      },
+      trigger: 'blur',
+    },
   ],
   confirmPassword: [
     { required: true, message: '请再次输入新密码', trigger: 'blur' },
@@ -57,10 +75,6 @@ const fetchProfile = async () => {
 
 const handleSave = async () => {
   if (!formRef.value || saving.value) return
-
-  formData.oldPassword = formData.oldPassword.trim()
-  formData.newPassword = formData.newPassword.trim()
-  formData.confirmPassword = formData.confirmPassword.trim()
 
   const valid = await formRef.value.validate().catch(() => false)
   if (!valid) return
@@ -120,7 +134,7 @@ onMounted(() => {
       <section class="profile-card">
         <div class="profile-card__header">
           <strong>修改密码</strong>
-          <span>建议使用 6 位以上的复杂密码，避免与当前密码重复。</span>
+          <span>使用 12-72 字节且包含大小写字母、数字和特殊字符的密码，首尾不能有空白。</span>
         </div>
         <div class="profile-card__body">
           <el-form ref="formRef" :model="formData" :rules="rules" label-width="96px">

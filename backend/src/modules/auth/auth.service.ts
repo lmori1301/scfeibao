@@ -4,7 +4,9 @@ import {
   ConflictException,
   NotFoundException,
   BadRequestException,
+  ForbiddenException,
 } from '@nestjs/common';
+import { ConfigService } from '@nestjs/config';
 import { JwtService } from '@nestjs/jwt';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
@@ -14,8 +16,9 @@ import { LoginDto, RegisterDto } from './dto/auth.dto';
 import { RoleService } from '../roles/role.service';
 import { OperationLogService } from '../operation-log/operation-log.service';
 import { ForceChangePasswordDto } from '../admin-users/admin-user.dto';
+import { assertStrongPassword } from '../../common/security/password-policy';
 
-const LEGACY_ROLE_FULL_ACCESS = new Set(['admin', 'editor', 'viewer']);
+const LEGACY_ROLE_FULL_ACCESS = new Set(['admin']);
 
 @Injectable()
 export class AuthService {
@@ -25,9 +28,18 @@ export class AuthService {
     private jwtService: JwtService,
     private roleService: RoleService,
     private operationLogService: OperationLogService,
+    private configService: ConfigService,
   ) {}
 
   async register(registerDto: RegisterDto) {
+    const registrationEnabled =
+      String(this.configService.get('ALLOW_PUBLIC_REGISTRATION') || '')
+        .trim()
+        .toLowerCase() === 'true';
+    if (!registrationEnabled) {
+      throw new ForbiddenException('公开注册未开启');
+    }
+
     const { username, password, realName } = registerDto;
 
     const existingUser = await this.adminUserRepository.findOne({
@@ -37,13 +49,14 @@ export class AuthService {
       throw new ConflictException('用户名已存在');
     }
 
-    const hashedPassword = await bcrypt.hash(password, 10);
+    assertStrongPassword(password, username);
+    const hashedPassword = await bcrypt.hash(password, 12);
     const user = this.adminUserRepository.create({
       username,
       password: hashedPassword,
       name: realName?.trim() || username,
       role: 'viewer',
-      status: 'active',
+      status: 'disabled',
     });
 
     await this.adminUserRepository.save(user);
@@ -54,6 +67,10 @@ export class AuthService {
 
   async login(loginDto: LoginDto) {
     const { username, password } = loginDto;
+    const passwordByteLength = Buffer.byteLength(String(password || ''), 'utf8');
+    if (passwordByteLength < 6 || passwordByteLength > 72) {
+      throw new UnauthorizedException('用户名或密码错误');
+    }
 
     const user = await this.adminUserRepository.findOne({ where: { username } });
     if (!user) {
@@ -70,7 +87,10 @@ export class AuthService {
     }
 
     user.lastLoginTime = new Date();
-    await this.adminUserRepository.save(user);
+    await this.adminUserRepository.update(
+      { id: user.id },
+      { lastLoginTime: user.lastLoginTime },
+    );
     await this.operationLogService.record({
       username: user.username,
       action: '登录系统',
@@ -85,6 +105,8 @@ export class AuthService {
       username: user.username,
       role: user.role,
       permissions,
+      mustChangePassword: Boolean(user.mustChangePassword),
+      tokenVersion: user.tokenVersion || 0,
     };
     const token = this.jwtService.sign(payload);
 
@@ -126,8 +148,8 @@ export class AuthService {
       throw new UnauthorizedException('账号已被禁用');
     }
 
-    const oldPassword = String(dto.oldPassword || '').trim();
-    const newPassword = String(dto.newPassword || '').trim();
+    const oldPassword = String(dto.oldPassword || '');
+    const newPassword = String(dto.newPassword || '');
     const isMatch = await bcrypt.compare(oldPassword, user.password);
 
     if (!isMatch) {
@@ -137,11 +159,24 @@ export class AuthService {
     if (oldPassword === newPassword) {
       throw new BadRequestException('新密码不能与当前密码相同');
     }
+    assertStrongPassword(newPassword, user.username);
 
-    user.password = await bcrypt.hash(newPassword, 10);
-    user.mustChangePassword = false;
-    user.lastLoginTime = new Date();
-    await this.adminUserRepository.save(user);
+    const password = await bcrypt.hash(newPassword, 12);
+    const lastLoginTime = new Date();
+    const currentTokenVersion = user.tokenVersion || 0;
+    const nextTokenVersion = currentTokenVersion + 1;
+    const updateResult = await this.adminUserRepository.update(
+      { id, password: user.password, tokenVersion: currentTokenVersion },
+      {
+        password,
+        mustChangePassword: false,
+        lastLoginTime,
+        tokenVersion: () => '`tokenVersion` + 1',
+      },
+    );
+    if (!updateResult.affected) {
+      throw new BadRequestException('密码已被其他操作修改，请重新登录后再试');
+    }
     await this.operationLogService.record({
       username: user.username,
       action: '首次登录修改密码',
@@ -155,6 +190,8 @@ export class AuthService {
       username: user.username,
       role: user.role,
       permissions,
+      mustChangePassword: false,
+      tokenVersion: nextTokenVersion,
     };
     const token = this.jwtService.sign(payload);
 
@@ -179,6 +216,9 @@ export class AuthService {
     if (LEGACY_ROLE_FULL_ACCESS.has(role)) return [];
 
     const entity = await this.roleService.findByName(role);
+    if (!entity || entity.status !== 'active') {
+      throw new UnauthorizedException('账号角色不存在或已被禁用');
+    }
     return Array.isArray(entity?.permissions) ? entity.permissions : [];
   }
 }
