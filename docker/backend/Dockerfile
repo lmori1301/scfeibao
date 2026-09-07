@@ -20,7 +20,9 @@ COPY --from=build --chown=node:node /app/create-admin.js ./create-admin.js
 COPY --from=build --chown=node:node /app/scripts ./scripts
 COPY --from=build --chown=node:node /app/uploads ./uploads-seed
 COPY --chown=node:node docker/backend/entrypoint.sh ./entrypoint.sh
-RUN mkdir -p uploads && chmod +x entrypoint.sh && chown node:node uploads
+RUN mkdir -p uploads/images uploads/videos uploads/files && \
+    chmod +x entrypoint.sh && \
+    chown -R node:node uploads
 
 USER node
 EXPOSE 3003
