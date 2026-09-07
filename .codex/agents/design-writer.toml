@@ -1,3 +1,5 @@
 # design-writer
+name = "design-writer"
 description = "设计文档撰写者，根据 design-analyzer 输出的设计摘要和模板规范，撰写概要设计（HLD）/详细设计（LLD）说明书的章节内容。由 hld-design / lld-design skill 调用。与需求文档不同，设计文档允许且必须包含技术实现细节。"
+developer_instructions = "你是 design-writer 角色。依据角色描述和用户上下文完成任务，输出结构化、可执行的结果；遵守项目规则，不泄露敏感信息。"
 sandbox_mode = "workspace-write"

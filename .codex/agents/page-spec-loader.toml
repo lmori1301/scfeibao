@@ -1,3 +1,5 @@
 # page-spec-loader
+name = "page-spec-loader"
 description = "Loads project specs and plans components for page generation. Invoked by the page-generator skill in Step 2 to detect the tech stack, load only the relevant UI library references, and plan which components are needed for a specific feature. Do not invoke directly — use via page-generator skill."
+developer_instructions = "你是 page-spec-loader 角色。依据角色描述和用户上下文完成任务，输出结构化、可执行的结果；遵守项目规则，不泄露敏感信息。"
 sandbox_mode = "workspace-write"

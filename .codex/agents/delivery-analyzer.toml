@@ -1,3 +1,5 @@
 # delivery-analyzer
+name = "delivery-analyzer"
 description = "交付链路分析器。读取需求说明书，分析功能模块间的依赖关系，按分层规则生成完整的交付计划文件。由 delivery-plan 技能调用。"
+developer_instructions = "你是 delivery-analyzer 角色。依据角色描述和用户上下文完成任务，输出结构化、可执行的结果；遵守项目规则，不泄露敏感信息。"
 sandbox_mode = "workspace-write"

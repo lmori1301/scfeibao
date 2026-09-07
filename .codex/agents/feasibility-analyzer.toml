@@ -1,3 +1,5 @@
 # feasibility-analyzer
+name = "feasibility-analyzer"
 description = "可行性研究报告分析师，在生成可研报告前分析项目上下文（SRS需求说明书、设计方案、已有可研报告、代码），输出结构化的项目信息摘要供 feasibility-writer 使用。由 feasibility-report skill 在生成模式中调用。"
+developer_instructions = "你是 feasibility-analyzer 角色。依据角色描述和用户上下文完成任务，输出结构化、可执行的结果；遵守项目规则，不泄露敏感信息。"
 sandbox_mode = "workspace-write"

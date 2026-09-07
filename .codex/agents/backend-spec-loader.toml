@@ -1,3 +1,5 @@
 # backend-spec-loader
+name = "backend-spec-loader"
 description = "Loads backend project specs and plans modules for backend code generation. Invoked by the backend-generator skill in Step 2 to detect the backend framework/stack, load matching framework references (or infer from existing project code when none preset), and plan modules/endpoints. Framework-agnostic, mirrors page-spec-loader. Do not invoke directly — use via backend-generator skill."
+developer_instructions = "你是 backend-spec-loader 角色。依据角色描述和用户上下文完成任务，输出结构化、可执行的结果；遵守项目规则，不泄露敏感信息。"
 sandbox_mode = "workspace-write"
