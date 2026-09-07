@@ -9,6 +9,7 @@ function getPackageName(id: string) {
 
 export default defineConfig({
   plugins: [vue()],
+  base: process.env.VITE_ROUTER_BASE || '/',
   css: {
     preprocessorOptions: {
       scss: {

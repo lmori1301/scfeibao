@@ -1,0 +1,68 @@
+name: 构建并发布 Docker 镜像
+
+on:
+  push:
+    branches:
+      - main
+  workflow_dispatch:
+
+env:
+  REGISTRY: ghcr.io
+  IMAGE_NAMESPACE: ${{ github.repository_owner }}
+
+jobs:
+  docker:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      packages: write
+
+    steps:
+      - name: 检出代码
+        uses: actions/checkout@v4
+
+      - name: 登录 GitHub Container Registry
+        uses: docker/login-action@v3
+        with:
+          registry: ${{ env.REGISTRY }}
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: 生成镜像元数据
+        id: meta-server
+        uses: docker/metadata-action@v5
+        with:
+          images: ${{ env.REGISTRY }}/${{ env.IMAGE_NAMESPACE }}/scfeibao-server
+          tags: |
+            type=raw,value=latest
+            type=sha
+
+      - name: 构建并推送后端镜像
+        uses: docker/build-push-action@v6
+        with:
+          context: .
+          file: docker/backend/Dockerfile
+          push: true
+          tags: ${{ steps.meta-server.outputs.tags }}
+          labels: ${{ steps.meta-server.outputs.labels }}
+
+      - name: 生成网关镜像元数据
+        id: meta-gateway
+        uses: docker/metadata-action@v5
+        with:
+          images: ${{ env.REGISTRY }}/${{ env.IMAGE_NAMESPACE }}/scfeibao-gateway
+          tags: |
+            type=raw,value=latest
+            type=sha
+
+      - name: 构建并推送网关镜像
+        uses: docker/build-push-action@v6
+        with:
+          context: .
+          file: docker/gateway/Dockerfile
+          push: true
+          build-args: |
+            VITE_APP_BASE_API=/api
+            VITE_ROUTER_BASE=/admin/
+          tags: ${{ steps.meta-gateway.outputs.tags }}
+          labels: ${{ steps.meta-gateway.outputs.labels }}

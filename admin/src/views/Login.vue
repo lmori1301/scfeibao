@@ -7,8 +7,8 @@ import { firstAccessibleAdminPath } from '@/router/admin-routes'
 
 const router = useRouter()
 const loginFormRef = ref<FormInstance>()
-const loginLogo = '/login-logo.png'
-const loginBackground = '/Vector_00_567.png'
+const loginLogo = `${import.meta.env.BASE_URL}login-logo.png`
+const loginBackground = `${import.meta.env.BASE_URL}Vector_00_567.png`
 
 const loginForm = reactive({
   username: '',

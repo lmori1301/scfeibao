@@ -28,8 +28,9 @@ http.interceptors.response.use(
     if (error.response?.status === 401) {
       localStorage.removeItem('token')
       localStorage.removeItem('user')
-      if (window.location.pathname !== '/login') {
-        window.location.replace('/login')
+      const loginPath = `${import.meta.env.BASE_URL}login`
+      if (window.location.pathname !== loginPath) {
+        window.location.replace(loginPath)
       }
     }
     ElMessage.error(error.response?.data?.message || '请求失败')
