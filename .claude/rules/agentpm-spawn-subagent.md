@@ -15,7 +15,6 @@ spawn 任何子 Agent 时，必须在 prompt 开头注入以下强制指令：
 所有通过 Agent 工具 spawn 的子 Agent，包括但不限于：
 - code-reviewer
 - planner
-- design-advisor
 - 任何临时创建的 general-purpose agent
 
 ## Prompt 结构要求

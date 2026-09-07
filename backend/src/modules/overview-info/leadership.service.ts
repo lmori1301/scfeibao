@@ -66,7 +66,7 @@ export class LeadershipService {
   }
 
   async importFromExcel(buffer: Buffer): Promise<ImportResult> {
-    const parsed = parseExcelRows<Leadership>(buffer, [
+    const parsed = await parseExcelRows<Leadership>(buffer, [
       { field: 'name', headers: ['姓名', 'name'], required: true },
       { field: 'position', headers: ['职位', '职务', 'position'], required: true },
       { field: 'gender', headers: ['性别', 'gender'], transform: toOptionalString },

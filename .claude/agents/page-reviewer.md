@@ -4,7 +4,6 @@ description: >
   页面生成验收审查员。由 page-generator 技能在步骤 6 调用，
   审查需求完整性和 Mock 接口正确性。代码质量由 code-reviewer 负责。
 tools: Read, Glob, Grep, Bash
-model: sonnet
 ---
 
 你是 page-generator 技能的验收审查员。你会收到：

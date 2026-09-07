@@ -31,7 +31,7 @@ description: Agent 编排规则，包含何时使用哪个 agent、并行执行�
 
 spawn 子 Agent 时，prompt 开头必须包含：
 ```
-【强制前置步骤】在开始工作前，你必须先调用 Read(".claude/knowledge/conventions/coding.md") 获取编码规范。未完成此调用前禁止执行任何后续操作。
+【强制前置步骤】在开始工作前，你必须先调用 Read(".claude/agentpm-knowledge/conventions/coding.md") 获取编码规范。未完成此调用前禁止执行任何后续操作。
 ```
 
 ## 必须立即使用 Agent 的场景
@@ -110,7 +110,7 @@ spawn 子 Agent 时，prompt 开头必须包含：
 3. **明确输出** — Agent 应该返回什么
 
 ```markdown
-【强制前置步骤】在开始工作前，你必须先调用 Read(".claude/knowledge/conventions/coding.md") 获取编码规范。
+【强制前置步骤】在开始工作前，你必须先调用 Read(".claude/agentpm-knowledge/conventions/coding.md") 获取编码规范。
 
 修复 src/modules/user/user.service.spec.ts 中的 3 个失败测试：
 

@@ -1300,4 +1300,22 @@ onMounted(() => {
     -moz-user-select: text;
     -ms-user-select: text;
 }
+
+.Pixso-paragraph-1_1380,
+.Pixso-paragraph-1_1381,
+.Pixso-paragraph-1_1383,
+.Pixso-paragraph-1_1384,
+.Pixso-paragraph-1_1386,
+.Pixso-paragraph-1_1387,
+.Pixso-paragraph-1_1389,
+.Pixso-paragraph-1_1390 {
+    width: 100px;
+    left: 51.33%;
+    right: auto;
+    margin: 0;
+    text-align: center;
+    letter-spacing: 0;
+    white-space: nowrap;
+    transform: translateX(-50%);
+}
 </style>

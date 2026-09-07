@@ -103,7 +103,7 @@ export class CertificateService {
   }
 
   async importFromExcel(buffer: Buffer): Promise<ImportResult> {
-    const parsed = parseExcelRows<Certificate>(buffer, [
+    const parsed = await parseExcelRows<Certificate>(buffer, [
       { field: 'certificateNumber', headers: ['证书编号', 'certificateNumber'], required: true },
       { field: 'certificateType', headers: ['证书类型', '类型', 'certificateType'], required: true },
       { field: 'certificateName', headers: ['证书名称', 'certificateName'], transform: toOptionalString },

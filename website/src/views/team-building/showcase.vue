@@ -1483,4 +1483,16 @@ onMounted(() => {
     -moz-user-select: text;
     -ms-user-select: text;
 }
+
+.showcase-date-year,
+.showcase-date-day {
+    width: 100px;
+    left: 51.33%;
+    right: auto;
+    margin: 0;
+    text-align: center;
+    letter-spacing: 0;
+    white-space: nowrap;
+    transform: translateX(-50%);
+}
 </style>

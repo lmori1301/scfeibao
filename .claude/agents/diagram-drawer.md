@@ -1,9 +1,10 @@
 ---
 name: diagram-drawer
+# 按 draw.io XML 格式套填并逐项自检，格式细节多、错一处图就坏，用 sonnet 保准确
+model: sonnet
 description: >
   图表绘制子 agent。接收图表需求，强制读取绘图规范后生成 draw.io XML。
   由 diagram-generator skill 在生成 XML 时调用。
-model: sonnet
 tools:
   - Read
   - Glob

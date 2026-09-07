@@ -18,6 +18,8 @@
 **/*.pyc
 
 backend/uploads
+!backend/uploads
+!backend/uploads/**
 backend/backups
 output
 scfeibao.tar.gz

@@ -1,8 +1,10 @@
 ---
 name: page-spec-loader
+# 检测技术栈 → 读对应规范 → 列组件清单，是 if-else 决策树而非推理，小模型足够且快。
+# 环境里没有 haiku 时删掉下面这行即可，删了就继承主对话模型，功能不受影响。
+model: haiku
 description: Loads project specs and plans components for page generation. Invoked by the page-generator skill in Step 2 to detect the tech stack, load only the relevant UI library references, and plan which components are needed for a specific feature. Do not invoke directly — use via page-generator skill.
 tools: Read, Glob, Grep
-model: sonnet
 color: cyan
 memory: project
 ---
@@ -46,13 +48,13 @@ memory: project
 
 ### 第 2 步：加载基础规范（缓存未命中时执行；命中则跳过，用缓存内容）
 
-读取 `.claude/agentpm-knowledge/` 目录下对应规范文件，**并行**获取以下规范：
-- category: `conventions/coding`（编码规范，生成任何代码前必须加载）
-- category: `conventions/frontend`（前端规范）
-- category: `conventions/security`（安全规范，防止 XSS/注入/硬编码密钥等）
-- category: `phase3-development/project`（页面开发通用规范）
+直接 `Read` 以下本地规范文件（同一条消息内**并行**发起四次 Read）：
+- `.claude/agentpm-knowledge/conventions/coding.md`（编码规范，生成任何代码前必须加载）
+- `.claude/agentpm-knowledge/conventions/frontend.md`（前端规范：CSS 变量、动画性能、设计质量）
+- `.claude/agentpm-knowledge/conventions/security.md`（安全规范，防止 XSS/注入/硬编码密钥等）
 
-若需要项目特有规范，读取 `{PROJECT_PATH}/.claude/agentpm-knowledge/` 下的文件（如有）。
+目录结构、命名、路由方式、API 组织这些**项目特有约定不从文档读，从项目代码推断**（第 6 步会读现有页面）。
+文档写的是通用原则，跟不上项目实际演进；代码是唯一可信来源。
 
 ### 第 3 步：组件规划
 
@@ -82,18 +84,12 @@ memory: project
 - 表单验证写法
 - 状态标签/Tag 的用法
 
-### 第 5 步：加载页面规范（缓存未命中时执行；命中则跳过，用缓存内容）
+### 第 5 步：页面规范（缓存未命中时执行；命中则跳过，用缓存内容）
 
-调用 Read(".claude/agentpm-knowledge/catalog.json") 查看是否有对应 UI 库的页面规范，有则加载，无则从项目现有代码推断：
+页面布局规范一律**从项目现有页面提取**，见第 6 步。
 
-```
-有对应 category → 用 Read 工具加载对应 .claude/agentpm-knowledge/ 文件
-无对应 category → 从第 6 步读取的已有页面中提取布局规律
-```
-
-已知 category 映射：
-- ant-design-vue → `phase2-design/ui-libs/ant-design-vue/pages`
-- 其他 UI 库 → 先查目录，无则从项目代码推断
+只有一个例外：若 `.claude/agentpm-knowledge/phase2-design/ui-libs/{当前 UI 库}/pages.md` 存在，可读它补充
+该 UI 库的页面惯例。不存在就跳过——不要为此去翻 `catalog.json` 找替代文件。
 
 ### 第 6 步：读取风格参考（缓存未命中时执行；命中则跳过，用缓存内容）
 

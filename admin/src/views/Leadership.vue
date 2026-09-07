@@ -15,7 +15,7 @@ const importDialogVisible = ref(false)
 const dialogTitle = ref('新增领导信息')
 const formRef = ref()
 const sortSaving = ref(false)
-const formData = ref({
+const formData = ref<Record<string, any>>({
   name: '',
   position: '',
   gender: '',

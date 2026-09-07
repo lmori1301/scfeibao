@@ -27,7 +27,7 @@ const dialogVisible = ref(false)
 const importDialogVisible = ref(false)
 const dialogTitle = ref('新增车辆')
 const formRef = ref()
-const formData = ref({
+const formData = ref<Record<string, any>>({
   unit: '',
   vehicleNo: '',
   type: '',

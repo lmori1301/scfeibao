@@ -18,7 +18,7 @@ const searchForm = ref({
 const dialogVisible = ref(false)
 const dialogTitle = ref('新增新闻')
 const formRef = ref()
-const formData = ref({
+const formData = ref<Record<string, any>>({
   title: '',
   category: '',
   author: '',

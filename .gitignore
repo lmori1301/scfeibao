@@ -52,6 +52,13 @@ lerna-debug.log*
 .env.*.local
 backend/.env
 
+# 本地开发覆盖配置：暴露 MySQL 到宿主机等仅本地生效的设置，不应进入生产部署
+docker-compose.override.yaml
+docker-compose.override.yml
+
+# 数据库备份文件，不应进入版本库
+backups/
+
 # Tool caches
 .cache/
 .vite/

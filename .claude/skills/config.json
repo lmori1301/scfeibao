@@ -1,7 +1,10 @@
 {
-  "baseURL": "https://ai.bearjia.cn",
-  "apiKey": "sk-b4fa0aaac2affbacbc5e6289cb9001986f063c92e1b59c4644716d5661affb3d",
-  "model": "gpt-image-2",
-  "defaults": { "size": "1536x1024", "quality": "high", "n": 1 },
-  "outputDir": "output/images"
+  "apiBaseUrl": "https://www.axuremart.com",
+  "diagramApiUrl": "https://draw.axuremart.com",
+  "timeout": 60000,
+  "description": "Skills API配置文件",
+  "usage": {
+    "Word导出/文档接口": "https://www.axuremart.com",
+    "图表渲染导出": "https://draw.axuremart.com"
+  }
 }

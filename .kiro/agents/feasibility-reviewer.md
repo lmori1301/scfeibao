@@ -2,7 +2,6 @@
 name: feasibility-reviewer
 description: 可行性研究报告审查者，独立审查 feasibility-writer 输出的章节内容，从结构完整性、数据一致性、语言规范、可研报告要求四个维度逐项检查，输出审查报告。由 feasibility-report skill 在每个章节写完后调用。
 tools: Read
-model: sonnet
 color: orange
 ---
 
@@ -27,9 +26,9 @@ color: orange
 {PROJECT_PATH}/.claude/skills/feasibility-report/references/templates/feasibility-report-template.md
 ```
 
-读取 `.claude/agentpm-knowledge/` 目录下对应规范文件，并行获取：
-- category: `phase1-requirements/feasibility-quality-checklist`
-- category: `phase1-requirements/language`
+直接 `Read` 以下本地规范文件（与上面的模板文件在同一条消息内并行读取）：
+- `.claude/agentpm-knowledge/phase1-requirements/feasibility-quality-checklist.md`
+- `.claude/agentpm-knowledge/phase1-requirements/language.md`
 
 ### 第 2 步：四维度审查
 

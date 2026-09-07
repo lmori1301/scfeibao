@@ -12,7 +12,7 @@ import http from '@/utils/http'
 const dialogVisible = ref(false)
 const dialogTitle = ref('新增队伍风采')
 const formRef = ref()
-const formData = ref({ title: '', type: '', sort: 1, status: '显示', image: '', content: '' })
+const formData = ref<Record<string, any>>({ title: '', type: '', sort: 1, status: '显示', image: '', content: '' })
 const titleKeyword = ref('')
 const statusFilter = ref('' as '' | '显示' | '隐藏')
 

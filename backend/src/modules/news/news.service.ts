@@ -121,7 +121,7 @@ export class NewsService {
     try {
       const entity = this.newsRepository.create({
         ...dto,
-        publishedAt: dto.publishedAt ? new Date(dto.publishedAt) : null,
+        publishedAt: dto.publishedAt ? new Date(dto.publishedAt) : new Date(),
       });
       const created = await this.newsRepository.save(entity);
       await this.clearDetailCache(created.id);
@@ -141,11 +141,9 @@ export class NewsService {
       Object.assign(entity, {
         ...dto,
         publishedAt:
-          dto.publishedAt === undefined
+          !dto.publishedAt
             ? entity.publishedAt
-            : dto.publishedAt
-              ? new Date(dto.publishedAt)
-              : null,
+            : new Date(dto.publishedAt),
       });
       const updated = await this.newsRepository.save(entity);
       await this.clearDetailCache(id);

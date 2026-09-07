@@ -17,8 +17,10 @@ COPY --from=build --chown=node:node /app/package.json /app/package-lock.json ./
 COPY --from=build --chown=node:node /app/node_modules ./node_modules
 COPY --from=build --chown=node:node /app/dist ./dist
 COPY --from=build --chown=node:node /app/create-admin.js ./create-admin.js
-COPY --from=build --chown=node:node /app/scripts/create-admin-config.js ./scripts/create-admin-config.js
-RUN mkdir -p uploads && chown node:node uploads
+COPY --from=build --chown=node:node /app/scripts ./scripts
+COPY --from=build --chown=node:node /app/uploads ./uploads-seed
+COPY --chown=node:node docker/backend/entrypoint.sh ./entrypoint.sh
+RUN mkdir -p uploads && chmod +x entrypoint.sh && chown node:node uploads
 
 USER node
 EXPOSE 3003
@@ -26,4 +28,5 @@ EXPOSE 3003
 HEALTHCHECK --interval=30s --timeout=5s --start-period=30s --retries=5 \
   CMD node -e "const net=require('net');const socket=net.connect(3003,'127.0.0.1',()=>{socket.end();process.exit(0)});socket.setTimeout(3000);socket.on('error',()=>process.exit(1));socket.on('timeout',()=>process.exit(1))"
 
-CMD ["node", "dist/main"]
+ENTRYPOINT ["./entrypoint.sh"]
+CMD ["npm", "run", "start:prod"]

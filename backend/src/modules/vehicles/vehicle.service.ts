@@ -127,7 +127,7 @@ export class VehicleService {
   }
 
   async importFromExcel(buffer: Buffer): Promise<ImportResult> {
-    const parsed = parseExcelRows<Vehicle>(buffer, [
+    const parsed = await parseExcelRows<Vehicle>(buffer, [
       { field: 'team', headers: ['车属单位', '所属队伍', '所属部门', 'team'], transform: toOptionalString },
       { field: 'vehicleNo', headers: ['车辆编号', 'vehicleNo'], transform: toOptionalString },
       { field: 'vehicleType', headers: ['车辆类型', 'vehicleType'], required: true },

@@ -1,5 +1,41 @@
 -- 插入测试新闻数据（用于"各地动态"）
-INSERT INTO `news` (`title`, `summary`, `content`, `category`, `author`, `status`, `publishedAt`, `created_at`, `updated_at`)
+SET @has_publishedAt = (
+  SELECT COUNT(*)
+  FROM INFORMATION_SCHEMA.COLUMNS
+  WHERE TABLE_SCHEMA = DATABASE()
+    AND TABLE_NAME = 'news'
+    AND COLUMN_NAME = 'publishedAt'
+);
+SET @has_published_at = (
+  SELECT COUNT(*)
+  FROM INFORMATION_SCHEMA.COLUMNS
+  WHERE TABLE_SCHEMA = DATABASE()
+    AND TABLE_NAME = 'news'
+    AND COLUMN_NAME = 'published_at'
+);
+SET @add_published_at_sql = IF(
+  @has_published_at = 0 AND @has_publishedAt > 0,
+  'ALTER TABLE `news` ADD COLUMN `published_at` timestamp NULL DEFAULT NULL COMMENT ''发布时间'' AFTER `publishedAt`',
+  IF(
+    @has_published_at = 0,
+    'ALTER TABLE `news` ADD COLUMN `published_at` timestamp NULL DEFAULT NULL COMMENT ''发布时间''',
+    'SELECT 1'
+  )
+);
+PREPARE add_published_at_stmt FROM @add_published_at_sql;
+EXECUTE add_published_at_stmt;
+DEALLOCATE PREPARE add_published_at_stmt;
+SET @backfill_published_at_sql = IF(
+  @has_publishedAt > 0,
+  'UPDATE `news` SET `published_at` = COALESCE(`publishedAt`, `created_at`, CURRENT_TIMESTAMP) WHERE `published_at` IS NULL OR `published_at` = 0',
+  'UPDATE `news` SET `published_at` = COALESCE(`created_at`, CURRENT_TIMESTAMP) WHERE `published_at` IS NULL OR `published_at` = 0'
+);
+PREPARE backfill_published_at_stmt FROM @backfill_published_at_sql;
+EXECUTE backfill_published_at_stmt;
+DEALLOCATE PREPARE backfill_published_at_stmt;
+ALTER TABLE `news` MODIFY COLUMN `published_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '发布时间';
+
+INSERT INTO `news` (`title`, `summary`, `content`, `category`, `author`, `status`, `published_at`, `created_at`, `updated_at`)
 VALUES
 ('成都支队开展冬季应急救援综合演练', '全面检验队伍应急响应能力', '成都支队组织全体队员开展冬季应急救援综合演练，模拟多种灾害场景，全面检验队伍应急响应能力和协同作战水平。', '四川', '新闻宣传处', 1, NOW(), NOW(), NOW()),
 ('乐山支队深入社区开展消防安全宣传', '提高群众自防自救能力', '乐山支队深入辖区社区、学校、企业开展消防安全知识宣传活动，普及消防安全常识，提高群众自防自救能力。', '四川', '新闻宣传处', 1, NOW(), NOW(), NOW()),

@@ -92,7 +92,7 @@ const handleImport = async () => {
     <div class="data-import">
       <section class="data-import__guide">
         <div class="data-import__guide-title">字段要求</div>
-        <p>支持 .xlsx、.xls 文件；首行必须为表头。{{ matchRule }}</p>
+        <p>支持 .xlsx 文件；首行必须为表头。{{ matchRule }}</p>
         <div class="data-import__fields">
           <div>
             <strong>必填字段</strong>
@@ -109,7 +109,7 @@ const handleImport = async () => {
         drag
         :auto-upload="false"
         :limit="1"
-        accept=".xlsx,.xls"
+        accept=".xlsx"
         :on-change="handleFileChange"
         :on-remove="handleFileRemove"
       >

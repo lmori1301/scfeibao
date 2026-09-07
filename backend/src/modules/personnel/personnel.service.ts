@@ -101,7 +101,7 @@ export class PersonnelService {
   }
 
   async importFromExcel(buffer: Buffer): Promise<ImportResult> {
-    const parsed = parseExcelRows<Personnel>(buffer, [
+    const parsed = await parseExcelRows<Personnel>(buffer, [
       { field: 'personnelCode', headers: ['人员编号', 'personnelCode'], transform: toOptionalString },
       { field: 'name', headers: ['姓名', 'name'], required: true },
       { field: 'idCard', headers: ['身份证号', 'idCard'], required: true },

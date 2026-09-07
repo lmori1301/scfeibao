@@ -1,8 +1,9 @@
 ---
 name: feasibility-writer
+# 同 req-writer：按模板填章节，产出可研报告供人阅读，用 sonnet
+model: sonnet
 description: 可行性研究报告撰写者，根据 feasibility-analyzer 输出的项目信息摘要和模板规范，撰写符合可研报告语言规范的章节内容。由 feasibility-report skill 在生成模式中调用。
 tools: Read
-model: sonnet
 color: green
 memory: project
 ---
@@ -29,8 +30,7 @@ memory: project
 {PROJECT_PATH}/.claude/skills/feasibility-report/references/templates/feasibility-report-template.md
 ```
 
-读取 `.claude/agentpm-knowledge/` 目录下对应规范文件获取：
-- category: `phase1-requirements/language`
+`Read`：`.claude/agentpm-knowledge/phase1-requirements/language.md`
 
 找到对应章节的内容要求和示例，同时读取语言规范中的禁止词汇和格式要求。
 

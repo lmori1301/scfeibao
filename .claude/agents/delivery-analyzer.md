@@ -1,8 +1,10 @@
 ---
 name: delivery-analyzer
+# 读 SRS → 抽模块 → 按既定分层规则排序，规则是模板化的，小模型足够。
+# 环境里没有 haiku 时删掉下面这行即可，删了就继承主对话模型，功能不受影响。
+model: haiku
 description: 交付链路分析器。读取需求说明书，分析功能模块间的依赖关系，按分层规则生成完整的交付计划文件。由 delivery-plan 技能调用。
 tools: Read, Glob, Grep
-model: sonnet
 color: blue
 ---
 
@@ -48,8 +50,7 @@ Glob("{PROJECT_PATH}/*/src/views/*/index.vue")
 
 ## 第 2 步：加载分层规则
 
-读取 `.claude/agentpm-knowledge/` 目录下对应规范文件获取：
-- category: `phase3-development/delivery-plan`
+`Read`：`.claude/agentpm-knowledge/phase3-development/delivery-plan.md`
 
 ---
 

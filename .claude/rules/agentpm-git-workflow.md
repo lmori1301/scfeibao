@@ -34,10 +34,13 @@
 ## Push 前检查
 
 推送代码前必须确认：
-1. 构建通过（`npx vite build`）
-2. 类型检查通过（`npx vue-tsc --noEmit`）
+1. 类型检查通过（`npx vue-tsc --noEmit`、后端 `npx tsc --noEmit`）
+2. lint 通过（`npx eslint`）
 3. 不包含 `.env`、密钥、Token 等敏感文件
 4. commit message 符合 Conventional Commits
+
+构建（`npx vite build`）不在此列：CLAUDE.md 的 No-Auto-Build 禁止替用户跑构建。
+需要构建产物才能确认的结论，如实说明「未经构建验证」并交给用户。
 
 ## 分支命名
 

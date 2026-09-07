@@ -1,4 +1,5 @@
 import mysql from 'mysql2/promise'
+import { migrateNewsPublishedAt } from './run-news-published-at-migration.mjs'
 
 const connectionConfig = {
   host: process.env.DB_HOST || '127.0.0.1',
@@ -31,6 +32,7 @@ async function ensureColumn(connection, table, column, ddl) {
 }
 
 async function ensureSchema(connection) {
+  await migrateNewsPublishedAt(connection)
   await ensureColumn(connection, 'news', 'isHeadline', '`isHeadline` tinyint NOT NULL DEFAULT 0 COMMENT \'是否为头条：1-是，0-否\'')
   await ensureColumn(connection, 'news', 'isNew', '`isNew` tinyint NOT NULL DEFAULT 0 COMMENT \'是否显示NEW标签：1-是，0-否\'')
 
@@ -86,7 +88,7 @@ async function main() {
         ['四川飞豹救援参加全国应急救援技能竞赛', '展现专业救援能力', '四川飞豹救援代表队参加全国应急救援技能竞赛，在多个项目中取得优异成绩。', '/uploads/images/1772093657671-998030690.png', '动态要闻', '新闻宣传处', 1, now, 9, 0, 0, now, now],
         ['四川飞豹救援开展社区应急演练', '提高群众应急意识', '四川飞豹救援深入社区开展应急演练活动，向居民普及应急知识，提高群众的应急意识和自救互救能力。', '/uploads/images/1772109592087-215156322.png', '动态要闻', '新闻宣传处', 1, now, 10, 0, 0, now, now]
       ],
-      'INSERT INTO `news` (`title`, `summary`, `content`, `coverImage`, `category`, `author`, `status`, `publishedAt`, `sort`, `isHeadline`, `isNew`, `created_at`, `updated_at`) VALUES ?'
+      'INSERT INTO `news` (`title`, `summary`, `content`, `coverImage`, `category`, `author`, `status`, `published_at`, `sort`, `isHeadline`, `isNew`, `created_at`, `updated_at`) VALUES ?'
     )
 
     await replaceIfTooFew(

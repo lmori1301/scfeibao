@@ -12,7 +12,7 @@ const page = ref(1)
 const pageSize = ref(10)
 const dialogVisible = ref(false)
 const dialogTitle = ref('新增视频')
-const createDefaultFormData = (author = '') => ({
+const createDefaultFormData = (author = ''): Record<string, any> => ({
   title: '',
   cover: '',
   url: '',

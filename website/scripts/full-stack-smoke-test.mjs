@@ -1,4 +1,5 @@
 import { execFileSync } from 'node:child_process'
+import { randomBytes } from 'node:crypto'
 
 const FRONTEND_URL = process.env.FRONTEND_URL || 'http://127.0.0.1:5173'
 const ADMIN_URL = process.env.ADMIN_URL || 'http://127.0.0.1:5176'
@@ -8,10 +9,22 @@ const DB_PORT = process.env.SMOKE_DB_PORT || '3308'
 const DB_USER = process.env.SMOKE_DB_USER || 'scfeibao'
 const DB_PASSWORD = process.env.SMOKE_DB_PASSWORD || ''
 const DB_NAME = process.env.SMOKE_DB_NAME || 'scfeibao'
+const MYSQL_DOCKER_CONTAINER = process.env.SMOKE_MYSQL_DOCKER_CONTAINER || ''
 const LOGIN_USERNAME = process.env.SMOKE_ADMIN_USER || 'admin'
 const LOGIN_PASSWORD = process.env.SMOKE_ADMIN_PASSWORD || 'admin123'
+const ALLOW_DESTRUCTIVE_SMOKE = process.env.ALLOW_DESTRUCTIVE_SMOKE === '1'
+const SMOKE_USER_PASSWORD = `Sfb#${randomBytes(9).toString('hex')}A1`
 
 const results = []
+
+function assertSafeSmokeTarget() {
+  const markedSmokeDatabase = /(?:smoke|test|local|dev)/i.test(DB_NAME)
+  if (!ALLOW_DESTRUCTIVE_SMOKE && !markedSmokeDatabase) {
+    throw new Error(
+      'smoke 会清理并写入测试数据。请使用 smoke/test/local/dev 数据库名，或显式设置 ALLOW_DESTRUCTIVE_SMOKE=1',
+    )
+  }
+}
 
 function record(name, ok, detail = '') {
   results.push({ name, ok, detail })
@@ -29,8 +42,19 @@ function sqlEscape(value) {
 }
 
 function mysqlQuery(sql) {
-  const args = [
-    `-h${DB_HOST}`,
+  const args = MYSQL_DOCKER_CONTAINER
+    ? [
+        'exec',
+        '-e',
+        'MYSQL_PWD',
+        MYSQL_DOCKER_CONTAINER,
+        'mysql',
+        `-h${DB_HOST === '127.0.0.1' ? '127.0.0.1' : DB_HOST}`,
+      ]
+    : ['mysql', `-h${DB_HOST}`]
+
+  args.push(
+    '--default-character-set=utf8mb4',
     `-P${DB_PORT}`,
     `-u${DB_USER}`,
     '-D',
@@ -39,13 +63,12 @@ function mysqlQuery(sql) {
     '-B',
     '-e',
     sql,
-  ]
+  )
 
-  if (DB_PASSWORD) {
-    args.splice(3, 0, `-p${DB_PASSWORD}`)
-  }
-
-  return execFileSync('mysql', args, { encoding: 'utf8' }).trim()
+  return execFileSync(MYSQL_DOCKER_CONTAINER ? 'docker' : 'mysql', args, {
+    encoding: 'utf8',
+    env: DB_PASSWORD ? { ...process.env, MYSQL_PWD: DB_PASSWORD } : process.env,
+  }).trim()
 }
 
 function cleanupSmokeNews() {
@@ -160,6 +183,8 @@ async function runCheck(name, fn) {
 }
 
 async function main() {
+  assertSafeSmokeTarget()
+
   let authToken = ''
   let createdNewsId = ''
   const tempTitle = `SmokeTest-${Date.now()}`
@@ -319,7 +344,7 @@ async function main() {
   })
 
   await runCheck('查询系统车辆链路', async () => {
-    const line = mysqlQuery("select plateNumber from vehicles where status = 1 order by id limit 1")
+    const line = mysqlQuery("select plateNumber from vehicles where status = 1 and plateNumber is not null and plateNumber <> '' and plateNumber not like '?%' order by id limit 1")
     assert(line, 'no vehicle sample found')
     const plateNumber = line.split('\t')[0]
     const { json } = await requestJson(`${FRONTEND_URL}/api/vehicles/search?plateNumber=${encodeURIComponent(plateNumber)}`)
@@ -420,7 +445,7 @@ async function main() {
     assert(updateResponse.json?.code === 200, 'update personnel failed')
 
     const updatedLine = mysqlQuery(`select position, status from personnel where id = ${createdId}`)
-    assert(updatedLine === '测试班长\t0', 'updated personnel mismatch')
+    assert(updatedLine === '测试班长\t0', `updated personnel mismatch: ${updatedLine}`)
 
     const deleteResponse = await requestJson(`${ADMIN_URL}/api/personnel/${createdId}`, {
       method: 'DELETE',
@@ -473,7 +498,7 @@ async function main() {
     assert(updateResponse.json?.code === 200, 'update vehicle failed')
 
     const updatedLine = mysqlQuery(`select color, status from vehicles where id = ${createdId}`)
-    assert(updatedLine === '曜石黑\t0', 'updated vehicle mismatch')
+    assert(updatedLine === '曜石黑\t0', `updated vehicle mismatch: ${updatedLine}`)
 
     const deleteResponse = await requestJson(`${ADMIN_URL}/api/vehicles/${createdId}`, {
       method: 'DELETE',
@@ -493,8 +518,12 @@ async function main() {
 
     const createPayload = {
       name: locationName,
+      pointName: `${locationName}-点位`,
       address: '成都市高新区联调测试路 18 号',
       phone: '028-12345678',
+      longitude: 104.06476,
+      latitude: 30.5702,
+      zoom: 15,
       sort: 99,
       status: 1,
     }
@@ -577,7 +606,7 @@ async function main() {
     assert(updateResponse.json?.code === 200, 'update certificate failed')
 
     const updatedLine = mysqlQuery(`select issuingAuthority, status from certificates where id = ${createdId}`)
-    assert(updatedLine === '四川飞豹测试更新中心\t0', 'updated certificate mismatch')
+    assert(updatedLine === '四川飞豹测试更新中心\t0', `updated certificate mismatch: ${updatedLine}`)
 
     const deleteResponse = await requestJson(`${ADMIN_URL}/api/certificates/${createdId}`, {
       method: 'DELETE',
@@ -701,7 +730,7 @@ async function main() {
       headers: { Authorization: `Bearer ${authToken}` },
       body: JSON.stringify({
         username,
-        password: 'SmokeAdmin123',
+        password: SMOKE_USER_PASSWORD,
         name: '联动管理员',
         email: `smoke_link_${unique}@example.com`,
         phone: '13800000003',
@@ -721,7 +750,7 @@ async function main() {
       headers: { Authorization: `Bearer ${authToken}` },
       body: JSON.stringify({
         username: `smoke_bad_role_${unique}`,
-        password: 'SmokeAdmin123',
+        password: SMOKE_USER_PASSWORD,
         name: '无效角色',
         role: 'AbsolutelyNonexistentRole_999999',
       }),
@@ -755,11 +784,11 @@ async function main() {
       headers: { Authorization: `Bearer ${authToken}` },
       body: JSON.stringify({
         username,
-        password: 'SmokeAdmin123',
+        password: SMOKE_USER_PASSWORD,
         name: '联调管理员',
         email: `smoke_${unique}@example.com`,
         phone: '13800000002',
-        role: 'editor',
+        role: '内容编辑',
       }),
     }, [200, 201])
     assert(createResponse.response.status === 201 || createResponse.response.status === 200, 'create admin user failed')
@@ -783,12 +812,12 @@ async function main() {
     const updateResponse = await requestJson(`${ADMIN_URL}/api/admin/users/${createdId}`, {
       method: 'PUT',
       headers: { Authorization: `Bearer ${authToken}` },
-      body: JSON.stringify({ name: '联调管理员-更新', role: 'editor', email: `updated_${unique}@example.com` }),
+      body: JSON.stringify({ name: '联调管理员-更新', role: '内容编辑', email: `updated_${unique}@example.com` }),
     })
     assert(updateResponse.json?.code === 200, 'admin user update failed')
 
     const updatedLine = mysqlQuery(`select status, name from admin_users where id = ${createdId}`)
-    assert(updatedLine === 'disabled\t联调管理员-更新', 'updated admin user mismatch')
+    assert(updatedLine === 'disabled\t联调管理员-更新', `updated admin user mismatch: ${updatedLine}`)
 
     const deleteResponse = await requestJson(`${ADMIN_URL}/api/admin/users/${createdId}`, {
       method: 'DELETE',
@@ -999,6 +1028,7 @@ async function main() {
       body: JSON.stringify({
         title,
         summary: '联调测试政策摘要',
+        content: '联调测试政策正文',
         docNumber: `文号-${unique}`,
         category: '法律法规',
         publishDate: '2026-04-18T00:00:00.000Z',
@@ -1026,7 +1056,7 @@ async function main() {
     assert(updateResponse.json?.code === 200, 'update policy failed')
 
     const updatedLine = mysqlQuery(`select title, issuingAuthority from policies where id = ${createdId}`)
-    assert(updatedLine === `${title}-Updated\t联调更新部门`, 'updated policy mismatch')
+    assert(updatedLine === `${title}-Updated\t联调更新部门`, `updated policy mismatch: ${updatedLine}`)
 
     const deleteResponse = await requestJson(`${ADMIN_URL}/api/policies/${createdId}`, {
       method: 'DELETE',
@@ -1072,7 +1102,7 @@ async function main() {
     assert(updateResponse.json?.code === 200, 'update party work failed')
 
     const updatedLine = mysqlQuery(`select title, status from party_works where id = ${createdId}`)
-    assert(updatedLine === `${title}-Updated\t已发布`, 'updated party work mismatch')
+    assert(updatedLine === `${title}-Updated\t已发布`, `updated party work mismatch: ${updatedLine}`)
 
     const deleteResponse = await requestJson(`${ADMIN_URL}/api/party-building/${createdId}`, {
       method: 'DELETE',
@@ -1171,7 +1201,7 @@ async function main() {
     assert(updateResponse.json?.code === 200, 'update team showcase failed')
 
     const updatedLine = mysqlQuery(`select title, status from team_showcase where id = ${createdId}`)
-    assert(updatedLine === `${title}-Updated\t隐藏`, 'updated team showcase mismatch')
+    assert(updatedLine === `${title}-Updated\t隐藏`, `updated team showcase mismatch: ${updatedLine}`)
 
     const deleteResponse = await requestJson(`${ADMIN_URL}/api/team-showcase/${createdId}`, {
       method: 'DELETE',
@@ -1218,7 +1248,7 @@ async function main() {
     assert(updateResponse.json?.code === 200, 'update appointment failed')
 
     const updatedLine = mysqlQuery(`select title, department from appointments where id = ${createdId}`)
-    assert(updatedLine === `${title}-Updated\t联调更新部门`, 'updated appointment mismatch')
+    assert(updatedLine === `${title}-Updated\t联调更新部门`, `updated appointment mismatch: ${updatedLine}`)
 
     const deleteResponse = await requestJson(`${ADMIN_URL}/api/appointments/${createdId}`, {
       method: 'DELETE',
@@ -1324,12 +1354,15 @@ async function main() {
     const unique = Date.now()
     const title = `SmokeRescueCase-${unique}`
 
-    const listResponse = await requestJson(`${ADMIN_URL}/api/rescue-cases?page=1&pageSize=5`)
+    const listResponse = await requestJson(`${ADMIN_URL}/api/rescue-cases?page=1&pageSize=5`, {
+      headers: { Authorization: `Bearer ${authToken}` },
+    })
     assert(listResponse.json?.code === 200, 'rescue case list code is not 200')
     assert(Array.isArray(listResponse.json?.data?.items), 'rescue case list payload is invalid')
 
     const createResponse = await requestJson(`${ADMIN_URL}/api/rescue-cases`, {
       method: 'POST',
+      headers: { Authorization: `Bearer ${authToken}` },
       body: JSON.stringify({
         title,
         location: '成都市联调区域',
@@ -1345,6 +1378,7 @@ async function main() {
 
     const updateResponse = await requestJson(`${ADMIN_URL}/api/rescue-cases/${createdId}`, {
       method: 'PATCH',
+      headers: { Authorization: `Bearer ${authToken}` },
       body: JSON.stringify({
         title: `${title}-Updated`,
         location: '成都市联调区域-更新',
@@ -1353,10 +1387,11 @@ async function main() {
     assert(updateResponse.json?.code === 200, 'update rescue case failed')
 
     const updatedLine = mysqlQuery(`select title, location from rescue_cases where id = ${createdId}`)
-    assert(updatedLine === `${title}-Updated\t成都市联调区域-更新`, 'updated rescue case mismatch')
+    assert(updatedLine === `${title}-Updated\t成都市联调区域-更新`, `updated rescue case mismatch: ${updatedLine}`)
 
     const deleteResponse = await requestJson(`${ADMIN_URL}/api/rescue-cases/${createdId}`, {
       method: 'DELETE',
+      headers: { Authorization: `Bearer ${authToken}` },
     })
     assert(deleteResponse.json?.code === 200, 'delete rescue case failed')
     assert(deleteResponse.json?.data?.success === true, 'delete rescue case success flag missing')

@@ -1,9 +1,12 @@
 ---
 name: backend-spec-loader
+# 与 page-spec-loader 对称：检测框架 → 读规范 → 列模块端点，机械映射，小模型足够。
+# 环境里没有 haiku 时删掉下面这行即可，删了就继承主对话模型，功能不受影响。
+model: haiku
 description: Loads backend project specs and plans modules for backend code generation. Invoked by the backend-generator skill in Step 2 to detect the backend framework/stack, load matching framework references (or infer from existing project code when none preset), and plan modules/endpoints. Framework-agnostic, mirrors page-spec-loader. Do not invoke directly — use via backend-generator skill.
 tools: Read, Glob, Grep
-model: sonnet
 color: green
+memory: project
 ---
 
 你是 backend-generator 技能的规范加载器与模块规划器。**框架无关**（NestJS / Spring Boot / Django / Express / Go 等都适配），思路与 page-spec-loader 一致：检测技术栈 → 命中预置框架规范则加载 → 未命中从项目现有代码推断。只读取和分析，不写代码，不修改文件。
@@ -12,9 +15,23 @@ color: green
 1. **SERVER_PATH**：后端项目根目录绝对路径
 2. **功能需求**：来自 backend-generator Step 1 的需求理解（含表清单、接口清单、业务逻辑、鉴权分层）
 
+## 缓存机制（与 page-spec-loader 同构）
+
+技术栈、通用规范、框架规范、项目实际写法这四类在**同一后端项目内是固定的**，只有「模块规划」随功能变化。
+每做一个功能就重读一遍这些文件是纯浪费，故存入 agent 记忆（已启用 `memory: project`）。
+
+启动时记忆机制会自动把 `MEMORY.md` 索引注入上下文，无需 Glob 查找。
+
+**开场先判缓存：**
+1. 查注入的 `MEMORY.md` 索引里有没有 `backend-spec_{项目名}` 这一条
+2. **有** → 读那个记忆文件，直接跳到第 5 步做模块规划。第 1~4 步全部跳过
+3. **没有** → 走完整流程，结束时按下方约定写入记忆
+
+> 规范文件被人为改动时记忆不会自动失效。删掉对应的 `backend-spec_{项目名}.md` 并从 `MEMORY.md` 移除该行，下次即重新加载。
+
 ## 执行步骤
 
-### 第 1 步：检测技术栈与框架
+### 第 1 步：检测技术栈与框架（缓存未命中时执行）
 
 读取后端项目的依赖清单识别框架：
 - Node 系：`{SERVER_PATH}/package.json` → NestJS（@nestjs/core）/ Express / Koa / Egg
@@ -28,14 +45,14 @@ color: green
 - 是否有框架代码生成器（如 NestJS 项目的 `src/modules/coding/`）
 - 开发端口（从入口/配置文件，NestJS 默认 9001）
 
-### 第 2 步：加载框架无关的通用规范（始终需要，并行 Read）
+### 第 2 步：加载框架无关的通用规范（缓存未命中时执行；四个文件同一条消息内并行 Read）
 
 - `.claude/agentpm-knowledge/conventions/coding.md`（编码规范，生成任何代码前必须加载）
 - `.claude/agentpm-knowledge/conventions/security.md`（安全：脱敏、注入防护、鉴权）
 - `.claude/agentpm-knowledge/phase3-development/backend.md`（接口设计原则，框架无关）
 - `.claude/agentpm-knowledge/phase3-development/database.md`（数据库设计原则，框架无关）
 
-### 第 3 步：加载框架特有规范（命中预置则读，否则从代码推断）
+### 第 3 步：加载框架特有规范（缓存未命中时执行；命中预置则读，否则从代码推断）
 
 根据第 1 步识别的框架，查 `.claude/agentpm-knowledge/phase3-development/backend-framework/` 是否有对应子目录：
 
@@ -53,7 +70,7 @@ color: green
   - `code-generator.md`（已建表想用生成器）
 - **其他框架** → 先查目录，无则完全从项目代码推断。
 
-### 第 4 步：读取项目实际写法参考（兜底关键，始终做）
+### 第 4 步：读取项目实际写法参考（缓存未命中时执行——这一步最贵，也最值得缓存）
 
 在 `{SERVER_PATH}` 找 1-2 个已有标准模块完整读取（NestJS 优先 `src/modules/dict/`；Spring 优先一个完整的 controller+service+entity+mapper；其他框架找同类模块），提取项目**实际**写法：
 
@@ -76,6 +93,16 @@ color: green
 - **生成器可用性**：能否调框架生成器 / 需先建模型 / 手写
 - **脱敏点**：敏感字段、响应模型排除、数据层 select 白名单
 - **数据驱动内容**：本功能是否涉及由数据库数据决定行为的部分（菜单/权限点/字典/参数/初始数据等）；若是，定位数据源（种子/初始化脚本文件路径），说明需同步的数据改动——改代码不改数据库已有行，漏了功能对用户不可见
+
+### 第 6 步：写入记忆（仅缓存未命中、走完整流程时执行）
+
+把第 1~4 步的**稳定结论**存为一条记忆 `backend-spec_{项目名}.md`，并在 `MEMORY.md` 索引加一行指针。
+frontmatter 用记忆标准字段（name / description / metadata.type=project）。
+
+正文只放随项目固定的部分：技术栈与框架版本、编码规范要点、框架特有写法、项目实际写法参考（基类继承方式、
+分页封装、鉴权装饰器、脱敏位置、命名与目录约定）。
+
+**不要**把「模块规划」写进记忆——那是随功能变化的，每次都要重新做。
 
 ## 返回格式
 

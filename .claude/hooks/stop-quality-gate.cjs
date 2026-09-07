@@ -4,7 +4,7 @@ const fs = require('fs');
 const path = require('path');
 const { execFileSync } = require('child_process');
 const { readState, clearState } = require('./lib/state.cjs');
-const { reviewMode } = require('./lib/config.cjs');
+const { reviewMode, smallDiffThreshold, sensitiveDiffThreshold } = require('./lib/config.cjs');
 
 // 触碰这些路径且净变更达到 SENSITIVE_DIFF_THRESHOLD 的改动强制 review（认证/安全/支付/数据完整性）。
 // 极小的敏感改动（如恢复一段已审过的旧代码、加一行权限守卫）低于该阈值时放行，避免为琐碎改动强拦。
@@ -27,12 +27,48 @@ const REVIEW_EXEMPT = [
   /[/\\]skills[/\\]gpt-image-generator[/\\]/i,
 ];
 
-// 小改动阈值：本轮代码净变更行数（增+删）低于此值且非敏感路径 → 免 review
-const SMALL_DIFF_THRESHOLD = 50;
-// 敏感路径阈值：敏感文件自身净变更低于此值 → 视为琐碎敏感改动（恢复旧码/单行守卫等），放行免 review
-const SENSITIVE_DIFF_THRESHOLD = 15;
+/*
+  两个阈值都从 .claude/config.json 的 codeReview 段读，与 mode 放在一处便于调整。
+  改配置不用动这个文件，缺失时各 getter 自带默认值（1000 / 15）。
+*/
+const SMALL_DIFF_THRESHOLD = smallDiffThreshold();
+const SENSITIVE_DIFF_THRESHOLD = sensitiveDiffThreshold();
 
-function churnFor(fp, cwd) {
+/**
+ * 本轮各文件的编辑载荷行数（由 review-reminder 记录，路径 → 累计行数）
+ *
+ * 未跟踪文件的 git diff 恒为空，只能退化成按整文件行数计 churn，
+ * 于是「改一行列宽」会被算成整个文件的行数。本项目里长期未提交的大文件很常见，
+ * 那个虚高数字会把门禁推到「并行分片审查」档，白起一堆 reviewer。
+ * 编辑载荷行数与 git 跟踪状态无关，用它给未跟踪文件兜底更贴近真实改动量。
+ */
+function recordedChurnMap() {
+  const map = new Map();
+  for (const line of readState('edit-churn.txt').split('\n')) {
+    if (!line) continue;
+    const tab = line.lastIndexOf('\t');
+    if (tab === -1) continue;
+    const fp = line.slice(0, tab);
+    const n = parseInt(line.slice(tab + 1), 10);
+    if (!Number.isFinite(n)) continue;
+    map.set(fp, (map.get(fp) || 0) + n);
+  }
+  return map;
+}
+
+function churnFor(fp, cwd, recorded) {
+  /*
+    优先用本轮实际编辑载荷行数，已跟踪与未跟踪文件一视同仁。
+
+    此前只有未跟踪文件走这条路，已跟踪文件直接取 git diff，于是把仓库里
+    陈年未提交的改动全算进了本轮。本项目长期挂着大量未提交改动，实测
+    seed.service.ts 未提交 2860 行，某轮只改了 4 行也按 2860 计，
+    门禁因此被推到「并行分片审查」档、白起一堆 reviewer。
+    审查范围本就该是「本轮改了什么」，与仓库积压无关。
+  */
+  const fromRecord = recorded?.get(fp);
+  if (fromRecord !== undefined) return fromRecord;
+
   let added = 0;
   let deleted = 0;
   for (const args of [['diff', '--numstat', '--', fp], ['diff', '--staged', '--numstat', '--', fp]]) {
@@ -45,7 +81,8 @@ function churnFor(fp, cwd) {
       }
     } catch {}
   }
-  // git diff 无输出：可能是未跟踪的新文件，按整文件行数计入
+  // git diff 无输出且无编辑记录：可能是未跟踪的新文件（如 hook 中途才装上，
+  // 本轮编辑没被记到）。此时退回整文件行数，宁可高估也不要漏审。
   if (added === 0 && deleted === 0) {
     try {
       execFileSync('git', ['ls-files', '--error-unmatch', '--', fp], { cwd, stdio: ['ignore', 'ignore', 'ignore'] });
@@ -66,6 +103,7 @@ exports.run = (input) => {
   if (input?.stop_hook_active) {
     clearState('edited-files.txt');
     clearState('review-called.txt');
+    clearState('edit-churn.txt');
     return null;
   }
 
@@ -73,7 +111,16 @@ exports.run = (input) => {
   if (!editedRaw.trim()) return null;
 
   const editedFiles = [...new Set(editedRaw.trim().split('\n').filter(Boolean))]
-    .filter(fp => !REVIEW_EXEMPT.some(p => p.test(fp)));
+    .filter(fp => !REVIEW_EXEMPT.some(p => p.test(fp)))
+    /*
+      跳过已不存在的文件：改完又删掉、或改完再重命名的，没有可审之物。
+      不过滤的话门禁会点名要求审一个不存在的路径，主 agent 无论派不派 reviewer
+      都无法满足——派了只会得到「文件不存在」，不派则被门禁反复拦住。
+      （曾出现过要求审查 login.vue 而该文件在仓库里已不存在的情形。）
+    */
+    .filter(fp => {
+      try { return fs.existsSync(fp); } catch { return false; }
+    });
   if (editedFiles.length === 0) return null;
   const issues = [];
   const cwd = process.cwd();
@@ -106,7 +153,8 @@ exports.run = (input) => {
     const allStyleOnly = editedFiles.every(fp => STYLE_ONLY.test(fp));
     // 每个文件的净变更只算一次，供总量闸与敏感闸复用
     const churnByFile = {};
-    for (const fp of editedFiles) churnByFile[fp] = churnFor(fp, cwd);
+    const recorded = recordedChurnMap();
+    for (const fp of editedFiles) churnByFile[fp] = churnFor(fp, cwd, recorded);
     const totalChurn = editedFiles.reduce((sum, fp) => sum + churnByFile[fp], 0);
     // 敏感闸按敏感文件自身净变更判定，不被同轮非敏感大改动带高
     const sensitiveChurn = sensitiveHits.reduce((sum, fp) => sum + churnByFile[fp], 0);

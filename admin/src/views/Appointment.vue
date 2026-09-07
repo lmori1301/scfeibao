@@ -16,7 +16,7 @@ const searchForm = ref({
 const dialogVisible = ref(false)
 const dialogTitle = ref('新增人事任免')
 const formRef = ref()
-const formData = ref({
+const formData = ref<Record<string, any>>({
   title: '',
   docNumber: '',
   publishDate: '',

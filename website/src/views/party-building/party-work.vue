@@ -175,7 +175,9 @@ const visiblePages = computed(() => {
 
 // 格式化日期
 const formatDate = (dateStr: string) => {
+  if (!dateStr) return { year: '', day: '' }
   const date = new Date(dateStr)
+  if (Number.isNaN(date.getTime())) return { year: '', day: '' }
   const year = date.getFullYear()
   const month = String(date.getMonth() + 1).padStart(2, '0')
   const day = String(date.getDate()).padStart(2, '0')
@@ -1365,5 +1367,23 @@ onMounted(() => {
     -webkit-user-select: text;
     -moz-user-select: text;
     -ms-user-select: text;
+}
+
+.Pixso-paragraph-1_1166,
+.Pixso-paragraph-1_1167,
+.Pixso-paragraph-1_1169,
+.Pixso-paragraph-1_1170,
+.Pixso-paragraph-1_1172,
+.Pixso-paragraph-1_1173,
+.Pixso-paragraph-1_1175,
+.Pixso-paragraph-1_1176 {
+    width: 100px;
+    left: 51.33%;
+    right: auto;
+    margin: 0;
+    text-align: center;
+    letter-spacing: 0;
+    white-space: nowrap;
+    transform: translateX(-50%);
 }
 </style>

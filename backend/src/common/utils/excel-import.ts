@@ -1,4 +1,5 @@
-import * as XLSX from 'xlsx';
+import { readSheet } from 'read-excel-file/node';
+import type { SheetData } from 'read-excel-file/types/SheetData';
 
 export type ImportErrorItem = {
   row: number;
@@ -20,22 +21,21 @@ export type ExcelColumn<T extends Record<string, any>> = {
   transform?: (value: string) => any;
 };
 
-export function parseExcelRows<T extends Record<string, any>>(
+export async function parseExcelRows<T extends Record<string, any>>(
   buffer: Buffer,
   columns: ExcelColumn<T>[],
-): { rows: Array<{ rowNumber: number; data: Partial<T> }>; errors: ImportErrorItem[] } {
-  const workbook = XLSX.read(buffer, { type: 'buffer' });
-  const sheetName = workbook.SheetNames[0];
-  if (!sheetName) {
-    return { rows: [], errors: [{ row: 0, message: '导入文件没有工作表' }] };
+): Promise<{ rows: Array<{ rowNumber: number; data: Partial<T> }>; errors: ImportErrorItem[] }> {
+  let matrix: SheetData;
+
+  try {
+    matrix = await readSheet(buffer, 1);
+  } catch {
+    return { rows: [], errors: [{ row: 0, message: '导入文件解析失败，请上传 .xlsx 格式文件' }] };
   }
 
-  const sheet = workbook.Sheets[sheetName];
-  const matrix = XLSX.utils.sheet_to_json<Array<string | number | null>>(sheet, {
-    header: 1,
-    defval: '',
-    raw: false,
-  });
+  if (matrix.length === 0) {
+    return { rows: [], errors: [{ row: 0, message: '导入文件没有工作表' }] };
+  }
 
   if (matrix.length < 2) {
     return { rows: [], errors: [{ row: 0, message: '导入文件至少需要表头和一行数据' }] };
@@ -120,5 +120,6 @@ function normalizeHeader(value: unknown) {
 }
 
 function toCellString(value: unknown) {
+  if (value instanceof Date) return value.toISOString().slice(0, 10);
   return String(value ?? '').trim();
 }

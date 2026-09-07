@@ -1,8 +1,9 @@
 ---
 name: annotation-prd-analyzer
+# 从需求文档抽功能点并分类成 JSON，要读懂语义再归类，用 sonnet
+model: sonnet
 description: 产品需求分析器，在生成页面标注前分析需求文档，输出完整的功能点清单（标注内容和分类）。不涉及 DOM 定位和选择器。由 annotation skill 在第一阶段调用。
 tools: Read, Glob, Grep
-model: sonnet
 memory: project
 color: purple
 ---
@@ -32,9 +33,9 @@ color: purple
 
 ### 第 1 步：加载内容规范
 
-读取 `.claude/agentpm-knowledge/` 目录下对应规范文件，并行获取：
-- category: `phase2-design/strategy` — 区域划分、什么该标
-- category: `phase2-design/content-format` — 内容格式、Markdown 表格、文案要求
+`Read` 以下规范（同一条消息内并行发起两次 Read）：
+- `.claude/agentpm-knowledge/phase2-design/strategy.md` — 区域划分、什么该标
+- `.claude/agentpm-knowledge/phase2-design/content-format.md` — 内容格式、Markdown 表格、文案要求
 
 ### 第 2 步：读取需求文档
 

@@ -20,13 +20,11 @@ description: 开发分支完成后的结构化收尾流程 — 验证测试、�
 
 ## 流程
 
-### Step 1: 验证测试
+### Step 1: 验证
 
-```bash
-cd admin && npx vue-tsc --noEmit && npx vite build
-```
+照 `.claude/commands/verify.md` 执行（探测各包 → 跑类型检查与 lint → 不跑构建）。
 
-测试失败 → 停止，修复后才能继续。
+检查失败 → 停止，报告错误，不要自动进入修改重跑的循环。
 
 ### Step 2: 检测环境
 
@@ -54,8 +52,7 @@ BASE_BRANCH=$(git merge-base --fork-point main HEAD 2>/dev/null && echo "main" |
 git checkout <base-branch>
 git pull
 git merge <feature-branch>
-# 验证合并后测试
-cd admin && npx vue-tsc --noEmit
+# 验证合并后仍通过检查（同 Step 1，照 verify.md 执行）
 # 成功后删除分支
 git branch -d <feature-branch>
 ```

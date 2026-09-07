@@ -17,7 +17,7 @@ const page = ref(1)
 const pageSize = ref(10)
 const total = ref(0)
 const dialogVisible = ref(false)
-const createDefaultFormData = () => ({
+const createDefaultFormData = (): Record<string, any> => ({
   title: '',
   type: '',
   content: '',

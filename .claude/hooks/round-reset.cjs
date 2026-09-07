@@ -9,5 +9,7 @@ const { clearState } = require('./lib/state.cjs');
 exports.run = () => {
   clearState('edited-files.txt');
   clearState('review-called.txt');
+  clearState('edit-churn.txt');
+  clearState('reminder-shown.txt'); // 新一轮重新允许提醒一次
   return null;
 };

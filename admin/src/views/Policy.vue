@@ -12,7 +12,7 @@ const searchForm = ref({ title: '', category: '' })
 const dialogVisible = ref(false)
 const dialogTitle = ref('新增政策文件')
 const formRef = ref()
-const formData = ref({
+const formData = ref<Record<string, any>>({
   title: '',
   summary: '',
   docNumber: '',
@@ -148,7 +148,7 @@ fetch()
       <div class="admin-table-panel__head">
         <div class="panel-title">政策文件列表</div>
         <div class="admin-table-panel__head-actions">
-          <el-button plain @click="fetch(searchForm.value)">
+          <el-button plain @click="fetch(searchForm)">
             <el-icon><RefreshRight /></el-icon>
             刷新
           </el-button>

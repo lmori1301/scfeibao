@@ -1,8 +1,10 @@
 ---
 name: annotation-code-locator
+# 功能点 → DOM 节点的结构映射，输出注入位置清单，不需要权衡，小模型足够。
+# 环境里没有 haiku 时删掉下面这行即可，删了就继承主对话模型，功能不受影响。
+model: haiku
 description: 代码定位分析器。接收功能点清单，读取页面代码，为每个功能点找到对应的 DOM 节点，并输出"需要在哪里插入哪个 class"的注入清单。完全不依赖 UI 库。由 annotation skill 在第二阶段调用。
 tools: Read, Glob, Grep
-model: sonnet
 color: cyan
 ---
 

@@ -1,8 +1,9 @@
 ---
 name: req-writer
+# 套模板写章节，但产出是用户要读的 SRS，行文质量有要求，故用 sonnet 而非 haiku
+model: sonnet
 description: SRS需求规格说明书撰写者，根据 req-analyzer 输出的功能摘要和规范，撰写符合 PRD 语言规范的功能详细设计章节。由 req-doc skill 在生成/局部完善模式中调用。
 tools: Read
-model: sonnet
 color: green
 memory: project
 ---

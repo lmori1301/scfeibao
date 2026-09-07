@@ -7,6 +7,7 @@ import {
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { ResponseDto } from '../dto/response.dto';
+import { stripTestDataMarker } from '../utils/test-data-marker';
 
 @Injectable()
 export class TransformInterceptor<T>
@@ -19,9 +20,10 @@ export class TransformInterceptor<T>
     return next.handle().pipe(
       map((data) => {
         if (data instanceof ResponseDto) {
+          data.data = stripTestDataMarker(data.data);
           return data;
         }
-        return ResponseDto.success(data);
+        return ResponseDto.success(stripTestDataMarker(data));
       }),
     );
   }

@@ -27,7 +27,7 @@ export class News extends BaseEntity {
   @Column({ type: 'tinyint', default: 1, comment: '状态：1-已发布，0-草稿' })
   status: number;
 
-  @Column({ type: 'datetime', nullable: true, comment: '发布时间' })
+  @Column({ name: 'published_at', type: 'timestamp', default: () => 'CURRENT_TIMESTAMP', comment: '发布时间' })
   publishedAt: Date;
 
   @Column({ type: 'int', default: 0, comment: '排序' })

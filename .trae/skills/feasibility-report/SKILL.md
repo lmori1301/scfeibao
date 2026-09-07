@@ -333,7 +333,7 @@ bash .claude/skills/common/export-word.sh <markdown文件路径> feasibility-rep
 **Step 3：反馈结果**
 
 - 导出成功：告知用户文件已生成，路径为 `docs/01-需求与规划/<文件名>.docx`
-- 导出失败：检查 `.claude/skills/common/config.json` 中的 `apiBaseUrl` 是否配置正确
+- 导出失败：检查 `.claude/skills/config.json` 中的 `apiBaseUrl` 是否配置正确
 
 ---
 

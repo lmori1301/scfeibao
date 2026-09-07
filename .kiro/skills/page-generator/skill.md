@@ -15,8 +15,9 @@ description: >
 每次生成功能页面，必须严格按以下 5 个步骤执行，每步都要有结果输出。
 
 > **重要**：项目特有约定（目录结构、命名规范、路由方式、导航方式、全局样式等）
-> 全部从 `.claude/agentpm-knowledge/phase3-development/project.md` 读取。
-> 若该文件不存在，则在步骤 2 中通过读取项目文件自行推断。
+> 由步骤 2 的 `page-spec-loader` agent 统一加载并返回，**主流程不要自己再读知识库文件**。
+> 规范加载放在子 agent 里是有意的：它带项目级记忆缓存，同一子项目内第二次起直接命中，
+> 主流程重复读一遍既慢又白占上下文。步骤 3 之后需要什么约定，用步骤 2 的返回值。
 
 > **多子项目说明**：若工作目录下存在多个子项目（如 `admin/`、`mobile/`），
 > 步骤 1 必须先确定目标子项目，后续所有路径均以**子项目根目录**为基准。
@@ -119,7 +120,7 @@ description: >
 
 ## 步骤 2：规范加载与组件规划
 
-**目标**：调用 `spec-loader` agent 按需加载规范并规划组件，只读取当前功能实际需要的内容。
+**目标**：调用 `page-spec-loader` agent 加载规范并规划组件。它带项目级记忆缓存，同一子项目第二次起直接命中，只有「组件规划」会重新做。
 
 执行动作：
 使用 `Agent` 工具，`subagent_type: "page-spec-loader"`，传入以下 prompt（将占位符替换为实际值）：
@@ -217,7 +218,7 @@ description: >
 执行顺序（必须串行，有依赖关系）：
 
 **5.1 路由注册**
-- 按项目规范（从 `.claude/agentpm-knowledge/phase3-development/project.md` 或步骤 2 推断）注册路由
+- 按步骤 2 返回的路由约定注册（不要为此再读知识库文件）
 - 可能是：新建路由模块文件 → 在入口文件注册；或直接在单一路由文件追加；或文件路由（无需手动注册）
 
 **5.2 导航更新**
@@ -346,13 +347,15 @@ Phase 1 进度：{已完成}/{总数}
 
 ## 参考资源索引
 
-> **规范库位置**：本地知识库，通过 Read(".claude/agentpm-knowledge/{category}.md") 加载。
-> **加载方式**：Step 2 通过 `spec-loader` agent 按需加载，不会一次性读取所有文件。
-> **查看目录**：调用 Read(".claude/agentpm-knowledge/catalog.json") 获取所有可用 category。
+> **加载方式**：由 Step 2 的 `page-spec-loader` agent 统一处理，主流程不直接读这些文件。
+> 该 agent 带项目级记忆缓存，同一子项目第二次起直接命中。
+> **查看目录**：`.claude/agentpm-knowledge/catalog.json`。
+
+项目目录结构、命名规范、路由方式、全局样式这些**不看文档，由 loader 从项目代码推断**。
+下表只列 UI 库相关的可选参考。
 
 | category | 用途 | 加载时机 |
 |---------|------|---------|
-| `phase3-development/project` | 项目目录结构、命名规范、全局样式、导航结构 | 始终加载 |
 | `phase2-design/ui-libs/ant-design-vue/components` | Ant Design Vue 组件用法规范 | 仅 ant-design-vue 项目 |
 | `phase2-design/ui-libs/ant-design-vue/pages` | Ant Design Vue 页面布局规范 | 仅 ant-design-vue 项目 |
 | `phase2-design/ui-libs/element-plus/components` | Element Plus 组件用法规范 | 仅 element-plus 项目 |

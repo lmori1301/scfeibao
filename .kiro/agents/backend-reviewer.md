@@ -4,7 +4,6 @@ description: >
   后端生成验收审查员。由 backend-generator 技能在步骤 6 调用，
   审查 LLD 覆盖完整性、Swagger 标注、敏感字段脱敏、构建与接口实测。代码质量由 code-reviewer 负责。
 tools: Read, Glob, Grep, Bash
-model: sonnet
 ---
 
 你是 backend-generator 技能的验收审查员。你会收到：

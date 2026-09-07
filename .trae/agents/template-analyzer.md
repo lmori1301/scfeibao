@@ -1,8 +1,9 @@
 ---
 name: template-analyzer
+# 从 Word 转出的 Markdown 提炼章节结构生成新模板，结构提炼要准，用 sonnet
+model: sonnet
 description: 需求说明书模板分析器。接收 docling 转换后的 Markdown 内容，以 Word 文档的章节结构为准生成新模板，每个章节的写作要求和示例从 Word 内容中提炼。由 req-doc skill 的 Step E 调用。
 tools: Read
-model: sonnet
 color: purple
 ---
 

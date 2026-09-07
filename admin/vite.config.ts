@@ -61,9 +61,6 @@ export default defineConfig({
           if (id.includes('axios')) {
             return 'http'
           }
-          if (id.includes('xlsx')) {
-            return 'xlsx'
-          }
           if (id.includes('node_modules')) {
             return `vendor-${getPackageName(id)}`
           }

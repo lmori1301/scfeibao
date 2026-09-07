@@ -2,7 +2,6 @@
 name: req-reviewer
 description: SRS需求规格说明书审查者，独立审查 req-writer 输出的章节内容，从语言规范、章节结构、功能三要素、提示文案、内容分级合规五个维度逐项检查，输出审查报告。由 req-doc skill 在每个功能模块写完后调用。
 tools: Read
-model: sonnet
 color: orange
 ---
 
@@ -21,10 +20,10 @@ color: orange
 
 ### 第 1 步：加载审查规范（并行调用）
 
-读取 `.claude/agentpm-knowledge/` 目录下对应规范文件，并行获取：
-- category: `phase1-requirements/prd-language`
-- category: `phase1-requirements/srs-quality-checklist`
-- category: `phase1-requirements/section-format`
+直接 `Read` 以下本地规范文件（同一条消息内并行发起三次 Read，不要串行等待）：
+- `.claude/agentpm-knowledge/phase1-requirements/prd-language.md`
+- `.claude/agentpm-knowledge/phase1-requirements/srs-quality-checklist.md`
+- `.claude/agentpm-knowledge/phase1-requirements/section-format.md`
 
 ### 第 2 步：逐维度审查
 

@@ -6,15 +6,19 @@
     "db:migrate:personnel": "node scripts/run-personnel-migration.mjs",
     "db:migrate:certificate-photo": "node scripts/run-certificate-photo-migration.mjs",
     "db:migrate:photo-url-text": "node scripts/run-photo-url-text-migration.mjs",
+    "db:migrate:news-published-at": "node scripts/run-news-published-at-migration.mjs",
+    "data:test:seed": "node --env-file-if-exists=.env scripts/manage-site-test-data.mjs seed",
+    "data:test:status": "node --env-file-if-exists=.env scripts/manage-site-test-data.mjs status",
+    "data:test:clean": "node --env-file-if-exists=.env scripts/manage-site-test-data.mjs clean",
     "dev": "npm run start:dev",
     "build": "nest build",
     "format": "prettier --write \"src/**/*.ts\"",
     "start": "nest start",
     "start:dev": "nest start --watch",
     "start:debug": "nest start --debug --watch",
-    "start:prod": "node dist/main",
+    "start:prod": "npm run db:migrate:news-published-at && node dist/main",
     "admin:create": "node create-admin.js",
-    "test": "node --test -r ts-node/register src/modules/auth/auth.service.spec.ts src/modules/auth/jwt.strategy.spec.ts src/modules/admin-users/admin-user.service.spec.ts src/common/guards/permission.guard.spec.ts src/common/guards/must-change-password.guard.spec.ts src/common/security/password-policy.spec.ts scripts/create-admin-config.test.js"
+    "test": "node --test -r ts-node/register src/modules/auth/auth.service.spec.ts src/modules/auth/jwt.strategy.spec.ts src/modules/admin-users/admin-user.service.spec.ts src/modules/news/news.entity.spec.ts src/modules/news/news.service.spec.ts src/common/interceptors/transform.interceptor.spec.ts src/common/guards/permission.guard.spec.ts src/common/guards/must-change-password.guard.spec.ts src/common/security/password-policy.spec.ts scripts/create-admin-config.test.js scripts/manage-site-test-data.test.js scripts/restore-dynamic-news-data.test.js"
   },
   "keywords": [],
   "author": "",
@@ -28,7 +32,7 @@
     "@nestjs/jwt": "^11.0.2",
     "@nestjs/passport": "^11.0.5",
     "@nestjs/platform-express": "^11.1.13",
-    "@nestjs/swagger": "11.4.5",
+    "@nestjs/swagger": "^11.4.6",
     "@nestjs/typeorm": "^11.0.0",
     "@types/qrcode": "^1.5.6",
     "bcrypt": "^6.0.0",
@@ -39,12 +43,12 @@
     "passport": "^0.7.0",
     "passport-jwt": "^4.0.1",
     "qrcode": "^1.5.4",
+    "read-excel-file": "^9.3.5",
     "reflect-metadata": "^0.2.2",
     "rxjs": "^7.8.2",
     "sharp": "^0.35.3",
     "swagger-ui-express": "^5.0.1",
-    "typeorm": "^0.3.28",
-    "xlsx": "^0.18.5"
+    "typeorm": "^0.3.28"
   },
   "devDependencies": {
     "@nestjs/cli": "^11.0.16",
@@ -57,5 +61,8 @@
     "ts-node": "^10.9.2",
     "ts-node-dev": "^2.0.0",
     "typescript": "^5.9.3"
+  },
+  "overrides": {
+    "js-yaml": "5.2.3"
   }
 }

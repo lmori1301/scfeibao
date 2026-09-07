@@ -1,4 +1,6 @@
 import mysql from 'mysql2/promise'
+import { pathToFileURL } from 'node:url'
+import { migrateNewsPublishedAt } from './run-news-published-at-migration.mjs'
 
 const connectionConfig = {
   host: process.env.DB_HOST || '127.0.0.1',
@@ -71,6 +73,26 @@ const rows = [
   ['媒体播报', '联勤联动机制建设获报道', '提升跨区域协同救援能力', '媒体关注四川飞豹救援联勤联动机制建设，展示多部门协同处置能力。', imagePool[14], 55, 0, 0],
 ]
 
+export const SMOKE_NEWS_TITLES = ['本地Smoke新闻']
+
+export function isSmokeNewsRow(row) {
+  return SMOKE_NEWS_TITLES.includes(row?.title)
+}
+
+export function smokeCleanupQuery() {
+  return {
+    sql: `DELETE FROM \`news\` WHERE \`title\` IN (${SMOKE_NEWS_TITLES.map(() => '?').join(', ')})`,
+    params: SMOKE_NEWS_TITLES,
+  }
+}
+
+async function cleanupSmokeRows(connection) {
+  const query = smokeCleanupQuery()
+  const [result] = await connection.query(query.sql, query.params)
+
+  return Number(result.affectedRows || 0)
+}
+
 async function insertMissingByTitle(connection) {
   let inserted = 0
   for (const [category, title, summary, content, coverImage, sort, isHeadline, isNew] of rows) {
@@ -78,7 +100,7 @@ async function insertMissingByTitle(connection) {
     if (Number(existing.total || 0) > 0) continue
 
     await connection.query(
-      'INSERT INTO `news` (`title`, `summary`, `content`, `coverImage`, `category`, `author`, `status`, `publishedAt`, `sort`, `isHeadline`, `isNew`, `created_at`, `updated_at`) VALUES (?, ?, ?, ?, ?, ?, 1, ?, ?, ?, ?, ?, ?)',
+      'INSERT INTO `news` (`title`, `summary`, `content`, `coverImage`, `category`, `author`, `status`, `published_at`, `sort`, `isHeadline`, `isNew`, `created_at`, `updated_at`) VALUES (?, ?, ?, ?, ?, ?, 1, ?, ?, ?, ?, ?, ?)',
       [title, summary, content, coverImage, category, '新闻宣传处', now, sort, isHeadline, isNew, now, now],
     )
     inserted += 1
@@ -95,12 +117,15 @@ async function categorySummary(connection) {
 
 async function main() {
   const connection = await mysql.createConnection(connectionConfig)
-  await connection.beginTransaction()
 
   try {
+    await migrateNewsPublishedAt(connection)
+    await connection.beginTransaction()
+    const cleaned = await cleanupSmokeRows(connection)
     const inserted = await insertMissingByTitle(connection)
     const summary = await categorySummary(connection)
     await connection.commit()
+    console.log(`dynamic news smoke cleaned: ${cleaned}`)
     console.log(`dynamic news inserted: ${inserted}`)
     console.table(summary)
   } catch (error) {
@@ -111,7 +136,9 @@ async function main() {
   }
 }
 
-main().catch((error) => {
-  console.error(error)
-  process.exit(1)
-})
+if (import.meta.url === pathToFileURL(process.argv[1]).href) {
+  main().catch((error) => {
+    console.error(error)
+    process.exit(1)
+  })
+}
