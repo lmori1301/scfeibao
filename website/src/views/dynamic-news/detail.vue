@@ -429,7 +429,7 @@ watch(() => route.params.id, (newId, oldId) => {
   max-width: 1373px;
   margin: 0 auto;
   color: #585858;
-  font-size: 46px;
+  font-size: 40px;
   font-family: "FZHei-B01S-Regular";
   font-weight: 400;
   line-height: 70px;
