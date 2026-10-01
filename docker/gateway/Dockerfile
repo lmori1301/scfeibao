@@ -19,7 +19,7 @@ COPY admin/package.json admin/package-lock.json ./
 RUN npm ci
 COPY admin/ ./
 ARG VITE_APP_BASE_API=/api
-ARG VITE_ROUTER_BASE=/admin/
+ARG VITE_ROUTER_BASE=/
 ARG VITE_PORTAL_PUBLIC_URL=
 ARG VITE_AMAP_KEY=
 ARG VITE_AMAP_SECURITY_JSCODE=
