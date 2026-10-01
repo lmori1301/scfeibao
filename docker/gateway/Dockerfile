@@ -19,7 +19,7 @@ COPY admin/package.json admin/package-lock.json ./
 RUN npm ci
 COPY admin/ ./
 ARG VITE_APP_BASE_API=/api
-ARG VITE_ROUTER_BASE=/
+ARG VITE_ROUTER_BASE=/admin/
 ARG VITE_PORTAL_PUBLIC_URL=
 ARG VITE_AMAP_KEY=
 ARG VITE_AMAP_SECURITY_JSCODE=
@@ -36,7 +36,7 @@ COPY docker/nginx/gateway.conf /etc/nginx/conf.d/default.conf
 COPY --from=website-build /app/dist /usr/share/nginx/html
 COPY --from=admin-build /app/dist /usr/share/nginx/html/admin
 
-EXPOSE 80 8080
+EXPOSE 80
 
 HEALTHCHECK --interval=30s --timeout=5s --start-period=10s --retries=3 \
   CMD wget -qO- http://127.0.0.1/healthz || exit 1
