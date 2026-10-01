@@ -44,7 +44,7 @@ services:
       DB_DATABASE: ${DB_DATABASE:-scfeibao}
       JWT_SECRET: ${JWT_SECRET:?请在 .env 中设置 JWT_SECRET}
       ALLOW_PUBLIC_REGISTRATION: ${ALLOW_PUBLIC_REGISTRATION:-false}
-      CORS_ORIGIN: ${CORS_ORIGIN:-https://www.scfb.org.cn,https://admin.scfb.org.cn}
+      CORS_ORIGIN: ${CORS_ORIGIN:-https://www.scfb.org.cn}
       PORTAL_PUBLIC_URL: ${PORTAL_PUBLIC_URL:-https://www.scfb.org.cn}
       PERSONNEL_QRCODE_PUBLIC_URL: ${PERSONNEL_QRCODE_PUBLIC_URL:-https://www.scfb.org.cn}
       AMAP_WEB_KEY: ${AMAP_WEB_KEY:-}
@@ -65,10 +65,8 @@ services:
     image: ghcr.io/${IMAGE_OWNER:-lmori1301}/scfeibao-gateway:${IMAGE_TAG:-latest}
     restart: unless-stopped
     ports:
-      # 官网：只暴露给本机，宝塔反代出去
+      # 官网 + 后台(/admin/) 统一走 80 端口，只暴露给本机，由宝塔 Nginx 反代
       - "127.0.0.1:${WEBSITE_PORT:-8081}:80"
-      # 管理后台：只暴露给本机，宝塔反代出去
-      - "127.0.0.1:${ADMIN_PORT:-8080}:8080"
     depends_on:
       backend:
         condition: service_healthy

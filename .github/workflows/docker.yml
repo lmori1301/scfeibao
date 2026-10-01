@@ -68,6 +68,7 @@ jobs:
           push: true
           build-args: |
             VITE_APP_BASE_API=/api
+            VITE_ROUTER_BASE=/admin/
             VITE_PORTAL_PUBLIC_URL=${{ steps.gateway-args.outputs.portal_url }}
             VITE_AMAP_KEY=${{ secrets.VITE_AMAP_KEY }}
             VITE_AMAP_SECURITY_JSCODE=${{ secrets.VITE_AMAP_SECURITY_JSCODE }}
