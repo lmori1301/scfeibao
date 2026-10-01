@@ -127,9 +127,12 @@ async function bootstrap() {
     }),
   );
 
-  // CORS 配置
+  // CORS 配置：生产环境支持逗号分隔的多域名
+  const allowedOrigins = process.env.CORS_ORIGIN
+    ? process.env.CORS_ORIGIN.split(',').map((o) => o.trim())
+    : ['http://localhost:5173'];
   app.enableCors({
-    origin: process.env.NODE_ENV === 'development' ? true : (process.env.CORS_ORIGIN || 'http://localhost:5173'),
+    origin: process.env.NODE_ENV === 'development' ? true : allowedOrigins,
     credentials: true,
   });
 

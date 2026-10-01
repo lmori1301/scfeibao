@@ -1,0 +1,84 @@
+name: scfeibao
+
+# 四川飞豹救援 - 生产部署（GitHub Actions 自动构建 + GHCR 镜像）
+# 服务器端只需本文件 + .env，无需上传源码。
+
+services:
+  mysql:
+    image: mysql:8.4
+    restart: unless-stopped
+    environment:
+      TZ: Asia/Shanghai
+      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD:?请在 .env 中设置 MYSQL_ROOT_PASSWORD}
+      MYSQL_DATABASE: ${DB_DATABASE:-scfeibao}
+      MYSQL_USER: ${DB_USERNAME:-scfeibao}
+      MYSQL_PASSWORD: ${DB_PASSWORD:?请在 .env 中设置 DB_PASSWORD}
+    command:
+      - --character-set-server=utf8mb4
+      - --collation-server=utf8mb4_unicode_ci
+      - --default-time-zone=+08:00
+    volumes:
+      - mysql_data:/var/lib/mysql
+      - ./docker/mysql/init:/docker-entrypoint-initdb.d:ro
+    healthcheck:
+      test: ["CMD-SHELL", "mysqladmin ping -h 127.0.0.1 -uroot -p\"$${MYSQL_ROOT_PASSWORD}\" --silent"]
+      interval: 10s
+      timeout: 5s
+      retries: 12
+      start_period: 30s
+    networks:
+      - internal
+
+  backend:
+    image: ghcr.io/${IMAGE_OWNER:-lmori1301}/scfeibao-server:${IMAGE_TAG:-latest}
+    restart: unless-stopped
+    environment:
+      NODE_ENV: production
+      HOST: 0.0.0.0
+      PORT: 3003
+      API_PREFIX: api
+      DB_HOST: mysql
+      DB_PORT: 3306
+      DB_USERNAME: ${DB_USERNAME:-scfeibao}
+      DB_PASSWORD: ${DB_PASSWORD:?请在 .env 中设置 DB_PASSWORD}
+      DB_DATABASE: ${DB_DATABASE:-scfeibao}
+      JWT_SECRET: ${JWT_SECRET:?请在 .env 中设置 JWT_SECRET}
+      ALLOW_PUBLIC_REGISTRATION: ${ALLOW_PUBLIC_REGISTRATION:-false}
+      CORS_ORIGIN: ${CORS_ORIGIN:-https://www.scfb.org.cn,https://admin.scfb.org.cn}
+      PORTAL_PUBLIC_URL: ${PORTAL_PUBLIC_URL:-https://www.scfb.org.cn}
+      PERSONNEL_QRCODE_PUBLIC_URL: ${PERSONNEL_QRCODE_PUBLIC_URL:-https://www.scfb.org.cn}
+      AMAP_WEB_KEY: ${AMAP_WEB_KEY:-}
+      AMAP_SECURITY_JSCODE: ${AMAP_SECURITY_JSCODE:-}
+      UPLOAD_PATH: /app/uploads
+      TZ: Asia/Shanghai
+    volumes:
+      - backend_uploads:/app/uploads
+    depends_on:
+      mysql:
+        condition: service_healthy
+    expose:
+      - "3003"
+    networks:
+      - internal
+
+  gateway:
+    image: ghcr.io/${IMAGE_OWNER:-lmori1301}/scfeibao-gateway:${IMAGE_TAG:-latest}
+    restart: unless-stopped
+    ports:
+      # 官网：只暴露给本机，宝塔反代出去
+      - "127.0.0.1:${WEBSITE_PORT:-8081}:80"
+      # 管理后台：只暴露给本机，宝塔反代出去
+      - "127.0.0.1:${ADMIN_PORT:-8080}:8080"
+    depends_on:
+      backend:
+        condition: service_healthy
+    networks:
+      - internal
+
+networks:
+  internal:
+    driver: bridge
+
+volumes:
+  mysql_data:
+  backend_uploads:

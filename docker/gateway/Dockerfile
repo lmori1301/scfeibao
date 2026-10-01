@@ -36,7 +36,7 @@ COPY docker/nginx/gateway.conf /etc/nginx/conf.d/default.conf
 COPY --from=website-build /app/dist /usr/share/nginx/html
 COPY --from=admin-build /app/dist /usr/share/nginx/html/admin
 
-EXPOSE 80
+EXPOSE 80 8080
 
 HEALTHCHECK --interval=30s --timeout=5s --start-period=10s --retries=3 \
   CMD wget -qO- http://127.0.0.1/healthz || exit 1
