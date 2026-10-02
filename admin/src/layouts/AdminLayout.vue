@@ -41,7 +41,7 @@ import { useSessionUser } from '@/utils/session-user'
 const route = useRoute()
 const router = useRouter()
 const notificationCount = ref(0)
-const brandLogo = '/Vector_4_567.png'
+const brandLogo = `${import.meta.env.BASE_URL}Vector_4_567.png`
 
 const groupOpenState = reactive<Record<string, boolean>>(
   Object.fromEntries(navigationGroups.map((group) => [group.id, group.id === 'overview']))
