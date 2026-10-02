@@ -77,6 +77,7 @@ export const navigationGroups: AdminRouteGroup[] = [
       { path: 'team-units', name: 'TeamUnits', title: '队伍字典', icon: 'CollectionTag', description: '维护地理位置等模块使用的固定队伍名称字典。', component: () => import('@/views/TeamUnits.vue') },
       { path: 'location', name: 'Location', title: '地理位置', icon: 'Location', description: '维护官网展示的地理位置信息。', component: () => import('@/views/Location.vue') },
       { path: 'party', name: 'Party', title: '党建专栏', icon: 'Flag', description: '维护党建栏目与专题内容。', component: () => import('@/views/Party.vue') },
+      { path: 'party-members', name: 'PartyMembers', title: '党员管理', icon: 'Medal', description: '维护党员先锋栏目的党员信息与头像。', component: () => import('@/views/PartyMembers.vue') },
       { path: 'team-intro', name: 'TeamIntro', title: '队伍介绍', icon: 'Promotion', description: '维护队伍介绍与文字内容。', component: () => import('@/views/TeamIntro.vue') },
       { path: 'rescue-cases', name: 'RescueCases', title: '救援案例', icon: 'Collection', description: '维护救援案例与图文内容。', component: () => import('@/views/RescueCases.vue') },
       { path: 'team-style', name: 'TeamStyle', title: '队伍风采', icon: 'PictureFilled', description: '维护队伍风采图文展示。', component: () => import('@/views/TeamStyle.vue') }

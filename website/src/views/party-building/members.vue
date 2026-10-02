@@ -27,7 +27,7 @@
             <!-- 动态文章列表 -->
             <template v-if="paginatedMembers.length > 0">
                 <!-- 第一条 -->
-                <div v-if="paginatedMembers[0]" id="1_1533" class="Pixso-vector-1_1533" @click="goToDetail(paginatedMembers[0].id)" style="cursor: pointer;"></div>
+                <div v-if="paginatedMembers[0]" id="1_1533" class="Pixso-vector-1_1533" :style="memberCoverStyle(paginatedMembers[0])" @click="goToDetail(paginatedMembers[0].id)" style="cursor: pointer;"></div>
                 <div v-if="paginatedMembers[0]" id="1_1545" class="Pixso-vector-1_1545"></div>
                 <p v-if="paginatedMembers[0]" id="6_736" class="Pixso-paragraph-6_736">{{ formatDate(paginatedMembers[0].publishDate).year }}</p>
                 <p v-if="paginatedMembers[0]" id="6_737" class="Pixso-paragraph-6_737">{{ formatDate(paginatedMembers[0].publishDate).day }}</p>
@@ -35,7 +35,7 @@
                 <p v-if="paginatedMembers[0]" id="1_1563" class="Pixso-paragraph-1_1563">{{ paginatedMembers[0].summary }}</p>
 
                 <!-- 第二条 -->
-                <div v-if="paginatedMembers[1]" id="1_1536" class="Pixso-vector-1_1536" @click="goToDetail(paginatedMembers[1].id)" style="cursor: pointer;"></div>
+                <div v-if="paginatedMembers[1]" id="1_1536" class="Pixso-vector-1_1536" :style="memberCoverStyle(paginatedMembers[1])" @click="goToDetail(paginatedMembers[1].id)" style="cursor: pointer;"></div>
                 <div v-if="paginatedMembers[1]" id="1_1546" class="Pixso-vector-1_1546"></div>
                 <p v-if="paginatedMembers[1]" id="1_1555" class="Pixso-paragraph-1_1555">{{ formatDate(paginatedMembers[1].publishDate).year }}</p>
                 <p v-if="paginatedMembers[1]" id="1_1556" class="Pixso-paragraph-1_1556">{{ formatDate(paginatedMembers[1].publishDate).day }}</p>
@@ -43,7 +43,7 @@
                 <p v-if="paginatedMembers[1]" id="1_1564" class="Pixso-paragraph-1_1564">{{ paginatedMembers[1].summary }}</p>
 
                 <!-- 第三条 -->
-                <div v-if="paginatedMembers[2]" id="1_1539" class="Pixso-vector-1_1539" @click="goToDetail(paginatedMembers[2].id)" style="cursor: pointer;"></div>
+                <div v-if="paginatedMembers[2]" id="1_1539" class="Pixso-vector-1_1539" :style="memberCoverStyle(paginatedMembers[2])" @click="goToDetail(paginatedMembers[2].id)" style="cursor: pointer;"></div>
                 <div v-if="paginatedMembers[2]" id="1_1547" class="Pixso-vector-1_1547"></div>
                 <p v-if="paginatedMembers[2]" id="1_1558" class="Pixso-paragraph-1_1558">{{ formatDate(paginatedMembers[2].publishDate).year }}</p>
                 <p v-if="paginatedMembers[2]" id="1_1559" class="Pixso-paragraph-1_1559">{{ formatDate(paginatedMembers[2].publishDate).day }}</p>
@@ -51,7 +51,7 @@
                 <p v-if="paginatedMembers[2]" id="1_1565" class="Pixso-paragraph-1_1565">{{ paginatedMembers[2].summary }}</p>
 
                 <!-- 第四条 -->
-                <div v-if="paginatedMembers[3]" id="1_1542" class="Pixso-vector-1_1542" @click="goToDetail(paginatedMembers[3].id)" style="cursor: pointer;"></div>
+                <div v-if="paginatedMembers[3]" id="1_1542" class="Pixso-vector-1_1542" :style="memberCoverStyle(paginatedMembers[3])" @click="goToDetail(paginatedMembers[3].id)" style="cursor: pointer;"></div>
                 <div v-if="paginatedMembers[3]" id="1_1548" class="Pixso-vector-1_1548"></div>
                 <p v-if="paginatedMembers[3]" id="1_1561" class="Pixso-paragraph-1_1561">{{ formatDate(paginatedMembers[3].publishDate).year }}</p>
                 <p v-if="paginatedMembers[3]" id="1_1562" class="Pixso-paragraph-1_1562">{{ formatDate(paginatedMembers[3].publishDate).day }}</p>
@@ -131,6 +131,7 @@ import { getPartyMembers } from '@/api/party-building'
 import { useRouter } from 'vue-router'
 import Pagination from '@/components/common/Pagination.vue'
 import { usePixsoScale } from '@/composables/use-pixso-scale'
+import { normalizeMediaUrl } from '@/utils/photo-urls'
 
 const { scrollContainerRef, frameRef } = usePixsoScale(1920, 1892)
 const router = useRouter()
@@ -172,6 +173,13 @@ function goToDetail(id: number) {
   router.push(`/party-building/members/${id}`)
 }
 
+// 党员头像：后台已上传则用真实头像，未上传时保留设计稿默认底图（CSS 里的静态图）
+function memberCoverStyle(m: any) {
+  const src = m?.avatar
+  if (!src) return {}
+  return { backgroundImage: `url(${src})`, backgroundSize: '100% 100%' }
+}
+
 async function fetchMembers() {
   try {
     const res = await getPartyMembers({ page: currentPage.value, pageSize: pageSize.value })
@@ -180,7 +188,8 @@ async function fetchMembers() {
       id: item.id,
       title: item.title || item.name || item.position || '',
       summary: item.summary || item.description || item.introduction || item.position || '',
-      publishDate: item.publishDate || item.createdAt || ''
+      publishDate: item.publishDate || item.createdAt || '',
+      avatar: normalizeMediaUrl(item.avatar || item.photo || '')
     }))
     totalMembers.value = res.data?.total || 0
   } catch (error) {

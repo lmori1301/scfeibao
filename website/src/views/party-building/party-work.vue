@@ -36,7 +36,7 @@
           </template>
           <template v-else-if="articleList.length > 0">
               <!-- 第一条：左侧日期 + 右侧内容 -->
-              <div v-if="articleList[0]" id="1_1149" class="Pixso-vector-1_1149" @click="goToDetail(articleList[0].id)" style="cursor: pointer;"></div>
+              <div v-if="articleList[0]" id="1_1149" class="Pixso-vector-1_1149" :style="articleCoverStyle(articleList[0])" @click="goToDetail(articleList[0].id)" style="cursor: pointer;"></div>
               <div v-if="articleList[0]" id="1_1161" class="Pixso-vector-1_1161"></div>
               <p v-if="articleList[0]" id="1_1166" class="Pixso-paragraph-1_1166">{{ formatDate(articleList[0].publishDate).year }}</p>
               <p v-if="articleList[0]" id="1_1167" class="Pixso-paragraph-1_1167">{{ formatDate(articleList[0].publishDate).day }}</p>
@@ -44,7 +44,7 @@
               <p v-if="articleList[0]" id="1_1177" class="Pixso-paragraph-1_1177">{{ articleList[0].summary || (articleList[0].content?.substring(0, 80) + '...') }}</p>
               
               <!-- 第二条 -->
-              <div v-if="articleList[1]" id="1_1152" class="Pixso-vector-1_1152" @click="goToDetail(articleList[1].id)" style="cursor: pointer;"></div>
+              <div v-if="articleList[1]" id="1_1152" class="Pixso-vector-1_1152" :style="articleCoverStyle(articleList[1])" @click="goToDetail(articleList[1].id)" style="cursor: pointer;"></div>
               <div v-if="articleList[1]" id="1_1162" class="Pixso-vector-1_1162"></div>
               <p v-if="articleList[1]" id="1_1169" class="Pixso-paragraph-1_1169">{{ formatDate(articleList[1].publishDate).year }}</p>
               <p v-if="articleList[1]" id="1_1170" class="Pixso-paragraph-1_1170">{{ formatDate(articleList[1].publishDate).day }}</p>
@@ -52,7 +52,7 @@
               <p v-if="articleList[1]" id="1_1178" class="Pixso-paragraph-1_1178">{{ articleList[1].summary || (articleList[1].content?.substring(0, 80) + '...') }}</p>
               
               <!-- 第三条 -->
-              <div v-if="articleList[2]" id="1_1155" class="Pixso-vector-1_1155" @click="goToDetail(articleList[2].id)" style="cursor: pointer;"></div>
+              <div v-if="articleList[2]" id="1_1155" class="Pixso-vector-1_1155" :style="articleCoverStyle(articleList[2])" @click="goToDetail(articleList[2].id)" style="cursor: pointer;"></div>
               <div v-if="articleList[2]" id="1_1163" class="Pixso-vector-1_1163"></div>
               <p v-if="articleList[2]" id="1_1172" class="Pixso-paragraph-1_1172">{{ formatDate(articleList[2].publishDate).year }}</p>
               <p v-if="articleList[2]" id="1_1173" class="Pixso-paragraph-1_1173">{{ formatDate(articleList[2].publishDate).day }}</p>
@@ -60,7 +60,7 @@
               <p v-if="articleList[2]" id="1_1179" class="Pixso-paragraph-1_1179">{{ articleList[2].summary || (articleList[2].content?.substring(0, 80) + '...') }}</p>
               
               <!-- 第四条 -->
-              <div v-if="articleList[3]" id="1_1158" class="Pixso-vector-1_1158" @click="goToDetail(articleList[3].id)" style="cursor: pointer;"></div>
+              <div v-if="articleList[3]" id="1_1158" class="Pixso-vector-1_1158" :style="articleCoverStyle(articleList[3])" @click="goToDetail(articleList[3].id)" style="cursor: pointer;"></div>
               <div v-if="articleList[3]" id="1_1164" class="Pixso-vector-1_1164"></div>
               <p v-if="articleList[3]" id="1_1175" class="Pixso-paragraph-1_1175">{{ formatDate(articleList[3].publishDate).year }}</p>
               <p v-if="articleList[3]" id="1_1176" class="Pixso-paragraph-1_1176">{{ formatDate(articleList[3].publishDate).day }}</p>
@@ -143,6 +143,7 @@ import { getPartyWorkList } from '@/api/party-building'
 import type { PartyWorkItem } from '@/types/party'
 import Pagination from '@/components/common/Pagination.vue'
 import { usePixsoScale } from '@/composables/use-pixso-scale'
+import { normalizeMediaUrl } from '@/utils/photo-urls'
 
 const { scrollContainerRef, frameRef } = usePixsoScale(1920, 1892)
 const router = useRouter()
@@ -282,6 +283,13 @@ const handleJumpPage = () => {
 // 跳转到详情页
 const goToDetail = (id: number) => {
   router.push(`/party-building/party-work/${id}`)
+}
+
+// 党建封面：后台已上传则用真实封面，未上传时保留设计稿默认底图（CSS 里的静态图）
+const articleCoverStyle = (a: any) => {
+  const src = a?.coverImage ? normalizeMediaUrl(a.coverImage) : ''
+  if (!src) return {}
+  return { backgroundImage: `url(${src})`, backgroundSize: '100% 100%' }
 }
 
 // 组件挂载时获取数据

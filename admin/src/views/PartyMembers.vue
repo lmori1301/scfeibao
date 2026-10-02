@@ -3,6 +3,7 @@ import { onMounted, ref } from 'vue'
 import { Plus, RefreshRight } from '@element-plus/icons-vue'
 import { ElMessage, ElMessageBox } from 'element-plus'
 import Pagination from '@/components/Pagination.vue'
+import ImageUpload from '@/components/ImageUpload.vue'
 import http from '@/utils/http'
 
 const loading = ref(false)
@@ -133,7 +134,7 @@ onMounted(() => {
           <el-form :model="formData" label-width="96px">
             <el-form-item label="姓名"><el-input v-model="formData.name" placeholder="请输入姓名" /></el-form-item>
             <el-form-item label="职位"><el-input v-model="formData.position" placeholder="请输入职位" /></el-form-item>
-            <el-form-item label="头像地址"><el-input v-model="formData.avatar" placeholder="请输入头像地址" /></el-form-item>
+            <el-form-item label="头像"><ImageUpload v-model="formData.avatar" /></el-form-item>
             <el-form-item label="简介"><el-input v-model="formData.description" type="textarea" :rows="5" placeholder="请输入简介" /></el-form-item>
             <el-form-item label="排序"><el-input-number v-model="formData.sort" :min="0" /></el-form-item>
           </el-form>

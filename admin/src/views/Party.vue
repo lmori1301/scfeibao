@@ -4,6 +4,7 @@ import { Plus, RefreshRight, Search } from '@element-plus/icons-vue'
 import { ElMessage, ElMessageBox } from 'element-plus'
 import http from '@/utils/http'
 import AsyncRichTextEditor from '@/components/AsyncRichTextEditor.vue'
+import ImageUpload from '@/components/ImageUpload.vue'
 import Pagination from '@/components/Pagination.vue'
 
 const searchForm = ref({
@@ -21,6 +22,7 @@ const createDefaultFormData = (): Record<string, any> => ({
   title: '',
   type: '',
   content: '',
+  coverImage: '',
   publishDate: new Date().toISOString().split('T')[0],
   status: '草稿',
 })
@@ -217,6 +219,9 @@ const formatDate = (_row: any, _column: any, cellValue: any) => {
                     <el-option label="草稿" value="草稿" />
                     <el-option label="已发布" value="已发布" />
                   </el-select>
+                </el-form-item>
+                <el-form-item label="封面图">
+                  <ImageUpload v-model="formData.coverImage" />
                 </el-form-item>
               </div>
             </section>
