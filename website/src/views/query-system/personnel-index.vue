@@ -67,6 +67,7 @@
             id="1_3057"
             class="Pixso-vector-1_3057 personnel-query-btn"
             role="button"
+            aria-label="查询"
             tabindex="0"
             @click="handleQuery"
             @keydown.enter="handleQuery"

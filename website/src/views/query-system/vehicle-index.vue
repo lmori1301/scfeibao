@@ -101,6 +101,7 @@
             id="1_3220_btn"
             class="Pixso-vector-1_3057 query-button-vehicle"
             role="button"
+            aria-label="查询"
             tabindex="0"
             @click="handleQuery"
             @keydown.enter="handleQuery"

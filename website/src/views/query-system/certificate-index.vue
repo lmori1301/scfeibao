@@ -75,6 +75,7 @@
             id="cert-form-query-btn"
             class="Pixso-vector-1_3057 cert-query-btn"
             role="button"
+            aria-label="查询"
             tabindex="0"
             @click="handleQuery"
             @keydown.enter="handleQuery"

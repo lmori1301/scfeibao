@@ -844,7 +844,9 @@ onUnmounted(() => {
     height: 14.68%;
     background-image: none;
     background-color: rgba(245, 247, 250, 1);
-    background-size: cover;
+    /* 该元素同时声明了 height% 与 top%/bottom%，属过度约束，浏览器对 background-size:cover
+       的绘制区域计算会塌缩，导致轮播大图只渲染出顶部一条。改用 100% 100% 规避（轮播图按 2.68:1 出图，视觉等价）。 */
+    background-size: 100% 100%;
     background-repeat: no-repeat;
     position: absolute;
     left: 5.89%;
