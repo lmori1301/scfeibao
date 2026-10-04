@@ -1033,7 +1033,7 @@ onUnmounted(() => {
 }
 .Pixso-vector-1_31 {
     width: 88.28%;
-    height: 2.1%;
+    height: 1.8%;
     background-image: url(@/assets/images/Vector_1_31.png);
     background-size: 100% 100%;
     background-repeat: no-repeat;
@@ -1041,7 +1041,7 @@ onUnmounted(() => {
     left: 5.89%;
     right: 5.83%;
     top: 20.81%;
-    bottom: 77.09%;
+    bottom: 77.39%;
 }
 /* 轮播圆点指示器：20x20 */
 .Pixso-vector-1_32 {
@@ -1067,8 +1067,8 @@ onUnmounted(() => {
     position: absolute;
     left: 13.14%;
     right: 52.55%;
-    top: 21.9%;
-    bottom: 77.63%;
+    top: 21.31%;
+    bottom: 77.72%;
     white-space: pre;
     flex-grow: 0;
 }
@@ -3413,7 +3413,7 @@ onUnmounted(() => {
 .banner-carousel-dots {
     position: absolute;
     right: 8%;
-    top: 21.83%;
+    top: 21.21%;
     display: flex;
     gap: 12px;
     z-index: 10;
