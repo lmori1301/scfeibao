@@ -432,5 +432,45 @@ CREATE TABLE `website_config` (
   PRIMARY KEY (`id`),
   UNIQUE KEY `IDX_6ef9c2d425e9a67781953cc5ce` (`key`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+DROP TABLE IF EXISTS `team_duty`;
+CREATE TABLE `team_duty` (
+  `id` int NOT NULL AUTO_INCREMENT,
+  `created_at` datetime(6) NOT NULL DEFAULT CURRENT_TIMESTAMP(6) COMMENT '创建时间',
+  `updated_at` datetime(6) NOT NULL DEFAULT CURRENT_TIMESTAMP(6) ON UPDATE CURRENT_TIMESTAMP(6) COMMENT '更新时间',
+  `deleted_at` datetime(6) DEFAULT NULL COMMENT '删除时间（逻辑删除标记，NULL 未删除）',
+  `team_name` varchar(100) NOT NULL COMMENT '队伍名称',
+  `duty_year` varchar(10) NOT NULL COMMENT '值班年份',
+  `duty_date` date DEFAULT NULL COMMENT '值班日期（一条记录对应一天值班）',
+  `duty_cadre_name` varchar(50) DEFAULT NULL COMMENT '值班干部姓名',
+  `duty_cadre_phone` varchar(30) DEFAULT NULL COMMENT '值班干部联系电话',
+  `duty_staff` text COMMENT '值班员（多人，英文逗号分隔）',
+  `attach_url` varchar(500) DEFAULT NULL COMMENT '附件文件地址',
+  `attach_name` varchar(255) DEFAULT NULL COMMENT '附件名称',
+  `remark` text COMMENT '备注',
+  `create_by` varchar(64) DEFAULT NULL COMMENT '创建人',
+  PRIMARY KEY (`id`),
+  KEY `IDX_team_duty_team_year` (`team_name`, `duty_year`),
+  KEY `IDX_team_duty_date` (`duty_date`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+DROP TABLE IF EXISTS `system_dict_data`;
+CREATE TABLE `system_dict_data` (
+  `id` int NOT NULL AUTO_INCREMENT,
+  `created_at` datetime(6) NOT NULL DEFAULT CURRENT_TIMESTAMP(6) COMMENT '创建时间',
+  `updated_at` datetime(6) NOT NULL DEFAULT CURRENT_TIMESTAMP(6) ON UPDATE CURRENT_TIMESTAMP(6) COMMENT '更新时间',
+  `deleted_at` datetime(6) DEFAULT NULL COMMENT '删除时间（逻辑删除标记）',
+  `dict_type` varchar(64) NOT NULL COMMENT '字典类型',
+  `dict_label` varchar(100) NOT NULL COMMENT '字典标签',
+  `dict_value` varchar(100) NOT NULL COMMENT '字典值',
+  `sort` int NOT NULL DEFAULT '0' COMMENT '排序',
+  `status` tinyint NOT NULL DEFAULT '1' COMMENT '状态：1-启用，0-禁用',
+  `remark` text COMMENT '备注',
+  PRIMARY KEY (`id`),
+  KEY `IDX_dict_type_status` (`dict_type`, `status`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+INSERT INTO `system_dict_data` (`dict_type`, `dict_label`, `dict_value`, `sort`, `status`) VALUES
+  ('duty_year', '2024年', '2024', 1, 1),
+  ('duty_year', '2025年', '2025', 2, 1),
+  ('duty_year', '2026年', '2026', 3, 1),
+  ('duty_year', '2027年', '2027', 4, 1);
 
 SET FOREIGN_KEY_CHECKS=1;

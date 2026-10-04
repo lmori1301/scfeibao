@@ -66,6 +66,7 @@ export class UploadController {
     'Certificates',
     'Personnel',
     'Vehicles',
+    'TeamDuty',
   )
   @UseInterceptors(FileInterceptor('file', {
     storage: diskStorage({

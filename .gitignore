@@ -73,3 +73,7 @@ __pycache__/
 
 # Claude configuration (contains sensitive keys)
 .claude/config.json
+
+# WorkBuddy 项目数据（记忆、会话产物）与临时输出目录，不进版本库
+.workbuddy/
+output/

@@ -87,12 +87,13 @@ export const navigationGroups: AdminRouteGroup[] = [
     id: 'query',
     title: '档案台账',
     icon: 'Search',
-    description: '维护证书、人员和车辆等核心档案数据。',
+    description: '维护证书、人员和车辆等核心档案数据，以及队伍值班安排。',
     accent: 'linear-gradient(135deg, #ea580c 0%, #c2410c 100%)',
     children: [
       { path: 'certificates', name: 'Certificates', title: '证书台账', icon: 'Postcard', description: '维护证书档案和有效状态。', component: () => import('@/views/Certificates.vue') },
       { path: 'personnel', name: 'Personnel', title: '人员台账', icon: 'User', description: '维护人员信息、二维码和状态。', component: () => import('@/views/Personnel.vue') },
-      { path: 'vehicles', name: 'Vehicles', title: '车辆台账', icon: 'Van', description: '维护车辆档案和使用状态。', component: () => import('@/views/Vehicles.vue') }
+      { path: 'vehicles', name: 'Vehicles', title: '车辆台账', icon: 'Van', description: '维护车辆档案和使用状态。', component: () => import('@/views/Vehicles.vue') },
+      { path: 'team-duty', name: 'TeamDuty', title: '队伍值班', icon: 'Calendar', description: '维护队伍值班安排，支持附件导入解析与在线预览。', component: () => import('@/views/TeamDuty.vue') }
     ]
   },
   {
@@ -106,6 +107,7 @@ export const navigationGroups: AdminRouteGroup[] = [
       { path: 'permissions', name: 'Permissions', title: '权限设置', icon: 'Lock', description: '配置角色与访问权限。', component: () => import('@/views/Permissions.vue') },
       { path: 'site-config', name: 'SiteConfig', title: '网站配置', icon: 'Setting', description: '维护站点基础信息和运行参数。', component: () => import('@/views/SiteConfig.vue') },
       { path: 'navigation', name: 'Navigation', title: '导航设置', icon: 'Menu', description: '维护前台导航入口及排序。', component: () => import('@/views/Navigation.vue') },
+      { path: 'system-dict', name: 'SystemDict', title: '数据字典', icon: 'Notebook', description: '维护值班年份等通用数据字典。', component: () => import('@/views/SystemDict.vue') },
       { path: 'operation-log', name: 'OperationLog', title: '操作日志', icon: 'DocumentCopy', description: '追踪后台操作与系统事件。', component: () => import('@/views/OperationLog.vue') },
       { path: 'data-backup', name: 'DataBackup', title: '数据备份', icon: 'FolderOpened', description: '查看备份记录与恢复入口。', component: () => import('@/views/DataBackup.vue') },
       { path: 'friendly-links', name: 'FriendlyLinks', title: '友情链接', icon: 'Link', description: '维护首页友情链接列表。', component: () => import('@/views/FriendlyLinks.vue') }

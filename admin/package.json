@@ -17,6 +17,7 @@
     "axios": "^1.6.5",
     "element-plus": "^2.5.4",
     "pinia": "^2.1.7",
+    "read-excel-file": "^9.3.10",
     "vue": "^3.4.15",
     "vue-router": "^4.2.5"
   },

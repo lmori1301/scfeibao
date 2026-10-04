@@ -8,3 +8,5 @@ export { Policy } from './policy.entity';
 export { Certificate } from './certificate.entity';
 export { Personnel } from './personnel.entity';
 export { Vehicle } from './vehicle.entity';
+export { TeamDuty } from './team-duty.entity';
+export { SystemDictData } from './system-dict-data.entity';

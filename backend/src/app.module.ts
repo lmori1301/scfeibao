@@ -29,6 +29,8 @@ import { AppointmentsModule } from './modules/appointments/appointments.module';
 import { LocationModule } from './modules/location/location.module';
 import { ConfigModule as WebsiteConfigModule } from './modules/config/config.module';
 import { TeamUnitModule } from './modules/team-units/team-unit.module';
+import { TeamDutyModule } from './modules/team-duty/team-duty.module';
+import { SystemDictModule } from './modules/system-dict/system-dict.module';
 import { NavigationModule } from './modules/navigation/navigation.module';
 import { OperationLogModule } from './modules/operation-log/operation-log.module';
 import { DataBackupModule } from './modules/data-backup/data-backup.module';
@@ -96,6 +98,8 @@ import { QueryController } from './common/controllers/query.controller';
     AppointmentsModule,
     LocationModule,
     TeamUnitModule,
+    TeamDutyModule,
+    SystemDictModule,
     WebsiteConfigModule,
     NavigationModule,
     OperationLogModule,

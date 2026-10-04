@@ -45,13 +45,15 @@ export const MENU_FLAT_ROWS: MenuFlatRow[] = [
   { id: 'Certificates', parentId: 'grp-query', name: '证书台账', sort: G.query + 1, routeName: 'Certificates' },
   { id: 'Personnel', parentId: 'grp-query', name: '人员台账', sort: G.query + 2, routeName: 'Personnel' },
   { id: 'Vehicles', parentId: 'grp-query', name: '车辆台账', sort: G.query + 3, routeName: 'Vehicles' },
+  { id: 'TeamDuty', parentId: 'grp-query', name: '队伍值班', sort: G.query + 4, routeName: 'TeamDuty' },
 
   { id: 'grp-authority', parentId: null, name: '系统配置', sort: G.authority },
   { id: 'AdminUsers', parentId: 'grp-authority', name: '用户管理', sort: G.authority + 1, routeName: 'AdminUsers' },
   { id: 'Permissions', parentId: 'grp-authority', name: '权限设置', sort: G.authority + 2, routeName: 'Permissions' },
   { id: 'SiteConfig', parentId: 'grp-authority', name: '网站配置', sort: G.authority + 3, routeName: 'SiteConfig' },
   { id: 'Navigation', parentId: 'grp-authority', name: '导航设置', sort: G.authority + 4, routeName: 'Navigation' },
-  { id: 'OperationLog', parentId: 'grp-authority', name: '操作日志', sort: G.authority + 5, routeName: 'OperationLog' },
-  { id: 'DataBackup', parentId: 'grp-authority', name: '数据备份', sort: G.authority + 6, routeName: 'DataBackup' },
-  { id: 'FriendlyLinks', parentId: 'grp-authority', name: '友情链接', sort: G.authority + 7, routeName: 'FriendlyLinks' },
+  { id: 'SystemDict', parentId: 'grp-authority', name: '数据字典', sort: G.authority + 5, routeName: 'SystemDict' },
+  { id: 'OperationLog', parentId: 'grp-authority', name: '操作日志', sort: G.authority + 6, routeName: 'OperationLog' },
+  { id: 'DataBackup', parentId: 'grp-authority', name: '数据备份', sort: G.authority + 7, routeName: 'DataBackup' },
+  { id: 'FriendlyLinks', parentId: 'grp-authority', name: '友情链接', sort: G.authority + 8, routeName: 'FriendlyLinks' },
 ]
