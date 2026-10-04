@@ -102,19 +102,17 @@ onMounted(() => {
       <el-table :data="tableData" v-loading="loading" stripe>
         <el-table-column type="selection" width="46" />
         <el-table-column type="index" label="序号" width="70" />
-        <el-table-column label="工作内容" min-width="340">
+        <el-table-column label="封面" width="110" align="center">
           <template #default="{ row }">
-            <div class="work-cell">
-              <div class="work-cell__cover">
-                <img v-if="row.coverImage" :src="row.coverImage" :alt="row.title" />
-                <div v-else class="work-cell__empty"><el-icon><Collection /></el-icon></div>
-              </div>
-              <div class="work-cell__meta">
-                <strong>{{ row.title }}</strong>
-                <span>浏览量 {{ row.viewCount || 0 }}</span>
-              </div>
+            <div class="work-cover-thumb">
+              <img v-if="row.coverImage" :src="row.coverImage" :alt="row.title" />
+              <div v-else class="work-cover-thumb__empty"><el-icon><Collection /></el-icon></div>
             </div>
           </template>
+        </el-table-column>
+        <el-table-column prop="title" label="标题" min-width="220" show-overflow-tooltip />
+        <el-table-column label="浏览量" width="110" align="center">
+          <template #default="{ row }">{{ row.viewCount || 0 }}</template>
         </el-table-column>
         <el-table-column prop="createdAt" label="创建时间" width="140" :formatter="formatDate" />
         <el-table-column
@@ -163,15 +161,11 @@ onMounted(() => {
 .party-works-page { display: flex; flex-direction: column; gap: 18px; }
 .party-works-panel, .preview-card { border: 1px solid #e6edf7; background: #fff; }
 .party-works-panel { padding: 20px; border-radius: 22px; overflow: hidden; }
-.work-cell { display: flex; gap: 14px; align-items: center; }
-.work-cell__cover {
-  width: 96px; height: 68px; border-radius: 0; overflow: hidden; background: #edf3fb; flex: 0 0 auto;
+.work-cover-thumb {
+  width: 92px; height: 56px; border-radius: 0; overflow: hidden; background: #edf3fb; margin: 0 auto;
   img { width: 100%; height: 100%; object-fit: contain; }
 }
-.work-cell__empty { width: 100%; height: 100%; display: grid; place-items: center; color: #8b98ad; }
-.work-cell__meta { min-width: 0; }
-.work-cell__meta strong { display: block; color: #1f2f46; font-size: 15px; line-height: 1.5; }
-.work-cell__meta span { display: block; margin-top: 6px; color: #7b879b; font-size: 12px; line-height: 1.6; }
+.work-cover-thumb__empty { width: 100%; height: 100%; display: grid; place-items: center; color: #8b98ad; }
 .party-works-dialog { display: grid; grid-template-columns: minmax(0, 1.35fr) 300px; gap: 24px; }
 .preview-card { padding: 18px; border-radius: 20px; background: linear-gradient(180deg, #f7fbff 0%, #edf4ff 100%); }
 .preview-card__cover {

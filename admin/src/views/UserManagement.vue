@@ -95,17 +95,13 @@ onMounted(fetchUsers)
       </div>
       <el-table :data="tableData" v-loading="loading" stripe>
         <el-table-column type="index" label="序号" width="70" />
-        <el-table-column label="人员信息" min-width="300">
+        <el-table-column label="头像" width="80" align="center">
           <template #default="{ row }">
-            <div class="user-cell">
-              <div class="user-cell__avatar"><el-icon><User /></el-icon></div>
-              <div class="user-cell__meta">
-                <strong>{{ row.name || row.username }}</strong>
-                <span>{{ row.username }}</span>
-              </div>
-            </div>
+            <div class="user-avatar"><el-icon><User /></el-icon></div>
           </template>
         </el-table-column>
+        <el-table-column prop="name" label="姓名" min-width="140" show-overflow-tooltip />
+        <el-table-column prop="username" label="用户名" min-width="180" show-overflow-tooltip />
         <el-table-column prop="role" label="角色" min-width="180" show-overflow-tooltip />
         <el-table-column prop="phone" label="手机号" width="160" show-overflow-tooltip />
         <el-table-column prop="email" label="邮箱" min-width="220" show-overflow-tooltip />
@@ -138,12 +134,8 @@ onMounted(fetchUsers)
 .user-management-toolbar__filters :deep(.el-select) {
   flex: 0 1 auto;
 }
-.user-cell { display: flex; gap: 14px; align-items: center; }
-.user-cell__avatar {
-  width: 56px; height: 56px; border-radius: 18px; display: grid; place-items: center;
-  background: linear-gradient(135deg, #edf3ff 0%, #dce8ff 100%); color: #2f67ff; font-size: 22px;
+.user-avatar {
+  width: 40px; height: 40px; border-radius: 12px; display: grid; place-items: center;
+  background: linear-gradient(135deg, #edf3ff 0%, #dce8ff 100%); color: #2f67ff; font-size: 18px; margin: 0 auto;
 }
-.user-cell__meta { min-width: 0; }
-.user-cell__meta strong { display: block; color: #1f2f46; font-size: 15px; line-height: 1.5; }
-.user-cell__meta span { display: block; margin-top: 6px; color: #7b879b; font-size: 12px; line-height: 1.6; word-break: break-all; }
 </style>

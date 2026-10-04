@@ -177,20 +177,16 @@ const formatDate = (_row: any, _column: any, cellValue: any) => {
       <el-table :data="pagedRows" stripe :loading="loading">
         <el-table-column type="selection" width="46" />
         <el-table-column type="index" label="序号" width="70" />
-        <el-table-column label="视频内容" min-width="340">
+        <el-table-column label="封面" width="120" align="center">
           <template #default="{ row }">
-            <div class="video-column-cell">
-              <div class="video-column-cell__cover">
-                <img v-if="row.cover" :src="row.cover" :alt="row.title" />
-                <div v-else class="video-column-cell__empty"><el-icon><Picture /></el-icon></div>
-              </div>
-              <div class="video-column-cell__meta">
-                <strong>{{ row.title }}</strong>
-                <span>{{ row.description || '暂无描述' }}</span>
-              </div>
+            <div class="video-cover-thumb">
+              <img v-if="row.cover" :src="row.cover" :alt="row.title" />
+              <div v-else class="video-cover-thumb__empty"><el-icon><Picture /></el-icon></div>
             </div>
           </template>
         </el-table-column>
+        <el-table-column prop="title" label="标题" min-width="200" show-overflow-tooltip />
+        <el-table-column prop="description" label="描述" min-width="240" show-overflow-tooltip />
         <el-table-column prop="duration" label="时长" width="90" />
         <el-table-column prop="sort" label="排序" width="90" />
         <el-table-column prop="author" label="作者" width="120" />
@@ -289,15 +285,16 @@ const formatDate = (_row: any, _column: any, cellValue: any) => {
 .video-column-form-section__header span { color: #7a879d; font-size: 12px; line-height: 1.6; }
 .video-column-form-section__body { padding: 18px 20px 4px; }
 .video-column-form-section__body :deep(.el-form-item) { margin-bottom: 14px; }
-.video-column-cell { display: flex; gap: 14px; align-items: center; }
-.video-column-cell__cover, .preview-card__cover {
+.video-cover-thumb {
+  width: 104px; height: 60px; border-radius: 0; overflow: hidden; background: #edf3fb; margin: 0 auto;
+  img { width: 100%; height: 100%; object-fit: contain; }
+}
+.video-cover-thumb__empty { width: 100%; height: 100%; display: grid; place-items: center; color: #8b98ad; }
+.preview-card__cover {
   width: 120px; height: 72px; border-radius: 0; overflow: hidden; background: #edf3fb; flex: 0 0 auto;
   img { width: 100%; height: 100%; object-fit: contain; }
 }
-.video-column-cell__empty, .preview-card__empty { width: 100%; height: 100%; display: grid; place-items: center; color: #8b98ad; }
-.video-column-cell__meta { min-width: 0; }
-.video-column-cell__meta strong { display: block; color: #1f2f46; font-size: 15px; line-height: 1.5; }
-.video-column-cell__meta span { display: block; margin-top: 6px; color: #7b879b; font-size: 12px; line-height: 1.6; }
+.preview-card__empty { width: 100%; height: 100%; display: grid; place-items: center; color: #8b98ad; }
 .video-column-dialog { display: grid; grid-template-columns: minmax(0, 1.35fr) 320px; gap: 24px; }
 .preview-card { padding: 18px; border-radius: 20px; background: linear-gradient(180deg, #f7fbff 0%, #edf4ff 100%); }
 .preview-card strong { display: block; margin-top: 14px; font-size: 18px; color: #1f2f46; line-height: 1.5; }
