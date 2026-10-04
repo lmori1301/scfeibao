@@ -2,6 +2,7 @@ import { Injectable } from '@nestjs/common'
 import { InjectRepository } from '@nestjs/typeorm'
 import { Like, Repository } from 'typeorm'
 import { PartyMember } from './entities/party-member.entity'
+import { normalizeEmptyToNull } from '../../common/utils/normalize-empty'
 
 @Injectable()
 export class PartyMembersService {
@@ -27,12 +28,12 @@ export class PartyMembersService {
   }
 
   async create(data: any) {
-    const member = this.partyMemberRepository.create(data)
+    const member = this.partyMemberRepository.create(normalizeEmptyToNull(data))
     return this.partyMemberRepository.save(member)
   }
 
   async update(id: number, data: any) {
-    await this.partyMemberRepository.update(id, data)
+    await this.partyMemberRepository.update(id, normalizeEmptyToNull(data))
     return this.getOne(id)
   }
 

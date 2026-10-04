@@ -2,6 +2,7 @@ import { Injectable } from '@nestjs/common'
 import { InjectRepository } from '@nestjs/typeorm'
 import { Repository } from 'typeorm'
 import { Policy } from './entities/policy.entity'
+import { normalizeEmptyToNull } from '../../common/utils/normalize-empty'
 
 @Injectable()
 export class PolicyService {
@@ -125,14 +126,14 @@ export class PolicyService {
     // 移除前端字段名，只保留数据库字段名
     const { docNumber, department, publishDate, attachment, attachmentName, ...rest } = data
 
-    const mappedData = {
+    const mappedData = normalizeEmptyToNull({
       ...rest,
       ...(docNumber !== undefined && { documentNumber: docNumber }),
       ...(department !== undefined && { issuingAuthority: department }),
       ...(publishDate !== undefined && { publishedAt: publishDate }),
       ...(attachment !== undefined && { attachmentUrl: attachment }),
       ...(attachmentName !== undefined && { attachmentName })
-    }
+    })
 
     await this.policyRepository.update(id, mappedData)
     return this.getOne(id)
