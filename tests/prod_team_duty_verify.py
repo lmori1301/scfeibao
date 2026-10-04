@@ -64,7 +64,9 @@ def main():
         pg.wait_for_timeout(3000)
         check("队伍值班页可访问", "/team-duty" in pg.url, pg.url)
         crumb = pg.locator(".page-crumb").inner_text() if pg.locator(".page-crumb").count() else ""
-        check("面包屑显示队伍值班", "队伍值班" in crumb, crumb)
+        # 改名断言必须成对：新名在 + 旧名不在（旧名是新名的子串时为假 PASS/假 FAIL 的高发区）
+        check("面包屑显示【值班台账】", "值班台账" in crumb, crumb)
+        check("面包屑不再出现旧名【队伍值班】", "队伍值班" not in crumb, crumb)
 
         headers = pg.eval_on_selector_all(
             ".team-duty-table-panel .el-table__header th", "els => els.map(e => e.innerText.trim()).filter(Boolean)"
@@ -133,7 +135,8 @@ def main():
         )
         items_txt = " / ".join(menu["items"])
         groups_txt = " / ".join(menu["groups"])
-        check("侧栏菜单项含「队伍值班」", "队伍值班" in items_txt, items_txt[:180])
+        check("侧栏菜单项含【值班台账】", "值班台账" in items_txt, items_txt[:180])
+        check("侧栏菜单项不再出现旧名【队伍值班】", "队伍值班" not in items_txt, items_txt[:180])
         check("侧栏菜单项含「数据字典」", "数据字典" in items_txt, items_txt[180:360] or groups_txt[:120])
 
         check("无 JS 运行时错误", len(errs) == 0, errs[:2])

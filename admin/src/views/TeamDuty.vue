@@ -27,7 +27,7 @@ const pageCrumb = computed(() => {
   const group = String(route.meta.groupTitle ?? '').trim()
   const title = String(route.meta.title ?? '').trim()
   if (group && title) return `系统首页 / ${group} / ${title}`
-  return '系统首页 / 档案台账 / 队伍值班'
+  return '系统首页 / 档案台账 / 值班台账'
 })
 
 /** 值班须知文案（需求指定，三条固定文案） */
@@ -98,7 +98,7 @@ const handleReset = () => {
 /* ------------------------------ 新增/导入表单 ------------------------------ */
 const formDialogVisible = ref(false)
 const formDialogMode = ref<'single' | 'import'>('import')
-const formTitle = computed(() => (formDialogMode.value === 'import' ? '新增队伍值班（附件导入）' : '新增队伍值班（单条）'))
+const formTitle = computed(() => (formDialogMode.value === 'import' ? '新增值班台账（附件导入）' : '新增值班台账（单条）'))
 const submitting = ref(false)
 
 const formData = reactive({
@@ -565,7 +565,7 @@ onMounted(async () => {
 
     <section class="admin-card admin-card--table team-duty-table-panel">
       <div class="admin-table-panel__head">
-        <div class="panel-title">队伍值班列表</div>
+        <div class="panel-title">值班台账列表</div>
         <div class="admin-table-panel__head-actions">
           <el-button plain @click="fetch()">
             <el-icon><RefreshRight /></el-icon>
@@ -774,7 +774,7 @@ onMounted(async () => {
     </el-dialog>
 
     <!-- 编辑 -->
-    <el-dialog v-model="editDialogVisible" title="编辑队伍值班" width="760px">
+    <el-dialog v-model="editDialogVisible" title="编辑值班台账" width="760px">
       <el-form label-width="96px">
         <el-row :gutter="16">
           <el-col :span="12">
@@ -844,7 +844,7 @@ onMounted(async () => {
     <!-- 详情 -->
     <el-dialog
       v-model="detailDialogVisible"
-      title="队伍值班详情"
+      title="值班台账详情"
       width="820px"
       align-center
       @closed="handleDetailClosed"
@@ -906,10 +906,9 @@ onMounted(async () => {
   display: flex;
   flex-direction: column;
   gap: 18px;
-  /* 悬浮「值班须知」卡片固定在视口右下（展开时 340px），给内容区右侧留出
-     等宽安全边距，确保表格「操作」列与卡片永不相交（需求：不遮挡表单操作）。 */
-  padding-right: 356px;
 }
+/* 页面右侧间距与其他列表页保持一致：不再为悬浮「值班须知」卡片预留 padding-right，
+   卡片展开时作为纯浮层叠在右下角（可随时收起），不挤压表格宽度。 */
 .team-duty-table-panel { padding: 20px; border-radius: 22px; overflow: hidden; }
 .team-duty-page__muted { color: #98a4b8; font-size: 13px; }
 
@@ -996,13 +995,11 @@ onMounted(async () => {
 .attach-preview__excel { display: flex; flex-direction: column; gap: 14px; }
 
 @media (max-width: 1440px) {
-  /* 窄屏下缩小安全边距与展开卡片宽度，避免表格被过度挤压 */
-  .team-duty-page { padding-right: 300px; }
+  /* 窄屏下缩小展开态卡片宽度，避免浮层过大（不再预留页面右侧留白） */
   .duty-notice--open { width: 284px; }
 }
 @media (max-width: 1180px) {
-  /* 更窄时卡片改为贴底展开，边距收窄到 268px */
-  .team-duty-page { padding-right: 268px; }
+  /* 更窄时卡片进一步收窄 */
   .duty-notice--open { width: 252px; }
 }
 </style>

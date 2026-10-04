@@ -866,7 +866,10 @@ onUnmounted(() => {
     overflow: hidden;
     position: relative;
     flex-shrink: 0;
-    background-color: rgba(0, 0, 0, 1);
+    /* 画布底色必须是白色：画布高 4430px，而内部背景图层按百分比定位，
+       某些视口宽度下会在「导航栏下沿」与「页脚上方」各留出 1~30px 缝隙，
+       底色若是黑色就会露出黑色横条（用户反馈的「黑色条」）。 */
+    background-color: #ffffff;
 }
 .Pixso-vector-1_3 {
     width: 100%;

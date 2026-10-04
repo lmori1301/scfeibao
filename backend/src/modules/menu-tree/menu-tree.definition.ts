@@ -45,7 +45,7 @@ export const MENU_FLAT_ROWS: MenuFlatRow[] = [
   { id: 'Certificates', parentId: 'grp-query', name: '证书台账', sort: G.query + 1, routeName: 'Certificates' },
   { id: 'Personnel', parentId: 'grp-query', name: '人员台账', sort: G.query + 2, routeName: 'Personnel' },
   { id: 'Vehicles', parentId: 'grp-query', name: '车辆台账', sort: G.query + 3, routeName: 'Vehicles' },
-  { id: 'TeamDuty', parentId: 'grp-query', name: '队伍值班', sort: G.query + 4, routeName: 'TeamDuty' },
+  { id: 'TeamDuty', parentId: 'grp-query', name: '值班台账', sort: G.query + 4, routeName: 'TeamDuty' },
 
   { id: 'grp-authority', parentId: null, name: '系统配置', sort: G.authority },
   { id: 'AdminUsers', parentId: 'grp-authority', name: '用户管理', sort: G.authority + 1, routeName: 'AdminUsers' },

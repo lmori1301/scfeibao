@@ -88,13 +88,13 @@ export const navigationGroups: AdminRouteGroup[] = [
     id: 'query',
     title: '档案台账',
     icon: 'Search',
-    description: '维护证书、人员和车辆等核心档案数据，以及队伍值班安排。',
+    description: '维护证书、人员和车辆等核心档案数据，以及值班台账安排。',
     accent: 'linear-gradient(135deg, #ea580c 0%, #c2410c 100%)',
     children: [
       { path: 'certificates', name: 'Certificates', title: '证书台账', icon: 'Postcard', description: '维护证书档案和有效状态。', component: () => import('@/views/Certificates.vue') },
       { path: 'personnel', name: 'Personnel', title: '人员台账', icon: 'User', description: '维护人员信息、二维码和状态。', component: () => import('@/views/Personnel.vue') },
       { path: 'vehicles', name: 'Vehicles', title: '车辆台账', icon: 'Van', description: '维护车辆档案和使用状态。', component: () => import('@/views/Vehicles.vue') },
-      { path: 'team-duty', name: 'TeamDuty', title: '队伍值班', icon: 'Calendar', description: '维护队伍值班安排，支持附件导入解析与在线预览。', component: () => import('@/views/TeamDuty.vue') }
+      { path: 'team-duty', name: 'TeamDuty', title: '值班台账', icon: 'Calendar', description: '维护值班台账安排，支持附件导入解析与在线预览。', component: () => import('@/views/TeamDuty.vue') }
     ]
   },
   {
