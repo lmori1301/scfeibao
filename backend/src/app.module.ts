@@ -23,6 +23,7 @@ import { UploadModule } from './modules/upload/upload.module';
 import { DashboardModule } from './modules/dashboard/dashboard.module';
 import { SettingModule } from './modules/settings/setting.module';
 import { BannerModule } from './modules/banners/banner.module';
+import { SloganBannerModule } from './modules/slogan-banners/slogan-banner.module';
 import { OverviewInfoModule } from './modules/overview-info/overview-info.module';
 import { VideosModule } from './modules/videos/videos.module';
 import { AppointmentsModule } from './modules/appointments/appointments.module';
@@ -94,6 +95,7 @@ import { QueryController } from './common/controllers/query.controller';
     DashboardModule,
     SettingModule,
     BannerModule,
+    SloganBannerModule,
     VideosModule,
     AppointmentsModule,
     LocationModule,

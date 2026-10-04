@@ -12,6 +12,7 @@ export class UploadController {
   @Post('image')
   @RequirePermissions(
     'Banner',
+    'SloganBanner',
     'News',
     'Videos',
     'Appointment',

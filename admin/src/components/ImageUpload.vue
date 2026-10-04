@@ -91,11 +91,13 @@ const handleExceed = () => {
 }
 
 const beforeUpload = (file: File) => {
-  const isImage = file.type.startsWith('image/')
+  // 与后端 upload.service.ts 的白名单保持一致
+  const allowedTypes = ['image/jpeg', 'image/png', 'image/gif', 'image/webp']
+  const isImage = allowedTypes.includes(file.type)
   const isLt = file.size / 1024 / 1024 < props.size
 
   if (!isImage) {
-    ElMessage.error('只能上传图片文件')
+    ElMessage.error('只支持 JPG / PNG / WebP 格式')
     return false
   }
   if (!isLt) {

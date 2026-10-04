@@ -68,6 +68,7 @@ export const navigationGroups: AdminRouteGroup[] = [
     accent: 'linear-gradient(135deg, #0f766e 0%, #155e75 100%)',
     children: [
       { path: 'banner', name: 'Banner', title: '轮播图管理', icon: 'Picture', description: '维护首页 Banner 与跳转链接。', component: () => import('@/views/Banner.vue') },
+      { path: 'slogan-banners', name: 'SloganBanner', title: '标语横幅', icon: 'Memo', description: '维护首页「动态要闻」板块上方的标语横幅。', component: () => import('@/views/SloganBanner.vue') },
       { path: 'news', name: 'News', title: '新闻管理', icon: 'Document', description: '发布、编辑和置顶新闻内容。', component: () => import('@/views/News.vue') },
       { path: 'videos', name: 'Videos', title: '视频管理', icon: 'VideoCamera', description: '管理宣传视频与推荐排序。', component: () => import('@/views/Videos.vue') },
       { path: 'appointment', name: 'Appointment', title: '人事任免', icon: 'Postcard', description: '维护信息公开中的人事任免内容。', component: () => import('@/views/Appointment.vue') },
