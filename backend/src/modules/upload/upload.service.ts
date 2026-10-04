@@ -54,7 +54,9 @@ export class UploadService {
         fit: 'inside',
         withoutEnlargement: true,
       })
-      .webp({ quality: 82, effort: 4 })
+      // quality 90：标语横幅、证书等文字类图片对压缩敏感，
+      // 82 会在细笔画处产生可见的块状噪点；体积换清晰度对图册类素材更划算。
+      .webp({ quality: 90, effort: 5 })
       .toFile(fullPath);
 
     return filename;

@@ -1020,8 +1020,8 @@ onUnmounted(() => {
     position: absolute;
     left: 0%;
     right: 0%;
-    top: 4.5%;
-    bottom: 93.87%;
+    top: 20.89%;
+    bottom: 77.48%;
 }
 .Pixso-vector-1_25 {
     width: 7.81%;
@@ -1032,8 +1032,8 @@ onUnmounted(() => {
     position: absolute;
     left: 5.89%;
     right: 86.3%;
-    top: 4.5%;
-    bottom: 93.87%;
+    top: 20.89%;
+    bottom: 77.48%;
 }
 .Pixso-vector-1_31 {
     width: 88.28%;
@@ -2830,7 +2830,7 @@ onUnmounted(() => {
 .Pixso-paragraph-1_149 {
     font-size: 40px;
     font-family: "FZHei-B01S-Regular";
-    font-weight: 400;
+    font-weight: 700;
     line-height: 40px;
     color: rgba(228, 90, 63, 1);
     width: 18.85%;
@@ -2844,7 +2844,7 @@ onUnmounted(() => {
 .Pixso-paragraph-1_150 {
     font-size: 35px;
     font-family: "FZHei-B01S-Regular";
-    font-weight: 400;
+    font-weight: 700;
     line-height: 35px;
     color: rgba(228, 90, 63, 1);
     width: 31.36%;
@@ -2980,7 +2980,7 @@ onUnmounted(() => {
     background-color: rgba(0, 92, 190, 1);
 }
 .Pixso-vector-1_162 {
-    width: 0.5%;
+    width: 0.36%;
     height: 0.74%;
     background-image: url(@/assets/images/Vector_1_162.png);
     background-size: 100% 100%;
@@ -3016,7 +3016,7 @@ onUnmounted(() => {
     background-color: rgba(0, 92, 190, 1);
 }
 .Pixso-vector-1_164 {
-    width: 0.5%;
+    width: 0.36%;
     height: 0.74%;
     background-image: url(@/assets/images/Vector_1_164.png);
     background-size: 100% 100%;
@@ -3052,7 +3052,7 @@ onUnmounted(() => {
     background-color: rgba(0, 92, 190, 1);
 }
 .Pixso-vector-1_166 {
-    width: 0.5%;
+    width: 0.36%;
     height: 0.74%;
     background-image: url(@/assets/images/Vector_1_166.png);
     background-size: 100% 100%;
@@ -3088,7 +3088,7 @@ onUnmounted(() => {
     background-color: rgba(0, 92, 190, 1);
 }
 .Pixso-vector-1_168 {
-    width: 0.5%;
+    width: 0.36%;
     height: 0.74%;
     background-image: url(@/assets/images/Vector_1_168.png);
     background-size: 100% 100%;
@@ -3284,7 +3284,7 @@ onUnmounted(() => {
     height: 59px;
     position: absolute;
     left: 896px;
-    top: 1730px;
+    top: 1775px;
 }
 .Pixso-paragraph-32_4 {
     font-size: 20px;
