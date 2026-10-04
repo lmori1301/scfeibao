@@ -366,6 +366,9 @@
             </div>
         </div>
     </div>
+
+    <!-- 值班台账悬浮卡片（fixed 定位，不受画布缩放影响） -->
+    <DutyCard />
 </template>
 <script lang="ts" setup>
 import { ref, computed, onMounted, onUnmounted, nextTick, watch } from 'vue'
@@ -377,6 +380,7 @@ import { getWebsiteConfig } from '@/api/config'
 import { usePixsoScale } from '@/composables/use-pixso-scale'
 import { normalizeMediaUrl } from '@/utils/photo-urls'
 import SloganBannerCarousel from '@/components/SloganBannerCarousel.vue'
+import DutyCard from '@/components/DutyCard.vue'
 
 const router = useRouter()
 const route = useRoute()
