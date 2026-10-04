@@ -53,6 +53,13 @@
             >
                 {{ bannerList[currentBannerIndex].title }}
             </p>
+
+            <!-- 标语横幅：显示在「动态要闻」板块上方，无启用数据时整体不渲染 -->
+            <SloganBannerCarousel
+                v-if="sloganBanners.length > 0"
+                :items="sloganBanners"
+            />
+
             <p v-if="newsList[0]" id="1_36" class="Pixso-paragraph-1_36" @click="navigateTo(newsDetailPath(newsList[0].id))" style="cursor: pointer;">
                 {{ newsList[0].title }}
             </p>
@@ -365,9 +372,11 @@ import { ref, computed, onMounted, onUnmounted, nextTick, watch } from 'vue'
 import { useRouter, useRoute } from 'vue-router'
 import { ElMessage } from 'element-plus'
 import { getBannerList, getHomeNews, getLocalDynamics, getRescueActions, getPromotionalVideos, getTeamShowcaseForHome, getFriendLinks } from '@/api/home'
+import { getSloganBanners } from '@/api/slogan'
 import { getWebsiteConfig } from '@/api/config'
 import { usePixsoScale } from '@/composables/use-pixso-scale'
 import { normalizeMediaUrl } from '@/utils/photo-urls'
+import SloganBannerCarousel from '@/components/SloganBannerCarousel.vue'
 
 const router = useRouter()
 const route = useRoute()
@@ -487,6 +496,17 @@ interface BannerItem {
 
 const bannerList = ref<BannerItem[]>([])
 
+// 标语横幅数据（首页「动态要闻」板块上方）
+interface SloganBannerItem {
+  id: number
+  imageUrl: string
+  slogan: string
+  link: string
+  linkTarget: string
+}
+
+const sloganBanners = ref<SloganBannerItem[]>([])
+
 const normalizeListResponse = <T,>(payload: unknown): T[] => {
   if (Array.isArray(payload)) return payload as T[]
   if (payload && typeof payload === 'object' && Array.isArray((payload as { items?: unknown }).items)) {
@@ -514,6 +534,26 @@ const fetchBanners = async () => {
     }
   } catch (error) {
     console.error('获取轮播图失败:', error)
+  }
+}
+
+// 获取标语横幅（仅后台启用的才返回）
+const fetchSloganBanners = async () => {
+  try {
+    const res = await getSloganBanners()
+    const items = normalizeListResponse<any>(res.data)
+    sloganBanners.value = items
+      .filter((item: any) => item.imageUrl)
+      .map((item: any) => ({
+        id: item.id,
+        imageUrl: normalizeMediaUrl(item.imageUrl),
+        slogan: item.slogan || '',
+        link: item.link || '',
+        linkTarget: item.linkTarget === '_blank' ? '_blank' : '_self',
+      }))
+  } catch (error) {
+    console.error('获取标语横幅失败:', error)
+    sloganBanners.value = []
   }
 }
 
@@ -791,6 +831,7 @@ onMounted(async () => {
   await initializePageLayout()
   void Promise.allSettled([
     fetchBanners(),
+    fetchSloganBanners(),
     fetchNews(),
     fetchLocalDynamics(),
     fetchRescueActions(),
