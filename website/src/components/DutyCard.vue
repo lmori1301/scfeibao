@@ -153,7 +153,7 @@ onUnmounted(() => {
 .duty-card {
   position: fixed;
   right: 20px;
-  bottom: 90px;
+  bottom: 200px;
   z-index: 900;
   font-family: "Alibaba PuHuiTi-Regular", "Microsoft YaHei", sans-serif;
 }
