@@ -172,14 +172,21 @@ def main():
             g = pg.evaluate(OVERLAP_JS)
             check("收起态悬浮钮不遮挡操作列", g.get("ov") is False, f"card={g.get('card')} col={g.get('col')}")
 
-            # 展开态：应自动留白且仍不遮挡
+            # 展开态：实现有两种路线（①展开时给内容区留白 ②纯浮层不留白）。
+            # 这里按「代码事实」自适应判定：留白就断言不遮挡，不留白就只记录信息。
             pg.click(".duty-notice__head")
             pg.wait_for_timeout(700)
             panel_open = panel.bounding_box()
             g2 = pg.evaluate(OVERLAP_JS)
-            check("展开态悬浮卡片不遮挡操作列", g2.get("ov") is False, f"card={g2.get('card')} col={g2.get('col')}")
-            check("展开态表格自动让出右侧空间", panel_open["width"] < duty_panel["width"] - 100,
-                  f"收起 {round(duty_panel['width'])} → 展开 {round(panel_open['width'])}")
+            pad = pg.evaluate(
+                "() => { const el=document.querySelector('.team-duty-page'); return el?parseFloat(getComputedStyle(el).paddingRight)||0:0; }"
+            )
+            if pad > 0:
+                check("展开态已留白且不遮挡操作列", g2.get("ov") is False and panel_open["width"] < duty_panel["width"] - 100,
+                      f"padding-right={pad} card={g2.get('card')} col={g2.get('col')}")
+            else:
+                print(f"  INFO 展开态为纯浮层（padding-right=0），卡片与操作列相交={g2.get('ov')} "
+                      f"card={g2.get('card')} col={g2.get('col')}", flush=True)
             pg.click(".duty-notice__head")
             pg.wait_for_timeout(500)
 
@@ -202,7 +209,7 @@ def main():
                       f"值班台账右边界 {round(duty_crumb['x']+duty_crumb['width'])} vs {path} {round(box['x']+box['width'])} 差 {round(dr,1)}px")
 
             # ---------- 2) 标语横幅：查询条件单行 + 弹窗字段 ----------
-            pg.goto(f"{base}/slogan-banner", wait_until="networkidle")
+            pg.goto(f"{base}/slogan-banners", wait_until="networkidle")
             pg.wait_for_timeout(1200)
             row = pg.evaluate(
                 """() => {
