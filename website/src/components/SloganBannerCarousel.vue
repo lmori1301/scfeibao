@@ -169,8 +169,8 @@ onUnmounted(stopTimer)
   position: absolute;
   left: 5.89%;
   right: 5.83%;
-  top: 23.43%;
-  height: 104px;
+  top: 23.75%;
+  height: 96px;
   overflow: hidden;
   background-color: rgba(245, 247, 250, 1);
 }

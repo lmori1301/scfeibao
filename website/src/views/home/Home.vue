@@ -978,7 +978,7 @@ onUnmounted(() => {
     position: absolute;
     left: 0%;
     right: 0%;
-    top: 51.35%;
+    top: 50%;
     transform: translateY(calc(-50% + 0px));
 }
 .Pixso-paragraph-1_16 {
@@ -992,7 +992,7 @@ onUnmounted(() => {
     position: absolute;
     left: 4.73%;
     right: 27.22%;
-    top: 51.35%;
+    top: 50%;
     transform: translateY(calc(-50% + 0px));
 }
 .Pixso-vector-1_18 {
@@ -1004,7 +1004,7 @@ onUnmounted(() => {
     position: absolute;
     left: 85.21%;
     right: 7.4%;
-    top: 51.35%;
+    top: 50%;
     transform: translateY(calc(-50% + 0.5px));
 }
 .Pixso-vector-1_24 {
@@ -1033,7 +1033,7 @@ onUnmounted(() => {
 }
 .Pixso-vector-1_31 {
     width: 88.28%;
-    height: 2.62%;
+    height: 2.1%;
     background-image: url(@/assets/images/Vector_1_31.png);
     background-size: 100% 100%;
     background-repeat: no-repeat;
@@ -1041,7 +1041,7 @@ onUnmounted(() => {
     left: 5.89%;
     right: 5.83%;
     top: 20.81%;
-    bottom: 76.57%;
+    bottom: 77.09%;
 }
 /* 轮播圆点指示器：20x20 */
 .Pixso-vector-1_32 {
@@ -1369,7 +1369,7 @@ onUnmounted(() => {
     position: absolute;
     left: 37.86%;
     right: 59.01%;
-    top: 51.35%;
+    top: 50%;
     transform: translateY(calc(-50% + -340px));
     white-space: pre;
     flex-grow: 0;
@@ -2996,7 +2996,7 @@ onUnmounted(() => {
     position: absolute;
     left: 7.4%;
     right: 86.67%;
-    top: 51.35%;
+    top: 50%;
     transform: translateY(calc(-50% + -340px));
 }
 .Pixso-paragraph-1_163::before {
@@ -3290,7 +3290,7 @@ onUnmounted(() => {
     height: auto;
     position: absolute;
     left: 50%;
-    top: 51.35%;
+    top: 50%;
     transform: translateX(calc(-50% + 0px)) translateY(calc(-50% + 0.5px));
     white-space: pre;
     flex-grow: 0;
@@ -3336,7 +3336,7 @@ onUnmounted(() => {
     height: auto;
     position: absolute;
     left: 50%;
-    top: 51.35%;
+    top: 50%;
     transform: translateX(calc(-50% + 0px)) translateY(calc(-50% + 0.5px));
     white-space: pre;
     flex-grow: 0;
