@@ -1,11 +1,12 @@
 <script setup lang="ts">
 import { computed, nextTick, onMounted, ref, watch } from 'vue'
-import { Key, Plus, RefreshRight, Search } from '@element-plus/icons-vue'
+import { Key, Plus, RefreshRight } from '@element-plus/icons-vue'
 import { ElMessage, ElMessageBox } from 'element-plus'
 import Pagination from '@/components/Pagination.vue'
 import { usePagination } from '@/composables/usePagination'
 import http from '@/utils/http'
 import { formatDateTimeLocal } from '@/utils/format'
+import QueryFilter from '@/components/QueryFilter.vue'
 import { normalizeRolePermissionNames, rolePermissionTitle } from '@/router/admin-routes'
 import type { ElTree } from 'element-plus'
 
@@ -231,23 +232,17 @@ onMounted(fetchRoles)
     <div class="page-crumb">系统首页 / 系统配置 / 权限设置</div>
 
     <div class="admin-card admin-card--search">
-    <div class="admin-list-toolbar">
-      <div class="admin-list-toolbar__filters permissions-toolbar__filters">
-        <el-select v-model="searchForm.roleScope" placeholder="角色状态" clearable>
-          <el-option label="启用中" value="启用中" />
-          <el-option label="已禁用" value="已禁用" />
-        </el-select>
-        <el-input v-model="searchForm.name" placeholder="输入角色名称关键词" clearable class="permissions-toolbar__keyword">
-          <template #prefix><el-icon><Search /></el-icon></template>
-        </el-input>
-      </div>
-      <div class="admin-list-toolbar__actions">
-        <div class="admin-toolbar-actions__primary">
-          <el-button type="primary" @click="handleSearch">查询</el-button>
-          <el-button @click="handleReset">重置</el-button>
-        </div>
-      </div>
-    </div>
+      <QueryFilter :collapsible="false" :searching="loading" @search="handleSearch" @reset="handleReset">
+        <el-form-item label="角色状态">
+          <el-select v-model="searchForm.roleScope" placeholder="全部状态" clearable>
+            <el-option label="启用中" value="启用中" />
+            <el-option label="已禁用" value="已禁用" />
+          </el-select>
+        </el-form-item>
+        <el-form-item label="角色名称">
+          <el-input v-model="searchForm.name" placeholder="输入角色名称关键词" clearable />
+        </el-form-item>
+      </QueryFilter>
     </div>
 
     <section class="admin-card admin-card--table permissions-panel permissions-table-panel">

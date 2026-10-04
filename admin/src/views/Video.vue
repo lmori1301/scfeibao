@@ -3,6 +3,7 @@ import { computed, onMounted, ref } from 'vue'
 import { Picture, Plus, RefreshRight, Search, VideoPlay } from '@element-plus/icons-vue'
 import { ElMessage, ElMessageBox } from 'element-plus'
 import Pagination from '@/components/Pagination.vue'
+import QueryFilter from '@/components/QueryFilter.vue'
 import http from '@/utils/http'
 
 const searchForm = ref({ title: '' })
@@ -150,19 +151,13 @@ const formatDate = (_row: any, _column: any, cellValue: any) => {
     <div class="page-crumb">系统首页 / 门户内容 / 视频栏目</div>
 
     <div class="admin-card admin-card--search">
-      <div class="admin-list-toolbar">
-        <div class="admin-list-toolbar__filters video-column-toolbar__filters">
-          <el-input v-model="searchForm.title" placeholder="请输入标题" clearable style="min-width: 200px; max-width: 360px; flex: 1">
+      <QueryFilter :collapsible="false" :searching="loading" @search="handleSearch" @reset="handleReset">
+        <el-form-item label="标题">
+          <el-input v-model="searchForm.title" placeholder="请输入标题" clearable>
             <template #prefix><el-icon><Search /></el-icon></template>
           </el-input>
-        </div>
-        <div class="admin-list-toolbar__actions">
-          <div class="admin-toolbar-actions__primary">
-            <el-button type="primary" @click="handleSearch">查询</el-button>
-            <el-button @click="handleReset">重置</el-button>
-          </div>
-        </div>
-      </div>
+        </el-form-item>
+      </QueryFilter>
     </div>
 
     <div class="admin-card admin-card--table">

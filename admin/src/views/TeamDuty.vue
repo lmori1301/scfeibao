@@ -6,6 +6,7 @@ import { ElMessage, ElMessageBox, type UploadFile } from 'element-plus'
 import { readSheet } from 'read-excel-file/browser'
 import http from '@/utils/http'
 import Pagination from '@/components/Pagination.vue'
+import QueryFilter from '@/components/QueryFilter.vue'
 import { usePagination } from '@/composables/usePagination'
 import { parseDutyRoster, type DutyRosterRow } from '@/utils/duty-roster-parser'
 import {
@@ -542,25 +543,24 @@ onMounted(async () => {
     <div class="page-crumb">{{ pageCrumb }}</div>
 
     <div class="team-card admin-card admin-card--search">
-      <div class="admin-list-toolbar">
-        <div class="admin-list-toolbar__filters">
-          <el-select v-model="searchForm.teamName" placeholder="队伍名称" clearable style="width: 180px">
+      <QueryFilter :searching="loading" @search="handleSearch" @reset="handleReset">
+        <div class="qf__group" data-title="值班信息"></div>
+        <el-form-item label="队伍名称">
+          <el-select v-model="searchForm.teamName" placeholder="全部队伍" clearable>
             <el-option v-for="opt in teamOptions" :key="opt.value" :label="opt.label" :value="opt.value" />
           </el-select>
-          <el-select v-model="searchForm.dutyYear" placeholder="值班年份" clearable style="width: 130px">
+        </el-form-item>
+        <el-form-item label="值班年份">
+          <el-select v-model="searchForm.dutyYear" placeholder="全部年份" clearable>
             <el-option v-for="opt in yearOptions" :key="opt.value" :label="opt.label" :value="opt.value" />
           </el-select>
-          <el-input v-model="searchForm.keyword" placeholder="值班干部 / 值班员 / 电话" clearable style="width: 240px">
+        </el-form-item>
+        <el-form-item label="关键词" class="qf-advanced">
+          <el-input v-model="searchForm.keyword" placeholder="值班干部 / 值班员 / 电话" clearable>
             <template #prefix><el-icon><Search /></el-icon></template>
           </el-input>
-        </div>
-        <div class="admin-list-toolbar__actions">
-          <div class="admin-toolbar-actions__primary">
-            <el-button type="primary" @click="handleSearch">查询</el-button>
-            <el-button @click="handleReset">重置</el-button>
-          </div>
-        </div>
-      </div>
+        </el-form-item>
+      </QueryFilter>
     </div>
 
     <section class="admin-card admin-card--table team-duty-table-panel">

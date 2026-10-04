@@ -6,6 +6,7 @@ import Pagination from '@/components/Pagination.vue'
 import { getTeamUnitOptions, type TeamUnitItem } from '@/api/team-unit'
 import { applyAmapSecurityConfig } from '@/utils/amap-security'
 import http from '@/utils/http'
+import QueryFilter from '@/components/QueryFilter.vue'
 
 interface LocationItem {
   id?: number
@@ -175,6 +176,13 @@ const tableRows = computed(() =>
     return true
   })
 )
+
+const handleSearch = () => {
+  // 启用状态为客户端筛选，tableRows 随 statusFilter 自动生效
+}
+const handleReset = () => {
+  statusFilter.value = ''
+}
 
 const getTeamPreset = (name?: string) => teamUnitOptions.value.find((item) => item.name === name)
 
@@ -512,13 +520,15 @@ onBeforeUnmount(() => {
     <div class="page-crumb">系统首页 / 门户内容 / 地理位置</div>
 
     <div class="admin-card admin-card--search">
-      <section class="location-panel location-toolbar">
-        <el-select v-model="statusFilter" placeholder="启用状态" clearable class="location-toolbar__filter">
-          <el-option label="全部地址" value="" />
-          <el-option label="启用中" value="启用中" />
-          <el-option label="已禁用" value="已禁用" />
-        </el-select>
-      </section>
+      <QueryFilter :collapsible="false" :searching="loading" @search="handleSearch" @reset="handleReset">
+        <el-form-item label="启用状态">
+          <el-select v-model="statusFilter" placeholder="全部地址" clearable>
+            <el-option label="全部地址" value="" />
+            <el-option label="启用中" value="启用中" />
+            <el-option label="已禁用" value="已禁用" />
+          </el-select>
+        </el-form-item>
+      </QueryFilter>
     </div>
 
     <section class="admin-card admin-card--table location-panel location-table-panel">

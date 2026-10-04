@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { computed, nextTick, ref } from 'vue'
-import { Download, Plus, RefreshRight, Search, Tickets, Upload } from '@element-plus/icons-vue'
+import { Download, Plus, RefreshRight, Tickets, Upload } from '@element-plus/icons-vue'
 import { ElMessage, ElMessageBox } from 'element-plus'
 import { usePagination } from '@/composables/usePagination'
 import { idCardRule, phoneRule, requiredRule } from '@/utils/validate'
@@ -8,6 +8,7 @@ import Pagination from '@/components/Pagination.vue'
 import ImageUpload from '@/components/ImageUpload.vue'
 import DataImportDialog from '@/components/DataImportDialog.vue'
 import http from '@/utils/http'
+import QueryFilter from '@/components/QueryFilter.vue'
 import { parsePhotoUrlListForDisplay } from '@/utils/photo-urls'
 
 type CertificateListScope = '' | '有效资质' | '即将到期' | '已失效'
@@ -307,34 +308,38 @@ fetch()
     <div class="page-crumb">系统首页 / 档案台账 / 证书台账</div>
 
     <div class="admin-card admin-card--search">
-    <div class="admin-list-toolbar certificates-toolbar">
-      <div class="admin-list-toolbar__filters certificates-toolbar__filters">
-        <el-select v-model="searchForm.listScope" placeholder="列表范围" clearable>
-          <el-option label="有效资质" value="有效资质" />
-          <el-option label="即将到期" value="即将到期" />
-          <el-option label="已失效" value="已失效" />
-        </el-select>
-        <el-select v-model="searchForm.type" placeholder="证书类型" clearable>
-          <el-option v-for="type in certificateTypes" :key="type" :label="type" :value="type" />
-        </el-select>
-        <el-select v-model="searchForm.status" placeholder="证件状态" clearable>
-          <el-option label="有效" value="有效" />
-          <el-option label="即将过期" value="即将过期" />
-          <el-option label="过期" value="过期" />
-          <el-option label="失效" value="失效" />
-        </el-select>
-        <el-input v-model="searchForm.name" placeholder="持证人姓名" clearable />
-        <el-input v-model="searchForm.certificateNo" placeholder="输入证书编号" clearable>
-          <template #prefix><el-icon><Search /></el-icon></template>
-        </el-input>
-      </div>
-      <div class="admin-list-toolbar__actions">
-        <div class="admin-toolbar-actions__primary">
-          <el-button type="primary" @click="handleSearch">查询</el-button>
-          <el-button @click="handleReset">重置</el-button>
+      <QueryFilter :searching="loading" @search="handleSearch" @reset="handleReset">
+        <div class="qf__group" data-title="基础信息">
+          <el-form-item label="证书编号">
+            <el-input v-model="searchForm.certificateNo" placeholder="输入证书编号" clearable />
+          </el-form-item>
+          <el-form-item label="持证人姓名">
+            <el-input v-model="searchForm.name" placeholder="持证人姓名" clearable />
+          </el-form-item>
         </div>
-      </div>
-    </div>
+        <div class="qf__group" data-title="类别筛选">
+          <el-form-item label="证书类型">
+            <el-select v-model="searchForm.type" placeholder="证书类型" clearable>
+              <el-option v-for="type in certificateTypes" :key="type" :label="type" :value="type" />
+            </el-select>
+          </el-form-item>
+          <el-form-item label="证件状态">
+            <el-select v-model="searchForm.status" placeholder="证件状态" clearable>
+              <el-option label="有效" value="有效" />
+              <el-option label="即将过期" value="即将过期" />
+              <el-option label="过期" value="过期" />
+              <el-option label="失效" value="失效" />
+            </el-select>
+          </el-form-item>
+        </div>
+        <el-form-item label="列表范围" class="qf-advanced">
+          <el-select v-model="searchForm.listScope" placeholder="全部范围" clearable>
+            <el-option label="有效资质" value="有效资质" />
+            <el-option label="即将到期" value="即将到期" />
+            <el-option label="已失效" value="已失效" />
+          </el-select>
+        </el-form-item>
+      </QueryFilter>
     </div>
 
     <div class="admin-card admin-card--table certificates-panel certificates-table-panel">

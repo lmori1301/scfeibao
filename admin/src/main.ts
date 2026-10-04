@@ -8,6 +8,7 @@ import router from './router'
 import '@/assets/styles/variables.scss'
 import '@/assets/styles/global.scss'
 import '@/assets/styles/element.scss'
+import '@/assets/styles/list-page.scss'
 
 const app = createApp(App)
 

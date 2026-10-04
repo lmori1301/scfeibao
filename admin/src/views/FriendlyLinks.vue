@@ -6,6 +6,7 @@ import { usePagination } from '@/composables/usePagination'
 import Pagination from '@/components/Pagination.vue'
 import ImageUpload from '@/components/ImageUpload.vue'
 import http from '@/utils/http'
+import QueryFilter from '@/components/QueryFilter.vue'
 
 const dialogVisible = ref(false)
 const formRef = ref()
@@ -25,6 +26,13 @@ const tableRows = computed(() =>
     return true
   })
 )
+
+const handleSearch = () => {
+  // 链接状态为客户端筛选，tableRows 随 linkFilter 自动生效
+}
+const handleReset = () => {
+  linkFilter.value = ''
+}
 
 const handleAdd = () => {
   formData.value = { id: null, name: '', url: '', logo: '', sort: 0, isActive: true }
@@ -106,14 +114,14 @@ onMounted(() => {
     <div class="page-crumb">系统首页 / 系统配置 / 友情链接</div>
 
     <div class="admin-card admin-card--search">
-      <div class="admin-list-toolbar">
-        <div class="admin-list-toolbar__filters friendly-links-toolbar__filters">
-          <el-select v-model="linkFilter" placeholder="链接状态" clearable style="min-width: 120px">
+      <QueryFilter :collapsible="false" :searching="loading" @search="handleSearch" @reset="handleReset">
+        <el-form-item label="链接状态">
+          <el-select v-model="linkFilter" placeholder="全部状态" clearable>
             <el-option label="启用中" value="启用中" />
             <el-option label="已禁用" value="已禁用" />
           </el-select>
-        </div>
-      </div>
+        </el-form-item>
+      </QueryFilter>
     </div>
 
     <section class="admin-card admin-card--table link-panel link-table-panel">
@@ -133,15 +141,11 @@ onMounted(() => {
       <el-table :data="tableRows" v-loading="loading" stripe>
         <el-table-column type="selection" width="46" />
         <el-table-column type="index" label="序号" width="70" />
-        <el-table-column label="合作单位" min-width="280">
-          <template #default="{ row }">
-            <div class="link-cell">
-              <div class="link-cell__meta">
-                <strong>{{ row.name }}</strong>
-                <span>{{ row.url }}</span>
-              </div>
-            </div>
-          </template>
+        <el-table-column label="单位名称" min-width="200" show-overflow-tooltip>
+          <template #default="{ row }">{{ row.name }}</template>
+        </el-table-column>
+        <el-table-column label="链接地址" min-width="280" show-overflow-tooltip>
+          <template #default="{ row }">{{ row.url }}</template>
         </el-table-column>
         <el-table-column prop="sort" label="排序" width="120" />
         <el-table-column label="状态" width="120">

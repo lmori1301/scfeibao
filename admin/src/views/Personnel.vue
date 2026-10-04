@@ -8,6 +8,7 @@ import { emailRule, idCardRule, phoneRule, requiredRule } from '@/utils/validate
 import Pagination from '@/components/Pagination.vue'
 import ImageUpload from '@/components/ImageUpload.vue'
 import DataImportDialog from '@/components/DataImportDialog.vue'
+import QueryFilter from '@/components/QueryFilter.vue'
 import http from '@/utils/http'
 import { parsePhotoUrlListForDisplay } from '@/utils/photo-urls'
 import {
@@ -416,30 +417,34 @@ onMounted(() => {
     <div class="page-crumb">{{ pageCrumb }}</div>
 
     <div class="admin-card admin-card--search">
-    <div class="admin-list-toolbar">
-      <div class="admin-list-toolbar__filters personnel-toolbar__filters">
-        <el-select v-model="searchForm.listScope" placeholder="列表范围" clearable>
-          <el-option label="在岗队员" value="在岗队员" />
-          <el-option label="待培训" value="待培训" />
-          <el-option label="已离岗" value="已离岗" />
-        </el-select>
-        <el-input v-model="searchForm.personnelNo" placeholder="人员编号" clearable />
-        <el-input v-model="searchForm.name" placeholder="姓名" clearable>
-          <template #prefix><el-icon><Search /></el-icon></template>
-        </el-input>
-        <el-input v-model="searchForm.department" placeholder="所属部门" clearable />
-        <el-select v-model="searchForm.status" placeholder="人员状态" clearable>
-          <el-option label="在职" value="在职" />
-          <el-option label="离职" value="离职" />
-        </el-select>
-      </div>
-      <div class="admin-list-toolbar__actions">
-        <div class="admin-toolbar-actions__primary">
-          <el-button type="primary" @click="handleSearch">查询</el-button>
-          <el-button @click="handleReset">重置</el-button>
-        </div>
-      </div>
-    </div>
+      <QueryFilter :searching="loading" @search="handleSearch" @reset="handleReset">
+        <div class="qf__group" data-title="基础信息"></div>
+        <el-form-item label="人员编号">
+          <el-input v-model="searchForm.personnelNo" placeholder="人员编号" clearable />
+        </el-form-item>
+        <el-form-item label="姓名">
+          <el-input v-model="searchForm.name" placeholder="姓名" clearable>
+            <template #prefix><el-icon><Search /></el-icon></template>
+          </el-input>
+        </el-form-item>
+        <el-form-item label="所属部门">
+          <el-input v-model="searchForm.department" placeholder="所属部门" clearable />
+        </el-form-item>
+        <div class="qf__group" data-title="状态筛选"></div>
+        <el-form-item label="列表范围">
+          <el-select v-model="searchForm.listScope" placeholder="全部" clearable>
+            <el-option label="在岗队员" value="在岗队员" />
+            <el-option label="待培训" value="待培训" />
+            <el-option label="已离岗" value="已离岗" />
+          </el-select>
+        </el-form-item>
+        <el-form-item label="人员状态" class="qf-advanced">
+          <el-select v-model="searchForm.status" placeholder="全部状态" clearable>
+            <el-option label="在职" value="在职" />
+            <el-option label="离职" value="离职" />
+          </el-select>
+        </el-form-item>
+      </QueryFilter>
     </div>
 
     <section class="admin-card admin-card--table personnel-panel personnel-table-panel">

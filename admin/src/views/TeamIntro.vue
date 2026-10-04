@@ -6,6 +6,7 @@ import { usePagination } from '@/composables/usePagination'
 import Pagination from '@/components/Pagination.vue'
 import AsyncRichTextEditor from '@/components/AsyncRichTextEditor.vue'
 import http from '@/utils/http'
+import QueryFilter from '@/components/QueryFilter.vue'
 
 const dialogVisible = ref(false)
 const dialogTitle = ref('新增队伍介绍')
@@ -21,6 +22,12 @@ const sortedRows = computed(() =>
 )
 
 const tableRows = computed(() => (listSort.value === 'recent' ? sortedRows.value : data.value))
+const handleSearch = () => {
+  // 列表排序为客户端计算，tableRows 随 listSort 自动生效
+}
+const handleReset = () => {
+  listSort.value = ''
+}
 const handleAdd = () => {
   dialogTitle.value = '新增队伍介绍'
   formData.value = { id: null, title: '', content: '', sort: 0 }
@@ -79,14 +86,14 @@ onMounted(fetch)
     <div class="page-crumb">系统首页 / 门户内容 / 队伍介绍</div>
 
     <div class="admin-card admin-card--search">
-      <div class="portal-toolbar">
-        <div class="portal-toolbar__filters">
-          <el-select v-model="listSort" placeholder="列表排序" clearable class="portal-toolbar__sort">
+      <QueryFilter :collapsible="false" :searching="loading" @search="handleSearch" @reset="handleReset">
+        <el-form-item label="列表排序">
+          <el-select v-model="listSort" placeholder="全部内容" clearable>
             <el-option label="全部内容" value="" />
             <el-option label="最近更新" value="recent" />
           </el-select>
-        </div>
-      </div>
+        </el-form-item>
+      </QueryFilter>
     </div>
 
     <div class="admin-card admin-card--table">

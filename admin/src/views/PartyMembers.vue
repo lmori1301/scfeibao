@@ -98,16 +98,14 @@ onMounted(() => {
       <el-table :data="tableData" v-loading="loading" stripe>
         <el-table-column type="selection" width="46" />
         <el-table-column type="index" label="序号" width="70" />
-        <el-table-column label="党员信息" min-width="320">
-          <template #default="{ row }">
-            <div class="member-cell">
-              <div class="member-cell__meta">
-                <strong>{{ row.name }}</strong>
-                <span>{{ row.position || '未填写职位' }}</span>
-                <p>{{ row.description || '暂无简介' }}</p>
-              </div>
-            </div>
-          </template>
+        <el-table-column label="姓名" min-width="140" show-overflow-tooltip>
+          <template #default="{ row }">{{ row.name }}</template>
+        </el-table-column>
+        <el-table-column label="职位" min-width="160" show-overflow-tooltip>
+          <template #default="{ row }">{{ row.position || '未填写职位' }}</template>
+        </el-table-column>
+        <el-table-column label="简介" min-width="240" show-overflow-tooltip>
+          <template #default="{ row }">{{ row.description || '暂无简介' }}</template>
         </el-table-column>
         <el-table-column prop="sort" label="排序" width="90" />
         <el-table-column

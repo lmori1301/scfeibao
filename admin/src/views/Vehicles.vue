@@ -8,6 +8,7 @@ import { requiredRule } from '@/utils/validate'
 import Pagination from '@/components/Pagination.vue'
 import ImageUpload from '@/components/ImageUpload.vue'
 import DataImportDialog from '@/components/DataImportDialog.vue'
+import QueryFilter from '@/components/QueryFilter.vue'
 import http from '@/utils/http'
 import { parsePhotoUrlListForDisplay } from '@/utils/photo-urls'
 
@@ -251,32 +252,34 @@ fetch()
     <div class="page-crumb">{{ pageCrumb }}</div>
 
     <div class="admin-card admin-card--search">
-    <div class="admin-list-toolbar">
-      <div class="admin-list-toolbar__filters vehicles-toolbar__filters">
-        <el-select v-model="searchForm.listScope" placeholder="列表范围" clearable>
-          <el-option label="值勤中" value="值勤中" />
-          <el-option label="可调度" value="可调度" />
-          <el-option label="停用维护" value="停用维护" />
-        </el-select>
-        <el-select v-model="searchForm.type" placeholder="车辆类型" clearable>
-          <el-option v-for="type in vehicleTypes" :key="type" :label="type" :value="type" />
-        </el-select>
-        <el-select v-model="searchForm.status" placeholder="使用状态" clearable>
-          <el-option label="正常" value="正常" />
-          <el-option label="维修中" value="维修中" />
-          <el-option label="停用" value="停用" />
-        </el-select>
-        <el-input v-model="searchForm.plate" placeholder="输入车辆号牌" clearable>
-          <template #prefix><el-icon><Search /></el-icon></template>
-        </el-input>
-      </div>
-      <div class="admin-list-toolbar__actions">
-        <div class="admin-toolbar-actions__primary">
-          <el-button type="primary" @click="handleSearch">查询</el-button>
-          <el-button @click="handleReset">重置</el-button>
-        </div>
-      </div>
-    </div>
+      <QueryFilter :searching="loading" @search="handleSearch" @reset="handleReset">
+        <div class="qf__group" data-title="基础信息"></div>
+        <el-form-item label="车辆号牌">
+          <el-input v-model="searchForm.plate" placeholder="输入车辆号牌" clearable>
+            <template #prefix><el-icon><Search /></el-icon></template>
+          </el-input>
+        </el-form-item>
+        <el-form-item label="车辆类型">
+          <el-select v-model="searchForm.type" placeholder="全部类型" clearable>
+            <el-option v-for="type in vehicleTypes" :key="type" :label="type" :value="type" />
+          </el-select>
+        </el-form-item>
+        <div class="qf__group" data-title="状态筛选"></div>
+        <el-form-item label="列表范围">
+          <el-select v-model="searchForm.listScope" placeholder="全部" clearable>
+            <el-option label="值勤中" value="值勤中" />
+            <el-option label="可调度" value="可调度" />
+            <el-option label="停用维护" value="停用维护" />
+          </el-select>
+        </el-form-item>
+        <el-form-item label="使用状态" class="qf-advanced">
+          <el-select v-model="searchForm.status" placeholder="全部状态" clearable>
+            <el-option label="正常" value="正常" />
+            <el-option label="维修中" value="维修中" />
+            <el-option label="停用" value="停用" />
+          </el-select>
+        </el-form-item>
+      </QueryFilter>
     </div>
 
     <section class="admin-card admin-card--table vehicles-panel vehicles-table-panel">

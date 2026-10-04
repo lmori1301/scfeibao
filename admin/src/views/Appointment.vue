@@ -1,10 +1,11 @@
 <script setup lang="ts">
 import { computed, nextTick, ref } from 'vue'
-import { Download, Files, Plus, RefreshRight, Search } from '@element-plus/icons-vue'
+import { Download, Files, Plus, RefreshRight } from '@element-plus/icons-vue'
 import { ElMessage, ElMessageBox } from 'element-plus'
 import { usePagination } from '@/composables/usePagination'
 import { requiredRule } from '@/utils/validate'
 import Pagination from '@/components/Pagination.vue'
+import QueryFilter from '@/components/QueryFilter.vue'
 import FileUpload from '@/components/FileUpload.vue'
 import http from '@/utils/http'
 
@@ -137,25 +138,21 @@ fetch(getApiParams())
     <div class="page-crumb">系统首页 / 门户内容 / 人事任免</div>
 
     <div class="admin-card admin-card--search">
-      <section class="appointment-panel appointment-toolbar">
-        <div class="appointment-toolbar__filters">
-          <el-input v-model="searchForm.title" placeholder="请输入公文标题" clearable class="appointment-toolbar__grow">
-            <template #prefix><el-icon><Search /></el-icon></template>
-          </el-input>
-          <el-input v-model="searchForm.department" placeholder="请输入发文部门" clearable class="appointment-toolbar__grow" />
-          <el-select v-model="searchForm.docScope" placeholder="公文范围" clearable class="appointment-toolbar__scope">
+      <QueryFilter :collapsible="false" :searching="loading" @search="handleSearch" @reset="handleReset">
+        <el-form-item label="公文标题">
+          <el-input v-model="searchForm.title" placeholder="请输入公文标题" clearable />
+        </el-form-item>
+        <el-form-item label="发文部门">
+          <el-input v-model="searchForm.department" placeholder="请输入发文部门" clearable />
+        </el-form-item>
+        <el-form-item label="公文范围">
+          <el-select v-model="searchForm.docScope" placeholder="全部公文" clearable>
             <el-option label="全部公文" value="" />
             <el-option label="已发布" value="已发布" />
             <el-option label="含附件" value="含附件" />
           </el-select>
-        </div>
-        <div class="appointment-toolbar__actions">
-          <div class="admin-toolbar-actions__primary">
-            <el-button type="primary" @click="handleSearch">查询</el-button>
-            <el-button @click="handleReset">重置</el-button>
-          </div>
-        </div>
-      </section>
+        </el-form-item>
+      </QueryFilter>
     </div>
 
     <div class="admin-card admin-card--table appointment-panel appointment-table-panel">

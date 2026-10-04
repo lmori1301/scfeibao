@@ -5,6 +5,7 @@ import { ElMessage, ElMessageBox } from 'element-plus'
 import { usePagination } from '@/composables/usePagination'
 import { requiredRule } from '@/utils/validate'
 import Pagination from '@/components/Pagination.vue'
+import QueryFilter from '@/components/QueryFilter.vue'
 import ImageUpload from '@/components/ImageUpload.vue'
 import http from '@/utils/http'
 
@@ -106,35 +107,28 @@ fetch()
     <div class="page-crumb">系统首页 / 门户内容 / 轮播图管理</div>
 
     <div class="admin-card admin-card--search">
-      <div class="portal-toolbar">
-        <div class="portal-toolbar__filters">
+      <QueryFilter :searching="loading" @search="handleSearch" @reset="handleReset">
+        <el-form-item label="展示状态">
           <el-select
             v-model="searchForm.statusFilter"
-            placeholder="展示状态"
+            placeholder="全部素材"
             clearable
-            class="portal-toolbar__field portal-toolbar__field--status"
           >
             <el-option label="全部素材" value="" />
             <el-option label="展示中" value="显示" />
             <el-option label="已隐藏" value="隐藏" />
           </el-select>
+        </el-form-item>
+        <el-form-item label="关键词">
           <el-input
             v-model="searchForm.title"
-            placeholder="输入轮播图相关关键词"
+            placeholder="轮播图相关关键词"
             clearable
-            class="portal-toolbar__field portal-toolbar__field--keyword"
-            @keyup.enter="handleSearch"
           >
             <template #prefix><el-icon><Search /></el-icon></template>
           </el-input>
-        </div>
-        <div class="portal-toolbar__actions">
-          <div class="admin-toolbar-actions__primary">
-            <el-button type="primary" @click="handleSearch">查询</el-button>
-            <el-button @click="handleReset">重置</el-button>
-          </div>
-        </div>
-      </div>
+        </el-form-item>
+      </QueryFilter>
     </div>
 
     <div class="admin-card admin-card--table">

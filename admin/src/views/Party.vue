@@ -1,11 +1,12 @@
 <script setup lang="ts">
 import { computed, onMounted, ref } from 'vue'
-import { Plus, RefreshRight, Search } from '@element-plus/icons-vue'
+import { Plus, RefreshRight } from '@element-plus/icons-vue'
 import { ElMessage, ElMessageBox } from 'element-plus'
 import http from '@/utils/http'
 import AsyncRichTextEditor from '@/components/AsyncRichTextEditor.vue'
 import ImageUpload from '@/components/ImageUpload.vue'
 import Pagination from '@/components/Pagination.vue'
+import QueryFilter from '@/components/QueryFilter.vue'
 
 const searchForm = ref({
   title: '',
@@ -126,27 +127,27 @@ const formatDate = (_row: any, _column: any, cellValue: any) => {
     <div class="page-crumb">系统首页 / 门户内容 / 党建专栏</div>
 
     <div class="admin-card admin-card--search">
-      <section class="party-panel party-toolbar">
-        <div class="party-toolbar__filters">
-          <el-input v-model="searchForm.title" placeholder="请输入标签" clearable class="party-toolbar__grow">
-            <template #prefix><el-icon><Search /></el-icon></template>
-          </el-input>
-          <el-select v-model="searchForm.type" placeholder="请选择类型" clearable class="party-toolbar__field">
-            <el-option v-for="type in partyTypes" :key="type" :label="type" :value="type" />
-          </el-select>
-          <el-select v-model="searchForm.publishScope" placeholder="发布状态" clearable class="party-toolbar__field">
-            <el-option label="全部栏目" value="" />
-            <el-option label="已发布" value="已发布" />
-            <el-option label="草稿" value="草稿" />
-          </el-select>
+      <QueryFilter :collapsible="false" :searching="loading" @search="handleSearch" @reset="handleReset">
+        <div class="qf__group" data-title="基础信息">
+          <el-form-item label="栏目标签">
+            <el-input v-model="searchForm.title" placeholder="请输入标签" clearable />
+          </el-form-item>
         </div>
-          <div class="party-toolbar__actions">
-            <div class="admin-toolbar-actions__primary">
-              <el-button type="primary" @click="handleSearch">查询</el-button>
-              <el-button @click="handleReset">重置</el-button>
-            </div>
-          </div>
-      </section>
+        <div class="qf__group" data-title="发布筛选">
+          <el-form-item label="栏目类型">
+            <el-select v-model="searchForm.type" placeholder="请选择类型" clearable>
+              <el-option v-for="type in partyTypes" :key="type" :label="type" :value="type" />
+            </el-select>
+          </el-form-item>
+          <el-form-item label="发布状态">
+            <el-select v-model="searchForm.publishScope" placeholder="全部栏目" clearable>
+              <el-option label="全部栏目" value="" />
+              <el-option label="已发布" value="已发布" />
+              <el-option label="草稿" value="草稿" />
+            </el-select>
+          </el-form-item>
+        </div>
+      </QueryFilter>
     </div>
 
     <section class="admin-card admin-card--table party-panel party-table-panel">

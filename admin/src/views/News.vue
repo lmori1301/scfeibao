@@ -6,6 +6,7 @@ import { usePagination } from '@/composables/usePagination'
 import { requiredRule } from '@/utils/validate'
 import Pagination from '@/components/Pagination.vue'
 import ImageUpload from '@/components/ImageUpload.vue'
+import QueryFilter from '@/components/QueryFilter.vue'
 import AsyncRichTextEditor from '@/components/AsyncRichTextEditor.vue'
 import http from '@/utils/http'
 
@@ -193,31 +194,32 @@ fetch(getApiParams())
     <div class="page-crumb">系统首页 / 门户内容 / 新闻管理</div>
 
     <div class="admin-card admin-card--search">
-      <section class="content-toolbar">
-        <div class="content-toolbar__filters">
-          <el-input v-model="searchForm.title" placeholder="请输入关键词" clearable class="content-toolbar__field--grow">
+      <QueryFilter :searching="loading" @search="handleSearch" @reset="handleReset">
+        <div class="qf__group" data-title="筛选条件"></div>
+        <el-form-item label="关键词">
+          <el-input v-model="searchForm.title" placeholder="标题/摘要关键字" clearable>
             <template #prefix><el-icon><Search /></el-icon></template>
           </el-input>
-          <el-select v-model="searchForm.category" placeholder="新闻分类" clearable class="content-toolbar__field">
+        </el-form-item>
+        <el-form-item label="新闻分类">
+          <el-select v-model="searchForm.category" placeholder="全部分类" clearable>
             <el-option v-for="cat in newsCategories" :key="cat" :label="cat" :value="cat" />
           </el-select>
-          <el-select v-model="searchForm.status" placeholder="发布状态" clearable class="content-toolbar__field">
+        </el-form-item>
+        <el-form-item label="发布状态">
+          <el-select v-model="searchForm.status" placeholder="全部状态" clearable>
             <el-option label="已发布" value="1" />
             <el-option label="草稿" value="0" />
           </el-select>
-          <el-select v-model="searchForm.listScope" placeholder="列表范围" clearable class="content-toolbar__field">
+        </el-form-item>
+        <el-form-item label="列表范围" class="qf-advanced">
+          <el-select v-model="searchForm.listScope" placeholder="全部" clearable>
             <el-option label="全部新闻" value="" />
             <el-option label="已发布" value="已发布" />
             <el-option label="草稿箱" value="草稿" />
           </el-select>
-        </div>
-        <div class="content-toolbar__actions">
-          <div class="admin-toolbar-actions__primary">
-            <el-button type="primary" @click="handleSearch">查询</el-button>
-            <el-button @click="handleReset">重置</el-button>
-          </div>
-        </div>
-      </section>
+        </el-form-item>
+      </QueryFilter>
     </div>
 
     <div class="admin-card admin-card--table">

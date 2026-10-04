@@ -5,6 +5,7 @@ import { ElMessage, ElMessageBox } from 'element-plus'
 import { usePagination } from '@/composables/usePagination'
 import { requiredRule } from '@/utils/validate'
 import Pagination from '@/components/Pagination.vue'
+import QueryFilter from '@/components/QueryFilter.vue'
 import ImageUpload from '@/components/ImageUpload.vue'
 import DataImportDialog from '@/components/DataImportDialog.vue'
 import http from '@/utils/http'
@@ -155,20 +156,16 @@ fetch()
     <div class="page-crumb">系统首页 / 门户内容 / 领导信息</div>
 
     <div class="admin-card admin-card--search">
-      <section class="leadership-panel leadership-toolbar">
-        <div class="leadership-toolbar__filters">
-          <el-input v-model="searchForm.name" placeholder="请输入姓名" clearable class="leadership-toolbar__grow">
+      <QueryFilter :collapsible="false" :searching="loading" @search="handleSearch" @reset="handleReset">
+        <el-form-item label="姓名">
+          <el-input v-model="searchForm.name" placeholder="请输入姓名" clearable>
             <template #prefix><el-icon><Search /></el-icon></template>
           </el-input>
-          <el-input v-model="searchForm.position" placeholder="请输入职位" clearable class="leadership-toolbar__grow" />
-        </div>
-          <div class="leadership-toolbar__actions">
-            <div class="admin-toolbar-actions__primary">
-              <el-button type="primary" @click="handleSearch">查询</el-button>
-              <el-button @click="handleReset">重置</el-button>
-            </div>
-          </div>
-      </section>
+        </el-form-item>
+        <el-form-item label="职位">
+          <el-input v-model="searchForm.position" placeholder="请输入职位" clearable />
+        </el-form-item>
+      </QueryFilter>
     </div>
 
     <section class="admin-card admin-card--table leadership-panel leadership-table-panel">

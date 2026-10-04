@@ -4,6 +4,7 @@ import { ArrowUp, Plus, RefreshRight, VideoPlay } from '@element-plus/icons-vue'
 import { ElMessage, ElMessageBox } from 'element-plus'
 import { usePagination } from '@/composables/usePagination'
 import Pagination from '@/components/Pagination.vue'
+import QueryFilter from '@/components/QueryFilter.vue'
 import http from '@/utils/http'
 
 const dialogVisible = ref(false)
@@ -23,6 +24,14 @@ const tableRows = computed(() =>
     return true
   })
 )
+
+// 置顶筛选为客户端计算属性，查询/重置仅驱动统一性交互
+const handleSearch = () => {
+  // tableRows 随 topFilter 自动重算，无需重新请求
+}
+const handleReset = () => {
+  topFilter.value = ''
+}
 
 const beforeVideoUpload = (file: File) => {
   const isVideo = file.type.startsWith('video/')
@@ -121,15 +130,15 @@ onMounted(() => {
     <div class="page-crumb">系统首页 / 门户内容 / 宣传视频</div>
 
     <div class="admin-card admin-card--search">
-      <section class="video-panel video-toolbar">
-        <div class="video-toolbar__filters">
-          <el-select v-model="topFilter" placeholder="置顶筛选" clearable class="video-toolbar__filter">
+      <QueryFilter :collapsible="false" :searching="loading" @search="handleSearch" @reset="handleReset">
+        <el-form-item label="展示状态">
+          <el-select v-model="topFilter" placeholder="全部视频" clearable>
             <el-option label="全部视频" value="" />
             <el-option label="已置顶" value="已置顶" />
             <el-option label="未置顶" value="未置顶" />
           </el-select>
-        </div>
-      </section>
+        </el-form-item>
+      </QueryFilter>
     </div>
 
     <section class="admin-card admin-card--table video-panel video-table-panel">

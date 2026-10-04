@@ -3,6 +3,7 @@ import { onMounted, ref } from 'vue'
 import { Calendar, Download } from '@element-plus/icons-vue'
 import { ElMessage } from 'element-plus'
 import Pagination from '@/components/Pagination.vue'
+import QueryFilter from '@/components/QueryFilter.vue'
 import { usePagination } from '@/composables/usePagination'
 import http from '@/utils/http'
 
@@ -61,20 +62,22 @@ onMounted(fetchLogs)
     <div class="page-crumb">系统首页 / 系统配置 / 操作日志</div>
 
     <div class="admin-card admin-card--search">
-    <div class="admin-list-toolbar">
-      <div class="admin-list-toolbar__filters operation-log-toolbar__filters">
-        <el-input v-model="searchForm.username" placeholder="请输入用户名" clearable style="min-width: 140px; max-width: 200px" />
-        <el-input v-model="searchForm.action" placeholder="请输入操作类型" clearable style="min-width: 140px; max-width: 200px" />
-        <el-date-picker v-model="searchForm.startDate" type="date" placeholder="开始时间" style="width: 160px" />
-        <el-date-picker v-model="searchForm.endDate" type="date" placeholder="结束时间" style="width: 160px" />
-      </div>
-      <div class="admin-list-toolbar__actions">
-        <div class="admin-toolbar-actions__primary">
-          <el-button type="primary" @click="handleSearch">查询</el-button>
-          <el-button @click="handleReset">重置</el-button>
-        </div>
-      </div>
-    </div>
+      <QueryFilter :searching="loading" @search="handleSearch" @reset="handleReset">
+        <div class="qf__group" data-title="操作信息"></div>
+        <el-form-item label="用户名">
+          <el-input v-model="searchForm.username" placeholder="请输入用户名" clearable />
+        </el-form-item>
+        <el-form-item label="操作类型">
+          <el-input v-model="searchForm.action" placeholder="请输入操作类型" clearable />
+        </el-form-item>
+        <div class="qf__group" data-title="时间范围"></div>
+        <el-form-item label="开始时间">
+          <el-date-picker v-model="searchForm.startDate" type="date" placeholder="开始时间" />
+        </el-form-item>
+        <el-form-item label="结束时间" class="qf-advanced">
+          <el-date-picker v-model="searchForm.endDate" type="date" placeholder="结束时间" />
+        </el-form-item>
+      </QueryFilter>
     </div>
 
     <section class="admin-card admin-card--table operation-log-panel operation-log-table-panel">
@@ -90,15 +93,11 @@ onMounted(fetchLogs)
       <el-table :data="tableData" v-loading="loading" stripe>
         <el-table-column type="index" label="序号" width="70" />
         <el-table-column prop="username" label="用户名" width="140" />
-        <el-table-column label="操作内容" min-width="260">
-          <template #default="{ row }">
-            <div class="log-cell">
-              <div class="log-cell__meta">
-                <strong>{{ row.action }}</strong>
-                <span>{{ row.module }}</span>
-              </div>
-            </div>
-          </template>
+        <el-table-column label="操作类型" min-width="140" show-overflow-tooltip>
+          <template #default="{ row }">{{ row.action }}</template>
+        </el-table-column>
+        <el-table-column label="操作模块" min-width="160" show-overflow-tooltip>
+          <template #default="{ row }">{{ row.module }}</template>
         </el-table-column>
         <el-table-column prop="ip" label="IP 地址" width="160" />
         <el-table-column label="操作时间" width="200">

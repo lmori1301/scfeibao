@@ -106,15 +106,11 @@ onMounted(fetchNavItems)
       </div>
       <el-table :data="tableRows" v-loading="loading" stripe>
         <el-table-column type="index" label="序号" width="70" />
-        <el-table-column label="导航项" min-width="220">
-          <template #default="{ row }">
-            <div class="nav-cell">
-              <div class="nav-cell__meta">
-                <strong>{{ row.name }}</strong>
-                <span>{{ row.path }}</span>
-              </div>
-            </div>
-          </template>
+        <el-table-column label="导航名称" min-width="160" show-overflow-tooltip>
+          <template #default="{ row }">{{ row.name }}</template>
+        </el-table-column>
+        <el-table-column label="路径" min-width="220" show-overflow-tooltip>
+          <template #default="{ row }">{{ row.path }}</template>
         </el-table-column>
         <el-table-column prop="source" label="来源文件" min-width="300" show-overflow-tooltip />
         <el-table-column label="排序" width="140">

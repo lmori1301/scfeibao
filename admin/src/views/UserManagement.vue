@@ -1,9 +1,10 @@
 <script setup lang="ts">
 import { onMounted, ref } from 'vue'
-import { RefreshRight, Search, User } from '@element-plus/icons-vue'
+import { RefreshRight, User } from '@element-plus/icons-vue'
 import Pagination from '@/components/Pagination.vue'
 import { usePagination } from '@/composables/usePagination'
 import http from '@/utils/http'
+import QueryFilter from '@/components/QueryFilter.vue'
 import { formatDateTimeLocal } from '@/utils/format'
 
 type AdminUserItem = {
@@ -69,23 +70,17 @@ onMounted(fetchUsers)
     <div class="page-crumb">系统首页 / 系统配置 / 人员管理</div>
 
     <div class="admin-card admin-card--search">
-    <div class="admin-list-toolbar">
-      <div class="admin-list-toolbar__filters user-management-toolbar__filters">
-        <el-select v-model="searchForm.scope" placeholder="账号状态" clearable style="min-width: 120px">
-          <el-option label="启用中" value="启用中" />
-          <el-option label="已禁用" value="已禁用" />
-        </el-select>
-        <el-input v-model="searchForm.keyword" placeholder="输入用户名、姓名或手机号" clearable style="min-width: 220px; max-width: 420px; flex: 1">
-          <template #prefix><el-icon><Search /></el-icon></template>
-        </el-input>
-      </div>
-      <div class="admin-list-toolbar__actions">
-        <div class="admin-toolbar-actions__primary">
-          <el-button type="primary" @click="handleSearch">查询</el-button>
-          <el-button @click="handleReset">重置</el-button>
-        </div>
-      </div>
-    </div>
+      <QueryFilter :collapsible="false" :searching="loading" @search="handleSearch" @reset="handleReset">
+        <el-form-item label="账号状态">
+          <el-select v-model="searchForm.scope" placeholder="全部状态" clearable>
+            <el-option label="启用中" value="启用中" />
+            <el-option label="已禁用" value="已禁用" />
+          </el-select>
+        </el-form-item>
+        <el-form-item label="关键词">
+          <el-input v-model="searchForm.keyword" placeholder="输入用户名、姓名或手机号" clearable />
+        </el-form-item>
+      </QueryFilter>
     </div>
 
     <section class="admin-card admin-card--table user-management-panel user-management-table-panel">

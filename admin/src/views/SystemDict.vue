@@ -4,6 +4,7 @@ import { useRoute } from 'vue-router'
 import { Plus, RefreshRight, Search } from '@element-plus/icons-vue'
 import { ElMessage, ElMessageBox } from 'element-plus'
 import Pagination from '@/components/Pagination.vue'
+import QueryFilter from '@/components/QueryFilter.vue'
 import { usePagination } from '@/composables/usePagination'
 import http from '@/utils/http'
 
@@ -140,26 +141,19 @@ onMounted(() => fetch())
     </el-alert>
 
     <div class="admin-card admin-card--search">
-      <div class="admin-list-toolbar">
-        <div class="admin-list-toolbar__filters">
-          <el-select v-model="searchForm.dictType" placeholder="字典类型" style="width: 200px">
+      <QueryFilter :collapsible="false" :searching="loading" @search="handleSearch" @reset="handleReset">
+        <el-form-item label="字典类型">
+          <el-select v-model="searchForm.dictType" placeholder="全部类型" clearable>
             <el-option v-for="t in DICT_TYPES" :key="t.value" :label="`${t.label}（${t.value}）`" :value="t.value" />
           </el-select>
-          <el-select v-model="searchForm.status" placeholder="状态" clearable style="width: 120px">
+        </el-form-item>
+        <el-form-item label="状态">
+          <el-select v-model="searchForm.status" placeholder="全部状态" clearable>
             <el-option label="启用" :value="1" />
             <el-option label="禁用" :value="0" />
           </el-select>
-        </div>
-        <div class="admin-list-toolbar__actions">
-          <div class="admin-toolbar-actions__primary">
-            <el-button type="primary" @click="handleSearch">
-              <el-icon><Search /></el-icon>
-              查询
-            </el-button>
-            <el-button @click="handleReset">重置</el-button>
-          </div>
-        </div>
-      </div>
+        </el-form-item>
+      </QueryFilter>
     </div>
 
     <section class="admin-card admin-card--table system-dict-table-panel">

@@ -1,0 +1,106 @@
+@use './variables' as *;
+
+/* =====================================================================
+ * 后台列表页统一框架约定（List Page Framework）
+ * 与 global.scss / element.scss 配合，覆盖「查询区 / 列表 / 按钮」三类组件。
+ *
+ * 按钮层级与状态规范（element.scss 已落地样式，此处为使用约定）：
+ *   1) 主要操作（新增、保存、查询）      -> type="primary"  + 默认 :loading / :disabled
+ *   2) 次要操作（刷新、重置、批量启用）   -> 默认（default）/ plain
+ *   3) 危险操作（删除、批量删除）         -> type="danger" / danger link；确认弹窗 type="warning"
+ *   4) 禁用态                          -> :disabled（连点保护）；加载中 -> :loading
+ *   5) 行内操作（编辑/删除/查看）         -> link 按钮（type primary / danger），置入 .admin-table-ops
+ *   6) 弹窗底部                         -> 取消(default) + 保存(primary, :loading)
+ *
+ * 位置规范：
+ *   工具栏（toolbar）：新增/批量/刷新 —— .admin-table-panel__head-actions 右对齐
+ *   行内（row）       ：编辑/删除    —— 最后一列固定 .admin-table-ops-col
+ *   弹窗（dialog）    ：取消/保存    —— .el-dialog__footer 右对齐
+ * ===================================================================== */
+
+/* 查询区与表格同处一张白卡时，分组标题的兜底样式（组件内已含，此处保证跨页一致） */
+.qf__group[data-title] {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin: 6px 0 2px;
+  grid-column: 1 / -1;
+
+  &::before {
+    content: attr(data-title);
+    flex: 0 0 auto;
+    font-size: 13px;
+    font-weight: 700;
+    color: #2f67ff;
+  }
+
+  &::after {
+    content: '';
+    flex: 1 1 auto;
+    height: 1px;
+    background: linear-gradient(90deg, #e3ecfb 0%, rgba(227, 236, 251, 0) 100%);
+  }
+}
+
+/* 列表「操作」列：水平居中、按钮间距统一 */
+.content-panel__body .el-table th.admin-table-ops-col--header,
+.content-panel__body .el-table td.admin-table-ops-col {
+  text-align: center;
+}
+
+.content-panel__body .el-table td.el-table__cell.admin-table-ops-col {
+  vertical-align: middle;
+}
+
+.content-panel__body .el-table .admin-table-ops {
+  display: inline-flex;
+  flex-wrap: nowrap;
+  align-items: center;
+  justify-content: center;
+  gap: 0 4px;
+  white-space: nowrap;
+}
+
+.content-panel__body .el-table .admin-table-ops .el-button.is-link,
+.content-panel__body .el-table .admin-table-ops .el-button.is-text {
+  margin: 0 !important;
+  padding: 2px 6px;
+  min-width: 0;
+  height: auto;
+  font-size: 13px;
+  font-weight: 500;
+}
+
+/* 列表页顶部仅右侧操作（无标题卡片，与 Dashboard 刷新条一致） */
+.admin-toolbar-right {
+  display: flex;
+  justify-content: flex-end;
+  gap: 10px;
+  flex-wrap: wrap;
+  margin-bottom: 12px;
+}
+
+/* 窄屏：工具栏按钮占满宽度，查询区单列 */
+@media (max-width: 960px) {
+  .admin-table-panel__head {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .admin-table-panel__head-actions {
+    margin-left: 0;
+    width: 100%;
+  }
+
+  .admin-table-panel__head-actions > .el-button {
+    flex: 1 1 auto;
+    min-width: 0;
+  }
+}
+
+@media (max-width: 768px) {
+  .admin-toolbar-right > .el-button {
+    flex: 1 1 auto;
+    min-width: 0;
+  }
+}

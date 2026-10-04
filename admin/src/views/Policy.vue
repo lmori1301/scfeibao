@@ -6,6 +6,7 @@ import { usePagination } from '@/composables/usePagination'
 import { requiredRule } from '@/utils/validate'
 import Pagination from '@/components/Pagination.vue'
 import FileUpload from '@/components/FileUpload.vue'
+import QueryFilter from '@/components/QueryFilter.vue'
 import http from '@/utils/http'
 
 const searchForm = ref({ title: '', category: '' })
@@ -126,22 +127,18 @@ fetch()
     <div class="page-crumb">系统首页 / 门户内容 / 政策文件</div>
 
     <div class="admin-card admin-card--search">
-      <section class="policy-panel policy-toolbar">
-        <div class="policy-toolbar__filters">
-          <el-input v-model="searchForm.title" placeholder="请输入文件标题" clearable class="policy-toolbar__grow">
+      <QueryFilter :collapsible="false" :searching="loading" @search="handleSearch" @reset="handleReset">
+        <el-form-item label="文件标题">
+          <el-input v-model="searchForm.title" placeholder="请输入文件标题" clearable>
             <template #prefix><el-icon><Search /></el-icon></template>
           </el-input>
-          <el-select v-model="searchForm.category" placeholder="请选择分类" clearable class="policy-toolbar__field">
+        </el-form-item>
+        <el-form-item label="文件分类">
+          <el-select v-model="searchForm.category" placeholder="全部分类" clearable>
             <el-option v-for="cat in policyCategories" :key="cat" :label="cat" :value="cat" />
           </el-select>
-        </div>
-        <div class="policy-toolbar__actions">
-          <div class="admin-toolbar-actions__primary">
-            <el-button type="primary" @click="handleSearch">查询</el-button>
-            <el-button @click="handleReset">重置</el-button>
-          </div>
-        </div>
-      </section>
+        </el-form-item>
+      </QueryFilter>
     </div>
 
     <div class="admin-card admin-card--table policy-panel policy-table-panel">

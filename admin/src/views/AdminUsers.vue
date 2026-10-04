@@ -1,11 +1,12 @@
 <script setup lang="ts">
 import { computed, nextTick, onMounted, ref } from 'vue'
-import { Plus, RefreshRight, Search, User } from '@element-plus/icons-vue'
+import { Plus, RefreshRight, User } from '@element-plus/icons-vue'
 import { ElMessage, ElMessageBox, type FormInstance, type FormRules } from 'element-plus'
 import Pagination from '@/components/Pagination.vue'
 import { usePagination } from '@/composables/usePagination'
 import http from '@/utils/http'
 import { formatDateTimeLocal } from '@/utils/format'
+import QueryFilter from '@/components/QueryFilter.vue'
 import { mergeSessionUserIfCurrentAccount } from '@/utils/session-user'
 
 type AdminUserItem = {
@@ -318,24 +319,22 @@ onMounted(async () => {
   <div class="admin-users-page">
     <div class="page-crumb">系统首页 / 系统配置 / 用户管理</div>
 
-    <div class="admin-list-toolbar admin-list-query">
-      <div class="admin-list-toolbar__filters admin-users-toolbar__filters">
-        <el-select v-model="searchForm.accountScope" placeholder="账号状态" clearable style="min-width: 120px">
-          <el-option label="启用中" value="启用中" />
-          <el-option label="已禁用" value="已禁用" />
-        </el-select>
-        <el-input v-model="searchForm.username" placeholder="输入用户名关键词" clearable style="min-width: 200px; max-width: 360px; flex: 1">
-          <template #prefix><el-icon><Search /></el-icon></template>
-        </el-input>
-        <el-select v-model="searchForm.role" placeholder="角色筛选" clearable style="width: 160px">
-          <el-option v-for="role in roleOptions" :key="role" :label="role" :value="role" />
-        </el-select>
-      </div>
-      <div class="admin-list-toolbar__actions">
-        <el-button type="primary" @click="handleSearch">查询</el-button>
-        <el-button @click="handleReset">重置</el-button>
-      </div>
-    </div>
+      <QueryFilter :searching="loading" @search="handleSearch" @reset="handleReset">
+        <el-form-item label="账号状态">
+          <el-select v-model="searchForm.accountScope" placeholder="全部状态" clearable>
+            <el-option label="启用中" value="启用中" />
+            <el-option label="已禁用" value="已禁用" />
+          </el-select>
+        </el-form-item>
+        <el-form-item label="用户名">
+          <el-input v-model="searchForm.username" placeholder="输入用户名关键词" clearable />
+        </el-form-item>
+        <el-form-item label="角色筛选" class="qf-advanced">
+          <el-select v-model="searchForm.role" placeholder="全部角色" clearable>
+            <el-option v-for="role in roleOptions" :key="role" :label="role" :value="role" />
+          </el-select>
+        </el-form-item>
+      </QueryFilter>
 
     <section class="admin-users-panel admin-users-table-panel">
       <div class="admin-table-panel__head">

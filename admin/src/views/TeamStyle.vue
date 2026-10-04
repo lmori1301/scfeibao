@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { computed, nextTick, ref } from 'vue'
-import { Plus, RefreshRight, Search } from '@element-plus/icons-vue'
+import { Plus, RefreshRight } from '@element-plus/icons-vue'
 import { ElMessage, ElMessageBox } from 'element-plus'
 import { usePagination } from '@/composables/usePagination'
 import { requiredRule } from '@/utils/validate'
@@ -8,6 +8,7 @@ import Pagination from '@/components/Pagination.vue'
 import ImageUpload from '@/components/ImageUpload.vue'
 import AsyncRichTextEditor from '@/components/AsyncRichTextEditor.vue'
 import http from '@/utils/http'
+import QueryFilter from '@/components/QueryFilter.vue'
 
 const dialogVisible = ref(false)
 const dialogTitle = ref('新增队伍风采')
@@ -120,40 +121,28 @@ fetch()
 
     <section class="admin-page-list-card">
       <div class="admin-page-list-card__toolbar">
-        <section class="portal-toolbar admin-list-query">
-          <div class="portal-toolbar__filters">
-            <el-input
-              v-model="titleKeyword"
-              placeholder="请输入标题关键词"
-              clearable
-              class="portal-toolbar__keyword"
-              @keyup.enter="handleSearch"
-            >
-              <template #prefix><el-icon><Search /></el-icon></template>
-            </el-input>
-            <el-select v-model="statusFilter" placeholder="展示状态" clearable class="portal-toolbar__filter">
+        <QueryFilter :searching="loading" @search="handleSearch" @reset="handleReset">
+          <el-form-item label="标题关键词">
+            <el-input v-model="titleKeyword" placeholder="请输入标题关键词" clearable />
+          </el-form-item>
+          <el-form-item label="展示状态">
+            <el-select v-model="statusFilter" placeholder="全部图集" clearable>
               <el-option label="全部图集" value="" />
               <el-option label="显示中" value="显示" />
               <el-option label="已隐藏" value="隐藏" />
             </el-select>
-          </div>
-          <div class="portal-toolbar__actions">
-            <div class="admin-toolbar-actions__primary">
-              <el-button type="primary" @click="handleSearch">查询</el-button>
-              <el-button @click="handleReset">重置</el-button>
-            </div>
-            <div class="admin-toolbar-actions__end">
-              <el-button plain @click="fetch()">
-                <el-icon><RefreshRight /></el-icon>
-                刷新
-              </el-button>
-              <el-button type="primary" @click="handleAdd">
-                <el-icon><Plus /></el-icon>
-                新增风采
-              </el-button>
-            </div>
-          </div>
-        </section>
+          </el-form-item>
+        </QueryFilter>
+        <div class="admin-toolbar-right">
+          <el-button plain @click="fetch()">
+            <el-icon><RefreshRight /></el-icon>
+            刷新
+          </el-button>
+          <el-button type="primary" @click="handleAdd">
+            <el-icon><Plus /></el-icon>
+            新增风采
+          </el-button>
+        </div>
       </div>
 
       <div class="admin-page-list-card__main">

@@ -1,11 +1,12 @@
 <script setup lang="ts">
 import { computed, nextTick, onMounted, ref } from 'vue'
-import { Plus, RefreshRight, Search } from '@element-plus/icons-vue'
+import { Plus, RefreshRight } from '@element-plus/icons-vue'
 import { ElMessage, ElMessageBox } from 'element-plus'
 import { usePagination } from '@/composables/usePagination'
 import Pagination from '@/components/Pagination.vue'
 import ImageUpload from '@/components/ImageUpload.vue'
 import http from '@/utils/http'
+import QueryFilter from '@/components/QueryFilter.vue'
 
 const searchForm = ref({ title: '', listScope: '' as '' | 'recent' })
 const dialogVisible = ref(false)
@@ -108,25 +109,17 @@ onMounted(() => {
     <div class="page-crumb">系统首页 / 门户内容 / 救援案例</div>
 
     <div class="admin-card admin-card--search">
-      <section class="case-filter-panel case-toolbar">
-        <div class="case-toolbar__filters">
-          <el-select v-model="searchForm.listScope" placeholder="列表范围" clearable class="case-toolbar__scope">
+      <QueryFilter :searching="loading" @search="handleSearch" @reset="handleReset">
+        <el-form-item label="案例标题">
+          <el-input v-model="searchForm.title" placeholder="输入案例标题关键词" clearable />
+        </el-form-item>
+        <el-form-item label="列表范围" class="qf-advanced">
+          <el-select v-model="searchForm.listScope" placeholder="全部案例" clearable>
             <el-option label="全部案例" value="" />
             <el-option label="最近案例" value="recent" />
           </el-select>
-          <el-input v-model="searchForm.title" placeholder="输入案例标题关键词" clearable @keyup.enter="handleSearch">
-            <template #prefix>
-              <el-icon><Search /></el-icon>
-            </template>
-          </el-input>
-        </div>
-        <div class="case-toolbar__actions">
-          <div class="admin-toolbar-actions__primary">
-            <el-button type="primary" @click="handleSearch">查询</el-button>
-            <el-button @click="handleReset">重置</el-button>
-          </div>
-        </div>
-      </section>
+        </el-form-item>
+      </QueryFilter>
     </div>
 
     <section class="admin-card admin-card--table case-table-panel">

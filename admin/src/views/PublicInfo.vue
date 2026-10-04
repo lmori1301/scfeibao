@@ -1,12 +1,13 @@
 <script setup lang="ts">
 import { computed, nextTick, ref } from 'vue'
-import { Files, Plus, RefreshRight, Search } from '@element-plus/icons-vue'
+import { Files, Plus, RefreshRight } from '@element-plus/icons-vue'
 import { ElMessage, ElMessageBox } from 'element-plus'
 import { usePagination } from '@/composables/usePagination'
 import { requiredRule } from '@/utils/validate'
 import Pagination from '@/components/Pagination.vue'
 import FileUpload from '@/components/FileUpload.vue'
 import http from '@/utils/http'
+import QueryFilter from '@/components/QueryFilter.vue'
 
 const searchForm = ref({
   title: '',
@@ -136,20 +137,14 @@ fetch(getApiParams())
     <div class="page-crumb">系统首页 / 门户内容 / 信息公开</div>
 
     <div class="admin-card admin-card--search">
-      <section class="public-info-panel public-info-toolbar">
-        <div class="public-info-toolbar__filters">
-          <el-input v-model="searchForm.title" placeholder="请输入公开事项标题" clearable class="public-info-toolbar__grow">
-            <template #prefix><el-icon><Search /></el-icon></template>
-          </el-input>
-          <el-input v-model="searchForm.category" placeholder="请输入公开分类" clearable class="public-info-toolbar__grow" />
-        </div>
-        <div class="public-info-toolbar__actions">
-          <div class="admin-toolbar-actions__primary">
-            <el-button type="primary" @click="handleSearch">查询</el-button>
-            <el-button @click="handleReset">重置</el-button>
-          </div>
-        </div>
-      </section>
+      <QueryFilter :collapsible="false" :searching="loading" @search="handleSearch" @reset="handleReset">
+        <el-form-item label="事项标题">
+          <el-input v-model="searchForm.title" placeholder="请输入公开事项标题" clearable />
+        </el-form-item>
+        <el-form-item label="公开分类">
+          <el-input v-model="searchForm.category" placeholder="请输入公开分类" clearable />
+        </el-form-item>
+      </QueryFilter>
     </div>
 
     <div class="admin-card admin-card--table public-info-panel public-info-table-panel">
