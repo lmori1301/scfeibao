@@ -1067,8 +1067,10 @@ onUnmounted(() => {
     position: absolute;
     left: 13.14%;
     right: 52.55%;
-    top: 21.31%;
-    bottom: 77.72%;
+    top: 20.81%;
+    bottom: 77.39%;
+    display: flex;
+    align-items: center;
     white-space: pre;
     flex-grow: 0;
 }
@@ -2996,8 +2998,8 @@ onUnmounted(() => {
     position: absolute;
     left: 7.4%;
     right: 86.67%;
-    top: 50%;
-    transform: translateY(calc(-50% + -340px));
+    top: 43.35%;
+    bottom: 56.02%;
 }
 .Pixso-paragraph-1_163::before {
     content: '';
@@ -3278,7 +3280,7 @@ onUnmounted(() => {
     height: 59px;
     position: absolute;
     left: 896px;
-    top: 1651px;
+    top: 1730px;
 }
 .Pixso-paragraph-32_4 {
     font-size: 20px;
@@ -3324,7 +3326,7 @@ onUnmounted(() => {
     height: 59px;
     position: absolute;
     left: 241px;
-    top: 3314px;
+    top: 3393px;
 }
 .Pixso-paragraph-34_2 {
     font-size: 20px;
@@ -3413,8 +3415,10 @@ onUnmounted(() => {
 .banner-carousel-dots {
     position: absolute;
     right: 8%;
-    top: 21.21%;
+    top: 20.81%;
+    bottom: 77.39%;
     display: flex;
+    align-items: center;
     gap: 12px;
     z-index: 10;
 }
