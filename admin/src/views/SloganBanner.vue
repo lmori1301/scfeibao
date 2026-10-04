@@ -42,6 +42,44 @@ const rules = {
   imageUrl: [requiredRule('横幅图片')],
 }
 
+// 前台通栏实际显示尺寸：1920 设计宽 × (100% - 5.89% - 5.83%) = 1694px
+const RECOMMENDED_WIDTH = 1694
+
+/** 上传前校验分辨率：低于推荐宽度会拉伸模糊，直接拦截 */
+const beforeBannerUpload = (raw: File) => {
+  const allowed = ['image/jpeg', 'image/png', 'image/gif', 'image/webp']
+  if (!allowed.includes(raw.type)) {
+    ElMessage.error('只支持 JPG / PNG / WebP 格式')
+    return false
+  }
+  if (raw.size / 1024 / 1024 > 5) {
+    ElMessage.error('图片大小不能超过 5MB')
+    return false
+  }
+  // 用 createImageBitmap 读真实像素，避免依赖 window.Image 的异步时序
+  return createImageBitmap(raw)
+    .then((bitmap) => {
+      const { width, height } = bitmap
+      bitmap.close?.()
+      if (width < RECOMMENDED_WIDTH) {
+        ElMessage.error(
+          `图片宽度仅 ${width}px，低于推荐 ${RECOMMENDED_WIDTH}px，首页展示会拉伸模糊。` +
+            `请上传宽度 ≥ ${RECOMMENDED_WIDTH}px 的高清图（建议 1920×112 或 2560×150）。`
+        )
+        return false
+      }
+      if (height < 60) {
+        ElMessage.error(`图片高度仅 ${height}px，过于扁平，建议不低于 90px`)
+        return false
+      }
+      return true
+    })
+    .catch(() => {
+      // 浏览器无法解码时交给后端校验
+      return true
+    })
+}
+
 const { data, total, loading, page, pageSize, fetch, handlePageChange } = usePagination((params) => {
   const filteredParams = Object.fromEntries(
     Object.entries(params).filter(([_, v]) => v !== '' && v !== null && v !== undefined)
@@ -50,11 +88,18 @@ const { data, total, loading, page, pageSize, fetch, handlePageChange } = usePag
 })
 
 const tableRows = computed(() => {
-  const kw = (searchForm.value.keyword || '').trim()
+  const kw = (searchForm.value.keyword || '').trim().toLowerCase()
   return data.value.filter((item: any) => {
     if (searchForm.value.statusFilter === '显示' && item.status !== '显示') return false
     if (searchForm.value.statusFilter === '隐藏' && item.status !== '隐藏') return false
-    if (kw && !(String(item.slogan || '').includes(kw))) return false
+    if (kw) {
+      // 关键词匹配跳转链接 / 图片地址（历史数据的标语文字仍兼容命中）
+      const haystack = [item.link, item.imageUrl, item.slogan]
+        .filter(Boolean)
+        .join(' ')
+        .toLowerCase()
+      if (!haystack.includes(kw)) return false
+    }
     return true
   })
 })
@@ -93,12 +138,23 @@ const handleDialogClosed = () => {
   formRef.value?.clearValidate?.()
 }
 
+/** 保存中标志：防止连点「保存」重复提交（此前无该保护，连点会一次写入多条记录） */
+const saving = ref(false)
+
 const handleSave = async () => {
-  await formRef.value.validate()
-  await http.post('/slogan-banners/save', formData.value)
-  ElMessage.success('保存成功')
-  dialogVisible.value = false
-  refresh()
+  if (saving.value) return
+  saving.value = true
+  try {
+    await formRef.value.validate()
+    await http.post('/slogan-banners/save', formData.value)
+    ElMessage.success('保存成功')
+    dialogVisible.value = false
+    refresh()
+  } catch {
+    // 校验不通过时 Element Plus 已在表单内提示；接口错误由 http 拦截器统一提示
+  } finally {
+    saving.value = false
+  }
 }
 
 const handleDelete = (row: any) => {
@@ -176,7 +232,7 @@ fetch()
           </el-select>
           <el-input
             v-model="searchForm.keyword"
-            placeholder="输入标语关键词"
+            placeholder="输入关键词"
             clearable
             class="portal-toolbar__field portal-toolbar__field--keyword"
             @keyup.enter="handleSearch"
@@ -227,12 +283,7 @@ fetch()
             </div>
           </template>
         </el-table-column>
-        <el-table-column prop="slogan" label="标语文字" min-width="240" show-overflow-tooltip>
-          <template #default="{ row }">
-            <span>{{ row.slogan || '（图片自带文字）' }}</span>
-          </template>
-        </el-table-column>
-        <el-table-column label="跳转链接" min-width="180" show-overflow-tooltip>
+        <el-table-column label="跳转链接" min-width="260" show-overflow-tooltip>
           <template #default="{ row }">
             <span v-if="row.link">{{ row.link }}</span>
             <span v-else style="color: #999">不跳转</span>
@@ -278,21 +329,14 @@ fetch()
             <section class="portal-form-section">
               <div class="portal-form-section__header">
                 <strong>内容信息</strong>
-                <span>上传通栏横幅图，标语文字可选（图片自带文字时可留空）。</span>
               </div>
               <div class="portal-form-section__body">
                 <el-form-item label="横幅图片" prop="imageUrl">
-                  <ImageUpload v-model="formData.imageUrl" />
-                </el-form-item>
-                <el-form-item label="标语文字">
-                  <el-input
-                    v-model="formData.slogan"
-                    type="textarea"
-                    :rows="2"
-                    maxlength="255"
-                    show-word-limit
-                    placeholder="如：深入学习贯彻习近平新时代中国特色社会主义思想（可选）"
-                  />
+                  <ImageUpload v-model="formData.imageUrl" :before-upload="beforeBannerUpload" />
+                  <div class="slogan-upload-hint">
+                    通栏展示区域约 {{ RECOMMENDED_WIDTH }}×104px，请上传宽度 ≥ {{ RECOMMENDED_WIDTH }}px
+                    的高清图（建议 1920×112 或 2560×150），否则拉伸会模糊。
+                  </div>
                 </el-form-item>
               </div>
             </section>
@@ -300,7 +344,6 @@ fetch()
             <section class="portal-form-section">
               <div class="portal-form-section__header">
                 <strong>跳转设置</strong>
-                <span>留空链接则点击横幅不跳转。</span>
               </div>
               <div class="portal-form-section__body">
                 <el-form-item label="跳转链接">
@@ -318,7 +361,6 @@ fetch()
             <section class="portal-form-section">
               <div class="portal-form-section__header">
                 <strong>展示设置</strong>
-                <span>排序号越小越靠前；禁用后前台不展示。</span>
               </div>
               <div class="portal-form-section__body">
                 <el-form-item label="排序号">
@@ -340,7 +382,7 @@ fetch()
               <img v-if="formData.imageUrl" :src="formData.imageUrl" :alt="formData.slogan || '横幅预览'" />
               <div v-else class="preview-card__empty">横幅预览</div>
             </div>
-            <strong>{{ formData.slogan || '（未填写标语）' }}</strong>
+            <strong>{{ dialogTitle === '编辑标语横幅' ? '编辑横幅' : '新增横幅' }}</strong>
             <span>{{ formData.status }} · 排序 {{ formData.sort }}</span>
             <span v-if="formData.link" class="preview-card__extra">
               {{ formData.linkTarget === '_blank' ? '新标签页打开' : '当前窗口打开' }}
@@ -349,14 +391,57 @@ fetch()
         </aside>
       </div>
       <template #footer>
-        <el-button @click="dialogVisible = false">取消</el-button>
-        <el-button type="primary" @click="handleSave">保存</el-button>
+        <el-button :disabled="saving" @click="dialogVisible = false">取消</el-button>
+        <el-button type="primary" :loading="saving" @click="handleSave">保存</el-button>
       </template>
     </el-dialog>
   </div>
 </template>
 
 <style scoped>
+/* 查询条件区：与「门户内容 → 横幅管理」保持同一套单行布局
+   （此前本页漏写这几个类，导致 portal-toolbar 退化成块级元素，
+   查询条件与「查询/重置」被拆成两行 —— 用户反馈的布局问题）。 */
+.portal-toolbar {
+  display: flex;
+  flex-wrap: nowrap;
+  align-items: center;
+  justify-content: flex-start;
+  gap: 12px 16px;
+}
+
+.portal-toolbar__filters {
+  display: flex;
+  flex-wrap: nowrap;
+  align-items: center;
+  gap: 10px;
+  flex: 0 1 auto;
+  min-width: 0;
+  overflow-x: auto;
+  scrollbar-width: thin;
+}
+
+.portal-toolbar__field--status {
+  width: 140px;
+}
+
+.admin-card--search .portal-toolbar .portal-toolbar__field--keyword {
+  flex: 0 0 auto;
+  width: 220px;
+  min-width: 160px;
+  max-width: 320px;
+}
+
+.portal-toolbar__actions {
+  display: flex;
+  flex-wrap: nowrap;
+  align-items: center;
+  gap: 10px;
+  flex: 0 0 auto;
+  margin-left: 0;
+  min-width: 0;
+}
+
 .banner-table-thumb--wide {
   width: 132px;
   height: 40px;
@@ -384,5 +469,12 @@ fetch()
 .preview-card__extra {
   color: #909399;
   font-size: 12px;
+}
+
+.slogan-upload-hint {
+  margin-top: 6px;
+  font-size: 12px;
+  line-height: 18px;
+  color: #909399;
 }
 </style>

@@ -9,10 +9,13 @@ const props = withDefaults(
     modelValue: string
     limit?: number
     size?: number
+    /** 自定义上传前校验；返回 false 拦截。默认只做格式与大小校验 */
+    beforeUpload?: (raw: File) => boolean | Promise<boolean>
   }>(),
   {
     limit: 1,
     size: 5,
+    beforeUpload: undefined,
   }
 )
 
@@ -90,7 +93,7 @@ const handleExceed = () => {
   ElMessage.warning(`最多上传 ${props.limit} 张图片，请先移除后再上传`)
 }
 
-const beforeUpload = (file: File) => {
+const beforeUpload = async (file: File) => {
   // 与后端 upload.service.ts 的白名单保持一致
   const allowedTypes = ['image/jpeg', 'image/png', 'image/gif', 'image/webp']
   const isImage = allowedTypes.includes(file.type)
@@ -103,6 +106,10 @@ const beforeUpload = (file: File) => {
   if (!isLt) {
     ElMessage.error(`图片大小不能超过 ${props.size}MB`)
     return false
+  }
+  // 有外部校验则叠加执行（如标语横幅的分辨率校验）
+  if (props.beforeUpload) {
+    return await props.beforeUpload(file)
   }
   return true
 }
