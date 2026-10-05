@@ -348,7 +348,7 @@
             <!-- 主导航：首页图标 + 7 个文字模块，Flex 水平均匀对齐 -->
             <nav class="main-nav" aria-label="主导航">
                 <router-link to="/" class="nav-home" aria-label="首页">
-                    <span class="nav-home__icon" aria-hidden="true"></span>
+                    <img src="@/assets/images/nav-home-icon.png" class="nav-home__icon" aria-hidden="true" />
                 </router-link>
                 <router-link to="/overview-info" id="1_169" class="Pixso-paragraph-1_169">{{ "概况信息" }}</router-link>
                 <router-link to="/team-building" id="1_170" class="Pixso-paragraph-1_170">{{ "队伍建设" }}</router-link>
@@ -944,6 +944,7 @@ onUnmounted(() => {
 }
 
 /* 主导航：用 Flex 把 8 个模块（首页图标 + 7 文字）在蓝色导航条内水平均匀对齐 */
+/* 主导航：徽章左边缘与 banner 左边缘对齐，7 个文字模块在剩余空间内等分 */
 .main-nav {
     position: absolute;
     left: 5.89%;
@@ -952,7 +953,7 @@ onUnmounted(() => {
     height: 1.63%;
     z-index: 1;
     display: flex;
-    justify-content: space-around;
+    justify-content: flex-start;
     align-items: center;
     pointer-events: none;
 }
@@ -961,7 +962,7 @@ onUnmounted(() => {
     pointer-events: auto;
 }
 
-/* 覆盖原先各导航项的绝对定位，改为 Flex 子项 */
+/* 覆盖原先各导航项的绝对定位，改为 Flex 子项；在剩余空间内等分并居中 */
 .main-nav .Pixso-paragraph-1_169,
 .main-nav .Pixso-paragraph-1_170,
 .main-nav .Pixso-paragraph-1_171,
@@ -978,6 +979,8 @@ onUnmounted(() => {
     height: auto;
     transform: none;
     margin: 0;
+    flex: 1;
+    text-align: center;
 }
 
 /* 首页红色徽章入口：横向矩形，与导航条同高，内嵌消防救援徽章图标 */
@@ -986,13 +989,8 @@ onUnmounted(() => {
     align-items: center;
     justify-content: center;
     height: 100%;
-    width: 100px;
+    width: auto;
     flex-shrink: 0;
-    background-color: #c41e24;
-    background-image: url(@/assets/images/nav-home-icon.png);
-    background-size: contain;
-    background-position: center center;
-    background-repeat: no-repeat;
     text-decoration: none;
     transition: opacity 0.3s, transform 0.2s;
 }
@@ -1003,7 +1001,9 @@ onUnmounted(() => {
 }
 
 .nav-home__icon {
-    display: none;
+    display: block;
+    height: 100%;
+    width: auto;
 }
 
 .Pixso-vector-1_10 {
@@ -1783,28 +1783,28 @@ onUnmounted(() => {
     flex-shrink: 0;
 }
 .Pixso-vector-1_58 {
-    width: 0.81%;
-    height: 0.63%;
-    background-image: url(@/assets/images/Vector_1_58.png);
-    background-size: 100% 100%;
-    background-repeat: no-repeat;
-    position: absolute;
-    left: 7.66%;
-    right: 90.03%;
-    top: 21.83%;
-    bottom: 77.54%;
+	width: 0.81%;
+	height: 0.63%;
+	background-image: url(@/assets/images/Vector_1_58.png);
+	background-size: 100% 100%;
+	background-repeat: no-repeat;
+	position: absolute;
+	left: 7.66%;
+	right: 90.03%;
+	top: 21.40%;
+	bottom: 77.98%;
 }
 .Pixso-vector-1_59 {
-    width: 0.8%;
-    height: 0.63%;
-    background-image: url(@/assets/images/Boolean_operation_1_59.png);
-    background-size: 100% 100%;
-    background-repeat: no-repeat;
-    position: absolute;
-    left: 10.50%;
-    right: 87.46%;
-    top: 21.83%;
-    bottom: 77.54%;
+	width: 0.8%;
+	height: 0.63%;
+	background-image: url(@/assets/images/Boolean_operation_1_59.png);
+	background-size: 100% 100%;
+	background-repeat: no-repeat;
+	position: absolute;
+	left: 10.50%;
+	right: 87.46%;
+	top: 21.40%;
+	bottom: 77.98%;
 }
 .Pixso-vector-1_61 {
     width: 1.3%;

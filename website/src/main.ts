@@ -7,6 +7,8 @@ import {
   ElBreadcrumb,
   ElBreadcrumbItem,
   ElButton,
+  ElConfigProvider,
+  ElDatePicker,
   ElDescriptions,
   ElDescriptionsItem,
   ElDialog,
@@ -20,10 +22,12 @@ import {
   ElTag,
   ElUpload,
 } from 'element-plus'
+import zhCn from 'element-plus/es/locale/lang/zh-cn'
 import 'element-plus/es/components/alert/style/css'
 import 'element-plus/es/components/breadcrumb/style/css'
 import 'element-plus/es/components/breadcrumb-item/style/css'
 import 'element-plus/es/components/button/style/css'
+import 'element-plus/es/components/date-picker/style/css'
 import 'element-plus/es/components/descriptions/style/css'
 import 'element-plus/es/components/descriptions-item/style/css'
 import 'element-plus/es/components/dialog/style/css'
@@ -49,6 +53,8 @@ const elementComponents = [
   ElBreadcrumb,
   ElBreadcrumbItem,
   ElButton,
+  ElConfigProvider,
+  ElDatePicker,
   ElDescriptions,
   ElDescriptionsItem,
   ElDialog,

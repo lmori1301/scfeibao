@@ -30,8 +30,8 @@ const openDialog = () => {
 .duty-entry {
   position: fixed;
   right: 0;
-  top: 26%;
-  z-index: 880;
+  top: 32%;
+  z-index: 100;
   font-family: "Alibaba PuHuiTi-Regular", "Microsoft YaHei", sans-serif;
 }
 
@@ -45,17 +45,17 @@ const openDialog = () => {
   height: 90px;
   padding: 8px 6px;
   border: none;
-  border-radius: 8px 0 0 8px;
-  background: linear-gradient(135deg, #d6ecff 0%, #c3e2ff 100%);
-  color: #e60012;
+  border-radius: 0;
+  background: linear-gradient(135deg, #c41e24 0%, #9a1418 100%);
+  color: #fff;
   cursor: pointer;
-  box-shadow: -2px 2px 10px rgba(0, 60, 130, 0.12);
+  box-shadow: -2px 2px 10px rgba(154, 20, 24, 0.22);
   transition: transform 0.22s ease, box-shadow 0.22s ease, background 0.22s ease;
 }
 
 .duty-entry__cube:hover {
-  background: linear-gradient(135deg, #c3e2ff 0%, #aed8ff 100%);
-  box-shadow: -3px 3px 14px rgba(0, 60, 130, 0.18);
+  background: linear-gradient(135deg, #a3181d 0%, #7d1013 100%);
+  box-shadow: -3px 3px 14px rgba(154, 20, 24, 0.32);
   transform: translateX(-2px);
 }
 
@@ -64,13 +64,13 @@ const openDialog = () => {
   font-weight: 700;
   line-height: 1.45;
   text-align: center;
-  text-shadow: 0 1px 0 rgba(255, 255, 255, 0.6);
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.25);
 }
 
 .duty-entry__action {
   font-size: 13px;
   font-weight: 600;
   line-height: 1;
-  color: #e60012;
+  color: #fff;
 }
 </style>

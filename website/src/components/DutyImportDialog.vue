@@ -6,11 +6,10 @@
  * 提交时展示上传进度与解析结果；错误信息按后端返回逐条展示，可重试。
  */
 import { computed, onMounted, ref, watch } from 'vue'
-import { ElMessage, ElMessageBox, type UploadFile, type UploadProps } from 'element-plus'
-import { UploadFilled } from '@element-plus/icons-vue'
+import { ElMessage, ElMessageBox, type FormItemRule, type UploadFile, type UploadProps } from 'element-plus'
+import { UploadFilled, User, Document } from '@element-plus/icons-vue'
 import {
   getTeamNameOptions,
-  getDutyYearOptions,
   importTeamDutyXlsx,
   type DutyDictOption,
   type DutyImportResponse,
@@ -32,19 +31,30 @@ const submitting = ref(false)
 const percent = ref(0)
 const fileList = ref<UploadFile[]>([])
 const teamOptions = ref<DutyDictOption[]>([])
-const yearOptions = ref<DutyDictOption[]>([])
 const result = ref<DutyImportResponse | null>(null)
 const loadingOptions = ref(false)
 
+/** 当前年-月（YYYY-MM），用于年月选择器默认值 */
+function currentYearMonth(): string {
+  const d = new Date()
+  return `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, '0')}`
+}
+
+/** 可下载的值班表模板（位于 public/templates） */
+const templateUrl = import.meta.env.BASE_URL + 'templates/duty-roster-template.xlsx'
+
 const form = ref({
-  dutyYear: String(new Date().getFullYear()),
+  dutyYear: '',
   teamName: '',
   submitterName: '',
+  attachment: '',
 })
 
 const rules = {
-  dutyYear: [{ required: true, message: '请选择值班年份', trigger: 'change' }],
+  dutyYear: [{ required: true, message: '请选择值班年月', trigger: 'change' }],
   teamName: [{ required: true, message: '请选择队伍名称', trigger: 'change' }],
+  submitterName: [{ required: true, message: '请输入提交人', trigger: 'blur' }],
+  attachment: [{ required: true, validator: validateAttachment, trigger: 'change' }],
 }
 
 /** 附件必须在列表中且未超出大小限制 */
@@ -53,15 +63,11 @@ const hasValidFile = computed(() => fileList.value.some((f) => f.raw))
 const loadOptions = async () => {
   loadingOptions.value = true
   try {
-    const [teams, years] = await Promise.all([getTeamNameOptions(), getDutyYearOptions()])
+    const teams = await getTeamNameOptions()
     teamOptions.value = teams
-    yearOptions.value = years
-    if (!form.value.teamName && teams.length) {
-      form.value.teamName = teams[0].value
-    }
   } catch (error) {
-    console.error('获取值班下拉选项失败:', error)
-    ElMessage.warning('下拉选项加载失败，可稍后重试或直接联系管理员')
+    console.error('获取队伍名称选项失败:', error)
+    ElMessage.warning('队伍名称加载失败，可稍后重试或直接联系管理员')
   } finally {
     loadingOptions.value = false
   }
@@ -69,9 +75,10 @@ const loadOptions = async () => {
 
 const reset = () => {
   form.value = {
-    dutyYear: String(new Date().getFullYear()),
-    teamName: teamOptions.value[0]?.value || '',
+    dutyYear: '',
+    teamName: '',
     submitterName: '',
+    attachment: '',
   }
   fileList.value = []
   percent.value = 0
@@ -81,6 +88,15 @@ const reset = () => {
 
 const handleClosed = () => {
   reset()
+}
+
+/** 校验附件是否已上传 */
+function validateAttachment(_rule: FormItemRule, _value: any, callback: (err?: Error) => void) {
+  if (fileList.value.some((f) => f.raw)) {
+    callback()
+  } else {
+    callback(new Error('请上传值班表附件'))
+  }
 }
 
 // ---- 附件校验：格式 + 大小 ----
@@ -102,6 +118,11 @@ const beforeUpload: UploadProps['beforeUpload'] = (raw) => {
 const handleRemove = () => {
   percent.value = 0
   result.value = null
+  formRef.value?.validateField('attachment').catch(() => {})
+}
+
+const handleChange: UploadProps['onChange'] = () => {
+  formRef.value?.validateField('attachment').catch(() => {})
 }
 
 // ---- 提交 ----
@@ -176,70 +197,97 @@ watch(() => props.modelValue, (v) => {
   <el-dialog
     v-if="visible"
     v-model="visible"
-    title="请各单位负责人上传应急值班值守台账"
-    width="480px"
+    title="四川飞豹救援值班值守台账"
+    width="640px"
     class="duty-import-dialog"
+    append-to-body
+    :lock-scroll="false"
     :close-on-click-modal="false"
     :close-on-press-escape="false"
     :show-close="!submitting"
     :before-close="confirmClose"
     @closed="handleClosed"
   >
-    <el-form ref="formRef" :model="form" :rules="rules" label-width="96px">
-      <el-form-item label="年份" prop="dutyYear">
-        <el-select
-          v-model="form.dutyYear"
-          placeholder="请选择台账所属年份"
-          :loading="loadingOptions"
-          style="width: 100%"
-        >
-          <el-option v-for="y in yearOptions" :key="y.value" :label="y.label" :value="y.value" />
-        </el-select>
-      </el-form-item>
+    <div class="duty-import__body">
+      <el-form ref="formRef" :model="form" :rules="rules" label-width="90px" class="duty-import__form">
+        <el-form-item label="年月" prop="dutyYear" class="duty-import__form-item">
+          <el-date-picker
+            v-model="form.dutyYear"
+            type="month"
+            placeholder="请选择"
+            value-format="YYYY-MM"
+            format="YYYY-MM"
+            popper-class="duty-month-popper"
+            :teleported="false"
+            style="width: 100%"
+          />
+        </el-form-item>
 
-      <el-form-item label="队伍名称" prop="teamName">
-        <el-select
-          v-model="form.teamName"
-          placeholder="请选择队伍名称"
-          filterable
-          :loading="loadingOptions"
-          style="width: 100%"
-        >
-          <el-option v-for="t in teamOptions" :key="t.value" :label="t.label" :value="t.value" />
-        </el-select>
-      </el-form-item>
+        <el-form-item label="队伍名称" prop="teamName" class="duty-import__form-item">
+          <el-select
+            v-model="form.teamName"
+            placeholder="请选择"
+            filterable
+            :loading="loadingOptions"
+            style="width: 100%"
+          >
+            <el-option v-for="t in teamOptions" :key="t.value" :label="t.label" :value="t.value" />
+          </el-select>
+        </el-form-item>
 
-      <el-form-item label="提交人">
-        <el-input v-model="form.submitterName" placeholder="选填，便于追溯提交人" maxlength="32" clearable />
-      </el-form-item>
+        <el-form-item label="提交人" prop="submitterName" class="duty-import__form-item">
+          <el-input v-model="form.submitterName" placeholder="请输入提交人" maxlength="32" clearable>
+            <template #prefix>
+              <el-icon><User /></el-icon>
+            </template>
+          </el-input>
+        </el-form-item>
 
-      <el-form-item label="台账附件">
-        <el-upload
-          v-model:file-list="fileList"
-          action="#"
-          :auto-upload="false"
-          :limit="1"
-          :before-upload="beforeUpload"
-          :on-remove="handleRemove"
-          accept=".xlsx"
-          drag
-          style="width: 100%"
-        >
-          <el-icon class="el-icon--upload"><upload-filled /></el-icon>
-          <div class="el-upload__text">将值班表拖到此处，或<em>点击选择文件</em></div>
-          <template #tip>
-            <div class="el-upload__tip">
-              仅支持 .xlsx 格式，单个文件不超过 {{ MAX_SIZE_MB }}MB。<br />
-              表格需为「日期为列」的值班表样式（首行含 时间 / 日期 列，并有 值班干部 / 值班人员 行）。
+        <el-form-item label="附件" prop="attachment" :rules="rules.attachment" class="duty-import__upload-item">
+          <el-upload
+            v-model:file-list="fileList"
+            action="#"
+            :auto-upload="false"
+            :limit="1"
+            :before-upload="beforeUpload"
+            :on-remove="handleRemove"
+            :on-change="handleChange"
+            accept=".xlsx"
+            drag
+            style="width: 100%"
+          >
+            <div class="duty-upload__inner">
+              <div class="duty-upload__icon">
+                <el-icon><UploadFilled /></el-icon>
+              </div>
+              <div class="duty-upload__text">
+                <strong>点击选择文件</strong> 或将值班表拖拽到此处
+              </div>
+              <div class="duty-upload__meta">
+                仅支持 .xlsx 格式，单个文件不超过 {{ MAX_SIZE_MB }}MB
+              </div>
             </div>
-          </template>
-        </el-upload>
-      </el-form-item>
+          </el-upload>
+        </el-form-item>
+
+        <!-- 下载模板：下方附可下载的值班表模板 -->
+        <div class="duty-import__template">
+          <el-icon class="duty-import__template-icon"><Document /></el-icon>
+          <span>请下载</span>
+          <a
+            class="duty-import__template-link"
+            :href="templateUrl"
+            download="四川飞豹救援值班表.xlsx"
+          >《四川飞豹救援值班表》模板</a>
+          <span>，按规范格式填写完毕后上传至上方附件。</span>
+        </div>
+      </el-form>
 
       <!-- 上传进度 -->
-      <el-form-item v-if="submitting || percent > 0" label="上传进度">
+      <div v-if="submitting || percent > 0" class="duty-import__progress">
+        <div class="duty-import__progress-label">上传进度</div>
         <el-progress :percentage="percent" :status="submitting ? undefined : 'success'" />
-      </el-form-item>
+      </div>
 
       <!-- 解析结果 / 错误明细 -->
       <el-alert
@@ -247,6 +295,7 @@ watch(() => props.modelValue, (v) => {
         :type="result.created > 0 ? (result.errors.length ? 'warning' : 'success') : 'error'"
         :closable="false"
         show-icon
+        class="duty-import__result"
       >
         <template #title>{{ result.message }}</template>
         <div v-if="result.errors.length" class="duty-import__errors">
@@ -256,17 +305,98 @@ watch(() => props.modelValue, (v) => {
         </div>
         <el-button v-if="result.created === 0" link type="primary" @click="handleRetry">重新选择文件</el-button>
       </el-alert>
-    </el-form>
+    </div>
 
     <template #footer>
-      <el-button type="primary" :loading="submitting" :disabled="!hasValidFile" @click="handleSubmit">
-        {{ submitting ? '提交中…' : '提交信息' }}
-      </el-button>
+      <div class="duty-import__footer">
+        <el-button :disabled="submitting" @click="visible = false">取消</el-button>
+        <el-button type="primary" :loading="submitting" :disabled="!hasValidFile" @click="handleSubmit">
+          {{ submitting ? '提交中…' : '提交信息' }}
+        </el-button>
+      </div>
     </template>
   </el-dialog>
 </template>
 
 <style scoped>
+.duty-import__body {
+  padding: 4px 0 0;
+}
+
+.duty-import__form :deep(.el-form-item__label) {
+  font-size: 14px;
+  color: #333;
+}
+
+.duty-import__form-item {
+  margin-bottom: 12px;
+}
+
+.duty-import__upload-item {
+  margin-bottom: 6px;
+}
+
+.duty-import__upload-item :deep(.el-upload-dragger) {
+  padding: 0;
+  border-style: dashed;
+  border-color: #c0d4e8;
+  background: #fafcff;
+}
+
+.duty-import__upload-item :deep(.el-upload-dragger:hover) {
+  border-color: #2a82e4;
+  background: #f5faff;
+}
+
+.duty-upload__inner {
+  padding: 12px 16px;
+  text-align: center;
+}
+
+.duty-upload__icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 44px;
+  height: 44px;
+  margin-bottom: 10px;
+  border-radius: 50%;
+  background: #e6f1ff;
+  color: #2a82e4;
+  font-size: 22px;
+}
+
+.duty-upload__text {
+  font-size: 14px;
+  color: #333;
+  line-height: 1.5;
+}
+
+.duty-upload__text strong {
+  color: #2a82e4;
+  font-weight: 600;
+}
+
+.duty-upload__meta {
+  margin-top: 6px;
+  font-size: 12px;
+  color: #888;
+}
+
+.duty-import__progress {
+  margin-top: 14px;
+}
+
+.duty-import__progress-label {
+  margin-bottom: 6px;
+  font-size: 13px;
+  color: #555;
+}
+
+.duty-import__result {
+  margin-top: 14px;
+}
+
 .duty-import__errors {
   margin-top: 4px;
   font-size: 12px;
@@ -282,39 +412,87 @@ watch(() => props.modelValue, (v) => {
 
 <style>
 .duty-import-dialog .el-dialog__header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
   margin-right: 0;
-  padding: 14px 20px 10px;
+  padding: 14px 20px;
+  border-bottom: 1px solid #f0f0f0;
 }
 
 .duty-import-dialog .el-dialog__title {
+  flex: 1;
   font-size: 16px;
   font-weight: 600;
   line-height: 1.4;
+  color: #333;
+}
+
+.duty-import-dialog .el-dialog__headerbtn {
+  position: static;
+  top: auto;
+  right: auto;
+  width: auto;
+  height: auto;
+  font-size: 18px;
+  line-height: 1;
+}
+
+.duty-import-dialog .el-dialog__close {
+  color: #909399;
+}
+
+.duty-import-dialog .el-dialog__close:hover {
+  color: #606266;
 }
 
 .duty-import-dialog .el-dialog__body {
-  padding: 8px 20px 6px;
+  padding: 16px 20px 4px;
 }
 
 .duty-import-dialog .el-dialog__footer {
-  padding: 10px 20px 14px;
+  padding: 12px 20px 4px;
+  border-top: 1px solid #f0f0f0;
 }
 
-.duty-import-dialog .el-form-item {
-  margin-bottom: 12px;
+/* 年月选择器浮层面板：确保不被弹窗内容截断，且与输入框间距更紧凑 */
+.duty-month-popper.el-picker__popper {
+  z-index: 3000 !important;
 }
 
-.duty-import-dialog .el-form-item__label {
-  font-size: 14px;
-  line-height: 32px;
+.duty-import__footer {
+  display: flex;
+  justify-content: flex-end;
+  gap: 10px;
 }
 
-.duty-import-dialog .el-upload-dragger {
-  padding: 16px 12px;
+.duty-import__template {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  flex-wrap: wrap;
+  margin-top: 2px;
+  padding: 9px 12px;
+  font-size: 13px;
+  color: #555;
+  background: #f7f9fc;
+  border: 1px dashed #d6e2f0;
+  border-radius: 4px;
 }
 
-.duty-import-dialog .el-icon--upload {
-  margin-bottom: 8px;
-  font-size: 36px;
+.duty-import__template-icon {
+  color: #2a82e4;
+  font-size: 15px;
+}
+
+.duty-import__template-link {
+  color: #2a82e4;
+  font-weight: 600;
+  text-decoration: none;
+  cursor: pointer;
+}
+
+.duty-import__template-link:hover {
+  text-decoration: underline;
 }
 </style>

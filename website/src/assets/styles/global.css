@@ -26,6 +26,8 @@ ol li::marker, ul li::before {
 html {
   -webkit-text-size-adjust: 100%;
   text-size-adjust: 100%;
+  /* 弹窗 lock-scroll 时保留滚动条占坑，避免页面内容横向抖动 */
+  scrollbar-gutter: stable;
 }
 
 body {
