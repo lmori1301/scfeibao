@@ -447,12 +447,13 @@ watch(() => props.modelValue, (v) => {
   color: #606266;
 }
 
+/* 底部留白：模板提示行与 footer 按钮拉开 16px，footer 底部留 16px（原 4px 过挤） */
 .duty-import-dialog .el-dialog__body {
-  padding: 16px 20px 4px;
+  padding: 16px 20px 16px;
 }
 
 .duty-import-dialog .el-dialog__footer {
-  padding: 12px 20px 4px;
+  padding: 14px 20px 16px;
   border-top: 1px solid #f0f0f0;
 }
 
