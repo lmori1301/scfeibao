@@ -264,7 +264,7 @@
   }
 
   .el-table__cell {
-    padding: 8px 0;
+    padding: 7px 0;
   }
 
   /* 竖向网格线：对齐 web2 列表表格（border 表格带列分隔线），排除右侧滚动条占位 gutter */
@@ -314,6 +314,11 @@
       margin-left: 4px;
     }
   }
+}
+
+/* 列表外边框：对齐 web2 .el-table--border 外观（竖向网格线见上方规则） */
+.admin-shell .el-table {
+  border: 1px solid var(--el-table-border-color);
 }
 
 /* ---------------- 弹窗 ---------------- */

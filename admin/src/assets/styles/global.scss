@@ -169,22 +169,22 @@ a {
 .admin-view-stack {
   display: flex;
   flex-direction: column;
-  gap: 12px;
+  gap: 10px;
 }
 
 .admin-card {
-  border: 1px solid #e5e7eb;
-  border-radius: 8px;
+  border: 1px solid #e4e7ed;
+  border-radius: 4px;
   background: #fff;
   box-shadow: none;
 }
 
 .admin-card--search {
-  padding: 12px 16px;
+  padding: 12px 12px 0;
 }
 
 .admin-card--table {
-  padding: 14px 16px 16px;
+  padding: 12px;
 }
 
 .warehouse-list-page .toolbar-strip,
@@ -524,20 +524,24 @@ a {
 .content-panel__body .admin-pagination,
 .page-container .admin-pagination {
   display: flex;
+  align-items: center;
+  gap: 12px;
   margin-top: 16px;
 }
 
-/* 「共 N 条」靠左、分页器靠右（对齐 web2 .lp-pager 布局） */
-.content-panel__body .admin-pagination .el-pagination,
-.page-container .admin-pagination .el-pagination {
-  flex: 1;
-  justify-content: flex-start;
-  margin-top: 0;
+/* 总条数文案靠左、分页器靠右（对齐 web2 .lp-pager：左文案 + 右翻页） */
+.content-panel__body .admin-pagination .admin-pagination__total,
+.page-container .admin-pagination .admin-pagination__total {
+  margin-right: auto;
+  font-size: 12px;
+  color: #6b7280;
+  white-space: nowrap;
 }
 
-.content-panel__body .admin-pagination .el-pagination__total,
-.page-container .admin-pagination .el-pagination__total {
-  margin-right: auto;
+.content-panel__body .admin-pagination .el-pagination,
+.page-container .admin-pagination .el-pagination {
+  margin-top: 0;
+  justify-content: flex-end;
 }
 
 .content-panel__body [class$='-search'] .el-input,
@@ -1041,9 +1045,9 @@ a {
 
 /** 列表页：查询条 + 表格同一张白卡片 */
 .admin-page-list-card {
-  border: 1px solid #e5e7eb;
+  border: 1px solid #e4e7ed;
   background: #fff;
-  border-radius: 8px;
+  border-radius: 4px;
   /* 允许宽表格在卡片内横向滚动，避免与 overflow:hidden 一样被压扁重叠 */
   overflow-x: auto;
   overflow-y: visible;
@@ -1052,8 +1056,8 @@ a {
 }
 
 .admin-page-list-card__toolbar {
-  padding: 14px 18px 12px;
-  border-bottom: 1px solid #e5e7eb;
+  padding: 12px 16px;
+  border-bottom: 1px solid #e4e7ed;
   background: #fff;
 }
 
@@ -1066,7 +1070,7 @@ a {
 }
 
 .admin-page-list-card__main {
-  padding: 14px 18px 18px;
+  padding: 12px 16px 16px;
   min-width: 0;
   /* 与卡片配合：表格区再允许横向滚动，双保险 */
   overflow-x: auto;

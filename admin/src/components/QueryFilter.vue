@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { computed, ref } from 'vue'
-import { ArrowDown, ArrowUp, RefreshRight, Search } from '@element-plus/icons-vue'
+import { ArrowDown, ArrowUp } from '@element-plus/icons-vue'
 
 const props = withDefaults(
   defineProps<{
@@ -21,12 +21,12 @@ const props = withDefaults(
   }>(),
   {
     searching: false,
-    collapsible: true,
+    collapsible: false,
     defaultCollapsed: true,
     showActions: true,
     searchText: '查询',
     resetText: '重置',
-    labelWidth: '80px',
+    labelWidth: '64px',
     labelPosition: 'right',
   }
 )
@@ -76,10 +76,10 @@ const showToggle = computed(() => props.collapsible)
       <div class="qf__actions">
         <slot name="actions">
           <el-button type="primary" :loading="searching" @click="onSearch">
-            <el-icon><Search /></el-icon>{{ searchText }}
+            {{ searchText }}
           </el-button>
           <el-button :disabled="searching" @click="onReset">
-            <el-icon><RefreshRight /></el-icon>{{ resetText }}
+            {{ resetText }}
           </el-button>
         </slot>
       </div>
@@ -134,19 +134,22 @@ const showToggle = computed(() => props.collapsible)
 }
 
 .qf__grid :deep(.el-form-item__label) {
-  color: #4b5563;
+  color: #606266;
   font-size: 13px;
   font-weight: 500;
   line-height: 32px;
   padding-right: 10px;
 }
 
-/* 字段控件统一宽度，保证多字段纵向对齐 */
+/* 字段控件统一宽度，对齐 web2：下拉 160 / 输入 260（保证多字段纵向对齐） */
+.qf__grid :deep(.el-select) {
+  width: 160px;
+}
+
 .qf__grid :deep(.el-input),
-.qf__grid :deep(.el-select),
 .qf__grid :deep(.el-date-editor),
 .qf__grid :deep(.el-cascader) {
-  width: 200px;
+  width: 260px;
 }
 
 /* 收起态：隐藏高级字段（使用方给字段加 .qf-advanced） */
