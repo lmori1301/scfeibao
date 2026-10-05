@@ -55,14 +55,8 @@
   font-weight: 500;
 }
 
-/* 列表页顶部仅右侧操作（无标题卡片，与 Dashboard 刷新条一致） */
-.admin-toolbar-right {
-  display: flex;
-  justify-content: flex-end;
-  gap: 10px;
-  flex-wrap: wrap;
-  margin-bottom: 12px;
-}
+/* 注：.admin-toolbar-right 的定义统一放在 global.scss（这里曾有一份 justify-content:flex-end
+   的重复定义，因 list-page.scss 在 global.scss 之后加载，会把「靠左」覆盖回「靠右」）。 */
 
 /* 窄屏：工具栏按钮占满宽度，查询区单列 */
 @media (max-width: 960px) {

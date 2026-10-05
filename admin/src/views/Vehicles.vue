@@ -21,9 +21,7 @@ const pageCrumb = computed(() => {
   return '系统首页 / 档案台账 / 车辆台账'
 })
 
-type VehicleListScope = '' | '值勤中' | '可调度' | '停用维护'
-
-const searchForm = ref({ plate: '', type: '', status: '', listScope: '' as VehicleListScope })
+const searchForm = ref({ plate: '', type: '', status: '' })
 const dialogVisible = ref(false)
 const importDialogVisible = ref(false)
 const dialogTitle = ref('新增车辆')
@@ -102,15 +100,7 @@ const toIsoDate = (value: string | Date | undefined) => {
   return `${value}T00:00:00.000Z`
 }
 
-const tableRows = computed(() =>
-  data.value.filter((item: any) => {
-    const scope = searchForm.value.listScope
-    if (scope === '值勤中') return item.status === 1 && !!item.team
-    if (scope === '可调度') return item.status === 1
-    if (scope === '停用维护') return item.status !== 1
-    return true
-  })
-)
+const tableRows = computed(() => data.value)
 
 const previewPhotoUrl = computed(() => parsePhotoUrlListForDisplay(formData.value.photo)[0] || '')
 
@@ -123,7 +113,7 @@ const handleSearch = () => {
   fetch(buildVehicleQuery())
 }
 const handleReset = () => {
-  searchForm.value = { plate: '', type: '', status: '', listScope: '' }
+  searchForm.value = { plate: '', type: '', status: '' }
   page.value = 1
   fetch({})
 }
@@ -265,13 +255,6 @@ fetch()
           </el-select>
         </el-form-item>
         <div class="qf__group" data-title="状态筛选"></div>
-        <el-form-item label="列表范围">
-          <el-select v-model="searchForm.listScope" placeholder="全部" clearable>
-            <el-option label="值勤中" value="值勤中" />
-            <el-option label="可调度" value="可调度" />
-            <el-option label="停用维护" value="停用维护" />
-          </el-select>
-        </el-form-item>
         <el-form-item label="使用状态" class="qf-advanced">
           <el-select v-model="searchForm.status" placeholder="全部状态" clearable>
             <el-option label="正常" value="正常" />

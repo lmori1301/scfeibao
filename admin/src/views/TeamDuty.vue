@@ -3,15 +3,12 @@ import { computed, nextTick, onMounted, reactive, ref } from 'vue'
 import { useRoute } from 'vue-router'
 import { Document, Plus, RefreshRight, Search, UploadFilled, Bell, Close, ArrowUp } from '@element-plus/icons-vue'
 import { ElMessage, ElMessageBox, type UploadFile } from 'element-plus'
-import { readSheet } from 'read-excel-file/browser'
 import http from '@/utils/http'
 import Pagination from '@/components/Pagination.vue'
 import QueryFilter from '@/components/QueryFilter.vue'
 import { usePagination } from '@/composables/usePagination'
-import { parseDutyRoster, type DutyRosterRow } from '@/utils/duty-roster-parser'
 import {
   createTeamDuty,
-  createTeamDutyBatch,
   deleteTeamDuty,
   getDutyYearOptions,
   getTeamDutyDetail,
@@ -53,6 +50,11 @@ const toggleNotice = () => {
 const teamOptions = ref<DictOption[]>([])
 const yearOptions = ref<DictOption[]>([])
 const currentYear = String(new Date().getFullYear())
+/** 弹窗「值班年月」默认值：YYYY-MM（与前台值班台账导入的 dutyYear 口径一致） */
+const currentYearMonth = () => {
+  const now = new Date()
+  return `${now.getFullYear()}-${String(now.getMonth() + 1).padStart(2, '0')}`
+}
 
 const loadDictOptions = async () => {
   try {
@@ -96,16 +98,14 @@ const handleReset = () => {
   fetch({})
 }
 
-/* ------------------------------ 新增/导入表单 ------------------------------ */
+/* ------------------------------ 新增表单 ------------------------------ */
 const formDialogVisible = ref(false)
-const formDialogMode = ref<'single' | 'import'>('import')
-const formTitle = computed(() => (formDialogMode.value === 'import' ? '新增值班台账（附件导入）' : '新增值班台账（单条）'))
 const submitting = ref(false)
 
 const formData = reactive({
   teamName: '',
-  dutyYear: currentYear,
-  dutyDate: '',
+  /** 值班年月，YYYY-MM（el-date-picker type="month" + value-format） */
+  dutyYear: currentYearMonth(),
   dutyCadreName: '',
   dutyCadrePhone: '',
   dutyStaff: '',
@@ -117,15 +117,9 @@ const attachUrl = ref('')
 const attachName = ref('')
 const attachFile = ref<File | null>(null)
 
-/** 解析预览行 */
-const parsedRows = ref<DutyRosterRow[]>([])
-const parseErrors = ref<Array<{ row: number; message: string }>>([])
-const parsing = ref(false)
-
 const resetForm = () => {
   formData.teamName = ''
-  formData.dutyYear = currentYear
-  formData.dutyDate = ''
+  formData.dutyYear = currentYearMonth()
   formData.dutyCadreName = ''
   formData.dutyCadrePhone = ''
   formData.dutyStaff = ''
@@ -133,19 +127,9 @@ const resetForm = () => {
   attachUrl.value = ''
   attachName.value = ''
   attachFile.value = null
-  parsedRows.value = []
-  parseErrors.value = []
-}
-
-const openImportDialog = () => {
-  formDialogMode.value = 'import'
-  resetForm()
-  formDialogVisible.value = true
-  nextTick(() => uploadRef.value?.clearFiles())
 }
 
 const openSingleDialog = () => {
-  formDialogMode.value = 'single'
   resetForm()
   formDialogVisible.value = true
   nextTick(() => uploadRef.value?.clearFiles())
@@ -153,79 +137,6 @@ const openSingleDialog = () => {
 
 const uploadRef = ref()
 const uploadFileList = ref<UploadFile[]>([])
-
-/** 选择 Excel 后立即解析并回填预览（不自动上传，提交时再真正落盘） */
-const handleFileChange = async (uploadFile: UploadFile) => {
-  const raw = uploadFile.raw
-  if (!raw) return
-  // ⚠️ 必须在此持有 File 引用：提交时 uploadAttachment() 靠它上传，
-  // 否则附件丢失（曾导致导入的记录 attach_name 全为 NULL）。
-  attachFile.value = raw
-  attachUrl.value = ''
-  attachName.value = raw.name
-  parsing.value = true
-  parsedRows.value = []
-  parseErrors.value = []
-  try {
-    // readSheet 返回二维单元格数组（SheetData = Row[]，元素含 null），日期/文本原样保留
-    const matrix = await readSheet(raw)
-    const result = parseDutyRoster(matrix as unknown as unknown[][])
-
-    parsedRows.value = result.rows
-    parseErrors.value = result.errors
-
-    // 自动回填：识别到的队伍/年份覆盖表单（表单为空时才填，避免覆盖用户已选）
-    if (result.detectedTeamName && !formData.teamName) {
-      const matched = teamOptions.value.find((item) => item.value === result.detectedTeamName)
-      formData.teamName = matched?.value ?? result.detectedTeamName
-    }
-    if (result.detectedYear && formData.dutyYear === currentYear) {
-      formData.dutyYear = result.detectedYear
-    }
-
-    if (result.rows.length) {
-      ElMessage.success(`解析成功，共识别 ${result.rows.length} 天值班记录`)
-    } else {
-      ElMessage.warning('未从文件中解析到值班记录，请检查表格结构')
-    }
-    if (result.errors.length) {
-      ElMessage.warning(`有 ${result.errors.length} 列/行未通过校验，请查看解析提示`)
-    }
-  } catch (error: any) {
-    // readSheet 抛的是英文异常（如 "Doesn't look like an `.xlsx` file"），
-    // 直接透给用户不友好 → 归一化成中文提示，原始信息只留在控制台便于排查。
-    const raw = String(error?.message || error || '')
-    console.warn('[TeamDuty] Excel 解析失败：', raw)
-    parseErrors.value = [{ row: 0, message: toFriendlyParseError(raw) }]
-    ElMessage.error('文件解析失败，请上传 .xlsx 格式的值班表')
-  } finally {
-    parsing.value = false
-  }
-}
-
-const handleFileRemove = () => {
-  attachFile.value = null
-  attachUrl.value = ''
-  attachName.value = ''
-  parsedRows.value = []
-  parseErrors.value = []
-}
-
-/** 把 Excel 库的英文异常归一化成面向用户的中文提示 */
-function toFriendlyParseError(rawMessage: string): string {
-  const msg = String(rawMessage || '')
-  if (/doesn't look like an? .?\.?xlsx/i.test(msg) || /invalid spreadsheet|zip/i.test(msg)) {
-    return '文件不是有效的 .xlsx 文件（若为 .xls 或 CSV，请先另存为 .xlsx 格式）'
-  }
-  if (/password|encrypted/i.test(msg)) {
-    return '文件已加密，请解除密码保护后再上传'
-  }
-  if (/not found|sheet/i.test(msg)) {
-    return '未在文件中找到工作表，请确认文件内容完整'
-  }
-  if (!msg) return '文件解析失败，请上传 .xlsx 格式的值班表'
-  return `文件解析失败：${msg}（请确认上传的是 .xlsx 格式值班表）`
-}
 
 /** 单条新增模式下的普通附件（不做解析） */
 const handleSingleFileChange = (uploadFile: UploadFile) => {
@@ -277,59 +188,32 @@ const handleSubmit = async () => {
     return
   }
   if (!formData.dutyYear) {
-    ElMessage.warning('请选择值班年份')
+    ElMessage.warning('请选择值班年月')
+    return
+  }
+  if (!formData.dutyCadreName.trim()) {
+    ElMessage.warning('请填写值班干部')
+    return
+  }
+  if (!formData.dutyStaff.trim()) {
+    ElMessage.warning('请填写值班员')
     return
   }
 
   submitting.value = true
   try {
-    if (formDialogMode.value === 'import') {
-      if (parsedRows.value.length === 0) {
-        ElMessage.warning('请先上传并解析值班表 Excel')
-        return
-      }
-      const attachment = await uploadAttachment()
-      const result: any = await createTeamDutyBatch({
-        teamName: formData.teamName,
-        dutyYear: formData.dutyYear,
-        attachUrl: attachment?.url,
-        attachName: attachment?.name,
-        items: parsedRows.value.map((row) => ({
-          dutyDate: row.dutyDate,
-          dutyCadreName: row.dutyCadreName,
-          dutyCadrePhone: row.dutyCadrePhone,
-          dutyStaff: row.dutyStaff,
-        })),
-      })
-      const created = result?.data?.created ?? result?.created ?? parsedRows.value.length
-      ElMessage.success(
-        attachment
-          ? `导入成功，共写入 ${created} 条值班记录（附件已保存，同队伍同日期为覆盖更新）`
-          : `导入成功，共写入 ${created} 条值班记录`,
-      )
-    } else {
-      if (!formData.dutyCadreName.trim()) {
-        ElMessage.warning('请填写值班干部')
-        return
-      }
-      if (!formData.dutyStaff.trim()) {
-        ElMessage.warning('请填写值班员')
-        return
-      }
-      const attachment = await uploadAttachment()
-      await createTeamDuty({
-        teamName: formData.teamName,
-        dutyYear: formData.dutyYear,
-        dutyDate: formData.dutyDate || undefined,
-        dutyCadreName: formData.dutyCadreName,
-        dutyCadrePhone: formData.dutyCadrePhone || undefined,
-        dutyStaff: formData.dutyStaff,
-        remark: formData.remark || undefined,
-        attachUrl: attachment?.url,
-        attachName: attachment?.name,
-      })
-      ElMessage.success('保存成功')
-    }
+    const attachment = await uploadAttachment()
+    await createTeamDuty({
+      teamName: formData.teamName,
+      dutyYear: formData.dutyYear,
+      dutyCadreName: formData.dutyCadreName,
+      dutyCadrePhone: formData.dutyCadrePhone || undefined,
+      dutyStaff: formData.dutyStaff,
+      remark: formData.remark || undefined,
+      attachUrl: attachment?.url,
+      attachName: attachment?.name,
+    })
+    ElMessage.success('保存成功')
 
     formDialogVisible.value = false
     page.value = 1
@@ -571,13 +455,9 @@ onMounted(async () => {
             <el-icon><RefreshRight /></el-icon>
             刷新
           </el-button>
-          <el-button plain @click="openSingleDialog">
+          <el-button type="primary" @click="openSingleDialog">
             <el-icon><Plus /></el-icon>
-            单条新增
-          </el-button>
-          <el-button type="primary" @click="openImportDialog">
-            <el-icon><UploadFilled /></el-icon>
-            附件导入新增
+            新增
           </el-button>
         </div>
       </div>
@@ -648,10 +528,10 @@ onMounted(async () => {
       </ol>
     </div>
 
-    <!-- 新增 / 导入 -->
-    <el-dialog v-model="formDialogVisible" :title="formTitle" width="1080px" @closed="handleDialogClosed">
+    <!-- 新增 -->
+    <el-dialog v-model="formDialogVisible" title="新增值班台账" width="720px" @closed="handleDialogClosed">
       <div class="team-duty-form">
-        <el-form label-width="96px">
+        <el-form label-width="88px">
           <el-row :gutter="16">
             <el-col :span="12">
               <el-form-item label="队伍名称" required>
@@ -661,92 +541,42 @@ onMounted(async () => {
               </el-form-item>
             </el-col>
             <el-col :span="12">
-              <el-form-item label="值班年份" required>
-                <el-select v-model="formData.dutyYear" placeholder="请选择值班年份" style="width: 100%">
-                  <el-option v-for="opt in yearOptions" :key="opt.value" :label="opt.label" :value="opt.value" />
-                </el-select>
+              <el-form-item label="值班年月" required>
+                <el-date-picker
+                  v-model="formData.dutyYear"
+                  type="month"
+                  placeholder="请选择值班年月"
+                  value-format="YYYY-MM"
+                  format="YYYY年MM月"
+                  style="width: 100%"
+                />
               </el-form-item>
             </el-col>
           </el-row>
 
-          <template v-if="formDialogMode === 'import'">
-            <el-form-item label="值班表附件">
-              <el-upload
-                ref="uploadRef"
-                v-model:file-list="uploadFileList"
-                drag
-                :auto-upload="false"
-                :limit="1"
-                accept=".xlsx,.xls"
-                :on-change="handleFileChange"
-                :on-remove="handleFileRemove"
-              >
-                <el-icon class="el-icon--upload"><UploadFilled /></el-icon>
-                <div class="el-upload__text">拖拽值班表到此处，或 <em>点击选择文件</em></div>
-                <template #tip>
-                  <div class="el-upload__tip">
-                    支持 .xlsx / .xls；解析规则：识别「时间 / 值班干部（电话）/ 值班人员」三行，按日期列拆分为每天一条记录
-                  </div>
-                </template>
-              </el-upload>
-            </el-form-item>
+          <el-row :gutter="16">
+            <el-col :span="12">
+              <el-form-item label="值班干部" required>
+                <el-input v-model="formData.dutyCadreName" placeholder="值班干部姓名" />
+              </el-form-item>
+            </el-col>
+            <el-col :span="12">
+              <el-form-item label="联系电话">
+                <el-input v-model="formData.dutyCadrePhone" placeholder="值班干部联系电话" />
+              </el-form-item>
+            </el-col>
+          </el-row>
 
-            <el-form-item label="解析结果">
-              <div v-loading="parsing" class="duty-parse">
-                <div v-if="parsedRows.length" class="duty-parse__summary">
-                  共解析 <strong>{{ parsedRows.length }}</strong> 条值班记录
-                  <span v-if="parseErrors.length" class="duty-parse__errors-count">
-                    ，{{ parseErrors.length }} 条未通过校验
-                  </span>
-                </div>
-                <el-table v-if="parsedRows.length" :data="parsedRows" size="small" border max-height="280">
-                  <el-table-column prop="dutyDate" label="值班日期" width="120" />
-                  <el-table-column prop="dutyCadreName" label="值班干部" width="120" />
-                  <el-table-column prop="dutyCadrePhone" label="联系电话" width="140" />
-                  <el-table-column label="值班员" min-width="260">
-                    <template #default="{ row }">{{ staffList(row.dutyStaff).join('、') }}</template>
-                  </el-table-column>
-                </el-table>
-                <div v-if="parseErrors.length" class="duty-parse__errors">
-                  <div v-for="(err, idx) in parseErrors.slice(0, 8)" :key="`${err.row}-${idx}`">
-                    第 {{ err.row }} 行：{{ err.message }}
-                  </div>
-                  <p v-if="parseErrors.length > 8">仅显示前 8 条，请修正文件后重新上传。</p>
-                </div>
-                <div v-if="!parsedRows.length && !parsing" class="duty-parse__empty">
-                  尚未解析到值班数据，请上传值班表 Excel
-                </div>
-              </div>
-            </el-form-item>
-          </template>
+          <el-form-item label="值班员" required>
+            <el-input v-model="formData.dutyStaff" placeholder="多人用顿号或逗号分隔，如：王磊、刘勇、周驰双、段才元" />
+          </el-form-item>
 
-          <template v-else>
-            <el-row :gutter="16">
-              <el-col :span="12">
-                <el-form-item label="值班日期">
-                  <el-date-picker v-model="formData.dutyDate" type="date" style="width: 100%" />
-                </el-form-item>
-              </el-col>
-              <el-col :span="12">
-                <el-form-item label="联系电话">
-                  <el-input v-model="formData.dutyCadrePhone" placeholder="值班干部联系电话" />
-                </el-form-item>
-              </el-col>
-            </el-row>
-            <el-form-item label="值班干部" required>
-              <el-input v-model="formData.dutyCadreName" placeholder="值班干部姓名" />
-            </el-form-item>
-            <el-form-item label="值班员" required>
-              <el-input v-model="formData.dutyStaff" placeholder="多人用顿号或逗号分隔，如：王磊、刘勇、周驰双、段才元" />
-            </el-form-item>
-            <el-form-item label="备注">
-              <el-input v-model="formData.remark" type="textarea" :rows="2" />
-            </el-form-item>
-          </template>
+          <el-form-item label="备注">
+            <el-input v-model="formData.remark" type="textarea" :rows="2" placeholder="选填" />
+          </el-form-item>
 
           <el-form-item label="附件">
             <el-upload
-              v-if="formDialogMode === 'single'"
               ref="uploadRef"
               v-model:file-list="uploadFileList"
               :auto-upload="false"
@@ -763,7 +593,6 @@ onMounted(async () => {
                 <div class="el-upload__tip">支持 Excel / PDF / Word，作为该条值班记录的附件</div>
               </template>
             </el-upload>
-            <span v-else class="team-duty-form__muted">附件将随解析出的全部记录一并保存</span>
           </el-form-item>
         </el-form>
       </div>
@@ -962,33 +791,6 @@ onMounted(async () => {
   font-size: 12.5px;
   line-height: 1.85;
 }
-
-/* 解析结果区 */
-.duty-parse { width: 100%; }
-.duty-parse__summary { margin-bottom: 8px; color: #4b5f7d; font-size: 13px; }
-.duty-parse__summary strong { color: #1b4fa0; font-size: 15px; }
-.duty-parse__errors-count { color: #b45309; }
-.duty-parse__errors {
-  margin-top: 10px;
-  padding: 10px 12px;
-  border: 1px solid #f5d9b0;
-  border-radius: 10px;
-  background: #fffaf2;
-  color: #a35b09;
-  font-size: 12.5px;
-  line-height: 1.8;
-}
-.duty-parse__empty {
-  padding: 24px;
-  border: 1px dashed #cfe1ff;
-  border-radius: 12px;
-  background: #f7fbff;
-  color: #8b98ad;
-  text-align: center;
-  font-size: 13px;
-}
-
-.team-duty-form__muted { color: #8b98ad; font-size: 13px; }
 
 .attach-preview { min-height: 420px; }
 .attach-preview__frame { width: 100%; height: 520px; border: 1px solid #e6edf8; border-radius: 12px; }

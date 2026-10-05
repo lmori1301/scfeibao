@@ -26,7 +26,10 @@ const props = withDefaults(
     showActions: true,
     searchText: '查询',
     resetText: '重置',
-    labelWidth: '64px',
+    // label 宽度跟随内容（web2 的 <el-form inline> 就是内容自适应，没有固定 label-width）。
+    // 之前写死 64px 会让「标题关键词」这类 5 字标签超出可用宽度(64-12=52px)后折行成两行，
+    // 把查询卡从 58px 撑到 75px。auto 时 4 字标签仍是 64px，视觉与之前一致。
+    labelWidth: 'auto',
     labelPosition: 'right',
   }
 )

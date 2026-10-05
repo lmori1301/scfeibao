@@ -35,14 +35,11 @@ const pageCrumb = computed(() => {
   return '系统首页 / 档案台账 / 人员台账'
 })
 
-type PersonnelListScope = '' | '在岗队员' | '待培训' | '已离岗'
-
 const searchForm = ref({
   personnelNo: '',
   name: '',
   department: '',
   status: '',
-  listScope: '' as PersonnelListScope,
 })
 const dialogVisible = ref(false)
 const importDialogVisible = ref(false)
@@ -165,22 +162,14 @@ const toIsoDate = (value: string | Date | undefined) => {
   return `${value}T00:00:00.000Z`
 }
 
-const tableRows = computed(() =>
-  data.value.filter((item: any) => {
-    const scope = searchForm.value.listScope
-    if (scope === '在岗队员') return item.status === 1
-    if (scope === '待培训') return item.status === 1 && !item.position
-    if (scope === '已离岗') return item.status !== 1
-    return true
-  })
-)
+const tableRows = computed(() => data.value)
 
 const handleSearch = () => {
   page.value = 1
   fetch(buildPersonnelQuery())
 }
 const handleReset = () => {
-  searchForm.value = { personnelNo: '', name: '', department: '', status: '', listScope: '' }
+  searchForm.value = { personnelNo: '', name: '', department: '', status: '' }
   page.value = 1
   fetch({})
 }
@@ -431,13 +420,6 @@ onMounted(() => {
           <el-input v-model="searchForm.department" placeholder="所属部门" clearable />
         </el-form-item>
         <div class="qf__group" data-title="状态筛选"></div>
-        <el-form-item label="列表范围">
-          <el-select v-model="searchForm.listScope" placeholder="全部" clearable>
-            <el-option label="在岗队员" value="在岗队员" />
-            <el-option label="待培训" value="待培训" />
-            <el-option label="已离岗" value="已离岗" />
-          </el-select>
-        </el-form-item>
         <el-form-item label="人员状态" class="qf-advanced">
           <el-select v-model="searchForm.status" placeholder="全部状态" clearable>
             <el-option label="在职" value="在职" />

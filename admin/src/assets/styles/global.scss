@@ -1045,10 +1045,10 @@ a {
   margin-left: 0;
 }
 
-/** 子页顶部仅右侧操作（与 Dashboard 刷新条一致，无标题卡片） */
+/** 子页顶部操作条：与列表卡操作条一致靠左（此前 flex-end 会把「刷新/新增」甩到查询卡最右） */
 .admin-toolbar-right {
   display: flex;
-  justify-content: flex-end;
+  justify-content: flex-start;
   gap: 10px;
   flex-wrap: wrap;
 }

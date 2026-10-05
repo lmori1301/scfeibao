@@ -11,14 +11,11 @@ import http from '@/utils/http'
 import QueryFilter from '@/components/QueryFilter.vue'
 import { parsePhotoUrlListForDisplay } from '@/utils/photo-urls'
 
-type CertificateListScope = '' | '有效资质' | '即将到期' | '已失效'
-
 const searchForm = ref({
   certificateNo: '',
   type: '',
   name: '',
   status: '',
-  listScope: '' as CertificateListScope,
 })
 const dialogVisible = ref(false)
 const importDialogVisible = ref(false)
@@ -168,15 +165,7 @@ const toIsoDate = (value: string | Date | undefined) => {
 
 const tableRows = computed(() =>
   data.value.filter((item: any) => {
-    const scope = searchForm.value.listScope
     const dispLabel = getCertificateDisplayStatus(item).label
-    if (scope === '有效资质') {
-      return item.status === 1 && !isCalendarExpired(item.expiryDate)
-    }
-    if (scope === '即将到期') {
-      return item.status === 1 && !isCalendarExpired(item.expiryDate) && isWithinPreExpiryWindow(item.expiryDate)
-    }
-    if (scope === '已失效') return item.status !== 1
     const st = searchForm.value.status
     if (st === '有效') return dispLabel === '有效'
     if (st === '失效') return item.status !== 1
@@ -191,7 +180,7 @@ const handleSearch = () => {
   fetch(buildCertificateQuery())
 }
 const handleReset = () => {
-  searchForm.value = { certificateNo: '', type: '', name: '', status: '', listScope: '' }
+  searchForm.value = { certificateNo: '', type: '', name: '', status: '' }
   page.value = 1
   fetch({})
 }
@@ -332,13 +321,6 @@ fetch()
             </el-select>
           </el-form-item>
         </div>
-        <el-form-item label="列表范围" class="qf-advanced">
-          <el-select v-model="searchForm.listScope" placeholder="全部范围" clearable>
-            <el-option label="有效资质" value="有效资质" />
-            <el-option label="即将到期" value="即将到期" />
-            <el-option label="已失效" value="已失效" />
-          </el-select>
-        </el-form-item>
       </QueryFilter>
     </div>
 
