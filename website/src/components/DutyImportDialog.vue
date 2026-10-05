@@ -185,7 +185,7 @@ watch(() => props.modelValue, (v) => {
     @closed="handleClosed"
   >
     <el-form ref="formRef" :model="form" :rules="rules" label-width="96px">
-      <el-form-item label="值班年份" prop="dutyYear">
+      <el-form-item label="年份" prop="dutyYear">
         <el-select
           v-model="form.dutyYear"
           placeholder="请选择台账所属年份"
@@ -257,9 +257,8 @@ watch(() => props.modelValue, (v) => {
     </el-form>
 
     <template #footer>
-      <el-button @click="confirmClose">取消</el-button>
       <el-button type="primary" :loading="submitting" :disabled="!hasValidFile" @click="handleSubmit">
-        {{ submitting ? '上传解析中…' : '开始上传' }}
+        {{ submitting ? '提交中…' : '提交信息' }}
       </el-button>
     </template>
   </el-dialog>

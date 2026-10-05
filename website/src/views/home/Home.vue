@@ -347,9 +347,8 @@
             <div id="1_168" class="Pixso-vector-1_168"></div>
             <!-- 主导航：首页图标 + 7 个文字模块，Flex 水平均匀对齐 -->
             <nav class="main-nav" aria-label="主导航">
-                <router-link to="/" class="nav-home">
+                <router-link to="/" class="nav-home" aria-label="首页">
                     <span class="nav-home__icon" aria-hidden="true"></span>
-                    <span class="nav-home__text">首页</span>
                 </router-link>
                 <router-link to="/overview-info" id="1_169" class="Pixso-paragraph-1_169">{{ "概况信息" }}</router-link>
                 <router-link to="/team-building" id="1_170" class="Pixso-paragraph-1_170">{{ "队伍建设" }}</router-link>
@@ -981,36 +980,28 @@ onUnmounted(() => {
     margin: 0;
 }
 
-/* 首页红色图标入口 */
+/* 首页红色方块徽章入口：正方形，与导航条同高，内嵌消防救援徽章图标 */
 .nav-home {
-    display: inline-flex;
+    display: flex;
     align-items: center;
-    gap: 8px;
-    color: rgba(255, 255, 255, 1);
+    justify-content: center;
+    height: 100%;
+    aspect-ratio: 1 / 1;
+    background: #c41e24;
     text-decoration: none;
-    font-size: 20px;
-    font-family: "FZDaHei-B02S-Regular", "Microsoft YaHei", sans-serif;
-    font-weight: 400;
-    line-height: 1;
-    transition: opacity 0.3s;
-    white-space: nowrap;
+    transition: opacity 0.3s, transform 0.2s;
+    flex-shrink: 0;
 }
 
 .nav-home:hover {
-    opacity: 0.85;
+    opacity: 0.92;
+    transform: scale(1.02);
 }
 
 .nav-home__icon {
-    width: 26px;
-    height: 26px;
-    flex-shrink: 0;
-    background: #c41e24 url(@/assets/images/nav-home-icon.png) center center / contain no-repeat;
-    border-radius: 3px;
-    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.2);
-}
-
-.nav-home__text {
-    font-size: 20px;
+    width: 88%;
+    height: 88%;
+    background: url(@/assets/images/nav-home-icon.png) center center / cover no-repeat;
 }
 
 .Pixso-vector-1_10 {
@@ -1112,27 +1103,27 @@ onUnmounted(() => {
 }
 .Pixso-vector-1_24 {
     width: 88.28%;
-    height: 1.63%;
+    height: 1.8%;
     background-image: url(@/assets/images/Vector_1_24.png);
     background-size: 100% 100%;
     background-repeat: no-repeat;
     position: absolute;
     left: 5.89%;
     right: 5.83%;
-    top: 20.89%;
-    bottom: 77.48%;
+    top: 20.81%;
+    bottom: 77.39%;
 }
 .Pixso-vector-1_25 {
     width: 7.81%;
-    height: 1.63%;
+    height: 1.8%;
     background-image: url(@/assets/images/Vector_1_25.png);
     background-size: 100% 100%;
     background-repeat: no-repeat;
     position: absolute;
     left: 5.89%;
     right: 86.3%;
-    top: 20.89%;
-    bottom: 77.48%;
+    top: 20.81%;
+    bottom: 77.39%;
 }
 .Pixso-vector-1_31 {
     width: 88.28%;
