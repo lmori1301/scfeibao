@@ -8,12 +8,29 @@
  *           / 禁用(disabled) / 加载中(loading) —— 由 Element 原生 API 承载
  * ============================================================ */
 
+/* ---------------- Element Plus 主题变量（对齐 web2 企业级主色，全局生效） ---------------- */
+:root {
+  --el-color-primary: #2563eb;
+  --el-color-primary-light-3: #60a5fa;
+  --el-color-primary-light-5: #93c5fd;
+  --el-color-primary-light-7: #bfdbfe;
+  --el-color-primary-light-8: #dbeafe;
+  --el-color-primary-light-9: #eff6ff;
+  --el-color-primary-dark-2: #1d4ed8;
+  --el-color-success: #16a34a;
+  --el-color-warning: #d97706;
+  --el-color-danger: #dc2626;
+  --el-color-error: #dc2626;
+  --el-border-radius-base: 6px;
+  --el-font-size-base: 13px;
+}
+
 /* ---------------- 按钮 ---------------- */
 .el-button {
-  --admin-btn-blue: #2f67ff;
-  --admin-btn-blue-deep: #1f56ec;
+  --admin-btn-blue: #2563eb;
+  --admin-btn-blue-deep: #1d4ed8;
   --admin-btn-border: #d8dee8;
-  --admin-btn-text: #4a5568;
+  --admin-btn-text: #4b5563;
   --admin-btn-success: #22a06b;
   --admin-btn-warning: #d68910;
   --admin-btn-danger: #e14d5d;
@@ -33,7 +50,7 @@
   &:hover,
   &:focus {
     border-color: #b9c6dc;
-    background: #f7f9fc;
+    background: #fafbfc;
     color: #2c3a4f;
   }
 
@@ -43,7 +60,7 @@
 
   &:focus-visible {
     outline: none;
-    box-shadow: 0 0 0 3px rgba(47, 103, 255, 0.14);
+    box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.14);
   }
 
   /* 禁用态 */
@@ -70,8 +87,8 @@
     }
 
     &:active {
-      background: #1a4cd0;
-      border-color: #1a4cd0;
+      background: #1d4ed8;
+      border-color: #1d4ed8;
     }
 
     &.is-disabled,
@@ -149,7 +166,7 @@
     &:hover,
     &:focus {
       border-color: #b9c6dc;
-      background: #f7f9fc;
+      background: #fafbfc;
       color: var(--admin-btn-blue);
     }
   }
@@ -225,24 +242,24 @@
 /* ---------------- 卡片 ---------------- */
 .el-card {
   border-radius: 8px;
-  border: 1px solid #e6eaf2;
+  border: 1px solid #e5e7eb;
   box-shadow: none;
 }
 
 /* ---------------- 表格 ---------------- */
 .el-table {
-  --el-table-border-color: #eef1f5;
-  --el-table-header-bg-color: #f7f9fc;
-  --el-table-header-text-color: #4a5568;
-  --el-table-row-hover-bg-color: #f5f9ff;
+  --el-table-border-color: #e5e7eb;
+  --el-table-header-bg-color: #fafbfc;
+  --el-table-header-text-color: #4b5563;
+  --el-table-row-hover-bg-color: #eff6ff;
   /* 斑马纹隔行底色 */
-  --el-fill-color-lighter: #fafbfd;
+  --el-fill-color-lighter: #fafbfc;
   font-size: 13px;
   color: #3d4759;
 
   .el-table__header th.el-table__cell {
-    background-color: #f7f9fc;
-    color: #4a5568;
+    background-color: #fafbfc;
+    color: #4b5563;
     font-weight: 600;
   }
 
@@ -258,13 +275,13 @@
 
   .el-table__fixed-right::before,
   .el-table__fixed::before {
-    background: #eef1f5;
+    background: #e5e7eb;
   }
 
   /* 固定区表头与主表一致；勿对固定区 body 的 td 写死 #fff，否则会盖住斑马纹与悬停行底色 */
   .el-table__fixed-right .el-table__fixed-header-wrapper th.el-table__cell,
   .el-table__fixed .el-table__fixed-header-wrapper th.el-table__cell {
-    background-color: #f7f9fc;
+    background-color: #fafbfc;
   }
 
   td.el-table__cell {
@@ -295,7 +312,7 @@
   .el-dialog__header {
     padding: 16px 20px 12px;
     background: #fff;
-    border-bottom: 1px solid #eef1f5;
+    border-bottom: 1px solid #e5e7eb;
   }
 
   .el-dialog__title {
@@ -363,7 +380,7 @@
 .el-input__wrapper.is-focus,
 .el-select__wrapper.is-focused,
 .el-textarea__inner:focus {
-  box-shadow: 0 0 0 1px rgba(47, 103, 255, 0.9) inset !important;
+  box-shadow: 0 0 0 1px rgba(37, 99, 235, 0.9) inset !important;
 }
 
 /* ---------------- 分页 ---------------- */
@@ -445,12 +462,12 @@
 }
 
 .el-tabs__item.is-active {
-  color: #2f67ff;
+  color: #2563eb;
   font-weight: 600;
 }
 
 .el-tabs__active-bar {
-  background-color: #2f67ff;
+  background-color: #2563eb;
 }
 
 .el-button-group {

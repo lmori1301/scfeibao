@@ -768,7 +768,7 @@ onBeforeUnmount(() => {
   display: grid;
   place-items: center;
   background: linear-gradient(135deg, #edf3ff 0%, #dce8ff 100%);
-  color: #2f67ff;
+  color: #2563eb;
   font-size: 24px;
   flex: 0 0 auto;
 }

@@ -188,10 +188,10 @@ a {
 }
 
 .admin-card {
-  border: 1px solid #e6eaf2;
+  border: 1px solid #e5e7eb;
   border-radius: 8px;
   background: #fff;
-  box-shadow: 0 1px 2px rgba(16, 24, 40, 0.04);
+  box-shadow: none;
 }
 
 .admin-card--search {
@@ -257,7 +257,7 @@ a {
 }
 
 .warehouse-list-page .status-tab.active {
-  background: #2f67ff;
+  background: #2563eb;
   color: #fff;
   font-weight: 600;
   border-color: transparent;
@@ -431,7 +431,7 @@ a {
   width: 3px;
   height: 14px;
   border-radius: 2px;
-  background: #2f67ff;
+  background: #2563eb;
 }
 
 .warehouse-form-page .panel-title::before {
@@ -1043,14 +1043,14 @@ a {
 
 /** 列表页：查询条 + 表格同一张白卡片 */
 .admin-page-list-card {
-  border: 1px solid #e6eaf2;
+  border: 1px solid #e5e7eb;
   background: #fff;
   border-radius: 8px;
   /* 允许宽表格在卡片内横向滚动，避免与 overflow:hidden 一样被压扁重叠 */
   overflow-x: auto;
   overflow-y: visible;
   min-width: 0;
-  box-shadow: 0 1px 2px rgba(16, 24, 40, 0.04);
+  box-shadow: none;
 }
 
 .admin-page-list-card__toolbar {

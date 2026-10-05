@@ -159,7 +159,7 @@ onMounted(fetchNavItems)
 .navigation-tab {
   min-width: 108px; height: 40px; padding: 0 18px; border: 1px solid #d8e3fa; border-radius: 12px; background: #f7faff;
   color: #607089; font-size: 13px; font-weight: 600; cursor: pointer;
-  &.active { color: #fff; border-color: transparent; background: #2f67ff; }
+  &.active { color: #fff; border-color: transparent; background: #2563eb; }
 }
 .nav-cell { display: flex; align-items: center; }
 .nav-cell__meta { min-width: 0; }

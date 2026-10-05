@@ -110,7 +110,7 @@ onMounted(() => {
 }
 .preview-card strong { display: block; font-size: 18px; color: #1f2f46; line-height: 1.5; }
 .preview-card p { margin-top: 8px; color: #718198; font-size: 13px; line-height: 1.6; }
-.preview-card span { display: inline-block; margin-top: 10px; padding: 6px 10px; border-radius: 999px; background: rgba(47,103,255,.1); color: #2f67ff; font-size: 12px; font-weight: 600; }
+.preview-card span { display: inline-block; margin-top: 10px; padding: 6px 10px; border-radius: 999px; background: rgba(37,99,235,.1); color: #2563eb; font-size: 12px; font-weight: 600; }
 @media (max-width: 1200px) {
   .site-config-layout { grid-template-columns: 1fr; }
 }

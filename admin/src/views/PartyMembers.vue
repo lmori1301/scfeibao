@@ -165,7 +165,7 @@ onMounted(() => {
 .member-cell__empty, .preview-card__empty { width: 100%; height: 100%; display: grid; place-items: center; color: #8b98ad; }
 .member-cell__meta { min-width: 0; }
 .member-cell__meta strong { display: block; color: #1f2f46; font-size: 15px; line-height: 1.5; }
-.member-cell__meta span { display: block; margin-top: 4px; color: #2f67ff; font-size: 13px; font-weight: 600; }
+.member-cell__meta span { display: block; margin-top: 4px; color: #2563eb; font-size: 13px; font-weight: 600; }
 .member-cell__meta p { margin-top: 6px; color: #7b879b; font-size: 12px; line-height: 1.6; }
 .party-members-dialog { display: grid; grid-template-columns: minmax(0, 1.35fr) 300px; gap: 24px; }
 .preview-card { padding: 18px; border-radius: 20px; background: linear-gradient(180deg, #f7fbff 0%, #edf4ff 100%); }

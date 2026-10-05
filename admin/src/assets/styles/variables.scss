@@ -1,24 +1,24 @@
-// 颜色变量
-$primary-color: #4da8ff;
-$success-color: #52c41a;
-$warning-color: #faad14;
-$danger-color: #ff4d4f;
-$info-color: #909399;
+// 颜色变量（对齐 web2 企业级视觉）
+$primary-color: #2563eb;
+$success-color: #16a34a;
+$warning-color: #d97706;
+$danger-color: #dc2626;
+$info-color: #6b7280;
 
 // 中性色
-$text-primary: #303133;
-$text-regular: #606266;
-$text-secondary: #909399;
-$text-placeholder: #c0c4cc;
+$text-primary: #1f2937;
+$text-regular: #4b5563;
+$text-secondary: #6b7280;
+$text-placeholder: #9ca3af;
 
-$border-base: #dcdfe6;
-$border-light: #e4e7ed;
-$border-lighter: #ebeef5;
+$border-base: #e5e7eb;
+$border-light: #eef0f3;
+$border-lighter: #f0f2f5;
 $border-extra-light: #f5f7fa;
 
 $bg-color: #ffffff;
-$bg-page: #f5f5f5;
-$bg-soft: #fafafa;
+$bg-page: #f5f7fa;
+$bg-soft: #fafbfc;
 
 // 间距变量（8px基础单位）
 $spacing-xs: 4px;
@@ -29,14 +29,14 @@ $spacing-xl: 32px;
 
 // 字体变量
 $font-size-sm: 12px;
-$font-size-base: 14px;
+$font-size-base: 13px;
 $font-size-lg: 16px;
 $font-size-xl: 18px;
 
 // 布局变量
-$sidebar-width: 220px;
+$sidebar-width: 240px;
 $sidebar-collapsed-width: 64px;
-$header-height: 60px;
+$header-height: 56px;
 
 // 圆角（企业级：克制、方正）
 $border-radius-sm: 4px;

@@ -274,13 +274,13 @@ watch(
   display: flex;
   flex-direction: column;
   overflow: hidden;
-  background: #f2f4f8;
+  background: #f5f7fa;
 }
 
 .shell-header {
   min-height: 56px;
-  background: #1a3f6b;
-  border-bottom: 1px solid #143257;
+  background: #ffffff;
+  border-bottom: 1px solid #e5e7eb;
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -313,7 +313,7 @@ watch(
 
 .brand-name {
   font-size: 16px;
-  color: #ffffff;
+  color: #1f2937;
   font-weight: 600;
   letter-spacing: 0.01em;
 }
@@ -328,7 +328,7 @@ watch(
 .header-user-name {
   border: 0;
   background: transparent;
-  color: rgba(255, 255, 255, 0.92);
+  color: #4b5563;
   cursor: pointer;
 }
 
@@ -340,14 +340,14 @@ watch(
   border-radius: 12px;
 
   &:hover {
-    background: rgba(255, 255, 255, 0.14);
-    color: #ffffff;
+    background: #eff6ff;
+    color: #2563eb;
   }
 }
 
 .icon-btn--notice :deep(.el-badge__content) {
   border: 0;
-  box-shadow: 0 0 0 2px rgba(63, 122, 255, 0.9);
+  box-shadow: 0 0 0 2px rgba(37, 99, 235, 0.9);
 }
 
 .header-user-name {
@@ -360,17 +360,17 @@ watch(
 }
 
 .header-user-name:hover {
-  background: rgba(255, 255, 255, 0.12);
+  background: #eff6ff;
 }
 
 .header-user-name :deep(.el-icon) {
-  color: rgba(255, 255, 255, 0.78);
+  color: #6b7280;
   font-size: 16px;
 }
 
 .header-user-name strong {
   max-width: 160px;
-  color: rgba(255, 255, 255, 0.96);
+  color: #1f2937;
   font-size: 14px;
   font-weight: 600;
   white-space: nowrap;
@@ -380,7 +380,7 @@ watch(
 
 .header-user-name:hover strong,
 .header-user-name:hover :deep(.el-icon) {
-  color: #ffffff;
+  color: #2563eb;
 }
 
 .header-user-name__arrow {
@@ -397,12 +397,13 @@ watch(
 }
 
 .shell-sidebar {
-  flex: 0 0 224px;
-  width: 224px;
-  margin: 12px 0 12px 12px;
-  padding: 6px;
-  border: 1px solid #e6eaf2;
-  border-radius: 10px;
+  flex: 0 0 240px;
+  width: 240px;
+  margin: 0;
+  padding: 8px;
+  border: 0;
+  border-right: 1px solid #e5e7eb;
+  border-radius: 0;
   background: #fff;
   box-shadow: none;
   overflow-y: auto;
@@ -470,7 +471,7 @@ watch(
   border-radius: 8px;
   display: grid;
   place-items: center;
-  background: #2f67ff;
+  background: #2563eb;
   color: #fff;
   font-size: 14px;
 }
@@ -521,11 +522,11 @@ watch(
 
   &:hover {
     background: #eef4ff;
-    color: #2f67ff;
+    color: #2563eb;
   }
 
   &.active {
-    color: #2f67ff;
+    color: #2563eb;
     background: #eef4ff;
     font-weight: 600;
     box-shadow: inset 0 0 0 1px #d8e4ff;
@@ -538,7 +539,7 @@ watch(
       bottom: 7px;
       width: 3px;
       border-radius: 999px;
-      background: #2f67ff;
+      background: #2563eb;
     }
   }
 }
@@ -565,7 +566,7 @@ watch(
   right: 10px;
   top: 9px;
   bottom: 9px;
-  background: #2f67ff;
+  background: #2563eb;
 }
 
 .shell-main {
@@ -579,14 +580,14 @@ watch(
 }
 
 .content-panel {
-  border: 1px solid #e4e9f2;
+  border: 1px solid #e5e7eb;
   background: #fff;
   flex: 1;
   min-height: 0;
   display: flex;
   flex-direction: column;
   overflow: hidden;
-  border-radius: 10px;
+  border-radius: 8px;
   box-shadow: none;
 }
 
@@ -603,8 +604,8 @@ watch(
 
 @media (max-width: 1280px) {
   .shell-sidebar {
-    flex-basis: 220px;
-    width: 220px;
+    flex-basis: 240px;
+    width: 240px;
   }
 
   .shell-main {

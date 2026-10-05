@@ -134,7 +134,7 @@ const showToggle = computed(() => props.collapsible)
 }
 
 .qf__grid :deep(.el-form-item__label) {
-  color: #5a6b85;
+  color: #4b5563;
   font-size: 13px;
   font-weight: 500;
   line-height: 32px;

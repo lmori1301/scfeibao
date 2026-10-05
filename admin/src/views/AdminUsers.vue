@@ -527,7 +527,7 @@ onMounted(async () => {
 .admin-users-panel { padding: 20px; border-radius: 12px; overflow: hidden; }
 .preview-card__avatar {
   width: 60px; height: 60px; border-radius: 10px; display: grid; place-items: center;
-  background: linear-gradient(135deg, #edf3ff 0%, #dce8ff 100%); color: #2f67ff; font-size: 24px; flex: 0 0 auto;
+  background: linear-gradient(135deg, #edf3ff 0%, #dce8ff 100%); color: #2563eb; font-size: 24px; flex: 0 0 auto;
 }
 .admin-users-dialog { display: grid; grid-template-columns: minmax(0, 1.35fr) 320px; gap: 24px; }
 .preview-card { padding: 18px; border-radius: 10px; background: linear-gradient(180deg, #f7fbff 0%, #edf4ff 100%); }
@@ -535,7 +535,7 @@ onMounted(async () => {
 .preview-card p { margin-top: 8px; color: #718198; font-size: 13px; }
 .preview-card__meta { display: flex; gap: 8px; flex-wrap: wrap; margin-top: 12px; }
 .preview-card__meta span {
-  padding: 6px 10px; border-radius: 999px; background: rgba(47, 103, 255, 0.1); color: #2f67ff; font-size: 12px; font-weight: 600;
+  padding: 6px 10px; border-radius: 999px; background: rgba(37, 99, 235, 0.1); color: #2563eb; font-size: 12px; font-weight: 600;
 }
 .reset-password-tip {
   margin-bottom: 12px;

@@ -361,8 +361,8 @@ const formatDate = (_row: any, _column: any, cellValue: any) => {
   display: inline-flex;
   padding: 6px 10px;
   border-radius: 999px;
-  background: rgba(47, 103, 255, 0.1);
-  color: #2f67ff;
+  background: rgba(37, 99, 235, 0.1);
+  color: #2563eb;
   font-size: 12px;
   font-weight: 700;
 }

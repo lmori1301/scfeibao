@@ -136,6 +136,6 @@ onMounted(fetchUsers)
 }
 .user-avatar {
   width: 40px; height: 40px; border-radius: 12px; display: grid; place-items: center;
-  background: linear-gradient(135deg, #edf3ff 0%, #dce8ff 100%); color: #2f67ff; font-size: 18px; margin: 0 auto;
+  background: linear-gradient(135deg, #edf3ff 0%, #dce8ff 100%); color: #2563eb; font-size: 18px; margin: 0 auto;
 }
 </style>

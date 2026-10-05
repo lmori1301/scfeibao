@@ -937,7 +937,7 @@ onMounted(async () => {
   min-height: 50px;
   padding: 12px 16px;
   border: 0;
-  background: rgba(47, 103, 255, 0.08);
+  background: rgba(37, 99, 235, 0.08);
   color: #1b4fa0;
   font-size: 14px;
   font-weight: 700;
