@@ -38,12 +38,16 @@ $sidebar-width: 220px;
 $sidebar-collapsed-width: 64px;
 $header-height: 60px;
 
-// 圆角
-$border-radius-sm: 2px;
-$border-radius-base: 2px;
-$border-radius-lg: 4px;
-$border-radius-xl: 8px;
+// 圆角（企业级：克制、方正）
+$border-radius-sm: 4px;
+$border-radius-base: 6px;
+$border-radius-lg: 8px;
+$border-radius-xl: 10px;
 
-// 阴影
+// 控件高度
+$control-height: 32px;
+$control-height-sm: 28px;
+
+// 阴影（企业级：以描边分区，阴影极轻）
 $box-shadow-base: none;
-$box-shadow-light: 0 1px 2px rgba(0, 0, 0, 0.05);
+$box-shadow-light: 0 1px 2px rgba(16, 24, 40, 0.04);

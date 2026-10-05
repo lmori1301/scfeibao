@@ -1,6 +1,10 @@
-import { Injectable, NotFoundException } from '@nestjs/common';
+import { Injectable, NotFoundException, BadRequestException, Logger } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
+import { readSheet } from 'read-excel-file/node';
+import type { SheetData } from 'read-excel-file/types/SheetData';
+import { promises as fs } from 'fs';
+import * as path from 'path';
 import { TeamDuty } from '../../database/entities/team-duty.entity';
 import {
   CreateTeamDutyDto,
@@ -13,6 +17,9 @@ import {
   PaginationDto,
   PaginatedResponseDto,
 } from '../../common/dto/pagination.dto';
+import {
+  parseDutyRoster,
+} from '../../common/utils/duty-roster-parser';
 
 export type TeamDutyBatchResult = {
   total: number;
@@ -22,12 +29,174 @@ export type TeamDutyBatchResult = {
   items: TeamDuty[];
 };
 
+/** 前台导入的入参 */
+export type FrontendImportMeta = {
+  teamName: string;
+  dutyYear: string;
+  submitterName?: string;
+  submitterPhone?: string;
+};
+
+export type FrontendImportResult = {
+  total: number;
+  created: number;
+  skipped: number;
+  failed: number;
+  errors: Array<{ row: number; message: string }>;
+  attachUrl: string | null;
+  attachName: string | null;
+  message: string;
+};
+
 @Injectable()
 export class TeamDutyService {
+  private readonly logger = new Logger(TeamDutyService.name);
+
   constructor(
     @InjectRepository(TeamDuty)
     private readonly teamDutyRepository: Repository<TeamDuty>,
   ) {}
+
+  /**
+   * 前台公开导入：xlsx → 解析 → 判重 → 入库 → 保存原始附件。
+   *
+   * 解析复用 `common/utils/duty-roster-parser`（与后台 TeamDuty.vue 用的是同一套逻辑，
+   * 且带单元测试），避免前后端维护两份解析规则。
+   */
+  async importFromXlsx(
+    file: Express.Multer.File,
+    meta: FrontendImportMeta,
+  ): Promise<FrontendImportResult> {
+    const errors: Array<{ row: number; message: string }> = [];
+
+    // ---- 1. 读表 ----
+    let matrix: SheetData;
+    try {
+      matrix = await readSheet(file.buffer, 1);
+    } catch (error) {
+      const raw = String((error as Error)?.message || error || '');
+      this.logger.warn(`[TeamDuty] 前台导入解析失败：${raw}`);
+      throw new BadRequestException(toFriendlyParseError(raw));
+    }
+
+    // ---- 2. 解析 ----
+    const parsed = parseDutyRoster(matrix as unknown as unknown[][]);
+    errors.push(...parsed.errors);
+
+    if (parsed.rows.length === 0) {
+      throw new BadRequestException(
+        errors[0]?.message || '未从文件中解析到值班记录，请确认表格结构（首行需含时间/日期列）',
+      );
+    }
+
+    // ---- 3. 保存原始附件（列表可查看/下载） ----
+    const { attachUrl, attachName } = await this.saveImportAttachment(file);
+
+    // ---- 4. 判重：同「队伍 + 年份 + 日期」已存在则跳过 ----
+    const dates = parsed.rows.map((r) => r.dutyDate).filter(Boolean);
+    const existing = await this.teamDutyRepository
+      .createQueryBuilder('td')
+      .select('td.dutyDate', 'dutyDate')
+      .where('td.teamName = :teamName', { teamName: meta.teamName })
+      .andWhere('td.dutyYear = :dutyYear', { dutyYear: meta.dutyYear })
+      .andWhere('td.dutyDate IN (:...dates)', { dates })
+      .getRawMany<{ dutyDate: string | Date | null }>();
+
+    const existed = new Set(
+      existing.map((row) =>
+        row.dutyDate instanceof Date
+          ? row.dutyDate.toISOString().slice(0, 10)
+          : String(row.dutyDate || '').slice(0, 10),
+      ),
+    );
+
+    // ---- 5. 组装待入库数据（文件内重复也跳过） ----
+    const submitter = [meta.submitterName, meta.submitterPhone && `电话${meta.submitterPhone}`]
+      .filter(Boolean)
+      .join(' / ');
+    const remarkPrefix = submitter ? `前台提交：${submitter}` : '前台提交';
+
+    const toSave: TeamDuty[] = [];
+    let skipped = 0;
+    const seenInFile = new Set<string>();
+
+    parsed.rows.forEach((row) => {
+      if (!row.dutyCadreName?.trim() || !row.dutyStaff?.trim()) {
+        errors.push({ row: row.rowNumber, message: '值班干部与值班员均不能为空' });
+        return;
+      }
+      if (existed.has(row.dutyDate) || seenInFile.has(row.dutyDate)) {
+        skipped += 1;
+        return;
+      }
+      seenInFile.add(row.dutyDate);
+      toSave.push(
+        this.teamDutyRepository.create({
+          teamName: meta.teamName,
+          dutyYear: meta.dutyYear,
+          dutyDate: toDateOrNull(row.dutyDate),
+          dutyCadreName: row.dutyCadreName.trim(),
+          dutyCadrePhone: row.dutyCadrePhone?.trim() || null,
+          dutyStaff: row.dutyStaff.trim(),
+          attachUrl,
+          attachName,
+          // 解析器不产出 remark（表结构里无备注列），统一记录提交来源便于追溯
+          remark: remarkPrefix,
+          createBy: meta.submitterName || '前台提交',
+        }),
+      );
+    });
+
+    // ---- 6. 入库 ----
+    const saved = toSave.length ? await this.teamDutyRepository.save(toSave) : [];
+
+    if (skipped > 0) {
+      errors.push({
+        row: 0,
+        message: `有 ${skipped} 条记录因「${meta.teamName} ${meta.dutyYear}」下日期已存在被跳过`,
+      });
+    }
+
+    const message = toSave.length
+      ? `导入成功，新增 ${saved.length} 条${skipped ? `，跳过重复 ${skipped} 条` : ''}`
+      : `未新增记录${skipped ? `，${skipped} 条均已存在` : ''}`;
+
+    return {
+      total: parsed.rows.length,
+      created: saved.length,
+      skipped,
+      failed: errors.length,
+      errors,
+      attachUrl,
+      attachName,
+      message,
+    };
+  }
+
+  /** 把上传的原始 xlsx 落到 uploads/files，返回可访问的 url 与原始文件名 */
+  private async saveImportAttachment(
+    file: Express.Multer.File,
+  ): Promise<{ attachUrl: string | null; attachName: string | null }> {
+    try {
+      let originalName = file.originalname || 'duty-roster.xlsx';
+      try {
+        originalName = Buffer.from(originalName, 'latin1').toString('utf8');
+      } catch {
+        /* 保持原名 */
+      }
+
+      const dir = path.join(process.cwd(), 'uploads', 'files');
+      await fs.mkdir(dir, { recursive: true });
+      const unique = `${Date.now()}-${Math.round(Math.random() * 1E9)}.xlsx`;
+      await fs.writeFile(path.join(dir, unique), file.buffer);
+
+      return { attachUrl: `/uploads/files/${unique}`, attachName: originalName };
+    } catch (error) {
+      // 附件保存失败不阻断入库，但要让调用方知道附件没存上
+      this.logger.error('[TeamDuty] 保存导入附件失败：', error);
+      return { attachUrl: null, attachName: null };
+    }
+  }
 
   async create(
     dto: CreateTeamDutyDto,
@@ -268,4 +437,20 @@ function toDateOnly(value?: Date | null): string | null {
   const month = String(value.getMonth() + 1).padStart(2, '0');
   const day = String(value.getDate()).padStart(2, '0');
   return `${year}-${month}-${day}`;
+}
+
+/** 把 Excel 库的英文异常归一化成面向用户的中文提示（与后台 TeamDuty.vue 同套规则） */
+function toFriendlyParseError(rawMessage: string): string {
+  const msg = String(rawMessage || '');
+  if (/doesn't look like an? .?\.?xlsx/i.test(msg) || /invalid spreadsheet|zip/i.test(msg)) {
+    return '文件不是有效的 .xlsx 文件（若为 .xls 或 CSV，请先另存为 .xlsx 格式）';
+  }
+  if (/password|encrypted/i.test(msg)) {
+    return '文件已加密，请解除密码保护后再上传';
+  }
+  if (/not found|sheet/i.test(msg)) {
+    return '未在文件中找到工作表，请确认文件内容完整';
+  }
+  if (!msg) return '文件解析失败，请上传 .xlsx 格式的值班表';
+  return `文件解析失败：${msg}（请确认上传的是 .xlsx 格式值班表）`;
 }

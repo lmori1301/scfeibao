@@ -240,11 +240,6 @@ watch(
             </el-icon>
           </button>
 
-          <div v-if="group.id === 'overview'" class="side-group__intro">
-            <strong>总控导航</strong>
-            <span>{{ group.description }}</span>
-          </div>
-
           <div v-show="groupOpenState[group.id]" class="side-group__items">
             <button
               v-for="item in group.children"
@@ -279,26 +274,21 @@ watch(
   display: flex;
   flex-direction: column;
   overflow: hidden;
-  background:
-    radial-gradient(circle at top left, rgba(79, 115, 255, 0.08), transparent 18%),
-    linear-gradient(180deg, #f3f6fb 0%, #edf2f9 100%);
+  background: #f2f4f8;
 }
 
 .shell-header {
-  min-height: 76px;
-  background:
-    radial-gradient(circle at left top, rgba(132, 177, 255, 0.22), transparent 18%),
-    radial-gradient(circle at right top, rgba(82, 133, 255, 0.18), transparent 20%),
-    linear-gradient(90deg, #163d7a 0%, #1b4d96 42%, #1d5db6 100%);
-  border-bottom: 1px solid rgba(20, 59, 120, 0.9);
+  min-height: 56px;
+  background: #1a3f6b;
+  border-bottom: 1px solid #143257;
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: 12px 22px 12px 18px;
+  padding: 8px 20px 8px 16px;
   position: sticky;
   top: 0;
   z-index: 20;
-  box-shadow: 0 18px 34px rgba(18, 42, 87, 0.22);
+  box-shadow: none;
 }
 
 .header-surface {
@@ -310,44 +300,28 @@ watch(
 .brand-wrap {
   display: flex;
   align-items: center;
-  gap: 12px;
+  gap: 10px;
   min-width: 0;
 }
 
 .brand-logo {
-  width: 52px;
-  height: 52px;
+  width: 38px;
+  height: 38px;
   display: block;
   object-fit: contain;
 }
 
 .brand-name {
-  font-size: 18px;
+  font-size: 16px;
   color: #ffffff;
-  font-weight: 700;
-  letter-spacing: 0.02em;
+  font-weight: 600;
+  letter-spacing: 0.01em;
 }
 
 .header-tools {
   display: flex;
   align-items: center;
   gap: 12px;
-}
-
-.header-console {
-  min-width: 118px;
-  height: 36px;
-  padding: 0 14px;
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  border-radius: 999px;
-  background: linear-gradient(135deg, #4f73ff 0%, #2f8cff 100%);
-  color: #fff;
-  font-size: 12px;
-  font-weight: 700;
-  letter-spacing: 0.08em;
-  text-transform: uppercase;
 }
 
 .icon-btn,
@@ -423,14 +397,14 @@ watch(
 }
 
 .shell-sidebar {
-  flex: 0 0 236px;
-  width: 236px;
-  margin: 18px 0 18px 18px;
-  padding: 8px 8px 10px;
-  border: 1px solid #e6edf7;
-  border-radius: 14px;
-  background: linear-gradient(180deg, rgba(255,255,255,0.96) 0%, rgba(247,250,255,0.96) 100%);
-  box-shadow: 0 16px 32px rgba(44, 76, 135, 0.08);
+  flex: 0 0 224px;
+  width: 224px;
+  margin: 12px 0 12px 12px;
+  padding: 6px;
+  border: 1px solid #e6eaf2;
+  border-radius: 10px;
+  background: #fff;
+  box-shadow: none;
   overflow-y: auto;
   overflow-x: hidden;
   scrollbar-gutter: stable;
@@ -443,31 +417,25 @@ watch(
 
 .side-group {
   position: relative;
-  border-radius: 12px;
+  border-radius: 8px;
   transition: background 0.2s ease, box-shadow 0.2s ease, border-color 0.2s ease;
 }
 
 .side-group--active {
-  background: linear-gradient(180deg, rgba(245, 249, 255, 0.96) 0%, rgba(239, 245, 255, 0.96) 100%);
-  box-shadow: inset 0 0 0 1px rgba(194, 213, 249, 0.9);
+  background: #f2f6fe;
+  box-shadow: inset 0 0 0 1px #d7e4fa;
 }
 
 .side-group--overview {
-  margin-bottom: 8px;
-  padding: 6px;
-  background:
-    radial-gradient(circle at top right, rgba(66, 118, 255, 0.14), transparent 34%),
-    linear-gradient(180deg, rgba(241, 247, 255, 0.98) 0%, rgba(233, 241, 255, 0.98) 100%);
-  box-shadow: inset 0 0 0 1px rgba(183, 206, 250, 0.92);
+  margin-bottom: 6px;
+  padding: 4px;
+  background: #f4f7fd;
+  box-shadow: inset 0 0 0 1px #e3ebf8;
 }
 
 .side-group--overview.side-group--active {
-  background:
-    radial-gradient(circle at top right, rgba(66, 118, 255, 0.22), transparent 36%),
-    linear-gradient(180deg, rgba(236, 244, 255, 1) 0%, rgba(224, 236, 255, 1) 100%);
-  box-shadow:
-    inset 0 0 0 1px rgba(123, 164, 245, 0.95),
-    0 12px 24px rgba(40, 84, 170, 0.12);
+  background: #eaf1fe;
+  box-shadow: inset 0 0 0 1px #cbdcfa;
 }
 
 .side-group__title {
@@ -497,12 +465,12 @@ watch(
 }
 
 .side-group--overview .side-group__title-main :deep(.el-icon) {
-  width: 28px;
-  height: 28px;
-  border-radius: 10px;
+  width: 26px;
+  height: 26px;
+  border-radius: 8px;
   display: grid;
   place-items: center;
-  background: linear-gradient(135deg, #2f67ff 0%, #4e83ff 100%);
+  background: #2f67ff;
   color: #fff;
   font-size: 14px;
 }
@@ -512,25 +480,6 @@ watch(
   align-items: center;
   gap: 7px;
   font-weight: 600;
-}
-
-.side-group__intro {
-  padding: 2px 10px 8px 46px;
-}
-
-.side-group__intro strong {
-  display: block;
-  color: #21488e;
-  font-size: 12px;
-  font-weight: 700;
-}
-
-.side-group__intro span {
-  display: block;
-  margin-top: 4px;
-  color: #5e7497;
-  font-size: 11px;
-  line-height: 1.6;
 }
 
 .side-group__arrow {
@@ -577,7 +526,7 @@ watch(
 
   &.active {
     color: #2f67ff;
-    background: linear-gradient(135deg, #eef4ff 0%, #e5efff 100%);
+    background: #eef4ff;
     font-weight: 600;
     box-shadow: inset 0 0 0 1px #d8e4ff;
 
@@ -607,18 +556,16 @@ watch(
 }
 
 .side-group--overview .side-item.active {
-  background: linear-gradient(135deg, #ffffff 0%, #f3f7ff 100%);
+  background: #fff;
   color: #18418b;
-  box-shadow:
-    inset 0 0 0 1px #c8d9ff,
-    0 8px 18px rgba(42, 92, 181, 0.1);
+  box-shadow: inset 0 0 0 1px #c8d9ff;
 }
 
 .side-group--overview .side-item.active::after {
   right: 10px;
   top: 9px;
   bottom: 9px;
-  background: linear-gradient(180deg, #2f67ff 0%, #6f98ff 100%);
+  background: #2f67ff;
 }
 
 .shell-main {
@@ -628,7 +575,7 @@ watch(
   display: flex;
   flex-direction: column;
   overflow: hidden;
-  padding: 18px 18px 20px;
+  padding: 12px 12px 14px;
 }
 
 .content-panel {
@@ -639,8 +586,8 @@ watch(
   display: flex;
   flex-direction: column;
   overflow: hidden;
-  border-radius: 12px;
-  box-shadow: 0 20px 34px rgba(39, 66, 120, 0.06);
+  border-radius: 10px;
+  box-shadow: none;
 }
 
 .content-panel__body {
@@ -650,7 +597,7 @@ watch(
   /* 宽表格需横向滚动，hidden 会导致列被压缩重叠 */
   overflow-x: auto;
   overflow-y: auto;
-  padding: 18px 22px 22px;
+  padding: 16px 18px 18px;
   -webkit-overflow-scrolling: touch;
 }
 
@@ -712,10 +659,6 @@ watch(
 
   .side-group__title-main {
     gap: 0;
-  }
-
-  .side-group__intro {
-    display: none;
   }
 
   .side-group__title-main span,

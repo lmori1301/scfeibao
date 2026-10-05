@@ -9,8 +9,12 @@ import {
   Query,
   Req,
   BadRequestException,
+  UploadedFile,
+  UseInterceptors,
 } from '@nestjs/common';
-import { ApiTags, ApiOperation, ApiBearerAuth } from '@nestjs/swagger';
+import { FileInterceptor } from '@nestjs/platform-express';
+import { memoryStorage } from 'multer';
+import { ApiTags, ApiOperation, ApiBearerAuth, ApiConsumes } from '@nestjs/swagger';
 import type { Request } from 'express';
 import { TeamDutyService } from './team-duty.service';
 import {
@@ -59,6 +63,52 @@ export class TeamDutyController {
   @ApiOperation({ summary: '获取值班年份下拉选项' })
   listYears() {
     return this.teamDutyService.listYears();
+  }
+
+  /**
+   * 前台公开导入：接收 xlsx → 服务端解析 → 回填值班台账列表。
+   * 前台匿名可调（@Public），因此：
+   * - 仅接受 .xlsx，限制 10MB
+   * - 逐行校验（干部/值班员必填）
+   * - 按「队伍 + 年份 + 日期」判重，重复行跳过并在 errors 中说明
+   * - 原始附件落盘，列表可查看/下载
+   */
+  @Public()
+  @Post('import')
+  @ApiOperation({ summary: '前台上传值班表并解析入库' })
+  @ApiConsumes('multipart/form-data')
+  @UseInterceptors(
+    FileInterceptor('file', {
+      storage: memoryStorage(),
+      limits: { fileSize: 10 * 1024 * 1024 },
+    }),
+  )
+  async importFromFrontend(
+    @UploadedFile() file: Express.Multer.File,
+    @Body('teamName') teamName: string,
+    @Body('dutyYear') dutyYear: string,
+    @Body('submitterName') submitterName?: string,
+    @Body('submitterPhone') submitterPhone?: string,
+  ) {
+    if (!file) {
+      throw new BadRequestException('请选择要上传的值班表文件');
+    }
+    const name = (file.originalname || '').toLowerCase();
+    if (!name.endsWith('.xlsx')) {
+      throw new BadRequestException('仅支持 .xlsx 格式的值班表（.xls / CSV 请先另存为 .xlsx）');
+    }
+    if (!teamName?.trim()) {
+      throw new BadRequestException('请选择队伍名称');
+    }
+    if (!/^\d{4}$/.test(dutyYear?.trim() || '')) {
+      throw new BadRequestException('请选择值班年份');
+    }
+    return this.teamDutyService.importFromXlsx(file, {
+      teamName: teamName.trim(),
+      dutyYear: dutyYear.trim(),
+      submitterName: submitterName?.trim(),
+      submitterPhone: submitterPhone?.trim(),
+    });
   }
 
   @Public()

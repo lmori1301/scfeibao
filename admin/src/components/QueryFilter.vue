@@ -26,7 +26,7 @@ const props = withDefaults(
     showActions: true,
     searchText: '查询',
     resetText: '重置',
-    labelWidth: '96px',
+    labelWidth: '80px',
     labelPosition: 'right',
   }
 )
@@ -101,34 +101,36 @@ const showToggle = computed(() => props.collapsible)
 </template>
 
 <style scoped lang="scss">
+/* 紧凑单行工具栏：字段定宽、左对齐，查询/重置紧随字段其后 */
 .qf {
   display: flex;
   flex-wrap: wrap;
   align-items: flex-end;
-  gap: 12px 16px;
+  gap: 10px 16px;
 }
 
 .qf__form {
-  flex: 1 1 auto;
+  flex: 0 1 auto;
   min-width: 0;
 }
 
-/* 查询字段网格：每列固定最小宽度，标签与控件在本格内左对齐、跨列标签基线一致 */
+/* 查询字段：横向紧凑排列，字段定宽、不拉伸 */
 .qf__grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(248px, 1fr));
-  gap: 4px 16px;
-  align-items: start;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 10px 14px;
+  min-width: 0;
 }
 
-/* 业务分组容器（由使用方在插槽内声明，跨组件作用域，需用 :deep 命中） */
+/* 业务分组容器：整行分隔标题（使用方在插槽内声明，需 :deep 命中） */
 .qf__grid :deep(.qf__group) {
-  grid-column: 1 / -1;
+  flex: 0 0 100%;
 }
 
 .qf__grid :deep(.el-form-item) {
+  flex: 0 0 auto;
   margin-bottom: 0;
-  /* 让 label 与控件在折叠态也能保持对齐 */
 }
 
 .qf__grid :deep(.el-form-item__label) {
@@ -139,11 +141,12 @@ const showToggle = computed(() => props.collapsible)
   padding-right: 10px;
 }
 
+/* 字段控件统一宽度，保证多字段纵向对齐 */
 .qf__grid :deep(.el-input),
 .qf__grid :deep(.el-select),
 .qf__grid :deep(.el-date-editor),
 .qf__grid :deep(.el-cascader) {
-  width: 100%;
+  width: 200px;
 }
 
 /* 收起态：隐藏高级字段（使用方给字段加 .qf-advanced） */
@@ -172,7 +175,7 @@ const showToggle = computed(() => props.collapsible)
 }
 
 .qf__toggle {
-  margin-left: 4px;
+  margin-left: 2px;
   white-space: nowrap;
 }
 
@@ -186,8 +189,23 @@ const showToggle = computed(() => props.collapsible)
     align-items: stretch;
   }
 
+  .qf__form {
+    width: 100%;
+  }
+
   .qf__grid {
-    grid-template-columns: 1fr;
+    gap: 10px 12px;
+  }
+
+  .qf__grid :deep(.el-form-item) {
+    flex: 1 1 100%;
+  }
+
+  .qf__grid :deep(.el-input),
+  .qf__grid :deep(.el-select),
+  .qf__grid :deep(.el-date-editor),
+  .qf__grid :deep(.el-cascader) {
+    width: 100%;
   }
 
   .qf__bar {

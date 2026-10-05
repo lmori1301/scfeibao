@@ -8,6 +8,9 @@
                 :style="{ backgroundImage: bannerList[currentBannerIndex] ? `url(${bannerList[currentBannerIndex].image})` : 'none' }"
             ></div>
             <div id="1_7" class="Pixso-vector-1_7"></div>
+            <!-- 导航条底色：1_7 只到 4.5%，1_3 从 6.13% 才起，5.03% 的导航项落在纯白缝隙上导致白字不可见，
+                 此处补 4.5%~6.13% 的蓝色底，复用 1_24 的蓝色资源，不改动任何现有元素定位。 -->
+            <div class="nav-bar-bg"></div>
             <div id="1_10" class="Pixso-vector-1_10"></div>
             <p id="1_13" class="Pixso-paragraph-1_13">{{ "四川飞豹救援" }}</p>
             <p id="1_14" class="Pixso-paragraph-1_14">
@@ -369,6 +372,9 @@
 
     <!-- 值班台账悬浮卡片（fixed 定位，不受画布缩放影响） -->
     <DutyCard />
+
+    <!-- 值班台账上传入口（侧边悬浮） -->
+    <DutyEntryBox />
 </template>
 <script lang="ts" setup>
 import { ref, computed, onMounted, onUnmounted, nextTick, watch } from 'vue'
@@ -381,6 +387,7 @@ import { usePixsoScale } from '@/composables/use-pixso-scale'
 import { normalizeMediaUrl } from '@/utils/photo-urls'
 import SloganBannerCarousel from '@/components/SloganBannerCarousel.vue'
 import DutyCard from '@/components/DutyCard.vue'
+import DutyEntryBox from '@/components/DutyEntryBox.vue'
 
 const router = useRouter()
 const route = useRoute()
@@ -914,6 +921,21 @@ onUnmounted(() => {
     top: 0%;
     bottom: 95.5%;
 }
+
+/* 导航条底色：补 1_7(→4.5%) 与 1_3(6.13%→) 之间的缝隙，承载 5.03% 的白字导航项 */
+.nav-bar-bg {
+    width: 100%;
+    height: 1.63%;
+    background-image: url(@/assets/images/Vector_1_24.png);
+    background-size: 100% 100%;
+    background-repeat: no-repeat;
+    position: absolute;
+    left: 0%;
+    right: 0%;
+    top: 4.5%;
+    bottom: 93.87%;
+    z-index: 0;
+}
 .Pixso-vector-1_10 {
     width: 6.72%;
     height: 2.99%;
@@ -1012,14 +1034,14 @@ onUnmounted(() => {
     transform: translateY(calc(-50% + 0.5px));
 }
 .Pixso-vector-1_24 {
-    width: 100%;
+    width: 88.28%;
     height: 1.63%;
     background-image: url(@/assets/images/Vector_1_24.png);
     background-size: 100% 100%;
     background-repeat: no-repeat;
     position: absolute;
-    left: 0%;
-    right: 0%;
+    left: 5.89%;
+    right: 5.83%;
     top: 20.89%;
     bottom: 77.48%;
 }
@@ -3118,6 +3140,7 @@ onUnmounted(() => {
     text-decoration: none;
     cursor: pointer;
     transition: opacity 0.3s;
+    z-index: 1;
 }
 
 .Pixso-paragraph-1_169:hover {
@@ -3142,6 +3165,7 @@ onUnmounted(() => {
     text-decoration: none;
     cursor: pointer;
     transition: opacity 0.3s;
+    z-index: 1;
 }
 
 .Pixso-paragraph-1_170:hover {
@@ -3166,6 +3190,7 @@ onUnmounted(() => {
     text-decoration: none;
     cursor: pointer;
     transition: opacity 0.3s;
+    z-index: 1;
 }
 
 .Pixso-paragraph-1_171:hover {
@@ -3190,6 +3215,7 @@ onUnmounted(() => {
     text-decoration: none;
     cursor: pointer;
     transition: opacity 0.3s;
+    z-index: 1;
 }
 
 .Pixso-paragraph-1_172:hover {
@@ -3214,6 +3240,7 @@ onUnmounted(() => {
     text-decoration: none;
     cursor: pointer;
     transition: opacity 0.3s;
+    z-index: 1;
 }
 
 .Pixso-paragraph-1_173:hover {
@@ -3238,6 +3265,7 @@ onUnmounted(() => {
     text-decoration: none;
     cursor: pointer;
     transition: opacity 0.3s;
+    z-index: 1;
 }
 
 .Pixso-paragraph-1_174:hover {
@@ -3262,6 +3290,7 @@ onUnmounted(() => {
     text-decoration: none;
     cursor: pointer;
     transition: opacity 0.3s;
+    z-index: 1;
 }
 
 .Pixso-paragraph-1_175:hover {
