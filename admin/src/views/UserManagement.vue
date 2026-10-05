@@ -93,8 +93,8 @@ onMounted(fetchUsers)
           </el-button>
         </div>
       </div>
-      <el-table :data="tableData" v-loading="loading" stripe>
-        <el-table-column type="index" label="序号" width="70" />
+      <el-table max-height="calc(100vh - 320px)" :data="tableData" v-loading="loading" stripe>
+        <el-table-column type="index" label="序号" width="70" fixed="left" />
         <el-table-column label="头像" width="80" align="center">
           <template #default="{ row }">
             <div class="user-avatar"><el-icon><User /></el-icon></div>

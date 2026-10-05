@@ -187,9 +187,9 @@ fetch()
         </div>
       </div>
         <div class="leadership-table-x">
-          <el-table class="leadership-table" :data="tableRows" v-loading="loading" stripe>
-        <el-table-column type="selection" width="46" />
-        <el-table-column type="index" label="序号" width="70" />
+          <el-table max-height="calc(100vh - 320px)" class="leadership-table" :data="tableRows" v-loading="loading" stripe>
+        <el-table-column type="selection" width="46" fixed="left" />
+        <el-table-column type="index" label="序号" width="70" fixed="left" />
         <el-table-column prop="name" label="姓名" width="100" show-overflow-tooltip />
         <el-table-column prop="position" label="职位" min-width="168" show-overflow-tooltip />
         <el-table-column label="性别" width="72" show-overflow-tooltip>

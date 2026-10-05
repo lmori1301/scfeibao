@@ -110,8 +110,8 @@ onMounted(fetch)
           </el-button>
         </div>
       </div>
-      <el-table :data="tableRows" stripe v-loading="loading">
-        <el-table-column type="index" label="序号" width="70" />
+      <el-table max-height="calc(100vh - 320px)" :data="tableRows" stripe v-loading="loading">
+        <el-table-column type="index" label="序号" width="70" fixed="left" />
         <el-table-column prop="title" label="标题" min-width="320" show-overflow-tooltip />
         <el-table-column prop="updatedAt" label="更新时间" width="140" :formatter="formatDate" />
         <el-table-column

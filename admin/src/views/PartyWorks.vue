@@ -99,9 +99,9 @@ onMounted(() => {
           </el-button>
         </div>
       </div>
-      <el-table :data="tableData" v-loading="loading" stripe>
-        <el-table-column type="selection" width="46" />
-        <el-table-column type="index" label="序号" width="70" />
+      <el-table max-height="calc(100vh - 320px)" :data="tableData" v-loading="loading" stripe>
+        <el-table-column type="selection" width="46" fixed="left" />
+        <el-table-column type="index" label="序号" width="70" fixed="left" />
         <el-table-column label="封面" width="110" align="center">
           <template #default="{ row }">
             <div class="work-cover-thumb">

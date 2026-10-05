@@ -164,9 +164,9 @@ const formatDate = (_row: any, _column: any, cellValue: any) => {
           </el-button>
         </div>
       </div>
-      <el-table :data="tableRows" stripe v-loading="loading">
-        <el-table-column type="selection" width="46" />
-        <el-table-column type="index" label="序号" width="70" />
+      <el-table max-height="calc(100vh - 320px)" :data="tableRows" stripe v-loading="loading">
+        <el-table-column type="selection" width="46" fixed="left" />
+        <el-table-column type="index" label="序号" width="70" fixed="left" />
         <el-table-column prop="title" label="标题" min-width="220" show-overflow-tooltip />
         <el-table-column label="类型" width="120" show-overflow-tooltip>
           <template #default="{ row }">{{ row.type || '—' }}</template>

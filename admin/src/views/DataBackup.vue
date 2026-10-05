@@ -39,8 +39,8 @@ onMounted(fetchOverview)
 
     <section class="admin-card admin-card--table backup-panel">
       <div class="panel-title panel-title--keep">能力接入清单</div>
-      <el-table :data="capabilityRows" v-loading="loading" stripe>
-        <el-table-column type="index" label="序号" width="70" />
+      <el-table max-height="calc(100vh - 320px)" :data="capabilityRows" v-loading="loading" stripe>
+        <el-table-column type="index" label="序号" width="70" fixed="left" />
         <el-table-column prop="item" label="能力项" width="180" />
         <el-table-column prop="status" label="接入状态" width="120">
           <template #default="{ row }"><el-tag type="warning">{{ row.status }}</el-tag></template>
@@ -54,8 +54,8 @@ onMounted(fetchOverview)
       <div class="backup-actions">
         <el-button type="primary" @click="handleRunBackup">执行手动备份</el-button>
       </div>
-      <el-table :data="backupRecords" v-loading="loading" stripe>
-        <el-table-column type="index" label="序号" width="70" />
+      <el-table max-height="calc(100vh - 320px)" :data="backupRecords" v-loading="loading" stripe>
+        <el-table-column type="index" label="序号" width="70" fixed="left" />
         <el-table-column prop="type" label="类型" width="120" />
         <el-table-column prop="status" label="状态" width="120" />
         <el-table-column prop="triggerBy" label="触发人" width="160" />

@@ -138,9 +138,9 @@ onMounted(() => {
           </el-button>
         </div>
       </div>
-      <el-table :data="tableRows" v-loading="loading" stripe>
-        <el-table-column type="selection" width="46" />
-        <el-table-column type="index" label="序号" width="70" />
+      <el-table max-height="calc(100vh - 320px)" :data="tableRows" v-loading="loading" stripe>
+        <el-table-column type="selection" width="46" fixed="left" />
+        <el-table-column type="index" label="序号" width="70" fixed="left" />
         <el-table-column label="单位名称" min-width="200" show-overflow-tooltip>
           <template #default="{ row }">{{ row.name }}</template>
         </el-table-column>

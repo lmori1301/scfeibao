@@ -331,6 +331,24 @@
   border: 1px solid var(--el-table-border-color);
 }
 
+/* ---------------- 表格：表头固定 + 左右固定列不错位 ----------------
+ * 根因（Playwright 实测）：EP 2.13 用 `position:sticky` 实现左右固定列，
+ *   表头 th 的 sticky 基准是 `.el-table__header-wrapper`（实测 1148px），
+ *   数据 td 的 sticky 基准是内部滚动容器 `.el-scrollbar__wrap`（实测 1133px）。
+ *   两者相差一个滚动条槽（Chromium classic scrollbar ≈15px）→ 固定列横向错位 15px。
+ * 修法：`overflow:hidden` 会保留滚动条槽，改成 `overflow:clip` 后 body-wrapper
+ *   不再预留槽位，与 header-wrapper 等宽 → 错位归零（实测 15px → 0），
+ *   且横向滚动、固定列行为完全不受影响（EP 内部由 .el-scrollbar__wrap 负责滚动）。
+ */
+.admin-shell .el-table__body-wrapper {
+  overflow: clip;
+}
+
+/* 纵向滚动时表头保持贴顶（EP 自带 sticky，这里只保证不被裁剪） */
+.admin-shell .el-table__header-wrapper {
+  flex: none;
+}
+
 /* ---------------- 弹窗 ---------------- */
 .el-dialog {
   border-radius: 8px;

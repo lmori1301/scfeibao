@@ -90,8 +90,8 @@ onMounted(fetchLogs)
           </el-button>
         </div>
       </div>
-      <el-table :data="tableData" v-loading="loading" stripe>
-        <el-table-column type="index" label="序号" width="70" />
+      <el-table max-height="calc(100vh - 320px)" :data="tableData" v-loading="loading" stripe>
+        <el-table-column type="index" label="序号" width="70" fixed="left" />
         <el-table-column prop="username" label="用户名" width="140" />
         <el-table-column label="操作类型" min-width="140" show-overflow-tooltip>
           <template #default="{ row }">{{ row.action }}</template>

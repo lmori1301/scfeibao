@@ -161,8 +161,8 @@ fetch(getApiParams())
           </el-button>
         </div>
       </div>
-      <el-table :data="tableRows" v-loading="loading" stripe>
-        <el-table-column type="index" label="序号" width="70" />
+      <el-table max-height="calc(100vh - 320px)" :data="tableRows" v-loading="loading" stripe>
+        <el-table-column type="index" label="序号" width="70" fixed="left" />
         <el-table-column prop="title" label="标题" min-width="220" show-overflow-tooltip />
         <el-table-column label="分类" min-width="140" show-overflow-tooltip>
           <template #default="{ row }">{{ row.category || '—' }}</template>

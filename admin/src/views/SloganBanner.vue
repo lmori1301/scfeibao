@@ -250,15 +250,15 @@ fetch()
           </el-button>
         </div>
       </div>
-      <el-table
+      <el-table max-height="calc(100vh - 320px)"
         ref="selectionRef"
         :data="tableRows"
         v-loading="loading"
         stripe
         @selection-change="handleSelectionChange"
       >
-        <el-table-column type="selection" width="46" />
-        <el-table-column type="index" label="序号" width="70" />
+        <el-table-column type="selection" width="46" fixed="left" />
+        <el-table-column type="index" label="序号" width="70" fixed="left" />
         <el-table-column label="横幅图片" width="150">
           <template #default="{ row }">
             <div class="banner-table-thumb banner-table-thumb--wide">

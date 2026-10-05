@@ -131,8 +131,8 @@ onMounted(() => {
         </div>
       </div>
 
-      <el-table :data="tableData" stripe v-loading="loading">
-        <el-table-column type="index" label="序号" width="70" />
+      <el-table max-height="calc(100vh - 320px)" :data="tableData" stripe v-loading="loading">
+        <el-table-column type="index" label="序号" width="70" fixed="left" />
         <el-table-column prop="name" label="队伍名称" min-width="220" />
         <el-table-column prop="pointName" label="默认点位名称" min-width="260" />
         <el-table-column prop="sort" label="默认排序" width="100" />

@@ -450,9 +450,9 @@ onMounted(() => {
           </el-button>
         </div>
       </div>
-      <el-table :data="tableRows" v-loading="loading" stripe @selection-change="handleSelectionChange">
-        <el-table-column type="selection" width="46" />
-        <el-table-column type="index" label="序号" width="70" />
+      <el-table max-height="calc(100vh - 320px)" :data="tableRows" v-loading="loading" stripe @selection-change="handleSelectionChange">
+        <el-table-column type="selection" width="46" fixed="left" />
+        <el-table-column type="index" label="序号" width="70" fixed="left" />
         <el-table-column prop="name" label="姓名" width="100" show-overflow-tooltip />
         <el-table-column label="人员编号" min-width="120" show-overflow-tooltip>
           <template #default="{ row }">{{ row.personnelCode || row.id }}</template>

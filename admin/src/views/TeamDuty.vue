@@ -462,8 +462,8 @@ onMounted(async () => {
         </div>
       </div>
 
-      <el-table :data="data" v-loading="loading" stripe>
-        <el-table-column type="index" label="序号" width="70" />
+      <el-table max-height="calc(100vh - 320px)" :data="data" v-loading="loading" stripe>
+        <el-table-column type="index" label="序号" width="70" fixed="left" />
         <el-table-column label="队伍名称" min-width="150" show-overflow-tooltip>
           <template #default="{ row }">{{ row.teamName || '—' }}</template>
         </el-table-column>

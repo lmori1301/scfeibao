@@ -147,9 +147,9 @@ fetch()
 
       <div class="admin-page-list-card__main">
         <div class="panel-title">队伍风采图集</div>
-        <el-table :data="tableRows" v-loading="loading" stripe>
-        <el-table-column type="selection" width="46" />
-        <el-table-column type="index" label="序号" width="70" />
+        <el-table max-height="calc(100vh - 320px)" :data="tableRows" v-loading="loading" stripe>
+        <el-table-column type="selection" width="46" fixed="left" />
+        <el-table-column type="index" label="序号" width="70" fixed="left" />
         <el-table-column prop="title" label="标题" min-width="200" show-overflow-tooltip />
         <el-table-column prop="type" label="类型" width="120" show-overflow-tooltip />
         <el-table-column prop="sort" label="排序" width="80" align="center" />

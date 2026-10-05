@@ -155,9 +155,9 @@ fetch()
           </el-button>
         </div>
       </div>
-      <el-table :data="tableRows" v-loading="loading" stripe>
-        <el-table-column type="selection" width="46" />
-        <el-table-column type="index" label="序号" width="70" />
+      <el-table max-height="calc(100vh - 320px)" :data="tableRows" v-loading="loading" stripe>
+        <el-table-column type="selection" width="46" fixed="left" />
+        <el-table-column type="index" label="序号" width="70" fixed="left" />
         <el-table-column prop="title" label="文件标题" min-width="200" show-overflow-tooltip />
         <el-table-column label="摘要" min-width="200" show-overflow-tooltip>
           <template #default="{ row }">{{ row.summary || '—' }}</template>
