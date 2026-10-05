@@ -160,25 +160,10 @@ a {
   letter-spacing: 0.02em;
 }
 
-/* 列表页：面包屑在正文滚动区内吸顶；查询区/列表区见 .admin-card */
-.admin-shell .content-panel__body .page-crumb {
-  position: sticky;
-  top: 0;
-  z-index: 9;
-  margin: -6px -4px 14px;
-  padding: 8px 4px 14px;
-  background: #ffffff;
-  box-shadow: 0 10px 18px -14px rgba(31, 57, 106, 0.22);
-}
-
+/* 面包屑已上移到顶栏（对齐 web2 顶栏式面包屑），页面内的 .page-crumb 不再重复展示 */
+.admin-shell .content-panel__body .page-crumb,
 .admin-shell .content-panel__body .page-crumb.page-crumb--static {
-  position: static;
-  top: auto;
-  z-index: auto;
-  margin: 0 0 14px;
-  padding: 0;
-  background: transparent;
-  box-shadow: none;
+  display: none;
 }
 
 .admin-view-stack {
@@ -539,13 +524,20 @@ a {
 .content-panel__body .admin-pagination,
 .page-container .admin-pagination {
   display: flex;
-  justify-content: flex-end;
-  margin-top: 20px;
+  margin-top: 16px;
 }
 
+/* 「共 N 条」靠左、分页器靠右（对齐 web2 .lp-pager 布局） */
 .content-panel__body .admin-pagination .el-pagination,
 .page-container .admin-pagination .el-pagination {
+  flex: 1;
+  justify-content: flex-start;
   margin-top: 0;
+}
+
+.content-panel__body .admin-pagination .el-pagination__total,
+.page-container .admin-pagination .el-pagination__total {
+  margin-right: auto;
 }
 
 .content-panel__body [class$='-search'] .el-input,
@@ -1016,13 +1008,19 @@ a {
   display: flex;
   flex-wrap: wrap;
   align-items: center;
-  justify-content: space-between;
+  justify-content: flex-end;
   gap: 10px;
   margin-bottom: 12px;
 }
 
+/* 列表卡片不再重复展示标题（对齐 web2 列表：无标题卡，只有右上操作） */
 .admin-table-panel__head .panel-title {
-  margin-bottom: 0;
+  display: none;
+}
+
+/* 既无标题也无操作时，整行不占位 */
+.admin-table-panel__head:not(:has(.admin-table-panel__head-actions)) {
+  display: none;
 }
 
 .admin-table-panel__head-actions {
@@ -1055,8 +1053,8 @@ a {
 
 .admin-page-list-card__toolbar {
   padding: 14px 18px 12px;
-  border-bottom: 1px solid #eef1f7;
-  background: #fafbfd;
+  border-bottom: 1px solid #e5e7eb;
+  background: #fff;
 }
 
 .admin-page-list-card__toolbar .admin-card--search,

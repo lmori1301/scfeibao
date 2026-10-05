@@ -9,8 +9,10 @@ import {
   DataAnalysis,
   Document,
   DocumentCopy,
+  Expand,
   Files,
   Flag,
+  Fold,
   FolderOpened,
   Grid,
   House,
@@ -42,6 +44,11 @@ const route = useRoute()
 const router = useRouter()
 const notificationCount = ref(0)
 const brandLogo = `${import.meta.env.BASE_URL}Vector_4_567.png`
+
+/** 侧栏收起态（对齐 web2 的「收起」行为），本地记忆 */
+const COLLAPSE_KEY = 'scfeibao_admin_sidenav_collapsed'
+const collapsed = ref(localStorage.getItem(COLLAPSE_KEY) === '1')
+watch(collapsed, (v) => localStorage.setItem(COLLAPSE_KEY, v ? '1' : '0'))
 
 const groupOpenState = reactive<Record<string, boolean>>(
   Object.fromEntries(navigationGroups.map((group) => [group.id, group.id === 'overview']))
@@ -84,6 +91,16 @@ const resolveIcon = (name?: string) => iconMap[name || 'Menu'] || Menu
 
 const currentItem = computed(() => findNavigationItemByPath(route.path))
 const currentGroupId = computed(() => currentItem.value?.groupId || 'overview')
+
+/** 顶栏面包屑：首页 / 分组 / 当前页（对齐 web2 顶栏式面包屑，页面内不再重复展示） */
+const breadcrumbTrail = computed(() => {
+  const item = currentItem.value
+  const group = navigationGroups.find((g) => g.id === (item?.groupId || 'overview'))
+  const trail: string[] = ['首页']
+  if (group?.title) trail.push(group.title)
+  if (item?.title && item.title !== group?.title) trail.push(item.title)
+  return trail
+})
 
 const { user: currentUser } = useSessionUser()
 const allowedPermissions = computed(() => new Set(getSessionPermissionNames(currentUser.value as any)))
@@ -138,6 +155,14 @@ const loadNotificationCount = async () => {
 }
 
 const toggleGroup = (groupId: string) => {
+  // 收起态下点击分组图标：先展开侧栏，再打开该分组
+  if (collapsed.value) {
+    collapsed.value = false
+    Object.keys(groupOpenState).forEach((id) => {
+      groupOpenState[id] = id === groupId
+    })
+    return
+  }
   const willOpen = !groupOpenState[groupId]
   Object.keys(groupOpenState).forEach((id) => {
     groupOpenState[id] = false
@@ -179,49 +204,32 @@ watch(
 </script>
 
 <template>
-  <div class="admin-shell">
-    <header class="shell-header">
-      <div class="header-surface">
-        <div class="brand-wrap">
-          <img class="brand-logo" :src="brandLogo" alt="四川飞豹徽标" />
-          <div class="brand-name">四川飞豹后台管理系统</div>
-        </div>
+  <div class="admin-shell" :class="{ 'is-collapsed': collapsed }">
+    <!-- ============ 侧边栏：蓝色品牌块 + 白色菜单 + 收起 ============ -->
+    <aside class="shell-sidebar">
+      <div class="side-brand">
+        <span class="side-brand__logo">
+          <img :src="brandLogo" alt="四川飞豹徽标" />
+        </span>
+        <span class="side-brand__text">四川飞豹后台管理系统</span>
+        <button
+          class="side-brand__fold"
+          type="button"
+          title="收起菜单"
+          aria-label="收起菜单"
+          @click="collapsed = true"
+        >
+          <el-icon><Fold /></el-icon>
+        </button>
       </div>
 
-      <div class="header-tools">
-        <button class="icon-btn" type="button" title="帮助入口" @click="handleOpenHelp">
-          <el-icon><QuestionFilled /></el-icon>
-        </button>
-        <button class="icon-btn icon-btn--notice" type="button" title="系统通知" @click="handleOpenNotifications">
-          <el-badge :value="notificationCount" :hidden="notificationCount === 0" :max="99">
-            <el-icon><Bell /></el-icon>
-          </el-badge>
-        </button>
-        <el-dropdown trigger="click" placement="bottom-end">
-          <button class="header-user-name" type="button" title="个人菜单">
-            <el-icon><User /></el-icon>
-            <strong>{{ headerDisplayName }}</strong>
-            <el-icon class="header-user-name__arrow"><CaretBottom /></el-icon>
-          </button>
-          <template #dropdown>
-            <el-dropdown-menu>
-              <el-dropdown-item @click="handleOpenProfileSecurity">个人中心</el-dropdown-item>
-              <el-dropdown-item divided @click="handleLogout">退出登录</el-dropdown-item>
-            </el-dropdown-menu>
-          </template>
-        </el-dropdown>
-      </div>
-    </header>
-
-    <div class="shell-body">
-      <aside class="shell-sidebar">
+      <nav class="side-nav">
         <section
           v-for="group in visibleNavigationGroups"
           :key="group.id"
           class="side-group"
           :class="{
             'is-open': groupOpenState[group.id],
-            'side-group--overview': group.id === 'overview',
             'side-group--active': currentGroupId === group.id,
           }"
         >
@@ -231,16 +239,16 @@ watch(
             :title="group.title"
             @click="toggleGroup(group.id)"
           >
-            <div class="side-group__title-main">
+            <span class="side-group__icon">
               <el-icon><component :is="resolveIcon(group.icon)" /></el-icon>
-              <span>{{ group.title }}</span>
-            </div>
+            </span>
+            <span class="side-group__label">{{ group.title }}</span>
             <el-icon class="side-group__arrow">
               <CaretBottom />
             </el-icon>
           </button>
 
-          <div v-show="groupOpenState[group.id]" class="side-group__items">
+          <div v-show="groupOpenState[group.id] && !collapsed" class="side-group__items">
             <button
               v-for="item in group.children"
               :key="item.path"
@@ -254,7 +262,68 @@ watch(
             </button>
           </div>
         </section>
-      </aside>
+      </nav>
+
+      <div class="side-foot">
+        <button
+          v-if="!collapsed"
+          class="side-foot__btn"
+          type="button"
+          title="收起菜单"
+          @click="collapsed = true"
+        >
+          <el-icon><Fold /></el-icon>
+          <span>收起</span>
+        </button>
+        <button
+          v-else
+          class="side-foot__btn side-foot__btn--mini"
+          type="button"
+          title="展开菜单"
+          aria-label="展开菜单"
+          @click="collapsed = false"
+        >
+          <el-icon><Expand /></el-icon>
+        </button>
+      </div>
+    </aside>
+
+    <!-- ============ 右侧：顶栏（面包屑 + 用户） + 内容区 ============ -->
+    <div class="shell-right">
+      <header class="shell-header">
+        <nav class="crumb" aria-label="当前位置">
+          <template v-for="(seg, index) in breadcrumbTrail" :key="`${seg}-${index}`">
+            <span v-if="index > 0" class="crumb__sep">/</span>
+            <span class="crumb__seg" :class="{ 'is-last': index === breadcrumbTrail.length - 1 }">
+              {{ seg }}
+            </span>
+          </template>
+        </nav>
+
+        <div class="header-tools">
+          <button class="icon-btn" type="button" title="帮助入口" @click="handleOpenHelp">
+            <el-icon><QuestionFilled /></el-icon>
+          </button>
+          <button class="icon-btn icon-btn--notice" type="button" title="系统通知" @click="handleOpenNotifications">
+            <el-badge :value="notificationCount" :hidden="notificationCount === 0" :max="99">
+              <el-icon><Bell /></el-icon>
+            </el-badge>
+          </button>
+          <el-dropdown trigger="click" placement="bottom-end">
+            <button class="header-user-name" type="button" title="个人菜单">
+              <el-icon><User /></el-icon>
+              <strong>{{ headerDisplayName }}</strong>
+              <el-icon class="header-user-name__arrow"><CaretBottom /></el-icon>
+            </button>
+            <template #dropdown>
+              <el-dropdown-menu>
+                <el-dropdown-item @click="handleOpenProfileSecurity">个人中心</el-dropdown-item>
+                <el-dropdown-item divided @click="handleLogout">退出登录</el-dropdown-item>
+              </el-dropdown-menu>
+            </template>
+          </el-dropdown>
+        </div>
+      </header>
 
       <main class="shell-main">
         <section class="content-panel">
@@ -272,53 +341,317 @@ watch(
   height: 100vh;
   min-height: 100vh;
   display: flex;
-  flex-direction: column;
+  align-items: stretch;
   overflow: hidden;
   background: #f5f7fa;
 }
 
-.shell-header {
-  min-height: 56px;
-  background: #ffffff;
-  border-bottom: 1px solid #e5e7eb;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  padding: 8px 20px 8px 16px;
-  position: sticky;
-  top: 0;
-  z-index: 20;
-  box-shadow: none;
-}
-
-.header-surface {
-  display: flex;
-  align-items: center;
+/* ---------------- 侧边栏 ---------------- */
+.shell-sidebar {
+  flex: 0 0 240px;
+  width: 240px;
   min-width: 0;
+  display: flex;
+  flex-direction: column;
+  background: #fff;
+  border-right: 1px solid #e5e7eb;
+  overflow: hidden;
+  transition: width 0.2s ease, flex-basis 0.2s ease;
 }
 
-.brand-wrap {
+/* 品牌块：蓝底白字（对齐 web2 .gh-brand） */
+.side-brand {
+  flex: none;
+  height: 56px;
   display: flex;
   align-items: center;
   gap: 10px;
+  padding: 0 12px;
+  background: #2563eb;
+  color: #fff;
+}
+
+.side-brand__logo {
+  flex: none;
+  width: 28px;
+  height: 28px;
+  border-radius: 6px;
+  background: #fff;
+  display: grid;
+  place-items: center;
+  overflow: hidden;
+
+  img {
+    width: 24px;
+    height: 24px;
+    display: block;
+    object-fit: contain;
+  }
+}
+
+.side-brand__text {
+  flex: 1;
   min-width: 0;
-}
-
-.brand-logo {
-  width: 38px;
-  height: 38px;
-  display: block;
-  object-fit: contain;
-}
-
-.brand-name {
-  font-size: 16px;
-  color: #1f2937;
+  font-size: 14px;
   font-weight: 600;
   letter-spacing: 0.01em;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.side-brand__fold {
+  flex: none;
+  width: 26px;
+  height: 26px;
+  display: grid;
+  place-items: center;
+  border: 0;
+  border-radius: 6px;
+  background: transparent;
+  color: #fff;
+  cursor: pointer;
+
+  &:hover {
+    background: rgba(255, 255, 255, 0.18);
+  }
+}
+
+.side-nav {
+  flex: 1;
+  min-height: 0;
+  padding: 8px;
+  overflow-y: auto;
+  overflow-x: hidden;
+  scrollbar-gutter: stable;
+}
+
+.side-group + .side-group {
+  margin-top: 2px;
+}
+
+.side-group__title {
+  width: 100%;
+  height: 38px;
+  padding: 0 10px;
+  border: 0;
+  border-radius: 6px;
+  background: transparent;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  color: #4b5563;
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.15s ease, color 0.15s ease;
+
+  &:hover {
+    background: #f5f7fa;
+  }
+}
+
+.side-group__icon {
+  flex: none;
+  width: 18px;
+  height: 18px;
+  display: grid;
+  place-items: center;
+  color: #6b7280;
+
+  :deep(.el-icon) {
+    font-size: 17px;
+  }
+}
+
+.side-group__label {
+  flex: 1;
+  min-width: 0;
+  text-align: left;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.side-group__arrow {
+  flex: none;
+  font-size: 12px;
+  color: #9ca3af;
+  transition: transform 0.2s ease;
+}
+
+.side-group.is-open .side-group__arrow {
+  transform: rotate(180deg);
+}
+
+/* 当前分组：图标与标题取主色 */
+.side-group--active .side-group__title,
+.side-group--active .side-group__icon {
+  color: #2563eb;
+}
+
+.side-group__items {
+  padding: 2px 0 4px;
+}
+
+.side-item {
+  position: relative;
+  width: 100%;
+  min-height: 34px;
+  padding: 7px 10px 7px 34px;
+  border: 0;
+  border-radius: 6px;
+  background: transparent;
+  text-align: left;
+  color: #4b5563;
+  font-size: 13px;
+  cursor: pointer;
+  transition: background 0.15s ease, color 0.15s ease;
+
+  span {
+    display: block;
+    line-height: 1.35;
+    white-space: normal;
+    overflow-wrap: anywhere;
+  }
+
+  &:hover {
+    background: #f5f7fa;
+    color: #2563eb;
+  }
+
+  /* 选中态：浅蓝块 + 左侧 3px 蓝条（对齐 web2 .el-menu-item.is-active） */
+  &.active {
+    background: #eff6ff;
+    color: #2563eb;
+    font-weight: 600;
+
+    &::before {
+      content: '';
+      position: absolute;
+      left: 0;
+      top: 7px;
+      bottom: 7px;
+      width: 3px;
+      border-radius: 0 3px 3px 0;
+      background: #2563eb;
+    }
+  }
+}
+
+/* 侧栏底部：收起 / 展开 */
+.side-foot {
+  flex: none;
+  padding: 4px 8px;
+  border-top: 1px solid #eef0f3;
+  display: flex;
+  justify-content: flex-end;
+}
+
+.side-foot__btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  height: 30px;
+  padding: 0 10px;
+  border: 0;
+  border-radius: 6px;
+  background: transparent;
+  color: #6b7280;
+  font-size: 13px;
+  cursor: pointer;
+
+  &:hover {
+    background: #f5f7fa;
+    color: #2563eb;
+  }
+}
+
+.side-foot__btn--mini {
+  padding: 0 8px;
+}
+
+/* ---------------- 收起态 ---------------- */
+.admin-shell.is-collapsed {
+  .shell-sidebar {
+    flex-basis: 64px;
+    width: 64px;
+  }
+
+  .side-brand {
+    padding: 0;
+    justify-content: center;
+  }
+
+  .side-brand__text,
+  .side-brand__fold,
+  .side-foot__btn span {
+    display: none;
+  }
+
+  .side-nav {
+    padding-inline: 8px;
+  }
+
+  .side-group__title {
+    justify-content: center;
+    padding: 0;
+    gap: 0;
+  }
+
+  .side-group__label,
+  .side-group__arrow {
+    display: none;
+  }
+}
+
+/* ---------------- 右侧列 ---------------- */
+.shell-right {
+  flex: 1;
+  min-width: 0;
+  min-height: 0;
+  display: flex;
+  flex-direction: column;
+}
+
+.shell-header {
+  flex: none;
+  height: 56px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  padding: 0 16px;
+  background: #fff;
+  border-bottom: 1px solid #e5e7eb;
+}
+
+.crumb {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  min-width: 0;
+  font-size: 13px;
+  color: #6b7280;
+}
+
+.crumb__sep {
+  color: #d1d5db;
+}
+
+.crumb__seg {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.crumb__seg.is-last {
+  color: #1f2937;
+  font-weight: 600;
 }
 
 .header-tools {
+  flex: none;
   display: flex;
   align-items: center;
   gap: 12px;
@@ -337,7 +670,7 @@ watch(
   height: 34px;
   display: grid;
   place-items: center;
-  border-radius: 12px;
+  border-radius: 6px;
 
   &:hover {
     background: #eff6ff;
@@ -356,7 +689,7 @@ watch(
   gap: 8px;
   padding: 0 4px 0 8px;
   min-height: 36px;
-  border-radius: 12px;
+  border-radius: 6px;
 }
 
 .header-user-name:hover {
@@ -388,217 +721,37 @@ watch(
   opacity: 0.82;
 }
 
-.shell-body {
-  flex: 1;
-  min-height: 0;
-  display: flex;
-  align-items: stretch;
-  transition: none;
-}
-
-.shell-sidebar {
-  flex: 0 0 240px;
-  width: 240px;
-  margin: 0;
-  padding: 8px;
-  border: 0;
-  border-right: 1px solid #e5e7eb;
-  border-radius: 0;
-  background: #fff;
-  box-shadow: none;
-  overflow-y: auto;
-  overflow-x: hidden;
-  scrollbar-gutter: stable;
-  align-self: stretch;
-}
-
-.side-group + .side-group {
-  margin-top: 6px;
-}
-
-.side-group {
-  position: relative;
-  border-radius: 8px;
-  transition: background 0.2s ease, box-shadow 0.2s ease, border-color 0.2s ease;
-}
-
-.side-group--active {
-  background: #f2f6fe;
-  box-shadow: inset 0 0 0 1px #d7e4fa;
-}
-
-.side-group--overview {
-  margin-bottom: 6px;
-  padding: 4px;
-  background: #f4f7fd;
-  box-shadow: inset 0 0 0 1px #e3ebf8;
-}
-
-.side-group--overview.side-group--active {
-  background: #eaf1fe;
-  box-shadow: inset 0 0 0 1px #cbdcfa;
-}
-
-.side-group__title {
-  width: 100%;
-  min-height: 36px;
-  padding: 0 8px;
-  border: 0;
-  border-radius: 8px;
-  background: transparent;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  color: #53627a;
-  font-size: 13px;
-  cursor: pointer;
-}
-
-.side-group--overview .side-group__title {
-  min-height: 42px;
-  padding-inline: 10px;
-  color: #173767;
-}
-
-.side-group--overview .side-group__title-main {
-  font-size: 14px;
-  gap: 8px;
-}
-
-.side-group--overview .side-group__title-main :deep(.el-icon) {
-  width: 26px;
-  height: 26px;
-  border-radius: 8px;
-  display: grid;
-  place-items: center;
-  background: #2563eb;
-  color: #fff;
-  font-size: 14px;
-}
-
-.side-group__title-main {
-  display: flex;
-  align-items: center;
-  gap: 7px;
-  font-weight: 600;
-}
-
-.side-group__arrow {
-  font-size: 12px;
-  color: #9aa7bc;
-  transition: transform 0.2s ease;
-}
-
-.side-group.is-open .side-group__arrow {
-  transform: rotate(0deg);
-}
-
-.side-group__items { margin-top: 4px; }
-
-.side-group--overview .side-group__items {
-  margin-top: 2px;
-}
-
-.side-item {
-  width: 100%;
-  min-height: 34px;
-  border: 0;
-  background: transparent;
-  position: relative;
-  text-align: left;
-  padding: 7px 10px 7px 28px;
-  color: #56657d;
-  font-size: 12px;
-  border-radius: 8px;
-  cursor: pointer;
-  transition: all 0.2s ease;
-
-  span {
-    display: block;
-    white-space: normal;
-    overflow-wrap: anywhere;
-    line-height: 1.3;
-  }
-
-  &:hover {
-    background: #eef4ff;
-    color: #2563eb;
-  }
-
-  &.active {
-    color: #2563eb;
-    background: #eef4ff;
-    font-weight: 600;
-    box-shadow: inset 0 0 0 1px #d8e4ff;
-
-    &::after {
-      content: '';
-      position: absolute;
-      right: 8px;
-      top: 7px;
-      bottom: 7px;
-      width: 3px;
-      border-radius: 999px;
-      background: #2563eb;
-    }
-  }
-}
-
-.side-group--overview .side-item {
-  min-height: 40px;
-  padding: 10px 12px 10px 16px;
-  border-radius: 10px;
-  font-size: 12px;
-}
-
-.side-group--overview .side-item:hover {
-  background: rgba(255, 255, 255, 0.82);
-  color: #2153b5;
-}
-
-.side-group--overview .side-item.active {
-  background: #fff;
-  color: #18418b;
-  box-shadow: inset 0 0 0 1px #c8d9ff;
-}
-
-.side-group--overview .side-item.active::after {
-  right: 10px;
-  top: 9px;
-  bottom: 9px;
-  background: #2563eb;
-}
-
+/* ---------------- 内容区：卡片直接浮在页面灰底上（对齐 web2 无外层白卡） ---------------- */
 .shell-main {
   flex: 1;
   min-width: 0;
   min-height: 0;
   display: flex;
   flex-direction: column;
+  padding: 12px;
   overflow: hidden;
-  padding: 12px 12px 14px;
 }
 
 .content-panel {
-  border: 1px solid #e5e7eb;
-  background: #fff;
   flex: 1;
+  min-width: 0;
   min-height: 0;
   display: flex;
   flex-direction: column;
-  overflow: hidden;
-  border-radius: 8px;
+  background: transparent;
+  border: 0;
+  border-radius: 0;
   box-shadow: none;
+  overflow: hidden;
 }
 
 .content-panel__body {
   flex: 1;
-  min-height: 0;
   min-width: 0;
-  /* 宽表格需横向滚动，hidden 会导致列被压缩重叠 */
+  min-height: 0;
+  padding: 0;
   overflow-x: auto;
   overflow-y: auto;
-  padding: 16px 18px 18px;
   -webkit-overflow-scrolling: touch;
 }
 
@@ -607,68 +760,24 @@ watch(
     flex-basis: 240px;
     width: 240px;
   }
-
-  .shell-main {
-    padding-inline: 12px;
-  }
 }
 
 @media (max-width: 960px) {
   .shell-header {
-    min-height: 64px;
-    padding-block: 10px;
-    align-items: flex-start;
-    gap: 12px;
-    flex-wrap: wrap;
-  }
-
-  .header-surface {
-    width: auto;
-  }
-
-  .brand-logo {
-    width: 40px;
-    height: 40px;
-  }
-
-  .brand-name {
-    font-size: 14px;
-  }
-
-  .header-tools {
-    width: 100%;
-    justify-content: flex-end;
-    flex-wrap: wrap;
+    padding-inline: 12px;
     gap: 10px;
   }
 
-  .shell-sidebar {
-    flex: 0 0 96px;
-    width: 96px;
-    margin: 12px 0 12px 12px;
-    padding-inline: 8px;
+  .crumb {
+    font-size: 12px;
   }
 
-  .side-group__title {
-    padding-inline: 0;
-    justify-content: center;
+  .header-user-name strong {
+    max-width: 96px;
   }
 
-  .side-group--overview {
-    padding: 4px;
-  }
-
-  .side-group__title-main {
-    gap: 0;
-  }
-
-  .side-group__title-main span,
-  .side-group__arrow {
-    display: none;
-  }
-
-  .content-panel__body {
-    padding: 14px;
+  .shell-main {
+    padding: 10px;
   }
 }
 </style>

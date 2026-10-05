@@ -267,6 +267,22 @@
     padding: 8px 0;
   }
 
+  /* 竖向网格线：对齐 web2 列表表格（border 表格带列分隔线），排除右侧滚动条占位 gutter */
+  th.el-table__cell:not(.gutter),
+  td.el-table__cell:not(.gutter) {
+    border-right: 1px solid var(--el-table-border-color);
+  }
+
+  th.el-table__cell:first-child,
+  td.el-table__cell:first-child {
+    border-left: 1px solid var(--el-table-border-color);
+  }
+
+  th.el-table__cell:last-child,
+  td.el-table__cell:last-child {
+    border-right: 0;
+  }
+
   // 修复表格固定列 z-index
   .el-table__fixed,
   .el-table__fixed-right {
