@@ -265,47 +265,9 @@ fetch(getApiParams())
 </template>
 
 <style scoped lang="scss">
-.public-info-panel.public-info-toolbar {
-  padding: 0;
-  border: 0;
-  background: transparent;
-}
-
-.public-info-panel.public-info-table-panel {
-  padding: 0;
-  border: 0;
-  background: transparent;
-}
-
-.public-info-toolbar {
-  display: flex;
-  flex-wrap: nowrap;
-  align-items: center;
+:deep(.qf__bar) {
+  flex: 0 0 100%;
   justify-content: flex-start;
-  gap: 12px;
-}
-
-.public-info-toolbar__filters {
-  display: flex;
-  flex-wrap: nowrap;
-  align-items: center;
-  gap: 10px;
-  flex: 0 1 auto;
-  min-width: 0;
-}
-
-.public-info-toolbar__grow {
-  flex: 1;
-  min-width: 180px;
-  max-width: 360px;
-}
-
-.public-info-toolbar__actions {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 10px;
-  flex: 1;
-  min-width: 0;
 }
 
 .public-info-dialog {

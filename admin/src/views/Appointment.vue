@@ -282,56 +282,15 @@ fetch(getApiParams())
 </template>
 
 <style scoped lang="scss">
-.appointment-panel.appointment-toolbar {
-  padding: 0;
-  border: 0;
-  background: transparent;
-}
-
-.appointment-panel.appointment-table-panel {
-  padding: 0;
-  border: 0;
-  background: transparent;
-}
-
 .preview-card {
   border: 1px solid #e6edf7;
   background: #fff;
 }
 
-.appointment-toolbar {
-  display: flex;
-  flex-wrap: nowrap;
-  align-items: center;
+/* 查询/重置按钮左对齐：与新闻管理等列表页保持一致的靠左展示 */
+:deep(.qf__bar) {
+  flex: 0 0 100%;
   justify-content: flex-start;
-  gap: 12px;
-}
-
-.appointment-toolbar__filters {
-  display: flex;
-  flex-wrap: nowrap;
-  align-items: center;
-  gap: 10px;
-  flex: 0 1 auto;
-  min-width: 0;
-}
-
-.appointment-toolbar__grow {
-  flex: 1;
-  min-width: 180px;
-  max-width: 360px;
-}
-
-.appointment-toolbar__scope {
-  width: 140px;
-}
-
-.appointment-toolbar__actions {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 10px;
-  flex: 1;
-  min-width: 0;
 }
 
 .preview-card__icon {

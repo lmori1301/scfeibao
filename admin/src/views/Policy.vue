@@ -288,60 +288,9 @@ fetch()
 </template>
 
 <style scoped lang="scss">
-.policy-panel.policy-toolbar {
-  padding: 0;
-  border: 0;
-  background: transparent;
-}
-
-.policy-panel.policy-table-panel {
-  padding: 0;
-  border: 0;
-  background: transparent;
-}
-
-.policy-toolbar {
-  display: flex;
-  flex-wrap: nowrap;
-  align-items: center;
+:deep(.qf__bar) {
+  flex: 0 0 100%;
   justify-content: flex-start;
-  gap: 12px;
-}
-
-.policy-toolbar .policy-toolbar__filters {
-  flex: 0 1 auto;
-  flex-wrap: nowrap;
-  overflow-x: auto;
-  overflow-y: hidden;
-  scrollbar-width: thin;
-}
-
-.policy-toolbar__filters {
-  display: flex;
-  flex-wrap: nowrap;
-  align-items: center;
-  gap: 10px;
-  flex: 0 1 auto;
-  min-width: 0;
-}
-
-.admin-card--search .policy-toolbar .policy-toolbar__grow {
-  flex: 0 0 auto;
-  width: 240px;
-  min-width: 160px;
-  max-width: 320px;
-}
-
-.policy-toolbar__field {
-  width: 160px;
-}
-
-.policy-toolbar__actions {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 10px;
-  flex: 1;
-  min-width: 0;
 }
 
 .policy-dialog {

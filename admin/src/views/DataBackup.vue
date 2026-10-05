@@ -73,7 +73,6 @@ onMounted(fetchOverview)
 </template>
 
 <style scoped lang="scss">
-.backup-panel { padding: 0; border: 0; background: transparent; }
 .backup-actions { margin-bottom: 12px; }
 .backup-suggestion { border: 1px solid #e6edf7; background: #fff; }
 .backup-suggestions { display: flex; flex-direction: column; gap: 12px; }

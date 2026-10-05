@@ -144,11 +144,6 @@ onMounted(fetchNavItems)
 </template>
 
 <style scoped lang="scss">
-.navigation-panel.navigation-table-panel {
-  padding: 0;
-  border: 0;
-  background: transparent;
-}
 .navigation-toolbar__filters {
   display: flex;
   flex-wrap: wrap;

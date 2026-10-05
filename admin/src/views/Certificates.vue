@@ -551,10 +551,9 @@ fetch()
 .certificates-toolbar.admin-list-toolbar {
   align-items: center;
 }
-.certificates-panel.certificates-table-panel {
-  padding: 0;
-  border: 0;
-  background: transparent;
+:deep(.qf__bar) {
+  flex: 0 0 100%;
+  justify-content: flex-start;
 }
 
 /* 持证人列：内容贴左，收紧左侧内边距（宽表下避免「左侧一大块空白」观感） */
