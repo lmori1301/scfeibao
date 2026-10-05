@@ -93,114 +93,105 @@
             <p v-if="newsList[9]" id="1_45" class="Pixso-paragraph-1_45" @click="navigateTo(newsDetailPath(newsList[9].id))" style="cursor: pointer;">
                 {{ newsList[9].title }}
             </p>
-            <div id="1_46" class="Pixso-text-1_46" @click="navigateTo(newsDetailPath(1))" style="cursor: pointer;">
+            <div
+                v-if="newsList[0]"
+                id="1_46"
+                class="Pixso-text-1_46"
+                @click="goNewsDetail(newsList[0])"
+                style="cursor: pointer;"
+            >
                 <p id="1_46_0" class="Pixso-paragraph-1_46_0">
-                    <span id="1_46_0_1" class="Pixso-span-1_46_0_1">{{
-                        "为深入贯彻习近平总书记授旗训词精神，按照应急管理部和省委省政府的工作要求，"
-                    }}</span>
-                </p>
-                <p id="1_46_1" class="Pixso-paragraph-1_46_1">
-                    <span id="1_46_1_1" class="Pixso-span-1_46_1_1">{{
-                        "6月29日，四川在成都举行全省综合性消防救援专业队伍授旗授牌仪式。"
-                    }}</span>
+                    <span id="1_46_0_1" class="Pixso-span-1_46_0_1">{{ pickSummary(newsList[0]) }}</span>
                 </p>
             </div>
-            <div id="1_47" class="Pixso-text-1_47" @click="navigateTo(newsDetailPath(2))" style="cursor: pointer;">
+            <div
+                v-if="rescueActionsList[0]"
+                id="1_47"
+                class="Pixso-text-1_47"
+                @click="goNewsDetail(rescueActionsList[0])"
+                style="cursor: pointer;"
+            >
                 <p id="1_47_0" class="Pixso-paragraph-1_47_0">
-                    <span id="1_47_0_1" class="Pixso-span-1_47_0_1">{{
-                        "会议总结了全省消防救援队伍建设工作成效，部署下一阶段重点任务，"
-                    }}</span>
-                </p>
-                <p id="1_47_1" class="Pixso-paragraph-1_47_1">
-                    <span id="1_47_1_1" class="Pixso-span-1_47_1_1">{{
-                        "强调要持续提升队伍专业化、职业化水平，更好服务人民群众。"
-                    }}</span>
+                    <span id="1_47_0_1" class="Pixso-span-1_47_0_1">{{ pickSummary(rescueActionsList[0]) }}</span>
                 </p>
             </div>
-            <div id="1_48" class="Pixso-text-1_48" @click="navigateTo(newsDetailPath(3))" style="cursor: pointer;">
+            <div
+                v-if="localDynamicsList[0]"
+                id="1_48"
+                class="Pixso-text-1_48"
+                @click="goNewsDetail(localDynamicsList[0])"
+                style="cursor: pointer;"
+            >
                 <p id="1_48_0" class="Pixso-paragraph-1_48_0">
-                    <span id="1_48_0_1" class="Pixso-span-1_48_0_1">{{
-                        "在省级表彰大会上，四川飞豹救援凭借出色的救援业绩和专业能力，"
-                    }}</span>
-                </p>
-                <p id="1_48_1" class="Pixso-paragraph-1_48_1">
-                    <span id="1_48_1_1" class="Pixso-span-1_48_1_1">{{
-                        "被授予省级先进集体荣誉称号，展现了队伍的使命担当。"
-                    }}</span>
+                    <span id="1_48_0_1" class="Pixso-span-1_48_0_1">{{ pickSummary(localDynamicsList[0]) }}</span>
                 </p>
             </div>
             <p id="1_49" class="Pixso-paragraph-1_49" @click="navigateTo('/dynamic-news')" style="cursor: pointer;">{{ "更多 >>" }}</p>
             <p id="32_1" class="Pixso-paragraph-32_1" @click="navigateTo('/dynamic-news')" style="cursor: pointer;">{{ "更多 >>" }}</p>
-            <div id="1_51" class="Pixso-text-1_51" @click="navigateTo(newsDetailPath(4))" style="cursor: pointer;">
-                <p id="1_51_0" class="Pixso-paragraph-1_51_0">
-                    <span id="1_51_0_1" class="Pixso-span-1_51_0_1">{{
-                        "成都支队组织全体队员开展冬季应急救援综合演练，模拟多种灾害场景，"
-                    }}</span>
-                </p>
-                <p id="1_51_1" class="Pixso-paragraph-1_51_1">
-                    <span id="1_51_1_1" class="Pixso-span-1_51_1_1">{{
-                        "全面检验队伍应急响应能力和协同作战水平，提升实战能力。"
-                    }}</span>
-                </p>
-            </div>
-            <div id="1_52" class="Pixso-text-1_52" @click="navigateTo(newsDetailPath(5))" style="cursor: pointer;">
-                <p id="1_52_0" class="Pixso-paragraph-1_52_0">
-                    <span id="1_52_0_1" class="Pixso-span-1_52_0_1">{{
-                        "乐山支队深入辖区社区、学校、企业开展消防安全知识宣传活动，"
-                    }}</span>
-                </p>
-                <p id="1_52_1" class="Pixso-paragraph-1_52_1">
-                    <span id="1_52_1_1" class="Pixso-span-1_52_1_1">{{
-                        "普及消防安全常识，提高群众自防自救能力，筑牢安全防线。"
-                    }}</span>
-                </p>
-            </div>
-            <div id="1_53" class="Pixso-text-1_53" @click="navigateTo(newsDetailPath(6))" style="cursor: pointer;">
+            <div
+                v-if="rescueActionsList[1]"
+                id="1_53"
+                class="Pixso-text-1_53"
+                @click="goNewsDetail(rescueActionsList[1])"
+                style="cursor: pointer;"
+            >
                 <p id="1_53_0" class="Pixso-paragraph-1_53_0">
-                    <span id="1_53_0_1" class="Pixso-span-1_53_0_1">{{
-                        "崇州支队顺利完成年度装备升级改造任务，新增多套先进救援装备，"
-                    }}</span>
-                </p>
-                <p id="1_53_1" class="Pixso-paragraph-1_53_1">
-                    <span id="1_53_1_1" class="Pixso-span-1_53_1_1">{{
-                        "进一步提升队伍装备现代化水平和综合救援能力。"
-                    }}</span>
+                    <span id="1_53_0_1" class="Pixso-span-1_53_0_1">{{ pickSummary(rescueActionsList[1]) }}</span>
                 </p>
             </div>
-            <div id="1_54" class="Pixso-text-1_54" @click="navigateTo(newsDetailPath(7))" style="cursor: pointer;">
-                <p id="1_54_0" class="Pixso-paragraph-1_54_0">
-                    <span id="1_54_0_1" class="Pixso-span-1_54_0_1">{{
-                        "双流支队与成都双流国际机场开展联合应急演练，模拟航空器事故救援，"
-                    }}</span>
-                </p>
-                <p id="1_54_1" class="Pixso-paragraph-1_54_1">
-                    <span id="1_54_1_1" class="Pixso-span-1_54_1_1">{{
-                        "强化空地协同配合，提升机场应急处置能力。"
-                    }}</span>
-                </p>
-            </div>
-            <div id="1_55" class="Pixso-text-1_55" @click="navigateTo(newsDetailPath(8))" style="cursor: pointer;">
+            <div
+                v-if="rescueActionsList[2]"
+                id="1_55"
+                class="Pixso-text-1_55"
+                @click="goNewsDetail(rescueActionsList[2])"
+                style="cursor: pointer;"
+            >
                 <p id="1_55_0" class="Pixso-paragraph-1_55_0">
-                    <span id="1_55_0_1" class="Pixso-span-1_55_0_1">{{
-                        "四川飞豹救援接警后迅速出动，成功处置一起高速公路多车连环相撞事故，"
-                    }}</span>
-                </p>
-                <p id="1_55_1" class="Pixso-paragraph-1_55_1">
-                    <span id="1_55_1_1" class="Pixso-span-1_55_1_1">{{
-                        "及时救出被困人员，展现了专业高效的救援能力。"
-                    }}</span>
+                    <span id="1_55_0_1" class="Pixso-span-1_55_0_1">{{ pickSummary(rescueActionsList[2]) }}</span>
                 </p>
             </div>
-            <div id="1_56" class="Pixso-text-1_56" @click="navigateTo(newsDetailPath(9))" style="cursor: pointer;">
-                <p id="1_56_0" class="Pixso-paragraph-1_56_0">
-                    <span id="1_56_0_1" class="Pixso-span-1_56_0_1">{{
-                        "山地救援队接到求助后立即出发，克服恶劣天气和复杂地形，"
-                    }}</span>
+            <div
+                v-if="rescueActionsList[3]"
+                id="1_51"
+                class="Pixso-text-1_51"
+                @click="goNewsDetail(rescueActionsList[3])"
+                style="cursor: pointer;"
+            >
+                <p id="1_51_0" class="Pixso-paragraph-1_51_0">
+                    <span id="1_51_0_1" class="Pixso-span-1_51_0_1">{{ pickSummary(rescueActionsList[3]) }}</span>
                 </p>
-                <p id="1_56_1" class="Pixso-paragraph-1_56_1">
-                    <span id="1_56_1_1" class="Pixso-span-1_56_1_1">{{
-                        "成功将被困登山者安全转移下山，获得群众高度赞扬。"
-                    }}</span>
+            </div>
+            <div
+                v-if="rescueActionsList[4]"
+                id="1_52"
+                class="Pixso-text-1_52"
+                @click="goNewsDetail(rescueActionsList[4])"
+                style="cursor: pointer;"
+            >
+                <p id="1_52_0" class="Pixso-paragraph-1_52_0">
+                    <span id="1_52_0_1" class="Pixso-span-1_52_0_1">{{ pickSummary(rescueActionsList[4]) }}</span>
+                </p>
+            </div>
+            <div
+                v-if="localDynamicsList[1]"
+                id="1_54"
+                class="Pixso-text-1_54"
+                @click="goNewsDetail(localDynamicsList[1])"
+                style="cursor: pointer;"
+            >
+                <p id="1_54_0" class="Pixso-paragraph-1_54_0">
+                    <span id="1_54_0_1" class="Pixso-span-1_54_0_1">{{ pickSummary(localDynamicsList[1]) }}</span>
+                </p>
+            </div>
+            <div
+                v-if="localDynamicsList[2]"
+                id="1_56"
+                class="Pixso-text-1_56"
+                @click="goNewsDetail(localDynamicsList[2])"
+                style="cursor: pointer;"
+            >
+                <p id="1_56_0" class="Pixso-paragraph-1_56_0">
+                    <span id="1_56_0_1" class="Pixso-span-1_56_0_1">{{ pickSummary(localDynamicsList[2]) }}</span>
                 </p>
             </div>
             <div id="1_57" class="Pixso-text-1_57">
@@ -447,6 +438,23 @@ const navigateTo = (path: string) => {
 }
 
 const newsDetailPath = (id: number | string) => `/dynamic-news/detail/${id}`
+
+/**
+ * 摘要文案兜底：优先取接口 summary，其次正文首段，再退回标题。
+ * Pixso 导出的摘要块原本是写死的演示文案 + 写死 ID(1~9)，与真实新闻无对应关系，
+ * 点了会跳到「新闻ID N 不存在」。这里改为完全由接口数据驱动。
+ */
+const pickSummary = (item: any, maxLen = 46): string => {
+  const raw = String(item?.summary || item?.content || item?.title || '').trim()
+  const plain = raw.replace(/<[^>]+>/g, '').replace(/\s+/g, ' ').trim()
+  return plain.length > maxLen ? `${plain.slice(0, maxLen)}…` : plain
+}
+
+/** 某条数据的详情跳转（无 id 时不跳） */
+const goNewsDetail = (item: any) => {
+  if (!item?.id) return
+  navigateTo(newsDetailPath(item.id))
+}
 
 // 打开外部链接（新窗口）
 const openLink = (url: string) => {

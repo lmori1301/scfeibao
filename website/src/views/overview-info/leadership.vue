@@ -1963,7 +1963,7 @@ const fetchWebsiteConfig = async () => {
 .leader-detail-dialog {
     position: relative;
     width: 100%;
-    max-width: 640px;
+    max-width: 760px;
     max-height: 85vh;
     overflow: auto;
     background: #fff;
@@ -1994,9 +1994,9 @@ const fetchWebsiteConfig = async () => {
     color: #333;
 }
 .leader-detail-content {
-    padding: 28px 28px 24px;
+    padding: 32px 32px 28px;
     display: flex;
-    gap: 24px;
+    gap: 28px;
     align-items: flex-start;
 }
 .leader-detail-photo {
@@ -2043,28 +2043,28 @@ const fetchWebsiteConfig = async () => {
     line-height: 1.4;
 }
 .leader-detail-bio {
-    font-size: 13px;
+    font-size: 14px;
     font-weight: 400;
     font-family: "Alibaba PuHuiTi-Regular", "PingFang SC", sans-serif;
-    color: #666;
-    margin: 0 0 12px;
-    line-height: 1.5;
+    color: #555;
+    margin: 0 0 18px;
+    line-height: 1.8;
 }
 .leader-detail-label {
-    font-size: 14px;
+    font-size: 15px;
     font-weight: 700;
     font-family: "Alibaba PuHuiTi-Regular", "PingFang SC", sans-serif;
     color: #1a1a1a;
-    margin: 0 0 6px;
-    line-height: 1.4;
+    margin: 4px 0 10px;
+    line-height: 1.5;
 }
 .leader-detail-duty {
-    font-size: 13px;
+    font-size: 14px;
     font-weight: 400;
     font-family: "Alibaba PuHuiTi-Regular", "PingFang SC", sans-serif;
-    color: #666;
-    margin: 0 0 16px;
-    line-height: 1.5;
+    color: #555;
+    margin: 0 0 22px;
+    line-height: 1.9;
 }
 .leader-detail-cards {
     display: flex;
