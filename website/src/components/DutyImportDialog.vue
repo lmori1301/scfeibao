@@ -40,7 +40,6 @@ const form = ref({
   dutyYear: String(new Date().getFullYear()),
   teamName: '',
   submitterName: '',
-  submitterPhone: '',
 })
 
 const rules = {
@@ -73,7 +72,6 @@ const reset = () => {
     dutyYear: String(new Date().getFullYear()),
     teamName: teamOptions.value[0]?.value || '',
     submitterName: '',
-    submitterPhone: '',
   }
   fileList.value = []
   percent.value = 0
@@ -131,7 +129,6 @@ const handleSubmit = async () => {
       teamName: form.value.teamName,
       dutyYear: form.value.dutyYear,
       submitterName: form.value.submitterName || undefined,
-      submitterPhone: form.value.submitterPhone || undefined,
       onUploadProgress: (p) => {
         percent.value = p
       },
@@ -177,8 +174,9 @@ watch(() => props.modelValue, (v) => {
 
 <template>
   <el-dialog
+    v-if="visible"
     v-model="visible"
-    title="上传应急值班值守台账"
+    title="请各单位负责人上传应急值班值守台账"
     width="560px"
     :close-on-click-modal="false"
     :close-on-press-escape="false"
@@ -210,12 +208,8 @@ watch(() => props.modelValue, (v) => {
         </el-select>
       </el-form-item>
 
-      <el-form-item label="上传人">
+      <el-form-item label="提交人">
         <el-input v-model="form.submitterName" placeholder="选填，便于追溯提交人" maxlength="32" clearable />
-      </el-form-item>
-
-      <el-form-item label="联系电话">
-        <el-input v-model="form.submitterPhone" placeholder="选填" maxlength="20" clearable />
       </el-form-item>
 
       <el-form-item label="台账附件">
@@ -230,7 +224,7 @@ watch(() => props.modelValue, (v) => {
           drag
         >
           <el-icon class="el-icon--upload"><upload-filled /></el-icon>
-          <div class="el-upload__text">将值班表拖到此处，或<em>点击选择文件</em></div>
+          <div class="el-upload__text">将应急值班值守台账表拖到此处，或<em>点击选择文件</em></div>
           <template #tip>
             <div class="el-upload__tip">
               仅支持 .xlsx 格式，单个文件不超过 {{ MAX_SIZE_MB }}MB。<br />

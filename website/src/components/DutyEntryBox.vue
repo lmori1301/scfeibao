@@ -1,10 +1,9 @@
 <script setup lang="ts">
 /**
- * 值班台账上传入口（侧边悬浮）
+ * 值班台账上传入口（右侧悬浮卡片）
  *
- * 收起态为贴在视口右侧的竖排入口，样式参考设计稿：
- * 浅蓝底 + 红色标题 + 右侧白色箭头。
- * 点击或悬浮展开表单弹窗（年份 / 队伍 / 附件）。
+ * 设计参考：浅蓝底水平卡片 + 红色标题 + 右侧「入口 >」
+ * 点击打开上传弹窗。卡片位置下移，避免遮挡 banner 主视觉。
  */
 import { ref } from 'vue'
 import DutyImportDialog from './DutyImportDialog.vue'
@@ -18,8 +17,8 @@ const openDialog = () => {
 <template>
   <div class="duty-entry">
     <button type="button" class="duty-entry__panel" aria-label="上传应急值班值守台账" @click="openDialog">
-      <span class="duty-entry__text">上传应急值班值守台账</span>
-      <span class="duty-entry__arrow" aria-hidden="true">›</span>
+      <span class="duty-entry__title">应急值班值守台账</span>
+      <span class="duty-entry__action" aria-hidden="true">入口 &gt;</span>
     </button>
 
     <DutyImportDialog v-model="dialogVisible" />
@@ -30,7 +29,7 @@ const openDialog = () => {
 .duty-entry {
   position: fixed;
   right: 0;
-  top: 38%;
+  top: 62%;
   z-index: 880;
   font-family: "Alibaba PuHuiTi-Regular", "Microsoft YaHei", sans-serif;
 }
@@ -38,40 +37,38 @@ const openDialog = () => {
 .duty-entry__panel {
   display: flex;
   align-items: center;
-  gap: 10px;
-  padding: 26px 18px 26px 20px;
+  justify-content: space-between;
+  gap: 16px;
+  padding: 14px 18px 14px 20px;
   border: none;
-  border-radius: 0;
+  border-radius: 10px 0 0 10px;
   background: linear-gradient(135deg, #d6ecff 0%, #c3e2ff 100%);
   color: #e60012;
   cursor: pointer;
-  box-shadow: -2px 0 12px rgba(0, 60, 130, 0.12);
-  transition: background 0.22s ease, box-shadow 0.22s ease, transform 0.22s ease;
+  box-shadow: -2px 2px 12px rgba(0, 60, 130, 0.12);
+  transition: transform 0.22s ease, box-shadow 0.22s ease, background 0.22s ease;
 }
 
 .duty-entry__panel:hover {
   background: linear-gradient(135deg, #c3e2ff 0%, #aed8ff 100%);
-  box-shadow: -3px 0 18px rgba(0, 60, 130, 0.2);
-  transform: translateX(-2px);
+  box-shadow: -4px 4px 18px rgba(0, 60, 130, 0.18);
+  transform: translateX(-3px);
 }
 
-.duty-entry__text {
-  /* 竖排逐字排列，与设计稿一致 */
-  writing-mode: vertical-rl;
-  text-orientation: upright;
-  letter-spacing: 4px;
-  font-size: 19px;
+.duty-entry__title {
+  font-size: 17px;
   font-weight: 700;
-  line-height: 1.25;
+  line-height: 1.35;
+  text-align: left;
   white-space: nowrap;
   text-shadow: 0 1px 0 rgba(255, 255, 255, 0.6);
 }
 
-.duty-entry__arrow {
-  font-size: 26px;
+.duty-entry__action {
+  font-size: 15px;
+  font-weight: 600;
   line-height: 1;
-  color: #ffffff;
-  text-shadow: 0 1px 2px rgba(0, 80, 160, 0.25);
-  transform: translateY(-1px);
+  color: #e60012;
+  white-space: nowrap;
 }
 </style>

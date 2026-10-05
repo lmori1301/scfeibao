@@ -345,13 +345,20 @@
             <div id="1_166" class="Pixso-vector-1_166"></div>
             <p id="1_167" class="Pixso-paragraph-1_167">{{ "救援行动" }}</p>
             <div id="1_168" class="Pixso-vector-1_168"></div>
-            <router-link to="/overview-info" id="1_169" class="Pixso-paragraph-1_169">{{ "概况信息" }}</router-link>
-            <router-link to="/team-building" id="1_170" class="Pixso-paragraph-1_170">{{ "队伍建设" }}</router-link>
-            <router-link to="/party-building" id="1_171" class="Pixso-paragraph-1_171">{{ "党建专栏" }}</router-link>
-            <router-link to="/info-public" id="1_172" class="Pixso-paragraph-1_172">{{ "信息公开" }}</router-link>
-            <router-link to="/dynamic-news" id="1_173" class="Pixso-paragraph-1_173">{{ "动态要闻" }}</router-link>
-            <router-link to="/policy-regulations" id="1_174" class="Pixso-paragraph-1_174">{{ "政策法规" }}</router-link>
-            <router-link to="/query-system" id="1_175" class="Pixso-paragraph-1_175">{{ "查询系统" }}</router-link>
+            <!-- 主导航：首页图标 + 7 个文字模块，Flex 水平均匀对齐 -->
+            <nav class="main-nav" aria-label="主导航">
+                <router-link to="/" class="nav-home">
+                    <span class="nav-home__icon" aria-hidden="true"></span>
+                    <span class="nav-home__text">首页</span>
+                </router-link>
+                <router-link to="/overview-info" id="1_169" class="Pixso-paragraph-1_169">{{ "概况信息" }}</router-link>
+                <router-link to="/team-building" id="1_170" class="Pixso-paragraph-1_170">{{ "队伍建设" }}</router-link>
+                <router-link to="/party-building" id="1_171" class="Pixso-paragraph-1_171">{{ "党建专栏" }}</router-link>
+                <router-link to="/info-public" id="1_172" class="Pixso-paragraph-1_172">{{ "信息公开" }}</router-link>
+                <router-link to="/dynamic-news" id="1_173" class="Pixso-paragraph-1_173">{{ "动态要闻" }}</router-link>
+                <router-link to="/policy-regulations" id="1_174" class="Pixso-paragraph-1_174">{{ "政策法规" }}</router-link>
+                <router-link to="/query-system" id="1_175" class="Pixso-paragraph-1_175">{{ "查询系统" }}</router-link>
+            </nav>
             <div id="1_176" class="Pixso-vector-1_176"></div>
             <div id="32_6" class="Pixso-group-32_6">
                 <p id="32_4" class="Pixso-paragraph-32_4" @click="navigateTo('/dynamic-news')" style="cursor: pointer;">{{ "MORE >" }}</p>
@@ -936,6 +943,76 @@ onUnmounted(() => {
     bottom: 93.87%;
     z-index: 0;
 }
+
+/* 主导航：用 Flex 把 8 个模块（首页图标 + 7 文字）在蓝色导航条内水平均匀对齐 */
+.main-nav {
+    position: absolute;
+    left: 5.89%;
+    right: 5.83%;
+    top: 4.5%;
+    height: 1.63%;
+    z-index: 1;
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    pointer-events: none;
+}
+
+.main-nav > * {
+    pointer-events: auto;
+}
+
+/* 覆盖原先各导航项的绝对定位，改为 Flex 子项 */
+.main-nav .Pixso-paragraph-1_169,
+.main-nav .Pixso-paragraph-1_170,
+.main-nav .Pixso-paragraph-1_171,
+.main-nav .Pixso-paragraph-1_172,
+.main-nav .Pixso-paragraph-1_173,
+.main-nav .Pixso-paragraph-1_174,
+.main-nav .Pixso-paragraph-1_175 {
+    position: static;
+    left: auto;
+    right: auto;
+    top: auto;
+    bottom: auto;
+    width: auto;
+    height: auto;
+    transform: none;
+    margin: 0;
+}
+
+/* 首页红色图标入口 */
+.nav-home {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    color: rgba(255, 255, 255, 1);
+    text-decoration: none;
+    font-size: 20px;
+    font-family: "FZDaHei-B02S-Regular", "Microsoft YaHei", sans-serif;
+    font-weight: 400;
+    line-height: 1;
+    transition: opacity 0.3s;
+    white-space: nowrap;
+}
+
+.nav-home:hover {
+    opacity: 0.85;
+}
+
+.nav-home__icon {
+    width: 26px;
+    height: 26px;
+    flex-shrink: 0;
+    background: #c41e24 url(@/assets/images/nav-home-icon.png) center center / contain no-repeat;
+    border-radius: 3px;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.2);
+}
+
+.nav-home__text {
+    font-size: 20px;
+}
+
 .Pixso-vector-1_10 {
     width: 6.72%;
     height: 2.99%;
