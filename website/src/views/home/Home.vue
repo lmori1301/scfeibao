@@ -980,17 +980,21 @@ onUnmounted(() => {
     margin: 0;
 }
 
-/* 首页红色方块徽章入口：正方形，与导航条同高，内嵌消防救援徽章图标 */
+/* 首页红色徽章入口：横向矩形，与导航条同高，内嵌消防救援徽章图标 */
 .nav-home {
     display: flex;
     align-items: center;
     justify-content: center;
     height: 100%;
-    aspect-ratio: 1 / 1;
-    background: #c41e24;
+    width: 100px;
+    flex-shrink: 0;
+    background-color: #c41e24;
+    background-image: url(@/assets/images/nav-home-icon.png);
+    background-size: contain;
+    background-position: center center;
+    background-repeat: no-repeat;
     text-decoration: none;
     transition: opacity 0.3s, transform 0.2s;
-    flex-shrink: 0;
 }
 
 .nav-home:hover {
@@ -999,9 +1003,7 @@ onUnmounted(() => {
 }
 
 .nav-home__icon {
-    width: 88%;
-    height: 88%;
-    background: url(@/assets/images/nav-home-icon.png) center center / cover no-repeat;
+    display: none;
 }
 
 .Pixso-vector-1_10 {

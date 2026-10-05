@@ -177,7 +177,8 @@ watch(() => props.modelValue, (v) => {
     v-if="visible"
     v-model="visible"
     title="请各单位负责人上传应急值班值守台账"
-    width="560px"
+    width="480px"
+    class="duty-import-dialog"
     :close-on-click-modal="false"
     :close-on-press-escape="false"
     :show-close="!submitting"
@@ -222,9 +223,10 @@ watch(() => props.modelValue, (v) => {
           :on-remove="handleRemove"
           accept=".xlsx"
           drag
+          style="width: 100%"
         >
           <el-icon class="el-icon--upload"><upload-filled /></el-icon>
-          <div class="el-upload__text">将应急值班值守台账表拖到此处，或<em>点击选择文件</em></div>
+          <div class="el-upload__text">将值班表拖到此处，或<em>点击选择文件</em></div>
           <template #tip>
             <div class="el-upload__tip">
               仅支持 .xlsx 格式，单个文件不超过 {{ MAX_SIZE_MB }}MB。<br />
@@ -269,11 +271,50 @@ watch(() => props.modelValue, (v) => {
   margin-top: 4px;
   font-size: 12px;
   line-height: 18px;
-  max-height: 160px;
+  max-height: 120px;
   overflow-y: auto;
 }
 
 .duty-import__errors p {
   margin: 0;
+}
+</style>
+
+<style>
+.duty-import-dialog .el-dialog__header {
+  margin-right: 0;
+  padding: 14px 20px 10px;
+}
+
+.duty-import-dialog .el-dialog__title {
+  font-size: 16px;
+  font-weight: 600;
+  line-height: 1.4;
+}
+
+.duty-import-dialog .el-dialog__body {
+  padding: 8px 20px 6px;
+}
+
+.duty-import-dialog .el-dialog__footer {
+  padding: 10px 20px 14px;
+}
+
+.duty-import-dialog .el-form-item {
+  margin-bottom: 12px;
+}
+
+.duty-import-dialog .el-form-item__label {
+  font-size: 14px;
+  line-height: 32px;
+}
+
+.duty-import-dialog .el-upload-dragger {
+  padding: 16px 12px;
+}
+
+.duty-import-dialog .el-icon--upload {
+  margin-bottom: 8px;
+  font-size: 36px;
 }
 </style>

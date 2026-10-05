@@ -18,7 +18,7 @@ const openDialog = () => {
 <template>
   <div class="duty-entry">
     <button type="button" class="duty-entry__cube" aria-label="上传应急值班值守台账" @click="openDialog">
-      <span class="duty-entry__title">应急值班值守台账</span>
+      <span class="duty-entry__title">应急值班台账</span>
       <span class="duty-entry__action" aria-hidden="true">入口 &gt;</span>
     </button>
 
@@ -40,35 +40,35 @@ const openDialog = () => {
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  gap: 10px;
-  width: 124px;
-  height: 124px;
-  padding: 14px 10px;
+  gap: 5px;
+  width: 90px;
+  height: 90px;
+  padding: 8px 6px;
   border: none;
-  border-radius: 12px 0 0 12px;
+  border-radius: 8px 0 0 8px;
   background: linear-gradient(135deg, #d6ecff 0%, #c3e2ff 100%);
   color: #e60012;
   cursor: pointer;
-  box-shadow: -2px 2px 14px rgba(0, 60, 130, 0.14);
+  box-shadow: -2px 2px 10px rgba(0, 60, 130, 0.12);
   transition: transform 0.22s ease, box-shadow 0.22s ease, background 0.22s ease;
 }
 
 .duty-entry__cube:hover {
   background: linear-gradient(135deg, #c3e2ff 0%, #aed8ff 100%);
-  box-shadow: -4px 4px 20px rgba(0, 60, 130, 0.2);
-  transform: translateX(-3px);
+  box-shadow: -3px 3px 14px rgba(0, 60, 130, 0.18);
+  transform: translateX(-2px);
 }
 
 .duty-entry__title {
-  font-size: 16px;
+  font-size: 13px;
   font-weight: 700;
-  line-height: 1.5;
+  line-height: 1.45;
   text-align: center;
   text-shadow: 0 1px 0 rgba(255, 255, 255, 0.6);
 }
 
 .duty-entry__action {
-  font-size: 15px;
+  font-size: 13px;
   font-weight: 600;
   line-height: 1;
   color: #e60012;
