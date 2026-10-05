@@ -287,12 +287,6 @@ fetch(getApiParams())
   background: #fff;
 }
 
-/* 查询/重置按钮左对齐：与新闻管理等列表页保持一致的靠左展示 */
-:deep(.qf__bar) {
-  flex: 0 0 100%;
-  justify-content: flex-start;
-}
-
 .preview-card__icon {
   width: 60px; height: 60px; border-radius: 18px; display: grid; place-items: center;
   background: linear-gradient(135deg, #edf3ff 0%, #dce8ff 100%); color: #2563eb; font-size: 24px; flex: 0 0 auto;

@@ -29,14 +29,15 @@
 .el-button {
   --admin-btn-blue: #2563eb;
   --admin-btn-blue-deep: #1d4ed8;
-  --admin-btn-border: #d8dee8;
-  --admin-btn-text: #4b5563;
+  --admin-btn-border: #dcdfe6;
+  --admin-btn-text: #606266;
   --admin-btn-success: #22a06b;
   --admin-btn-warning: #d68910;
   --admin-btn-danger: #e14d5d;
 
   height: 32px;
-  padding: 0 14px;
+  /* web2 实测：查询/重置按钮 58×32 → padding 8px 15px（2 字 13px + 30px 内边距） */
+  padding: 8px 15px;
   border-radius: 6px;
   border: 1px solid var(--admin-btn-border);
   background: #fff;
@@ -247,14 +248,16 @@
 }
 
 /* ---------------- 表格 ---------------- */
+/* 1:1 对齐 web2（el-table border stripe size="small" + gh-table）：
+   th 高 32 / td 高 33.3 / 单元格 12px / cell line-height 23px / padding 0 8px / 单行省略号 */
 .el-table {
-  --el-table-border-color: #e5e7eb;
+  --el-table-border-color: #ebeef5;
   --el-table-header-bg-color: #fafbfc;
   --el-table-header-text-color: #4b5563;
   --el-table-row-hover-bg-color: #eff6ff;
   /* 斑马纹隔行底色 */
-  --el-fill-color-lighter: #fafbfc;
-  font-size: 13px;
+  --el-fill-color-lighter: #fafafa;
+  font-size: 12px;
   color: #3d4759;
 
   .el-table__header th.el-table__cell {
@@ -264,7 +267,14 @@
   }
 
   .el-table__cell {
-    padding: 7px 0;
+    padding: 4px 0;
+  }
+
+  /* 单元格内容：web2 单行 + 省略号（配合 show-overflow-tooltip 悬浮看全文） */
+  .cell {
+    line-height: 23px;
+    padding: 0 8px;
+    white-space: nowrap;
   }
 
   /* 竖向网格线：对齐 web2 列表表格（border 表格带列分隔线），排除右侧滚动条占位 gutter */
@@ -291,7 +301,7 @@
 
   .el-table__fixed-right::before,
   .el-table__fixed::before {
-    background: #e5e7eb;
+    background: #ebeef5;
   }
 
   /* 固定区表头与主表一致；勿对固定区 body 的 td 写死 #fff，否则会盖住斑马纹与悬停行底色 */
@@ -306,7 +316,7 @@
       min-width: 0;
       height: 28px;
       padding: 0 6px;
-      font-size: 13px;
+      font-size: 12px;
       font-weight: 500;
     }
 

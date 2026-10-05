@@ -288,11 +288,6 @@ fetch()
 </template>
 
 <style scoped lang="scss">
-:deep(.qf__bar) {
-  flex: 0 0 100%;
-  justify-content: flex-start;
-}
-
 .policy-dialog {
   display: grid;
   grid-template-columns: minmax(0, 1.35fr) 320px;

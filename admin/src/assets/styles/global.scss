@@ -482,9 +482,11 @@ a {
   min-width: 960px;
 }
 
+/* web2 基准：.cell 单行 line-height 23px（12px 字号），长文本不换行 */
 .content-panel__body .el-table .cell {
-  line-height: 1.6;
-  word-break: break-word;
+  line-height: 23px;
+  white-space: nowrap;
+  word-break: normal;
 }
 
 .content-panel__body .el-table .el-button + .el-button {
@@ -517,7 +519,7 @@ a {
   padding: 2px 6px;
   min-width: 0;
   height: auto;
-  font-size: 13px;
+  font-size: 12px;
   font-weight: 500;
 }
 
@@ -526,7 +528,9 @@ a {
   display: flex;
   align-items: center;
   gap: 12px;
-  margin-top: 16px;
+  /* web2 .lp-pager 用 padding-top:10px（不是 margin），保证与表格的间距恒定 */
+  margin-top: 0;
+  padding-top: 10px;
 }
 
 /* 总条数文案靠左、分页器靠右（对齐 web2 .lp-pager：左文案 + 右翻页） */
@@ -550,10 +554,7 @@ a {
   width: 100%;
 }
 
-.content-panel__body [class$='-search'] .el-button {
-  min-width: 92px;
-}
-
+/* web2 无 min-width：查询/重置实测 58×32（此处曾写死 92px，导致按钮比 web2 宽 34px） */
 .content-panel__body .el-form-item {
   margin-bottom: 16px;
 }
@@ -579,7 +580,6 @@ a {
 }
 
 .content-panel__body [class$='-search'] > .el-button {
-  min-width: 98px;
   white-space: nowrap;
 }
 
@@ -592,10 +592,13 @@ a {
   min-width: 980px;
 }
 
+/* web2 基准：.cell 单行 + 省略号（line-height 23 / padding 0 8px），
+   长文本靠 show-overflow-tooltip 悬浮看全文，不在单元格内换行 */
 .content-panel__body [class$='-table-panel'] .el-table .cell {
-  line-height: 1.6;
-  overflow-wrap: anywhere;
-  word-break: break-word;
+  line-height: 23px;
+  white-space: nowrap;
+  overflow-wrap: normal;
+  word-break: normal;
 }
 
 .content-panel__body [class$='-table-panel'] .el-table td.el-table__cell {
@@ -1008,11 +1011,12 @@ a {
   min-width: 0;
 }
 
+/* 列表卡内操作区：靠左（对齐 web2 的操作条惯例 + 「按钮靠左」要求） */
 .admin-table-panel__head {
   display: flex;
   flex-wrap: wrap;
   align-items: center;
-  justify-content: flex-end;
+  justify-content: flex-start;
   gap: 10px;
   margin-bottom: 12px;
 }
@@ -1032,7 +1036,7 @@ a {
   flex-wrap: wrap;
   align-items: center;
   gap: 10px;
-  margin-left: auto;
+  margin-left: 0;
 }
 
 /** 子页顶部仅右侧操作（与 Dashboard 刷新条一致，无标题卡片） */
