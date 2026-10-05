@@ -38,7 +38,7 @@ onMounted(fetchOverview)
     <div class="page-crumb">系统首页 / 系统配置 / 数据备份</div>
 
     <section class="admin-card admin-card--table backup-panel">
-      <div class="panel-title">能力接入清单</div>
+      <div class="panel-title panel-title--keep">能力接入清单</div>
       <el-table :data="capabilityRows" v-loading="loading" stripe>
         <el-table-column type="index" label="序号" width="70" />
         <el-table-column prop="item" label="能力项" width="180" />
@@ -50,7 +50,7 @@ onMounted(fetchOverview)
     </section>
 
     <section class="admin-card admin-card--table backup-panel">
-      <div class="panel-title">备份记录</div>
+      <div class="panel-title panel-title--keep">备份记录</div>
       <div class="backup-actions">
         <el-button type="primary" @click="handleRunBackup">执行手动备份</el-button>
       </div>
@@ -64,7 +64,7 @@ onMounted(fetchOverview)
     </section>
 
     <section class="admin-card admin-card--table backup-panel">
-      <div class="panel-title">建议上线项</div>
+      <div class="panel-title panel-title--keep">建议上线项</div>
       <div class="backup-suggestions">
         <div v-for="item in suggestionRows" :key="item" class="backup-suggestion">{{ item }}</div>
       </div>

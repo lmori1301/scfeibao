@@ -1021,8 +1021,14 @@ a {
   margin-bottom: 12px;
 }
 
-/* 列表卡片不再重复展示标题（对齐 web2 列表：无标题卡，只有右上操作） */
+/* 列表卡不再重复展示标题（对齐 web2 列表：无标题卡，只有右侧操作）
+   仅隐藏「XX列表」这类冗余标题；分区型标题（数据备份/网站配置）加 .panel-title--keep 保留 */
 .admin-table-panel__head .panel-title {
+  display: none;
+}
+
+.admin-card--table > .panel-title:not(.panel-title--keep),
+.admin-page-list-card__main > .panel-title:not(.panel-title--keep) {
   display: none;
 }
 

@@ -131,9 +131,10 @@ const showToggle = computed(() => props.collapsible)
   min-width: 0;
 }
 
-/* 业务分组容器：整行分隔标题（使用方在插槽内声明，需 :deep 命中） */
+/* 业务分组容器：已废弃（用 display:contents 让子项直接参与 flex 排布，
+   分组标题与整行占位一并消失，对齐 web2 无分组标题的查询卡） */
 .qf__grid :deep(.qf__group) {
-  flex: 0 0 100%;
+  display: contents;
 }
 
 .qf__grid :deep(.el-form-item) {

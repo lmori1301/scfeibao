@@ -383,7 +383,7 @@ onMounted(async () => {
         </el-table-column>
         <el-table-column
           label="操作"
-          width="280"
+          width="216"
           fixed="right"
           class-name="admin-table-ops-col"
           label-class-name="admin-table-ops-col--header"

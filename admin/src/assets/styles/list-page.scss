@@ -18,28 +18,12 @@
  *   弹窗（dialog）    ：取消/保存    —— .el-dialog__footer 右对齐
  * ===================================================================== */
 
-/* 查询区与表格同处一张白卡时，分组标题的兜底样式（组件内已含，此处保证跨页一致） */
+/* 查询区业务分组标题（「筛选条件」「基础信息」「发布筛选」…）已按需求废弃：
+   web2 ListPage 的查询卡里没有任何分组标题，只有字段 + 查询/重置。
+   用 display:contents 让 wrapper 不生成盒子 → ::before 标题不渲染、
+   子表单项直接参与 .qf__grid 的 flex 排布，不再占整行、也不留右侧空白。 */
 .qf__group[data-title] {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  margin: 6px 0 2px;
-  grid-column: 1 / -1;
-
-  &::before {
-    content: attr(data-title);
-    flex: 0 0 auto;
-    font-size: 13px;
-    font-weight: 700;
-    color: #2563eb;
-  }
-
-  &::after {
-    content: '';
-    flex: 1 1 auto;
-    height: 1px;
-    background: linear-gradient(90deg, #e3ecfb 0%, rgba(227, 236, 251, 0) 100%);
-  }
+  display: contents;
 }
 
 /* 列表「操作」列：水平居中、按钮间距统一 */

@@ -14,7 +14,6 @@ const searchForm = ref({
   title: '',
   category: '',
   status: '',
-  listScope: '' as '' | '已发布' | '草稿',
 })
 const dialogVisible = ref(false)
 const dialogTitle = ref('新增新闻')
@@ -63,29 +62,18 @@ const formatDate = (_row: any, _column: any, cellValue: any) => {
   return date.toISOString().split('T')[0]
 }
 
-const filteredRows = computed(() =>
-  data.value.filter((item: any) => {
-    if (searchForm.value.listScope === '已发布') return getStatusText(item.status) === '已发布'
-    if (searchForm.value.listScope === '草稿') return getStatusText(item.status) === '草稿'
-    return true
-  })
-)
-
 const sortedRows = computed(() =>
-  [...filteredRows.value].sort(
+  [...data.value].sort(
     (a: any, b: any) => new Date(b.publishedAt || b.createdAt || 0).getTime() - new Date(a.publishedAt || a.createdAt || 0).getTime()
   )
 )
 
-const getApiParams = () => {
-  const { listScope: _listScope, ...rest } = searchForm.value
-  return rest
-}
+const getApiParams = () => ({ ...searchForm.value })
 
 const handleSearch = () => fetch(getApiParams())
 
 const handleReset = () => {
-  searchForm.value = { title: '', category: '', status: '', listScope: '' }
+  searchForm.value = { title: '', category: '', status: '' }
   fetch(getApiParams())
 }
 
@@ -212,13 +200,6 @@ fetch(getApiParams())
             <el-option label="草稿" value="0" />
           </el-select>
         </el-form-item>
-        <el-form-item label="列表范围" class="qf-advanced">
-          <el-select v-model="searchForm.listScope" placeholder="全部" clearable>
-            <el-option label="全部新闻" value="" />
-            <el-option label="已发布" value="已发布" />
-            <el-option label="草稿箱" value="草稿" />
-          </el-select>
-        </el-form-item>
       </QueryFilter>
     </div>
 
@@ -289,7 +270,7 @@ fetch(getApiParams())
         </el-table-column>
         <el-table-column
           label="操作"
-          width="196"
+          width="100"
           fixed="right"
           class-name="admin-table-ops-col"
           label-class-name="admin-table-ops-col--header"

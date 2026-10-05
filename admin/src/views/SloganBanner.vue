@@ -290,7 +290,7 @@ fetch()
         <el-table-column prop="createdAt" label="创建时间" width="190" :formatter="formatDate" />
         <el-table-column
           label="操作"
-          width="180"
+          width="100"
           fixed="right"
           class-name="admin-table-ops-col"
           label-class-name="admin-table-ops-col--header"

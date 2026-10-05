@@ -181,7 +181,7 @@ const formatDate = (_row: any, _column: any, cellValue: any) => {
         </el-table-column>
         <el-table-column
           label="操作"
-          width="160"
+          width="100"
           fixed="right"
           class-name="admin-table-ops-col"
           label-class-name="admin-table-ops-col--header"

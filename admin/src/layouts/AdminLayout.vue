@@ -211,7 +211,7 @@ watch(
         <span class="side-brand__logo">
           <img :src="brandLogo" alt="四川飞豹徽标" />
         </span>
-        <span class="side-brand__text">四川飞豹后台管理系统</span>
+        <span class="side-brand__text">四川飞豹管理系统</span>
         <button
           class="side-brand__fold"
           type="button"

@@ -106,15 +106,10 @@ def main():
         pg.wait_for_timeout(400)
         pg.keyboard.press("Escape")
 
-        # 字典管理页
-        pg.goto(f"{BASE}/admin/system-dict", wait_until="networkidle")
-        pg.wait_for_timeout(2500)
-        d_crumb = pg.locator(".page-crumb").inner_text() if pg.locator(".page-crumb").count() else ""
-        check("数据字典页可访问", "数据字典" in d_crumb, d_crumb)
-        d_headers = pg.eval_on_selector_all(
-            ".el-table__header th", "els => els.map(e => e.innerText.trim()).filter(Boolean)"
-        )
-        check("字典表头齐全", "字典类型" in d_headers and "字典标签" in d_headers, d_headers)
+        # 注：「数据字典」**后台界面**已于 2026-10-05 下线（前端菜单项 + SystemDict.vue 已移除，
+        #     权限树 menu-tree 中该项同步删除），原「字典管理页」检查项随之删除。
+        #     ⚠️ 后端 system-dict 模块**必须保留**：它提供的 @Public 接口
+        #     `GET /system/dict/data/type/:dictType` 正是下面「队伍下拉」的数据源。
 
         # 侧栏：分组默认折叠时 innerText 拿不到子项，但 DOM 里始终存在 →
         # 查「可点击菜单项自身的文本」，并确认其所在分组，避免折叠影响判读。
@@ -137,7 +132,7 @@ def main():
         groups_txt = " / ".join(menu["groups"])
         check("侧栏菜单项含【值班台账】", "值班台账" in items_txt, items_txt[:180])
         check("侧栏菜单项不再出现旧名【队伍值班】", "队伍值班" not in items_txt, items_txt[:180])
-        check("侧栏菜单项含「数据字典」", "数据字典" in items_txt, items_txt[180:360] or groups_txt[:120])
+        check("侧栏菜单项已下线「数据字典」", "数据字典" not in items_txt, items_txt[180:360] or groups_txt[:120])
 
         check("无 JS 运行时错误", len(errs) == 0, errs[:2])
         b.close()

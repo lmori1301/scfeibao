@@ -72,6 +72,13 @@ const handleAdd = () => {
   dialogVisible.value = true
 }
 
+/** 列表「视频文件」列只显示文件名（完整地址走 title 悬浮），避免整格被长路径撑开 */
+const fileNameOf = (url?: string | null) => {
+  if (!url) return '—'
+  const name = String(url).split('/').pop() || ''
+  return name || String(url)
+}
+
 const handleEdit = (row: any) => {
   formData.value = { ...row }
   dialogVisible.value = true
@@ -169,8 +176,10 @@ onMounted(() => {
           </template>
         </el-table-column>
         <el-table-column prop="title" label="标题" min-width="200" show-overflow-tooltip />
-        <el-table-column label="视频地址" min-width="260" show-overflow-tooltip>
-          <template #default="{ row }">{{ row.videoUrl || '—' }}</template>
+        <el-table-column label="视频文件" min-width="200" show-overflow-tooltip>
+          <template #default="{ row }">
+            <span :title="row.videoUrl || ''">{{ fileNameOf(row.videoUrl) }}</span>
+          </template>
         </el-table-column>
         <el-table-column label="展示状态" width="120">
           <template #default="{ row }">
@@ -179,7 +188,7 @@ onMounted(() => {
         </el-table-column>
         <el-table-column
           label="操作"
-          width="220"
+          width="172"
           fixed="right"
           class-name="admin-table-ops-col"
           label-class-name="admin-table-ops-col--header"

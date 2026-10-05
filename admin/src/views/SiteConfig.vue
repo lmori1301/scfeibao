@@ -55,7 +55,7 @@ onMounted(() => {
 
     <section class="admin-card admin-card--table site-config-panel">
       <div class="admin-table-panel__head">
-        <div class="panel-title">基础配置</div>
+        <div class="panel-title panel-title--keep">基础配置</div>
         <div class="admin-table-panel__head-actions">
           <el-button plain @click="fetchConfig">
             <el-icon><RefreshRight /></el-icon>
