@@ -228,6 +228,7 @@ watch(() => props.modelValue, (v) => {
             v-model="form.teamName"
             placeholder="请选择"
             filterable
+            clearable
             :loading="loadingOptions"
             style="width: 100%"
           >

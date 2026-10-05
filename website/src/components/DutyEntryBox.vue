@@ -36,35 +36,48 @@ const openDialog = () => {
 }
 
 .duty-entry__cube {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  gap: 5px;
-  width: 90px;
-  height: 90px;
-  padding: 8px 6px;
-  border: none;
-  border-radius: 0;
-  background: linear-gradient(135deg, #c41e24 0%, #9a1418 100%);
-  color: #fff;
-  cursor: pointer;
-  box-shadow: -2px 2px 10px rgba(154, 20, 24, 0.22);
-  transition: transform 0.22s ease, box-shadow 0.22s ease, background 0.22s ease;
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 5px;
+    width: 90px;
+    height: 90px;
+    padding: 8px 6px;
+    border: none;
+    border-radius: 0;
+    /* 四川消防救援队列实景图作底 + 深红蒙版压暗，保证白色文字可读 */
+    background-image:
+        linear-gradient(180deg, rgba(150, 12, 18, 0.46) 0%, rgba(104, 8, 12, 0.62) 100%),
+        url('@/assets/images/Vector_1_1011.webp');
+    background-size: 175%;
+    background-position: 76% 42%;
+    background-repeat: no-repeat;
+    color: #fff;
+    cursor: pointer;
+    box-shadow: -2px 2px 10px rgba(154, 20, 24, 0.22);
+    transition: transform 0.22s ease, box-shadow 0.22s ease, filter 0.22s ease;
 }
 
+/* hover 时略微提亮图片、蒙版变浅，避免整块死黑 */
 .duty-entry__cube:hover {
-  background: linear-gradient(135deg, #a3181d 0%, #7d1013 100%);
-  box-shadow: -3px 3px 14px rgba(154, 20, 24, 0.32);
-  transform: translateX(-2px);
+    background-image:
+        linear-gradient(180deg, rgba(176, 22, 27, 0.34) 0%, rgba(138, 12, 17, 0.50) 100%),
+        url('@/assets/images/Vector_1_1011.webp');
+    box-shadow: -3px 3px 14px rgba(154, 20, 24, 0.32);
+    transform: translateX(-2px);
 }
 
 .duty-entry__title {
-  font-size: 13px;
-  font-weight: 700;
-  line-height: 1.45;
-  text-align: center;
-  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.25);
+    font-size: 13px;
+    font-weight: 700;
+    line-height: 1.45;
+    text-align: center;
+    /* 背景图上叠字，用双层投影 + 白色描边提升对比 */
+    text-shadow:
+        0 1px 2px rgba(0, 0, 0, 0.85),
+        0 0 4px rgba(0, 0, 0, 0.6);
 }
 
 .duty-entry__action {

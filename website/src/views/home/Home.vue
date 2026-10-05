@@ -943,8 +943,8 @@ onUnmounted(() => {
     z-index: 0;
 }
 
-/* 主导航：用 Flex 把 8 个模块（首页图标 + 7 文字）在蓝色导航条内水平均匀对齐 */
-/* 主导航：徽章左边缘与 banner 左边缘对齐，7 个文字模块在剩余空间内等分 */
+/* 主导航：用 Flex 把 8 个模块（首页徽章 + 7 文字）在蓝色导航条内水平排布 */
+/* space-between：首项贴左缘（= banner 左缘）、末项贴右缘（= banner 右缘 1002.9），7 段间隙严格等分 */
 .main-nav {
     position: absolute;
     left: 5.89%;
@@ -953,7 +953,7 @@ onUnmounted(() => {
     height: 1.63%;
     z-index: 1;
     display: flex;
-    justify-content: flex-start;
+    justify-content: space-between;
     align-items: center;
     pointer-events: none;
 }
@@ -962,7 +962,7 @@ onUnmounted(() => {
     pointer-events: auto;
 }
 
-/* 覆盖原先各导航项的绝对定位，改为 Flex 子项；在剩余空间内等分并居中 */
+/* 覆盖原先各导航项的绝对定位，改为 Flex 子项；宽度贴合内容，交由 space-between 严格等分 7 段间隙 */
 .main-nav .Pixso-paragraph-1_169,
 .main-nav .Pixso-paragraph-1_170,
 .main-nav .Pixso-paragraph-1_171,
@@ -979,7 +979,8 @@ onUnmounted(() => {
     height: auto;
     transform: none;
     margin: 0;
-    flex: 1;
+    flex: 0 0 auto;
+    white-space: pre;
     text-align: center;
 }
 
@@ -1456,6 +1457,8 @@ onUnmounted(() => {
     position: relative;
     flex-shrink: 0;
 }
+/* 「各地动态」更多：与右栏「救援行动」更多（.Pixso-paragraph-32_1）采用同一套定位范式 */
+/* 右缘贴左栏内容右缘（412.4px @1080），top 与栏标题同一水平线 */
 .Pixso-paragraph-1_49 {
     font-size: 18px;
     font-family: "Alibaba PuHuiTi-Regular";
@@ -1465,13 +1468,13 @@ onUnmounted(() => {
     width: auto;
     height: auto;
     position: absolute;
-    left: 37.86%;
-    right: 59.01%;
-    top: 50%;
-    transform: translateY(calc(-50% + -340px));
+    left: 35.63%;
+    right: 61.28%;
+    top: 43.48%;
     white-space: pre;
     flex-grow: 0;
 }
+/* 「救援行动」更多：右缘贴右栏内容右缘（964.4px @1080），与左栏 .Pixso-paragraph-1_49 同一水平线 */
 .Pixso-paragraph-32_1 {
     font-size: 18px;
     font-family: "Alibaba PuHuiTi-Regular";
@@ -1481,10 +1484,9 @@ onUnmounted(() => {
     width: auto;
     height: auto;
     position: absolute;
-    left: 90.89%;
-    right: 5.99%;
+    left: 87.44%;
+    right: 9.45%;
     top: 43.48%;
-    bottom:56.11%;
     white-space: pre;
     flex-grow: 0;
 }
