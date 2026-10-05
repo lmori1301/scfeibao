@@ -78,7 +78,9 @@ onMounted(loadTodos)
 </script>
 
 <template>
-  <div class="todo-page">
+  <div class="todo-page admin-view-stack">
+    <div class="page-crumb">系统首页 / 总览中心 / 待办事项</div>
+
     <WorkbenchNav />
 
     <section class="todo-hero">
@@ -166,11 +168,6 @@ onMounted(loadTodos)
 </template>
 
 <style scoped lang="scss">
-.todo-page {
-  display: flex;
-  flex-direction: column;
-  gap: 18px;
-}
 
 .todo-hero,
 .summary-card,
@@ -515,5 +512,29 @@ onMounted(loadTodos)
     width: auto;
     justify-content: flex-start;
   }
+}
+
+/* ===== 视觉归一（与全站 .admin-card 对齐） =====
+   本页原为「深色渐变 hero + 大圆角」独立风格，与其它列表页白卡割裂，
+   点进来视觉上像「没加载 / 没反应」。这里只改外观，不动结构、数据与交互。
+   （写在 scoped 末尾：同特异性后定义者赢，能压住本页原有规则） */
+.todo-hero {
+  border: 1px solid #e4e7ed;
+  border-radius: 4px;
+  background: #fff;
+  box-shadow: none;
+}
+.todo-hero h1 { color: #1f2d3d; }
+.todo-hero p { color: #606266; }
+.todo-hero__eyebrow, .todo-hero__crumb { color: #909399; }
+
+/* 内部卡片同样去掉大圆角与「软糖感」阴影 */
+.summary-card,
+.todo-panel,
+.todo-list-panel,
+.todo-card,
+.todo-empty {
+  border-radius: 4px;
+  box-shadow: none;
 }
 </style>

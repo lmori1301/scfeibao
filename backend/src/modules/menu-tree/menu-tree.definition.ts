@@ -53,6 +53,5 @@ export const MENU_FLAT_ROWS: MenuFlatRow[] = [
   { id: 'SiteConfig', parentId: 'grp-authority', name: '网站配置', sort: G.authority + 3, routeName: 'SiteConfig' },
   { id: 'Navigation', parentId: 'grp-authority', name: '导航设置', sort: G.authority + 4, routeName: 'Navigation' },
   { id: 'OperationLog', parentId: 'grp-authority', name: '操作日志', sort: G.authority + 5, routeName: 'OperationLog' },
-  { id: 'DataBackup', parentId: 'grp-authority', name: '数据备份', sort: G.authority + 6, routeName: 'DataBackup' },
-  { id: 'FriendlyLinks', parentId: 'grp-authority', name: '友情链接', sort: G.authority + 7, routeName: 'FriendlyLinks' },
+  { id: 'FriendlyLinks', parentId: 'grp-authority', name: '友情链接', sort: G.authority + 6, routeName: 'FriendlyLinks' },
 ]

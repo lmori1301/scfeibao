@@ -156,7 +156,7 @@ onMounted(() => {
 <style scoped lang="scss">
 .party-members-page { display: flex; flex-direction: column; gap: 18px; }
 .party-members-panel, .preview-card { border: 1px solid #e6edf7; background: #fff; }
-.party-members-panel { padding: 20px; border-radius: 22px; overflow: hidden; }
+.party-members-panel { border-radius: 4px; overflow: hidden; }
 .member-cell { display: flex; gap: 14px; align-items: center; }
 .member-cell__avatar, .preview-card__avatar {
   width: 68px; height: 68px; border-radius: 0; overflow: hidden; background: #edf3fb; flex: 0 0 auto;

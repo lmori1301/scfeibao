@@ -738,8 +738,21 @@ onMounted(async () => {
 }
 /* 页面右侧间距与其他列表页保持一致：不再为悬浮「值班须知」卡片预留 padding-right，
    卡片展开时作为纯浮层叠在右下角（可随时收起），不挤压表格宽度。 */
-.team-duty-table-panel { padding: 20px; border-radius: 22px; overflow: hidden; }
+.team-duty-table-panel { border-radius: 4px; overflow: hidden; }
 .team-duty-page__muted { color: #98a4b8; font-size: 13px; }
+
+/* 新增/编辑弹窗表单：统一表单项行距 20px。
+   ⚠️ 不能用 `.el-form-item:last-child { margin-bottom: 0 }` 收尾 ——
+   在 el-row/el-col 两列布局里，每个 el-col 内的最后一个表单项也是 :last-child，
+   会被一起清零，导致「值班干部 / 联系电话」这行的 margin-bottom 变 0、
+   下一行紧贴上来（用户反馈"上下距离太挤"）。
+   这里只保留统一 20px；末行与弹窗 footer 之间由 el-form 自身 padding 隔开。 */
+.team-duty-form :deep(.el-form-item) {
+  margin-bottom: 20px;
+}
+.team-duty-form :deep(.el-row) {
+  margin-bottom: 0;
+}
 
 /* 悬浮值班须知卡片：右下角固定，浅蓝背景
    收起态 = 圆形图标钮（不遮挡任何表格列）；展开态 = 340px 卡片 */

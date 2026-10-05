@@ -434,7 +434,7 @@ onMounted(fetchRoles)
 .permissions-form-section__header span { color: #7a879d; font-size: 12px; line-height: 1.6; }
 .permissions-form-section__body { padding: 18px 20px 4px; }
 .permissions-form-section__body :deep(.el-form-item) { margin-bottom: 14px; }
-.permissions-panel { padding: 20px; border-radius: 22px; overflow: hidden; }
+.permissions-panel { border-radius: 4px; overflow: hidden; }
 .preview-card__icon {
   width: 60px; height: 60px; border-radius: 18px; display: grid; place-items: center;
   background: linear-gradient(135deg, #edf3ff 0%, #dce8ff 100%); color: #2563eb; font-size: 24px; flex: 0 0 auto;

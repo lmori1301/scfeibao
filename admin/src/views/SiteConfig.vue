@@ -92,18 +92,10 @@ onMounted(() => {
 </template>
 
 <style scoped lang="scss">
-.site-config-panel.site-config-panel {
-  padding: 0;
-  border: 0;
-  background: transparent;
-}
-.site-config-panel .site-config-layout {
-  padding: 0 4px 4px;
-}
-.preview-card { border: 1px solid #e6edf7; background: #fff; }
 .site-config-layout { display: grid; grid-template-columns: minmax(0, 1.35fr) 280px; gap: 18px; align-items: start; }
 .preview-card {
   padding: 16px;
+  border: 1px solid #e6edf7;
   border-radius: 18px;
   background: linear-gradient(180deg, #f7fbff 0%, #edf4ff 100%);
   align-self: start;

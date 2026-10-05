@@ -483,7 +483,7 @@ fetch()
 .vehicles-toolbar__filters :deep(.el-select) {
   flex: 0 1 auto;
 }
-.vehicles-panel { padding: 20px; border-radius: 22px; overflow: hidden; }
+.vehicles-panel { border-radius: 4px; overflow: hidden; }
 .preview-card__photo {
   width: 92px; height: 70px; border-radius: 0; overflow: hidden; background: #edf3fb; flex: 0 0 auto;
   img { width: 100%; height: 100%; object-fit: contain; }

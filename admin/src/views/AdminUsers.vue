@@ -316,9 +316,10 @@ onMounted(async () => {
 </script>
 
 <template>
-  <div class="admin-users-page">
+  <div class="admin-users-page admin-view-stack">
     <div class="page-crumb">系统首页 / 系统配置 / 用户管理</div>
 
+    <div class="admin-card admin-card--search">
       <QueryFilter :searching="loading" @search="handleSearch" @reset="handleReset">
         <el-form-item label="账号状态">
           <el-select v-model="searchForm.accountScope" placeholder="全部状态" clearable>
@@ -335,8 +336,9 @@ onMounted(async () => {
           </el-select>
         </el-form-item>
       </QueryFilter>
+    </div>
 
-    <section class="admin-users-panel admin-users-table-panel">
+    <section class="admin-card admin-card--table admin-users-panel admin-users-table-panel">
       <div class="admin-table-panel__head">
         <div class="panel-title">管理员列表</div>
         <div class="admin-table-panel__head-actions">
@@ -499,7 +501,6 @@ onMounted(async () => {
 </template>
 
 <style scoped lang="scss">
-.admin-users-page { display: flex; flex-direction: column; gap: 18px; }
 .admin-users-panel, .preview-card { border: 1px solid #e6edf7; background: #fff; }
 .admin-users-toolbar__filters :deep(.el-input),
 .admin-users-toolbar__filters :deep(.el-select) {
@@ -524,7 +525,7 @@ onMounted(async () => {
 .admin-users-form-section__header span { color: #7a879d; font-size: 12px; line-height: 1.6; }
 .admin-users-form-section__body { padding: 18px 20px 4px; }
 .admin-users-form-section__body :deep(.el-form-item) { margin-bottom: 14px; }
-.admin-users-panel { padding: 20px; border-radius: 12px; overflow: hidden; }
+.admin-users-panel { border-radius: 4px; }
 .preview-card__avatar {
   width: 60px; height: 60px; border-radius: 10px; display: grid; place-items: center;
   background: linear-gradient(135deg, #edf3ff 0%, #dce8ff 100%); color: #2563eb; font-size: 24px; flex: 0 0 auto;

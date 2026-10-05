@@ -160,7 +160,7 @@ onMounted(() => {
 <style scoped lang="scss">
 .party-works-page { display: flex; flex-direction: column; gap: 18px; }
 .party-works-panel, .preview-card { border: 1px solid #e6edf7; background: #fff; }
-.party-works-panel { padding: 20px; border-radius: 22px; overflow: hidden; }
+.party-works-panel { border-radius: 4px; overflow: hidden; }
 .work-cover-thumb {
   width: 92px; height: 56px; border-radius: 0; overflow: hidden; background: #edf3fb; margin: 0 auto;
   img { width: 100%; height: 100%; object-fit: contain; }

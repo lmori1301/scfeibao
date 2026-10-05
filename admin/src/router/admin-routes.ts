@@ -109,7 +109,6 @@ export const navigationGroups: AdminRouteGroup[] = [
       { path: 'site-config', name: 'SiteConfig', title: '网站配置', icon: 'Setting', description: '维护站点基础信息和运行参数。', component: () => import('@/views/SiteConfig.vue') },
       { path: 'navigation', name: 'Navigation', title: '导航设置', icon: 'Menu', description: '维护前台导航入口及排序。', component: () => import('@/views/Navigation.vue') },
       { path: 'operation-log', name: 'OperationLog', title: '操作日志', icon: 'DocumentCopy', description: '追踪后台操作与系统事件。', component: () => import('@/views/OperationLog.vue') },
-      { path: 'data-backup', name: 'DataBackup', title: '数据备份', icon: 'FolderOpened', description: '查看备份记录与恢复入口。', component: () => import('@/views/DataBackup.vue') },
       { path: 'friendly-links', name: 'FriendlyLinks', title: '友情链接', icon: 'Link', description: '维护首页友情链接列表。', component: () => import('@/views/FriendlyLinks.vue') }
     ]
   }

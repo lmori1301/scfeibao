@@ -78,11 +78,13 @@ onMounted(fetchNavItems)
     <div class="admin-card admin-card--search">
       <div class="admin-list-toolbar">
         <div class="navigation-toolbar__filters">
-          <div class="navigation-tabs">
+          <div class="navigation-tabs" role="tablist" aria-label="导航状态切换">
             <button
               v-for="tab in statusTabs"
               :key="tab"
               type="button"
+              role="tab"
+              :aria-selected="activeTab === tab"
               class="navigation-tab"
               :class="{ active: activeTab === tab }"
               @click="activeTab = tab; page = 1"
@@ -150,11 +152,39 @@ onMounted(fetchNavItems)
   align-items: center;
   gap: 10px;
 }
-.navigation-tabs { display: flex; gap: 10px; flex-wrap: wrap; }
+.navigation-tabs {
+  display: inline-flex;
+  gap: 4px;
+  padding: 4px;
+  border: 1px solid #e4e7ed;
+  border-radius: 4px;
+  background: #f5f7fa;
+  /* .admin-card--search 底部 padding 为 0（其它页靠表单项 margin-bottom 12px 撑高）。
+     本页签容器自带 4px 内边距，实测高 38px，故用 6px 补齐：
+       12(上padding) + 38(页签) + 6(本 margin) + 2(上下边框) = 58px，与其它查询卡一致。 */
+  margin-bottom: 6px;
+}
 .navigation-tab {
-  min-width: 108px; height: 40px; padding: 0 18px; border: 1px solid #d8e3fa; border-radius: 12px; background: #f7faff;
-  color: #607089; font-size: 13px; font-weight: 600; cursor: pointer;
-  &.active { color: #fff; border-color: transparent; background: #2563eb; }
+  min-width: 96px;
+  height: 28px;
+  padding: 0 16px;
+  border: 0;
+  border-radius: 3px;
+  background: transparent;
+  color: #606266;
+  font-size: 13px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: background-color 0.18s ease, color 0.18s ease;
+
+  &:hover {
+    color: #2563eb;
+  }
+
+  &.active {
+    color: #fff;
+    background: #2563eb;
+  }
 }
 .nav-cell { display: flex; align-items: center; }
 .nav-cell__meta { min-width: 0; }

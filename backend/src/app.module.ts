@@ -34,7 +34,6 @@ import { TeamDutyModule } from './modules/team-duty/team-duty.module';
 import { SystemDictModule } from './modules/system-dict/system-dict.module';
 import { NavigationModule } from './modules/navigation/navigation.module';
 import { OperationLogModule } from './modules/operation-log/operation-log.module';
-import { DataBackupModule } from './modules/data-backup/data-backup.module';
 import { SearchModule } from './modules/search/search.module';
 
 // 全局守卫、过滤器、拦截器
@@ -105,7 +104,6 @@ import { QueryController } from './common/controllers/query.controller';
     WebsiteConfigModule,
     NavigationModule,
     OperationLogModule,
-    DataBackupModule,
     SearchModule,
   ],
   controllers: [AppController, QueryController],

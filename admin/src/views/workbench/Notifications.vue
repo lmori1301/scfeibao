@@ -54,7 +54,9 @@ onMounted(loadNotifications)
 </script>
 
 <template>
-  <div class="notifications-page">
+  <div class="notifications-page admin-view-stack">
+    <div class="page-crumb">系统首页 / 总览中心 / 系统通知</div>
+
     <WorkbenchNav />
 
     <section class="notice-hero">
@@ -111,11 +113,6 @@ onMounted(loadNotifications)
 </template>
 
 <style scoped lang="scss">
-.notifications-page {
-  display: flex;
-  flex-direction: column;
-  gap: 18px;
-}
 
 .notice-hero,
 .notice-summary__card,
@@ -317,5 +314,27 @@ onMounted(loadNotifications)
   .notice-hero h1 {
     font-size: 26px;
   }
+}
+
+/* ===== 视觉归一（与全站 .admin-card 对齐） =====
+   本页原为「深色渐变 hero + 大圆角」独立风格，与其它列表页白卡割裂，
+   点进来视觉上像「没加载 / 没反应」。这里只改外观，不动结构、数据与交互。
+   （写在 scoped 末尾：同特异性后定义者赢，能压住本页原有规则） */
+.notice-hero {
+  border: 1px solid #e4e7ed;
+  border-radius: 4px;
+  background: #fff;
+  box-shadow: none;
+}
+.notice-hero h1 { color: #1f2d3d; }
+.notice-hero p { color: #606266; }
+.notice-hero__eyebrow, .notice-hero__crumb { color: #909399; }
+
+/* 内部卡片同样去掉大圆角与「软糖感」阴影 */
+.notice-summary__card,
+.notice-stream,
+.notice-card {
+  border-radius: 4px;
+  box-shadow: none;
 }
 </style>

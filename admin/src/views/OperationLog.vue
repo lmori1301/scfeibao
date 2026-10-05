@@ -116,7 +116,7 @@ onMounted(fetchLogs)
 
 <style scoped lang="scss">
 .operation-log-page { display: flex; flex-direction: column; gap: 18px; }
-.operation-log-panel { border: 1px solid #e6edf7; background: #fff; padding: 20px; border-radius: 22px; overflow: hidden; }
+.operation-log-panel { border: 1px solid #e6edf7; background: #fff; border-radius: 4px; overflow: hidden; }
 .operation-log-toolbar__filters {
   display: flex;
   flex-wrap: wrap;

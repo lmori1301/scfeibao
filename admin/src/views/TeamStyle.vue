@@ -119,21 +119,24 @@ fetch()
   <div class="portal-content-page admin-view-stack">
     <div class="page-crumb">系统首页 / 门户内容 / 队伍风采</div>
 
-    <section class="admin-page-list-card">
-      <div class="admin-page-list-card__toolbar">
-        <QueryFilter :searching="loading" @search="handleSearch" @reset="handleReset">
-          <el-form-item label="标题关键词">
-            <el-input v-model="titleKeyword" placeholder="请输入标题关键词" clearable />
-          </el-form-item>
-          <el-form-item label="展示状态">
-            <el-select v-model="statusFilter" placeholder="全部图集" clearable>
-              <el-option label="全部图集" value="" />
-              <el-option label="显示中" value="显示" />
-              <el-option label="已隐藏" value="隐藏" />
-            </el-select>
-          </el-form-item>
-        </QueryFilter>
-        <div class="admin-toolbar-right">
+    <div class="admin-card admin-card--search">
+      <QueryFilter :searching="loading" @search="handleSearch" @reset="handleReset">
+        <el-form-item label="标题关键词">
+          <el-input v-model="titleKeyword" placeholder="请输入标题关键词" clearable />
+        </el-form-item>
+        <el-form-item label="展示状态">
+          <el-select v-model="statusFilter" placeholder="全部图集" clearable>
+            <el-option label="全部图集" value="" />
+            <el-option label="显示中" value="显示" />
+            <el-option label="已隐藏" value="隐藏" />
+          </el-select>
+        </el-form-item>
+      </QueryFilter>
+    </div>
+
+    <section class="admin-card admin-card--table team-style-panel">
+      <div class="admin-table-panel__head">
+        <div class="admin-table-panel__head-actions">
           <el-button plain @click="fetch()">
             <el-icon><RefreshRight /></el-icon>
             刷新
@@ -144,10 +147,7 @@ fetch()
           </el-button>
         </div>
       </div>
-
-      <div class="admin-page-list-card__main">
-        <div class="panel-title">队伍风采图集</div>
-        <el-table max-height="calc(100vh - 320px)" :data="tableRows" v-loading="loading" stripe>
+      <el-table max-height="calc(100vh - 320px)" :data="tableRows" v-loading="loading" stripe>
         <el-table-column type="selection" width="46" fixed="left" />
         <el-table-column type="index" label="序号" width="70" fixed="left" />
         <el-table-column prop="title" label="标题" min-width="200" show-overflow-tooltip />
@@ -175,7 +175,6 @@ fetch()
         </el-table-column>
         </el-table>
         <Pagination :total="total" :page="page" :page-size="pageSize" @change="handlePageChange" />
-      </div>
     </section>
 
     <el-dialog v-model="dialogVisible" :title="dialogTitle" width="1040px" @closed="handleDialogClosed">
@@ -250,11 +249,6 @@ fetch()
 </template>
 
 <style scoped lang="scss">
-.portal-content-page {
-  display: flex;
-  flex-direction: column;
-  gap: 18px;
-}
 .portal-dialog__main {
   min-width: 0;
 }

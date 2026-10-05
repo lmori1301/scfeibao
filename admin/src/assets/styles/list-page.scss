@@ -58,6 +58,37 @@
 /* 注：.admin-toolbar-right 的定义统一放在 global.scss（这里曾有一份 justify-content:flex-end
    的重复定义，因 list-page.scss 在 global.scss 之后加载，会把「靠左」覆盖回「靠右」）。 */
 
+/* =====================================================================
+ * 总览中心 4 页（总控台 / 待办事项 / 操作日志 / 系统通知）容器归一
+ *
+ * 背景：这 4 页原本是「深色渐变 hero + 26px 大圆角」的独立风格，
+ *      与全站 .admin-card（白底 / 1px #e4e7ed / 4px 圆角）完全割裂，
+ *      点进去后视觉上像「没加载 / 没反应」。
+ *
+ * 这里**只**做两件事：① 统一外层布局（纵向 flex + 10px 间距，与其它页一致）；
+ *      ② 顶部四张导航小卡去渐变。
+ * hero 与内部卡片的去渐变/圆角，**写在各页自己的 <style scoped> 末尾**
+ * （同特异性后定义者赢，能压住页面原有规则；这里的选择器压不过 scoped 的 [data-v-*]）。
+ * 不改结构、不改数据、不改交互。
+ * ===================================================================== */
+.dashboard-page,
+.notifications-page,
+.log-page,
+.todo-page {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.admin-view-stack .workbench-nav__item {
+  border: 1px solid #e4e7ed !important;
+  border-radius: 4px !important;
+  background: #fff !important;
+  background-image: none !important;
+  box-shadow: none !important;
+}
+
+
 /* 窄屏：工具栏按钮占满宽度，查询区单列 */
 @media (max-width: 960px) {
   .admin-table-panel__head {

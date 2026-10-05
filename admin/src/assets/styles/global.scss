@@ -275,7 +275,9 @@ a {
     display: none !important;
   }
 
-  [class$='-hero'],
+  /* ⚠️ 原选择器是 `[class$='-hero'], .mini-hero`（`[class$='-hero']` 会命中
+     总览中心 4 页的 .dashboard-hero/.todo-hero/.notice-hero/.log-hero），
+     它们的圆角/内边距应由各页 scoped 自己声明，这里只保留 .mini-hero 这一类遗留组件。 */
   .mini-hero {
     align-items: flex-start;
     gap: 14px;
@@ -311,7 +313,11 @@ a {
     gap: 8px !important;
   }
 
-  [class$='-panel'],
+  /* ⚠️ 原先这里有 `[class$='-panel'] { border-radius: 8px !important }`，
+     它把 .admin-card--table 的 4px 圆角顶成 8px，导致「同样式列表页圆角不一致」，
+     且新人加的 *-panel 会静默继承到错的圆角上。改为不干预 .admin-card 的圆角：
+     只有非 admin-card 的历史面板保留 8px。 */
+  [class$='-panel']:not([class*='admin-card']):not([class*='admin-page-list-card']),
   .summary-card,
   .status-card,
   .preview-card,
@@ -443,8 +449,12 @@ a {
   min-width: 0;
 }
 
-.content-panel__body section,
-.content-panel__body article,
+/* ⚠️ 同上：不干预 .admin-card 的 4px 圆角，否则列表卡会被顶成 8px。 */
+/* ⚠️ 这条规则原本写成 `.content-panel__body section, article { border-radius: 8px !important }`，
+   等于给**所有** section/article 强加 8px，会污染到不该管的容器
+   （实测把总览中心 4 页的 hero 从 4px 顶成 8px）。
+   现只保留明确的历史遗留类；通用卡片圆角由 .admin-card / 各页 scoped 自行声明。 */
+.content-panel__body .mini-hero,
 .content-panel__body .summary-card,
 .content-panel__body .preview-card,
 .content-panel__body .el-card {
@@ -559,7 +569,13 @@ a {
   margin-bottom: 16px;
 }
 
-.content-panel__body .el-dialog .el-form-item:last-child {
+/* ⚠️ 原这里是 `.content-panel__body .el-dialog .el-form-item:last-child { margin-bottom: 0 }`，
+   意图是去掉弹窗最后一个字段的下边距。但在 el-row/el-col 两列布局里，
+   **每个 el-col 内的最后一个表单项也是 :last-child**，于是整行都被清零，
+   导致「值班干部/联系电话」这类双列表单与下一行贴死（用户反馈"上下距离太挤"）。
+   该规则特异性(3) 还压过了页面 scoped 的 `.xxx-form .el-form-item`(2)，改不动。
+   现改为只作用于「直接挂在 el-form 下的最后一个字段」，两列布局不再被误伤。 */
+.content-panel__body .el-dialog .el-form > .el-form-item:last-child {
   margin-bottom: 0;
 }
 

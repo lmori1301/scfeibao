@@ -289,11 +289,10 @@ onMounted(() => {
   gap: 10px;
 }
 
+/* 列表卡：padding / 圆角 / 边框统一交给 .admin-card--table（12px / 4px / #e4e7ed），
+   页面里不再重复定义，避免圆角与其它列表页不一致。 */
 .link-panel {
-  padding: 20px;
-  border-radius: 22px;
-  border: 1px solid #e7edf6;
-  background: #fff;
+  border-radius: 4px;
   overflow: hidden;
 }
 

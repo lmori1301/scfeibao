@@ -701,7 +701,7 @@ onMounted(() => {
 <style scoped lang="scss">
 .personnel-page { display: flex; flex-direction: column; gap: 18px; }
 .personnel-panel, .preview-card { border: 1px solid #e6edf7; background: #fff; }
-.personnel-panel { padding: 20px; border-radius: 22px; overflow: hidden; }
+.personnel-panel { border-radius: 4px; overflow: hidden; }
 .personnel-dialog__main { min-width: 0; }
 .personnel-form-section {
   border: 1px solid #e6edf8;
