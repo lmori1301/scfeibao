@@ -60,6 +60,26 @@ const importFields = [
   { label: '排序' },
 ]
 
+// 民族：按 GB/T 3304《中国各民族名称的罗马字母拼写法和代码》的 56 个民族
+const NATION_OPTIONS = [
+  '汉族', '蒙古族', '回族', '藏族', '维吾尔族', '苗族', '彝族', '壮族', '布依族', '朝鲜族',
+  '满族', '侗族', '瑶族', '白族', '土家族', '哈尼族', '哈萨克族', '傣族', '黎族', '傈僳族',
+  '佤族', '畲族', '高山族', '拉祜族', '水族', '东乡族', '纳西族', '景颇族', '柯尔克孜族', '土族',
+  '达斡尔族', '仫佬族', '羌族', '布朗族', '撒拉族', '毛南族', '仡佬族', '锡伯族', '阿昌族', '普米族',
+  '塔吉克族', '怒族', '乌孜别克族', '俄罗斯族', '鄂温克族', '德昂族', '保安族', '裕固族', '京族', '塔塔尔族',
+  '独龙族', '鄂伦春族', '赫哲族', '门巴族', '珞巴族', '基诺族',
+]
+
+// 学历：国民教育序列常用层次
+const EDUCATION_OPTIONS = ['小学', '初中', '高中', '中专', '大专', '本科', '硕士研究生', '博士研究生']
+
+// 政治面貌：按 GB/T 4762《政治面貌代码》的 13 类
+const POLITICAL_OPTIONS = [
+  '中共党员', '中共预备党员', '共青团员',
+  '民革党员', '民盟盟员', '民建会员', '民进会员', '农工党党员', '致公党党员', '九三学社社员', '台盟盟员',
+  '无党派人士', '群众',
+]
+
 const handleSearch = () => fetch(searchForm.value)
 
 const handleReset = () => {
@@ -281,7 +301,9 @@ fetch()
                   </el-select>
                 </el-form-item>
                 <el-form-item label="民族">
-                  <el-input v-model="formData.nation" />
+                  <el-select v-model="formData.nation" filterable clearable placeholder="请选择民族" style="width: 100%">
+                    <el-option v-for="item in NATION_OPTIONS" :key="item" :label="item" :value="item" />
+                  </el-select>
                 </el-form-item>
                 <el-form-item label="出生年月">
                   <el-date-picker
@@ -294,10 +316,14 @@ fetch()
                   />
                 </el-form-item>
                 <el-form-item label="学历">
-                  <el-input v-model="formData.education" />
+                  <el-select v-model="formData.education" filterable clearable placeholder="请选择学历" style="width: 100%">
+                    <el-option v-for="item in EDUCATION_OPTIONS" :key="item" :label="item" :value="item" />
+                  </el-select>
                 </el-form-item>
                 <el-form-item label="政治面貌">
-                  <el-input v-model="formData.political" />
+                  <el-select v-model="formData.political" filterable clearable placeholder="请选择政治面貌" style="width: 100%">
+                    <el-option v-for="item in POLITICAL_OPTIONS" :key="item" :label="item" :value="item" />
+                  </el-select>
                 </el-form-item>
               </div>
             </section>
