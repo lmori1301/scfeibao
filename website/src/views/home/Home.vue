@@ -105,93 +105,93 @@
                 </p>
             </div>
             <div
-                v-if="rescueActionsList[0]"
+                v-if="newsList[1]"
                 id="1_47"
                 class="Pixso-text-1_47"
-                @click="goNewsDetail(rescueActionsList[0])"
+                @click="goNewsDetail(newsList[1])"
                 style="cursor: pointer;"
             >
                 <p id="1_47_0" class="Pixso-paragraph-1_47_0">
-                    <span id="1_47_0_1" class="Pixso-span-1_47_0_1">{{ pickSummary(rescueActionsList[0]) }}</span>
+                    <span id="1_47_0_1" class="Pixso-span-1_47_0_1">{{ pickSummary(newsList[1]) }}</span>
                 </p>
             </div>
             <div
-                v-if="localDynamicsList[0]"
+                v-if="newsList[2]"
                 id="1_48"
                 class="Pixso-text-1_48"
-                @click="goNewsDetail(localDynamicsList[0])"
+                @click="goNewsDetail(newsList[2])"
                 style="cursor: pointer;"
             >
                 <p id="1_48_0" class="Pixso-paragraph-1_48_0">
-                    <span id="1_48_0_1" class="Pixso-span-1_48_0_1">{{ pickSummary(localDynamicsList[0]) }}</span>
+                    <span id="1_48_0_1" class="Pixso-span-1_48_0_1">{{ pickSummary(newsList[2]) }}</span>
                 </p>
             </div>
             <p id="1_49" class="Pixso-paragraph-1_49" @click="navigateTo('/dynamic-news')" style="cursor: pointer;">{{ "更多 >>" }}</p>
             <p id="32_1" class="Pixso-paragraph-32_1" @click="navigateTo('/dynamic-news')" style="cursor: pointer;">{{ "更多 >>" }}</p>
             <div
-                v-if="rescueActionsList[1]"
+                v-if="newsList[4]"
                 id="1_53"
                 class="Pixso-text-1_53"
-                @click="goNewsDetail(rescueActionsList[1])"
+                @click="goNewsDetail(newsList[4])"
                 style="cursor: pointer;"
             >
                 <p id="1_53_0" class="Pixso-paragraph-1_53_0">
-                    <span id="1_53_0_1" class="Pixso-span-1_53_0_1">{{ pickSummary(rescueActionsList[1]) }}</span>
+                    <span id="1_53_0_1" class="Pixso-span-1_53_0_1">{{ pickSummary(newsList[4]) }}</span>
                 </p>
             </div>
             <div
-                v-if="rescueActionsList[2]"
+                v-if="newsList[7]"
                 id="1_55"
                 class="Pixso-text-1_55"
-                @click="goNewsDetail(rescueActionsList[2])"
+                @click="goNewsDetail(newsList[7])"
                 style="cursor: pointer;"
             >
                 <p id="1_55_0" class="Pixso-paragraph-1_55_0">
-                    <span id="1_55_0_1" class="Pixso-span-1_55_0_1">{{ pickSummary(rescueActionsList[2]) }}</span>
+                    <span id="1_55_0_1" class="Pixso-span-1_55_0_1">{{ pickSummary(newsList[7]) }}</span>
                 </p>
             </div>
             <div
-                v-if="rescueActionsList[3]"
+                v-if="newsList[3]"
                 id="1_51"
                 class="Pixso-text-1_51"
-                @click="goNewsDetail(rescueActionsList[3])"
+                @click="goNewsDetail(newsList[3])"
                 style="cursor: pointer;"
             >
                 <p id="1_51_0" class="Pixso-paragraph-1_51_0">
-                    <span id="1_51_0_1" class="Pixso-span-1_51_0_1">{{ pickSummary(rescueActionsList[3]) }}</span>
+                    <span id="1_51_0_1" class="Pixso-span-1_51_0_1">{{ pickSummary(newsList[3]) }}</span>
                 </p>
             </div>
             <div
-                v-if="rescueActionsList[4]"
+                v-if="newsList[6]"
                 id="1_52"
                 class="Pixso-text-1_52"
-                @click="goNewsDetail(rescueActionsList[4])"
+                @click="goNewsDetail(newsList[6])"
                 style="cursor: pointer;"
             >
                 <p id="1_52_0" class="Pixso-paragraph-1_52_0">
-                    <span id="1_52_0_1" class="Pixso-span-1_52_0_1">{{ pickSummary(rescueActionsList[4]) }}</span>
+                    <span id="1_52_0_1" class="Pixso-span-1_52_0_1">{{ pickSummary(newsList[6]) }}</span>
                 </p>
             </div>
             <div
-                v-if="localDynamicsList[1]"
+                v-if="newsList[5]"
                 id="1_54"
                 class="Pixso-text-1_54"
-                @click="goNewsDetail(localDynamicsList[1])"
+                @click="goNewsDetail(newsList[5])"
                 style="cursor: pointer;"
             >
                 <p id="1_54_0" class="Pixso-paragraph-1_54_0">
-                    <span id="1_54_0_1" class="Pixso-span-1_54_0_1">{{ pickSummary(localDynamicsList[1]) }}</span>
+                    <span id="1_54_0_1" class="Pixso-span-1_54_0_1">{{ pickSummary(newsList[5]) }}</span>
                 </p>
             </div>
             <div
-                v-if="localDynamicsList[2]"
+                v-if="newsList[8]"
                 id="1_56"
                 class="Pixso-text-1_56"
-                @click="goNewsDetail(localDynamicsList[2])"
+                @click="goNewsDetail(newsList[8])"
                 style="cursor: pointer;"
             >
                 <p id="1_56_0" class="Pixso-paragraph-1_56_0">
-                    <span id="1_56_0_1" class="Pixso-span-1_56_0_1">{{ pickSummary(localDynamicsList[2]) }}</span>
+                    <span id="1_56_0_1" class="Pixso-span-1_56_0_1">{{ pickSummary(newsList[8]) }}</span>
                 </p>
             </div>
             <div id="1_57" class="Pixso-text-1_57">
@@ -441,8 +441,9 @@ const newsDetailPath = (id: number | string) => `/dynamic-news/detail/${id}`
 
 /**
  * 摘要文案兜底：优先取接口 summary，其次正文首段，再退回标题。
- * Pixso 导出的摘要块原本是写死的演示文案 + 写死 ID(1~9)，与真实新闻无对应关系，
- * 点了会跳到「新闻ID N 不存在」。这里改为完全由接口数据驱动。
+ * Pixso 导出的摘要块原本写死，后改为由接口数据驱动。
+ * 因各地动态 / 救援行动接口暂无 summary（actions 甚至返回空数组），
+ * 首页全部 9 个摘要块统一由 newsList 对应项驱动，保证每个标题下都有描述。
  */
 const pickSummary = (item: any, maxLen = 46): string => {
   const raw = String(item?.summary || item?.content || item?.title || '').trim()
