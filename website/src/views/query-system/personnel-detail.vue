@@ -1222,40 +1222,40 @@ onMounted(() => {
   z-index: 2;
 }
 
-/* 2. 头像下方「姓名」「所属部门」两行文字水平居中，并移到照片正下方（与照片同宽），增大行间距避免贴太紧 */
+/* 2. 头像下方「姓名」「所属部门」两行文字水平居中，并移到照片正下方（与照片同宽），进一步增大行间距避免贴太紧 */
 .Pixso-frame-1_3073 .Pixso-paragraph-1_3095 {
   width: auto !important;
   left: 11.97% !important;
   right: 75.03% !important;
-  top: 57.6% !important;
+  top: 58.0% !important;
   bottom: auto !important;
   transform: none !important;
   text-align: center !important;
   white-space: nowrap !important;
-  line-height: 1.8 !important;
+  line-height: 2.0 !important;
 }
 .Pixso-frame-1_3073 .Pixso-paragraph-1_3094 {
   width: auto !important;
   left: 11.97% !important;
   right: 75.03% !important;
-  top: 62.2% !important;
+  top: 63.8% !important;
   bottom: auto !important;
   transform: none !important;
   text-align: center !important;
   white-space: nowrap !important;
-  line-height: 1.8 !important;
+  line-height: 2.0 !important;
 }
 
-/* 3. 在职/离职状态 badge：进一步放大尺寸与文字，提升辨识度；水平对齐右侧值列（与身份证号/所属部门值同列），垂直居中于第4行 */
+/* 3. 在职/离职状态 badge：继续放大尺寸与文字，提升辨识度；水平对齐右侧值列（与身份证号/所属部门值同列），垂直居中于第4行 */
 .Pixso-vector-1_3120.personnel-status-badge {
-  width: 90px !important;
-  height: 40px !important;
+  width: 96px !important;
+  height: 42px !important;
   left: 76.56% !important;
   right: auto !important;
-  top: 55.85% !important;
+  top: 55.7% !important;
   bottom: auto !important;
-  font-size: 18px !important;
-  padding: 0 16px !important;
+  font-size: 20px !important;
+  padding: 0 18px !important;
   border-radius: 5px !important;
 }
 
