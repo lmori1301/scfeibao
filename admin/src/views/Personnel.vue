@@ -492,6 +492,12 @@ onMounted(() => {
         <el-table-column prop="idCard" label="身份证号" min-width="180" show-overflow-tooltip>
           <template #default="{ row }">{{ row.idCard || '—' }}</template>
         </el-table-column>
+        <el-table-column label="性别" width="80">
+          <template #default="{ row }">{{ row.gender || '—' }}</template>
+        </el-table-column>
+        <el-table-column label="出生日期" width="120">
+          <template #default="{ row }">{{ formatDate(null, null, row.birthDate) }}</template>
+        </el-table-column>
         <el-table-column label="入职日期" width="120">
           <template #default="{ row }">{{ formatDate(null, null, row.joinDate) }}</template>
         </el-table-column>
@@ -693,11 +699,13 @@ onMounted(() => {
             <el-descriptions-item label="人员编号">{{ detailData.personnelCode || detailData.id || '—' }}</el-descriptions-item>
             <el-descriptions-item label="姓名">{{ detailData.name || '—' }}</el-descriptions-item>
             <el-descriptions-item label="身份证号">{{ detailData.idCard || '—' }}</el-descriptions-item>
+            <el-descriptions-item label="性别">{{ detailData.gender || '—' }}</el-descriptions-item>
             <el-descriptions-item label="联系电话">{{ detailData.phone || '—' }}</el-descriptions-item>
             <el-descriptions-item label="工作单位">{{ detailData.workUnit || '—' }}</el-descriptions-item>
             <el-descriptions-item label="所属部门">{{ detailData.team || '—' }}</el-descriptions-item>
             <el-descriptions-item label="职务">{{ detailData.position || '—' }}</el-descriptions-item>
             <el-descriptions-item label="入职日期">{{ formatDate(null, null, detailData.joinDate) }}</el-descriptions-item>
+            <el-descriptions-item label="出生日期">{{ formatDate(null, null, detailData.birthDate) }}</el-descriptions-item>
             <el-descriptions-item label="电子邮箱">{{ detailData.email || '—' }}</el-descriptions-item>
             <el-descriptions-item label="出勤次数">{{ detailData.taskCount != null ? `${detailData.taskCount} 次` : '—' }}</el-descriptions-item>
             <el-descriptions-item label="培训时长">{{ detailData.trainingHours != null ? `${detailData.trainingHours} 小时` : '—' }}</el-descriptions-item>
