@@ -52,7 +52,7 @@
             <p id="1_3119" class="Pixso-paragraph-1_3119">
                 {{ display?.email ?? '—' }}
             </p>
-            <div id="1_3120" class="Pixso-vector-1_3120 personnel-status-badge" :class="{ 'status-off': Number(personnel.value?.status) !== 1 }">
+            <div id="1_3120" class="Pixso-vector-1_3120 personnel-status-badge" :class="{ 'status-off': Number(personnel?.status) !== 1 }">
                 {{ display?.statusLabel ?? '—' }}
             </div>
             <div id="1_3132" class="Pixso-vector-1_3132"></div>
