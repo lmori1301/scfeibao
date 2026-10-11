@@ -18,7 +18,9 @@
                 {{ display?.teamLine ?? '—' }}
             </p>
             <p id="1_3095" class="Pixso-paragraph-1_3095">{{ display?.name ?? '—' }}</p>
-            <div id="1_3096" class="Pixso-vector-1_3096"></div>
+            <div id="1_3096" class="Pixso-vector-1_3096">
+                <img v-if="photoUrl" :src="photoUrl" alt="人员照片" />
+            </div>
             <p id="1_3097" class="Pixso-paragraph-1_3097">{{ "人员编号：" }}</p>
             <p id="1_3098" class="Pixso-paragraph-1_3098">{{ "联系电话：" }}</p>
             <p id="1_3099" class="Pixso-paragraph-1_3099">职　　务：</p>
@@ -50,7 +52,9 @@
             <p id="1_3119" class="Pixso-paragraph-1_3119">
                 {{ display?.email ?? '—' }}
             </p>
-            <div id="1_3120" class="Pixso-vector-1_3120"></div>
+            <div id="1_3120" class="Pixso-vector-1_3120 personnel-status-badge" :class="{ 'status-off': Number(personnel.value?.status) !== 1 }">
+                {{ display?.statusLabel ?? '—' }}
+            </div>
             <div id="1_3132" class="Pixso-vector-1_3132"></div>
             <router-link to="/" id="17_25" class="Pixso-vector-17_25" style="cursor: pointer;"></router-link>
             <div id="33_255" class="Pixso-group-33_255" @click.stop>
@@ -104,6 +108,7 @@ import { getPersonnelDetail } from '@/api/query'
 import { ElMessage } from 'element-plus'
 import { useRouter, useRoute } from 'vue-router'
 import { usePixsoScale } from '@/composables/use-pixso-scale'
+import { parsePhotoUrlListForDisplay } from '@/utils/photo-urls'
 
 const { scrollContainerRef, frameRef } = usePixsoScale(1920, 1444)
 const router = useRouter()
@@ -136,6 +141,11 @@ const display = computed(() => {
     dept: String(d.team || '—'),
     email: String(d.email || '—'),
   }
+})
+
+const photoUrl = computed(() => {
+  if (!personnel.value) return ''
+  return parsePhotoUrlListForDisplay(String(personnel.value.photoUrl ?? ''))[0] || ''
 })
 
 async function loadPersonnel() {
@@ -1155,5 +1165,40 @@ onMounted(() => {
 .Pixso-frame-1_3073 .Pixso-paragraph-1_3103 {
   width: 5em !important;
   text-align: left !important;
+}
+
+/* 人员照片：有真实 photoUrl 时显示上传照片，无数据时回退到静态占位 */
+.Pixso-vector-1_3096 {
+  overflow: hidden;
+  border-radius: 4px;
+}
+.Pixso-vector-1_3096 img {
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  z-index: 2;
+}
+
+/* 在职状态：由静态图片改为动态文本 badge */
+.Pixso-vector-1_3120.personnel-status-badge {
+  background-image: none !important;
+  background-color: #67c23a;
+  color: #fff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 11px;
+  font-family: "Alibaba PuHuiTi-Regular", sans-serif;
+  white-space: nowrap;
+  padding: 0 6px;
+  border-radius: 3px;
+  box-sizing: border-box;
+  z-index: 2;
+}
+.Pixso-vector-1_3120.personnel-status-badge.status-off {
+  background-color: #909399;
 }
 </style>
