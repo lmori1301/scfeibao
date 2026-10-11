@@ -1,0 +1,107 @@
+/* =====================================================
+   查询系统三页（内部管理 / 证书管理 / 车辆管理）公共样式统一
+   目标：placeholder 字号、输入框高度/内边距、温馨提示字号、顶部 Tab 文字/图标统一
+   ===================================================== */
+
+/* ---------------- 1. 输入框统一 ---------------- */
+/* 占位文字统一放大，提升可读性 */
+.query-system-index-page .el-input__inner::placeholder,
+.query-system-index-page .el-select__placeholder,
+.query-system-index-page .el-select .el-select__selected-item {
+  font-size: 20px !important;
+  font-family: "Alibaba PuHuiTi-Regular", "PingFang SC", "Microsoft YaHei", sans-serif !important;
+}
+.query-system-index-page .el-input__inner::placeholder,
+.query-system-index-page .el-select__placeholder {
+  color: #a8abb2 !important;
+}
+
+/* 输入框高度、内边距完全统一为 52px + 左右 14px */
+.query-system-index-page .el-input__wrapper,
+.query-system-index-page .el-select__wrapper {
+  height: 52px !important;
+  min-height: 52px !important;
+  padding: 0 14px !important;
+  border: 1px solid #dcdfe6 !important;
+  border-radius: 4px !important;
+  box-shadow: none !important;
+  background-color: #fff !important;
+  box-sizing: border-box !important;
+}
+.query-system-index-page .el-input__inner {
+  height: 52px !important;
+  line-height: 52px !important;
+  font-size: 20px !important;
+  color: #303133 !important;
+  padding: 0 !important;
+}
+.query-system-index-page .el-select,
+.query-system-index-page .el-select__wrapper,
+.query-system-index-page .el-select__selection {
+  height: 52px !important;
+  min-height: 52px !important;
+  line-height: 52px !important;
+}
+.query-system-index-page .el-select__selection {
+  display: flex !important;
+  align-items: center !important;
+  padding: 0 !important;
+}
+.query-system-index-page .el-select__suffix {
+  display: flex !important;
+  align-items: center !important;
+  height: 100% !important;
+}
+
+/* hover / focus 状态也去阴影，保持和输入框一致 */
+.query-system-index-page .el-input__wrapper:hover,
+.query-system-index-page .el-select__wrapper:hover,
+.query-system-index-page .el-input.is-focus .el-input__wrapper {
+  box-shadow: none !important;
+}
+
+/* ---------------- 2. 温馨提示统一 ---------------- */
+.query-system-index-page .query-form-warm-tip {
+  font-size: 16px !important;
+  line-height: 1.55 !important;
+  color: #e53935 !important;
+  white-space: normal !important;
+  word-break: break-word !important;
+  margin: 0 !important;
+  padding: 0 !important;
+}
+
+/* ---------------- 3. 顶部 Tab 切换统一 ---------------- */
+/* Tab 容器统一尺寸 */
+.query-system-index-page .query-tab-link {
+  text-decoration: none !important;
+  color: inherit !important;
+}
+
+/* Tab 文字统一：25px、无下划线、统一行高 */
+.query-system-index-page .query-tab-link > p[class*="Pixso-paragraph"],
+.query-system-index-page .query-tab-link > span,
+.query-system-index-page .query-tab-link > div[class*="Pixso-text"] span {
+  font-size: 25px !important;
+  line-height: 25px !important;
+  font-family: "FZHei-B01S-Regular", "PingFang SC", "Microsoft YaHei", sans-serif !important;
+  text-decoration: none !important;
+}
+
+/* 非激活 Tab：统一蓝色 */
+.query-system-index-page .query-tab-link > p[class*="Pixso-paragraph"] {
+  color: rgba(0, 127, 243, 1) !important;
+}
+
+/* 激活 Tab：统一高亮黄色/白色 */
+.query-system-index-page .query-tab-active > p[class*="Pixso-paragraph"],
+.query-system-index-page .query-tab-link.query-tab-active > p[class*="Pixso-paragraph"] {
+  color: rgba(251, 246, 71, 1) !important;
+}
+
+/* Tab 图标统一尺寸与居中缩放，避免三页图标大小不一 */
+.query-system-index-page .query-tab-link > div[class*="Pixso-vector"] {
+  background-size: contain !important;
+  background-position: center center !important;
+  background-repeat: no-repeat !important;
+}

@@ -312,6 +312,8 @@ onMounted(() => {
 
 </script>
 <style>
+@import '@/styles/query-system-common.css';
+
 .scroll-container-1_2975 {
   width: 100%;
   overflow: hidden;

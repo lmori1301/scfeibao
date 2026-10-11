@@ -342,6 +342,8 @@ onMounted(() => {
 
 </script>
 <style>
+@import '@/styles/query-system-common.css';
+
 .scroll-container-1_3145 {
   width: 100%;
   overflow: hidden;
@@ -1077,9 +1079,9 @@ onMounted(() => {
   padding: 0 !important;
 }
 
-/* 4. 下拉框内文字：与输入框同为 16px，占位灰、选中深 */
+/* 4. 下拉框内文字：与输入框同为 20px，占位灰、选中深 */
 .vehicle-type-select :deep(.el-select__placeholder) {
-  font-size: 14px !important;
+  font-size: 20px !important;
   line-height: 52px !important;
   color: #a8abb2 !important;
   height: 100% !important;
@@ -1087,7 +1089,7 @@ onMounted(() => {
   align-items: center !important;
 }
 .vehicle-type-select :deep(.el-select__selected-item) {
-  font-size: 14px !important;
+  font-size: 20px !important;
   line-height: 52px !important;
   color: #303133 !important;
   height: 100% !important;
@@ -1104,9 +1106,9 @@ onMounted(() => {
 
 /* 5. 下拉选项 */
 .vehicle-type-select :deep(.el-select-dropdown__item) {
-  font-size: 14px !important;
-  line-height: 36px !important;
-  height: 36px !important;
+  font-size: 18px !important;
+  line-height: 40px !important;
+  height: 40px !important;
 }
 
 /* 移除 hover/focus 多余阴影（保持和输入框一致） */
@@ -1136,7 +1138,7 @@ onMounted(() => {
 .vehicle-type-select .el-select__selected-item,
 .vehicle-type-select .el-select__placeholder {
   line-height: 52px !important;
-  font-size: 14px !important;
+  font-size: 20px !important;
 }
 /* 下拉菜单样式 */
 .vehicle-type-select :deep(.el-select-dropdown) {

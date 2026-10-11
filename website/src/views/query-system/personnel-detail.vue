@@ -1201,4 +1201,92 @@ onMounted(() => {
 .Pixso-vector-1_3120.personnel-status-badge.status-off {
   background-color: #909399;
 }
+
+/* =====================================================
+   人员详情页二次优化：照片去蓝边 / 姓名部门居中 / 状态 badge 放大 / 行距统一
+   ===================================================== */
+
+/* 1. 照片区：移除 Pixso 旧占位图背景，避免真实照片下露出蓝色边框 */
+.Pixso-vector-1_3096 {
+  background-image: none !important;
+  background-color: #f5f7fa !important;
+  border: none !important;
+}
+.Pixso-vector-1_3096 img {
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  z-index: 2;
+}
+
+/* 2. 头像下方「姓名」「所属部门」两行文字水平居中 */
+.Pixso-frame-1_3073 .Pixso-paragraph-1_3094,
+.Pixso-frame-1_3073 .Pixso-paragraph-1_3095 {
+  width: auto !important;
+  left: 50% !important;
+  right: auto !important;
+  transform: translateX(-50%) !important;
+  text-align: center !important;
+  white-space: nowrap !important;
+}
+
+/* 3. 在职/离职状态 badge：放大尺寸与文字 */
+.Pixso-vector-1_3120.personnel-status-badge {
+  width: 76px !important;
+  height: 34px !important;
+  left: auto !important;
+  right: 17% !important;
+  top: 56.5% !important;
+  bottom: auto !important;
+  font-size: 15px !important;
+  padding: 0 12px !important;
+  border-radius: 4px !important;
+}
+
+/* 4. 统一所有信息行的上下间距（等差 7.25%） */
+/* 第1行：保持 34.75% */
+.Pixso-frame-1_3073 .Pixso-paragraph-1_3097,
+.Pixso-frame-1_3073 .Pixso-paragraph-1_3109,
+.Pixso-frame-1_3073 .Pixso-paragraph-1_3103,
+.Pixso-frame-1_3073 .Pixso-paragraph-1_3114,
+.Pixso-frame-1_3073 .Pixso-paragraph-1_3106,
+.Pixso-frame-1_3073 .Pixso-paragraph-1_3117 {
+  top: 34.75% !important;
+  bottom: 63.85% !important;
+}
+
+/* 第2行：42.0% */
+.Pixso-frame-1_3073 .Pixso-paragraph-1_3098,
+.Pixso-frame-1_3073 .Pixso-paragraph-1_3110,
+.Pixso-frame-1_3073 .Pixso-paragraph-1_3104,
+.Pixso-frame-1_3073 .Pixso-paragraph-1_3115,
+.Pixso-frame-1_3073 .Pixso-paragraph-1_3107,
+.Pixso-frame-1_3073 .Pixso-paragraph-1_3118 {
+  top: 42.0% !important;
+  bottom: 56.6% !important;
+}
+
+/* 第3行：49.25% */
+.Pixso-frame-1_3073 .Pixso-paragraph-1_3099,
+.Pixso-frame-1_3073 .Pixso-paragraph-1_3111,
+.Pixso-frame-1_3073 .Pixso-paragraph-1_3105,
+.Pixso-frame-1_3073 .Pixso-paragraph-1_3116,
+.Pixso-frame-1_3073 .Pixso-paragraph-1_3108,
+.Pixso-frame-1_3073 .Pixso-paragraph-1_3119 {
+  top: 49.25% !important;
+  bottom: 49.35% !important;
+}
+
+/* 第4行：56.5% */
+.Pixso-frame-1_3073 .Pixso-paragraph-1_3100,
+.Pixso-frame-1_3073 .Pixso-paragraph-1_3112,
+.Pixso-frame-1_3073 .Pixso-paragraph-1_3101,
+.Pixso-frame-1_3073 .Pixso-paragraph-1_3113,
+.Pixso-frame-1_3073 .Pixso-paragraph-1_3102 {
+  top: 56.5% !important;
+  bottom: 42.1% !important;
+}
 </style>
