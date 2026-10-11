@@ -4,6 +4,7 @@
   "main": "index.js",
   "scripts": {
     "db:migrate:personnel": "node scripts/run-personnel-migration.mjs",
+    "db:migrate:personnel-gender-birthdate": "node scripts/backfill-personnel-gender-birthdate.mjs",
     "db:migrate:certificate-photo": "node scripts/run-certificate-photo-migration.mjs",
     "db:migrate:photo-url-text": "node scripts/run-photo-url-text-migration.mjs",
     "db:migrate:news-published-at": "node scripts/run-news-published-at-migration.mjs",

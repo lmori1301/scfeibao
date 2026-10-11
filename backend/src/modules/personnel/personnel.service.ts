@@ -19,6 +19,7 @@ import {
   toOptionalString,
   toStatusNumber,
 } from '../../common/utils/excel-import';
+import { fillDerivedFromIdCard } from '../../common/utils/id-card';
 
 @Injectable()
 export class PersonnelService {
@@ -28,6 +29,8 @@ export class PersonnelService {
   ) {}
 
   async create(createPersonnelDto: CreatePersonnelDto): Promise<Personnel> {
+    // 性别 / 出生日期未填时，按身份证号自动补齐，避免手机端详情页出现空值
+    fillDerivedFromIdCard(createPersonnelDto);
     const personnel = this.personnelRepository.create(createPersonnelDto);
     return await this.personnelRepository.save(personnel);
   }
@@ -84,6 +87,8 @@ export class PersonnelService {
   ): Promise<Personnel> {
     const personnel = await this.findOne(id);
     Object.assign(personnel, updatePersonnelDto);
+    // 性别 / 出生日期仍为空时，按身份证号自动补齐
+    fillDerivedFromIdCard(personnel);
     return await this.personnelRepository.save(personnel);
   }
 
@@ -105,6 +110,8 @@ export class PersonnelService {
       { field: 'personnelCode', headers: ['人员编号', 'personnelCode'], transform: toOptionalString },
       { field: 'name', headers: ['姓名', 'name'], required: true },
       { field: 'idCard', headers: ['身份证号', 'idCard'], required: true },
+      { field: 'gender', headers: ['性别', 'gender'], transform: toOptionalString },
+      { field: 'birthDate', headers: ['出生日期', 'birthDate'], transform: toOptionalDate },
       { field: 'phone', headers: ['联系电话', '手机号码', 'phone'], transform: toOptionalString },
       { field: 'email', headers: ['电子邮箱', '邮箱', 'email'], transform: toOptionalString },
       { field: 'team', headers: ['所属部门', '所属队伍', 'team'], transform: toOptionalString },
@@ -132,6 +139,8 @@ export class PersonnelService {
         const data = item.data;
         if (data.status === undefined) data.status = 1;
         if (data.auditStatus === undefined) data.auditStatus = 1;
+        // 导入未提供性别 / 出生日期时，按身份证号自动补齐
+        fillDerivedFromIdCard(data);
 
         const existing = await this.personnelRepository.findOne({
           where: { idCard: String(data.idCard) },

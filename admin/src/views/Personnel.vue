@@ -5,6 +5,7 @@ import { Plus, RefreshRight, Search, Upload } from '@element-plus/icons-vue'
 import { ElMessage, ElMessageBox } from 'element-plus'
 import { usePagination } from '@/composables/usePagination'
 import { emailRule, idCardRule, phoneRule, requiredRule } from '@/utils/validate'
+import { parseIdCard } from '@/utils/id-card'
 import Pagination from '@/components/Pagination.vue'
 import ImageUpload from '@/components/ImageUpload.vue'
 import DataImportDialog from '@/components/DataImportDialog.vue'
@@ -50,6 +51,8 @@ const formData = ref<{
   personnelCode: string
   name: string
   idCard: string
+  gender: string
+  birthDate: string
   phone: string
   department: string
   workUnit: string
@@ -65,6 +68,8 @@ const formData = ref<{
   personnelCode: '',
   name: '',
   idCard: '',
+  gender: '',
+  birthDate: '',
   phone: '',
   department: '',
   workUnit: '',
@@ -97,6 +102,8 @@ const importFields = [
   { label: '人员编号' },
   { label: '姓名', required: true },
   { label: '身份证号', required: true },
+  { label: '性别' },
+  { label: '出生日期' },
   { label: '联系电话' },
   { label: '电子邮箱' },
   { label: '所属部门' },
@@ -179,6 +186,13 @@ const handleImportSuccess = () => {
   fetch(buildPersonnelQuery())
 }
 
+/** 输入身份证号后自动补齐性别 / 出生日期（仅填补空值，不覆盖已填内容） */
+const syncFromIdCard = () => {
+  const { birthDate, gender } = parseIdCard(formData.value.idCard)
+  if (gender && !formData.value.gender) formData.value.gender = gender
+  if (birthDate && !formData.value.birthDate) formData.value.birthDate = birthDate
+}
+
 const handleAdd = () => {
   dialogTitle.value = '新增人员'
   formData.value = {
@@ -186,6 +200,8 @@ const handleAdd = () => {
     personnelCode: '',
     name: '',
     idCard: '',
+    gender: '',
+    birthDate: '',
     phone: '',
     department: '',
     workUnit: '',
@@ -209,6 +225,8 @@ const handleEdit = (row: any) => {
     personnelCode: row.personnelCode || '',
     name: row.name || '',
     idCard: row.idCard || '',
+    gender: row.gender || '',
+    birthDate: row.birthDate ? String(row.birthDate).slice(0, 10) : '',
     phone: row.phone || '',
     department: row.team || '',
     workUnit: row.workUnit || '',
@@ -254,6 +272,8 @@ const handleSave = async () => {
     personnelCode: formData.value.personnelCode || undefined,
     name: formData.value.name,
     idCard: formData.value.idCard,
+    gender: formData.value.gender || undefined,
+    birthDate: formData.value.birthDate ? toIsoDate(formData.value.birthDate) : undefined,
     phone: formData.value.phone,
     email: formData.value.email || undefined,
     team: formData.value.department,
@@ -528,7 +548,7 @@ onMounted(() => {
             <section class="personnel-form-section">
               <div class="personnel-form-section__header">
                 <strong>身份资料</strong>
-                <span>单列维护编号、姓名、证件与联系方式，避免表单压缩。</span>
+                <span>单列维护编号、姓名、证件、性别与联系方式，避免表单压缩。</span>
               </div>
               <div class="personnel-form-section__body">
                 <el-form-item v-if="formData.id" label="系统ID">
@@ -541,7 +561,22 @@ onMounted(() => {
                   <el-input v-model="formData.name" placeholder="请输入姓名" />
                 </el-form-item>
                 <el-form-item label="身份证号" prop="idCard">
-                  <el-input v-model="formData.idCard" placeholder="请输入身份证号" />
+                  <el-input v-model="formData.idCard" placeholder="请输入身份证号" @blur="syncFromIdCard" />
+                </el-form-item>
+                <el-form-item label="性别">
+                  <el-select v-model="formData.gender" clearable placeholder="请选择性别" style="width: 100%">
+                    <el-option label="男" value="男" />
+                    <el-option label="女" value="女" />
+                  </el-select>
+                </el-form-item>
+                <el-form-item label="出生日期">
+                  <el-date-picker
+                    v-model="formData.birthDate"
+                    type="date"
+                    value-format="YYYY-MM-DD"
+                    placeholder="请选择出生日期"
+                    style="width: 100%"
+                  />
                 </el-form-item>
                 <el-form-item label="联系电话" prop="phone">
                   <el-input v-model="formData.phone" placeholder="请输入联系电话" />
