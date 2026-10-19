@@ -169,7 +169,8 @@ onUnmounted(stopTimer)
   position: absolute;
   left: 5.89%;
   right: 5.83%;
-  top: 23.24%;
+  /* 首页轮播区已改为 2:1（高 19.13%，占 6.13%~25.26%），标语横幅下移以保持约 80px 间距、避免重叠 */
+  top: 27.7%;
   height: 96px;
   overflow: hidden;
   background-color: rgba(245, 247, 250, 1);

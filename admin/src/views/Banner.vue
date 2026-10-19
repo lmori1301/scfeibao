@@ -10,13 +10,13 @@ import ImageUpload from '@/components/ImageUpload.vue'
 import http from '@/utils/http'
 
 /**
- * 首页轮播区域真实尺寸：
- * 官网首页画布 1920×4430，#1_4 横幅为 left 5.89% / right 5.83% / top 6.13% / bottom 79.19%，
- * 即 1695 × 650 px（实测渲染比例 2.6064:1，四舍五入取 1695×650）。
- * 上传时按该尺寸裁剪，避免后台图片被 background-size:100% 100% 拉伸变形。
+ * 首页轮播区域真实尺寸（2:1）：
+ * 官网首页画布 1920×4430，#1_4 横幅为 left 5.89% / right 5.83% / top 6.13% / bottom 74.74%，
+ * 即 1695 × 847.5 px（渲染比例严格 2:1）。
+ * 上传时按该比例裁剪，避免后台图片被 background-size:cover 拉伸变形。
  */
 const BANNER_CROP_WIDTH = 1695
-const BANNER_CROP_HEIGHT = 650
+const BANNER_CROP_HEIGHT = 848
 const BANNER_CROP_RATIO = BANNER_CROP_WIDTH / BANNER_CROP_HEIGHT
 
 const formatDate = (row: any) => {
@@ -199,7 +199,7 @@ fetch()
             <section class="portal-form-section">
               <div class="portal-form-section__header">
                 <strong>内容信息</strong>
-                <span>上传的轮播图会按首页轮播区域 1695 × 650 px 固定比例裁剪，避免展示变形。</span>
+                <span>上传的轮播图会按首页轮播区域 1695 × 848 px（2:1）固定比例裁剪，避免展示变形。</span>
               </div>
               <div class="portal-form-section__body">
                 <el-form-item label="标题" prop="title">

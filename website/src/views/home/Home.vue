@@ -911,18 +911,19 @@ onUnmounted(() => {
 }
 .Pixso-vector-1_4 {
     width: 88.28%;
-    height: 14.68%;
+    /* 2:1 比例：宽 1695px ÷ 2 = 847.5px，847.5 / 4430 = 19.13% */
+    height: 19.13%;
     background-image: none;
     background-color: rgba(245, 247, 250, 1);
-    /* 该元素同时声明了 height% 与 top%/bottom%，属过度约束，浏览器对 background-size:cover
-       的绘制区域计算会塌缩，导致轮播大图只渲染出顶部一条。改用 100% 100% 规避（轮播图按 2.68:1 出图，视觉等价）。 */
-    background-size: 100% 100%;
+    /* 后台轮播图管理裁剪约束为 1695×848（2:1），框同为 2:1，cover 等比填充不变形 */
+    background-size: cover;
+    background-position: center;
     background-repeat: no-repeat;
     position: absolute;
     left: 5.89%;
     right: 5.83%;
     top: 6.13%;
-    bottom: 79.19%;
+    bottom: 74.74%;
 }
 .Pixso-vector-1_7 {
     width: 100%;
@@ -1122,8 +1123,8 @@ onUnmounted(() => {
     position: absolute;
     left: 5.89%;
     right: 5.83%;
-    top: 20.81%;
-    bottom: 77.39%;
+    top: 25.25%;
+    bottom: 72.95%;
 }
 .Pixso-vector-1_25 {
     width: 7.81%;
@@ -1134,8 +1135,8 @@ onUnmounted(() => {
     position: absolute;
     left: 5.89%;
     right: 86.3%;
-    top: 20.81%;
-    bottom: 77.39%;
+    top: 25.25%;
+    bottom: 72.95%;
 }
 .Pixso-vector-1_31 {
     width: 88.28%;
@@ -1146,8 +1147,8 @@ onUnmounted(() => {
     position: absolute;
     left: 5.89%;
     right: 5.83%;
-    top: 20.81%;
-    bottom: 77.39%;
+    top: 25.25%;
+    bottom: 72.95%;
 }
 /* 轮播圆点指示器：20x20 */
 .Pixso-vector-1_32 {
@@ -1159,8 +1160,8 @@ onUnmounted(() => {
     position: absolute;
     left: 5.89%;
     right: 90.83%;
-    top: 20.81%;
-    bottom: 77.73%;
+    top: 25.25%;
+    bottom: 72.59%;
 }
 .Pixso-paragraph-1_35 {
     font-size: 20px;
@@ -1173,8 +1174,8 @@ onUnmounted(() => {
     position: absolute;
     left: 13.14%;
     right: 52.55%;
-    top: 20.81%;
-    bottom: 77.39%;
+    top: 25.25%;
+    bottom: 72.95%;
     display: flex;
     align-items: center;
     white-space: pre;
@@ -1802,8 +1803,8 @@ onUnmounted(() => {
 	position: absolute;
 	left: 7.66%;
 	right: 90.03%;
-	top: 21.40%;
-	bottom: 77.98%;
+	top: 25.84%;
+	bottom: 73.54%;
 }
 .Pixso-vector-1_59 {
 	width: 0.8%;
@@ -1814,8 +1815,8 @@ onUnmounted(() => {
 	position: absolute;
 	left: 10.50%;
 	right: 87.46%;
-	top: 21.40%;
-	bottom: 77.98%;
+	top: 25.84%;
+	bottom: 73.54%;
 }
 .Pixso-vector-1_61 {
     width: 1.3%;
@@ -1826,8 +1827,8 @@ onUnmounted(() => {
     position: absolute;
     left: 83.75%;
     right: 14.95%;
-    top: 21.83%;
-    bottom: 77.59%;
+    top: 26.27%;
+    bottom: 73.15%;
 }
 .Pixso-vector-1_62 {
     width: 1.31%;
@@ -1838,8 +1839,8 @@ onUnmounted(() => {
     position: absolute;
     left: 86.09%;
     right: 12.6%;
-    top: 21.83%;
-    bottom: 77.59%;
+    top: 26.27%;
+    bottom: 73.15%;
 }
 .Pixso-vector-1_63 {
     width: 1.3%;
@@ -1850,8 +1851,8 @@ onUnmounted(() => {
     position: absolute;
     left: 88.44%;
     right: 10.26%;
-    top: 21.83%;
-    bottom: 77.59%;
+    top: 26.27%;
+    bottom: 73.15%;
 }
 .Pixso-vector-1_64 {
     width: 1.3%;
@@ -1862,8 +1863,8 @@ onUnmounted(() => {
     position: absolute;
     left: 90.78%;
     right: 7.92%;
-    top: 21.83%;
-    bottom: 77.59%;
+    top: 26.27%;
+    bottom: 73.15%;
 }
 .Pixso-paragraph-1_65 {
     font-size: 20px;
@@ -3529,8 +3530,8 @@ onUnmounted(() => {
 .banner-carousel-dots {
     position: absolute;
     right: 8%;
-    top: 20.81%;
-    bottom: 77.39%;
+    top: 25.25%;
+    bottom: 72.95%;
     display: flex;
     align-items: center;
     gap: 12px;
