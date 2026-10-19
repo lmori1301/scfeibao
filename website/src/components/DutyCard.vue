@@ -67,7 +67,7 @@ onUnmounted(() => {
 
 <template>
   <div
-    v-if="items.length > 0 || loading"
+    v-if="items.length > 0"
     class="duty-card"
     :class="{ 'is-open': open }"
     @mouseenter="open = true"
