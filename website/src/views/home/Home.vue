@@ -1192,8 +1192,8 @@ onUnmounted(() => {
     position: absolute;
     left: 7.47%;
     right: 59.71%;
-    top: 36.25%;
-    bottom:63.3%;
+    top: 37.16%;
+    bottom: 62.39%;
     white-space: pre;
     flex-grow: 0;
 }
@@ -1208,8 +1208,8 @@ onUnmounted(() => {
     position: absolute;
     left: 59.19%;
     right: 7.99%;
-    top: 28.03%;
-    bottom:71.51%;
+    top: 28.94%;
+    bottom: 70.6%;
     white-space: pre;
     flex-grow: 0;
 }
@@ -1256,8 +1256,8 @@ onUnmounted(() => {
     position: absolute;
     left: 59.19%;
     right: 7.99%;
-    top: 31.83%;
-    bottom:67.72%;
+    top: 32.74%;
+    bottom: 66.81%;
     white-space: pre;
     flex-grow: 0;
 }
@@ -1304,8 +1304,8 @@ onUnmounted(() => {
     position: absolute;
     left: 59.19%;
     right: 7.99%;
-    top: 35.62%;
-    bottom:63.93%;
+    top: 36.53%;
+    bottom: 63.02%;
     white-space: pre;
     flex-grow: 0;
 }
@@ -1352,8 +1352,8 @@ onUnmounted(() => {
     position: absolute;
     left: 13.93%;
     right: 51.9%;
-    top: 37.54%;
-    bottom:61.64%;
+    top: 38.45%;
+    bottom: 60.73%;
     white-space: nowrap;
     flex-grow: 0;
 }
@@ -1394,8 +1394,8 @@ onUnmounted(() => {
     position: absolute;
     left: 65.6%;
     right: 9.45%;
-    top: 29.3%;
-    bottom:69.88%;
+    top: 30.21%;
+    bottom: 68.97%;
     white-space: nowrap;
     flex-grow: 0;
 }
@@ -1595,8 +1595,8 @@ onUnmounted(() => {
     position: absolute;
     left: 65.6%;
     right: 9.45%;
-    top: 33.09%;
-    bottom:66.1%;
+    top: 34%;
+    bottom: 65.19%;
     white-space: nowrap;
     flex-grow: 0;
 }
@@ -1679,8 +1679,8 @@ onUnmounted(() => {
     position: absolute;
     left: 65.6%;
     right: 9.45%;
-    top: 36.89%;
-    bottom:62.31%;
+    top: 37.8%;
+    bottom: 61.4%;
     white-space: nowrap;
     flex-grow: 0;
 }
@@ -1877,8 +1877,8 @@ onUnmounted(() => {
     position: absolute;
     left: 59.19%;
     right: 39.14%;
-    top: 29.89%;
-    bottom:69.66%;
+    top: 30.8%;
+    bottom: 68.75%;
     white-space: pre;
     flex-grow: 0;
 }
@@ -1925,8 +1925,8 @@ onUnmounted(() => {
     position: absolute;
     left: 59.19%;
     right: 39.14%;
-    top: 33.68%;
-    bottom:65.87%;
+    top: 34.59%;
+    bottom: 64.96%;
     white-space: pre;
     flex-grow: 0;
 }
@@ -1973,8 +1973,8 @@ onUnmounted(() => {
     position: absolute;
     left: 59.19%;
     right: 39.14%;
-    top: 37.47%;
-    bottom:62.08%;
+    top: 38.38%;
+    bottom: 61.17%;
     white-space: pre;
     flex-grow: 0;
 }
@@ -2019,7 +2019,7 @@ onUnmounted(() => {
     position: absolute;
     left: 7.55%;
     right: 89.43%;
-    top: 37.38%;
+    top: 38.29%;
     bottom:61.47%;
 }
 .Pixso-paragraph-1_75 {
@@ -2033,8 +2033,8 @@ onUnmounted(() => {
     position: absolute;
     left: 7.63%;
     right: 90.7%;
-    top: 38.08%;
-    bottom:61.47%;
+    top: 38.99%;
+    bottom: 60.56%;
     white-space: pre;
     flex-grow: 0;
 }
@@ -2049,8 +2049,8 @@ onUnmounted(() => {
     position: absolute;
     left: 7.63%;
     right: 90.18%;
-    top: 37.38%;
-    bottom:62.05%;
+    top: 38.29%;
+    bottom: 61.14%;
     white-space: pre;
     flex-grow: 0;
 }
@@ -2065,8 +2065,8 @@ onUnmounted(() => {
     position: absolute;
     left: 59.19%;
     right: 38.62%;
-    top: 29.19%;
-    bottom:70.24%;
+    top: 30.1%;
+    bottom: 69.33%;
     white-space: pre;
     flex-grow: 0;
 }
@@ -2113,8 +2113,8 @@ onUnmounted(() => {
     position: absolute;
     left: 59.19%;
     right: 38.62%;
-    top: 32.98%;
-    bottom:66.46%;
+    top: 33.89%;
+    bottom: 65.55%;
     white-space: pre;
     flex-grow: 0;
 }
@@ -2161,8 +2161,8 @@ onUnmounted(() => {
     position: absolute;
     left: 59.19%;
     right: 38.62%;
-    top: 36.77%;
-    bottom:62.67%;
+    top: 37.68%;
+    bottom: 61.76%;
     white-space: pre;
     flex-grow: 0;
 }
@@ -2207,7 +2207,7 @@ onUnmounted(() => {
     position: absolute;
     left: 6.04%;
     right: 47.92%;
-    top: 27.81%;
+    top: 28.72%;
     bottom:64.6%;
 }
 .Pixso-vector-1_89 {
@@ -2219,7 +2219,7 @@ onUnmounted(() => {
     position: absolute;
     left: 11.88%;
     right: 88.07%;
-    top: 37.51%;
+    top: 38.42%;
     bottom:61.5%;
 }
 .Pixso-vector-1_90 {
@@ -2231,7 +2231,7 @@ onUnmounted(() => {
     position: absolute;
     left: 63.57%;
     right: 36.38%;
-    top: 29.27%;
+    top: 30.18%;
     bottom:69.74%;
 }
 .Pixso-vector-1_91 {
@@ -2267,7 +2267,7 @@ onUnmounted(() => {
     position: absolute;
     left: 63.57%;
     right: 36.38%;
-    top: 33.05%;
+    top: 33.96%;
     bottom:65.94%;
 }
 .Pixso-vector-1_94 {
@@ -2303,7 +2303,7 @@ onUnmounted(() => {
     position: absolute;
     left: 63.57%;
     right: 36.38%;
-    top: 36.85%;
+    top: 37.76%;
     bottom:62.16%;
 }
 .Pixso-vector-1_97 {
@@ -2339,7 +2339,7 @@ onUnmounted(() => {
     position: absolute;
     left: 59.01%;
     right: 5.89%;
-    top: 31.02%;
+    top: 31.93%;
     bottom:68.96%;
 }
 .Pixso-vector-1_103 {
@@ -2375,7 +2375,7 @@ onUnmounted(() => {
     position: absolute;
     left: 59.01%;
     right: 5.89%;
-    top: 34.81%;
+    top: 35.72%;
     bottom:65.17%;
 }
 .Pixso-vector-1_106 {
@@ -3070,7 +3070,7 @@ onUnmounted(() => {
     position: absolute;
     left: 6.98%;
     right: 87.08%;
-    top: 26.42%;
+    top: 27.33%;
     bottom:72.95%;
 }
 .Pixso-paragraph-1_161::before {
@@ -3092,7 +3092,7 @@ onUnmounted(() => {
     position: absolute;
     left: 6.28%;
     right: 93.22%;
-    top: 26.39%;
+    top: 27.3%;
     bottom:72.89%;
 }
 .Pixso-paragraph-1_163 {
@@ -3395,7 +3395,7 @@ onUnmounted(() => {
     height: 59px;
     position: absolute;
     left: 896px;
-    top: 1775px;
+    top: 1815px;
 }
 .Pixso-paragraph-32_4 {
     font-size: 20px;

@@ -169,8 +169,8 @@ onUnmounted(stopTimer)
   position: absolute;
   left: 5.89%;
   right: 5.83%;
-  /* 首页轮播区底边 22.09%：横幅与其保持约 80px 间距；下方「动态要闻」标题 top 26.42%（y≈1161），底部须留约 15px 间距避免重叠 */
-  top: 23.9%;
+  /* 蓝色标题条底边 23.89%：横幅上移约 2px 与其重叠（top 23.84%），消除亚像素白缝；下方与「动态要闻」标题保持约 55px 间距 */
+  top: 23.84%;
   height: 96px;
   overflow: hidden;
   background-color: rgba(245, 247, 250, 1);
