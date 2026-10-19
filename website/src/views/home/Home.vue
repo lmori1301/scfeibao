@@ -963,7 +963,7 @@ onUnmounted(() => {
     height: 1.63%;
     z-index: 1;
     display: flex;
-    justify-content: space-between;
+    justify-content: flex-start;
     align-items: center;
     pointer-events: none;
 }
@@ -972,7 +972,9 @@ onUnmounted(() => {
     pointer-events: auto;
 }
 
-/* 覆盖原先各导航项的绝对定位，改为 Flex 子项；8 个子项（含首页图标）各占等宽槽位、内容居中，中心间距严格均匀（原 space-between 只等分缝隙，图标比文字宽导致中心距不匀） */
+/* 覆盖原先各导航项的绝对定位，改为 Flex 子项；与内页导航（dynamic-news 等）完全一致：
+   首页徽章靠左起 113px（导航条左缘 5.89%），7 个菜单按内页设计位置靠左排布、右侧留空；
+   固定 80px 项宽 + 文字居中，保证与内页逐项对齐（原 space-between 满幅均分与内页不一致） */
 .main-nav .Pixso-paragraph-1_169,
 .main-nav .Pixso-paragraph-1_170,
 .main-nav .Pixso-paragraph-1_171,
@@ -989,19 +991,29 @@ onUnmounted(() => {
     height: auto;
     transform: none;
     margin: 0;
-    flex: 1 1 0;
+    flex: 0 0 80px;
     white-space: pre;
     text-align: center;
 }
 
-/* 首页红色徽章入口：横向矩形，与导航条同高，内嵌消防救援徽章图标；与 7 个文字项各占等宽槽位，保证中心距均匀 */
+/* 与内页导航逐项对齐的左间距：图标(150px) + 各项 margin，使菜单中心落在内页设计位置
+   365/569/773/977/1180/1373/1577（帧布局 px，与 dynamic-news 页 1_2188~6_781 一致） */
+.main-nav .Pixso-paragraph-1_169 { margin-left: 62px; }
+.main-nav .Pixso-paragraph-1_170 { margin-left: 124px; }
+.main-nav .Pixso-paragraph-1_171 { margin-left: 124px; }
+.main-nav .Pixso-paragraph-1_172 { margin-left: 124px; }
+.main-nav .Pixso-paragraph-1_173 { margin-left: 123px; }
+.main-nav .Pixso-paragraph-1_174 { margin-left: 113px; }
+.main-nav .Pixso-paragraph-1_175 { margin-left: 124px; }
+
+/* 首页红色徽章入口：与内页 17_31 一致，固定 150×70，靠左起 113px（导航条左缘），右侧菜单随之对齐内页 */
 .nav-home {
     display: flex;
     align-items: center;
     justify-content: center;
-    height: 100%;
-    width: auto;
-    flex: 1 1 0;
+    height: 70px;
+    width: 150px;
+    flex: 0 0 auto;
     text-decoration: none;
     transition: opacity 0.3s, transform 0.2s;
 }
@@ -1014,7 +1026,7 @@ onUnmounted(() => {
 .nav-home__icon {
     display: block;
     height: 100%;
-    width: auto;
+    width: 100%;
 }
 
 .Pixso-vector-1_10 {
