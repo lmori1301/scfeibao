@@ -972,7 +972,7 @@ onUnmounted(() => {
     pointer-events: auto;
 }
 
-/* 覆盖原先各导航项的绝对定位，改为 Flex 子项；宽度贴合内容，交由 space-between 严格等分 7 段间隙 */
+/* 覆盖原先各导航项的绝对定位，改为 Flex 子项；8 个子项（含首页图标）各占等宽槽位、内容居中，中心间距严格均匀（原 space-between 只等分缝隙，图标比文字宽导致中心距不匀） */
 .main-nav .Pixso-paragraph-1_169,
 .main-nav .Pixso-paragraph-1_170,
 .main-nav .Pixso-paragraph-1_171,
@@ -989,19 +989,19 @@ onUnmounted(() => {
     height: auto;
     transform: none;
     margin: 0;
-    flex: 0 0 auto;
+    flex: 1 1 0;
     white-space: pre;
     text-align: center;
 }
 
-/* 首页红色徽章入口：横向矩形，与导航条同高，内嵌消防救援徽章图标 */
+/* 首页红色徽章入口：横向矩形，与导航条同高，内嵌消防救援徽章图标；与 7 个文字项各占等宽槽位，保证中心距均匀 */
 .nav-home {
     display: flex;
     align-items: center;
     justify-content: center;
     height: 100%;
     width: auto;
-    flex-shrink: 0;
+    flex: 1 1 0;
     text-decoration: none;
     transition: opacity 0.3s, transform 0.2s;
 }
@@ -3395,7 +3395,7 @@ onUnmounted(() => {
     height: 59px;
     position: absolute;
     left: 896px;
-    top: 1815px;
+    top: 1785px;
 }
 .Pixso-paragraph-32_4 {
     font-size: 20px;
