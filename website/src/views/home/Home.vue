@@ -997,8 +997,9 @@ onUnmounted(() => {
 }
 
 /* 与内页导航逐项对齐的左间距：图标(150px) + 各项 margin，使菜单中心落在内页设计位置
-   365/569/773/977/1180/1373/1577（帧布局 px，与 dynamic-news 页 1_2188~6_781 一致） */
-.main-nav .Pixso-paragraph-1_169 { margin-left: 62px; }
+   365/569/773/977/1180/1373/1577（帧布局 px，与 dynamic-news 页 1_2188~6_781 一致）。
+   首项 margin 与其余项一致(124px)：原 62px 会导致图标→概况信息间距(58px)仅为项间距(129px)的一半，视觉不匀 */
+.main-nav .Pixso-paragraph-1_169 { margin-left: 124px; }
 .main-nav .Pixso-paragraph-1_170 { margin-left: 124px; }
 .main-nav .Pixso-paragraph-1_171 { margin-left: 124px; }
 .main-nav .Pixso-paragraph-1_172 { margin-left: 124px; }
