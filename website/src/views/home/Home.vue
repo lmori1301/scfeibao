@@ -911,11 +911,11 @@ onUnmounted(() => {
 }
 .Pixso-vector-1_4 {
     width: 88.28%;
-    /* 2:1 比例：宽 1695px ÷ 2 = 847.5px，847.5 / 4430 = 19.13% */
-    height: 19.13%;
+    /* 2.397:1 比例：宽 1695px，1256:524 同比例 → 高 707px，707 / 4430 = 15.96% */
+    height: 15.96%;
     background-image: none;
     background-color: rgba(245, 247, 250, 1);
-    /* 后台轮播图管理裁剪约束为 1695×848（2:1），框同为 2:1，cover 等比填充不变形 */
+    /* 后台轮播图管理裁剪约束为 1256×524（2.397:1），框同为 2.397:1，cover 等比填充不变形 */
     background-size: cover;
     background-position: center;
     background-repeat: no-repeat;
@@ -923,7 +923,7 @@ onUnmounted(() => {
     left: 5.89%;
     right: 5.83%;
     top: 6.13%;
-    bottom: 74.74%;
+    bottom: 77.91%;
 }
 .Pixso-vector-1_7 {
     width: 100%;

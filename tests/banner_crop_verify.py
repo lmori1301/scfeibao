@@ -1,9 +1,9 @@
 """轮播图上传裁剪验证（admin 静态产物 + 接口 mock + 拦截上传文件校验像素）。
 
 覆盖：
-  1. 轮播图新增弹窗进入「裁剪模式」，提示 1695 × 848 px
-  2. 选择图片后弹出裁剪框，裁剪框比例 ≈ 1695:848
-  3. 拖拽后确认上传，实际上传的 JPEG 像素严格为 1695 × 848
+  1. 轮播图新增弹窗进入「裁剪模式」，提示 1256 × 524 px
+  2. 选择图片后弹出裁剪框，裁剪框比例 ≈ 1256:524
+  3. 拖拽后确认上传，实际上传的 JPEG 像素严格为 1256 × 524
   4. 上传后回填预览、弹窗关闭、无 JS 报错
   5. 回归：标语横幅（未传 aspectRatio）仍走原 el-upload 模式，不受影响
 
@@ -169,7 +169,7 @@ def main():
 
             check("上传区进入裁剪模式", pg.locator(".crop-upload__add").count() == 1)
             meta = pg.locator(".crop-upload__meta").inner_text() if pg.locator(".crop-upload__meta").count() else ""
-            check("提示目标尺寸 1695 × 848", "1695" in meta and "848" in meta, meta)
+            check("提示目标尺寸 1256 × 524", "1256" in meta and "524" in meta, meta)
             check("裁剪模式下不再出现默认上传块", pg.locator(".crop-upload .el-upload--picture-card").count() == 0)
 
             # ---------- 2) 选择图片 → 裁剪弹窗 ----------
@@ -186,9 +186,9 @@ def main():
 
             vbox = pg.locator(".image-cropper__viewport").bounding_box()
             ratio = (vbox["width"] / vbox["height"]) if vbox else 0
-            check("裁剪框比例 ≈ 1695:848", abs(ratio - 1695 / 848) < 0.01, f"{ratio:.4f}")
+            check("裁剪框比例 ≈ 1256:524", abs(ratio - 1256 / 524) < 0.01, f"{ratio:.4f}")
             crop_meta = pg.locator(".image-cropper__meta").inner_text()
-            check("裁剪弹窗标注 1695 × 848 px", "1695" in crop_meta and "848" in crop_meta, crop_meta)
+            check("裁剪弹窗标注 1256 × 524 px", "1256" in crop_meta and "524" in crop_meta, crop_meta)
 
             # 拖拽一次，确认缩放/平移后导出尺寸仍固定
             if vbox:
@@ -211,7 +211,7 @@ def main():
             check("已发起图片上传请求", bool(uploads), f"api_calls={api_calls[-3:]}")
             if uploads:
                 size = jpeg_size(uploads[0])
-                check("上传图片像素严格为 1695 × 848", size == (1695, 848), f"{size}")
+                check("上传图片像素严格为 1256 × 524", size == (1256, 524), f"{size}")
 
             pg.wait_for_selector(".crop-upload__card img", timeout=15000)
             tile_src = pg.locator(".crop-upload__card img").get_attribute("src")
