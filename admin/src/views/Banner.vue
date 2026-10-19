@@ -9,6 +9,16 @@ import QueryFilter from '@/components/QueryFilter.vue'
 import ImageUpload from '@/components/ImageUpload.vue'
 import http from '@/utils/http'
 
+/**
+ * 首页轮播区域真实尺寸：
+ * 官网首页画布 1920×4430，#1_4 横幅为 left 5.89% / right 5.83% / top 6.13% / bottom 79.19%，
+ * 即 1695 × 650 px（实测渲染比例 2.6064:1，四舍五入取 1695×650）。
+ * 上传时按该尺寸裁剪，避免后台图片被 background-size:100% 100% 拉伸变形。
+ */
+const BANNER_CROP_WIDTH = 1695
+const BANNER_CROP_HEIGHT = 650
+const BANNER_CROP_RATIO = BANNER_CROP_WIDTH / BANNER_CROP_HEIGHT
+
 const formatDate = (row: any) => {
   if (!row.createdAt) return '--'
   const date = new Date(row.createdAt)
@@ -189,14 +199,21 @@ fetch()
             <section class="portal-form-section">
               <div class="portal-form-section__header">
                 <strong>内容信息</strong>
-                <span>先维护标题和主视觉图片，确定首页焦点素材。</span>
+                <span>上传的轮播图会按首页轮播区域 1695 × 650 px 固定比例裁剪，避免展示变形。</span>
               </div>
               <div class="portal-form-section__body">
                 <el-form-item label="标题" prop="title">
                   <el-input v-model="formData.title" placeholder="请输入轮播标题" />
                 </el-form-item>
                 <el-form-item label="轮播图" prop="imageUrl">
-                  <ImageUpload v-model="formData.imageUrl" />
+                  <ImageUpload
+                    v-model="formData.imageUrl"
+                    :aspect-ratio="BANNER_CROP_RATIO"
+                    :crop-width="BANNER_CROP_WIDTH"
+                    :crop-height="BANNER_CROP_HEIGHT"
+                    crop-title="裁剪轮播图"
+                    crop-hint="与官网首页轮播区域一致"
+                  />
                 </el-form-item>
               </div>
             </section>
