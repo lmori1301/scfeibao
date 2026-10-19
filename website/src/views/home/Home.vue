@@ -1123,8 +1123,8 @@ onUnmounted(() => {
     position: absolute;
     left: 5.89%;
     right: 5.83%;
-    top: 25.25%;
-    bottom: 72.95%;
+    top: 22.09%;
+    bottom: 76.11%;
 }
 .Pixso-vector-1_25 {
     width: 7.81%;
@@ -1135,8 +1135,8 @@ onUnmounted(() => {
     position: absolute;
     left: 5.89%;
     right: 86.3%;
-    top: 25.25%;
-    bottom: 72.95%;
+    top: 22.09%;
+    bottom: 76.11%;
 }
 .Pixso-vector-1_31 {
     width: 88.28%;
@@ -1147,8 +1147,8 @@ onUnmounted(() => {
     position: absolute;
     left: 5.89%;
     right: 5.83%;
-    top: 25.25%;
-    bottom: 72.95%;
+    top: 22.09%;
+    bottom: 76.11%;
 }
 /* 轮播圆点指示器：20x20 */
 .Pixso-vector-1_32 {
@@ -1160,8 +1160,8 @@ onUnmounted(() => {
     position: absolute;
     left: 5.89%;
     right: 90.83%;
-    top: 25.25%;
-    bottom: 72.59%;
+    top: 22.09%;
+    bottom: 75.75%;
 }
 .Pixso-paragraph-1_35 {
     font-size: 20px;
@@ -1174,8 +1174,8 @@ onUnmounted(() => {
     position: absolute;
     left: 13.14%;
     right: 52.55%;
-    top: 25.25%;
-    bottom: 72.95%;
+    top: 22.09%;
+    bottom: 76.11%;
     display: flex;
     align-items: center;
     white-space: pre;
@@ -1803,8 +1803,8 @@ onUnmounted(() => {
 	position: absolute;
 	left: 7.66%;
 	right: 90.03%;
-	top: 25.84%;
-	bottom: 73.54%;
+    top: 22.68%;
+    bottom: 76.70%;
 }
 .Pixso-vector-1_59 {
 	width: 0.8%;
@@ -1815,8 +1815,8 @@ onUnmounted(() => {
 	position: absolute;
 	left: 10.50%;
 	right: 87.46%;
-	top: 25.84%;
-	bottom: 73.54%;
+    top: 22.68%;
+    bottom: 76.70%;
 }
 .Pixso-vector-1_61 {
     width: 1.3%;
@@ -1827,8 +1827,8 @@ onUnmounted(() => {
     position: absolute;
     left: 83.75%;
     right: 14.95%;
-    top: 26.27%;
-    bottom: 73.15%;
+    top: 23.11%;
+    bottom: 76.31%;
 }
 .Pixso-vector-1_62 {
     width: 1.31%;
@@ -1839,8 +1839,8 @@ onUnmounted(() => {
     position: absolute;
     left: 86.09%;
     right: 12.6%;
-    top: 26.27%;
-    bottom: 73.15%;
+    top: 23.11%;
+    bottom: 76.31%;
 }
 .Pixso-vector-1_63 {
     width: 1.3%;
@@ -1851,8 +1851,8 @@ onUnmounted(() => {
     position: absolute;
     left: 88.44%;
     right: 10.26%;
-    top: 26.27%;
-    bottom: 73.15%;
+    top: 23.11%;
+    bottom: 76.31%;
 }
 .Pixso-vector-1_64 {
     width: 1.3%;
@@ -1863,8 +1863,8 @@ onUnmounted(() => {
     position: absolute;
     left: 90.78%;
     right: 7.92%;
-    top: 26.27%;
-    bottom: 73.15%;
+    top: 23.11%;
+    bottom: 76.31%;
 }
 .Pixso-paragraph-1_65 {
     font-size: 20px;
@@ -3530,8 +3530,8 @@ onUnmounted(() => {
 .banner-carousel-dots {
     position: absolute;
     right: 8%;
-    top: 25.25%;
-    bottom: 72.95%;
+    top: 22.09%;
+    bottom: 76.11%;
     display: flex;
     align-items: center;
     gap: 12px;
