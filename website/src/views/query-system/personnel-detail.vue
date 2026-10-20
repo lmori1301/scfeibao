@@ -837,7 +837,7 @@ onMounted(() => {
     left: 50%;
     top: 15.25%;
     bottom: 82.99%;
-    transform: translateX(calc(-50% + -595px));
+    transform: translateX(calc(-50% + -533px));
     white-space: pre;
     flex-grow: 0;
 }
@@ -853,7 +853,7 @@ onMounted(() => {
     left: 50%;
     top: 15.25%;
     bottom: 82.99%;
-    transform: translateX(calc(-50% + -391px));
+    transform: translateX(calc(-50% + -329px));
     white-space: pre;
     flex-grow: 0;
 }
@@ -869,7 +869,7 @@ onMounted(() => {
     left: 50%;
     top: 15.25%;
     bottom: 82.99%;
-    transform: translateX(calc(-50% + 17px));
+    transform: translateX(calc(-50% + +79px));
     white-space: pre;
     flex-grow: 0;
 }
@@ -885,7 +885,7 @@ onMounted(() => {
     left: 50%;
     top: 15.25%;
     bottom: 82.99%;
-    transform: translateX(calc(-50% + -187px));
+    transform: translateX(calc(-50% + -125px));
     white-space: pre;
     flex-grow: 0;
 }
@@ -901,7 +901,7 @@ onMounted(() => {
     left: 50%;
     top: 15.25%;
     bottom: 82.99%;
-    transform: translateX(calc(-50% + 221px));
+    transform: translateX(calc(-50% + +282px));
     white-space: pre;
     flex-grow: 0;
 }
@@ -917,7 +917,7 @@ onMounted(() => {
     left: 50%;
     top: 15.25%;
     bottom: 82.99%;
-    transform: translateX(calc(-50% + 425px));
+    transform: translateX(calc(-50% + +475px));
     white-space: pre;
     flex-grow: 0;
 }
@@ -945,7 +945,7 @@ onMounted(() => {
     left: 50%;
     top: 15.25%;
     bottom: 82.99%;
-    transform: translateX(calc(-50% + 627px));
+    transform: translateX(calc(-50% + +679px));
     white-space: pre;
     flex-grow: 0;
 }

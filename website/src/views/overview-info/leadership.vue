@@ -1843,7 +1843,7 @@ const fetchWebsiteConfig = async () => {
     left: 50%;
     top: 9.26%;
     bottom: 89.67%;
-    transform: translateX(calc(-50% + -596px));
+    transform: translateX(calc(-50% + -533px));
     white-space: pre;
     flex-grow: 0;
 }
@@ -1859,7 +1859,7 @@ const fetchWebsiteConfig = async () => {
     left: 50%;
     top: 9.26%;
     bottom: 89.67%;
-    transform: translateX(calc(-50% + -392px));
+    transform: translateX(calc(-50% + -329px));
     white-space: pre;
     flex-grow: 0;
 }
@@ -1875,7 +1875,7 @@ const fetchWebsiteConfig = async () => {
     left: 50%;
     top: 9.26%;
     bottom: 89.67%;
-    transform: translateX(calc(-50% + -187px));
+    transform: translateX(calc(-50% + -125px));
     white-space: pre;
     flex-grow: 0;
 }
@@ -1891,7 +1891,7 @@ const fetchWebsiteConfig = async () => {
     left: 50%;
     top: 9.26%;
     bottom: 89.67%;
-    transform: translateX(calc(-50% + 17px));
+    transform: translateX(calc(-50% + +79px));
     white-space: pre;
     flex-grow: 0;
 }
@@ -1907,7 +1907,7 @@ const fetchWebsiteConfig = async () => {
     left: 50%;
     top: 9.26%;
     bottom: 89.67%;
-    transform: translateX(calc(-50% + 221px));
+    transform: translateX(calc(-50% + +282px));
     white-space: pre;
     flex-grow: 0;
 }
@@ -1923,7 +1923,7 @@ const fetchWebsiteConfig = async () => {
     left: 50%;
     top: 9.26%;
     bottom: 89.67%;
-    transform: translateX(calc(-50% + 425px));
+    transform: translateX(calc(-50% + +475px));
     white-space: pre;
     flex-grow: 0;
 }
@@ -1939,7 +1939,7 @@ const fetchWebsiteConfig = async () => {
     left: 50%;
     top: 9.26%;
     bottom: 89.67%;
-    transform: translateX(calc(-50% + 631px));
+    transform: translateX(calc(-50% + +679px));
     white-space: pre;
     flex-grow: 0;
 }

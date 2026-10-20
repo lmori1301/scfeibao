@@ -938,10 +938,11 @@ onUnmounted(() => {
     bottom: 95.5%;
 }
 
-/* 导航条底色：补 1_7(→4.5%) 与 1_3(6.13%→) 之间的缝隙，承载 5.03% 的白字导航项 */
+/* 导航条底色：补 1_7(→4.5%) 与 1_3(6.13%→) 之间的缝隙，承载 5.03% 的白字导航项。
+   高度 1.63%→1.68%：底边下探约 2px 与 Banner(1_4, top 6.13%)重叠，消除边界行亚像素白缝 */
 .nav-bar-bg {
     width: 100%;
-    height: 1.63%;
+    height: 1.68%;
     background-image: url(@/assets/images/Vector_1_24.png);
     background-size: 100% 100%;
     background-repeat: no-repeat;
@@ -949,7 +950,7 @@ onUnmounted(() => {
     left: 0%;
     right: 0%;
     top: 4.5%;
-    bottom: 93.87%;
+    bottom: 93.82%;
     z-index: 0;
 }
 

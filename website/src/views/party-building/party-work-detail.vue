@@ -740,8 +740,8 @@ const doSearch = () => {
   width: auto;
   height: auto;
   position: absolute;
-  left: 16.46%;
-  right: 79.38%;
+  left: 50%; transform: translateX(calc(-50% + -533px));
+  right: auto;
   top: 5.43%;
   bottom: 93.95%;
   white-space: pre;
@@ -757,8 +757,8 @@ const doSearch = () => {
   width: auto;
   height: auto;
   position: absolute;
-  left: 27.45%;
-  right: 68.39%;
+  left: 50%; transform: translateX(calc(-50% + -329px));
+  right: auto;
   top: 5.43%;
   bottom: 93.95%;
   white-space: pre;
@@ -774,8 +774,8 @@ const doSearch = () => {
   width: auto;
   height: auto;
   position: absolute;
-  left: 48.7%;
-  right: 47.14%;
+  left: 50%; transform: translateX(calc(-50% + +79px));
+  right: auto;
   top: 5.43%;
   bottom: 93.95%;
   white-space: pre;
@@ -791,8 +791,8 @@ const doSearch = () => {
   width: auto;
   height: auto;
   position: absolute;
-  left: 59.27%;
-  right: 36.56%;
+  left: 50%; transform: translateX(calc(-50% + +282px));
+  right: auto;
   top: 5.43%;
   bottom: 93.95%;
   white-space: pre;
@@ -808,8 +808,8 @@ const doSearch = () => {
   width: auto;
   height: auto;
   position: absolute;
-  left: 70.16%;
-  right: 25.68%;
+  left: 50%; transform: translateX(calc(-50% + +475px));
+  right: auto;
   top: 5.43%;
   bottom: 93.95%;
   white-space: pre;
@@ -825,8 +825,8 @@ const doSearch = () => {
   width: auto;
   height: auto;
   position: absolute;
-  left: 81.04%;
-  right: 14.79%;
+  left: 50%; transform: translateX(calc(-50% + +679px));
+  right: auto;
   top: 5.43%;
   bottom: 93.95%;
   white-space: pre;
@@ -842,8 +842,8 @@ const doSearch = () => {
   width: auto;
   height: auto;
   position: absolute;
-  left: 38.13%;
-  right: 57.71%;
+  left: 50%; transform: translateX(calc(-50% + -125px));
+  right: auto;
   top: 5.43%;
   bottom: 93.95%;
   white-space: pre;

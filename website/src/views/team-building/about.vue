@@ -349,8 +349,8 @@ onMounted(() => {
     width: auto;
     height: auto;
     position: absolute;
-    left: 38.02%;
-    right: 57.81%;
+    left: 50%; transform: translateX(calc(-50% + -125px));
+    right: auto;
     top: 11.59%;
     bottom: 87.07%;
     white-space: pre;
@@ -366,8 +366,8 @@ onMounted(() => {
     width: auto;
     height: auto;
     position: absolute;
-    left: 48.65%;
-    right: 47.19%;
+    left: 50%; transform: translateX(calc(-50% + +79px));
+    right: auto;
     top: 11.59%;
     bottom: 87.07%;
     white-space: pre;
@@ -383,8 +383,8 @@ onMounted(() => {
     width: auto;
     height: auto;
     position: absolute;
-    left: 59.27%;
-    right: 36.56%;
+    left: 50%; transform: translateX(calc(-50% + +282px));
+    right: auto;
     top: 11.59%;
     bottom: 87.07%;
     white-space: pre;
@@ -400,8 +400,8 @@ onMounted(() => {
     width: auto;
     height: auto;
     position: absolute;
-    left: 69.9%;
-    right: 25.94%;
+    left: 50%; transform: translateX(calc(-50% + +475px));
+    right: auto;
     top: 11.59%;
     bottom: 87.07%;
     white-space: pre;
@@ -417,8 +417,8 @@ onMounted(() => {
     width: auto;
     height: auto;
     position: absolute;
-    left: 80.52%;
-    right: 15.31%;
+    left: 50%; transform: translateX(calc(-50% + +679px));
+    right: auto;
     top: 11.59%;
     bottom: 87.07%;
     white-space: pre;
@@ -434,8 +434,8 @@ onMounted(() => {
     width: auto;
     height: auto;
     position: absolute;
-    left: 17%;
-    right: 79.69%;
+    left: 50%; transform: translateX(calc(-50% + -533px));
+    right: auto;
     top: 11.59%;
     bottom: 87.07%;
     white-space: pre;
@@ -470,7 +470,7 @@ onMounted(() => {
     left: 50%;
     top: 11.59%;
     bottom: 87.07%;
-    transform: translateX(calc(-50% + -394px));
+    transform: translateX(calc(-50% + -329px));
     white-space: pre;
     flex-grow: 0;
 }
