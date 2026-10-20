@@ -327,7 +327,7 @@ onMounted(() => {
     left: 50%;
     top: 10.36%;
     bottom: 85.9%;
-    transform: translateX(calc(-50% + -329px));
+    transform: translateX(calc(-50% + -391px));
 }
 .Pixso-vector-17_1 {
     width: 150px;
@@ -349,7 +349,7 @@ onMounted(() => {
     width: auto;
     height: auto;
     position: absolute;
-    left: 50%; transform: translateX(calc(-50% + -125px));
+    left: 50%; transform: translateX(calc(-50% + -187px));
     right: auto;
     top: 11.59%;
     bottom: 87.07%;
@@ -366,7 +366,7 @@ onMounted(() => {
     width: auto;
     height: auto;
     position: absolute;
-    left: 50%; transform: translateX(calc(-50% + +79px));
+    left: 50%; transform: translateX(calc(-50% + +17px));
     right: auto;
     top: 11.59%;
     bottom: 87.07%;
@@ -383,7 +383,7 @@ onMounted(() => {
     width: auto;
     height: auto;
     position: absolute;
-    left: 50%; transform: translateX(calc(-50% + +282px));
+    left: 50%; transform: translateX(calc(-50% + +220px));
     right: auto;
     top: 11.59%;
     bottom: 87.07%;
@@ -400,7 +400,7 @@ onMounted(() => {
     width: auto;
     height: auto;
     position: absolute;
-    left: 50%; transform: translateX(calc(-50% + +475px));
+    left: 50%; transform: translateX(calc(-50% + +413px));
     right: auto;
     top: 11.59%;
     bottom: 87.07%;
@@ -417,7 +417,7 @@ onMounted(() => {
     width: auto;
     height: auto;
     position: absolute;
-    left: 50%; transform: translateX(calc(-50% + +679px));
+    left: 50%; transform: translateX(calc(-50% + +617px));
     right: auto;
     top: 11.59%;
     bottom: 87.07%;
@@ -434,7 +434,7 @@ onMounted(() => {
     width: auto;
     height: auto;
     position: absolute;
-    left: 50%; transform: translateX(calc(-50% + -533px));
+    left: 50%; transform: translateX(calc(-50% + -595px));
     right: auto;
     top: 11.59%;
     bottom: 87.07%;
@@ -470,7 +470,7 @@ onMounted(() => {
     left: 50%;
     top: 11.59%;
     bottom: 87.07%;
-    transform: translateX(calc(-50% + -329px));
+    transform: translateX(calc(-50% + -391px));
     white-space: pre;
     flex-grow: 0;
 }

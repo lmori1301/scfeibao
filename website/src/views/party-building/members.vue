@@ -373,7 +373,7 @@ onMounted(() => {
     top: 10.25%;
     bottom: 86.05%;
   /* 导航高亮块：与本页「党建专栏」文字同一 Δ(-125px)，改前为百分比定位导致偏离 */
-  transform: translateX(calc(-50% + -125px))
+  transform: translateX(calc(-50% + -187px))
 }
 .Pixso-vector-17_9 {
     width: 150px;
@@ -395,7 +395,7 @@ onMounted(() => {
     width: auto;
     height: auto;
     position: absolute;
-    left: 50%; transform: translateX(calc(-50% + -533px));
+    left: 50%; transform: translateX(calc(-50% + -595px));
     right: auto;
     top: 11.47%;
     bottom: 87.21%;
@@ -412,7 +412,7 @@ onMounted(() => {
     width: auto;
     height: auto;
     position: absolute;
-    left: 50%; transform: translateX(calc(-50% + -329px));
+    left: 50%; transform: translateX(calc(-50% + -391px));
     right: auto;
     top: 11.47%;
     bottom: 87.21%;
@@ -429,7 +429,7 @@ onMounted(() => {
     width: auto;
     height: auto;
     position: absolute;
-    left: 50%; transform: translateX(calc(-50% + +79px));
+    left: 50%; transform: translateX(calc(-50% + +17px));
     right: auto;
     top: 11.47%;
     bottom: 87.21%;
@@ -446,7 +446,7 @@ onMounted(() => {
     width: auto;
     height: auto;
     position: absolute;
-    left: 50%; transform: translateX(calc(-50% + +282px));
+    left: 50%; transform: translateX(calc(-50% + +220px));
     right: auto;
     top: 11.47%;
     bottom: 87.21%;
@@ -462,7 +462,7 @@ onMounted(() => {
     width: auto;
     height: auto;
     position: absolute;
-    left: 50%; transform: translateX(calc(-50% + +475px));
+    left: 50%; transform: translateX(calc(-50% + +413px));
     right: auto;
     top: 11.47%;
     bottom: 87.21%;
@@ -479,7 +479,7 @@ onMounted(() => {
     width: auto;
     height: auto;
     position: absolute;
-    left: 50%; transform: translateX(calc(-50% + +679px));
+    left: 50%; transform: translateX(calc(-50% + +617px));
     right: auto;
     top: 11.47%;
     bottom: 87.21%;
@@ -496,7 +496,7 @@ onMounted(() => {
     width: auto;
     height: auto;
     position: absolute;
-    left: 50%; transform: translateX(calc(-50% + -125px));
+    left: 50%; transform: translateX(calc(-50% + -187px));
     right: auto;
     top: 11.47%;
     bottom: 87.21%;

@@ -723,7 +723,7 @@ const doSearch = () => {
     top: 4.85%;
     bottom: 93.4%;
   /* 导航高亮块：与本页「党建专栏」文字同一 Δ(-125px)，改前为百分比定位导致偏离 */
-  transform: translateX(calc(-50% + -125px));
+  transform: translateX(calc(-50% + -187px));
 }
 .Pixso-paragraph-33_399 {
     font-size: 20px;
@@ -742,7 +742,7 @@ const doSearch = () => {
     white-space: pre;
     flex-grow: 0;
   /* 导航项：归一化到全站统一 Δ(-533px)，与文字中心 960-533 对齐 */
-  transform: translateX(calc(-50% + -533px));
+  transform: translateX(calc(-50% + -595px));
 }
 .Pixso-paragraph-33_400 {
     font-size: 20px;
@@ -761,7 +761,7 @@ const doSearch = () => {
     white-space: pre;
     flex-grow: 0;
   /* 导航项：归一化到全站统一 Δ(-329px)，与文字中心 960-329 对齐 */
-  transform: translateX(calc(-50% + -329px));
+  transform: translateX(calc(-50% + -391px));
 }
 .Pixso-paragraph-33_401 {
     font-size: 20px;
@@ -780,7 +780,7 @@ const doSearch = () => {
     white-space: pre;
     flex-grow: 0;
   /* 导航项：归一化到全站统一 Δ(+79px)，与文字中心 960+79 对齐 */
-  transform: translateX(calc(-50% + +79px));
+  transform: translateX(calc(-50% + +17px));
 }
 .Pixso-paragraph-33_402 {
     font-size: 20px;
@@ -799,7 +799,7 @@ const doSearch = () => {
     white-space: pre;
     flex-grow: 0;
   /* 导航项：归一化到全站统一 Δ(+282px)，与文字中心 960+282 对齐 */
-  transform: translateX(calc(-50% + +282px));
+  transform: translateX(calc(-50% + +220px));
 }
 .Pixso-paragraph-33_403 {
     font-size: 20px;
@@ -818,7 +818,7 @@ const doSearch = () => {
     white-space: pre;
     flex-grow: 0;
   /* 导航项：归一化到全站统一 Δ(+475px)，与文字中心 960+475 对齐 */
-  transform: translateX(calc(-50% + +475px));
+  transform: translateX(calc(-50% + +413px));
 }
 .Pixso-paragraph-33_404 {
     font-size: 20px;
@@ -837,7 +837,7 @@ const doSearch = () => {
     white-space: pre;
     flex-grow: 0;
   /* 导航项：归一化到全站统一 Δ(+679px)，与文字中心 960+679 对齐 */
-  transform: translateX(calc(-50% + +679px));
+  transform: translateX(calc(-50% + +617px));
 }
 .Pixso-paragraph-33_405 {
     font-size: 20px;
@@ -856,7 +856,7 @@ const doSearch = () => {
     white-space: pre;
     flex-grow: 0;
   /* 导航项：归一化到全站统一 Δ(-125px)，与文字中心 960-125 对齐 */
-  transform: translateX(calc(-50% + -125px));
+  transform: translateX(calc(-50% + -187px));
 }
 
 

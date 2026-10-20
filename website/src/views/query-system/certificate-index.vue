@@ -762,7 +762,7 @@ onMounted(() => {
   left: 50%;
   top: 15.03%;
   bottom: 83.24%;
-  transform: translateX(calc(-50% + -533px));
+  transform: translateX(calc(-50% + -595px));
   white-space: pre;
   flex-grow: 0;
 }
@@ -778,7 +778,7 @@ onMounted(() => {
   left: 50%;
   top: 15.03%;
   bottom: 83.24%;
-  transform: translateX(calc(-50% + -329px));
+  transform: translateX(calc(-50% + -391px));
   white-space: pre;
   flex-grow: 0;
 }
@@ -794,7 +794,7 @@ onMounted(() => {
   left: 50%;
   top: 15.03%;
   bottom: 83.24%;
-  transform: translateX(calc(-50% + +79px));
+  transform: translateX(calc(-50% + +17px));
   white-space: pre;
   flex-grow: 0;
 }
@@ -810,7 +810,7 @@ onMounted(() => {
   left: 50%;
   top: 15.03%;
   bottom: 83.24%;
-  transform: translateX(calc(-50% + -125px));
+  transform: translateX(calc(-50% + -187px));
   white-space: pre;
   flex-grow: 0;
 }
@@ -826,7 +826,7 @@ onMounted(() => {
   left: 50%;
   top: 15.03%;
   bottom: 83.24%;
-  transform: translateX(calc(-50% + +282px));
+  transform: translateX(calc(-50% + +220px));
   white-space: pre;
   flex-grow: 0;
 }
@@ -842,7 +842,7 @@ onMounted(() => {
   left: 50%;
   top: 15.03%;
   bottom: 83.24%;
-  transform: translateX(calc(-50% + +475px));
+  transform: translateX(calc(-50% + +413px));
   white-space: pre;
   flex-grow: 0;
 }
@@ -906,7 +906,7 @@ onMounted(() => {
   left: 50%;
   top: 13.43%;
   bottom: 81.72%;
-  transform: translateX(calc(-50% + +679px));
+  transform: translateX(calc(-50% + +617px));
 }
 .Pixso-paragraph-1_2500 {
   font-size: 20px;
@@ -920,7 +920,7 @@ onMounted(() => {
   left: 50%;
   top: 15.03%;
   bottom: 83.24%;
-  transform: translateX(calc(-50% + +679px));
+  transform: translateX(calc(-50% + +617px));
   white-space: pre;
   flex-grow: 0;
 }

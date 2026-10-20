@@ -808,7 +808,7 @@ onMounted(() => {
     left: 50%;
     top: 15.25%;
     bottom: 82.99%;
-    transform: translateX(calc(-50% + -533px));
+    transform: translateX(calc(-50% + -595px));
     white-space: pre;
     flex-grow: 0;
 }
@@ -824,7 +824,7 @@ onMounted(() => {
     left: 50%;
     top: 15.25%;
     bottom: 82.99%;
-    transform: translateX(calc(-50% + -329px));
+    transform: translateX(calc(-50% + -391px));
     white-space: pre;
     flex-grow: 0;
 }
@@ -840,7 +840,7 @@ onMounted(() => {
     left: 50%;
     top: 15.25%;
     bottom: 82.99%;
-    transform: translateX(calc(-50% + +79px));
+    transform: translateX(calc(-50% + +17px));
     white-space: pre;
     flex-grow: 0;
 }
@@ -856,7 +856,7 @@ onMounted(() => {
     left: 50%;
     top: 15.25%;
     bottom: 82.99%;
-    transform: translateX(calc(-50% + -125px));
+    transform: translateX(calc(-50% + -187px));
     white-space: pre;
     flex-grow: 0;
 }
@@ -872,7 +872,7 @@ onMounted(() => {
     left: 50%;
     top: 15.25%;
     bottom: 82.99%;
-    transform: translateX(calc(-50% + +282px));
+    transform: translateX(calc(-50% + +220px));
     white-space: pre;
     flex-grow: 0;
 }
@@ -888,7 +888,7 @@ onMounted(() => {
     left: 50%;
     top: 15.25%;
     bottom: 82.99%;
-    transform: translateX(calc(-50% + +475px));
+    transform: translateX(calc(-50% + +413px));
     white-space: pre;
     flex-grow: 0;
 }
@@ -903,7 +903,7 @@ onMounted(() => {
     top: 14.86%;
     bottom: 79.86%;
     /* 导航高亮块：与本页「查询系统」文字同一 Δ(+679px)；原为 627px，偏离文字中心 52px */
-    transform: translateX(calc(-50% + +679px));
+    transform: translateX(calc(-50% + +617px));
 }
 .Pixso-paragraph-33_776 {
     font-size: 20px;
@@ -917,7 +917,7 @@ onMounted(() => {
     left: 50%;
     top: 15.25%;
     bottom: 82.99%;
-    transform: translateX(calc(-50% + +679px));
+    transform: translateX(calc(-50% + +617px));
     white-space: pre;
     flex-grow: 0;
 }

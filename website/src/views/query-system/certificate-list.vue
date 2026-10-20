@@ -668,7 +668,7 @@ onUnmounted(() => {
   left: 50%;
   top: 217px;
   bottom: auto;
-  transform: translateX(calc(-50% + -533px));
+  transform: translateX(calc(-50% + -595px));
   white-space: pre;
   flex-grow: 0;
   z-index: 3;
@@ -685,7 +685,7 @@ onUnmounted(() => {
   left: 50%;
   top: 217px;
   bottom: auto;
-  transform: translateX(calc(-50% + -329px));
+  transform: translateX(calc(-50% + -391px));
   white-space: pre;
   flex-grow: 0;
   z-index: 3;
@@ -702,7 +702,7 @@ onUnmounted(() => {
   left: 50%;
   top: 217px;
   bottom: auto;
-  transform: translateX(calc(-50% + +79px));
+  transform: translateX(calc(-50% + +17px));
   white-space: pre;
   flex-grow: 0;
   z-index: 3;
@@ -719,7 +719,7 @@ onUnmounted(() => {
   left: 50%;
   top: 217px;
   bottom: auto;
-  transform: translateX(calc(-50% + -125px));
+  transform: translateX(calc(-50% + -187px));
   white-space: pre;
   flex-grow: 0;
   z-index: 3;
@@ -736,7 +736,7 @@ onUnmounted(() => {
   left: 50%;
   top: 217px;
   bottom: auto;
-  transform: translateX(calc(-50% + +282px));
+  transform: translateX(calc(-50% + +220px));
   white-space: pre;
   flex-grow: 0;
   z-index: 3;
@@ -753,7 +753,7 @@ onUnmounted(() => {
   left: 50%;
   top: 217px;
   bottom: auto;
-  transform: translateX(calc(-50% + +475px));
+  transform: translateX(calc(-50% + +413px));
   white-space: pre;
   flex-grow: 0;
   z-index: 3;
@@ -792,7 +792,7 @@ onUnmounted(() => {
   left: 50%;
   top: 194px;
   bottom: auto;
-  transform: translateX(calc(-50% + +679px));
+  transform: translateX(calc(-50% + +617px));
   z-index: 2;
 }
 .Pixso-paragraph-1_2500 {
@@ -807,7 +807,7 @@ onUnmounted(() => {
   left: 50%;
   top: 217px;
   bottom: auto;
-  transform: translateX(calc(-50% + +679px));
+  transform: translateX(calc(-50% + +617px));
   white-space: pre;
   flex-grow: 0;
   z-index: 3;
@@ -4223,7 +4223,7 @@ onUnmounted(() => {
     left: 50%;
     top: 14.96%;
     bottom: 79.65%;
-    transform: translateX(calc(-50% + +679px));
+    transform: translateX(calc(-50% + +617px));
 }
 .Pixso-paragraph-33_792 {
     font-size: 20px;

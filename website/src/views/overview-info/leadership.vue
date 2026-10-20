@@ -1829,7 +1829,7 @@ const fetchWebsiteConfig = async () => {
     left: 50%;
     top: 8.28%;
     bottom: 88.73%;
-    transform: translateX(calc(-50% + -533px));
+    transform: translateX(calc(-50% + -595px));
 }
 .Pixso-paragraph-33_977 {
     font-size: 20px;
@@ -1843,7 +1843,7 @@ const fetchWebsiteConfig = async () => {
     left: 50%;
     top: 9.26%;
     bottom: 89.67%;
-    transform: translateX(calc(-50% + -533px));
+    transform: translateX(calc(-50% + -595px));
     white-space: pre;
     flex-grow: 0;
 }
@@ -1859,7 +1859,7 @@ const fetchWebsiteConfig = async () => {
     left: 50%;
     top: 9.26%;
     bottom: 89.67%;
-    transform: translateX(calc(-50% + -329px));
+    transform: translateX(calc(-50% + -391px));
     white-space: pre;
     flex-grow: 0;
 }
@@ -1875,7 +1875,7 @@ const fetchWebsiteConfig = async () => {
     left: 50%;
     top: 9.26%;
     bottom: 89.67%;
-    transform: translateX(calc(-50% + -125px));
+    transform: translateX(calc(-50% + -187px));
     white-space: pre;
     flex-grow: 0;
 }
@@ -1891,7 +1891,7 @@ const fetchWebsiteConfig = async () => {
     left: 50%;
     top: 9.26%;
     bottom: 89.67%;
-    transform: translateX(calc(-50% + +79px));
+    transform: translateX(calc(-50% + +17px));
     white-space: pre;
     flex-grow: 0;
 }
@@ -1907,7 +1907,7 @@ const fetchWebsiteConfig = async () => {
     left: 50%;
     top: 9.26%;
     bottom: 89.67%;
-    transform: translateX(calc(-50% + +282px));
+    transform: translateX(calc(-50% + +220px));
     white-space: pre;
     flex-grow: 0;
 }
@@ -1923,7 +1923,7 @@ const fetchWebsiteConfig = async () => {
     left: 50%;
     top: 9.26%;
     bottom: 89.67%;
-    transform: translateX(calc(-50% + +475px));
+    transform: translateX(calc(-50% + +413px));
     white-space: pre;
     flex-grow: 0;
 }
@@ -1939,7 +1939,7 @@ const fetchWebsiteConfig = async () => {
     left: 50%;
     top: 9.26%;
     bottom: 89.67%;
-    transform: translateX(calc(-50% + +679px));
+    transform: translateX(calc(-50% + +617px));
     white-space: pre;
     flex-grow: 0;
 }
