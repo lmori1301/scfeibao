@@ -194,15 +194,16 @@
                     <span id="1_56_0_1" class="Pixso-span-1_56_0_1">{{ pickSummary(newsList[8]) }}</span>
                 </p>
             </div>
-            <div id="1_57" class="Pixso-text-1_57">
+            <div
+                v-if="newsList[9]"
+                id="1_57"
+                class="Pixso-text-1_57"
+                @click="goNewsDetail(newsList[9])"
+                style="cursor: pointer;"
+            >
                 <p id="1_57_0" class="Pixso-paragraph-1_57_0">
                     <span id="1_57_0_1" class="Pixso-span-1_57_0_1">{{
-                        "水域救援队接到报警后快速响应，利用专业救援装备和技术，"
-                    }}</span>
-                </p>
-                <p id="1_57_1" class="Pixso-paragraph-1_57_1">
-                    <span id="1_57_1_1" class="Pixso-span-1_57_1_1">{{
-                        "成功将落水群众救起并送医救治，确保了人民群众生命安全。"
+                        pickSummary(newsList[9])
                     }}</span>
                 </p>
             </div>
@@ -218,27 +219,27 @@
                 @click="nextBanner"
                 style="cursor: pointer; z-index: 10;"
             ></div>
-            <p id="1_65" class="Pixso-paragraph-1_65">{{ "12-20" }}</p>
-            <p id="1_66" class="Pixso-paragraph-1_66">{{ "12-15" }}</p>
-            <p id="1_67" class="Pixso-paragraph-1_67">{{ "12-10" }}</p>
-            <p id="1_68" class="Pixso-paragraph-1_68">{{ "12-05" }}</p>
-            <p id="1_69" class="Pixso-paragraph-1_69">{{ "11-28" }}</p>
-            <p id="1_70" class="Pixso-paragraph-1_70">{{ "11-20" }}</p>
-            <p id="1_71" class="Pixso-paragraph-1_71">{{ "11-15" }}</p>
-            <p id="1_72" class="Pixso-paragraph-1_72">{{ "11-10" }}</p>
-            <p id="1_73" class="Pixso-paragraph-1_73">{{ "11-05" }}</p>
+            <p v-if="newsList[1]" id="1_65" class="Pixso-paragraph-1_65">{{ newsMonthDay(1) }}</p>
+            <p v-if="newsList[2]" id="1_66" class="Pixso-paragraph-1_66">{{ newsMonthDay(2) }}</p>
+            <p v-if="newsList[3]" id="1_67" class="Pixso-paragraph-1_67">{{ newsMonthDay(3) }}</p>
+            <p v-if="newsList[4]" id="1_68" class="Pixso-paragraph-1_68">{{ newsMonthDay(4) }}</p>
+            <p v-if="newsList[5]" id="1_69" class="Pixso-paragraph-1_69">{{ newsMonthDay(5) }}</p>
+            <p v-if="newsList[6]" id="1_70" class="Pixso-paragraph-1_70">{{ newsMonthDay(6) }}</p>
+            <p v-if="newsList[7]" id="1_71" class="Pixso-paragraph-1_71">{{ newsMonthDay(7) }}</p>
+            <p v-if="newsList[8]" id="1_72" class="Pixso-paragraph-1_72">{{ newsMonthDay(8) }}</p>
+            <p v-if="newsList[9]" id="1_73" class="Pixso-paragraph-1_73">{{ newsMonthDay(9) }}</p>
             <div id="1_74" class="Pixso-vector-1_74"></div>
-            <p id="1_75" class="Pixso-paragraph-1_75">{{ "10-30" }}</p>
-            <p id="1_76" class="Pixso-paragraph-1_76">{{ "2025" }}</p>
-            <p id="1_77" class="Pixso-paragraph-1_77">{{ "2025" }}</p>
-            <p id="1_78" class="Pixso-paragraph-1_78">{{ "2025" }}</p>
-            <p id="1_79" class="Pixso-paragraph-1_79">{{ "2025" }}</p>
-            <p id="1_80" class="Pixso-paragraph-1_80">{{ "2025" }}</p>
-            <p id="1_81" class="Pixso-paragraph-1_81">{{ "2025" }}</p>
-            <p id="1_82" class="Pixso-paragraph-1_82">{{ "2025" }}</p>
-            <p id="1_83" class="Pixso-paragraph-1_83">{{ "2025" }}</p>
-            <p id="1_84" class="Pixso-paragraph-1_84">{{ "2025" }}</p>
-            <p id="1_85" class="Pixso-paragraph-1_85">{{ "2025" }}</p>
+            <p v-if="newsList[0]" id="1_75" class="Pixso-paragraph-1_75">{{ newsMonthDay(0) }}</p>
+            <p v-if="newsList[0]" id="1_76" class="Pixso-paragraph-1_76">{{ newsYear(0) }}</p>
+            <p v-if="newsList[1]" id="1_77" class="Pixso-paragraph-1_77">{{ newsYear(1) }}</p>
+            <p v-if="newsList[2]" id="1_78" class="Pixso-paragraph-1_78">{{ newsYear(2) }}</p>
+            <p v-if="newsList[3]" id="1_79" class="Pixso-paragraph-1_79">{{ newsYear(3) }}</p>
+            <p v-if="newsList[4]" id="1_80" class="Pixso-paragraph-1_80">{{ newsYear(4) }}</p>
+            <p v-if="newsList[5]" id="1_81" class="Pixso-paragraph-1_81">{{ newsYear(5) }}</p>
+            <p v-if="newsList[6]" id="1_82" class="Pixso-paragraph-1_82">{{ newsYear(6) }}</p>
+            <p v-if="newsList[7]" id="1_83" class="Pixso-paragraph-1_83">{{ newsYear(7) }}</p>
+            <p v-if="newsList[8]" id="1_84" class="Pixso-paragraph-1_84">{{ newsYear(8) }}</p>
+            <p v-if="newsList[9]" id="1_85" class="Pixso-paragraph-1_85">{{ newsYear(9) }}</p>
             <div id="1_86" class="Pixso-vector-1_86"></div>
             <div id="1_89" class="Pixso-vector-1_89"></div>
             <div id="1_90" class="Pixso-vector-1_90"></div>
@@ -455,6 +456,27 @@ const pickSummary = (item: any, maxLen = 46): string => {
 const goNewsDetail = (item: any) => {
   if (!item?.id) return
   navigateTo(newsDetailPath(item.id))
+}
+
+/**
+ * 新闻日期格式化（首页日期块此前为设计稿硬编码「2025/12-20」等静态文字，
+ * 现改为由 newsList 对应项的 publishedAt 驱动，后台更新后首页同步）。
+ * 用浏览器本地时区取年/月日（东八区用户与列表页口径一致）。
+ */
+const newsDateOf = (i: number): Date | null => {
+  const v = newsList.value[i]?.publishedAt || newsList.value[i]?.createdAt
+  if (!v) return null
+  const d = new Date(v)
+  return isNaN(d.getTime()) ? null : d
+}
+const newsYear = (i: number): string => {
+  const d = newsDateOf(i)
+  return d ? String(d.getFullYear()) : ''
+}
+const newsMonthDay = (i: number): string => {
+  const d = newsDateOf(i)
+  if (!d) return ''
+  return `${String(d.getMonth() + 1).padStart(2, '0')}-${String(d.getDate()).padStart(2, '0')}`
 }
 
 // 打开外部链接（新窗口）
@@ -3735,6 +3757,22 @@ onUnmounted(() => {
 .dynamics-item:hover .item-title,
 .action-item:hover .item-title {
   color: #005cbe;
+}
+
+/* 首页新闻摘要单行截断：设计稿盒宽由 left+right 定界，长摘要超出即省略号（不再溢出容器） */
+.Pixso-text-1_46 > p,
+.Pixso-text-1_47 > p,
+.Pixso-text-1_48 > p,
+.Pixso-text-1_51 > p,
+.Pixso-text-1_52 > p,
+.Pixso-text-1_53 > p,
+.Pixso-text-1_54 > p,
+.Pixso-text-1_55 > p,
+.Pixso-text-1_56 > p,
+.Pixso-text-1_57 > p {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
 }
 
 </style>
