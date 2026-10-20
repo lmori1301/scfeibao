@@ -64,147 +64,147 @@
                 :items="sloganBanners"
             />
 
-            <p v-if="newsList[0]" id="1_36" class="Pixso-paragraph-1_36" @click="navigateTo(newsDetailPath(newsList[0].id))" style="cursor: pointer;">
-                {{ newsList[0].title }}
+            <p v-if="slotItem(0)" id="1_36" class="Pixso-paragraph-1_36" @click="navigateTo(newsDetailPath(slotItem(0).id))" style="cursor: pointer;">
+                {{ slotItem(0).title }}
             </p>
-            <p v-if="newsList[1]" id="1_37" class="Pixso-paragraph-1_37" @click="navigateTo(newsDetailPath(newsList[1].id))" style="cursor: pointer;">
-                {{ newsList[1].title }}
+            <p v-if="slotItem(1)" id="1_37" class="Pixso-paragraph-1_37" @click="navigateTo(newsDetailPath(slotItem(1).id))" style="cursor: pointer;">
+                {{ slotItem(1).title }}
             </p>
-            <p v-if="newsList[2]" id="1_38" class="Pixso-paragraph-1_38" @click="navigateTo(newsDetailPath(newsList[2].id))" style="cursor: pointer;">
-                {{ newsList[2].title }}
+            <p v-if="slotItem(2)" id="1_38" class="Pixso-paragraph-1_38" @click="navigateTo(newsDetailPath(slotItem(2).id))" style="cursor: pointer;">
+                {{ slotItem(2).title }}
             </p>
-            <p v-if="newsList[3]" id="1_39" class="Pixso-paragraph-1_39" @click="navigateTo(newsDetailPath(newsList[3].id))" style="cursor: pointer;">
-                {{ newsList[3].title }}
+            <p v-if="slotItem(3)" id="1_39" class="Pixso-paragraph-1_39" @click="navigateTo(newsDetailPath(slotItem(3).id))" style="cursor: pointer;">
+                {{ slotItem(3).title }}
             </p>
-            <p v-if="newsList[4]" id="1_40" class="Pixso-paragraph-1_40" @click="navigateTo(newsDetailPath(newsList[4].id))" style="cursor: pointer;">
-                {{ newsList[4].title }}
+            <p v-if="slotItem(4)" id="1_40" class="Pixso-paragraph-1_40" @click="navigateTo(newsDetailPath(slotItem(4).id))" style="cursor: pointer;">
+                {{ slotItem(4).title }}
             </p>
-            <p v-if="newsList[5]" id="1_41" class="Pixso-paragraph-1_41" @click="navigateTo(newsDetailPath(newsList[5].id))" style="cursor: pointer;">
-                {{ newsList[5].title }}
+            <p v-if="slotItem(5)" id="1_41" class="Pixso-paragraph-1_41" @click="navigateTo(newsDetailPath(slotItem(5).id))" style="cursor: pointer;">
+                {{ slotItem(5).title }}
             </p>
-            <p v-if="newsList[6]" id="1_42" class="Pixso-paragraph-1_42" @click="navigateTo(newsDetailPath(newsList[6].id))" style="cursor: pointer;">
-                {{ newsList[6].title }}
+            <p v-if="slotItem(6)" id="1_42" class="Pixso-paragraph-1_42" @click="navigateTo(newsDetailPath(slotItem(6).id))" style="cursor: pointer;">
+                {{ slotItem(6).title }}
             </p>
-            <p v-if="newsList[7]" id="1_43" class="Pixso-paragraph-1_43" @click="navigateTo(newsDetailPath(newsList[7].id))" style="cursor: pointer;">
-                {{ newsList[7].title }}
+            <p v-if="slotItem(7)" id="1_43" class="Pixso-paragraph-1_43" @click="navigateTo(newsDetailPath(slotItem(7).id))" style="cursor: pointer;">
+                {{ slotItem(7).title }}
             </p>
-            <p v-if="newsList[8]" id="1_44" class="Pixso-paragraph-1_44" @click="navigateTo(newsDetailPath(newsList[8].id))" style="cursor: pointer;">
-                {{ newsList[8].title }}
+            <p v-if="slotItem(8)" id="1_44" class="Pixso-paragraph-1_44" @click="navigateTo(newsDetailPath(slotItem(8).id))" style="cursor: pointer;">
+                {{ slotItem(8).title }}
             </p>
-            <p v-if="newsList[9]" id="1_45" class="Pixso-paragraph-1_45" @click="navigateTo(newsDetailPath(newsList[9].id))" style="cursor: pointer;">
-                {{ newsList[9].title }}
+            <p v-if="slotItem(9)" id="1_45" class="Pixso-paragraph-1_45" @click="navigateTo(newsDetailPath(slotItem(9).id))" style="cursor: pointer;">
+                {{ slotItem(9).title }}
             </p>
             <div
-                v-if="newsList[0]"
+                v-if="slotItem(0)"
                 id="1_46"
                 class="Pixso-text-1_46"
-                @click="goNewsDetail(newsList[0])"
+                @click="goNewsDetail(slotItem(0))"
                 style="cursor: pointer;"
             >
                 <p id="1_46_0" class="Pixso-paragraph-1_46_0">
-                    <span id="1_46_0_1" class="Pixso-span-1_46_0_1">{{ pickSummary(newsList[0]) }}</span>
+                    <span id="1_46_0_1" class="Pixso-span-1_46_0_1">{{ pickSummary(slotItem(0)) }}</span>
                 </p>
             </div>
             <div
-                v-if="newsList[1]"
+                v-if="slotItem(1)"
                 id="1_47"
                 class="Pixso-text-1_47"
-                @click="goNewsDetail(newsList[1])"
+                @click="goNewsDetail(slotItem(1))"
                 style="cursor: pointer;"
             >
                 <p id="1_47_0" class="Pixso-paragraph-1_47_0">
-                    <span id="1_47_0_1" class="Pixso-span-1_47_0_1">{{ pickSummary(newsList[1]) }}</span>
+                    <span id="1_47_0_1" class="Pixso-span-1_47_0_1">{{ pickSummary(slotItem(1)) }}</span>
                 </p>
             </div>
             <div
-                v-if="newsList[2]"
+                v-if="slotItem(2)"
                 id="1_48"
                 class="Pixso-text-1_48"
-                @click="goNewsDetail(newsList[2])"
+                @click="goNewsDetail(slotItem(2))"
                 style="cursor: pointer;"
             >
                 <p id="1_48_0" class="Pixso-paragraph-1_48_0">
-                    <span id="1_48_0_1" class="Pixso-span-1_48_0_1">{{ pickSummary(newsList[2]) }}</span>
+                    <span id="1_48_0_1" class="Pixso-span-1_48_0_1">{{ pickSummary(slotItem(2)) }}</span>
                 </p>
             </div>
             <p id="1_49" class="Pixso-paragraph-1_49" @click="navigateTo('/dynamic-news')" style="cursor: pointer;">{{ "更多 >>" }}</p>
             <p id="32_1" class="Pixso-paragraph-32_1" @click="navigateTo('/dynamic-news')" style="cursor: pointer;">{{ "更多 >>" }}</p>
             <div
-                v-if="newsList[4]"
+                v-if="slotItem(4)"
                 id="1_53"
                 class="Pixso-text-1_53"
-                @click="goNewsDetail(newsList[4])"
+                @click="goNewsDetail(slotItem(4))"
                 style="cursor: pointer;"
             >
                 <p id="1_53_0" class="Pixso-paragraph-1_53_0">
-                    <span id="1_53_0_1" class="Pixso-span-1_53_0_1">{{ pickSummary(newsList[4]) }}</span>
+                    <span id="1_53_0_1" class="Pixso-span-1_53_0_1">{{ pickSummary(slotItem(4)) }}</span>
                 </p>
             </div>
             <div
-                v-if="newsList[7]"
+                v-if="slotItem(7)"
                 id="1_55"
                 class="Pixso-text-1_55"
-                @click="goNewsDetail(newsList[7])"
+                @click="goNewsDetail(slotItem(7))"
                 style="cursor: pointer;"
             >
                 <p id="1_55_0" class="Pixso-paragraph-1_55_0">
-                    <span id="1_55_0_1" class="Pixso-span-1_55_0_1">{{ pickSummary(newsList[7]) }}</span>
+                    <span id="1_55_0_1" class="Pixso-span-1_55_0_1">{{ pickSummary(slotItem(7)) }}</span>
                 </p>
             </div>
             <div
-                v-if="newsList[3]"
+                v-if="slotItem(3)"
                 id="1_51"
                 class="Pixso-text-1_51"
-                @click="goNewsDetail(newsList[3])"
+                @click="goNewsDetail(slotItem(3))"
                 style="cursor: pointer;"
             >
                 <p id="1_51_0" class="Pixso-paragraph-1_51_0">
-                    <span id="1_51_0_1" class="Pixso-span-1_51_0_1">{{ pickSummary(newsList[3]) }}</span>
+                    <span id="1_51_0_1" class="Pixso-span-1_51_0_1">{{ pickSummary(slotItem(3)) }}</span>
                 </p>
             </div>
             <div
-                v-if="newsList[6]"
+                v-if="slotItem(6)"
                 id="1_52"
                 class="Pixso-text-1_52"
-                @click="goNewsDetail(newsList[6])"
+                @click="goNewsDetail(slotItem(6))"
                 style="cursor: pointer;"
             >
                 <p id="1_52_0" class="Pixso-paragraph-1_52_0">
-                    <span id="1_52_0_1" class="Pixso-span-1_52_0_1">{{ pickSummary(newsList[6]) }}</span>
+                    <span id="1_52_0_1" class="Pixso-span-1_52_0_1">{{ pickSummary(slotItem(6)) }}</span>
                 </p>
             </div>
             <div
-                v-if="newsList[5]"
+                v-if="slotItem(5)"
                 id="1_54"
                 class="Pixso-text-1_54"
-                @click="goNewsDetail(newsList[5])"
+                @click="goNewsDetail(slotItem(5))"
                 style="cursor: pointer;"
             >
                 <p id="1_54_0" class="Pixso-paragraph-1_54_0">
-                    <span id="1_54_0_1" class="Pixso-span-1_54_0_1">{{ pickSummary(newsList[5]) }}</span>
+                    <span id="1_54_0_1" class="Pixso-span-1_54_0_1">{{ pickSummary(slotItem(5)) }}</span>
                 </p>
             </div>
             <div
-                v-if="newsList[8]"
+                v-if="slotItem(8)"
                 id="1_56"
                 class="Pixso-text-1_56"
-                @click="goNewsDetail(newsList[8])"
+                @click="goNewsDetail(slotItem(8))"
                 style="cursor: pointer;"
             >
                 <p id="1_56_0" class="Pixso-paragraph-1_56_0">
-                    <span id="1_56_0_1" class="Pixso-span-1_56_0_1">{{ pickSummary(newsList[8]) }}</span>
+                    <span id="1_56_0_1" class="Pixso-span-1_56_0_1">{{ pickSummary(slotItem(8)) }}</span>
                 </p>
             </div>
             <div
-                v-if="newsList[9]"
+                v-if="slotItem(9)"
                 id="1_57"
                 class="Pixso-text-1_57"
-                @click="goNewsDetail(newsList[9])"
+                @click="goNewsDetail(slotItem(9))"
                 style="cursor: pointer;"
             >
                 <p id="1_57_0" class="Pixso-paragraph-1_57_0">
                     <span id="1_57_0_1" class="Pixso-span-1_57_0_1">{{
-                        pickSummary(newsList[9])
+                        pickSummary(slotItem(9))
                     }}</span>
                 </p>
             </div>
@@ -220,27 +220,27 @@
                 @click="nextBanner"
                 style="cursor: pointer; z-index: 10;"
             ></div>
-            <p v-if="newsList[1]" id="1_65" class="Pixso-paragraph-1_65">{{ newsMonthDay(1) }}</p>
-            <p v-if="newsList[2]" id="1_66" class="Pixso-paragraph-1_66">{{ newsMonthDay(2) }}</p>
-            <p v-if="newsList[3]" id="1_67" class="Pixso-paragraph-1_67">{{ newsMonthDay(3) }}</p>
-            <p v-if="newsList[4]" id="1_68" class="Pixso-paragraph-1_68">{{ newsMonthDay(4) }}</p>
-            <p v-if="newsList[5]" id="1_69" class="Pixso-paragraph-1_69">{{ newsMonthDay(5) }}</p>
-            <p v-if="newsList[6]" id="1_70" class="Pixso-paragraph-1_70">{{ newsMonthDay(6) }}</p>
-            <p v-if="newsList[7]" id="1_71" class="Pixso-paragraph-1_71">{{ newsMonthDay(7) }}</p>
-            <p v-if="newsList[8]" id="1_72" class="Pixso-paragraph-1_72">{{ newsMonthDay(8) }}</p>
-            <p v-if="newsList[9]" id="1_73" class="Pixso-paragraph-1_73">{{ newsMonthDay(9) }}</p>
+            <p v-if="slotItem(1)" id="1_65" class="Pixso-paragraph-1_65">{{ newsMonthDay(1) }}</p>
+            <p v-if="slotItem(2)" id="1_66" class="Pixso-paragraph-1_66">{{ newsMonthDay(2) }}</p>
+            <p v-if="slotItem(3)" id="1_67" class="Pixso-paragraph-1_67">{{ newsMonthDay(3) }}</p>
+            <p v-if="slotItem(4)" id="1_68" class="Pixso-paragraph-1_68">{{ newsMonthDay(4) }}</p>
+            <p v-if="slotItem(5)" id="1_69" class="Pixso-paragraph-1_69">{{ newsMonthDay(5) }}</p>
+            <p v-if="slotItem(6)" id="1_70" class="Pixso-paragraph-1_70">{{ newsMonthDay(6) }}</p>
+            <p v-if="slotItem(7)" id="1_71" class="Pixso-paragraph-1_71">{{ newsMonthDay(7) }}</p>
+            <p v-if="slotItem(8)" id="1_72" class="Pixso-paragraph-1_72">{{ newsMonthDay(8) }}</p>
+            <p v-if="slotItem(9)" id="1_73" class="Pixso-paragraph-1_73">{{ newsMonthDay(9) }}</p>
             <div id="1_74" class="Pixso-vector-1_74"></div>
-            <p v-if="newsList[0]" id="1_75" class="Pixso-paragraph-1_75">{{ newsMonthDay(0) }}</p>
-            <p v-if="newsList[0]" id="1_76" class="Pixso-paragraph-1_76">{{ newsYear(0) }}</p>
-            <p v-if="newsList[1]" id="1_77" class="Pixso-paragraph-1_77">{{ newsYear(1) }}</p>
-            <p v-if="newsList[2]" id="1_78" class="Pixso-paragraph-1_78">{{ newsYear(2) }}</p>
-            <p v-if="newsList[3]" id="1_79" class="Pixso-paragraph-1_79">{{ newsYear(3) }}</p>
-            <p v-if="newsList[4]" id="1_80" class="Pixso-paragraph-1_80">{{ newsYear(4) }}</p>
-            <p v-if="newsList[5]" id="1_81" class="Pixso-paragraph-1_81">{{ newsYear(5) }}</p>
-            <p v-if="newsList[6]" id="1_82" class="Pixso-paragraph-1_82">{{ newsYear(6) }}</p>
-            <p v-if="newsList[7]" id="1_83" class="Pixso-paragraph-1_83">{{ newsYear(7) }}</p>
-            <p v-if="newsList[8]" id="1_84" class="Pixso-paragraph-1_84">{{ newsYear(8) }}</p>
-            <p v-if="newsList[9]" id="1_85" class="Pixso-paragraph-1_85">{{ newsYear(9) }}</p>
+            <p v-if="slotItem(0)" id="1_75" class="Pixso-paragraph-1_75">{{ newsMonthDay(0) }}</p>
+            <p v-if="slotItem(0)" id="1_76" class="Pixso-paragraph-1_76">{{ newsYear(0) }}</p>
+            <p v-if="slotItem(1)" id="1_77" class="Pixso-paragraph-1_77">{{ newsYear(1) }}</p>
+            <p v-if="slotItem(2)" id="1_78" class="Pixso-paragraph-1_78">{{ newsYear(2) }}</p>
+            <p v-if="slotItem(3)" id="1_79" class="Pixso-paragraph-1_79">{{ newsYear(3) }}</p>
+            <p v-if="slotItem(4)" id="1_80" class="Pixso-paragraph-1_80">{{ newsYear(4) }}</p>
+            <p v-if="slotItem(5)" id="1_81" class="Pixso-paragraph-1_81">{{ newsYear(5) }}</p>
+            <p v-if="slotItem(6)" id="1_82" class="Pixso-paragraph-1_82">{{ newsYear(6) }}</p>
+            <p v-if="slotItem(7)" id="1_83" class="Pixso-paragraph-1_83">{{ newsYear(7) }}</p>
+            <p v-if="slotItem(8)" id="1_84" class="Pixso-paragraph-1_84">{{ newsYear(8) }}</p>
+            <p v-if="slotItem(9)" id="1_85" class="Pixso-paragraph-1_85">{{ newsYear(9) }}</p>
             <div id="1_86" class="Pixso-vector-1_86"></div>
             <div id="1_89" class="Pixso-vector-1_89"></div>
             <div id="1_90" class="Pixso-vector-1_90"></div>
@@ -379,7 +379,7 @@
 import { ref, computed, onMounted, onUnmounted, nextTick, watch } from 'vue'
 import { useRouter, useRoute } from 'vue-router'
 import { ElMessage } from 'element-plus'
-import { getBannerList, getHomeNews, getLocalDynamics, getRescueActions, getPromotionalVideos, getTeamShowcaseForHome, getFriendLinks } from '@/api/home'
+import { getBannerList, getHomeNews, getPromotionalVideos, getTeamShowcaseForHome, getFriendLinks } from '@/api/home'
 import { getSloganBanners } from '@/api/slogan'
 import { getWebsiteConfig } from '@/api/config'
 import { usePixsoScale } from '@/composables/use-pixso-scale'
@@ -460,12 +460,42 @@ const goNewsDetail = (item: any) => {
 }
 
 /**
- * 新闻日期格式化（首页日期块此前为设计稿硬编码「2025/12-20」等静态文字，
- * 现改为由 newsList 对应项的 publishedAt 驱动，后台更新后首页同步）。
- * 用浏览器本地时区取年/月日（东八区用户与列表页口径一致）。
+ * 首页「动态要闻 / 各地动态 / 救援行动」三板块槽位映射（按 Pixso 设计稿坐标）：
+ * - 动态要闻：大图卡[0] + 右列上 3 条[1,4,7] → newsList（category=动态要闻）
+ * - 各地动态：左列下 3 条[2,5,8]            → localDynamicsList（category=各地动态）
+ * - 救援行动：右列下 3 条[3,6,9]            → rescueActionsList（category=救援行动）
+ * 三板块各自按后台「新闻管理」对应分类取数，杜绝动态要闻区混入其他分类。
  */
-const newsDateOf = (i: number): Date | null => {
-  const v = newsList.value[i]?.publishedAt || newsList.value[i]?.createdAt
+type HomeSlotList = 'dynamic' | 'local' | 'rescue'
+const HOME_SLOT_MAP: Record<number, { list: HomeSlotList; idx: number }> = {
+  0: { list: 'dynamic', idx: 0 },
+  1: { list: 'dynamic', idx: 1 },
+  4: { list: 'dynamic', idx: 2 },
+  7: { list: 'dynamic', idx: 3 },
+  2: { list: 'local', idx: 0 },
+  5: { list: 'local', idx: 1 },
+  8: { list: 'local', idx: 2 },
+  3: { list: 'rescue', idx: 0 },
+  6: { list: 'rescue', idx: 1 },
+  9: { list: 'rescue', idx: 2 },
+}
+const slotItem = (slot: number): any => {
+  const m = HOME_SLOT_MAP[slot]
+  if (!m) return undefined
+  const list =
+    m.list === 'dynamic' ? newsList.value : m.list === 'local' ? localDynamicsList.value : rescueActionsList.value
+  return list[m.idx]
+}
+
+/**
+ * 新闻日期格式化（首页日期块此前为设计稿硬编码「2025/12-20」等静态文字，
+ * 现改为由接口 publishedAt 驱动，后台更新后首页同步）。
+ * 用浏览器本地时区取年/月日（东八区用户与列表页口径一致）。
+ * 入参为首页槽位号（0-9），经 slotItem 映射到三个分类列表。
+ */
+const newsDateOf = (slot: number): Date | null => {
+  const item = slotItem(slot)
+  const v = item?.publishedAt || item?.createdAt
   if (!v) return null
   const d = new Date(v)
   return isNaN(d.getTime()) ? null : d
@@ -630,45 +660,42 @@ const currentBannerIndex = ref(0)
 // 新闻数据
 const newsList = ref<any[]>([])
 
-// 获取新闻数据
+// 获取新闻数据（动态要闻分类；头条 isHeadline=1 优先作为大图卡，其余按发布日期倒序）
 const fetchNews = async () => {
   try {
-    const res = await getHomeNews({ pageSize: 10 })
-    newsList.value = normalizeListResponse<any>(res.data)
+    const res = await getHomeNews({ pageSize: 10, category: '动态要闻' })
+    const items = normalizeListResponse<any>(res.data)
+    newsList.value = [...items].sort(
+      (a, b) =>
+        (Number(b?.isHeadline) || 0) - (Number(a?.isHeadline) || 0) ||
+        new Date(b?.publishedAt || 0).getTime() - new Date(a?.publishedAt || 0).getTime()
+    )
   } catch (error) {
     console.error('获取新闻失败:', error)
   }
 }
 
-// 各地动态数据
+// 各地动态数据（新闻管理-各地动态分类，首页左列下 3 条）
 const localDynamicsList = ref<any[]>([])
 
 // 获取各地动态数据
 const fetchLocalDynamics = async () => {
   try {
-    const res = await getLocalDynamics({ page: 1, pageSize: 4 })
-    if (res.data) {
-      localDynamicsList.value = res.data
-    } else {
-      console.warn('各地动态API返回数据为空')
-    }
+    const res = await getHomeNews({ pageSize: 3, category: '各地动态' })
+    localDynamicsList.value = normalizeListResponse<any>(res.data)
   } catch (error) {
     console.error('获取各地动态失败:', error)
   }
 }
 
-// 救援行动数据
+// 救援行动数据（新闻管理-救援行动分类，首页右列下 3 条）
 const rescueActionsList = ref<any[]>([])
 
 // 获取救援行动数据
 const fetchRescueActions = async () => {
   try {
-    const res = await getRescueActions({ pageSize: 4 })
-    if (res.data) {
-      rescueActionsList.value = res.data
-    } else {
-      console.warn('救援行动API返回数据为空')
-    }
+    const res = await getHomeNews({ pageSize: 3, category: '救援行动' })
+    rescueActionsList.value = normalizeListResponse<any>(res.data)
   } catch (error) {
     console.error('获取救援行动失败:', error)
   }

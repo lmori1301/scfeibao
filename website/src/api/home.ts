@@ -19,36 +19,10 @@ export function getBannerList() {
 }
 
 /**
- * 获取首页最新新闻
+ * 获取首页新闻列表（支持按后台新闻管理分类过滤）
  */
-export function getHomeNews(params?: { pageSize?: number }) {
+export function getHomeNews(params?: { page?: number; pageSize?: number; category?: string }) {
   return http.get<NewsItem[]>('/home/news', { params })
-}
-
-/**
- * 获取各地动态
- */
-export function getLocalDynamics(params?: { page?: number; pageSize?: number }) {
-  return http.get<{
-    id: number
-    region: string
-    title: string
-    publishDate: string
-  }[]>('/home/dynamics', { params })
-}
-
-/**
- * 获取救援行动
- */
-export function getRescueActions(params?: { pageSize?: number }) {
-  return http.get<{
-    id: number
-    title: string
-    location: string
-    rescueDate: string
-    summary: string
-    image: string
-  }[]>('/home/actions', { params })
 }
 
 /**
