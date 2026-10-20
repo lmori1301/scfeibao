@@ -1829,7 +1829,7 @@ const fetchWebsiteConfig = async () => {
     left: 50%;
     top: 8.28%;
     bottom: 88.73%;
-    transform: translateX(calc(-50% + -596px));
+    transform: translateX(calc(-50% + -533px));
 }
 .Pixso-paragraph-33_977 {
     font-size: 20px;

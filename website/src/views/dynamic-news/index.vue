@@ -1415,7 +1415,7 @@ const fetchWebsiteConfig = async () => {
   left: 50%;
   top: 8.8%;
   bottom: 88.03%;
-  transform: translateX(calc(-50% + 220px));
+  transform: translateX(calc(-50% + +282px));
 }
 .Pixso-paragraph-1_2188 {
   font-size: 20px;

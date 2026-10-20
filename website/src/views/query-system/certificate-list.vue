@@ -792,7 +792,7 @@ onUnmounted(() => {
   left: 50%;
   top: 194px;
   bottom: auto;
-  transform: translateX(calc(-50% + 627px));
+  transform: translateX(calc(-50% + +679px));
   z-index: 2;
 }
 .Pixso-paragraph-1_2500 {
@@ -4223,7 +4223,7 @@ onUnmounted(() => {
     left: 50%;
     top: 14.96%;
     bottom: 79.65%;
-    transform: translateX(calc(-50% + 627px));
+    transform: translateX(calc(-50% + +679px));
 }
 .Pixso-paragraph-33_792 {
     font-size: 20px;

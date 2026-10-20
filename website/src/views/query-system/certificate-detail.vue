@@ -960,7 +960,7 @@ onMounted(() => {
     left: 50%;
     top: 14.96%;
     bottom: 79.65%;
-    transform: translateX(calc(-50% + 627px));
+    transform: translateX(calc(-50% + +679px));
 }
 .Pixso-paragraph-33_800 {
     font-size: 20px;

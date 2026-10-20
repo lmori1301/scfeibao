@@ -1002,7 +1002,7 @@ onMounted(() => {
   left: 50%;
   top: 13.43%;
   bottom: 81.72%;
-  transform: translateX(calc(-50% + 627px));
+  transform: translateX(calc(-50% + +679px));
 }
 /* 查询系统 - 与其余 6 项主导航高度一致 */
 .Pixso-paragraph-33_761 {

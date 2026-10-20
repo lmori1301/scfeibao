@@ -327,7 +327,7 @@ onMounted(() => {
     left: 50%;
     top: 10.36%;
     bottom: 85.9%;
-    transform: translateX(calc(-50% + -391px));
+    transform: translateX(calc(-50% + -329px));
 }
 .Pixso-vector-17_1 {
     width: 150px;

@@ -961,7 +961,8 @@ onUnmounted(() => {
     left: 5.89%;
     right: 5.83%;
     top: 4.5%;
-    height: 1.63%;
+    /* 与 .nav-bar-bg(1.68%) 同高：红徽章 height:100% 才能撑满蓝条，消除上下露蓝边 */
+    height: 1.68%;
     z-index: 1;
     display: flex;
     justify-content: flex-start;
@@ -1013,7 +1014,8 @@ onUnmounted(() => {
     display: flex;
     align-items: center;
     justify-content: center;
-    height: 70px;
+    /* 撑满导航条全高（与内页红徽章=蓝条齐平一致），消除上下露蓝边 */
+    height: 100%;
     width: 150px;
     flex: 0 0 auto;
     text-decoration: none;
