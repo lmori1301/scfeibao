@@ -146,11 +146,13 @@ const fetchNewsDetail = async () => {
   }
 }
 
-// 格式化日期
+// 格式化日期：按本地时区取年月日，避免 toISOString() 的 UTC 偏移导致日期少一天
 const formatDate = (dateStr: string) => {
   if (!dateStr) return ''
   const date = new Date(dateStr)
-  return date.toISOString().split('T')[0]
+  if (Number.isNaN(date.getTime())) return ''
+  const pad = (n: number) => String(n).padStart(2, '0')
+  return `${date.getFullYear()}-${pad(date.getMonth() + 1)}-${pad(date.getDate())}`
 }
 
 // 搜索

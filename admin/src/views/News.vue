@@ -56,10 +56,25 @@ const getStatusValue = (status: any) => {
   return 0
 }
 
+const pad2 = (n: number) => String(n).padStart(2, '0')
+
+/**
+ * 统一按「浏览器本地时区」取年-月-日。
+ * 不能再用 toISOString().split('T')[0]：published_at 是 timestamp，
+ * 后端 timezone 为 +08:00，本地 00:00 的日期转 UTC 会变成前一天 16:00，
+ * 直接截取 UTC 日期会比实际所选日期少一天。
+ */
+const toDateInput = (val: any): string => {
+  if (!val) return ''
+  if (typeof val === 'string' && /^\d{4}-\d{2}-\d{2}$/.test(val)) return val
+  const date = new Date(val)
+  if (Number.isNaN(date.getTime())) return ''
+  return `${date.getFullYear()}-${pad2(date.getMonth() + 1)}-${pad2(date.getDate())}`
+}
+
 const formatDate = (_row: any, _column: any, cellValue: any) => {
   if (!cellValue) return '--'
-  const date = new Date(cellValue)
-  return date.toISOString().split('T')[0]
+  return toDateInput(cellValue) || '--'
 }
 
 const sortedRows = computed(() =>
@@ -99,7 +114,7 @@ const handleReset = () => {
 const handleAdd = () => {
   dialogTitle.value = '新增新闻'
   const user = JSON.parse(localStorage.getItem('user') || '{}')
-  const today = new Date().toISOString().split('T')[0]
+  const today = toDateInput(new Date())
   formData.value = {
     title: '',
     category: activeTab.value === ALL_TAB ? '' : activeTab.value,
@@ -121,6 +136,7 @@ const handleEdit = (row: any) => {
   dialogTitle.value = '编辑新闻'
   formData.value = {
     ...row,
+    publishedAt: toDateInput(row.publishedAt),
     status: getStatusText(row.status),
     sort: row.sort || 1,
     isHeadline: row.isHeadline ?? 0,
@@ -162,11 +178,9 @@ const handleToggleNew = async (row: any) => {
 const handleSave = async () => {
   await formRef.value.validate()
 
-  let publishedAtValue = undefined
-  if (formData.value.publishedAt) {
-    const date = new Date(formData.value.publishedAt)
-    publishedAtValue = date.toISOString().replace(/\.\d{3}Z$/, 'Z')
-  }
+  // value-format="YYYY-MM-DD" 后 v-model 已是日期字符串，直接提交，
+  // 不再 new Date().toISOString()（本地 00:00 转 UTC 会变成前一天 16:00，导致日期少一天）
+  const publishedAtValue = formData.value.publishedAt || undefined
 
   const saveData = {
     title: formData.value.title,
@@ -348,7 +362,13 @@ fetch(getApiParams())
               </div>
               <div class="content-form-section__body">
                 <el-form-item label="发布日期">
-                  <el-date-picker v-model="formData.publishedAt" type="date" style="width: 100%" />
+                  <el-date-picker
+                    v-model="formData.publishedAt"
+                    type="date"
+                    value-format="YYYY-MM-DD"
+                    placeholder="请选择发布日期"
+                    style="width: 100%"
+                  />
                 </el-form-item>
                 <el-form-item label="发布状态">
                   <el-select v-model="formData.status" style="width: 100%">

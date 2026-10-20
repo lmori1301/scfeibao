@@ -121,7 +121,7 @@ export class NewsService {
     try {
       const entity = this.newsRepository.create({
         ...dto,
-        publishedAt: dto.publishedAt ? new Date(dto.publishedAt) : new Date(),
+        publishedAt: this.parsePublishedAt(dto.publishedAt) ?? new Date(),
       });
       const created = await this.newsRepository.save(entity);
       await this.clearDetailCache(created.id);
@@ -140,10 +140,7 @@ export class NewsService {
     try {
       Object.assign(entity, {
         ...dto,
-        publishedAt:
-          !dto.publishedAt
-            ? entity.publishedAt
-            : new Date(dto.publishedAt),
+        publishedAt: this.parsePublishedAt(dto.publishedAt) ?? entity.publishedAt,
       });
       const updated = await this.newsRepository.save(entity);
       await this.clearDetailCache(id);
@@ -166,6 +163,23 @@ export class NewsService {
     } catch (error) {
       throw new InternalServerErrorException(`删除新闻失败：${error.message}`);
     }
+  }
+
+  /**
+   * 发布日期统一按「东八区当天零点」落库。
+   * 后台提交的是纯日期（YYYY-MM-DD）；若直接 new Date('2026-10-20')，JS 会按 UTC 零点解析，
+   * 在连接 timezone=+08:00 下写入 timestamp 会变成当日 08:00，任一环节再用 toISOString()
+   * 截取日期就会少一天。这里显式补 +08:00 消除歧义；带时间的完整 ISO 串仍按原值解析。
+   */
+  private parsePublishedAt(value?: string): Date | undefined {
+    if (!value) {
+      return undefined;
+    }
+    if (/^\d{4}-\d{2}-\d{2}$/.test(value)) {
+      return new Date(`${value}T00:00:00+08:00`);
+    }
+    const parsed = new Date(value);
+    return Number.isNaN(parsed.getTime()) ? undefined : parsed;
   }
 
   private async clearDetailCache(id: number) {
