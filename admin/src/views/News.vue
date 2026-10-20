@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { computed, nextTick, ref } from 'vue'
+import { computed, nextTick, ref, watch } from 'vue'
 import { Plus, RefreshRight, Search } from '@element-plus/icons-vue'
 import { ElMessage, ElMessageBox } from 'element-plus'
 import { usePagination } from '@/composables/usePagination'
@@ -39,7 +39,7 @@ const rules = {
   category: [requiredRule('分类')],
 }
 
-const { data, total, loading, page, pageSize, fetch, handlePageChange } = usePagination((params) => {
+const { data, total, loading, page, pageSize, fetch, resetAndFetch, handlePageChange } = usePagination((params) => {
   const filteredParams = Object.fromEntries(
     Object.entries(params).filter(([_, value]) => value !== '' && value !== null && value !== undefined)
   )
@@ -70,10 +70,29 @@ const sortedRows = computed(() =>
 
 const getApiParams = () => ({ ...searchForm.value })
 
+/** 分类页签：'all' 表示不限分类（与下拉筛选共用 searchForm.category） */
+const ALL_TAB = 'all'
+const activeTab = ref<string>(ALL_TAB)
+
+const handleTabChange = (name: string | number) => {
+  searchForm.value.category = name === ALL_TAB ? '' : String(name)
+  // 切页签属于新的查询条件，页码回到第 1 页
+  resetAndFetch(getApiParams())
+}
+
+// 用下拉「新闻分类」筛选时，同步高亮上方页签
+watch(
+  () => searchForm.value.category,
+  (val) => {
+    activeTab.value = val ? String(val) : ALL_TAB
+  }
+)
+
 const handleSearch = () => fetch(getApiParams())
 
 const handleReset = () => {
   searchForm.value = { title: '', category: '', status: '' }
+  activeTab.value = ALL_TAB
   fetch(getApiParams())
 }
 
@@ -83,7 +102,7 @@ const handleAdd = () => {
   const today = new Date().toISOString().split('T')[0]
   formData.value = {
     title: '',
-    category: '',
+    category: activeTab.value === ALL_TAB ? '' : activeTab.value,
     author: user.realName || user.username || '管理员',
     summary: '',
     content: '',
@@ -216,6 +235,12 @@ fetch(getApiParams())
             新增新闻
           </el-button>
         </div>
+      </div>
+      <div class="news-tabs">
+        <el-tabs v-model="activeTab" @tab-change="handleTabChange">
+          <el-tab-pane label="全部" :name="ALL_TAB" />
+          <el-tab-pane v-for="cat in newsCategories" :key="cat" :label="cat" :name="cat" />
+        </el-tabs>
       </div>
       <el-table max-height="calc(100vh - 320px)" :data="sortedRows" v-loading="loading" stripe>
         <el-table-column type="selection" width="46" fixed="left" />
@@ -386,6 +411,48 @@ fetch(getApiParams())
 </template>
 
 <style scoped lang="scss">
+/* 列表分类页签：全部 + 六大新闻分类，点击即按分类过滤并回到第 1 页 */
+.news-tabs {
+  margin: 2px 0 10px;
+  padding: 0 4px;
+
+  :deep(.el-tabs__header) {
+    margin-bottom: 0;
+  }
+
+  :deep(.el-tabs__nav-wrap::after) {
+    height: 1px;
+    background-color: #eef3fb;
+  }
+
+  :deep(.el-tabs__item) {
+    height: 40px;
+    line-height: 40px;
+    padding: 0 18px;
+    font-size: 14px;
+    color: #5b6b83;
+  }
+
+  :deep(.el-tabs__item.is-active) {
+    color: #2563eb;
+    font-weight: 600;
+  }
+
+  :deep(.el-tabs__item:hover) {
+    color: #2563eb;
+  }
+
+  :deep(.el-tabs__active-bar) {
+    height: 2px;
+    background-color: #2563eb;
+  }
+
+  /* 页签只做筛选，不需要内容面板 */
+  :deep(.el-tabs__content) {
+    display: none;
+  }
+}
+
 .content-toolbar {
   padding: 0;
   display: flex;
