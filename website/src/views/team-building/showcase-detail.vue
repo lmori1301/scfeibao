@@ -54,13 +54,13 @@
             <div id="1_1097" class="Pixso-vector-1_1097"></div>
             <router-link to="/" id="17_4" class="Pixso-vector-17_4" style="cursor: pointer;"></router-link>
             <div id="1_1102" class="Pixso-vector-1_1102"></div>
-            <router-link to="/overview-info" id="1_1103" class="Pixso-paragraph-1_1103">概况信息</router-link>
-            <router-link to="/team-building" id="1_1104" class="Pixso-paragraph-1_1104">队伍建设</router-link>
-            <router-link to="/info-public" id="1_1105" class="Pixso-paragraph-1_1105">信息公开</router-link>
-            <router-link to="/party-building" id="1_1106" class="Pixso-paragraph-1_1106">党建专栏</router-link>
-            <router-link to="/dynamic-news" id="1_1107" class="Pixso-paragraph-1_1107">动态要闻</router-link>
-            <router-link to="/policy-regulations" id="1_1108" class="Pixso-paragraph-1_1108">政策法规</router-link>
-            <router-link to="/query-system" id="1_1109" class="Pixso-paragraph-1_1109">查询系统</router-link>
+            <router-link to="/overview-info" id="1_1103" class="Pixso-paragraph-1_1103 main-nav-link">概况信息</router-link>
+            <router-link to="/team-building" id="1_1104" class="Pixso-paragraph-1_1104 main-nav-link">队伍建设</router-link>
+            <router-link to="/info-public" id="1_1105" class="Pixso-paragraph-1_1105 main-nav-link">信息公开</router-link>
+            <router-link to="/party-building" id="1_1106" class="Pixso-paragraph-1_1106 main-nav-link">党建专栏</router-link>
+            <router-link to="/dynamic-news" id="1_1107" class="Pixso-paragraph-1_1107 main-nav-link">动态要闻</router-link>
+            <router-link to="/policy-regulations" id="1_1108" class="Pixso-paragraph-1_1108 main-nav-link">政策法规</router-link>
+            <router-link to="/query-system" id="1_1109" class="Pixso-paragraph-1_1109 main-nav-link">查询系统</router-link>
             <div id="33_147" class="Pixso-group-33_147" @click.stop>
                 <div id="33_148" class="Pixso-vector-33_148"></div>
                 <!-- 输入框 -->
@@ -497,12 +497,14 @@ onMounted(() => {
     width: auto;
     height: auto;
     position: absolute;
-    left: 17%;
-    right: 79.32%;
+    left: 50%;
+    right: auto;
     top: 5.26%;
     bottom: 94.14%;
     white-space: pre;
     flex-grow: 0;
+  /* 导航项：归一化到全站统一 Δ(-533px)，与文字中心 960-533 对齐 */
+  transform: translateX(calc(-50% + -533px));
 }
 .Pixso-paragraph-1_1104 {
     font-size: 20px;
@@ -514,12 +516,14 @@ onMounted(() => {
     width: auto;
     height: auto;
     position: absolute;
-    left: 27.5%;
-    right: 68.33%;
+    left: 50%;
+    right: auto;
     top: 5.26%;
     bottom: 94.14%;
     white-space: pre;
     flex-grow: 0;
+  /* 导航项：归一化到全站统一 Δ(-329px)，与文字中心 960-329 对齐 */
+  transform: translateX(calc(-50% + -329px));
 }
 .Pixso-paragraph-1_1105 {
     font-size: 20px;
@@ -531,12 +535,14 @@ onMounted(() => {
     width: auto;
     height: auto;
     position: absolute;
-    left: 48.8%;
-    right: 47.03%;
+    left: 50%;
+    right: auto;
     top: 5.26%;
     bottom: 94.14%;
     white-space: pre;
     flex-grow: 0;
+  /* 导航项：归一化到全站统一 Δ(+79px)，与文字中心 960+79 对齐 */
+  transform: translateX(calc(-50% + +79px));
 }
 .Pixso-paragraph-1_1106 {
     font-size: 20px;
@@ -548,12 +554,14 @@ onMounted(() => {
     width: auto;
     height: auto;
     position: absolute;
-    left: 37.6%;
-    right: 57.19%;
+    left: 50%;
+    right: auto;
     top: 5.26%;
     bottom: 94.14%;
     white-space: pre;
     flex-grow: 0;
+  /* 导航项：归一化到全站统一 Δ(-125px)，与文字中心 960-125 对齐 */
+  transform: translateX(calc(-50% + -125px));
 }
 .Pixso-paragraph-1_1107 {
     font-size: 20px;
@@ -565,12 +573,14 @@ onMounted(() => {
     width: auto;
     height: auto;
     position: absolute;
-    left: 59.43%;
-    right: 36.41%;
+    left: 50%;
+    right: auto;
     top: 5.26%;
     bottom: 94.14%;
     white-space: pre;
     flex-grow: 0;
+  /* 导航项：归一化到全站统一 Δ(+282px)，与文字中心 960+282 对齐 */
+  transform: translateX(calc(-50% + +282px));
 }
 .Pixso-paragraph-1_1108 {
     font-size: 20px;
@@ -582,12 +592,14 @@ onMounted(() => {
     width: auto;
     height: auto;
     position: absolute;
-    left: 70.05%;
-    right: 25.78%;
+    left: 50%;
+    right: auto;
     top: 5.26%;
     bottom: 94.14%;
     white-space: pre;
     flex-grow: 0;
+  /* 导航项：归一化到全站统一 Δ(+475px)，与文字中心 960+475 对齐 */
+  transform: translateX(calc(-50% + +475px));
 }
 .Pixso-paragraph-1_1109 {
     font-size: 20px;
@@ -599,12 +611,14 @@ onMounted(() => {
     width: auto;
     height: auto;
     position: absolute;
-    left: 80.68%;
-    right: 15.16%;
+    left: 50%;
+    right: auto;
     top: 5.26%;
     bottom: 94.14%;
     white-space: pre;
     flex-grow: 0;
+  /* 导航项：归一化到全站统一 Δ(+679px)，与文字中心 960+679 对齐 */
+  transform: translateX(calc(-50% + +679px));
 }
 .Pixso-group-33_147 {
     width: 338px;

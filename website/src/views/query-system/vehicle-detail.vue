@@ -902,7 +902,8 @@ onMounted(() => {
     left: 50%;
     top: 14.86%;
     bottom: 79.86%;
-    transform: translateX(calc(-50% + 627px));
+    /* 导航高亮块：与本页「查询系统」文字同一 Δ(+679px)；原为 627px，偏离文字中心 52px */
+    transform: translateX(calc(-50% + +679px));
 }
 .Pixso-paragraph-33_776 {
     font-size: 20px;

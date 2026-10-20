@@ -141,13 +141,13 @@
             ></div>
         </div>
             <div id="33_398" class="Pixso-vector-33_398"></div>
-            <router-link to="/overview-info" id="33_399" class="Pixso-paragraph-33_399">概况信息</router-link>
-            <router-link to="/team-building" id="33_400" class="Pixso-paragraph-33_400">队伍建设</router-link>
-            <router-link to="/info-public" id="33_401" class="Pixso-paragraph-33_401">信息公开</router-link>
-            <router-link to="/dynamic-news" id="33_402" class="Pixso-paragraph-33_402">动态要闻</router-link>
-            <router-link to="/policy-regulations" id="33_403" class="Pixso-paragraph-33_403">政策法规</router-link>
-            <router-link to="/query-system" id="33_404" class="Pixso-paragraph-33_404">查询系统</router-link>
-            <router-link to="/party-building" id="33_405" class="Pixso-paragraph-33_405">党建专栏</router-link>
+            <router-link to="/overview-info" id="33_399" class="Pixso-paragraph-33_399 main-nav-link">概况信息</router-link>
+            <router-link to="/team-building" id="33_400" class="Pixso-paragraph-33_400 main-nav-link">队伍建设</router-link>
+            <router-link to="/info-public" id="33_401" class="Pixso-paragraph-33_401 main-nav-link">信息公开</router-link>
+            <router-link to="/dynamic-news" id="33_402" class="Pixso-paragraph-33_402 main-nav-link">动态要闻</router-link>
+            <router-link to="/policy-regulations" id="33_403" class="Pixso-paragraph-33_403 main-nav-link">政策法规</router-link>
+            <router-link to="/query-system" id="33_404" class="Pixso-paragraph-33_404 main-nav-link">查询系统</router-link>
+            <router-link to="/party-building" id="33_405" class="Pixso-paragraph-33_405 main-nav-link">党建专栏</router-link>
         </div>
     </div>
 </template>
@@ -733,12 +733,14 @@ const doSearch = () => {
     width: auto;
     height: auto;
     position: absolute;
-    left: 16.46%;
-    right: 79.38%;
+    left: 50%;
+    right: auto;
     top: 5.43%;
     bottom: 93.95%;
     white-space: pre;
     flex-grow: 0;
+  /* 导航项：归一化到全站统一 Δ(-533px)，与文字中心 960-533 对齐 */
+  transform: translateX(calc(-50% + -533px));
 }
 .Pixso-paragraph-33_400 {
     font-size: 20px;
@@ -750,12 +752,14 @@ const doSearch = () => {
     width: auto;
     height: auto;
     position: absolute;
-    left: 27.45%;
-    right: 68.39%;
+    left: 50%;
+    right: auto;
     top: 5.43%;
     bottom: 93.95%;
     white-space: pre;
     flex-grow: 0;
+  /* 导航项：归一化到全站统一 Δ(-329px)，与文字中心 960-329 对齐 */
+  transform: translateX(calc(-50% + -329px));
 }
 .Pixso-paragraph-33_401 {
     font-size: 20px;
@@ -767,12 +771,14 @@ const doSearch = () => {
     width: auto;
     height: auto;
     position: absolute;
-    left: 48.7%;
-    right: 47.14%;
+    left: 50%;
+    right: auto;
     top: 5.43%;
     bottom: 93.95%;
     white-space: pre;
     flex-grow: 0;
+  /* 导航项：归一化到全站统一 Δ(+79px)，与文字中心 960+79 对齐 */
+  transform: translateX(calc(-50% + +79px));
 }
 .Pixso-paragraph-33_402 {
     font-size: 20px;
@@ -784,12 +790,14 @@ const doSearch = () => {
     width: auto;
     height: auto;
     position: absolute;
-    left: 59.27%;
-    right: 36.56%;
+    left: 50%;
+    right: auto;
     top: 5.43%;
     bottom: 93.95%;
     white-space: pre;
     flex-grow: 0;
+  /* 导航项：归一化到全站统一 Δ(+282px)，与文字中心 960+282 对齐 */
+  transform: translateX(calc(-50% + +282px));
 }
 .Pixso-paragraph-33_403 {
     font-size: 20px;
@@ -801,12 +809,14 @@ const doSearch = () => {
     width: auto;
     height: auto;
     position: absolute;
-    left: 70.16%;
-    right: 25.68%;
+    left: 50%;
+    right: auto;
     top: 5.43%;
     bottom: 93.95%;
     white-space: pre;
     flex-grow: 0;
+  /* 导航项：归一化到全站统一 Δ(+475px)，与文字中心 960+475 对齐 */
+  transform: translateX(calc(-50% + +475px));
 }
 .Pixso-paragraph-33_404 {
     font-size: 20px;
@@ -818,12 +828,14 @@ const doSearch = () => {
     width: auto;
     height: auto;
     position: absolute;
-    left: 81.04%;
-    right: 14.79%;
+    left: 50%;
+    right: auto;
     top: 5.43%;
     bottom: 93.95%;
     white-space: pre;
     flex-grow: 0;
+  /* 导航项：归一化到全站统一 Δ(+679px)，与文字中心 960+679 对齐 */
+  transform: translateX(calc(-50% + +679px));
 }
 .Pixso-paragraph-33_405 {
     font-size: 20px;
@@ -835,12 +847,14 @@ const doSearch = () => {
     width: auto;
     height: auto;
     position: absolute;
-    left: 38.13%;
-    right: 57.71%;
+    left: 50%;
+    right: auto;
     top: 5.43%;
     bottom: 93.95%;
     white-space: pre;
     flex-grow: 0;
+  /* 导航项：归一化到全站统一 Δ(-125px)，与文字中心 960-125 对齐 */
+  transform: translateX(calc(-50% + -125px));
 }
 
 

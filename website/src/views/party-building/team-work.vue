@@ -367,10 +367,12 @@ onMounted(() => {
   background-size: 100% 100%;
   background-repeat: no-repeat;
   position: absolute;
-  left: 34.95%;
-  right: 54.43%;
+  left: 50%;
+  right: auto;
   top: 10.25%;
   bottom: 86.05%;
+  /* 导航高亮块：与本页「党建专栏」文字同一 Δ(-125px)，改前为百分比定位导致偏离 */
+  transform: translateX(calc(-50% + -125px))
 }
 .Pixso-vector-17_8 {
   width: 150px;

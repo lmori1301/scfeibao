@@ -366,10 +366,12 @@ onMounted(() => {
     background-size: 100% 100%;
     background-repeat: no-repeat;
     position: absolute;
-    left: 45.47%;
-    right: 43.91%;
+    left: 50%;
+    right: auto;
     top: 13.06%;
     bottom: 82.23%;
+  /* 导航高亮块：与本页「信息公开」文字同一 Δ(79px)，改前为百分比定位导致偏离 */
+  transform: translateX(calc(-50% + +79px))
 }
 .Pixso-vector-17_5 {
     width: 150px;

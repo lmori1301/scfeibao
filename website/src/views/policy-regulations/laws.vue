@@ -984,10 +984,12 @@ onMounted(() => {
     background-size: 100% 100%;
     background-repeat: no-repeat;
     position: absolute;
-    left: 66.61%;
-    right: 22.76%;
+    left: 50%;
+    right: auto;
     top: 11.61%;
     bottom: 84.2%;
+  /* 导航高亮块：与本页「政策法规」文字同一 Δ(475px)，改前为百分比定位导致偏离 */
+  transform: translateX(calc(-50% + +475px))
 }
 .Pixso-paragraph-33_531 {
     font-size: 20px;

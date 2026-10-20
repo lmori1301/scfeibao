@@ -702,10 +702,12 @@ onMounted(() => {
     background-size: 100% 100%;
     background-repeat: no-repeat;
     position: absolute;
-    left: 24.32%;
-    right: 65.05%;
+    left: 50%;
+    right: auto;
     top: 10.32%;
     bottom: 85.95%;
+  /* 导航高亮块：与本页「队伍建设」文字同一 Δ(-329px)，改前为百分比定位导致偏离 */
+  transform: translateX(calc(-50% + -329px))
 }
 .Pixso-vector-17_3 {
     width: 150px;
