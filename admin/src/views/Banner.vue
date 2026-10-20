@@ -42,13 +42,27 @@ const formRef = ref()
 const formData = ref({
   title: '',
   imageUrl: '',
+  link: '',
   sort: 1,
   status: '显示',
 })
 
+/**
+ * 网址链接校验：允许留空（留空则首页标题不跳转）；
+ * 若要跳转，必须是站内路径（以 / 开头）或完整 http(s) 网址，
+ * 避免填入 "www.xxx.com" 这类会被浏览器当相对路径解析的无效写法。
+ */
+const validateLink = (_rule: any, value: string, callback: (err?: Error) => void) => {
+  const v = String(value || '').trim()
+  if (!v) return callback()
+  if (v.startsWith('/') || /^https?:\/\//i.test(v)) return callback()
+  callback(new Error('请输入站内路径（以 / 开头）或完整网址（http:// 或 https://）'))
+}
+
 const rules = {
   title: [requiredRule('标题')],
   imageUrl: [requiredRule('轮播图')],
+  link: [{ validator: validateLink, trigger: 'blur' }],
 }
 
 const { data, total, loading, page, pageSize, fetch, handlePageChange } = usePagination((params) => {
@@ -76,14 +90,14 @@ const handleReset = () => {
 
 const handleAdd = () => {
   dialogTitle.value = '新增轮播图'
-  formData.value = { title: '', imageUrl: '', sort: 1, status: '显示' }
+  formData.value = { title: '', imageUrl: '', link: '', sort: 1, status: '显示' }
   dialogVisible.value = true
   nextTick(() => formRef.value?.clearValidate?.())
 }
 
 const handleEdit = (row: any) => {
   dialogTitle.value = '编辑轮播图'
-  formData.value = { ...row }
+  formData.value = { ...row, link: row.link || '' }
   dialogVisible.value = true
   nextTick(() => formRef.value?.clearValidate?.())
 }
@@ -233,6 +247,17 @@ fetch()
                     <el-option label="隐藏" value="隐藏" />
                   </el-select>
                 </el-form-item>
+                <el-form-item label="网址链接" prop="link">
+                  <el-input
+                    v-model="formData.link"
+                    placeholder="如 /dynamic-news/detail/12 或 https://www.scfb.org.cn/…"
+                    clearable
+                    style="width: 100%"
+                  />
+                  <div class="portal-form-tip">
+                    首页轮播图「标题」点击后跳转此地址；支持站内路径（以 / 开头）或完整网址，留空则不跳转。
+                  </div>
+                </el-form-item>
               </div>
             </section>
           </el-form>
@@ -245,6 +270,8 @@ fetch()
             </div>
             <strong>{{ formData.title || '未填写标题' }}</strong>
             <span>{{ formData.status }} · 排序 {{ formData.sort }}</span>
+            <span v-if="formData.link" class="preview-card__link">点击标题跳转：{{ formData.link }}</span>
+            <span v-else class="preview-card__link is-muted">未配置链接，首页标题不可点击</span>
           </div>
         </aside>
       </div>
@@ -291,6 +318,15 @@ fetch()
 }
 .portal-form-section__body :deep(.el-form-item) {
   margin-bottom: 14px;
+}
+
+.portal-form-tip {
+  flex-basis: 100%;
+  width: 100%;
+  margin-top: 6px;
+  color: #8593a7;
+  font-size: 12px;
+  line-height: 1.5;
 }
 
 .portal-toolbar {
@@ -409,6 +445,15 @@ fetch()
   margin-top: 6px;
   color: #8593a7;
   font-size: 12px;
+}
+
+.preview-card__link {
+  word-break: break-all;
+  color: #2563eb !important;
+}
+
+.preview-card__link.is-muted {
+  color: #a5b0c2 !important;
 }
 
 @media (max-width: 1200px) {

@@ -51,8 +51,9 @@
                 v-if="bannerList[currentBannerIndex]"
                 id="1_35"
                 class="Pixso-paragraph-1_35"
+                :class="{ 'is-clickable': !!bannerList[currentBannerIndex].link }"
+                :title="bannerList[currentBannerIndex].link ? '查看详情' : undefined"
                 @click="navigateToNews(bannerList[currentBannerIndex].link)"
-                style="cursor: pointer;"
             >
                 {{ bannerList[currentBannerIndex].title }}
             </p>
@@ -573,7 +574,9 @@ const fetchBanners = async () => {
         id: item.id,
         image: normalizeMediaUrl(item.image),
         title: item.title,
-        link: item.link || newsDetailPath(item.id)
+        // 不再用 banner.id 冒充新闻 id 兜底：轮播图与新闻是两张表，id 不对应，
+        // 未配置链接时保留空串，由模板判定为「不可点击」，避免跳到错误/404 的新闻页。
+        link: (item.link || '').trim()
       }))
 
       if (!bannerCarouselTimer) {
@@ -729,10 +732,26 @@ const startBannerCarousel = () => {
   }, 5000)
 }
 
-// 跳转到新闻详情页
-const navigateToNews = (link: string) => {
-  const legacyMatch = link?.match(/^\/dynamic-news\/(\d+)$/)
-  router.push(legacyMatch ? newsDetailPath(legacyMatch[1]) : link)
+/**
+ * 首页轮播「标题」点击跳转：
+ * - 无链接：不跳转（模板已置为不可点击）
+ * - 站内路径（/ 开头）：走 router，避免整页刷新；并兼容旧写法 /dynamic-news/:id
+ * - 外部网址（http/https）：新标签页打开，避免把访客带离本站
+ * - 其他相对地址：兜底走 router
+ */
+const navigateToNews = (link?: string) => {
+  const target = (link || '').trim()
+  if (!target) return
+  const legacyMatch = target.match(/^\/dynamic-news\/(\d+)$/)
+  if (legacyMatch) {
+    router.push(newsDetailPath(legacyMatch[1]))
+    return
+  }
+  if (/^https?:\/\//i.test(target)) {
+    window.open(target, '_blank', 'noopener,noreferrer')
+    return
+  }
+  router.push(target)
 }
 
 const teamShowcase = ref<{ images: string[] }[]>([])
@@ -1218,6 +1237,14 @@ onUnmounted(() => {
     align-items: center;
     white-space: pre;
     flex-grow: 0;
+}
+/* 仅当后台配置了「网址链接」时可点击：手型光标 + 轻微 hover 反馈 */
+.Pixso-paragraph-1_35.is-clickable {
+    cursor: pointer;
+    transition: opacity 0.2s ease;
+}
+.Pixso-paragraph-1_35.is-clickable:hover {
+    opacity: 0.82;
 }
 .Pixso-paragraph-1_36 {
     font-size: 20px;
