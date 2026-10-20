@@ -482,10 +482,12 @@ onMounted(() => {
     background-size: 100% 100%;
     background-repeat: no-repeat;
     position: absolute;
-    left: 24.32%;
-    right: 65.05%;
+    left: 50%;
+    right: auto;
     top: 4.7%;
     bottom: 93.6%;
+  /* 导航高亮块：与本页「队伍建设」文字同一 Δ(-329px)，改前为百分比定位导致偏离 */
+  transform: translateX(calc(-50% + -329px));
 }
 .Pixso-paragraph-1_1103 {
     font-size: 20px;

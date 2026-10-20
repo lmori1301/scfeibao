@@ -725,10 +725,12 @@ const doSearch = () => {
   background-size: 100% 100%;
   background-repeat: no-repeat;
   position: absolute;
-  left: 35%;
-  right: 54.37%;
+  left: 50%;
+  right: auto;
   top: 4.85%;
   bottom: 93.4%;
+  /* 导航高亮块：与本页「党建专栏」文字同一 Δ(-125px)，改前为百分比定位导致偏离 */
+  transform: translateX(calc(-50% + -125px));
 }
 .Pixso-paragraph-33_399 {
   font-size: 20px;
