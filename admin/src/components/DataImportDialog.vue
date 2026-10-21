@@ -14,6 +14,7 @@ type ImportResult = {
   created: number
   updated: number
   failed: number
+  photos?: number
   errors?: Array<{ row: number; message: string }>
 }
 
@@ -41,6 +42,11 @@ const result = ref<ImportResult | null>(null)
 
 const requiredFields = computed(() => props.fields.filter((field) => field.required).map((field) => field.label))
 const optionalFields = computed(() => props.fields.filter((field) => !field.required).map((field) => field.label))
+
+/** 字段里带「照片」即启用图片导入说明（人员/证书/车辆台账） */
+const photoFieldLabel = computed(
+  () => props.fields.find((field) => field.label.includes('照片'))?.label || ''
+)
 
 watch(
   () => props.modelValue,
@@ -76,7 +82,8 @@ const handleImport = async () => {
     uploading.value = true
     const response = await http.post(props.action, formData, {
       headers: { 'Content-Type': 'multipart/form-data' },
-      timeout: 60000,
+      // 带照片的台账要逐张转码落盘，100 行级别的文件可能超过 1 分钟
+      timeout: 180000,
     })
     result.value = response?.data ?? response
     ElMessage.success('导入完成')
@@ -103,6 +110,10 @@ const handleImport = async () => {
             <span>{{ optionalFields.join('、') || '无' }}</span>
           </div>
         </div>
+        <p v-if="photoFieldLabel" class="data-import__photo-tip">
+          照片：把图片插入到「{{ photoFieldLabel }}」列对应行（图片浮于单元格上方，与数据行对齐即可），
+          导入时自动提取并保存到图库；同一行有多张时只取第一张，整行数据不受图片解析失败影响。
+        </p>
       </section>
 
       <el-upload
@@ -123,6 +134,9 @@ const handleImport = async () => {
           <span>新增</span><strong>{{ result.created }}</strong>
           <span>更新</span><strong>{{ result.updated }}</strong>
           <span>失败</span><strong>{{ result.failed }}</strong>
+          <template v-if="typeof result.photos === 'number'">
+            <span>导入照片</span><strong>{{ result.photos }}</strong>
+          </template>
         </div>
         <div v-if="result.errors?.length" class="data-import__errors">
           <div v-for="error in result.errors.slice(0, 8)" :key="`${error.row}-${error.message}`">
@@ -184,6 +198,17 @@ const handleImport = async () => {
     color: #475569;
     word-break: break-word;
   }
+}
+
+.data-import__photo-tip {
+  margin: 12px 0 0;
+  padding: 10px 12px;
+  border-radius: 8px;
+  background: #eff6ff;
+  border: 1px solid #dbeafe;
+  color: #2f4a6d;
+  font-size: 12px;
+  line-height: 1.7;
 }
 
 .data-import__result {

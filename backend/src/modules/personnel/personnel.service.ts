@@ -13,12 +13,15 @@ import {
 } from '../../common/dto/pagination.dto';
 import {
   ImportResult,
+  headerColumnIndex,
   parseExcelRows,
   toOptionalDate,
   toOptionalNumber,
   toOptionalString,
   toStatusNumber,
 } from '../../common/utils/excel-import';
+import { extractXlsxImages, pickRowImages } from '../../common/utils/xlsx-images';
+import { saveImportedPhoto } from '../../common/utils/import-photo';
 import { fillDerivedFromIdCard } from '../../common/utils/id-card';
 
 @Injectable()
@@ -98,7 +101,9 @@ export class PersonnelService {
   }
 
   async batchDelete(ids: number[]): Promise<void> {
-    await this.personnelRepository.softDelete(ids);
+    const list = (ids || []).map(Number).filter((id) => Number.isInteger(id) && id > 0);
+    if (!list.length) return;
+    await this.personnelRepository.softDelete(list);
   }
 
   async batchUpdateStatus(ids: number[], status: number): Promise<void> {
@@ -119,6 +124,7 @@ export class PersonnelService {
       { field: 'position', headers: ['职务', '职位', 'position'], transform: toOptionalString },
       { field: 'joinDate', headers: ['入职日期', '入队日期', 'joinDate'], transform: toOptionalDate },
       { field: 'photoUrl', headers: ['人员照片', '照片', 'photoUrl'], transform: toOptionalString },
+      { field: 'skills', headers: ['专业技能', '技能', 'skills'], transform: toOptionalString },
       { field: 'taskCount', headers: ['出勤次数', 'taskCount'], transform: toOptionalNumber },
       { field: 'trainingHours', headers: ['培训时长', '培训时长(小时)', 'trainingHours'], transform: toOptionalNumber },
       { field: 'auditStatus', headers: ['审核状态', 'auditStatus'], transform: this.toAuditStatus },
@@ -126,11 +132,19 @@ export class PersonnelService {
       { field: 'remark', headers: ['备注', 'remark'], transform: toOptionalString },
     ]);
 
+    // Excel 里直接贴在图层的照片：按行归位后逐张落盘
+    const photoByRow = pickRowImages(
+      extractXlsxImages(buffer),
+      headerColumnIndex(parsed.headers, ['人员照片', '照片', 'photoUrl']),
+      parsed.rows.map((row) => row.rowNumber),
+    );
+
     const result: ImportResult = {
       total: parsed.rows.length,
       created: 0,
       updated: 0,
       failed: parsed.errors.length,
+      photos: 0,
       errors: parsed.errors,
     };
 
@@ -139,6 +153,17 @@ export class PersonnelService {
         const data = item.data;
         if (data.status === undefined) data.status = 1;
         if (data.auditStatus === undefined) data.auditStatus = 1;
+
+        // 图片优先于单元格文字：照片列写的是文件名/说明时，以实际贴图为准
+        const embedded = photoByRow.get(item.rowNumber);
+        if (embedded) {
+          const url = await saveImportedPhoto(embedded.buffer, embedded.mime);
+          if (url) {
+            data.photoUrl = url;
+            result.photos = (result.photos || 0) + 1;
+          }
+        }
+
         // 导入未提供性别 / 出生日期时，按身份证号自动补齐
         fillDerivedFromIdCard(data);
 
@@ -148,8 +173,11 @@ export class PersonnelService {
         });
 
         if (existing) {
+          const wasDeleted = Boolean(existing.deletedAt);
           Object.assign(existing, data);
           await this.personnelRepository.save(existing);
+          // 已软删除的记录被重新导入时应恢复，否则「导入成功但列表看不到」
+          if (wasDeleted) await this.personnelRepository.restore(existing.id);
           result.updated += 1;
         } else {
           await this.personnelRepository.save(this.personnelRepository.create(data));

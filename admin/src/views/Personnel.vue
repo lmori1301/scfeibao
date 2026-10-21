@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { computed, nextTick, onMounted, ref } from 'vue'
 import { useRoute } from 'vue-router'
-import { Plus, RefreshRight, Search, Upload } from '@element-plus/icons-vue'
+import { Delete, Plus, RefreshRight, Search, Upload } from '@element-plus/icons-vue'
 import { ElMessage, ElMessageBox } from 'element-plus'
 import { usePagination } from '@/composables/usePagination'
 import { emailRule, idCardRule, phoneRule, requiredRule } from '@/utils/validate'
@@ -97,6 +97,7 @@ const detailPersonnelPhotoUrls = computed(() =>
 )
 
 const selectedRows = ref<any[]>([])
+const tableRef = ref()
 
 const importFields = [
   { label: '人员编号' },
@@ -111,6 +112,7 @@ const importFields = [
   { label: '职务' },
   { label: '入职日期' },
   { label: '人员照片' },
+  { label: '专业技能' },
   { label: '出勤次数' },
   { label: '培训时长' },
   { label: '审核状态' },
@@ -120,6 +122,35 @@ const importFields = [
 
 const handleSelectionChange = (selection: any[]) => {
   selectedRows.value = selection
+}
+
+/** 批量删除：走后端 POST /personnel/batch/delete（软删除，可在数据库恢复） */
+const handleBatchDelete = async () => {
+  if (!selectedRows.value.length) {
+    ElMessage.warning('请先勾选要删除的人员')
+    return
+  }
+  const count = selectedRows.value.length
+  try {
+    await ElMessageBox.confirm(`确定删除选中的 ${count} 名人员吗？删除后列表不再显示。`, '批量删除', {
+      type: 'warning',
+      confirmButtonText: '确认删除',
+      cancelButtonText: '取消',
+    })
+  } catch {
+    return
+  }
+
+  try {
+    await http.post('/personnel/batch/delete', { ids: selectedRows.value.map((row) => row.id) })
+  } catch {
+    return
+  }
+  ElMessage.success(`已删除 ${count} 名人员`)
+  selectedRows.value = []
+  tableRef.value?.clearSelection?.()
+  page.value = 1
+  fetch(buildPersonnelQuery())
 }
 
 const rules = {
@@ -456,6 +487,10 @@ onMounted(() => {
           <el-button type="success" plain :disabled="selectedRows.length === 0" @click="handleBatchGenerateQRCode">
             批量二维码 ({{ selectedRows.length }})
           </el-button>
+          <el-button type="danger" plain :disabled="selectedRows.length === 0" @click="handleBatchDelete">
+            <el-icon><Delete /></el-icon>
+            批量删除{{ selectedRows.length ? ` (${selectedRows.length})` : '' }}
+          </el-button>
           <el-button plain @click="importDialogVisible = true">
             <el-icon><Upload /></el-icon>
             导入
@@ -470,7 +505,7 @@ onMounted(() => {
           </el-button>
         </div>
       </div>
-      <el-table max-height="calc(100vh - 320px)" :data="tableRows" v-loading="loading" stripe @selection-change="handleSelectionChange">
+      <el-table ref="tableRef" max-height="calc(100vh - 320px)" :data="tableRows" v-loading="loading" stripe @selection-change="handleSelectionChange">
         <el-table-column type="selection" width="46" fixed="left" />
         <el-table-column type="index" label="序号" width="70" fixed="left" />
         <el-table-column prop="name" label="姓名" width="100" show-overflow-tooltip />

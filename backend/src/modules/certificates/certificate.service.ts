@@ -13,11 +13,14 @@ import {
 } from '../../common/dto/pagination.dto';
 import {
   ImportResult,
+  headerColumnIndex,
   parseExcelRows,
   toOptionalDate,
   toOptionalString,
   toStatusNumber,
 } from '../../common/utils/excel-import';
+import { extractXlsxImages, pickRowImages } from '../../common/utils/xlsx-images';
+import { saveImportedPhoto } from '../../common/utils/import-photo';
 
 @Injectable()
 export class CertificateService {
@@ -95,7 +98,9 @@ export class CertificateService {
   }
 
   async batchDelete(ids: number[]): Promise<void> {
-    await this.certificateRepository.softDelete(ids);
+    const list = (ids || []).map(Number).filter((id) => Number.isInteger(id) && id > 0);
+    if (!list.length) return;
+    await this.certificateRepository.softDelete(list);
   }
 
   async batchUpdateStatus(ids: number[], status: number): Promise<void> {
@@ -112,16 +117,24 @@ export class CertificateService {
       { field: 'issuingAuthority', headers: ['发证机构', '工作单位', 'issuingAuthority'], transform: toOptionalString },
       { field: 'issueDate', headers: ['发证日期', 'issueDate'], transform: toOptionalDate },
       { field: 'expiryDate', headers: ['有效期至', '有效期限', 'expiryDate'], transform: toOptionalDate },
-      { field: 'status', headers: ['状态', '证件状态', 'status'], transform: (value) => toStatusNumber(value, ['有效', '即将过期', '过期']) },
+      { field: 'status', headers: ['状态', '证件状态', 'status'], transform: (value) => this.toCertificateStatus(value) },
       { field: 'photoUrl', headers: ['证书照片', '照片', 'photoUrl'], transform: toOptionalString },
       { field: 'remark', headers: ['备注', 'remark'], transform: toOptionalString },
     ]);
+
+    // Excel 里直接贴在图层的证书照片：按行归位后逐张落盘
+    const photoByRow = pickRowImages(
+      extractXlsxImages(buffer),
+      headerColumnIndex(parsed.headers, ['证书照片', '照片', 'photoUrl']),
+      parsed.rows.map((row) => row.rowNumber),
+    );
 
     const result: ImportResult = {
       total: parsed.rows.length,
       created: 0,
       updated: 0,
       failed: parsed.errors.length,
+      photos: 0,
       errors: parsed.errors,
     };
 
@@ -135,14 +148,25 @@ export class CertificateService {
           data.status = 1;
         }
 
+        const embedded = photoByRow.get(item.rowNumber);
+        if (embedded) {
+          const url = await saveImportedPhoto(embedded.buffer, embedded.mime);
+          if (url) {
+            data.photoUrl = url;
+            result.photos = (result.photos || 0) + 1;
+          }
+        }
+
         const existing = await this.certificateRepository.findOne({
           where: { certificateNumber: String(data.certificateNumber) },
           withDeleted: true,
         });
 
         if (existing) {
+          const wasDeleted = Boolean(existing.deletedAt);
           Object.assign(existing, data);
           await this.certificateRepository.save(existing);
+          if (wasDeleted) await this.certificateRepository.restore(existing.id);
           result.updated += 1;
         } else {
           await this.certificateRepository.save(this.certificateRepository.create(data));
@@ -158,5 +182,14 @@ export class CertificateService {
     }
 
     return result;
+  }
+
+  /** 有效/即将过期 -> 1；过期/失效/作废 -> 0（此前「过期」被误判成有效） */
+  private toCertificateStatus(value: unknown) {
+    const text = String(value ?? '').trim();
+    if (!text) return undefined;
+    if (['0', '失效', '过期', '已过期', '作废', '注销'].includes(text)) return 0;
+    if (['1', '有效', '即将过期', '正常'].includes(text)) return 1;
+    return toStatusNumber(text, ['有效', '即将过期']);
   }
 }

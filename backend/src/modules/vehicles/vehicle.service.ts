@@ -17,11 +17,14 @@ import {
 } from '../../common/dto/pagination.dto';
 import {
   ImportResult,
+  headerColumnIndex,
   parseExcelRows,
   toOptionalDate,
   toOptionalString,
   toStatusNumber,
 } from '../../common/utils/excel-import';
+import { extractXlsxImages, pickRowImages } from '../../common/utils/xlsx-images';
+import { saveImportedPhoto } from '../../common/utils/import-photo';
 
 @Injectable()
 export class VehicleService {
@@ -119,7 +122,9 @@ export class VehicleService {
   }
 
   async batchDelete(ids: number[]): Promise<void> {
-    await this.vehicleRepository.softDelete(ids);
+    const list = (ids || []).map(Number).filter((id) => Number.isInteger(id) && id > 0);
+    if (!list.length) return;
+    await this.vehicleRepository.softDelete(list);
   }
 
   async batchUpdateStatus(ids: number[], status: number): Promise<void> {
@@ -139,16 +144,29 @@ export class VehicleService {
       { field: 'purchaseDate', headers: ['装备日期', '购置日期', 'purchaseDate'], transform: toOptionalDate },
       { field: 'issueDate', headers: ['发证日期', 'issueDate'], transform: toOptionalDate },
       { field: 'validityDate', headers: ['有效期限', '有效期至', 'validityDate'], transform: toOptionalDate },
-      { field: 'status', headers: ['当前状态', '使用状态', '状态', 'status'], transform: (value) => toStatusNumber(value, ['正常', '可调度', '值勤中']) },
+      { field: 'responsiblePerson', headers: ['责任人', '负责人', 'responsiblePerson'], transform: toOptionalString },
+      { field: 'phone', headers: ['联系电话', '责任人电话', 'phone'], transform: toOptionalString },
+      { field: 'configuration', headers: ['车辆配置', '配置', 'configuration'], transform: toOptionalString },
+      { field: 'lastMaintenanceDate', headers: ['最后保养日期', '上次保养日期', 'lastMaintenanceDate'], transform: toOptionalDate },
+      { field: 'nextMaintenanceDate', headers: ['下次保养日期', 'nextMaintenanceDate'], transform: toOptionalDate },
+      { field: 'status', headers: ['当前状态', '使用状态', '状态', 'status'], transform: (value) => this.toVehicleStatus(value) },
       { field: 'photoUrl', headers: ['车辆照片', '照片', 'photoUrl'], transform: toOptionalString },
       { field: 'remark', headers: ['备注', 'remark'], transform: toOptionalString },
     ]);
+
+    // Excel 里直接贴在图层的车辆照片：按行归位后逐张落盘
+    const photoByRow = pickRowImages(
+      extractXlsxImages(buffer),
+      headerColumnIndex(parsed.headers, ['车辆照片', '照片', 'photoUrl']),
+      parsed.rows.map((row) => row.rowNumber),
+    );
 
     const result: ImportResult = {
       total: parsed.rows.length,
       created: 0,
       updated: 0,
       failed: parsed.errors.length,
+      photos: 0,
       errors: parsed.errors,
     };
 
@@ -157,14 +175,25 @@ export class VehicleService {
         const data = item.data;
         if (data.status === undefined) data.status = 1;
 
+        const embedded = photoByRow.get(item.rowNumber);
+        if (embedded) {
+          const url = await saveImportedPhoto(embedded.buffer, embedded.mime);
+          if (url) {
+            data.photoUrl = url;
+            result.photos = (result.photos || 0) + 1;
+          }
+        }
+
         const existing = await this.vehicleRepository.findOne({
           where: { plateNumber: String(data.plateNumber) },
           withDeleted: true,
         });
 
         if (existing) {
+          const wasDeleted = Boolean(existing.deletedAt);
           Object.assign(existing, data);
           await this.vehicleRepository.save(existing);
+          if (wasDeleted) await this.vehicleRepository.restore(existing.id);
           result.updated += 1;
         } else {
           await this.vehicleRepository.save(this.vehicleRepository.create(data));
@@ -180,5 +209,14 @@ export class VehicleService {
     }
 
     return result;
+  }
+
+  /** 正常/可调度/值勤中 -> 1；停用/维修中/报废 -> 0 */
+  private toVehicleStatus(value: unknown) {
+    const text = String(value ?? '').trim();
+    if (!text) return undefined;
+    if (['0', '停用', '维修中', '维修', '报废', '封存'].includes(text)) return 0;
+    if (['1', '正常', '可调度', '值勤中', '在岗'].includes(text)) return 1;
+    return toStatusNumber(text, ['正常', '可调度', '值勤中']);
   }
 }

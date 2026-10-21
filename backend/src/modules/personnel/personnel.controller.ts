@@ -262,7 +262,8 @@ export class PersonnelController {
   @RequirePermissions('Personnel')
   @UseInterceptors(FileInterceptor('file', {
     storage: memoryStorage(),
-    limits: { fileSize: 10 * 1024 * 1024 },
+    // 带照片的台账 xlsx 会明显变大（100 行的证件照可达 10MB+），放宽到 30MB
+    limits: { fileSize: 30 * 1024 * 1024 },
   }))
   import(@UploadedFile() file?: Express.Multer.File) {
     if (!file?.buffer) {

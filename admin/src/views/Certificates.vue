@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { computed, nextTick, ref } from 'vue'
-import { Download, Plus, RefreshRight, Tickets, Upload } from '@element-plus/icons-vue'
+import { Delete, Download, Plus, RefreshRight, Tickets, Upload } from '@element-plus/icons-vue'
 import { ElMessage, ElMessageBox } from 'element-plus'
 import { usePagination } from '@/composables/usePagination'
 import { idCardRule, phoneRule, requiredRule } from '@/utils/validate'
@@ -38,6 +38,42 @@ const formData = ref<Record<string, any>>({
 
 const detailDialogVisible = ref(false)
 const detailData = ref<any>(null)
+
+const selectedRows = ref<any[]>([])
+const tableRef = ref()
+
+const handleSelectionChange = (selection: any[]) => {
+  selectedRows.value = selection
+}
+
+/** 批量删除：走后端 POST /certificates/batch/delete（软删除） */
+const handleBatchDelete = async () => {
+  if (!selectedRows.value.length) {
+    ElMessage.warning('请先勾选要删除的证书')
+    return
+  }
+  const count = selectedRows.value.length
+  try {
+    await ElMessageBox.confirm(`确定删除选中的 ${count} 条证书吗？删除后列表不再显示。`, '批量删除', {
+      type: 'warning',
+      confirmButtonText: '确认删除',
+      cancelButtonText: '取消',
+    })
+  } catch {
+    return
+  }
+
+  try {
+    await http.post('/certificates/batch/delete', { ids: selectedRows.value.map((row) => row.id) })
+  } catch {
+    return
+  }
+  ElMessage.success(`已删除 ${count} 条证书`)
+  selectedRows.value = []
+  tableRef.value?.clearSelection?.()
+  page.value = 1
+  fetch(buildCertificateQuery())
+}
 
 const certificateFormPreviewUrl = computed(() => parsePhotoUrlListForDisplay(formData.value.photo)[0] || '')
 
@@ -336,6 +372,10 @@ fetch()
             <el-icon><Upload /></el-icon>
             导入
           </el-button>
+          <el-button type="danger" plain :disabled="selectedRows.length === 0" @click="handleBatchDelete">
+            <el-icon><Delete /></el-icon>
+            批量删除{{ selectedRows.length ? ` (${selectedRows.length})` : '' }}
+          </el-button>
           <el-button plain @click="fetch()">
             <el-icon><RefreshRight /></el-icon>
             刷新
@@ -346,7 +386,7 @@ fetch()
           </el-button>
         </div>
       </div>
-      <el-table max-height="calc(100vh - 320px)" :data="tableRows" v-loading="loading" stripe>
+      <el-table ref="tableRef" max-height="calc(100vh - 320px)" :data="tableRows" v-loading="loading" stripe @selection-change="handleSelectionChange">
         <el-table-column type="selection" width="46" fixed="left" />
         <el-table-column type="index" label="序号" width="70" fixed="left" />
         <el-table-column prop="certificateNumber" label="证书编号" min-width="160" show-overflow-tooltip />

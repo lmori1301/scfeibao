@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { computed, nextTick, ref } from 'vue'
 import { useRoute } from 'vue-router'
-import { Download, Plus, RefreshRight, Search, Upload } from '@element-plus/icons-vue'
+import { Delete, Download, Plus, RefreshRight, Search, Upload } from '@element-plus/icons-vue'
 import { ElMessage, ElMessageBox } from 'element-plus'
 import { usePagination } from '@/composables/usePagination'
 import { requiredRule } from '@/utils/validate'
@@ -63,10 +63,51 @@ const importFields = [
   { label: '装备日期' },
   { label: '发证日期' },
   { label: '有效期限' },
+  { label: '责任人' },
+  { label: '联系电话' },
+  { label: '车辆配置' },
+  { label: '最后保养日期' },
+  { label: '下次保养日期' },
   { label: '当前状态' },
   { label: '车辆照片' },
   { label: '备注' },
 ]
+
+const selectedRows = ref<any[]>([])
+const tableRef = ref()
+
+const handleSelectionChange = (selection: any[]) => {
+  selectedRows.value = selection
+}
+
+/** 批量删除：走后端 POST /vehicles/batch/delete（软删除） */
+const handleBatchDelete = async () => {
+  if (!selectedRows.value.length) {
+    ElMessage.warning('请先勾选要删除的车辆')
+    return
+  }
+  const count = selectedRows.value.length
+  try {
+    await ElMessageBox.confirm(`确定删除选中的 ${count} 辆车吗？删除后列表不再显示。`, '批量删除', {
+      type: 'warning',
+      confirmButtonText: '确认删除',
+      cancelButtonText: '取消',
+    })
+  } catch {
+    return
+  }
+
+  try {
+    await http.post('/vehicles/batch/delete', { ids: selectedRows.value.map((row) => row.id) })
+  } catch {
+    return
+  }
+  ElMessage.success(`已删除 ${count} 辆车`)
+  selectedRows.value = []
+  tableRef.value?.clearSelection?.()
+  page.value = 1
+  fetch(buildVehicleQuery())
+}
 
 const rules = {
   plate: [requiredRule('车辆号牌')],
@@ -277,6 +318,10 @@ fetch()
             <el-icon><Upload /></el-icon>
             导入
           </el-button>
+          <el-button type="danger" plain :disabled="selectedRows.length === 0" @click="handleBatchDelete">
+            <el-icon><Delete /></el-icon>
+            批量删除{{ selectedRows.length ? ` (${selectedRows.length})` : '' }}
+          </el-button>
           <el-button plain @click="fetch()">
             <el-icon><RefreshRight /></el-icon>
             刷新
@@ -287,7 +332,7 @@ fetch()
           </el-button>
         </div>
       </div>
-      <el-table max-height="calc(100vh - 320px)" :data="tableRows" v-loading="loading" stripe>
+      <el-table ref="tableRef" max-height="calc(100vh - 320px)" :data="tableRows" v-loading="loading" stripe @selection-change="handleSelectionChange">
         <el-table-column type="selection" width="46" fixed="left" />
         <el-table-column type="index" label="序号" width="70" fixed="left" />
         <el-table-column label="车辆号牌" min-width="120" show-overflow-tooltip>
