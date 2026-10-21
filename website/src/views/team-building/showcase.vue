@@ -412,11 +412,15 @@ onMounted(() => {
     text-align: center;
     line-height: 20px;
     color: rgba(132, 132, 132, 1);
-    width: auto;
+    width: 100px;
     height: auto;
     position: absolute;
-    left: 49.45%;
-    right: 47.58%;
+    left: 51.33%;
+    right: auto;
+    margin: 0;
+    letter-spacing: 0;
+    white-space: nowrap;
+    transform: translateX(-50%);
 }
 
 .showcase-date-day {
@@ -425,10 +429,16 @@ onMounted(() => {
     font-weight: 400;
     line-height: 50px;
     color: rgba(41, 41, 41, 1);
-    width: 4.38%;
+    width: 100px;
     height: auto;
     position: absolute;
-    left: 49.79%;
+    left: 51.33%;
+    right: auto;
+    margin: 0;
+    text-align: center;
+    letter-spacing: 0;
+    white-space: nowrap;
+    transform: translateX(-50%);
 }
 
 .showcase-divider {
@@ -1486,15 +1496,4 @@ onMounted(() => {
     -ms-user-select: text;
 }
 
-.showcase-date-year,
-.showcase-date-day {
-    width: 100px;
-    left: 51.33%;
-    right: auto;
-    margin: 0;
-    text-align: center;
-    letter-spacing: 0;
-    white-space: nowrap;
-    transform: translateX(-50%);
-}
 </style>
