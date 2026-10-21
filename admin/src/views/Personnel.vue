@@ -107,7 +107,7 @@ const importFields = [
   { label: '出生日期' },
   { label: '联系电话' },
   { label: '电子邮箱' },
-  { label: '所属部门' },
+  { label: '所属队伍' },
   { label: '工作单位' },
   { label: '职务' },
   { label: '入职日期' },
@@ -467,8 +467,8 @@ onMounted(() => {
             <template #prefix><el-icon><Search /></el-icon></template>
           </el-input>
         </el-form-item>
-        <el-form-item label="所属部门">
-          <el-input v-model="searchForm.department" placeholder="所属部门" clearable />
+        <el-form-item label="所属队伍">
+          <el-input v-model="searchForm.department" placeholder="所属队伍" clearable />
         </el-form-item>
         <div class="qf__group" data-title="状态筛选"></div>
         <el-form-item label="人员状态" class="qf-advanced">
@@ -512,7 +512,7 @@ onMounted(() => {
         <el-table-column label="人员编号" min-width="120" show-overflow-tooltip>
           <template #default="{ row }">{{ row.personnelCode || row.id }}</template>
         </el-table-column>
-        <el-table-column prop="team" label="所属部门" min-width="130" show-overflow-tooltip>
+        <el-table-column prop="team" label="所属队伍" min-width="130" show-overflow-tooltip>
           <template #default="{ row }">{{ row.team || '—' }}</template>
         </el-table-column>
         <el-table-column prop="workUnit" label="工作单位" min-width="140" show-overflow-tooltip>
@@ -631,8 +631,8 @@ onMounted(() => {
                 <span>按组织归属和任职信息分组录入，层次更清楚。</span>
               </div>
               <div class="personnel-form-section__body">
-                <el-form-item label="所属部门">
-                  <el-input v-model="formData.department" placeholder="请输入所属部门" />
+                <el-form-item label="所属队伍">
+                  <el-input v-model="formData.department" placeholder="请输入所属队伍" />
                 </el-form-item>
                 <el-form-item label="工作单位">
                   <el-input v-model="formData.workUnit" placeholder="如 四川飞豹救援队" />
@@ -737,7 +737,7 @@ onMounted(() => {
             <el-descriptions-item label="性别">{{ detailData.gender || '—' }}</el-descriptions-item>
             <el-descriptions-item label="联系电话">{{ detailData.phone || '—' }}</el-descriptions-item>
             <el-descriptions-item label="工作单位">{{ detailData.workUnit || '—' }}</el-descriptions-item>
-            <el-descriptions-item label="所属部门">{{ detailData.team || '—' }}</el-descriptions-item>
+            <el-descriptions-item label="所属队伍">{{ detailData.team || '—' }}</el-descriptions-item>
             <el-descriptions-item label="职务">{{ detailData.position || '—' }}</el-descriptions-item>
             <el-descriptions-item label="入职日期">{{ formatDate(null, null, detailData.joinDate) }}</el-descriptions-item>
             <el-descriptions-item label="出生日期">{{ formatDate(null, null, detailData.birthDate) }}</el-descriptions-item>

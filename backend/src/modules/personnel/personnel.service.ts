@@ -120,7 +120,7 @@ export class PersonnelService {
       { field: 'birthDate', headers: ['出生日期', 'birthDate'], transform: toOptionalDate },
       { field: 'phone', headers: ['联系电话', '手机号码', 'phone'], transform: toOptionalString },
       { field: 'email', headers: ['电子邮箱', '邮箱', 'email'], transform: toOptionalString },
-      { field: 'team', headers: ['所属部门', '所属队伍', 'team'], transform: toOptionalString },
+      { field: 'team', headers: ['所属队伍', '所属部门', 'team'], transform: toOptionalString },
       { field: 'workUnit', headers: ['工作单位', 'workUnit'], transform: toOptionalString },
       { field: 'position', headers: ['职务', '职位', 'position'], transform: toOptionalString },
       { field: 'joinDate', headers: ['入职日期', '入队日期', 'joinDate'], transform: toOptionalDate },
