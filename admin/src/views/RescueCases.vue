@@ -13,6 +13,14 @@ const dialogVisible = ref(false)
 const dialogTitle = ref('新增救援案例')
 const formRef = ref()
 const formData = ref({ id: null, title: '', location: '', rescueDate: '', coverImage: '', content: '' })
+
+// 表单校验：标题/地点/日期/内容为必填（封面可选），与后端 CreateRescueCaseDto 一致
+const rules = {
+  title: [{ required: true, message: '请输入案例标题', trigger: 'blur' }],
+  location: [{ required: true, message: '请输入救援地点', trigger: 'blur' }],
+  rescueDate: [{ required: true, message: '请选择救援日期', trigger: 'change' }],
+  content: [{ required: true, message: '请输入案例内容', trigger: 'blur' }],
+}
 const { data, total, loading, page, pageSize, fetch, handlePageChange } = usePagination(
   (params) => http.get('/rescue-cases', { params })
 )
@@ -45,13 +53,15 @@ const handleAdd = () => {
   nextTick(() => formRef.value?.clearValidate?.())
 }
 
-const rescueDateForPicker = (row: any) => {
-  const v = row?.rescueDate
-  if (!v) return ''
-  if (typeof v === 'string') return v.includes('T') ? v.slice(0, 10) : v.length >= 10 ? v.slice(0, 10) : v
-  if (v instanceof Date) return v.toISOString().slice(0, 10)
-  return ''
+// 日期统一按本地时区（东八区）取年月日：禁用 toISOString()——UTC 截取会把当天零点变成前一天
+const toLocalDateStr = (val: any): string => {
+  if (!val) return ''
+  const d = val instanceof Date ? val : new Date(val)
+  if (Number.isNaN(d.getTime())) return typeof val === 'string' ? val.slice(0, 10) : ''
+  return `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, '0')}-${String(d.getDate()).padStart(2, '0')}`
 }
+
+const rescueDateForPicker = (row: any) => toLocalDateStr(row?.rescueDate)
 
 const handleEdit = (row: any) => {
   dialogTitle.value = '编辑救援案例'
@@ -79,11 +89,25 @@ const handleDelete = (row: any) => {
 }
 
 const handleSave = async () => {
+  // 先过前端校验，必填项缺失时弹字段级提示，不再发无效请求
   try {
+    await formRef.value?.validate()
+  } catch {
+    return
+  }
+  try {
+    // 只提交业务字段（后端 ValidationPipe 开了 forbidNonWhitelisted，多带 id/createdAt 会被 400 拒掉）
+    const payload = {
+      title: formData.value.title,
+      location: formData.value.location,
+      rescueDate: formData.value.rescueDate,
+      coverImage: formData.value.coverImage || '',
+      content: formData.value.content,
+    }
     if (formData.value.id) {
-      await http.patch(`/rescue-cases/${formData.value.id}`, formData.value)
+      await http.patch(`/rescue-cases/${formData.value.id}`, payload)
     } else {
-      await http.post('/rescue-cases', formData.value)
+      await http.post('/rescue-cases', payload)
     }
     ElMessage.success('保存成功')
     dialogVisible.value = false
@@ -93,11 +117,7 @@ const handleSave = async () => {
   }
 }
 
-const formatDate = (row: any, column: any, cellValue: any) => {
-  if (!cellValue) return '--'
-  const date = new Date(cellValue)
-  return date.toISOString().split('T')[0]
-}
+const formatDate = (row: any, column: any, cellValue: any) => toLocalDateStr(cellValue) || '--'
 
 onMounted(() => {
   fetch(getApiParams())
@@ -167,7 +187,7 @@ onMounted(() => {
     <el-dialog v-model="dialogVisible" :title="dialogTitle" width="960px" @closed="handleDialogClosed">
       <div class="case-dialog-layout">
         <div class="case-dialog-layout__main">
-          <el-form ref="formRef" :model="formData" label-width="96px">
+          <el-form ref="formRef" :model="formData" :rules="rules" label-width="96px">
             <el-form-item label="案例标题">
               <el-input v-model="formData.title" placeholder="请输入案例标题" />
             </el-form-item>
