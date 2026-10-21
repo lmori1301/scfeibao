@@ -29,34 +29,34 @@
                 <!-- 第一条 -->
                 <div v-if="paginatedMembers[0]" id="1_1533" class="Pixso-vector-1_1533" :style="memberCoverStyle(paginatedMembers[0])" @click="goToDetail(paginatedMembers[0].id)" style="cursor: pointer;"></div>
                 <div v-if="paginatedMembers[0]" id="1_1545" class="Pixso-vector-1_1545"></div>
-                <p v-if="paginatedMembers[0]" id="6_736" class="Pixso-paragraph-6_736">{{ formatDate(paginatedMembers[0].publishDate).year }}</p>
-                <p v-if="paginatedMembers[0]" id="6_737" class="Pixso-paragraph-6_737">{{ formatDate(paginatedMembers[0].publishDate).day }}</p>
+                <p v-if="paginatedMembers[0]" id="6_736" class="Pixso-paragraph-6_736" @click="goToDetail(paginatedMembers[0].id)" style="cursor: pointer;">{{ formatDate(paginatedMembers[0].publishDate).year }}</p>
+                <p v-if="paginatedMembers[0]" id="6_737" class="Pixso-paragraph-6_737" @click="goToDetail(paginatedMembers[0].id)" style="cursor: pointer;">{{ formatDate(paginatedMembers[0].publishDate).day }}</p>
                 <p v-if="paginatedMembers[0]" id="1_1567" class="Pixso-paragraph-1_1567" @click="goToDetail(paginatedMembers[0].id)" style="cursor: pointer;">{{ paginatedMembers[0].title }}</p>
-                <p v-if="paginatedMembers[0]" id="1_1563" class="Pixso-paragraph-1_1563">{{ paginatedMembers[0].summary }}</p>
+                <p v-if="paginatedMembers[0]" id="1_1563" class="Pixso-paragraph-1_1563" @click="goToDetail(paginatedMembers[0].id)" style="cursor: pointer;">{{ paginatedMembers[0].summary }}</p>
 
                 <!-- 第二条 -->
                 <div v-if="paginatedMembers[1]" id="1_1536" class="Pixso-vector-1_1536" :style="memberCoverStyle(paginatedMembers[1])" @click="goToDetail(paginatedMembers[1].id)" style="cursor: pointer;"></div>
                 <div v-if="paginatedMembers[1]" id="1_1546" class="Pixso-vector-1_1546"></div>
-                <p v-if="paginatedMembers[1]" id="1_1555" class="Pixso-paragraph-1_1555">{{ formatDate(paginatedMembers[1].publishDate).year }}</p>
-                <p v-if="paginatedMembers[1]" id="1_1556" class="Pixso-paragraph-1_1556">{{ formatDate(paginatedMembers[1].publishDate).day }}</p>
+                <p v-if="paginatedMembers[1]" id="1_1555" class="Pixso-paragraph-1_1555" @click="goToDetail(paginatedMembers[1].id)" style="cursor: pointer;">{{ formatDate(paginatedMembers[1].publishDate).year }}</p>
+                <p v-if="paginatedMembers[1]" id="1_1556" class="Pixso-paragraph-1_1556" @click="goToDetail(paginatedMembers[1].id)" style="cursor: pointer;">{{ formatDate(paginatedMembers[1].publishDate).day }}</p>
                 <p v-if="paginatedMembers[1]" id="1_1568" class="Pixso-paragraph-1_1568" @click="goToDetail(paginatedMembers[1].id)" style="cursor: pointer;">{{ paginatedMembers[1].title }}</p>
-                <p v-if="paginatedMembers[1]" id="1_1564" class="Pixso-paragraph-1_1564">{{ paginatedMembers[1].summary }}</p>
+                <p v-if="paginatedMembers[1]" id="1_1564" class="Pixso-paragraph-1_1564" @click="goToDetail(paginatedMembers[1].id)" style="cursor: pointer;">{{ paginatedMembers[1].summary }}</p>
 
                 <!-- 第三条 -->
                 <div v-if="paginatedMembers[2]" id="1_1539" class="Pixso-vector-1_1539" :style="memberCoverStyle(paginatedMembers[2])" @click="goToDetail(paginatedMembers[2].id)" style="cursor: pointer;"></div>
                 <div v-if="paginatedMembers[2]" id="1_1547" class="Pixso-vector-1_1547"></div>
-                <p v-if="paginatedMembers[2]" id="1_1558" class="Pixso-paragraph-1_1558">{{ formatDate(paginatedMembers[2].publishDate).year }}</p>
-                <p v-if="paginatedMembers[2]" id="1_1559" class="Pixso-paragraph-1_1559">{{ formatDate(paginatedMembers[2].publishDate).day }}</p>
+                <p v-if="paginatedMembers[2]" id="1_1558" class="Pixso-paragraph-1_1558" @click="goToDetail(paginatedMembers[2].id)" style="cursor: pointer;">{{ formatDate(paginatedMembers[2].publishDate).year }}</p>
+                <p v-if="paginatedMembers[2]" id="1_1559" class="Pixso-paragraph-1_1559" @click="goToDetail(paginatedMembers[2].id)" style="cursor: pointer;">{{ formatDate(paginatedMembers[2].publishDate).day }}</p>
                 <p v-if="paginatedMembers[2]" id="1_1569" class="Pixso-paragraph-1_1569" @click="goToDetail(paginatedMembers[2].id)" style="cursor: pointer;">{{ paginatedMembers[2].title }}</p>
-                <p v-if="paginatedMembers[2]" id="1_1565" class="Pixso-paragraph-1_1565">{{ paginatedMembers[2].summary }}</p>
+                <p v-if="paginatedMembers[2]" id="1_1565" class="Pixso-paragraph-1_1565" @click="goToDetail(paginatedMembers[2].id)" style="cursor: pointer;">{{ paginatedMembers[2].summary }}</p>
 
                 <!-- 第四条 -->
                 <div v-if="paginatedMembers[3]" id="1_1542" class="Pixso-vector-1_1542" :style="memberCoverStyle(paginatedMembers[3])" @click="goToDetail(paginatedMembers[3].id)" style="cursor: pointer;"></div>
                 <div v-if="paginatedMembers[3]" id="1_1548" class="Pixso-vector-1_1548"></div>
-                <p v-if="paginatedMembers[3]" id="1_1561" class="Pixso-paragraph-1_1561">{{ formatDate(paginatedMembers[3].publishDate).year }}</p>
-                <p v-if="paginatedMembers[3]" id="1_1562" class="Pixso-paragraph-1_1562">{{ formatDate(paginatedMembers[3].publishDate).day }}</p>
+                <p v-if="paginatedMembers[3]" id="1_1561" class="Pixso-paragraph-1_1561" @click="goToDetail(paginatedMembers[3].id)" style="cursor: pointer;">{{ formatDate(paginatedMembers[3].publishDate).year }}</p>
+                <p v-if="paginatedMembers[3]" id="1_1562" class="Pixso-paragraph-1_1562" @click="goToDetail(paginatedMembers[3].id)" style="cursor: pointer;">{{ formatDate(paginatedMembers[3].publishDate).day }}</p>
                 <p v-if="paginatedMembers[3]" id="1_1570" class="Pixso-paragraph-1_1570" @click="goToDetail(paginatedMembers[3].id)" style="cursor: pointer;">{{ paginatedMembers[3].title }}</p>
-                <p v-if="paginatedMembers[3]" id="1_1566" class="Pixso-paragraph-1_1566">{{ paginatedMembers[3].summary }}</p>
+                <p v-if="paginatedMembers[3]" id="1_1566" class="Pixso-paragraph-1_1566" @click="goToDetail(paginatedMembers[3].id)" style="cursor: pointer;">{{ paginatedMembers[3].summary }}</p>
             </template>
             <template v-else>
                 <div style="position: absolute; left: 26.15%; top: 18.18%; width: 68.08%; text-align: center; padding: 60px 0; color: #999;">暂无数据</div>

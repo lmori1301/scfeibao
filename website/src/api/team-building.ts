@@ -47,9 +47,10 @@ export function getTeamShowcaseDetail(id: number) {
     id: number
     title: string
     type: string
-    images: string[]
+    imageUrl: string
     description: string
-    date: string
-    location: string
+    publishDate: string
+    createdAt: string
+    updatedAt: string
   }>(`/team-showcase/${id}`)
 }

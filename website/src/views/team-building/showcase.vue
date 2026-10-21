@@ -238,7 +238,7 @@ const fetchShowcaseList = async () => {
                     description: summary,
                     content: item.description || '',
                     images: item.imageUrl ? [item.imageUrl] : [],
-                    publishDate: item.createdAt || item.updatedAt || new Date().toISOString(),
+                    publishDate: item.publishDate || item.createdAt || item.updatedAt || new Date().toISOString(),
                     category: item.type || ''
                 }
             })

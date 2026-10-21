@@ -45,3 +45,17 @@ export function getStudyMaterials(params?: { page?: number; pageSize?: number; t
 export function getTeamWorkList(params?: { page?: number; pageSize?: number; keyword?: string }) {
   return http.get<PartyListResponse>('/party/team-work', { params })
 }
+
+/**
+ * 获取团建工作详情
+ */
+export function getTeamWorkDetail(id: number) {
+  return http.get<PartyWorkItem>(`/party/team-work/${id}`)
+}
+
+/**
+ * 获取党员学习资料详情
+ */
+export function getStudyMaterialsDetail(id: number) {
+  return http.get<PartyWorkItem>(`/party/study-materials/${id}`)
+}

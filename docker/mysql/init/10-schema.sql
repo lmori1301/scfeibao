@@ -359,6 +359,7 @@ CREATE TABLE `team_showcase` (
   `type` varchar(255) DEFAULT NULL,
   `imageUrl` varchar(255) DEFAULT NULL,
   `description` mediumtext,
+  `publishDate` datetime DEFAULT NULL COMMENT '发布时间',
   `sort` int NOT NULL DEFAULT '0',
   `status` varchar(255) NOT NULL DEFAULT '显示',
   `createdAt` datetime(6) NOT NULL DEFAULT CURRENT_TIMESTAMP(6),

@@ -21,34 +21,34 @@
                 <!-- 第一条 -->
                 <div v-if="paginatedStudy[0]" id="1_1705" class="Pixso-vector-1_1705" @click="goToDetail(paginatedStudy[0].id)" style="cursor: pointer;"></div>
                 <div v-if="paginatedStudy[0]" id="1_1709" class="Pixso-vector-1_1709"></div>
-                <p v-if="paginatedStudy[0]" id="1_1710" class="Pixso-paragraph-1_1710">{{ formatDate(paginatedStudy[0].publishDate).year }}</p>
-                <p v-if="paginatedStudy[0]" id="1_1711" class="Pixso-paragraph-1_1711">{{ formatDate(paginatedStudy[0].publishDate).day }}</p>
+                <p v-if="paginatedStudy[0]" id="1_1710" class="Pixso-paragraph-1_1710" @click="goToDetail(paginatedStudy[0].id)" style="cursor: pointer;">{{ formatDate(paginatedStudy[0].publishDate).year }}</p>
+                <p v-if="paginatedStudy[0]" id="1_1711" class="Pixso-paragraph-1_1711" @click="goToDetail(paginatedStudy[0].id)" style="cursor: pointer;">{{ formatDate(paginatedStudy[0].publishDate).day }}</p>
                 <p v-if="paginatedStudy[0]" id="1_1725" class="Pixso-paragraph-1_1725" @click="goToDetail(paginatedStudy[0].id)" style="cursor: pointer;">{{ paginatedStudy[0].title }}</p>
-                <p v-if="paginatedStudy[0]" id="1_1721" class="Pixso-paragraph-1_1721">{{ paginatedStudy[0].summary }}</p>
+                <p v-if="paginatedStudy[0]" id="1_1721" class="Pixso-paragraph-1_1721" @click="goToDetail(paginatedStudy[0].id)" style="cursor: pointer;">{{ paginatedStudy[0].summary }}</p>
 
                 <!-- 第二条 -->
                 <div v-if="paginatedStudy[1]" id="1_1706" class="Pixso-vector-1_1706" @click="goToDetail(paginatedStudy[1].id)" style="cursor: pointer;"></div>
                 <div v-if="paginatedStudy[1]" id="1_1712" class="Pixso-vector-1_1712"></div>
-                <p v-if="paginatedStudy[1]" id="1_1713" class="Pixso-paragraph-1_1713">{{ formatDate(paginatedStudy[1].publishDate).year }}</p>
-                <p v-if="paginatedStudy[1]" id="1_1714" class="Pixso-paragraph-1_1714">{{ formatDate(paginatedStudy[1].publishDate).day }}</p>
+                <p v-if="paginatedStudy[1]" id="1_1713" class="Pixso-paragraph-1_1713" @click="goToDetail(paginatedStudy[1].id)" style="cursor: pointer;">{{ formatDate(paginatedStudy[1].publishDate).year }}</p>
+                <p v-if="paginatedStudy[1]" id="1_1714" class="Pixso-paragraph-1_1714" @click="goToDetail(paginatedStudy[1].id)" style="cursor: pointer;">{{ formatDate(paginatedStudy[1].publishDate).day }}</p>
                 <p v-if="paginatedStudy[1]" id="1_1726" class="Pixso-paragraph-1_1726" @click="goToDetail(paginatedStudy[1].id)" style="cursor: pointer;">{{ paginatedStudy[1].title }}</p>
-                <p v-if="paginatedStudy[1]" id="1_1722" class="Pixso-paragraph-1_1722">{{ paginatedStudy[1].summary }}</p>
+                <p v-if="paginatedStudy[1]" id="1_1722" class="Pixso-paragraph-1_1722" @click="goToDetail(paginatedStudy[1].id)" style="cursor: pointer;">{{ paginatedStudy[1].summary }}</p>
 
                 <!-- 第三条 -->
                 <div v-if="paginatedStudy[2]" id="1_1707" class="Pixso-vector-1_1707" @click="goToDetail(paginatedStudy[2].id)" style="cursor: pointer;"></div>
                 <div v-if="paginatedStudy[2]" id="1_1715" class="Pixso-vector-1_1715"></div>
-                <p v-if="paginatedStudy[2]" id="1_1716" class="Pixso-paragraph-1_1716">{{ formatDate(paginatedStudy[2].publishDate).year }}</p>
-                <p v-if="paginatedStudy[2]" id="1_1717" class="Pixso-paragraph-1_1717">{{ formatDate(paginatedStudy[2].publishDate).day }}</p>
+                <p v-if="paginatedStudy[2]" id="1_1716" class="Pixso-paragraph-1_1716" @click="goToDetail(paginatedStudy[2].id)" style="cursor: pointer;">{{ formatDate(paginatedStudy[2].publishDate).year }}</p>
+                <p v-if="paginatedStudy[2]" id="1_1717" class="Pixso-paragraph-1_1717" @click="goToDetail(paginatedStudy[2].id)" style="cursor: pointer;">{{ formatDate(paginatedStudy[2].publishDate).day }}</p>
                 <p v-if="paginatedStudy[2]" id="1_1727" class="Pixso-paragraph-1_1727" @click="goToDetail(paginatedStudy[2].id)" style="cursor: pointer;">{{ paginatedStudy[2].title }}</p>
-                <p v-if="paginatedStudy[2]" id="1_1723" class="Pixso-paragraph-1_1723">{{ paginatedStudy[2].summary }}</p>
+                <p v-if="paginatedStudy[2]" id="1_1723" class="Pixso-paragraph-1_1723" @click="goToDetail(paginatedStudy[2].id)" style="cursor: pointer;">{{ paginatedStudy[2].summary }}</p>
 
                 <!-- 第四条 -->
                 <div v-if="paginatedStudy[3]" id="1_1708" class="Pixso-vector-1_1708" @click="goToDetail(paginatedStudy[3].id)" style="cursor: pointer;"></div>
                 <div v-if="paginatedStudy[3]" id="1_1718" class="Pixso-vector-1_1718"></div>
-                <p v-if="paginatedStudy[3]" id="1_1719" class="Pixso-paragraph-1_1719">{{ formatDate(paginatedStudy[3].publishDate).year }}</p>
-                <p v-if="paginatedStudy[3]" id="1_1720" class="Pixso-paragraph-1_1720">{{ formatDate(paginatedStudy[3].publishDate).day }}</p>
+                <p v-if="paginatedStudy[3]" id="1_1719" class="Pixso-paragraph-1_1719" @click="goToDetail(paginatedStudy[3].id)" style="cursor: pointer;">{{ formatDate(paginatedStudy[3].publishDate).year }}</p>
+                <p v-if="paginatedStudy[3]" id="1_1720" class="Pixso-paragraph-1_1720" @click="goToDetail(paginatedStudy[3].id)" style="cursor: pointer;">{{ formatDate(paginatedStudy[3].publishDate).day }}</p>
                 <p v-if="paginatedStudy[3]" id="1_1728" class="Pixso-paragraph-1_1728" @click="goToDetail(paginatedStudy[3].id)" style="cursor: pointer;">{{ paginatedStudy[3].title }}</p>
-                <p v-if="paginatedStudy[3]" id="1_1724" class="Pixso-paragraph-1_1724">{{ paginatedStudy[3].summary }}</p>
+                <p v-if="paginatedStudy[3]" id="1_1724" class="Pixso-paragraph-1_1724" @click="goToDetail(paginatedStudy[3].id)" style="cursor: pointer;">{{ paginatedStudy[3].summary }}</p>
             </template>
             <template v-else>
                 <div style="position: absolute; left: 26.15%; top: 18.18%; width: 68.08%; text-align: center; padding: 60px 0; color: #999;">暂无数据</div>

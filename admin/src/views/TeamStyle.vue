@@ -13,9 +13,18 @@ import QueryFilter from '@/components/QueryFilter.vue'
 const dialogVisible = ref(false)
 const dialogTitle = ref('新增队伍风采')
 const formRef = ref()
-const formData = ref<Record<string, any>>({ title: '', type: '', sort: 1, status: '显示', image: '', content: '' })
+const formData = ref<Record<string, any>>({ title: '', type: '', sort: 1, status: '显示', image: '', content: '', publishDate: '' })
 const titleKeyword = ref('')
 const statusFilter = ref('' as '' | '显示' | '隐藏')
+
+// 本地时区格式化为日期输入框格式，避免 UTC 偏移导致日期少一天
+const toDateInput = (value: any) => {
+  if (!value) return ''
+  const date = new Date(value)
+  if (Number.isNaN(date.getTime())) return ''
+  const pad = (n: number) => String(n).padStart(2, '0')
+  return `${date.getFullYear()}-${pad(date.getMonth() + 1)}-${pad(date.getDate())}`
+}
 
 const rules = {
   title: [requiredRule('标题')],
@@ -51,7 +60,7 @@ const handleReset = () => {
 
 const handleAdd = () => {
   dialogTitle.value = '新增队伍风采'
-  formData.value = { title: '', type: '', sort: 1, status: '显示', image: '', content: '' }
+  formData.value = { title: '', type: '', sort: 1, status: '显示', image: '', content: '', publishDate: '' }
   dialogVisible.value = true
   nextTick(() => formRef.value?.clearValidate?.())
 }
@@ -66,6 +75,7 @@ const handleEdit = (row: any) => {
     status: row.status,
     image: row.imageUrl,
     content: row.description || '',
+    publishDate: toDateInput(row.publishDate),
   }
   dialogVisible.value = true
   nextTick(() => formRef.value?.clearValidate?.())
@@ -74,7 +84,7 @@ const handleEdit = (row: any) => {
 const handleDialogClosed = () => {
   formRef.value?.resetFields?.()
   formRef.value?.clearValidate?.()
-  formData.value = { title: '', type: '', sort: 1, status: '显示', image: '', content: '' }
+  formData.value = { title: '', type: '', sort: 1, status: '显示', image: '', content: '', publishDate: '' }
 }
 
 const handleDelete = (row: any) => {
@@ -93,6 +103,7 @@ const handleSave = async () => {
     type: formData.value.type,
     imageUrl: formData.value.image,
     description: formData.value.content,
+    publishDate: formData.value.publishDate || null,
     sort: formData.value.sort,
     status: formData.value.status,
   }
@@ -152,6 +163,11 @@ fetch()
         <el-table-column type="index" label="序号" width="70" fixed="left" />
         <el-table-column prop="title" label="标题" min-width="200" show-overflow-tooltip />
         <el-table-column prop="type" label="类型" width="120" show-overflow-tooltip />
+        <el-table-column label="发布时间" width="120">
+          <template #default="{ row }">
+            <span>{{ row.publishDate ? toDateInput(row.publishDate) : '--' }}</span>
+          </template>
+        </el-table-column>
         <el-table-column prop="sort" label="排序" width="80" align="center" />
         <el-table-column label="状态" width="100">
           <template #default="{ row }">
@@ -223,9 +239,18 @@ fetch()
             <section class="portal-form-section">
               <div class="portal-form-section__header">
                 <strong>发布设置</strong>
-                <span>通过排序和状态控制前台展示顺序。</span>
+                <span>通过发布时间、排序和状态控制前台展示。</span>
               </div>
               <div class="portal-form-section__body">
+                <el-form-item label="发布时间">
+                  <el-date-picker
+                    v-model="formData.publishDate"
+                    type="date"
+                    value-format="YYYY-MM-DD"
+                    placeholder="请选择发布时间（前台列表与详情按此日期展示）"
+                    style="width: 100%"
+                  />
+                </el-form-item>
                 <el-form-item label="排序">
                   <el-input-number v-model="formData.sort" :min="1" style="width: 100%" />
                 </el-form-item>

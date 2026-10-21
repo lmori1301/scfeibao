@@ -17,6 +17,9 @@ export class TeamShowcase {
   @Column({ type: 'mediumtext', nullable: true })
   description: string
 
+  @Column({ type: 'datetime', nullable: true })
+  publishDate: Date
+
   @Column({ default: 0 })
   sort: number
 

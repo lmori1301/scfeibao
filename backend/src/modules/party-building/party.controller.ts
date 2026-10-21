@@ -55,6 +55,12 @@ export class PartyController {
     return this.partyWorksService.getList(page, pageSize, keyword, '党员学习')
   }
 
+  @Get('study-materials/:id')
+  @ApiOperation({ summary: '获取党员学习资料详情' })
+  getStudyMaterialDetail(@Param('id') id: number) {
+    return this.partyWorksService.getOne(id)
+  }
+
   @Get('team-work')
   @ApiOperation({ summary: '获取团建工作列表' })
   getTeamWorkList(
@@ -63,5 +69,11 @@ export class PartyController {
     @Query('keyword') keyword?: string,
   ) {
     return this.partyWorksService.getList(page, pageSize, keyword, '团建工作')
+  }
+
+  @Get('team-work/:id')
+  @ApiOperation({ summary: '获取团建工作详情' })
+  getTeamWorkDetail(@Param('id') id: number) {
+    return this.partyWorksService.getOne(id)
   }
 }

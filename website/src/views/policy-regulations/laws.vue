@@ -28,7 +28,7 @@
                 </div>
 
                 <!-- 标题 -->
-                <p :id="`1_${2363 + index}`" :class="`Pixso-paragraph-1_${2363 + index}`">
+                <p :id="`1_${2363 + index}`" :class="`Pixso-paragraph-1_${2363 + index}`" @click="goToDetail(item)" style="cursor: pointer;">
                     {{ item.title }}
                 </p>
 
@@ -38,7 +38,7 @@
                 </p>
 
                 <!-- 内容摘要 -->
-                <p :id="`1_${2369 + index}`" :class="`Pixso-paragraph-1_${2369 + index}`">
+                <p :id="`1_${2369 + index}`" :class="`Pixso-paragraph-1_${2369 + index}`" @click="goToDetail(item)" style="cursor: pointer;">
                     {{ item.summary }}
                 </p>
 
@@ -194,11 +194,19 @@ function handlePageChange() {
   window.scrollTo({ top: 0, behavior: 'smooth' })
 }
 
-// 格式化日期
+// 格式化日期：按本地时区取年月日，避免 toISOString() 的 UTC 偏移导致日期少一天
 const formatDate = (dateStr: string) => {
   if (!dateStr) return ''
   const date = new Date(dateStr)
-  return date.toISOString().split('T')[0]
+  if (Number.isNaN(date.getTime())) return ''
+  const pad = (n: number) => String(n).padStart(2, '0')
+  return `${date.getFullYear()}-${pad(date.getMonth() + 1)}-${pad(date.getDate())}`
+}
+
+// 跳转政策详情
+function goToDetail(item: any) {
+  if (!item?.id) return
+  router.push(`/policy-regulations/laws/${item.id}`)
 }
 
 // 搜索
