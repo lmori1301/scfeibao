@@ -8,7 +8,7 @@
     active-nav="/team-building"
     :title="detail?.title || ''"
     :meta-text="metaText"
-    :content="detail?.content || ''"
+    :content="contentHtml"
     :cover="detail?.coverImage || ''"
     :loading="loading"
   />
@@ -41,6 +41,10 @@ const metaText = computed(() => {
   if (rescueDate) parts.push(`救援时间：${rescueDate}`)
   return parts.join('　　　')
 })
+
+// 后台案例内容是纯文本（亮点：/总结：等单独成行），换行符在 v-html 下会被折叠成
+// 空格导致整段连排；这里把 \n 转成 <br> 保留编辑器里的换行结构。
+const contentHtml = computed(() => (detail.value?.content || '').replace(/\r?\n/g, '<br>'))
 
 const fetchDetail = async () => {
   const id = route.params.id
