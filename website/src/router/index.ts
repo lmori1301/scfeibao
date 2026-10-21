@@ -36,6 +36,7 @@ const routes: RouteRecordRaw[] = [
   { path: '/team-building', name: 'TeamBuilding', component: () => import('@/views/team-building/about.vue') },
   { path: '/team-building/about', name: 'About', component: () => import('@/views/team-building/about.vue') },
   { path: '/team-building/cases', name: 'Cases', component: () => import('@/views/team-building/cases.vue') },
+  { path: '/team-building/cases/:id', name: 'CaseDetail', component: () => import('@/views/team-building/case-detail.vue') },
   { path: '/team-building/showcase', name: 'Showcase', component: () => import('@/views/team-building/showcase.vue') },
   { path: '/team-building/showcase/:id', name: 'ShowcaseDetail', component: () => import('@/views/team-building/showcase-detail.vue') },
 
