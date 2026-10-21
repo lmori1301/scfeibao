@@ -17,6 +17,7 @@ import {
   parseExcelRows,
   toOptionalDate,
   toOptionalNumber,
+  toOptionalPhotoText,
   toOptionalString,
   toStatusNumber,
 } from '../../common/utils/excel-import';
@@ -123,7 +124,7 @@ export class PersonnelService {
       { field: 'workUnit', headers: ['工作单位', 'workUnit'], transform: toOptionalString },
       { field: 'position', headers: ['职务', '职位', 'position'], transform: toOptionalString },
       { field: 'joinDate', headers: ['入职日期', '入队日期', 'joinDate'], transform: toOptionalDate },
-      { field: 'photoUrl', headers: ['人员照片', '照片', 'photoUrl'], transform: toOptionalString },
+      { field: 'photoUrl', headers: ['人员照片', '照片', 'photoUrl'], transform: toOptionalPhotoText },
       { field: 'skills', headers: ['专业技能', '技能', 'skills'], transform: toOptionalString },
       { field: 'taskCount', headers: ['出勤次数', 'taskCount'], transform: toOptionalNumber },
       { field: 'trainingHours', headers: ['培训时长', '培训时长(小时)', 'trainingHours'], transform: toOptionalNumber },

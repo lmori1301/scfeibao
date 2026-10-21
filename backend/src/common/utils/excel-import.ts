@@ -106,6 +106,19 @@ export function toOptionalString(value: unknown) {
   return str || undefined;
 }
 
+/**
+ * 照片列文本：WPS「嵌入单元格」图片的单元格是公式
+ * `=DISPIMG("ID_xxx",1)`（t="str"），read-excel-file 会把它当字符串读出来，
+ * 直接当 URL 入库会导致前端 <img> 加载失败。真实照片走内嵌图片提取（xlsx-images），
+ * 公式文本一律不落 photoUrl。
+ */
+export function toOptionalPhotoText(value: unknown) {
+  const str = toOptionalString(value);
+  if (!str) return undefined;
+  if (/DISPIMG\s*\(/i.test(str)) return undefined;
+  return str;
+}
+
 export function toOptionalNumber(value: unknown) {
   const str = String(value ?? '').trim();
   if (!str) return undefined;

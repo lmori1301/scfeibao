@@ -1,5 +1,5 @@
 /**
- * 从 .xlsx 中提取「浮动图片」并换算到所在行/列。
+ * 从 .xlsx 中提取「浮动图片」与 WPS「嵌入单元格」图片，并换算到所在行/列。
  *
  * 为什么不用 read-excel-file / exceljs：
  * - read-excel-file 只读单元格文本，完全不解析图片；
@@ -7,7 +7,9 @@
  *   新增依赖必须同步 package-lock.json（本地装包受阻的风险点），
  *   为了三张台账的导入照片引入一个几十 MB 的库不划算。
  *
- * .xlsx 本质是 ZIP：
+ * .xlsx 本质是 ZIP，图片有两种存在形态：
+ *
+ * ① 浮动图片（Excel/WPS「插入图片」浮于单元格上方）：
  *   xl/workbook.xml                 -> 第一张工作表的关系 id
  *   xl/_rels/workbook.xml.rels      -> 工作表路径
  *   xl/worksheets/sheetN.xml        -> <drawing r:id="..."/>
@@ -15,6 +17,13 @@
  *   xl/drawings/drawingN.xml        -> twoCellAnchor/oneCellAnchor 的 from(row,col) + a:blip r:embed
  *   xl/drawings/_rels/drawingN.xml.rels -> rId -> ../media/imageN.png
  *   xl/media/*                      -> 图片二进制
+ *
+ * ② WPS「嵌入单元格」图片（图片放进单元格里，单元格公式 =DISPIMG("ID_xxx",1)）：
+ *   xl/cellimages.xml               -> <etc:cellImage> name="ID_xxx" + a:blip r:embed="rIdN"
+ *   xl/_rels/cellimages.xml.rels    -> rIdN -> media/imageN.png
+ *   xl/worksheets/sheetN.xml        -> <c r="M2" t="str"><f>_xlfn.DISPIMG("ID_xxx",1)</f>...
+ *   单元格引用（M2）给出精确行/列，比浮动锚点更可靠；优先解析此形态。
+ *
  * 因此用 Node 内置 zlib 解 ZIP（deflate raw）即可，零依赖。
  */
 import * as zlib from 'zlib';
@@ -36,6 +45,13 @@ type ZipEntry = {
   compressedSize: number;
   uncompressedSize: number;
   localHeaderOffset: number;
+};
+
+type ZipContext = {
+  buffer: Buffer;
+  entryByName: Map<string, ZipEntry>;
+  readText: (file: string) => string | null;
+  readData: (file: string) => Buffer | null;
 };
 
 const SIG_EOCD = 0x06054b50;
@@ -142,101 +158,195 @@ const MIME_BY_EXT: Record<string, string> = {
   '.wmf': 'image/wmf',
 };
 
+/** 单元格引用（如 M2）里的列字母 -> 0 基列号 */
+function colLettersToIndex(letters: string): number {
+  let n = 0;
+  for (const ch of letters.toUpperCase()) {
+    if (ch < 'A' || ch > 'Z') break;
+    n = n * 26 + (ch.charCodeAt(0) - 64);
+  }
+  return n - 1;
+}
+
+/** 定位第一张工作表（read-excel-file 读的也是第 1 个 sheet），返回路径与 XML */
+function resolveFirstSheet(
+  ctx: ZipContext,
+): { sheetPath: string; sheetXml: string } | null {
+  const workbookXml = ctx.readText('xl/workbook.xml');
+  if (!workbookXml) return null;
+
+  const firstSheetTag = /<(?:\w+:)?sheet\b([^>]*)\/?>/.exec(workbookXml)?.[1] || '';
+  const sheetRid = /r:id="([^"]+)"/.exec(firstSheetTag)?.[1];
+  const workbookRels = ctx.readText('xl/_rels/workbook.xml.rels');
+  let sheetPath = 'xl/worksheets/sheet1.xml';
+  if (sheetRid && workbookRels) {
+    const rels = parseRelationships(workbookRels, 'xl/_rels/workbook.xml.rels');
+    const resolved = rels.get(sheetRid);
+    if (resolved && ctx.entryByName.has(resolved)) sheetPath = resolved;
+  }
+
+  const sheetXml = ctx.readText(sheetPath);
+  if (!sheetXml) return null;
+  return { sheetPath, sheetXml };
+}
+
 /**
- * 提取工作表内所有锚定（浮动）图片，返回其 0 基 row/col。
- * 解析失败一律返回空数组——图片只是增强项，不能让整份台账导入失败。
+ * 解析 WPS「嵌入单元格」图片：
+ * 单元格公式 =DISPIMG("ID_xxx",1) -> xl/cellimages.xml 按 ID 找 r:embed ->
+ * xl/_rels/cellimages.xml.rels 找 media 路径。行列直接取自单元格引用，精确无锚点偏移。
+ */
+function extractWpsCellImages(ctx: ZipContext, sheetXml: string): XlsxImage[] {
+  const cellImagesXml = ctx.readText('xl/cellimages.xml');
+  if (!cellImagesXml) return [];
+  const relsXml = ctx.readText('xl/_rels/cellimages.xml.rels');
+  if (!relsXml) return [];
+  const rels = parseRelationships(relsXml, 'xl/_rels/cellimages.xml.rels');
+
+  // DISPIMG ID -> media 包内路径
+  const idToMedia = new Map<string, string>();
+  const blockRe = /<(?:\w+:)?cellImage\b[^>]*>([\s\S]*?)<\/(?:\w+:)?cellImage>/g;
+  let block: RegExpExecArray | null;
+  while ((block = blockRe.exec(cellImagesXml))) {
+    const body = block[1] || '';
+    const name = /name="([^"]+)"/.exec(body)?.[1];
+    const embed = /<(?:\w+:)?blip\b[^>]*r:embed="([^"]+)"/.exec(body)?.[1];
+    if (!name || !embed) continue;
+    const mediaPath = rels.get(embed);
+    if (mediaPath) idToMedia.set(name, mediaPath);
+  }
+  if (idToMedia.size === 0) return [];
+
+  const images: XlsxImage[] = [];
+  // 扫描工作表单元格：公式体里带 DISPIMG("ID_xxx" 的 <c r="M12" ...>
+  const cellRe = /<c\b([^>]*)(?:\/>|>([\s\S]*?)<\/c>)/g;
+  let cell: RegExpExecArray | null;
+  while ((cell = cellRe.exec(sheetXml))) {
+    const attrs = cell[1] || '';
+    const body = cell[2] || '';
+    if (!/DISPIMG\s*\(/i.test(body)) continue;
+
+    const ref = /\br="([A-Za-z]+)(\d+)"/.exec(attrs);
+    if (!ref) continue;
+    const id = /ID_[A-Za-z0-9]{8,}/.exec(body)?.[0];
+    if (!id) continue;
+    const mediaPath = idToMedia.get(id);
+    if (!mediaPath) continue;
+
+    const data = ctx.readData(mediaPath);
+    if (!data || !data.length) continue;
+
+    const ext = path.posix.extname(mediaPath).toLowerCase();
+    images.push({
+      // 工作表行号 1 基 -> 0 基（与浮动锚点坐标系一致）
+      row: Number(ref[2]) - 1,
+      col: colLettersToIndex(ref[1]),
+      buffer: data,
+      mime: MIME_BY_EXT[ext] || 'application/octet-stream',
+      name: path.posix.basename(mediaPath),
+    });
+  }
+  return images;
+}
+
+/** 解析浮动图片锚点（twoCellAnchor/oneCellAnchor 的 from(row,col) + a:blip） */
+function extractAnchoredImages(ctx: ZipContext, sheetPath: string, sheetXml: string): XlsxImage[] {
+  const drawingRid = firstMatch(sheetXml, /<(?:\w+:)?drawing\b[^>]*r:id="([^"]+)"/);
+  if (!drawingRid) return [];
+
+  const sheetRelsPath = `${path.posix.dirname(sheetPath)}/_rels/${path.posix.basename(sheetPath)}.rels`;
+  const sheetRelsXml = ctx.readText(sheetRelsPath);
+  if (!sheetRelsXml) return [];
+  const sheetRels = parseRelationships(sheetRelsXml, sheetRelsPath);
+  const drawingPath = sheetRels.get(drawingRid);
+  if (!drawingPath || !ctx.entryByName.has(drawingPath)) return [];
+
+  const drawingXml = ctx.readText(drawingPath);
+  if (!drawingXml) return [];
+
+  const drawingRelsPath = `${path.posix.dirname(drawingPath)}/_rels/${path.posix.basename(drawingPath)}.rels`;
+  const drawingRelsXml = ctx.readText(drawingRelsPath) || '';
+  const drawingRels = parseRelationships(drawingRelsXml, drawingRelsPath);
+
+  const images: XlsxImage[] = [];
+  // twoCellAnchor / oneCellAnchor 都带 <xdr:from><xdr:col/><xdr:row/>；
+  // absoluteAnchor 没有行列，无法归属到数据行，直接跳过。
+  const anchorRe = /<(?:\w+:)?(twoCellAnchor|oneCellAnchor)\b[^>]*>([\s\S]*?)<\/(?:\w+:)?\1>/g;
+  let anchor: RegExpExecArray | null;
+  while ((anchor = anchorRe.exec(drawingXml))) {
+    const body = anchor[2];
+    const fromBlock = /<(?:\w+:)?from\b[^>]*>([\s\S]*?)<\/(?:\w+:)?from>/.exec(body)?.[1];
+    if (!fromBlock) continue;
+    const row = Number(/<(?:\w+:)?row>(\d+)<\/(?:\w+:)?row>/.exec(fromBlock)?.[1]);
+    const col = Number(/<(?:\w+:)?col>(\d+)<\/(?:\w+:)?col>/.exec(fromBlock)?.[1]);
+    if (!Number.isFinite(row) || !Number.isFinite(col)) continue;
+
+    const embed = /<(?:\w+:)?blip\b[^>]*r:embed="([^"]+)"/.exec(body)?.[1];
+    if (!embed) continue;
+    const mediaPath = drawingRels.get(embed);
+    if (!mediaPath) continue;
+    const mediaEntry = ctx.entryByName.get(mediaPath);
+    if (!mediaEntry) continue;
+
+    let data: Buffer;
+    try {
+      data = readEntry(ctx.buffer, mediaEntry);
+    } catch {
+      continue;
+    }
+    if (!data.length) continue;
+
+    const ext = path.posix.extname(mediaPath).toLowerCase();
+    images.push({
+      row,
+      col,
+      buffer: data,
+      mime: MIME_BY_EXT[ext] || 'application/octet-stream',
+      name: path.posix.basename(mediaPath),
+    });
+  }
+
+  return images;
+}
+
+/**
+ * 提取工作表内所有照片：优先 WPS「嵌入单元格」（DISPIMG，位置精确到单元格），
+ * 没有再解析浮动锚点图片。解析失败一律返回空数组——图片只是增强项，
+ * 不能让整份台账导入失败。
  */
 export function extractXlsxImages(buffer: Buffer): XlsxImage[] {
   try {
     const entries = readZipEntries(buffer);
     const entryByName = new Map(entries.map((e) => [e.name, e]));
-    const readText = (file: string) => {
-      const entry = entryByName.get(file);
-      if (!entry) return null;
-      try {
-        return readEntry(buffer, entry).toString('utf8');
-      } catch {
-        return null;
-      }
+    const ctx: ZipContext = {
+      buffer,
+      entryByName,
+      readText: (file) => {
+        const entry = entryByName.get(file);
+        if (!entry) return null;
+        try {
+          return readEntry(buffer, entry).toString('utf8');
+        } catch {
+          return null;
+        }
+      },
+      readData: (file) => {
+        const entry = entryByName.get(file);
+        if (!entry) return null;
+        try {
+          return readEntry(buffer, entry);
+        } catch {
+          return null;
+        }
+      },
     };
 
-    const workbookXml = readText('xl/workbook.xml');
-    if (!workbookXml) return [];
+    const sheet = resolveFirstSheet(ctx);
+    if (!sheet) return [];
 
-    // 第一张工作表（read-excel-file 读的也是第 1 个 sheet）
-    const firstSheetTag = /<(?:\w+:)?sheet\b([^>]*)\/?>/.exec(workbookXml)?.[1] || '';
-    const sheetRid = /r:id="([^"]+)"/.exec(firstSheetTag)?.[1];
-    const workbookRels = readText('xl/_rels/workbook.xml.rels');
-    let sheetPath = 'xl/worksheets/sheet1.xml';
-    if (sheetRid && workbookRels) {
-      const rels = parseRelationships(workbookRels, 'xl/_rels/workbook.xml.rels');
-      const resolved = rels.get(sheetRid);
-      if (resolved && entryByName.has(resolved)) sheetPath = resolved;
-    }
-    if (!entryByName.has(sheetPath)) return [];
+    const cellImages = extractWpsCellImages(ctx, sheet.sheetXml);
+    if (cellImages.length > 0) return cellImages;
 
-    const sheetXml = readText(sheetPath);
-    if (!sheetXml) return [];
-
-    const drawingRid = firstMatch(
-      sheetXml,
-      /<(?:\w+:)?drawing\b[^>]*r:id="([^"]+)"/,
-    );
-    if (!drawingRid) return [];
-
-    const sheetRelsPath = `${path.posix.dirname(sheetPath)}/_rels/${path.posix.basename(sheetPath)}.rels`;
-    const sheetRelsXml = readText(sheetRelsPath);
-    if (!sheetRelsXml) return [];
-    const sheetRels = parseRelationships(sheetRelsXml, sheetRelsPath);
-    const drawingPath = sheetRels.get(drawingRid);
-    if (!drawingPath || !entryByName.has(drawingPath)) return [];
-
-    const drawingXml = readText(drawingPath);
-    if (!drawingXml) return [];
-
-    const drawingRelsPath = `${path.posix.dirname(drawingPath)}/_rels/${path.posix.basename(drawingPath)}.rels`;
-    const drawingRelsXml = readText(drawingRelsPath) || '';
-    const drawingRels = parseRelationships(drawingRelsXml, drawingRelsPath);
-
-    const images: XlsxImage[] = [];
-    // twoCellAnchor / oneCellAnchor 都带 <xdr:from><xdr:col/><xdr:row/>；
-    // absoluteAnchor 没有行列，无法归属到数据行，直接跳过。
-    const anchorRe = /<(?:\w+:)?(twoCellAnchor|oneCellAnchor)\b[^>]*>([\s\S]*?)<\/(?:\w+:)?\1>/g;
-    let anchor: RegExpExecArray | null;
-    while ((anchor = anchorRe.exec(drawingXml))) {
-      const body = anchor[2];
-      const fromBlock = /<(?:\w+:)?from\b[^>]*>([\s\S]*?)<\/(?:\w+:)?from>/.exec(body)?.[1];
-      if (!fromBlock) continue;
-      const row = Number(/<(?:\w+:)?row>(\d+)<\/(?:\w+:)?row>/.exec(fromBlock)?.[1]);
-      const col = Number(/<(?:\w+:)?col>(\d+)<\/(?:\w+:)?col>/.exec(fromBlock)?.[1]);
-      if (!Number.isFinite(row) || !Number.isFinite(col)) continue;
-
-      const embed = /<(?:\w+:)?blip\b[^>]*r:embed="([^"]+)"/.exec(body)?.[1];
-      if (!embed) continue;
-      const mediaPath = drawingRels.get(embed);
-      if (!mediaPath) continue;
-      const mediaEntry = entryByName.get(mediaPath);
-      if (!mediaEntry) continue;
-
-      let data: Buffer;
-      try {
-        data = readEntry(buffer, mediaEntry);
-      } catch {
-        continue;
-      }
-      if (!data.length) continue;
-
-      const ext = path.posix.extname(mediaPath).toLowerCase();
-      images.push({
-        row,
-        col,
-        buffer: data,
-        mime: MIME_BY_EXT[ext] || 'application/octet-stream',
-        name: path.posix.basename(mediaPath),
-      });
-    }
-
-    return images;
+    return extractAnchoredImages(ctx, sheet.sheetPath, sheet.sheetXml);
   } catch {
     return [];
   }

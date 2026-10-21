@@ -20,6 +20,7 @@ import {
   headerColumnIndex,
   parseExcelRows,
   toOptionalDate,
+  toOptionalPhotoText,
   toOptionalString,
   toStatusNumber,
 } from '../../common/utils/excel-import';
@@ -150,7 +151,7 @@ export class VehicleService {
       { field: 'lastMaintenanceDate', headers: ['最后保养日期', '上次保养日期', 'lastMaintenanceDate'], transform: toOptionalDate },
       { field: 'nextMaintenanceDate', headers: ['下次保养日期', 'nextMaintenanceDate'], transform: toOptionalDate },
       { field: 'status', headers: ['当前状态', '使用状态', '状态', 'status'], transform: (value) => this.toVehicleStatus(value) },
-      { field: 'photoUrl', headers: ['车辆照片', '照片', 'photoUrl'], transform: toOptionalString },
+      { field: 'photoUrl', headers: ['车辆照片', '照片', 'photoUrl'], transform: toOptionalPhotoText },
       { field: 'remark', headers: ['备注', 'remark'], transform: toOptionalString },
     ]);
 

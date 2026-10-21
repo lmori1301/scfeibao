@@ -16,6 +16,7 @@ import {
   headerColumnIndex,
   parseExcelRows,
   toOptionalDate,
+  toOptionalPhotoText,
   toOptionalString,
   toStatusNumber,
 } from '../../common/utils/excel-import';
@@ -118,7 +119,7 @@ export class CertificateService {
       { field: 'issueDate', headers: ['发证日期', 'issueDate'], transform: toOptionalDate },
       { field: 'expiryDate', headers: ['有效期至', '有效期限', 'expiryDate'], transform: toOptionalDate },
       { field: 'status', headers: ['状态', '证件状态', 'status'], transform: (value) => this.toCertificateStatus(value) },
-      { field: 'photoUrl', headers: ['证书照片', '照片', 'photoUrl'], transform: toOptionalString },
+      { field: 'photoUrl', headers: ['证书照片', '照片', 'photoUrl'], transform: toOptionalPhotoText },
       { field: 'remark', headers: ['备注', 'remark'], transform: toOptionalString },
     ]);
 
