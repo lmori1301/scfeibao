@@ -12,6 +12,7 @@ export interface CaseItem {
   rescueDate: string
   location: string
   images?: string[]
+  coverImage?: string
   participants?: number
   status?: string
 }

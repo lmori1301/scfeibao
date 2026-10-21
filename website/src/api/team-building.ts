@@ -29,7 +29,7 @@ export function getRescueCases(params: RescueCaseListParams) {
  * 获取救援案例详情
  */
 export function getRescueCaseDetail(id: number) {
-  return http.get<RescueCase>(`/team/case/${id}`)
+  return http.get<RescueCase>(`/rescue-cases/${id}`)
 }
 
 /**
