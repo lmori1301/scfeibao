@@ -134,17 +134,17 @@ const totalCases = ref(0)
 const paginatedCases = computed(() => {
     const items = cases.value
 
-    // 定义9个位置（3×3网格）
+    // 定义9个位置（3×3网格，按行优先：先填满第一行再排第二行）
     const positions = [
-        { left: "28.49%", top: "21.08%", titleLeft: "33.23%", titleTop: "35.24%" },  // 第1列第1行
-        { left: "28.49%", top: "38.91%", titleLeft: "32.86%", titleTop: "53.07%" },  // 第1列第2行
-        { left: "28.49%", top: "56.74%", titleLeft: "32.66%", titleTop: "70.9%" },   // 第1列第3行
-        { left: "50.26%", top: "21.08%", titleLeft: "55%", titleTop: "35.24%" },     // 第2列第1行
-        { left: "50.26%", top: "38.91%", titleLeft: "54.63%", titleTop: "53.07%" },  // 第2列第2行
-        { left: "50.26%", top: "56.74%", titleLeft: "54.43%", titleTop: "70.9%" },   // 第2列第3行
-        { left: "72.03%", top: "21.08%", titleLeft: "76.77%", titleTop: "35.24%" },  // 第3列第1行
-        { left: "72.03%", top: "38.91%", titleLeft: "76.4%", titleTop: "53.07%" },   // 第3列第2行
-        { left: "72.03%", top: "56.74%", titleLeft: "76.2%", titleTop: "70.9%" }     // 第3列第3行
+        { left: "28.49%", top: "21.08%", titleLeft: "33.23%", titleTop: "35.24%" },  // 第1行第1列
+        { left: "50.26%", top: "21.08%", titleLeft: "55%", titleTop: "35.24%" },     // 第1行第2列
+        { left: "72.03%", top: "21.08%", titleLeft: "76.77%", titleTop: "35.24%" },  // 第1行第3列
+        { left: "28.49%", top: "38.91%", titleLeft: "32.86%", titleTop: "53.07%" },  // 第2行第1列
+        { left: "50.26%", top: "38.91%", titleLeft: "54.63%", titleTop: "53.07%" },  // 第2行第2列
+        { left: "72.03%", top: "38.91%", titleLeft: "76.4%", titleTop: "53.07%" },   // 第2行第3列
+        { left: "28.49%", top: "56.74%", titleLeft: "32.66%", titleTop: "70.9%" },   // 第3行第1列
+        { left: "50.26%", top: "56.74%", titleLeft: "54.43%", titleTop: "70.9%" },   // 第3行第2列
+        { left: "72.03%", top: "56.74%", titleLeft: "76.2%", titleTop: "70.9%" }     // 第3行第3列
     ]
 
     return items.map((item, index) => ({
