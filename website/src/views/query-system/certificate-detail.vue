@@ -53,7 +53,7 @@
             <p id="1_2962" class="Pixso-paragraph-1_2962">
                 {{ certificateData?.certificateType || '—' }}
             </p>
-            <p id="1_2963" class="Pixso-paragraph-1_2963">{{ "所属部门：" }}</p>
+            <p id="1_2963" class="Pixso-paragraph-1_2963">{{ "所属队伍：" }}</p>
             <p id="1_2964" class="Pixso-paragraph-1_2964">{{ certificateData?.department || '—' }}</p>
             <p id="1_2965" class="Pixso-paragraph-1_2965">{{ "发证日期：" }}</p>
             <p id="1_2966" class="Pixso-paragraph-1_2966">{{ certificateData?.issueDate || '—' }}</p>

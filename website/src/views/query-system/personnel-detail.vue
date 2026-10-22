@@ -31,7 +31,7 @@
             <p id="1_3104" class="Pixso-paragraph-1_3104">{{ "工作单位：" }}</p>
             <p id="1_3105" class="Pixso-paragraph-1_3105">{{ "入职日期：" }}</p>
             <p id="1_3106" class="Pixso-paragraph-1_3106">{{ "身份证号：" }}</p>
-            <p id="1_3107" class="Pixso-paragraph-1_3107">{{ "所属部门：" }}</p>
+            <p id="1_3107" class="Pixso-paragraph-1_3107">{{ "所属队伍：" }}</p>
             <p id="1_3108" class="Pixso-paragraph-1_3108">{{ "电子邮箱：" }}</p>
             <p id="1_3109" class="Pixso-paragraph-1_3109">{{ display?.personnelCode ?? '—' }}</p>
             <p id="1_3110" class="Pixso-paragraph-1_3110">
@@ -1222,7 +1222,7 @@ onMounted(() => {
   z-index: 2;
 }
 
-/* 2. 头像下方「姓名」「所属部门」两行文字水平居中，并移到照片正下方（与照片同宽），进一步增大行间距避免贴太紧 */
+/* 2. 头像下方「姓名」「所属队伍」两行文字水平居中，并移到照片正下方（与照片同宽），进一步增大行间距避免贴太紧 */
 .Pixso-frame-1_3073 .Pixso-paragraph-1_3095 {
   width: auto !important;
   left: 11.97% !important;
@@ -1246,7 +1246,7 @@ onMounted(() => {
   line-height: 2.0 !important;
 }
 
-/* 3. 在职/离职状态 badge：继续放大尺寸与文字，提升辨识度；水平对齐右侧值列（与身份证号/所属部门值同列），垂直居中于第4行 */
+/* 3. 在职/离职状态 badge：继续放大尺寸与文字，提升辨识度；水平对齐右侧值列（与身份证号/所属队伍值同列），垂直居中于第4行 */
 .Pixso-vector-1_3120.personnel-status-badge {
   width: 96px !important;
   height: 42px !important;

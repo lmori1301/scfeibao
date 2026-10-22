@@ -45,7 +45,7 @@ export interface CertificateListItem {
 export interface CertificateDetail extends CertificateListItem {
   idCard: string // 身份证号
   phone: string // 联系电话
-  department: string // 所属部门
+  department: string // 所属队伍
   position: string // 职务
   photo: string // 证书照片
 }
@@ -72,7 +72,7 @@ export interface PersonnelInfo {
   idCard: string // 身份证号
   phone: string // 联系电话
   workUnit: string // 工作单位
-  department: string // 所属部门
+  department: string // 所属队伍
   position: string // 职务
   entryDate: string // 入职日期
   email: string // 电子邮箱
