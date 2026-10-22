@@ -393,7 +393,12 @@ const handleBatchSyncCoordinates = async () => {
   try {
     const allItems = await fetchAllLocations()
 
-    for (const row of allItems) {
+    // 高德 Key 的 QPS 很低，逐条间加间隔避免 CUQPS_HAS_EXCEEDED_THE_LIMIT 限流
+    for (let i = 0; i < allItems.length; i += 1) {
+      const row = allItems[i]
+      if (i > 0) {
+        await new Promise((resolve) => window.setTimeout(resolve, 600))
+      }
       const resolved = await resolveLocationCoordinate(row)
       if (!resolved) {
         failedItems.push(row.name)

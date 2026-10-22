@@ -252,48 +252,72 @@ export class LocationService {
     }
     url.searchParams.set('address', keyword);
 
-    const response = await new Promise<string>((resolve, reject) => {
-      const request = https.get(url, (res) => {
-        let raw = '';
-        res.setEncoding('utf8');
-        res.on('data', (chunk) => {
-          raw += chunk;
+    // 高德个人 Key QPS 很低（易撞 10021 CUQPS_HAS_EXCEEDED_THE_LIMIT 限流），
+    // 且 10005 ENGINE_RESPONSE_DATA_ERROR 等为瞬时故障：统一退避重试，
+    // 避免把原始 infocode 直接透传成用户的报错 toast
+    const maxAttempts = 3;
+    let payload: any = null;
+    let lastError = '';
+
+    for (let attempt = 1; attempt <= maxAttempts; attempt += 1) {
+      const response = await new Promise<string>((resolve, reject) => {
+        const request = https.get(url, (res) => {
+          let raw = '';
+          res.setEncoding('utf8');
+          res.on('data', (chunk) => {
+            raw += chunk;
+          });
+          res.on('end', () => resolve(raw));
         });
-        res.on('end', () => resolve(raw));
+
+        request.on('error', (error) => {
+          reject(error);
+        });
+
+        request.setTimeout(6000, () => {
+          request.destroy(new Error('地图解析超时'));
+        });
+      }).catch((error: Error) => {
+        lastError = error.message || '地图解析失败';
+        return '';
       });
 
-      request.on('error', (error) => {
-        reject(error);
-      });
+      if (response) {
+        try {
+          payload = JSON.parse(response);
+        } catch {
+          payload = null;
+          lastError = '地图解析返回异常';
+        }
+      }
 
-      request.setTimeout(6000, () => {
-        request.destroy(new Error('地图解析超时'));
-      });
-    }).catch((error: Error) => {
-      throw new BadRequestException(
-        error.message || '地图解析失败，请稍后重试',
-      );
-    });
-
-    let payload: any;
-    try {
-      payload = JSON.parse(response);
-    } catch {
-      throw new BadRequestException('地图解析返回异常，请稍后重试');
+      if (payload?.status === '1') break;
+      if (attempt < maxAttempts && this.isTransientAmapFailure(payload)) {
+        await new Promise((resolve) => setTimeout(resolve, attempt === 1 ? 600 : 1500));
+        continue;
+      }
+      break;
     }
 
+    if (payload?.infocode === '10009' || payload?.info === 'USERKEY_PLAT_NOMATCH') {
+      throw new BadRequestException(
+        '后端高德解析未开通 Web 服务权限，请先配置高德 Web 服务 Key，或使用已加白名单域名打开后台让前端自动解析坐标',
+      );
+    }
+    if (!payload) {
+      throw new BadRequestException(lastError || '地图解析失败，请稍后重试');
+    }
+    if (payload?.status !== '1' && this.isTransientAmapFailure(payload)) {
+      throw new BadRequestException(
+        '高德服务繁忙或暂时异常，已自动重试仍失败，请稍后重试，或手动填写经纬度',
+      );
+    }
     if (
-      payload?.status !== '1' ||
       !Array.isArray(payload?.geocodes) ||
       !payload.geocodes.length
     ) {
-      if (payload?.infocode === '10009' || payload?.info === 'USERKEY_PLAT_NOMATCH') {
-        throw new BadRequestException(
-          '后端高德解析未开通 Web 服务权限，请先配置高德 Web 服务 Key，或使用已加白名单域名打开后台让前端自动解析坐标',
-        );
-      }
       throw new BadRequestException(
-        payload?.info || '未解析到该地址坐标，请补充更精准的详细地址',
+        '未解析到该地址坐标，请补充更精准的详细地址，或手动填写经纬度',
       );
     }
 
@@ -306,5 +330,16 @@ export class LocationService {
     }
 
     return { lng, lat };
+  }
+
+  /** 高德瞬时故障（限流/引擎异常/网络抖动）判定：可安全重试 */
+  private isTransientAmapFailure(payload: any): boolean {
+    if (!payload) return true; // 网络异常 / 超时 / 响应非 JSON
+    const code = `${payload.infocode || ''}`;
+    const info = `${payload.info || ''}`;
+    return (
+      ['10005', '10019', '10020', '10021'].includes(code) ||
+      /EXCEEDED_THE_LIMIT|ENGINE_RESPONSE/i.test(info)
+    );
   }
 }
