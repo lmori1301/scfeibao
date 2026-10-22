@@ -42,9 +42,13 @@ const metaText = computed(() => {
   return parts.join('　　　')
 })
 
-// 后台案例内容是纯文本（亮点：/总结：等单独成行），换行符在 v-html 下会被折叠成
-// 空格导致整段连排；这里把 \n 转成 <br> 保留编辑器里的换行结构。
-const contentHtml = computed(() => (detail.value?.content || '').replace(/\r?\n/g, '<br>'))
+// 后台案例内容已升级为富文本编辑器（HTML）；历史纯文本数据（亮点：/总结：等单独成行）
+// 仍按 \n → <br> 兼容渲染。检测到 HTML 标签则原样透传，避免在 <p> 之间插入多余 <br>。
+const contentHtml = computed(() => {
+  const raw = detail.value?.content || ''
+  if (/<[a-z][\s\S]*>/i.test(raw)) return raw
+  return raw.replace(/\r?\n/g, '<br>')
+})
 
 const fetchDetail = async () => {
   const id = route.params.id

@@ -5,6 +5,7 @@ import { ElMessage, ElMessageBox } from 'element-plus'
 import { usePagination } from '@/composables/usePagination'
 import Pagination from '@/components/Pagination.vue'
 import ImageUpload from '@/components/ImageUpload.vue'
+import AsyncRichTextEditor from '@/components/AsyncRichTextEditor.vue'
 import http from '@/utils/http'
 import QueryFilter from '@/components/QueryFilter.vue'
 
@@ -15,11 +16,34 @@ const formRef = ref()
 const formData = ref({ id: null, title: '', location: '', rescueDate: '', coverImage: '', content: '' })
 
 // 表单校验：标题/地点/日期/内容为必填（封面可选），与后端 CreateRescueCaseDto 一致
+// content 用富文本编辑器后 blur 事件不触发自动校验，保存时 validate() 仍会全量校验；
+// 额外加剥标签校验：wangEditor 空内容会产出 "<p><br></p>"，直接判空字符串会漏放行
 const rules = {
   title: [{ required: true, message: '请输入案例标题', trigger: 'blur' }],
   location: [{ required: true, message: '请输入救援地点', trigger: 'blur' }],
   rescueDate: [{ required: true, message: '请选择救援日期', trigger: 'change' }],
-  content: [{ required: true, message: '请输入案例内容', trigger: 'blur' }],
+  content: [
+    { required: true, message: '请输入案例内容', trigger: 'change' },
+    {
+      validator: (_rule: any, value: string, cb: (e?: Error) => void) => {
+        const text = (value || '').replace(/<[^>]*>/g, '').replace(/&nbsp;/g, ' ').trim()
+        text ? cb() : cb(new Error('请输入案例内容'))
+      },
+      trigger: 'change',
+    },
+  ],
+}
+
+// 历史数据是纯文本（\n 分段），富文本编辑器按 HTML 渲染会把换行折叠成空格、
+// 整段连排；打开编辑弹窗时把纯文本转成 <p> 段落，已是 HTML 的富文本内容原样透传
+const escapeHtml = (s: string) => s.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;')
+const plainTextToHtml = (text: string): string => {
+  if (!text) return ''
+  if (/<[a-z][\s\S]*>/i.test(text)) return text
+  return text
+    .split(/\r?\n/)
+    .map((line) => (line.trim() ? `<p>${escapeHtml(line)}</p>` : '<p><br></p>'))
+    .join('')
 }
 const { data, total, loading, page, pageSize, fetch, handlePageChange } = usePagination(
   (params) => http.get('/rescue-cases', { params })
@@ -65,7 +89,7 @@ const rescueDateForPicker = (row: any) => toLocalDateStr(row?.rescueDate)
 
 const handleEdit = (row: any) => {
   dialogTitle.value = '编辑救援案例'
-  formData.value = { ...row, rescueDate: rescueDateForPicker(row) }
+  formData.value = { ...row, rescueDate: rescueDateForPicker(row), content: plainTextToHtml(row.content || '') }
   dialogVisible.value = true
   nextTick(() => formRef.value?.clearValidate?.())
 }
@@ -184,7 +208,7 @@ onMounted(() => {
       <Pagination :total="total" :page="page" :page-size="pageSize" @change="handlePageChange" />
     </section>
 
-    <el-dialog v-model="dialogVisible" :title="dialogTitle" width="960px" @closed="handleDialogClosed">
+    <el-dialog v-model="dialogVisible" :title="dialogTitle" width="1120px" @closed="handleDialogClosed">
       <div class="case-dialog-layout">
         <div class="case-dialog-layout__main">
           <el-form ref="formRef" :model="formData" :rules="rules" label-width="96px">
@@ -200,8 +224,13 @@ onMounted(() => {
             <el-form-item label="封面图片">
               <ImageUpload v-model="formData.coverImage" />
             </el-form-item>
-            <el-form-item label="案例内容">
-              <el-input v-model="formData.content" type="textarea" :rows="9" placeholder="请输入救援过程、行动亮点与结果总结" />
+            <el-form-item label="案例内容" prop="content">
+              <AsyncRichTextEditor
+                v-if="dialogVisible"
+                v-model="formData.content"
+                placeholder="请输入救援过程、行动亮点与结果总结"
+                height="420px"
+              />
             </el-form-item>
           </el-form>
         </div>
