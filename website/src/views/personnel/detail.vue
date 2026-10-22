@@ -40,14 +40,6 @@
                 {{ personnel.status === 1 ? '在职' : '离职' }}
               </el-tag>
             </el-descriptions-item>
-            <el-descriptions-item label="审核状态">
-              <el-tag
-                :type="personnel.auditStatus === 1 ? 'success' : personnel.auditStatus === 0 ? 'warning' : 'danger'"
-                size="small"
-              >
-                {{ auditStatusLabel(personnel.auditStatus) }}
-              </el-tag>
-            </el-descriptions-item>
           </el-descriptions>
 
           <div v-if="personnel.remark" class="detail-card__block">
@@ -88,14 +80,6 @@ const formatDate = (date: unknown) => {
   return d.toLocaleDateString('zh-CN')
 }
 
-const auditStatusLabel = (v: unknown) => {
-  const n = Number(v)
-  if (n === 0) return '待审核'
-  if (n === 1) return '已通过'
-  if (n === 2) return '已拒绝'
-  return '—'
-}
-
 const fetchPersonnelDetail = async () => {
   try {
     loading.value = true
@@ -106,10 +90,12 @@ const fetchPersonnelDetail = async () => {
     if (row && typeof row === 'object' && row.id != null) {
       personnel.value = row
     } else {
-      error.value = '未找到人员信息'
+      error.value = '未查询到相关人员信息'
     }
-  } catch {
-    error.value = '获取人员信息失败'
+  } catch (err: unknown) {
+    // 404：人员不存在或未通过审核，对外统一提示，不区分具体原因
+    const status = (err as { response?: { status?: number } })?.response?.status
+    error.value = status === 404 ? '未查询到相关人员信息' : '获取人员信息失败'
   } finally {
     loading.value = false
   }

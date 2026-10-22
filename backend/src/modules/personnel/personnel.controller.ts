@@ -7,16 +7,18 @@ import {
   Param,
   Delete,
   Query,
+  Req,
   Res,
   Headers,
   UploadedFile,
   UseInterceptors,
+  UseGuards,
   BadRequestException,
 } from '@nestjs/common';
 import { FileInterceptor } from '@nestjs/platform-express';
 import { memoryStorage } from 'multer';
 import { ApiTags, ApiOperation, ApiBearerAuth } from '@nestjs/swagger';
-import { Response } from 'express';
+import { Request, Response } from 'express';
 import { PersonnelService } from './personnel.service';
 import {
   CreatePersonnelDto,
@@ -25,6 +27,7 @@ import {
 } from './dto/personnel.dto';
 import { PaginationDto } from '../../common/dto/pagination.dto';
 import { Public } from '../../common/decorators/public.decorator';
+import { OptionalJwtAuthGuard } from '../../common/guards/optional-jwt-auth.guard';
 import * as QRCode from 'qrcode';
 import { RequirePermissions } from '../../common/decorators/permissions.decorator';
 
@@ -92,14 +95,6 @@ function formatDate(value: unknown): string {
   const date = value instanceof Date ? value : new Date(String(value));
   if (Number.isNaN(date.getTime())) return '—';
   return date.toISOString().slice(0, 10);
-}
-
-function auditStatusLabel(value: unknown): string {
-  const n = Number(value);
-  if (n === 0) return '待审核';
-  if (n === 1) return '已通过';
-  if (n === 2) return '已拒绝';
-  return '—';
 }
 
 function parseFirstPhotoUrl(value: unknown): string {
@@ -230,7 +225,6 @@ function renderMobilePersonnelHtml(personnel: Record<string, any>): string {
           ${item('出勤次数', personnel.taskCount != null ? `${personnel.taskCount} 次` : '—')}
           ${item('培训时长', personnel.trainingHours != null ? `${personnel.trainingHours} 小时` : '—')}
           ${item('在职状态', status)}
-          ${item('审核状态', auditStatusLabel(personnel.auditStatus))}
         </dl>
         ${personnel.remark ? `<div class="block"><h3 class="block-title">备注</h3><div class="text">${escapeHtml(personnel.remark)}</div></div>` : ''}
       </section>
@@ -243,10 +237,70 @@ function renderMobilePersonnelHtml(personnel: Record<string, any>): string {
   return html;
 }
 
+/**
+ * 扫码查不到人员时（含未通过审核）返回的页面：
+ * 与「人员不存在」完全一致的提示，不暴露待审核 / 已拒绝等审核状态。
+ */
+function renderMobilePersonnelNotFoundHtml(): string {
+  return `<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+  <meta name="format-detection" content="telephone=no" />
+  <title>人员信息 - 四川飞豹救援</title>
+  <style>
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 24px 16px;
+      background: #eef2f8;
+      color: #1f2f46;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+    }
+    .card {
+      width: 100%;
+      max-width: 420px;
+      padding: 32px 20px;
+      text-align: center;
+      border: 1px solid #e4eaf4;
+      border-radius: 14px;
+      background: #fff;
+      box-shadow: 0 10px 32px rgba(31, 57, 106, 0.08);
+    }
+    .title { margin: 0 0 10px; font-size: 17px; font-weight: 600; }
+    .desc { margin: 0; color: #5a6a85; font-size: 14px; line-height: 1.7; }
+    .foot { margin-top: 20px; color: #8a96aa; font-size: 12px; }
+  </style>
+</head>
+<body>
+  <main class="card">
+    <h1 class="title">未查询到相关人员信息</h1>
+    <p class="desc">请核对二维码是否有效，或联系管理员确认人员备案情况。</p>
+    <p class="foot">四川飞豹救援</p>
+  </main>
+</body>
+</html>`;
+}
+
 @ApiTags('人员查询')
 @Controller('personnel')
 export class PersonnelController {
   constructor(private readonly personnelService: PersonnelService) {}
+
+  /**
+   * 公开接口里判断请求方是否为后台管理员。
+   * 只有带有效 Bearer token（经 JwtStrategy 校验通过）才算后台；
+   * 匿名 / token 失效 / 账号禁用一律按访客处理，只看得到审核已通过的人员。
+   */
+  private canSeeUnapproved(req?: Request): boolean {
+    const user = (req as unknown as { user?: unknown })?.user;
+    return Boolean(user);
+  }
 
   @Post()
   @ApiBearerAuth()
@@ -273,24 +327,33 @@ export class PersonnelController {
   }
 
   @Public()
+  @UseGuards(OptionalJwtAuthGuard)
   @Get()
   @ApiOperation({ summary: '获取人员列表' })
-  findAll(@Query() queryDto: QueryPersonnelDto) {
-    return this.personnelService.findAll(queryDto, queryDto);
+  findAll(@Req() req: Request, @Query() queryDto: QueryPersonnelDto) {
+    return this.personnelService.findAll(queryDto, queryDto, {
+      includeUnapproved: this.canSeeUnapproved(req),
+    });
   }
 
   @Public()
+  @UseGuards(OptionalJwtAuthGuard)
   @Get('search')
   @ApiOperation({ summary: '搜索人员' })
-  search(@Query('idCard') idCard: string) {
-    return this.personnelService.searchByIdCard(idCard);
+  search(@Req() req: Request, @Query('idCard') idCard: string) {
+    return this.personnelService.searchByIdCard(idCard, {
+      includeUnapproved: this.canSeeUnapproved(req),
+    });
   }
 
   @Public()
+  @UseGuards(OptionalJwtAuthGuard)
   @Get(':id')
   @ApiOperation({ summary: '获取人员详情' })
-  findOne(@Param('id') id: string) {
-    return this.personnelService.findOne(+id);
+  findOne(@Req() req: Request, @Param('id') id: string) {
+    return this.personnelService.findOne(+id, {
+      includeUnapproved: this.canSeeUnapproved(req),
+    });
   }
 
   @Patch(':id')
@@ -332,10 +395,15 @@ export class PersonnelController {
   @Get(':id/mobile')
   @ApiOperation({ summary: '人员二维码手机详情页' })
   async mobileDetail(@Param('id') id: string, @Res() res: Response) {
-    const personnel = await this.personnelService.findOne(+id);
     res.setHeader('Content-Type', 'text/html; charset=utf-8');
     res.setHeader('Cache-Control', 'no-store');
-    res.send(renderMobilePersonnelHtml(personnel as unknown as Record<string, any>));
+    try {
+      // 扫码页永远按访客视角取数：待审核 / 已拒绝一律「未查询到相关人员信息」
+      const personnel = await this.personnelService.findOne(+id);
+      res.send(renderMobilePersonnelHtml(personnel as unknown as Record<string, any>));
+    } catch {
+      res.status(404).send(renderMobilePersonnelNotFoundHtml());
+    }
   }
 
   @Public()

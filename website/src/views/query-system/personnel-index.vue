@@ -165,7 +165,7 @@ async function handleQuery() {
     if (idCard) {
       const res = await queryPersonnel(idCard)
       if (res.code !== 200 || !res.data) {
-        ElMessage.warning({ message: `未找到匹配的人员信息。${tips}`, duration: 6000, showClose: true })
+        ElMessage.warning({ message: `未查询到相关人员信息。${tips}`, duration: 6000, showClose: true })
         return
       }
       const p = res.data as PersonnelInfo & { personnelCode?: string }
@@ -194,13 +194,13 @@ async function handleQuery() {
       personnelCode: personnelId || undefined,
     })
     if (listRes.code !== 200 || !listRes.data) {
-      ElMessage.warning({ message: `未找到匹配的人员信息。${tips}`, duration: 6000, showClose: true })
+      ElMessage.warning({ message: `未查询到相关人员信息。${tips}`, duration: 6000, showClose: true })
       return
     }
     const total = listRes.data.total ?? 0
     const items = listRes.data.items ?? []
     if (total === 0) {
-      ElMessage.warning({ message: `未找到匹配的人员信息。${tips}`, duration: 6000, showClose: true })
+      ElMessage.warning({ message: `未查询到相关人员信息。${tips}`, duration: 6000, showClose: true })
       return
     }
     if (total > 1) {
@@ -211,7 +211,7 @@ async function handleQuery() {
   } catch (err: unknown) {
     const status = (err as { response?: { status?: number } })?.response?.status
     if (status === 404) {
-      ElMessage.warning({ message: `未找到匹配的人员信息。${tips}`, duration: 6000, showClose: true })
+      ElMessage.warning({ message: `未查询到相关人员信息。${tips}`, duration: 6000, showClose: true })
     } else {
       ElMessage.error('系统查询异常，请稍后重试。')
     }

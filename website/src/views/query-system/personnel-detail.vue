@@ -163,7 +163,7 @@ async function loadPersonnel() {
     if (res.code === 200 && res.data) {
       personnel.value = res.data as Record<string, unknown>
     } else {
-      ElMessage.warning('未找到该人员信息')
+      ElMessage.warning('未查询到相关人员信息')
       router.back()
     }
   } catch {

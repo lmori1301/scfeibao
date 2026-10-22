@@ -25,6 +25,11 @@ import { extractXlsxImages, pickRowImages } from '../../common/utils/xlsx-images
 import { saveImportedPhoto } from '../../common/utils/import-photo';
 import { fillDerivedFromIdCard } from '../../common/utils/id-card';
 
+/** 查询可见范围：默认只含审核已通过人员，后台管理端需显式传 includeUnapproved */
+export interface PersonnelQueryScope {
+  includeUnapproved?: boolean;
+}
+
 @Injectable()
 export class PersonnelService {
   constructor(
@@ -39,14 +44,25 @@ export class PersonnelService {
     return await this.personnelRepository.save(personnel);
   }
 
+  /**
+   * 前台/扫码可见性：仅「审核已通过」(auditStatus=1) 的人员对外开放。
+   * 待审核(0) 与已拒绝(2) 对外一律视为不存在，且不回传审核状态，避免被反推。
+   */
+  private isPublicVisible(personnel: Pick<Personnel, 'auditStatus'>): boolean {
+    return Number(personnel?.auditStatus) === 1;
+  }
+
   async findAll(
     paginationDto: PaginationDto,
     queryDto: QueryPersonnelDto,
+    options: PersonnelQueryScope = {},
   ): Promise<PaginatedResponseDto<Personnel>> {
     const { page, pageSize } = paginationDto;
     const { id, team, status, keyword, personnelCode } = queryDto;
 
     const where: any = {};
+    // 未显式声明「后台可看全部」时，只返回审核已通过的人员
+    if (!options.includeUnapproved) where.auditStatus = 1;
     if (id !== undefined) where.id = id;
     if (team) where.team = team;
     if (status !== undefined) where.status = status;
@@ -65,21 +81,26 @@ export class PersonnelService {
     return new PaginatedResponseDto(items, total, page, pageSize);
   }
 
-  async searchByIdCard(idCard: string): Promise<Personnel> {
+  async searchByIdCard(
+    idCard: string,
+    options: PersonnelQueryScope = {},
+  ): Promise<Personnel> {
     const personnel = await this.personnelRepository.findOne({
       where: { idCard },
     });
-    if (!personnel) {
+    // 待审核 / 已拒绝：对外与「不存在」完全一致，不透露审核状态
+    if (!personnel || (!options.includeUnapproved && !this.isPublicVisible(personnel))) {
       throw new NotFoundException('人员不存在');
     }
     return personnel;
   }
 
-  async findOne(id: number): Promise<Personnel> {
+  async findOne(id: number, options: PersonnelQueryScope = {}): Promise<Personnel> {
     const personnel = await this.personnelRepository.findOne({
       where: { id },
     });
-    if (!personnel) {
+    // 待审核 / 已拒绝：对外与「不存在」完全一致，不透露审核状态
+    if (!personnel || (!options.includeUnapproved && !this.isPublicVisible(personnel))) {
       throw new NotFoundException('人员不存在');
     }
     return personnel;
@@ -89,7 +110,8 @@ export class PersonnelService {
     id: number,
     updatePersonnelDto: UpdatePersonnelDto,
   ): Promise<Personnel> {
-    const personnel = await this.findOne(id);
+    // 后台维护需能编辑待审核 / 已拒绝的人员，故包含未审核数据
+    const personnel = await this.findOne(id, { includeUnapproved: true });
     Object.assign(personnel, updatePersonnelDto);
     // 性别 / 出生日期仍为空时，按身份证号自动补齐
     fillDerivedFromIdCard(personnel);
@@ -97,7 +119,7 @@ export class PersonnelService {
   }
 
   async remove(id: number): Promise<void> {
-    const personnel = await this.findOne(id);
+    const personnel = await this.findOne(id, { includeUnapproved: true });
     await this.personnelRepository.softRemove(personnel);
   }
 
