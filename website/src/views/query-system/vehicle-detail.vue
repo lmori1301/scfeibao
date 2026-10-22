@@ -48,7 +48,23 @@
             <p id="1_3290" class="Pixso-paragraph-1_3290">当前状态：{{ display?.statusLabel ?? '—' }}</p>
             <p id="1_3291" class="Pixso-paragraph-1_3291">{{ "车辆号牌：" }}</p>
             <p id="1_3292" class="Pixso-paragraph-1_3292">{{ display?.plateNumber ?? '—' }}</p>
-            <div id="1_3293" class="Pixso-vector-1_3293"></div>
+            <div
+                id="1_3293"
+                class="Pixso-vector-1_3293"
+                :style="activePhoto ? { backgroundImage: `url(${activePhoto})`, backgroundSize: 'contain', backgroundPosition: 'center', backgroundColor: '#ffffff' } : undefined"
+            ></div>
+            <!-- 多图缩略图：点击切换主图（后台支持上传多张车辆图片） -->
+            <div v-if="photoList.length > 1" class="vehicle-photo-thumbs">
+                <div
+                    v-for="(u, i) in photoList"
+                    :key="u"
+                    class="vehicle-photo-thumb"
+                    :class="{ active: i === currentPhoto }"
+                    @click="currentPhoto = i"
+                >
+                    <img :src="u" alt="车辆图片" loading="lazy" />
+                </div>
+            </div>
             <div id="1_3296" class="Pixso-vector-1_3296"></div>
             <div id="1_3301" class="Pixso-vector-1_3301"></div>
             <router-link to="/" id="17_24" class="Pixso-vector-17_24" style="cursor: pointer;"></router-link>
@@ -104,6 +120,7 @@ import { getVehicleDetail } from '@/api/query'
 import { ElMessage } from 'element-plus'
 import { useRouter, useRoute } from 'vue-router'
 import { usePixsoScale } from '@/composables/use-pixso-scale'
+import { parsePhotoUrlListForDisplay } from '@/utils/photo-urls'
 
 const { scrollContainerRef, frameRef } = usePixsoScale(1920, 1444)
 const router = useRouter()
@@ -111,6 +128,11 @@ const route = useRoute()
 
 const vehicle = ref<Record<string, unknown> | null>(null)
 const detailLoading = ref(false)
+
+// 车辆图片列表（photoUrl 为 JSON 数组字符串，后台支持上传多张）
+const photoList = computed(() => parsePhotoUrlListForDisplay(String(vehicle.value?.photoUrl ?? '')))
+const currentPhoto = ref(0)
+const activePhoto = computed(() => photoList.value[currentPhoto.value] || '')
 
 function formatYmd(v: string | Date | null | undefined): string {
   if (v == null || v === '') return '—'
@@ -147,6 +169,7 @@ async function loadVehicle() {
   }
   detailLoading.value = true
   vehicle.value = null
+  currentPhoto.value = 0
   try {
     const res = await getVehicleDetail(id)
     if (res.code === 200 && res.data) {
@@ -1131,5 +1154,35 @@ onMounted(() => {
 }
 .query-footer-line-4 {
   top: 88.24%;
+}
+
+/* 车辆图片缩略图：位于主图槽位(39%+22%=61%)下方，点击切换主图 */
+.vehicle-photo-thumbs {
+  position: absolute;
+  left: 10.71%;
+  top: 63%;
+  width: 35%;
+  display: flex;
+  gap: 12px;
+  z-index: 2;
+}
+.vehicle-photo-thumb {
+  flex: 1;
+  height: 90px;
+  border: 2px solid rgba(0, 0, 0, 0.08);
+  border-radius: 4px;
+  overflow: hidden;
+  cursor: pointer;
+  background: #ffffff;
+  transition: border-color 0.2s ease;
+}
+.vehicle-photo-thumb.active {
+  border-color: rgba(53, 120, 248, 1);
+}
+.vehicle-photo-thumb img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
 }
 </style>
