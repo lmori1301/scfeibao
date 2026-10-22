@@ -22,7 +22,7 @@ interface LocationItem {
 }
 
 type LocationSavePayload = Omit<LocationItem, 'id'> & { id?: number }
-const AMAP_KEY = import.meta.env.VITE_AMAP_KEY || 'e2f3c362950ac5d432a489b7f74e16cf'
+const AMAP_KEY = import.meta.env.VITE_AMAP_KEY || '6f6d5377fff49a831d13cfb79477d9bf'
 let amapLoaderPromise: Promise<any> | null = null
 
 declare global {

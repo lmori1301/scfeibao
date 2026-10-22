@@ -1,6 +1,7 @@
 const AMAP_SERVICE_PREFIX = '/_AMapService'
+// 与官网一致：四川飞豹前端地图（Web端/JS API Key）的安全密钥
 const AMAP_SECURITY_JSCODE =
-  import.meta.env.VITE_AMAP_SECURITY_JSCODE || '89a3e2583feec1c50c910b5e8518451e'
+  import.meta.env.VITE_AMAP_SECURITY_JSCODE || '9960e8a7d7dc13db7e0c79e3ac6b0c35'
 
 declare global {
   interface Window {

@@ -1,7 +1,8 @@
 const AMAP_SERVICE_PREFIX = '/_AMapService'
-const DEFAULT_AMAP_JSAPI_KEY = 'e2f3c362950ac5d432a489b7f74e16cf'
+// 四川飞豹前端地图（高德控制台 Web端/JS API Key），已加白 www.scfb.org.cn
+const DEFAULT_AMAP_JSAPI_KEY = '6f6d5377fff49a831d13cfb79477d9bf'
 const AMAP_SECURITY_JSCODE =
-  import.meta.env.VITE_AMAP_SECURITY_JSCODE || '89a3e2583feec1c50c910b5e8518451e'
+  import.meta.env.VITE_AMAP_SECURITY_JSCODE || '9960e8a7d7dc13db7e0c79e3ac6b0c35'
 
 declare global {
   interface Window {

@@ -12,7 +12,7 @@ const port = process.env.PORT || 3003;
 const host = process.env.HOST || '0.0.0.0';
 const AMAP_PROXY_PREFIX = '/_AMapService';
 const AMAP_SECURITY_JSCODE =
-  process.env.AMAP_SECURITY_JSCODE || '89a3e2583feec1c50c910b5e8518451e';
+  process.env.AMAP_SECURITY_JSCODE || '9960e8a7d7dc13db7e0c79e3ac6b0c35';
 
 function isAmapStyleRequest(pathname: string) {
   return pathname.startsWith(`${AMAP_PROXY_PREFIX}/v4/map/styles`);
