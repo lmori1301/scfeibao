@@ -11,7 +11,6 @@ import QueryFilter from '@/components/QueryFilter.vue'
 
 const searchForm = ref({
   title: '',
-  category: '',
 })
 
 const dialogVisible = ref(false)
@@ -20,8 +19,10 @@ const formRef = ref()
 const formData = ref({
   id: undefined as number | undefined,
   title: '',
-  category: '',
+  docNumber: '',
   publishDate: '',
+  effectiveDate: '',
+  department: '',
   attachmentUrl: '',
   attachmentName: '',
   content: '',
@@ -43,13 +44,12 @@ const tableRows = computed(() => data.value || [])
 
 const getApiParams = () => ({
   title: searchForm.value.title || undefined,
-  category: searchForm.value.category || undefined,
 })
 
 const handleSearch = () => fetch(getApiParams())
 
 const handleReset = () => {
-  searchForm.value = { title: '', category: '' }
+  searchForm.value = { title: '' }
   fetch(getApiParams())
 }
 
@@ -58,8 +58,10 @@ const handleAdd = () => {
   formData.value = {
     id: undefined,
     title: '',
-    category: '',
+    docNumber: '',
     publishDate: new Date().toISOString().split('T')[0],
+    effectiveDate: new Date().toISOString().split('T')[0],
+    department: '',
     attachmentUrl: '',
     attachmentName: '',
     content: '',
@@ -73,8 +75,10 @@ const handleEdit = (row: any) => {
   formData.value = {
     id: row.id,
     title: row.title || '',
-    category: row.category || '',
+    docNumber: row.docNumber || '',
     publishDate: row.publishDate ? new Date(row.publishDate).toISOString().split('T')[0] : '',
+    effectiveDate: row.effectiveDate ? new Date(row.effectiveDate).toISOString().split('T')[0] : '',
+    department: row.department || '',
     attachmentUrl: row.attachmentUrl || '',
     attachmentName: row.attachmentUrl ? String(row.attachmentUrl).split('/').pop() || '' : '',
     content: row.content || '',
@@ -112,8 +116,10 @@ const handleSave = async () => {
 
   const payload = {
     title: formData.value.title,
-    category: formData.value.category || null,
+    docNumber: formData.value.docNumber || null,
     publishDate: formData.value.publishDate || null,
+    effectiveDate: formData.value.effectiveDate || null,
+    department: formData.value.department || null,
     attachmentUrl: formData.value.attachmentUrl || null,
     content: formData.value.content,
   }
@@ -141,9 +147,6 @@ fetch(getApiParams())
         <el-form-item label="事项标题">
           <el-input v-model="searchForm.title" placeholder="请输入公开事项标题" clearable />
         </el-form-item>
-        <el-form-item label="公开分类">
-          <el-input v-model="searchForm.category" placeholder="请输入公开分类" clearable />
-        </el-form-item>
       </QueryFilter>
     </div>
 
@@ -164,8 +167,11 @@ fetch(getApiParams())
       <el-table max-height="calc(100vh - 320px)" :data="tableRows" v-loading="loading" stripe>
         <el-table-column type="index" label="序号" width="70" fixed="left" />
         <el-table-column prop="title" label="标题" min-width="220" show-overflow-tooltip />
-        <el-table-column label="分类" min-width="140" show-overflow-tooltip>
-          <template #default="{ row }">{{ row.category || '—' }}</template>
+        <el-table-column label="文号" min-width="170" show-overflow-tooltip>
+          <template #default="{ row }">{{ row.docNumber || '—' }}</template>
+        </el-table-column>
+        <el-table-column label="发布部门" min-width="140" show-overflow-tooltip>
+          <template #default="{ row }">{{ row.department || '—' }}</template>
         </el-table-column>
         <el-table-column label="附件" width="100" align="center">
           <template #default="{ row }">
@@ -176,6 +182,9 @@ fetch(getApiParams())
         </el-table-column>
         <el-table-column label="发布日期" width="120">
           <template #default="{ row }">{{ formatDate(row.publishDate) }}</template>
+        </el-table-column>
+        <el-table-column label="生效日期" width="120">
+          <template #default="{ row }">{{ formatDate(row.effectiveDate) }}</template>
         </el-table-column>
         <el-table-column label="更新时间" width="120">
           <template #default="{ row }">{{ formatDate(row.updatedAt) }}</template>
@@ -199,17 +208,23 @@ fetch(getApiParams())
             <section class="public-info-form-section">
               <div class="public-info-form-section__header">
                 <strong>基础信息</strong>
-                <span>维护公开事项标题、分类和发布日期。</span>
+                <span>维护公开事项标题、文号、日期与发布部门。</span>
               </div>
               <div class="public-info-form-section__body">
                 <el-form-item label="标题" prop="title">
                   <el-input v-model="formData.title" placeholder="请输入公开事项标题" />
                 </el-form-item>
-                <el-form-item label="分类">
-                  <el-input v-model="formData.category" placeholder="例如：财务公开、制度公开" />
+                <el-form-item label="文号">
+                  <el-input v-model="formData.docNumber" placeholder="例如：川飞救奖〔2024〕1号" />
                 </el-form-item>
                 <el-form-item label="发布日期">
                   <el-date-picker v-model="formData.publishDate" type="date" style="width: 100%" />
+                </el-form-item>
+                <el-form-item label="生效日期">
+                  <el-date-picker v-model="formData.effectiveDate" type="date" style="width: 100%" />
+                </el-form-item>
+                <el-form-item label="发布部门">
+                  <el-input v-model="formData.department" placeholder="例如：综合办公室" />
                 </el-form-item>
               </div>
             </section>
@@ -248,10 +263,10 @@ fetch(getApiParams())
           <div class="preview-card">
             <div class="preview-card__icon"><el-icon><Files /></el-icon></div>
             <strong>{{ formData.title || '未填写公开事项标题' }}</strong>
-            <p>{{ formData.category || '待填写公开分类' }}</p>
+            <p>{{ formData.docNumber || '待填写文号' }}</p>
             <div class="preview-card__meta">
-              <span>{{ formData.publishDate || '未设置日期' }}</span>
-              <span>{{ formData.attachmentName || '未上传附件' }}</span>
+              <span>{{ formData.publishDate || '未设置发布日期' }}</span>
+              <span>{{ formData.department || '未设置发布部门' }}</span>
             </div>
           </div>
         </aside>

@@ -220,12 +220,12 @@ const formatDate = (dateStr?: string) => {
   return `${date.getFullYear()}-${pad(date.getMonth() + 1)}-${pad(date.getDate())}`
 }
 
-// 列表元信息行：人事任免=文号/发布日期/生效日期/发布部门；信息公开=分类/发布日期
+// 列表元信息行：人事任免与信息公开统一为 文号/发布日期/生效日期/发布部门（与后台字段对齐）
 const metaLine = (item: any) => {
   if (activeTab.value === 'appointment') {
     return `文号：${item.docNumber}     发布日期：${item.publishDate}     生效日期：${item.effectiveDate}     发布部门：${item.department}`
   }
-  return `分类：${item.category || '暂无'}     发布日期：${formatDate(item.publishDate) || '暂无'}`
+  return `文号：${item.docNumber || '暂无'}     发布日期：${formatDate(item.publishDate) || '暂无'}     生效日期：${formatDate(item.effectiveDate) || '暂无'}     发布部门：${item.department || '暂无'}`
 }
 
 // 是否有可下载附件：人事任免取 attachment（走后端下载接口），信息公开取 attachmentUrl（直链）

@@ -12,10 +12,16 @@ export class PublicInfo {
   content: string
 
   @Column({ nullable: true })
-  category: string
+  docNumber: string
 
   @Column({ type: 'datetime', nullable: true })
   publishDate: Date
+
+  @Column({ type: 'date', nullable: true })
+  effectiveDate: Date
+
+  @Column({ nullable: true })
+  department: string
 
   @Column({ nullable: true })
   attachmentUrl: string
