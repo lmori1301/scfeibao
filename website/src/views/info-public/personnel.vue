@@ -12,7 +12,7 @@
             </p>
             <div id="1_1854" class="Pixso-vector-1_1854"></div>
             <p id="1_1861" class="Pixso-paragraph-1_1861">
-                当前位置：<router-link to="/" style="color: inherit; text-decoration: none;">首页</router-link> > <router-link to="/info-public" style="color: inherit; text-decoration: none;">信息公开</router-link> > 人事任免
+                当前位置：<router-link to="/" style="color: inherit; text-decoration: none;">首页</router-link> > <router-link to="/info-public" style="color: inherit; text-decoration: none;">信息公开</router-link> > {{ activeTabLabel }}
             </p>
             <div id="1_1862" class="Pixso-vector-1_1862"></div>
             <div id="33_383" class="Pixso-vector-33_383"></div>
@@ -29,13 +29,22 @@
             <div id="1_1877" class="Pixso-vector-1_1877"></div>
             <p id="1_1878" class="Pixso-paragraph-1_1878">{{ "FOIA" }}</p>
             <p id="1_1879" class="Pixso-paragraph-1_1879">{{ "信息公开" }}</p>
-            <p id="1_1880" class="Pixso-paragraph-1_1880">
-                {{ "人事任免                          >" }}
-            </p>
-            <div id="1_1881" class="Pixso-vector-1_1881"></div>
+            <!-- 左侧导航：人事任免 / 信息公开（样式一致，点击切换列表） -->
+            <div class="info-nav-item" :class="{ active: activeTab === 'appointment' }" @click="switchTab('appointment')">
+                <div id="1_1881" class="Pixso-vector-1_1881"></div>
+                <p id="1_1880" class="Pixso-paragraph-1_1880">
+                    {{ "人事任免                          >" }}
+                </p>
+            </div>
+            <div class="info-nav-item" :class="{ active: activeTab === 'disclosure' }" @click="switchTab('disclosure')">
+                <div id="1_1901" class="Pixso-vector-1_1901"></div>
+                <p id="1_1900" class="Pixso-paragraph-1_1900">
+                    {{ "信息公开                          >" }}
+                </p>
+            </div>
 
-            <!-- 动态渲染人事任免列表 -->
-            <template v-for="(item, index) in paginatedPersonnel" :key="item.id">
+            <!-- 动态渲染列表（人事任免 / 信息公开） -->
+            <template v-for="(item, index) in currentList" :key="`${activeTab}_${item.id}`">
                 <!-- 背景卡片 -->
                 <div :id="`1_${1961 + index}`" :class="`Pixso-vector-1_${1961 + index}`"></div>
 
@@ -46,23 +55,23 @@
 
                 <!-- 文档信息 -->
                 <p :id="`1_${1967 + index}`" :class="`Pixso-paragraph-1_${1967 + index}`">
-                    {{ `文号：${item.docNumber}     发布日期：${item.publishDate}     生效日期：${item.effectiveDate}     发布部门：${item.department}` }}
+                    {{ metaLine(item) }}
                 </p>
 
                 <!-- 下载按钮 -->
                 <div
                     :id="`1_${1970 + index * 2}`"
                     :class="`Pixso-vector-1_${1970 + index * 2}`"
-                    @click="downloadFile(item.id)"
+                    @click="downloadFile(item)"
                     style="cursor: pointer;"
-                    v-if="item.attachment"
+                    v-if="hasAttachment(item)"
                 ></div>
                 <p
                     :id="`1_${1971 + index * 2}`"
                     :class="`Pixso-paragraph-1_${1971 + index * 2}`"
-                    @click="downloadFile(item.id)"
+                    @click="downloadFile(item)"
                     style="cursor: pointer;"
-                    v-if="item.attachment"
+                    v-if="hasAttachment(item)"
                 >{{ "下载文件" }}</p>
             </template>
 
@@ -71,7 +80,7 @@
             <!-- 分页组件 -->
             <div style="position: absolute; right: 5.57%; top: 74.63%; height: 2.83%;">
                 <Pagination
-                    :total="totalPersonnel"
+                    :total="currentTotal"
                     v-model:current-page="currentPage"
                     v-model:page-size="pageSize"
                     :page-size-options="[3, 6, 9]"
@@ -116,9 +125,9 @@
     </div>
 </template>
 <script lang="ts" setup>
-import { ref, computed, onMounted } from 'vue'
+import { ref, computed, watch, onMounted } from 'vue'
 import { getWebsiteConfig } from '@/api/config'
-import { useRouter } from 'vue-router'
+import { useRouter, useRoute } from 'vue-router'
 import { ElMessage } from 'element-plus'
 import Pagination from '@/components/common/Pagination.vue'
 import http from '@/utils/http'
@@ -126,14 +135,24 @@ import { usePixsoScale } from '@/composables/use-pixso-scale'
 
 const { scrollContainerRef, frameRef } = usePixsoScale(1920, 1486)
 const router = useRouter()
+const route = useRoute()
 
 // 分页状态
 const currentPage = ref(1)
 const pageSize = ref(3)
 
+// 左侧tab：人事任免 / 信息公开（与后台 appointments、public-info 两个模块同步）
+type InfoTab = 'appointment' | 'disclosure'
+const activeTab = ref<InfoTab>('appointment')
+const activeTabLabel = computed(() => (activeTab.value === 'appointment' ? '人事任免' : '信息公开'))
+
 // 人事任免数据
-const personnelList = ref([])
+const personnelList = ref<any[]>([])
 const totalPersonnel = ref(0)
+
+// 信息公开数据（GET /api/public-info，后台「信息公开管理」同步）
+const disclosureList = ref<any[]>([])
+const totalDisclosure = ref(0)
 
 // 从后端API获取人事任免数据
 const fetchPersonnelData = async () => {
@@ -152,32 +171,107 @@ const fetchPersonnelData = async () => {
   }
 }
 
+// 从后端API获取信息公开数据
+const fetchDisclosureData = async () => {
+  try {
+    const res = await http.get('/public-info', {
+      params: {
+        page: 1,
+        pageSize: 100 // 获取所有数据用于前端分页
+      }
+    })
+    disclosureList.value = res.data.items || []
+    totalDisclosure.value = res.data.total || 0
+  } catch (error) {
+    ElMessage.error('获取信息公开数据失败')
+    console.error('获取信息公开数据失败:', error)
+  }
+}
+
 // 组件挂载时获取数据
 onMounted(() => {
   fetchPersonnelData()
+  fetchDisclosureData()
 })
 
-// 计算当前页显示的数据
-const paginatedPersonnel = computed(() => {
+// 当前tab的总数与列表（供分页与渲染共用）
+const currentTotal = computed(() =>
+  activeTab.value === 'appointment' ? totalPersonnel.value : totalDisclosure.value
+)
+
+const currentList = computed(() => {
+  const list = activeTab.value === 'appointment' ? personnelList.value : disclosureList.value
   const start = (currentPage.value - 1) * pageSize.value
   const end = start + pageSize.value
-  return personnelList.value.slice(start, end)
+  return list.slice(start, end)
 })
+
+// 本地时区日期格式化，避免 toISOString() 的 UTC 偏移导致日期少一天
+const formatDate = (dateStr?: string) => {
+  if (!dateStr) return ''
+  const date = new Date(dateStr)
+  if (Number.isNaN(date.getTime())) return ''
+  const pad = (n: number) => String(n).padStart(2, '0')
+  return `${date.getFullYear()}-${pad(date.getMonth() + 1)}-${pad(date.getDate())}`
+}
+
+// 列表元信息行：人事任免=文号/发布日期/生效日期/发布部门；信息公开=分类/发布日期
+const metaLine = (item: any) => {
+  if (activeTab.value === 'appointment') {
+    return `文号：${item.docNumber}     发布日期：${item.publishDate}     生效日期：${item.effectiveDate}     发布部门：${item.department}`
+  }
+  return `分类：${item.category || '暂无'}     发布日期：${formatDate(item.publishDate) || '暂无'}`
+}
+
+// 是否有可下载附件：人事任免取 attachment（走后端下载接口），信息公开取 attachmentUrl（直链）
+const hasAttachment = (item: any) =>
+  activeTab.value === 'appointment' ? !!item.attachment : !!item.attachmentUrl
+
+// 下载文件
+function downloadFile(item: any) {
+  if (activeTab.value === 'appointment') {
+    if (!item?.id) {
+      console.warn('文件ID为空，无法下载')
+      return
+    }
+    // 使用后端下载接口
+    window.open(`/api/appointments/${item.id}/download`, '_blank')
+    return
+  }
+  if (!item?.attachmentUrl) {
+    ElMessage.warning('该信息暂无附件')
+    return
+  }
+  window.open(item.attachmentUrl, '_blank')
+}
+
+// 切换tab（同步到 URL query，支持直接分享/刷新保持）
+function switchTab(tab: InfoTab) {
+  if (activeTab.value === tab) return
+  activeTab.value = tab
+  currentPage.value = 1
+  router.replace({
+    path: '/info-public/personnel',
+    query: tab === 'disclosure' ? { type: 'disclosure' } : {}
+  })
+}
+
+// 从 URL query 初始化/同步tab
+watch(
+  () => route.query.type,
+  (t) => {
+    const next: InfoTab = t === 'disclosure' ? 'disclosure' : 'appointment'
+    if (next !== activeTab.value) {
+      activeTab.value = next
+      currentPage.value = 1
+    }
+  }
+)
+activeTab.value = route.query.type === 'disclosure' ? 'disclosure' : 'appointment'
 
 // 页码改变处理
 function handlePageChange() {
   window.scrollTo({ top: 0, behavior: 'smooth' })
-}
-
-// 下载文件
-function downloadFile(id: number) {
-  if (!id) {
-    console.warn('文件ID为空，无法下载')
-    return
-  }
-
-  // 使用后端下载接口
-  window.open(`/api/appointments/${id}/download`, '_blank')
 }
 
 // 搜索
@@ -1080,5 +1174,52 @@ onMounted(() => {
 
 .scroll-container-1_1836 .Pixso-group-32_8 {
     bottom: -35px !important;
+}
+
+/* 左侧导航项（人事任免 / 信息公开）：样式一致，点击切换，当前项高亮 */
+.info-nav-item {
+    cursor: pointer;
+}
+.info-nav-item .Pixso-paragraph-1_1880,
+.info-nav-item .Pixso-paragraph-1_1900 {
+    transition: color 0.2s ease;
+}
+.info-nav-item:not(.active) .Pixso-paragraph-1_1880,
+.info-nav-item:not(.active) .Pixso-paragraph-1_1900 {
+    color: rgba(255, 255, 255, 0.6);
+}
+.info-nav-item.active .Pixso-paragraph-1_1880,
+.info-nav-item.active .Pixso-paragraph-1_1900 {
+    color: rgba(255, 255, 255, 1);
+    font-weight: 600;
+}
+
+/* 「信息公开」导航项：复用「人事任免」的分隔线与文字样式，垂直下移 10% 落入下方面板 */
+.Pixso-paragraph-1_1900 {
+    font-size: 20px;
+    font-family: "Alibaba PuHuiTi-Regular";
+    font-weight: 400;
+    line-height: 20px;
+    color: rgba(255, 255, 255, 1);
+    white-space: pre;
+    width: 11.77%;
+    height: 1.35%;
+    position: absolute;
+    left: 8.7%;
+    right: 79.53%;
+    top: 46.94%;
+    bottom: 51.71%;
+}
+.Pixso-vector-1_1901 {
+    width: 0.2%;
+    height: 1.55%;
+    background-image: url(@/assets/images/Vector_1_1881.png);
+    background-size: 100% 100%;
+    background-repeat: no-repeat;
+    position: absolute;
+    left: 8.02%;
+    right: 91.93%;
+    top: 46.88%;
+    bottom: 51.57%;
 }
 </style>
