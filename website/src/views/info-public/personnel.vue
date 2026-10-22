@@ -624,6 +624,8 @@ onMounted(() => {
     right: 75.73%;
     top: 33.85%;
     bottom: 58.41%;
+    /* 高亮带需盖过其后绘制的大面板图(1_1877)，否则移到信息公开位置时被面板吞掉 */
+    z-index: 2;
 }
 .Pixso-vector-1_1877 {
     width: 18.38%;
@@ -1184,6 +1186,13 @@ onMounted(() => {
 /* 左侧导航项（人事任免 / 信息公开）：样式一致，点击切换，当前项高亮 */
 .info-nav-item {
     cursor: pointer;
+}
+/* 导航文字与分隔线压在高亮带(z-index:2)之上 */
+.info-nav-item .Pixso-paragraph-1_1880,
+.info-nav-item .Pixso-paragraph-1_1900,
+.info-nav-item .Pixso-vector-1_1881,
+.info-nav-item .Pixso-vector-1_1901 {
+    z-index: 3;
 }
 .info-nav-item .Pixso-paragraph-1_1880,
 .info-nav-item .Pixso-paragraph-1_1900 {
