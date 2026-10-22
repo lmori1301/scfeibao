@@ -25,7 +25,12 @@
             <router-link id="1_1873" to="/query-system" class="Pixso-paragraph-1_1873 main-nav-link" active-class="" exact-active-class="">查询系统</router-link>
             <router-link id="1_1874" to="/party-building" class="Pixso-paragraph-1_1874 main-nav-link" active-class="" exact-active-class="">党建专栏</router-link>
             <div id="1_1875" class="Pixso-vector-1_1875"></div>
-            <div id="1_1876" class="Pixso-vector-1_1876"></div>
+            <!-- 导航高亮带：跟随当前tab移动（人事任免/信息公开各就位） -->
+            <div
+                id="1_1876"
+                class="Pixso-vector-1_1876"
+                :class="{ 'info-nav-band-disclosure': activeTab === 'disclosure' }"
+            ></div>
             <div id="1_1877" class="Pixso-vector-1_1877"></div>
             <p id="1_1878" class="Pixso-paragraph-1_1878">{{ "FOIA" }}</p>
             <p id="1_1879" class="Pixso-paragraph-1_1879">{{ "信息公开" }}</p>
@@ -1221,5 +1226,11 @@ onMounted(() => {
     right: 91.93%;
     top: 46.88%;
     bottom: 51.57%;
+}
+/* 高亮带（Vector_1_1876 深蓝带）跟随 tab：默认在人事任免后，切到信息公开时下移 10%
+   到信息公开项就位（与其文字中心对齐，与人事任免就位时的相对位置一致） */
+.Pixso-vector-1_1876.info-nav-band-disclosure {
+    top: 43.85%;
+    bottom: 48.41%;
 }
 </style>
