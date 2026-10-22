@@ -57,6 +57,7 @@
               v-if="content"
               ref="contentInnerRef"
               class="news-content-inner"
+              :style="{ fontSize: contentFontSize }"
               v-html="content"
             ></div>
             <div v-else-if="loading" ref="contentInnerRef" class="news-content-inner empty-text">
@@ -117,6 +118,11 @@ const contentInnerRef = ref<HTMLElement | null>(null)
 const pageScale = ref(1)
 const wrapperHeight = ref(0)
 let resizeObserver: ResizeObserver | null = null
+
+// 正文字号抵消整页缩放：页面是 1920 设计稿按窗口宽度等比缩放的，
+// 若正文固定 14px 会被整页 transform 再缩小（窗口越窄字越小），与后台编辑器看到的
+// 14px 对不上。这里让设计字号 = 14px / pageScale，正文物理字号恒等于后台设定值。
+const contentFontSize = computed(() => `${(14 / (pageScale.value || 1)).toFixed(2)}px`)
 
 const wrapperStyle = computed(() => ({
   height: wrapperHeight.value > 0 ? `${wrapperHeight.value}px` : 'auto',
@@ -460,7 +466,7 @@ onUnmounted(() => {
 }
 
 .news-content-inner p {
-  margin: 0 0 20px;
+  margin: 0 0 1.5em;
 }
 
 .news-content-inner img {
