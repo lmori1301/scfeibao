@@ -22,6 +22,7 @@ import {
 } from '../../common/utils/excel-import';
 import { extractXlsxImages, pickRowImages } from '../../common/utils/xlsx-images';
 import { saveImportedPhoto } from '../../common/utils/import-photo';
+import { ensureUniqueValue } from '../../common/utils/unique-soft-delete';
 
 @Injectable()
 export class CertificateService {
@@ -31,6 +32,13 @@ export class CertificateService {
   ) {}
 
   async create(createCertificateDto: CreateCertificateDto): Promise<Certificate> {
+    // certificateNumber 唯一：软删除墓碑会占住唯一键，先判重/清墓碑再写入
+    await ensureUniqueValue({
+      repo: this.certificateRepository,
+      column: 'certificateNumber',
+      value: createCertificateDto.certificateNumber,
+      label: '证书编号',
+    });
     const certificate = this.certificateRepository.create(createCertificateDto);
     return await this.certificateRepository.save(certificate);
   }
@@ -89,6 +97,15 @@ export class CertificateService {
     updateCertificateDto: UpdateCertificateDto,
   ): Promise<Certificate> {
     const certificate = await this.findOne(id);
+    if (updateCertificateDto.certificateNumber !== undefined) {
+      await ensureUniqueValue({
+        repo: this.certificateRepository,
+        column: 'certificateNumber',
+        value: updateCertificateDto.certificateNumber,
+        label: '证书编号',
+        excludeId: id,
+      });
+    }
     Object.assign(certificate, updateCertificateDto);
     return await this.certificateRepository.save(certificate);
   }

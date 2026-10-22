@@ -24,6 +24,7 @@ import {
 import { extractXlsxImages, pickRowImages } from '../../common/utils/xlsx-images';
 import { saveImportedPhoto } from '../../common/utils/import-photo';
 import { fillDerivedFromIdCard } from '../../common/utils/id-card';
+import { ensureUniqueValue } from '../../common/utils/unique-soft-delete';
 
 /** 查询可见范围：默认只含审核已通过人员，后台管理端需显式传 includeUnapproved */
 export interface PersonnelQueryScope {
@@ -38,6 +39,13 @@ export class PersonnelService {
   ) {}
 
   async create(createPersonnelDto: CreatePersonnelDto): Promise<Personnel> {
+    // idCard 唯一：软删除墓碑会占住唯一键，先判重/清墓碑再写入
+    await ensureUniqueValue({
+      repo: this.personnelRepository,
+      column: 'idCard',
+      value: createPersonnelDto.idCard,
+      label: '身份证号',
+    });
     // 性别 / 出生日期未填时，按身份证号自动补齐，避免手机端详情页出现空值
     fillDerivedFromIdCard(createPersonnelDto);
     const personnel = this.personnelRepository.create(createPersonnelDto);
@@ -112,6 +120,15 @@ export class PersonnelService {
   ): Promise<Personnel> {
     // 后台维护需能编辑待审核 / 已拒绝的人员，故包含未审核数据
     const personnel = await this.findOne(id, { includeUnapproved: true });
+    if (updatePersonnelDto.idCard !== undefined) {
+      await ensureUniqueValue({
+        repo: this.personnelRepository,
+        column: 'idCard',
+        value: updatePersonnelDto.idCard,
+        label: '身份证号',
+        excludeId: id,
+      });
+    }
     Object.assign(personnel, updatePersonnelDto);
     // 性别 / 出生日期仍为空时，按身份证号自动补齐
     fillDerivedFromIdCard(personnel);

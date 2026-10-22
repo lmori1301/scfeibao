@@ -8,6 +8,7 @@ import {
   UpdateTeamUnitDto,
 } from './dto/team-unit.dto';
 import { PaginatedResponseDto } from '../../common/dto/pagination.dto';
+import { ensureUniqueValue } from '../../common/utils/unique-soft-delete';
 
 @Injectable()
 export class TeamUnitService {
@@ -17,6 +18,13 @@ export class TeamUnitService {
   ) {}
 
   async create(dto: CreateTeamUnitDto) {
+    // name 唯一：软删除墓碑会占住唯一键，先判重/清墓碑再写入
+    await ensureUniqueValue({
+      repo: this.teamUnitRepository,
+      column: 'name',
+      value: dto.name,
+      label: '队伍名称',
+    });
     const entity = this.teamUnitRepository.create({
       ...dto,
       sort: dto.sort ?? 0,
@@ -55,6 +63,15 @@ export class TeamUnitService {
 
   async update(id: number, dto: UpdateTeamUnitDto) {
     const entity = await this.findOne(id);
+    if (dto.name !== undefined) {
+      await ensureUniqueValue({
+        repo: this.teamUnitRepository,
+        column: 'name',
+        value: dto.name,
+        label: '队伍名称',
+        excludeId: id,
+      });
+    }
     Object.assign(entity, dto);
     return this.teamUnitRepository.save(entity);
   }
