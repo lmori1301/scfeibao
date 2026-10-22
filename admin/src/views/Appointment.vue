@@ -240,10 +240,10 @@ fetch(getApiParams())
               </div>
               <div class="appointment-form-section__body">
                 <el-form-item label="发布日期">
-                  <el-date-picker v-model="formData.publishDate" type="date" style="width: 100%" />
+                  <el-date-picker v-model="formData.publishDate" type="date" value-format="YYYY-MM-DD" style="width: 100%" />
                 </el-form-item>
                 <el-form-item label="生效日期">
-                  <el-date-picker v-model="formData.effectiveDate" type="date" style="width: 100%" />
+                  <el-date-picker v-model="formData.effectiveDate" type="date" value-format="YYYY-MM-DD" style="width: 100%" />
                 </el-form-item>
               </div>
             </section>

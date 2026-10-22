@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { computed, nextTick, ref } from 'vue'
-import { Files, Plus, RefreshRight } from '@element-plus/icons-vue'
+import { Plus, RefreshRight } from '@element-plus/icons-vue'
 import { ElMessage, ElMessageBox } from 'element-plus'
 import { usePagination } from '@/composables/usePagination'
 import { requiredRule } from '@/utils/validate'
@@ -25,12 +25,13 @@ const formData = ref({
   department: '',
   attachmentUrl: '',
   attachmentName: '',
+  // 内容字段不再在表单中展示，但保留以兼容历史数据（编辑时原值回写，不覆盖已有内容）
   content: '',
 })
 
 const rules = {
-  title: [requiredRule('标题')],
-  content: [requiredRule('正文内容')],
+  title: [requiredRule('公文标题')],
+  docNumber: [requiredRule('文号')],
 }
 
 const { data, total, loading, page, pageSize, fetch, handlePageChange } = usePagination((params) => {
@@ -53,14 +54,27 @@ const handleReset = () => {
   fetch(getApiParams())
 }
 
+// 本地时区的今天（YYYY-MM-DD），避免 toISOString 的 UTC 偏移
+const todayString = () => {
+  const d = new Date()
+  const p = (n: number) => String(n).padStart(2, '0')
+  return `${d.getFullYear()}-${p(d.getMonth() + 1)}-${p(d.getDate())}`
+}
+
+// 统一取日期字符串前 10 位（后端 datetime 返回 ISO，date 返回 YYYY-MM-DD）
+const toDateInput = (value: any) => {
+  if (!value) return ''
+  return String(value).slice(0, 10)
+}
+
 const handleAdd = () => {
   dialogTitle.value = '新增信息公开'
   formData.value = {
     id: undefined,
     title: '',
     docNumber: '',
-    publishDate: new Date().toISOString().split('T')[0],
-    effectiveDate: new Date().toISOString().split('T')[0],
+    publishDate: todayString(),
+    effectiveDate: '',
     department: '',
     attachmentUrl: '',
     attachmentName: '',
@@ -76,8 +90,8 @@ const handleEdit = (row: any) => {
     id: row.id,
     title: row.title || '',
     docNumber: row.docNumber || '',
-    publishDate: row.publishDate ? new Date(row.publishDate).toISOString().split('T')[0] : '',
-    effectiveDate: row.effectiveDate ? new Date(row.effectiveDate).toISOString().split('T')[0] : '',
+    publishDate: toDateInput(row.publishDate),
+    effectiveDate: toDateInput(row.effectiveDate),
     department: row.department || '',
     attachmentUrl: row.attachmentUrl || '',
     attachmentName: row.attachmentUrl ? String(row.attachmentUrl).split('/').pop() || '' : '',
@@ -121,7 +135,7 @@ const handleSave = async () => {
     effectiveDate: formData.value.effectiveDate || null,
     department: formData.value.department || null,
     attachmentUrl: formData.value.attachmentUrl || null,
-    content: formData.value.content,
+    content: formData.value.content ?? '',
   }
 
   if (formData.value.id) {
@@ -201,76 +215,65 @@ fetch(getApiParams())
       <Pagination :total="total" :page="page" :page-size="pageSize" @change="handlePageChange" />
     </div>
 
-    <el-dialog v-model="dialogVisible" :title="dialogTitle" width="1100px" @closed="handleDialogClosed">
-      <div class="public-info-dialog">
-        <div class="public-info-dialog__main">
-          <el-form ref="formRef" :model="formData" :rules="rules" label-width="96px">
-            <section class="public-info-form-section">
-              <div class="public-info-form-section__header">
-                <strong>基础信息</strong>
-                <span>维护公开事项标题、文号、日期与发布部门。</span>
-              </div>
-              <div class="public-info-form-section__body">
-                <el-form-item label="标题" prop="title">
-                  <el-input v-model="formData.title" placeholder="请输入公开事项标题" />
-                </el-form-item>
-                <el-form-item label="文号">
-                  <el-input v-model="formData.docNumber" placeholder="例如：川飞救奖〔2024〕1号" />
-                </el-form-item>
-                <el-form-item label="发布日期">
-                  <el-date-picker v-model="formData.publishDate" type="date" style="width: 100%" />
-                </el-form-item>
-                <el-form-item label="生效日期">
-                  <el-date-picker v-model="formData.effectiveDate" type="date" style="width: 100%" />
-                </el-form-item>
-                <el-form-item label="发布部门">
-                  <el-input v-model="formData.department" placeholder="例如：综合办公室" />
-                </el-form-item>
-              </div>
-            </section>
-
-            <section class="public-info-form-section">
-              <div class="public-info-form-section__header">
-                <strong>正文内容</strong>
-                <span>可维护公开说明、摘要或正文内容。</span>
-              </div>
-              <div class="public-info-form-section__body">
-                <el-form-item label="内容" prop="content">
-                  <el-input
-                    v-model="formData.content"
-                    type="textarea"
-                    :rows="10"
-                    placeholder="请输入公开内容"
-                  />
-                </el-form-item>
-              </div>
-            </section>
-
-            <section class="public-info-form-section public-info-form-section--attachment">
-              <div class="public-info-form-section__header">
-                <strong>附件信息</strong>
-                <span>支持上传公告附件、公示文件等下载材料。</span>
-              </div>
-              <div class="public-info-form-section__body">
-                <el-form-item label="文件附件">
-                  <FileUpload v-model="formData.attachmentUrl" @file-change="handleFileChange" />
-                </el-form-item>
-              </div>
-            </section>
-          </el-form>
-        </div>
-        <aside class="public-info-dialog__side">
-          <div class="preview-card">
-            <div class="preview-card__icon"><el-icon><Files /></el-icon></div>
-            <strong>{{ formData.title || '未填写公开事项标题' }}</strong>
-            <p>{{ formData.docNumber || '待填写文号' }}</p>
-            <div class="preview-card__meta">
-              <span>{{ formData.publishDate || '未设置发布日期' }}</span>
-              <span>{{ formData.department || '未设置发布部门' }}</span>
-            </div>
+    <el-dialog v-model="dialogVisible" :title="dialogTitle" width="860px" @closed="handleDialogClosed">
+      <el-form ref="formRef" :model="formData" :rules="rules" label-width="96px" class="public-info-form">
+        <section class="public-info-form-section">
+          <div class="public-info-form-section__header">
+            <strong>基础信息</strong>
+            <span>先维护标题、文号和发文部门，明确公文归属。</span>
           </div>
-        </aside>
-      </div>
+          <div class="public-info-form-section__body">
+            <el-form-item label="公文标题" prop="title">
+              <el-input v-model="formData.title" placeholder="请输入标题" />
+            </el-form-item>
+            <el-form-item label="文号" prop="docNumber">
+              <el-input v-model="formData.docNumber" placeholder="请输入文号" />
+            </el-form-item>
+            <el-form-item label="发文部门">
+              <el-input v-model="formData.department" placeholder="请输入发文部门" />
+            </el-form-item>
+          </div>
+        </section>
+
+        <section class="public-info-form-section">
+          <div class="public-info-form-section__header">
+            <strong>时间信息</strong>
+            <span>按发布与生效顺序单列填写，避免表单拥挤。</span>
+          </div>
+          <div class="public-info-form-section__body">
+            <el-form-item label="发布日期">
+              <el-date-picker
+                v-model="formData.publishDate"
+                type="date"
+                value-format="YYYY-MM-DD"
+                placeholder="请选择发布日期"
+                style="width: 100%"
+              />
+            </el-form-item>
+            <el-form-item label="生效日期">
+              <el-date-picker
+                v-model="formData.effectiveDate"
+                type="date"
+                value-format="YYYY-MM-DD"
+                placeholder="请选择生效日期"
+                style="width: 100%"
+              />
+            </el-form-item>
+          </div>
+        </section>
+
+        <section class="public-info-form-section public-info-form-section--attachment">
+          <div class="public-info-form-section__header">
+            <strong>附件信息</strong>
+            <span>上传正式公文附件，便于前台查看与下载。</span>
+          </div>
+          <div class="public-info-form-section__body">
+            <el-form-item label="文件附件">
+              <FileUpload v-model="formData.attachmentUrl" @file-change="handleFileChange" />
+            </el-form-item>
+          </div>
+        </section>
+      </el-form>
       <template #footer>
         <el-button @click="dialogVisible = false">取消</el-button>
         <el-button type="primary" @click="handleSave">保存</el-button>
@@ -280,22 +283,15 @@ fetch(getApiParams())
 </template>
 
 <style scoped lang="scss">
-.public-info-dialog {
-  display: grid;
-  grid-template-columns: minmax(0, 1.35fr) 320px;
-  gap: 24px;
-}
-
-.public-info-dialog__main { min-width: 0; }
-
 .public-info-form-section {
   border: 1px solid #e6edf8;
-  border-radius: 20px;
-  background: linear-gradient(180deg, #ffffff 0%, #fbfdff 100%);
-  box-shadow: 0 12px 28px rgba(31, 57, 106, 0.04);
+  border-radius: 16px;
+  background: #ffffff;
 }
 
-.public-info-form-section + .public-info-form-section { margin-top: 16px; }
+.public-info-form-section + .public-info-form-section {
+  margin-top: 16px;
+}
 
 .public-info-form-section__header {
   display: flex;
@@ -317,62 +313,19 @@ fetch(getApiParams())
   line-height: 1.6;
 }
 
-.public-info-form-section__body { padding: 18px 20px 4px; }
-.public-info-form-section__body :deep(.el-form-item) { margin-bottom: 14px; }
-.public-info-form-section--attachment :deep(.el-form-item__content) { display: block; }
-
-.preview-card {
-  padding: 18px;
-  border: 1px solid #e6edf7;
-  border-radius: 20px;
-  background: linear-gradient(180deg, #f7fbff 0%, #edf4ff 100%);
+.public-info-form-section__body {
+  padding: 18px 20px 6px;
 }
 
-.preview-card__icon {
-  width: 60px;
-  height: 60px;
-  border-radius: 18px;
-  display: grid;
-  place-items: center;
-  background: linear-gradient(135deg, #edf3ff 0%, #dce8ff 100%);
-  color: #2563eb;
-  font-size: 24px;
-  flex: 0 0 auto;
+.public-info-form-section__body :deep(.el-form-item) {
+  margin-bottom: 14px;
 }
 
-.preview-card strong {
+.public-info-form-section__body :deep(.el-form-item:last-child) {
+  margin-bottom: 0;
+}
+
+.public-info-form-section--attachment :deep(.el-form-item__content) {
   display: block;
-  margin-top: 14px;
-  font-size: 18px;
-  color: #1f2f46;
-  line-height: 1.5;
-}
-
-.preview-card p {
-  margin-top: 8px;
-  color: #718198;
-  font-size: 13px;
-  line-height: 1.7;
-}
-
-.preview-card__meta {
-  display: flex;
-  gap: 8px;
-  flex-wrap: wrap;
-  margin-top: 12px;
-}
-
-.preview-card__meta span {
-  padding: 6px 10px;
-  border-radius: 999px;
-  background: rgba(37, 99, 235, 0.1);
-  color: #2563eb;
-  font-size: 12px;
-  font-weight: 600;
-}
-
-@media (max-width: 1200px) {
-  .public-info-dialog { grid-template-columns: 1fr; }
-  .public-info-dialog__side { order: -1; }
 }
 </style>
