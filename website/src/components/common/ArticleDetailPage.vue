@@ -451,7 +451,8 @@ onUnmounted(() => {
 .news-content-inner {
   min-height: 0;
   color: #6a6a6a;
-  font-size: 28px;
+  /* 与后台 wangEditor 默认字号(14px)一致：正文不加内联字号时按编辑器原生大小渲染 */
+  font-size: 14px;
   font-family: "Alibaba PuHuiTi-Regular";
   font-weight: 400;
   line-height: 1.75;
