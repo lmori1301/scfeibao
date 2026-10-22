@@ -91,7 +91,7 @@ export class SearchService {
         take,
       }),
       this.publicInfoRepository.find({
-        where: [{ title: like }, { content: like }, { category: like }],
+        where: [{ title: like }, { content: like }, { docNumber: like }, { department: like }],
         order: { publishDate: 'DESC', createdAt: 'DESC' },
         take,
       }),
