@@ -629,14 +629,16 @@ onMounted(() => {
 }
 .Pixso-vector-1_1877 {
     width: 18.38%;
-    height: 36.02%;
+    height: 45.9%;
     background-image: url(@/assets/images/Vector_1_1877.png);
     background-size: 100% 100%;
     background-repeat: no-repeat;
     position: absolute;
     left: 5.89%;
     right: 75.73%;
-    top: 41.66%;
+    /* 顶边上延至与 FOIA 面板(1_1875,底边33.78%)相接：原 41.66% 会在导航区留下
+       一条页面底色(#f5f5f5)缝隙，高亮带下移到信息公开位置时该缝隙裸露 */
+    top: 33.78%;
     bottom: 20.32%;
 }
 .Pixso-paragraph-1_1878 {
