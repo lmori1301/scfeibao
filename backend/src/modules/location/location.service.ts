@@ -223,7 +223,12 @@ export class LocationService {
     pointName?: string;
     address?: string;
   }) {
-    return [data.address?.trim(), data.pointName?.trim(), data.name?.trim()]
+    // 高德地理编码对「地址+点位名/单位名」混合关键词会稳定报 30001
+    // ENGINE_RESPONSE_DATA_ERROR（实测对照），有地址时必须只用地址；
+    // 无地址时才退回 点位名+单位名
+    const address = data.address?.trim();
+    if (address) return address;
+    return [data.pointName?.trim(), data.name?.trim()]
       .filter(Boolean)
       .join(' ')
       .trim();

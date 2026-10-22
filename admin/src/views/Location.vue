@@ -226,7 +226,11 @@ const fetchTeamUnitOptions = async () => {
 }
 
 const buildGeocodeAddress = (row: LocationItem) => {
-  return [row.address?.trim(), row.pointName?.trim(), row.name?.trim()]
+  // 同后端约定：地址优先单独使用——「地址+点位名/单位名」混合关键词
+  // 会让高德地理编码稳定报 ENGINE_RESPONSE_DATA_ERROR（实测对照）
+  const address = row.address?.trim()
+  if (address) return address
+  return [row.pointName?.trim(), row.name?.trim()]
     .filter(Boolean)
     .join(' ')
     .trim()
