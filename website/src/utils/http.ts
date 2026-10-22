@@ -17,14 +17,14 @@ const http: AxiosInstance = axios.create({
 // 请求拦截器
 http.interceptors.request.use(
   (config: AxiosRequestConfig) => {
-    // 添加token认证信息
-    const token = localStorage.getItem('token')
-    if (token && config.headers) {
-      config.headers.Authorization = `Bearer ${token}`
-    }
+    // 🔴 不要在这里附加 localStorage 的 token：
+    // 门户与后台同源（www.scfb.org.cn），共享同一个 localStorage['token'] 键。
+    // 前台一旦带上后台 token，后端 @Public 人员接口的「可选登录」会识别为后台身份，
+    // 导致已拒绝/待审核人员对前台可见、且返回审核状态字段（2026-10-22 线上事故）。
+    // 前台无任何登录功能，所有请求一律按匿名访客口径发送。
     return config
   },
-  (error) => {
+  (error: AxiosError) => {
     console.error('请求错误:', error)
     return Promise.reject(error)
   }
