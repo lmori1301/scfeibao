@@ -458,6 +458,19 @@
   z-index: 3100 !important;
 }
 
+// 修复 wangEditor 全屏编辑器被弹窗内组件钻盖的问题（2026-10-23）
+// 现象：富文本编辑器点全屏后，内容区出现一条只有 [-][+] 两个按钮的横条。
+// 根因：@wangeditor/editor 5.1.23 的 .w-e-full-screen-container 只设了 position:fixed
+// 而没设 z-index；在 el-dialog 层叠上下文内 z-auto 的全屏容器，会被同弹窗里
+// el-input-number 的增减按钮（position:absolute; z-index:1）盖住——中间的输入框
+// 部分被编辑器白底遮住，只剩左右两个 EP 配色按钮浮出来，即用户看到的横条。
+// 所有带「排序值」等 el-input-number 的编辑器弹窗（新闻/救援案例/党建/政策）均中招。
+// 补 z-index:9999：在弹窗层叠上下文内压过一切内部元素；仍低于 el-image-viewer(10000)，
+// 图片预览可正常盖在全屏编辑器上；ElMessage 在 body 层(3100>遮罩2999)不受影响。
+.w-e-full-screen-container {
+  z-index: 9999 !important;
+}
+
 // 修复图片预览 z-index - 确保最高层级
 .el-image-viewer {
   z-index: 10000 !important;
