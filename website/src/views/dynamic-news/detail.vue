@@ -49,6 +49,7 @@
               v-if="newsDetail"
               ref="contentInnerRef"
               class="news-content-inner"
+              :style="{ fontSize: contentFontSize }"
               v-html="newsDetail.content"
             ></div>
             <div v-else-if="loading" ref="contentInnerRef" class="news-content-inner empty-text">
@@ -97,6 +98,13 @@ const frameStyle = computed(() => ({
   transform: `scale(${pageScale.value})`,
   transformOrigin: 'top left',
 }))
+
+// 正文字号抵消整页缩放：页面是 1920 设计稿按窗口宽度等比缩放的，
+// 若像设计稿那样写死 28px，窗口越宽正文越大（1440px 窗口下物理字号
+// ≈21px，是其他详情页的两倍）。这里让设计字号 = 14px / pageScale，
+// 正文物理字号恒等于后台 wangEditor 默认字号，与 ArticleDetailPage
+// （救援案例/队伍风采/党建/政策等详情页）口径一致。
+const contentFontSize = computed(() => `${(14 / (pageScale.value || 1)).toFixed(2)}px`)
 
 const updateWrapperLayout = async () => {
   await nextTick()
@@ -463,7 +471,10 @@ watch(() => route.params.id, (newId, oldId) => {
 .news-content-inner {
   min-height: 0;
   color: #6a6a6a;
-  font-size: 28px;
+  /* 与后台 wangEditor 默认字号(14px)一致：正文不加内联字号时按编辑器原生大小渲染；
+     实际物理字号由内联 contentFontSize（14px / pageScale）抵消整页缩放，与
+     ArticleDetailPage 各文章详情页保持一致 */
+  font-size: 14px;
   font-family: "Alibaba PuHuiTi-Regular";
   font-weight: 400;
   line-height: 1.75;
@@ -471,7 +482,7 @@ watch(() => route.params.id, (newId, oldId) => {
 }
 
 .news-content-inner p {
-  margin: 0 0 20px;
+  margin: 0 0 1.5em;
 }
 
 .news-content-inner img {
@@ -479,6 +490,10 @@ watch(() => route.params.id, (newId, oldId) => {
   max-width: 100%;
   height: auto;
   margin: 30px auto;
+}
+
+.news-content-inner a {
+  color: #1570ce;
 }
 
 .empty-text {
